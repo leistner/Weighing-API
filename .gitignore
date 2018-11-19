@@ -1,0 +1,10 @@
+#*.suo
+#*.ide
+
+bin/
+obj/
+packages/
+TestResults/
+.axoCover/
+.vs/
+
