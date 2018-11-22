@@ -95,6 +95,9 @@ namespace HBM.Weighing.API.WTX.Jet
         ReadFail_DataReceived,
         ReadSuccess_DataReceived,
 
+        setTestsFail,
+        setTestsSuccess,
+
     }
 
     public class TestJetbusConnection : INetConnection, IDisposable
@@ -456,9 +459,15 @@ namespace HBM.Weighing.API.WTX.Jet
                this.behavior == Behavior.MeasureZeroFail    || this.behavior == Behavior.CalibratePreloadCapacitySuccess)
                {
                 JValue valueObj = new JValue(data);
-
                 this.SetData(index,valueObj);
                }
+
+
+            if(this.behavior == Behavior.setTestsSuccess || this.behavior == Behavior.setTestsFail)
+            {
+                JValue valueObj = new JValue(data);
+                this.SetData(index, valueObj);
+            }
         }
 
         public JToken simulateJTokenInstance(string pathParam, string eventParam, int data)

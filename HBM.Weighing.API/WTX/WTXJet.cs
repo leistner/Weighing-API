@@ -1,6 +1,6 @@
 ﻿// <copyright file="WTXJet.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+// HBM.WT.API, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -41,7 +41,7 @@ namespace HBM.Weighing.API.WTX
 
         public override event EventHandler<DataEvent> DataUpdateEvent;
 
-        //private bool _isCalibrating;
+        private bool _isCalibrating;
 
         private double dPreload;
         private double dNominalLoad;
@@ -124,15 +124,15 @@ namespace HBM.Weighing.API.WTX
         }
 
 
-        private enum WTXCommand
+        public struct command_values
         {
-            CalibrateZero = 2053923171,
-            CalibrateNominal = 1852596579,
-            ExitCalibrate = 1953069157,
-            Tare = 1701994868,
-            ClearPeakValues = 1801545072,
-            Zero = 1869768058,
-            Gross = 1936683623
+            public const int CALIBRATE_ZERO = 2053923171;
+            public const int CALIBRATE_NOMINAL_WEIGHT = 1852596579;
+            public const int CALIBRATE_EXIT = 1953069157;
+            public const int TARING = 1701994868;
+            public const int PEAK = 1801545072;
+            public const int ZEROING = 1869768058;
+            public const int GROSS = 1936683623;
         }
 
 
@@ -151,7 +151,7 @@ namespace HBM.Weighing.API.WTX
                 _dataUshort[index] = 0;
             }
 
-            //this._isCalibrating = false;
+            this._isCalibrating = false;
 
             this._connection.RaiseDataEvent += this.UpdateEvent;   // Subscribe to the event.
         }
@@ -442,9 +442,7 @@ namespace HBM.Weighing.API.WTX
 
         public override void Connect()
         {
-            _connection.Connect();
-
-            //this.UpdateEvent(this, null);
+            _connection.Connect();        
         }
 
         public override void Connect(Action<bool> completed, double timeoutMs)
@@ -460,12 +458,8 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-
-        /// <summary>
-        /// Calculates the values for deadload and nominal load in d from the inputs in mV/V and writes the into the WTX registers.
-        /// </summary>
-        /// <param name="preload"></param>
-        /// <param name="capacity"></param>
+        // Calculates the values for deadload and nominal load in d from the inputs in mV/V
+        // and writes the into the WTX registers.
         public override void Calculate(double preload, double capacity)
         {
             dPreload = 0;
@@ -485,14 +479,14 @@ namespace HBM.Weighing.API.WTX
 
             _connection.Write(ID_keys.LWT_NOMINAL_VALUE, Convert.ToInt32(dNominalLoad));    // Nominal value = LWT_NOMINAL_VALUE = "2110/07" ; 
 
-            //this._isCalibrating = true;
+            this._isCalibrating = true;
         }
 
         public override void MeasureZero()
         {
             //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
 
-            _connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.CalibrateZero);       // SCALE_COMMAND = "6002/01"
+            _connection.Write(ID_keys.SCALE_COMMAND, command_values.CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution = 
             while (_connection.Read(ID_keys.SCALE_COMMAND_STATUS) != 1634168417);
@@ -508,7 +502,7 @@ namespace HBM.Weighing.API.WTX
         {
             _connection.Write(ID_keys.LFT_SCALE_CALIBRATION_WEIGHT, calibrationValue);          // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
 
-            _connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.CalibrateNominal);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
+            _connection.Write(ID_keys.SCALE_COMMAND, command_values.CALIBRATE_NOMINAL_WEIGHT);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution = 
             while (_connection.Read(ID_keys.SCALE_COMMAND_STATUS) != 1634168417) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
@@ -516,22 +510,22 @@ namespace HBM.Weighing.API.WTX
             // check : command "ok" = command is done = 
             while (_connection.Read(ID_keys.SCALE_COMMAND_STATUS) != 1801543519) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
 
-            //this._isCalibrating = true;
+            this._isCalibrating = true;
         }
 
         public override void zeroing(Action<IDeviceData> WriteDataCompleted)
         {
-            _connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.Zero);       // SCALE_COMMAND = "6002/01"
+            _connection.Write(ID_keys.SCALE_COMMAND, command_values.ZEROING);       // SCALE_COMMAND = "6002/01"
         }
 
         public override void gross(Action<IDeviceData> WriteDataCompleted)
         {
-            _connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.Gross);       // SCALE_COMMAND = "6002/01"
+            _connection.Write(ID_keys.SCALE_COMMAND, command_values.GROSS);       // SCALE_COMMAND = "6002/01"
         }
 
         public override void taring(Action<IDeviceData> WriteDataCompleted)
         {
-            _connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.Tare);       // SCALE_COMMAND = "6002/01"
+            _connection.Write(ID_keys.SCALE_COMMAND, command_values.TARING);       // SCALE_COMMAND = "6002/01"
         }
 
         public override void adjustZero(Action<IDeviceData> WriteDataCompleted)
@@ -724,7 +718,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.RESIDUAL_FLOW_TIME];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.RESIDUAL_FLOW_TIME] = value;
+                _connection.Write(ID_keys.RESIDUAL_FLOW_TIME, value);
+            }
         }    // RFT
 
         public override int MinimumFineFlow
@@ -733,7 +731,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.MINIMUM_FINE_FLOW];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.MINIMUM_FINE_FLOW] = value;
+                _connection.Write(ID_keys.MINIMUM_FINE_FLOW, value);
+            }
         }     //FFM
         public override int OptimizationOfCutOffPoints
         {
@@ -741,7 +743,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.OPTIMIZATION];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.OPTIMIZATION] = value;
+                _connection.Write(ID_keys.OPTIMIZATION, value);
+            }
         }   // OSN
         public override int MaximumDosingTime
         {
@@ -749,7 +755,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.STATUS_DIGITAL_OUTPUT_3];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.STATUS_DIGITAL_OUTPUT_3] = value;
+                _connection.Write(ID_keys.STATUS_DIGITAL_OUTPUT_3, value);
+            }
         }   // MDT
 
         public override int CoarseLockoutTime
@@ -758,7 +768,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.COARSE_FLOW_TIME];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.COARSE_FLOW_TIME] = value;
+                _connection.Write(ID_keys.COARSE_FLOW_TIME, value);
+            }
         }    // CFT
         public override int FineLockoutTime
         {
@@ -766,7 +780,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.FINE_FLOW_TIME];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.FINE_FLOW_TIME] = value;
+                _connection.Write(ID_keys.FINE_FLOW_TIME, value);
+            }
         }      // Fine flow time = FFT
         public override int TareMode
         {
@@ -774,7 +792,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.TARE_MODE];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.TARE_MODE] = value;
+                _connection.Write(ID_keys.TARE_MODE, value);
+            }
         }             // ID = TMD 
 
         public override int UpperToleranceLimit
@@ -783,7 +805,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.UPPER_TOLERANCE_LIMIT];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.UPPER_TOLERANCE_LIMIT] = value;
+                _connection.Write(ID_keys.UPPER_TOLERANCE_LIMIT, value);
+            }
         }      // UTL
         public override int LowerToleranceLimit
         {
@@ -791,7 +817,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.LOWER_TOLERANCE_LOMIT];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.LOWER_TOLERANCE_LOMIT] = value;
+                _connection.Write(ID_keys.LOWER_TOLERANCE_LOMIT, value);
+            }
         }      // LTL
 
         public override int MinimumStartWeight
@@ -800,7 +830,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.MINIMUM_START_WEIGHT];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.MINIMUM_START_WEIGHT] = value;
+                _connection.Write(ID_keys.MINIMUM_START_WEIGHT, value);
+            }
         }        // MSW
         public override int EmptyWeight
         {
@@ -808,7 +842,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.EMPTY_WEIGHT];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.EMPTY_WEIGHT] = value;
+                _connection.Write(ID_keys.EMPTY_WEIGHT, value);
+            }
         }  // EWT
 
         public override int TareDelay
@@ -817,7 +855,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.TARE_DELAY];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.TARE_DELAY] = value;
+                _connection.Write(ID_keys.TARE_DELAY, value);
+            }
         }    // TAD
 
         public override int CoarseFlowMonitoringTime
@@ -826,7 +868,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.COARSE_FLOW_MONITORING_TIME];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.COARSE_FLOW_MONITORING_TIME] = value;
+                _connection.Write(ID_keys.COARSE_FLOW_MONITORING_TIME, value);
+            }
         }  // CBT
         public override int CoarseFlowMonitoring
         {
@@ -834,7 +880,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.COARSE_FLOW_MONITORING];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.COARSE_FLOW_MONITORING] = value;
+                _connection.Write(ID_keys.COARSE_FLOW_MONITORING, value);
+            }
         }      // CBK
         public override int FineFlowMonitoring
         {
@@ -842,7 +892,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.FINE_FLOW_MONITORING];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.FINE_FLOW_MONITORING] = value;
+                _connection.Write(ID_keys.FINE_FLOW_MONITORING, value);
+            }
         }        // FBK
         public override int FineFlowMonitoringTime
         {
@@ -850,7 +904,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.FINE_FLOW_MONITORING_TIME];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.FINE_FLOW_MONITORING_TIME] = value;
+                _connection.Write(ID_keys.FINE_FLOW_MONITORING_TIME, value);
+            }
         }    // FBT
 
         public override int SystematicDifference
@@ -859,7 +917,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.SYSTEMATIC_DIFFERENCE];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.SYSTEMATIC_DIFFERENCE] = value;
+                _connection.Write(ID_keys.SYSTEMATIC_DIFFERENCE, value);
+            }
         }  // SYD
 
         public override int DownwardsDosing { get; set; }
@@ -870,7 +932,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.VALVE_CONTROL];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.VALVE_CONTROL] = value;
+                _connection.Write(ID_keys.VALVE_CONTROL, value);
+            }
         }      // VCT
         public override int EmptyingMode
         {
@@ -878,7 +944,11 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.getData()[ID_keys.EMPTYING_MODE];
             }
-            set { throw new NotImplementedException(); }
+            set
+            {
+                _connection.getData()[ID_keys.EMPTYING_MODE] = value;
+                _connection.Write(ID_keys.EMPTYING_MODE, value);
+            }
         }      // EMD
 
 
@@ -898,7 +968,8 @@ namespace HBM.Weighing.API.WTX
             }
             set
             {
-                throw new NotImplementedException();
+                _connection.getData()[ID_keys.DELAY1_DOSING] = value;
+                _connection.Write(ID_keys.DELAY1_DOSING, value);
             }
         }      // ID = DL1 : Delay 1 für Dosieren. 
 
@@ -910,7 +981,8 @@ namespace HBM.Weighing.API.WTX
             }
             set
             {
-                throw new NotImplementedException();
+                _connection.getData()[ID_keys.FINEFLOW_PHASE_BEFORE_COARSEFLOW] = value;
+                _connection.Write(ID_keys.FINEFLOW_PHASE_BEFORE_COARSEFLOW, value);
             }
         } // ID = FFL : "Feinstromphase vor Grobstrom". 
 
@@ -925,7 +997,8 @@ namespace HBM.Weighing.API.WTX
             }
             set
             {
-                throw new NotImplementedException();
+                _connection.getData()[ID_keys.LIMIT_VALUE] = value;
+                _connection.Write(ID_keys.LIMIT_VALUE, value);
             }
         }
 
@@ -938,7 +1011,8 @@ namespace HBM.Weighing.API.WTX
             }
             set
             {
-                throw new NotImplementedException();
+                _connection.getData()[ID_keys.LIMIT_VALUE] = value;
+                _connection.Write(ID_keys.LIMIT_VALUE, value);
             }
         }
 
@@ -951,7 +1025,8 @@ namespace HBM.Weighing.API.WTX
             }
             set
             {
-                throw new NotImplementedException();
+                _connection.getData()[ID_keys.LIMIT_VALUE] = value;
+                _connection.Write(ID_keys.LIMIT_VALUE, value);
             }
         }
 
@@ -964,7 +1039,8 @@ namespace HBM.Weighing.API.WTX
             }
             set
             {
-                throw new NotImplementedException();
+                _connection.getData()[ID_keys.LIMIT_VALUE] = value;
+                _connection.Write(ID_keys.LIMIT_VALUE, value);
             }
         }
 
