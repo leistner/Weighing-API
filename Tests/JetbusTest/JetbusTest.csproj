@@ -45,16 +45,12 @@
     <Reference Include="nunit.framework, Version=3.11.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
       <HintPath>..\..\packages\NUnit.3.11.0\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="SharpJet, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\SharpJet.1.1.0\lib\SharpJet.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="SharpJet, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\HBM.WT.API\SharpJet.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="websocket-sharp, Version=1.0.2.32519, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\WebSocketSharp-NonPreRelease.1.0.0\lib\net35\websocket-sharp.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CalibrationTests.cs" />
@@ -62,6 +58,7 @@
     <Compile Include="ConnectTestsJetbus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadTests.cs" />
+    <Compile Include="SetTests.cs" />
     <Compile Include="TestJetbusConnection.cs" />
     <Compile Include="TestJetPeer.cs" />
     <Compile Include="WriteTests.cs" />
@@ -73,9 +70,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HBM.Weighing.API\HBM.Weighing.API.csproj">
+    <ProjectReference Include="..\..\HBM.WT.API\HBM.WT.API.csproj">
       <Project>{f8fb1d85-0fba-4905-a559-a1c654675662}</Project>
-      <Name>HBM.Weighing.API</Name>
+      <Name>HBM.WT.API</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
