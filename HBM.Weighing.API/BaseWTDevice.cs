@@ -36,41 +36,47 @@ namespace HBM.Weighing.API
 
         public BaseWtDevice(INetConnection connection)
         {
-            m_Connection = connection;
+            this.connection = connection;
         }
 
-        protected INetConnection m_Connection;
+        protected INetConnection connection;
 
-        public INetConnection getConnection
+        public INetConnection Connection
         {
             get
             {
-                return m_Connection;
+                return connection;
             }
         }
 
-        public abstract event EventHandler<DataEvent> DataUpdateEvent;
+        public abstract event EventHandler<DataEvent> OnData;
 
         public abstract bool isConnected { get; }
 
         public abstract void Connect();
-        public abstract void Connect(Action<bool> completed, double timeoutMs);     
+
+        public abstract void Connect(Action<bool> completed, double timeoutMs);  
+           
         public abstract void Disconnect(Action<bool> DisconnectCompleted);
 
         public abstract string getWTXType { get; }
         
-        public abstract IDeviceData DeviceValues { get; }      
+        public abstract IDeviceData DeviceValues { get; }    
+          
         public abstract bool IsDataReceived { get; set; }       
 
         public abstract void UpdateEvent(object sender, DataEvent e);
         
         public abstract string[] GetDataStr { get;}
+
         public abstract ushort[] GetDataUshort { get;}
 
         public abstract string NetGrossValueStringComment(int value, int decimals);
 
         public abstract void gross(Action<IDeviceData> WriteDataCompleted);
+
         public abstract void zeroing(Action<IDeviceData> WriteDataCompleted);
+
         public abstract void taring(Action<IDeviceData> WriteDataCompleted);
 
         public abstract void adjustZero(Action<IDeviceData> WriteDataCompleted);

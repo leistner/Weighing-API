@@ -64,7 +64,7 @@ namespace HBM.Weighing.API.WTX
 
         private IDeviceData _thisValues;
 
-        public override event EventHandler<DataEvent> DataUpdateEvent;
+        public override event EventHandler<DataEvent> OnData;
 
         public WtxModbus(INetConnection connection, int paramTimerInterval) : base(connection)
         {
@@ -592,7 +592,7 @@ namespace HBM.Weighing.API.WTX
             if ((this._compareDataChanged == true) || (this._isCalibrating == true) || this._isRefreshed == true)   // 'isCalibrating' indicates if a calibration is done just before ...
             {                                                                                                    // and the data should be send to the GUI/console and be printed out. 
                                                                                                                  // If the GUI has been refreshed, the values should also be send to the GUI/Console and be printed out. 
-                DataUpdateEvent?.Invoke(this, e);
+                OnData?.Invoke(this, e);
 
                 this._isCalibrating = false;
                 this.Refreshed = false;

@@ -1059,7 +1059,7 @@ namespace JetbusTest
 
             _wtxObj.IsDataReceived = false;
 
-            _wtxObj.getConnection.Read("601A/01");
+            _wtxObj.Connection.Read("601A/01");
             
             return _wtxObj.IsDataReceived;
         }

@@ -296,7 +296,7 @@ namespace WTXModbusExamples
             label2.Text = "Only for Filler application:";         // label for information : Only output words for filler application 
             toolStripStatusLabel5.Text = "38";
 
-            if (_wtxDevice.getConnection.IsConnected == true)
+            if (_wtxDevice.Connection.IsConnected == true)
                 toolStripStatusLabel1.Text = "Connected";
             else
                 toolStripStatusLabel1.Text = "Disconnected";
@@ -317,14 +317,14 @@ namespace WTXModbusExamples
         // For the connection status, IP address, application mode and number of inputs. 
         private void GUI_Load(object sender, EventArgs e)
         {
-            if (_wtxDevice.getConnection.IsConnected == true)
+            if (_wtxDevice.Connection.IsConnected == true)
                 toolStripStatusLabel1.Text = "Connected";
             else
                 toolStripStatusLabel1.Text = "Disconnected";
 
-            toolStripStatusLabel2.Text = "IP address: " + _wtxDevice.getConnection.IpAddress;
+            toolStripStatusLabel2.Text = "IP address: " + _wtxDevice.Connection.IpAddress;
             toolStripStatusLabel3.Text = "Mode : " + this._dataStr[14]; // index 14 refers to application mode of the Device
-            toolStripStatusLabel5.Text = "Number of Inputs : " + _wtxDevice.getConnection.NumofPoints; 
+            toolStripStatusLabel5.Text = "Number of Inputs : " + _wtxDevice.Connection.NumofPoints; 
         }
 
         // This method actualizes and resets the data grid with newly calculated values of the previous iteration. 
@@ -332,14 +332,14 @@ namespace WTXModbusExamples
         // "dataStr" array to actualize every element of the data grid in the standard or filler application. 
         public void refresh_values()
         {     
-            if (_wtxDevice.getConnection.IsConnected == true)
+            if (_wtxDevice.Connection.IsConnected == true)
                 toolStripStatusLabel1.Text = "Connected";
-            if (_wtxDevice.getConnection.IsConnected == false)
+            if (_wtxDevice.Connection.IsConnected == false)
                 toolStripStatusLabel1.Text = "Disconnected";
             
-            toolStripStatusLabel2.Text = "IP address: " + _wtxDevice.getConnection.IpAddress;
+            toolStripStatusLabel2.Text = "IP address: " + _wtxDevice.Connection.IpAddress;
             toolStripStatusLabel3.Text = "Mode : " + this._dataStr[14];                 // index 14 refers to application mode of the Device
-            toolStripStatusLabel2.Text = "IP address: " + _wtxDevice.getConnection.IpAddress;
+            toolStripStatusLabel2.Text = "IP address: " + _wtxDevice.Connection.IpAddress;
 
             //Changing the width of a column:
             /*foreach (DataGridViewTextBoxColumn c in dataGridView1.Columns)
@@ -545,10 +545,10 @@ namespace WTXModbusExamples
         private void startToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // The ip address is actualized.
-            _wtxDevice.getConnection.IpAddress = this._ipAddress;
+            _wtxDevice.Connection.IpAddress = this._ipAddress;
 
             // The connection to the device is established. 
-            _wtxDevice.getConnection.Connect();     // Alternative : _wtxObj.Connect();    
+            _wtxDevice.Connection.Connect();     // Alternative : _wtxObj.Connect();    
 
             this._dataStr = _wtxDevice.GetDataStr;
 
@@ -570,7 +570,7 @@ namespace WTXModbusExamples
 
             _wtxDevice.Refreshed = true;
 
-            _wtxDevice.DataUpdateEvent += ValuesOnConsole;
+            _wtxDevice.OnData += ValuesOnConsole;
 
             // New eventhandler for a change in a data grid cell : 
 
@@ -747,7 +747,7 @@ namespace WTXModbusExamples
         // Afterwards the timer and the application can be restarted.
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _wtxDevice.DataUpdateEvent -= ValuesOnConsole;
+            _wtxDevice.OnData -= ValuesOnConsole;
             toolStripStatusLabel1.Text = "Disconnected";    
         }
 
@@ -757,7 +757,7 @@ namespace WTXModbusExamples
         {
             toolStripStatusLabel1.Text = "Disconnected";
 
-            _wtxDevice.DataUpdateEvent -= ValuesOnConsole;
+            _wtxDevice.OnData -= ValuesOnConsole;
             this.Close();
             
             Application.Exit();
@@ -799,7 +799,7 @@ namespace WTXModbusExamples
             timer1.Enabled = false;     // Stop the timer (Restart is in Class "Settings_Form").
             timer1.Stop();
                   
-            _settings = new SettingsForm(_wtxDevice.getConnection.IpAddress, this.timer1.Interval, (ushort)_wtxDevice.getConnection.NumofPoints, this);
+            _settings = new SettingsForm(_wtxDevice.Connection.IpAddress, this.timer1.Interval, (ushort)_wtxDevice.Connection.NumofPoints, this);
             _settings.Show();
         }
 
@@ -811,13 +811,13 @@ namespace WTXModbusExamples
             toolStripStatusLabel2.Text = "IP address: " + _settings.GetIpAddress;
 
             this._ipAddress = _settings.GetIpAddress;
-            _wtxDevice.getConnection.IpAddress = _settings.GetIpAddress;
+            _wtxDevice.Connection.IpAddress = _settings.GetIpAddress;
 
-            _wtxDevice.getConnection.SendingInterval = _settings.GetSendingInterval;     
+            _wtxDevice.Connection.SendingInterval = _settings.GetSendingInterval;     
             this.timer1.Interval = _settings.GetSendingInterval;
 
-            _wtxDevice.getConnection.NumofPoints = _settings.GetNumberInputs;
-            toolStripStatusLabel5.Text = "Number of Inputs : " + _wtxDevice.getConnection.NumofPoints;
+            _wtxDevice.Connection.NumofPoints = _settings.GetNumberInputs;
+            toolStripStatusLabel5.Text = "Number of Inputs : " + _wtxDevice.Connection.NumofPoints;
         }
 
         // This method changes the GUI concerning the application mode.

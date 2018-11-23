@@ -163,7 +163,7 @@ namespace WTXGUIsimple
 
                 picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisActive;
 
-                _wtxDevice.DataUpdateEvent += Update;
+                _wtxDevice.OnData += Update;
 
                 this.Update(this, null);
             }
@@ -224,14 +224,14 @@ namespace WTXGUIsimple
         private void cmdConnect_Click(object sender, EventArgs e)
         {
             if (_wtxDevice != null)    // Necessary to check if the object of BaseWtDevice have been created and a connection exists. 
-                if (this.rbtConnectionJet.Checked == true && _wtxDevice.getWTXType == "Jetbus" && txtIPAddress.Text==_wtxDevice.getConnection.IpAddress)
+                if (this.rbtConnectionJet.Checked == true && _wtxDevice.getWTXType == "Jetbus" && txtIPAddress.Text==_wtxDevice.Connection.IpAddress)
                     return;
                 else
-                if (this.rbtConnectionModbus.Checked == true && _wtxDevice.getWTXType == "Modbus" && txtIPAddress.Text == _wtxDevice.getConnection.IpAddress)
+                if (this.rbtConnectionModbus.Checked == true && _wtxDevice.getWTXType == "Modbus" && txtIPAddress.Text == _wtxDevice.Connection.IpAddress)
                     return;
                 else
                 {
-                    _wtxDevice.getConnection.Disconnect();
+                    _wtxDevice.Connection.Disconnect();
                     _wtxDevice = null;
 
                     picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;

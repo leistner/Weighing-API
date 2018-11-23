@@ -53,7 +53,7 @@ namespace HBM.Weighing.API
         /// <summary>
         ///
         /// </summary>
-        event EventHandler<DataEvent> DataUpdateEvent;
+        event EventHandler<DataEvent> OnData;
 
         /// <summary>
         ///Gets or sets a value indicating whether data are received. 

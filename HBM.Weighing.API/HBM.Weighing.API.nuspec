@@ -15,7 +15,7 @@
         <dependency id="Newtonsoft.Json" version="11.0.2" />
         <dependency id="NModbus4" version="2.1.0" />
         <dependency id="NUnit" version="3.11.0" />
-        <dependency id="SharpJet" version="1.0.0" />
+        <dependency id="SharpJet" version="1.1.0" />
       </group>
     </dependencies>
   </metadata>

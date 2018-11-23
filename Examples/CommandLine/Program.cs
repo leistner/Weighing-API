@@ -106,9 +106,9 @@ namespace WTXModbus
             {
                 InitializeConnection();
 
-                _wtxDevice.DataUpdateEvent += Update;   // To get updated values from the WTX, use method Update(..). 
+                _wtxDevice.OnData += Update;   // To get updated values from the WTX, use method Update(..). 
 
-            } while (_wtxDevice.getConnection.IsConnected==false);
+            } while (_wtxDevice.Connection.IsConnected==false);
 
 
             MenuCases();
@@ -153,7 +153,7 @@ namespace WTXModbus
 
                 _wtxDevice = new WtxModbus(_modbusConection, _timerInterval);
 
-                _wtxDevice.getConnection.NumofPoints = 6;
+                _wtxDevice.Connection.NumofPoints = 6;
             }
             else
             {
@@ -177,7 +177,7 @@ namespace WTXModbus
             }
 
 
-            if (_wtxDevice.getConnection.IsConnected == true)
+            if (_wtxDevice.Connection.IsConnected == true)
             {
                 // Coupling the data via an event-based call - If the event in class WTX120_Modbus is triggered, the values are updated on the console: Already done in main for presentation. 
                 //_wtxDevice.DataUpdateEvent += Update;
@@ -262,20 +262,20 @@ namespace WTXModbus
 
                         // Change connection from Modbus to Jetbus: 
                         case 'j':
-                            _wtxDevice.DataUpdateEvent -= Update;   // Delete Callback method 'Update' from the Eventhandler 'DataUpdateEvent'.
+                            _wtxDevice.OnData -= Update;   // Delete Callback method 'Update' from the Eventhandler 'DataUpdateEvent'.
 
                             mode = "Jetbus";
 
                             if (_wtxDevice != null)    // Necessary to check if the object of BaseWtDevice have been created and a connection exists. 
                             {
-                                _wtxDevice.getConnection.Disconnect();
+                                _wtxDevice.Connection.Disconnect();
                                 _wtxDevice = null;
                             }
 
                             Thread.Sleep(WAIT_DISCONNECT);     // Wait for 2 seconds till the disconnection request is finished. 
 
                             InitializeConnection();
-                            _wtxDevice.DataUpdateEvent += Update;   // To get updated values from the WTX, use method Update(..). 
+                            _wtxDevice.OnData += Update;   // To get updated values from the WTX, use method Update(..). 
                             break;
 
 
@@ -308,20 +308,20 @@ namespace WTXModbus
                         // Change connection from Jetbus to Modbus: 
                         case 'j':
                            
-                            _wtxDevice.DataUpdateEvent -= Update;   // Delete Callback method 'Update' from the Eventhandler 'DataUpdateEvent'.
+                            _wtxDevice.OnData -= Update;   // Delete Callback method 'Update' from the Eventhandler 'DataUpdateEvent'.
 
                             mode = "Modbus";
 
                             if (_wtxDevice != null)    // Necessary to check if the object of BaseWtDevice have been created and a connection exists. 
                             {
-                                _wtxDevice.getConnection.Disconnect();
+                                _wtxDevice.Connection.Disconnect();
                                 _wtxDevice = null;
                             }
 
                             Thread.Sleep(WAIT_DISCONNECT);     // Wait for 2 seconds till the disconnection request is finished. 
 
                             InitializeConnection();
-                            _wtxDevice.DataUpdateEvent += Update;   // To get updated values from the WTX, use method Update(..). 
+                            _wtxDevice.OnData += Update;   // To get updated values from the WTX, use method Update(..). 
                             break;
 
                         default: break;
