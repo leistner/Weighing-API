@@ -812,8 +812,7 @@ namespace WTXModbusExamples
 
             this._ipAddress = _settings.GetIpAddress;
             _wtxDevice.Connection.IpAddress = _settings.GetIpAddress;
-
-            _wtxDevice.Connection.SendingInterval = _settings.GetSendingInterval;     
+ 
             this.timer1.Interval = _settings.GetSendingInterval;
 
             _wtxDevice.Connection.NumofPoints = _settings.GetNumberInputs;

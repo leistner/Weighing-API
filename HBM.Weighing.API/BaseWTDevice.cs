@@ -52,9 +52,17 @@ namespace HBM.Weighing.API
         public abstract event EventHandler<DataEvent> OnData;
 
         public abstract bool isConnected { get; }
-
+    
+        /// <summary>
+        /// Synchronous call to connect
+        /// </summary>
         public abstract void Connect();
 
+        /// <summary>
+        /// Asynchronous calll to connect
+        /// </summary>
+        /// <param name="completed">Callback raised after connection completed</param>
+        /// <param name="timeoutMs">Timeout to wait for connect</param>
         public abstract void Connect(Action<bool> completed, double timeoutMs);  
            
         public abstract void Disconnect(Action<bool> DisconnectCompleted);

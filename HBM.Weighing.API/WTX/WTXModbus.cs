@@ -27,10 +27,8 @@
 // SOFTWARE.
 //
 // </copyright>
-using HBM.Weighing.API.WTX.Modbus;
 using System;
 using System.ComponentModel;
-using System.Threading;
 using System.Timers;
 
 namespace HBM.Weighing.API.WTX

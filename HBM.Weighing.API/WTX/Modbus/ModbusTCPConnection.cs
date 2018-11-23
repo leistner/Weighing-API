@@ -51,11 +51,10 @@ namespace HBM.Weighing.API.WTX.Modbus
         private ModbusIpMaster _master;
         private TcpClient _client;
 
-        private bool _connected;     
-        private string _iPAddress;       
+        private bool connected;     
+        private string ipAddress;       
         private ushort _numOfPoints;
         private int _port;
-        private int _sendingInterval; // Timer1.Interval = Sending Interval 
         private ushort _startAdress;
 
         private ushort[] _data;
@@ -64,22 +63,21 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private int command;
 
-        public ModbusTcpConnection(string ipAddress)
+        public ModbusTcpConnection(string IpAddress)
         {
-            _connected = false;
+            connected = false;
             _port = 502;
-            _iPAddress = ipAddress; //IP-address to establish a successful connection to the device
+            ipAddress = IpAddress; //IP-address to establish a successful connection to the device
 
             _numOfPoints = 38;
             _startAdress = 0;
-            _sendingInterval = 5; // Timer1.Interval = Sending Interval 
         }
         
         // Getter/Setter for the IP_Adress, StartAdress, NumofPoints, Sending_interval, Port, Is_connected()
         public string IpAddress
         {
-            get { return _iPAddress; }
-            set { _iPAddress = value; }
+            get { return ipAddress; }
+            set { ipAddress = value; }
         }
 
         public ushort StartAdress
@@ -94,12 +92,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             set { _numOfPoints = value; }
         }
 
-        public int SendingInterval
-        {
-            get { return _sendingInterval; }
-            set { _sendingInterval = value; }
-        }
-
         public int Port
         {
             get { return _port; }
@@ -110,11 +102,11 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                return this._connected;
+                return this.connected;
             }
             set
             {
-                this._connected = value;
+                this.connected = value;
             }
         }
 
@@ -130,7 +122,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         // to create a new MessageEvent to read the register of the device. 
         public int Read(object index)
         {
-            if (_connected)
+            if (connected)
                 ReadRegisterPublishing(new DataEvent(_data, new string[0]));
 
             return 0; 
@@ -198,7 +190,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 //e.Args = masterParam.ReadHoldingRegisters(this.StartAdress, this.getNumOfPoints);
 
                 e.ushortArgs = _master.ReadHoldingRegisters(StartAdress, NumOfPoints);
-                _connected = true;
+                connected = true;
 
                 BusActivityDetection?.Invoke(this, new LogEvent("Read successful: Registers have been read"));
             }
@@ -210,7 +202,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             {
                 BusActivityDetection?.Invoke(this, new LogEvent("Read failed : Registers have not been read"));
 
-                _connected = false;
+                connected = false;
 
                 Connect();
                 Thread.Sleep(100);
@@ -235,15 +227,15 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             try
             {
-                _client = new TcpClient(_iPAddress, _port);
+                _client = new TcpClient(ipAddress, _port);
                 _master = ModbusIpMaster.CreateIp(_client);
-                _connected = true;
+                connected = true;
 
                 BusActivityDetection?.Invoke(this, new LogEvent("Connection has been established successfully"));
             }
             catch (Exception)
             {
-                _connected = false; // If the connection establishment has not been successful - connected=false. 
+                connected = false; // If the connection establishment has not been successful - connected=false. 
 
                 BusActivityDetection?.Invoke(this, new LogEvent("Connection has NOT been established successfully"));
             }
@@ -254,7 +246,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             _client.Close();
 
-            _connected = false;
+            connected = false;
             RaiseDataEvent = null;
         }
 

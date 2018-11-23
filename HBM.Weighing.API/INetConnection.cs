@@ -33,32 +33,31 @@ using System.Collections.Generic;
 namespace HBM.Weighing.API
 {
     /// <summary>
-    /// Define the common communication-interface
+    /// Defines the common communication interface
     /// </summary>
     public interface INetConnection
     {
         event EventHandler BusActivityDetection;
+
         event EventHandler<DataEvent> RaiseDataEvent;
 
         void Connect();
-     
+             
+        void Disconnect();
+
         int Read(object index);
 
         void Write(object index, int data);
 
         void WriteArray(ushort index, ushort[] data);
-
-        void Disconnect();
-        
+                
         Dictionary<string, int> getData();
 
         int NumofPoints     { get; set; }
 
         bool IsConnected    { get; }
 
-        string IpAddress    { get; set; }
-
-        int SendingInterval { get; set; }
+        string IpAddress    { get; set; }        
 
     }
     
