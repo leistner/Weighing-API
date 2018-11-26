@@ -137,9 +137,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             WTXModbusObj.Connect(this.OnConnect, 100);
             testConnection.IsConnected = true;
 
-            WTXModbusObj.Async_Call(0x00, callbackMethod);
-
-            Thread.Sleep(100);
+            WTXModbusObj.SyncCall(0, 0x00, callbackMethod);
 
             return WTXModbusObj.GetDataUshort[1];
 
@@ -221,11 +219,9 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             WTXModbusObj.Connect(this.OnConnect, 100);
             testConnection.IsConnected = true;
-
-            WTXModbusObj.Async_Call(0x00, callbackMethod);
-
-            Thread.Sleep(100);
-
+            
+            WTXModbusObj.SyncCall(0,0x00, callbackMethod);
+            
             if (testConnection._logObj.Args.Equals("Read successful: Registers have been read"))
                 return true;
 
@@ -247,9 +243,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             WTXModbusObj.Connect(this.OnConnect, 100);
             testConnection.IsConnected = true;
 
-            WTXModbusObj.Async_Call(0x00, callbackMethod);
-
-            Thread.Sleep(100);
+            WTXModbusObj.SyncCall(0, 0x00, callbackMethod);
 
             if (testConnection._logObj.Args.Equals("Read successful: Registers have been read"))
                 return true;
