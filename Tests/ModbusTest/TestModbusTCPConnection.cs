@@ -170,7 +170,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public int command; 
 
         public event EventHandler BusActivityDetection;
-        public event EventHandler<DataEvent> RaiseDataEvent;
+        public event EventHandler<DeviceDataReceivedEventArgs> IncomingDataReceived;
 
         private string IP;
         private int interval;
@@ -252,12 +252,12 @@ namespace HBM.Weighing.API.WTX.Modbus
         public int Read(object index)
         {
             //if (_connected)
-                ReadRegisterPublishing(new DataEvent(_dataWTX, new string[0]));
+                ReadRegisterPublishing(new DeviceDataReceivedEventArgs(_dataWTX, new string[0]));
 
             return 0;
         }
 
-        public void ReadRegisterPublishing(DataEvent e) 
+        public void ReadRegisterPublishing(DeviceDataReceivedEventArgs e) 
         {
             // Behavoir : Kann in Standard oder Filler Mode sein, kann unterschiedliche "NumInputs" haben. Dementsprechend abhängig
             // ist die Anzahl der eingelesenen Werte. Erstmal vom einfachen Fall ausgehen! 
@@ -545,7 +545,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break; 
             }
 
-            RaiseDataEvent?.Invoke(this, new DataEvent(this._dataWTX, new string[0]));
+            IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(this._dataWTX, new string[0]));
 
             /*
             var handler = RaiseDataEvent;

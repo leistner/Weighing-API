@@ -115,7 +115,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public event EventHandler BusActivityDetection;
 
-        public virtual event EventHandler<DataEvent> RaiseDataEvent; // virtual new due to tesing - 3.5.2018
+        public virtual event EventHandler<DeviceDataReceivedEventArgs> IncomingDataReceived; // virtual new due to tesing - 3.5.2018
 
 
         // This method is called from the device class "WTX120" and calls the method ReadRegisterPublishing(e:MessageEvent)
@@ -123,7 +123,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public int Read(object index)
         {
             if (connected)
-                ReadRegisterPublishing(new DataEvent(_data, new string[0]));
+                ReadRegisterPublishing(new DeviceDataReceivedEventArgs(_data, new string[0]));
 
             return 0; 
         }
@@ -181,7 +181,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         // This method is declared as a virtual method to allow derived class to override the event call.
         //protected virtual void ReadRegisterPublishing(MessageEvent<ushort> e)
 
-        public virtual void ReadRegisterPublishing(DataEvent e) // 25.4 Comment : 'virtual' machte hier probleme beim durchlaufen :o 
+        public virtual void ReadRegisterPublishing(DeviceDataReceivedEventArgs e) // 25.4 Comment : 'virtual' machte hier probleme beim durchlaufen :o 
         {
             // virtual new due to tesing - 3.5.2018
             try
@@ -215,7 +215,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             //RaiseDataEvent?.Invoke(this, e);
 
-            var handler = RaiseDataEvent;
+            var handler = IncomingDataReceived;
 
             //If a subscriber exists: 
             if (handler != null) handler(this, e);
@@ -247,7 +247,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             _client.Close();
 
             connected = false;
-            RaiseDataEvent = null;
+            IncomingDataReceived = null;
         }
 
 

@@ -53,7 +53,7 @@ namespace HBM.Weighing.API
         /// <summary>
         ///
         /// </summary>
-        event EventHandler<DataEvent> OnData;
+        event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
 
         /// <summary>
         ///Gets or sets a value indicating whether data are received. 
@@ -61,7 +61,7 @@ namespace HBM.Weighing.API
         bool IsDataReceived
         {
             get;
-            set;
+            //set;
         }
 
         /// <summary>

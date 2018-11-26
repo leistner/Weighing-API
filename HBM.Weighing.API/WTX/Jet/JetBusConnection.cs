@@ -56,7 +56,7 @@ namespace HBM.Weighing.API.WTX.Jet
         private Exception _mException = null;
 
         public event EventHandler BusActivityDetection;
-        public event EventHandler<DataEvent> RaiseDataEvent;
+        public event EventHandler<DeviceDataReceivedEventArgs> IncomingDataReceived;
 
         private bool _connected;
 
@@ -114,7 +114,7 @@ namespace HBM.Weighing.API.WTX.Jet
         {
             _peer.Disconnect();
             this._connected = false;
-            this.RaiseDataEvent = null;
+            this.IncomingDataReceived = null;
         }
 
 
@@ -294,7 +294,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
                 this.ConvertJTokenToStringArray();
 
-                RaiseDataEvent?.Invoke(this, new DataEvent(DataUshortArray, DataStrArray));
+                IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
 
                 BusActivityDetection?.Invoke(this, new LogEvent(data.ToString()));
             }
@@ -319,7 +319,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
                     this.ConvertJTokenToStringArray();
                    
-                    RaiseDataEvent?.Invoke(this, new DataEvent(DataUshortArray,DataStrArray));
+                    IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray,DataStrArray));
 
                     return _dataJTokenBuffer[index.ToString()];
                 }
@@ -457,7 +457,7 @@ namespace HBM.Weighing.API.WTX.Jet
         {
             _peer.Disconnect();
             this._connected = false;
-            this.RaiseDataEvent = null;
+            this.IncomingDataReceived = null;
         }
 
 

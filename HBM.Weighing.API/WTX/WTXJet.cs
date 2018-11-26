@@ -39,7 +39,7 @@ namespace HBM.Weighing.API.WTX
         private INetConnection connection;
         private bool _dataReceived;
 
-        public override event EventHandler<DataEvent> OnData;
+        public override event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
 
         //private bool _isCalibrating;
 
@@ -153,11 +153,11 @@ namespace HBM.Weighing.API.WTX
 
             //this._isCalibrating = false;
 
-            this.connection.RaiseDataEvent += this.UpdateEvent;   // Subscribe to the event.
+            this.connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.
         }
 
 
-        public override void UpdateEvent(object sender, DataEvent e)
+        public override void OnData(object sender, DeviceDataReceivedEventArgs e)
         {
             // values from _mTokenBuffer as an array: 
 
@@ -165,7 +165,7 @@ namespace HBM.Weighing.API.WTX
 
             this._dataReceived = true;
 
-            OnData?.Invoke(this, e);
+            DataReceived?.Invoke(this, e);
 
             // Do something with the data, like in the class WTXModbus.cs           
         }
@@ -184,10 +184,13 @@ namespace HBM.Weighing.API.WTX
             {
                 return this._dataReceived;
             }
+
+            /*
             set
             {
                 this._dataReceived = value;
             }
+            */
         }
         
         public override int NetValue
@@ -440,7 +443,7 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public override void Connect()
+        public override void Connect(double timeoutMs)
         {
             connection.Connect();
 

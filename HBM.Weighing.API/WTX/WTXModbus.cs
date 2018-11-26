@@ -62,7 +62,7 @@ namespace HBM.Weighing.API.WTX
 
         private IDeviceData _thisValues;
 
-        public override event EventHandler<DataEvent> OnData;
+        public override event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
 
         public WtxModbus(INetConnection connection, int paramTimerInterval) : base(connection)
         {
@@ -101,10 +101,20 @@ namespace HBM.Weighing.API.WTX
 
             // For the connection and initializing of the timer: 
 
-            this._connection.RaiseDataEvent += this.UpdateEvent;   // Subscribe to the event.
+            this._connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.
 
             this.initialize_timer(paramTimerInterval);
         }
+
+
+        // To establish a connection to the WTX device via class WTX120_Modbus.
+        public override void Connect(double timeoutMs)
+        {
+            this._connection.Connect();
+
+            //this.UpdateEvent(this, null);
+        }
+
 
         // To establish a connection to the WTX device via class WTX120_Modbus.
         public override void Connect(Action<bool> ConnectCompleted, double timeoutMs)
@@ -113,13 +123,6 @@ namespace HBM.Weighing.API.WTX
         }
 
 
-        // To establish a connection to the WTX device via class WTX120_Modbus.
-        public override void Connect()
-        {
-            this._connection.Connect();
-
-            //this.UpdateEvent(this, null);
-        }
 
         public override bool isConnected
         {
@@ -251,10 +254,13 @@ namespace HBM.Weighing.API.WTX
             {
                 return this._dataReceived;
             }
+            /*
             set
             {
                 this._dataReceived = value;
             }
+            */
+
         }
 
         public void WriteDoWork(object sender, DoWorkEventArgs e)
@@ -386,8 +392,12 @@ namespace HBM.Weighing.API.WTX
 
         }
 
-        //public override void UpdateEvent(object sender, MessageEvent<ushort> e)
-        public override void UpdateEvent(object sender, DataEvent e)
+        /// <summary>
+        /// Called whenever new device data is available 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">DeviceDataReceivedEventArgs</param>
+        public override void OnData(object sender, DeviceDataReceivedEventArgs e)
         {
             this._data = e.ushortArgs;
 
@@ -590,7 +600,7 @@ namespace HBM.Weighing.API.WTX
             if ((this._compareDataChanged == true) || (this._isCalibrating == true) || this._isRefreshed == true)   // 'isCalibrating' indicates if a calibration is done just before ...
             {                                                                                                    // and the data should be send to the GUI/console and be printed out. 
                                                                                                                  // If the GUI has been refreshed, the values should also be send to the GUI/Console and be printed out. 
-                OnData?.Invoke(this, e);
+                DataReceived?.Invoke(this, e);
 
                 this._isCalibrating = false;
                 this.Refreshed = false;

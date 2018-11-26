@@ -147,7 +147,7 @@ namespace WTXGUIsimple
             // Connection establishment via Modbus or Jetbus :            
             try
             {
-                _wtxDevice.Connect();
+                _wtxDevice.Connect(5000);
             }
             catch (Exception)
             {
@@ -163,7 +163,7 @@ namespace WTXGUIsimple
 
                 picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisActive;
 
-                _wtxDevice.OnData += Update;
+                _wtxDevice.DataReceived += Update;
 
                 this.Update(this, null);
             }
@@ -177,7 +177,7 @@ namespace WTXGUIsimple
 
 
         //Callback for automatically receiving event based data from the device
-        private void Update(object sender, DataEvent e)
+        private void Update(object sender, DeviceDataReceivedEventArgs e)
         {
             txtInfo.Invoke(new Action(() =>
             {

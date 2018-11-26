@@ -106,7 +106,7 @@ namespace WTXModbus
             {
                 InitializeConnection();
 
-                _wtxDevice.OnData += Update;   // To get updated values from the WTX, use method Update(..). 
+                _wtxDevice.DataReceived += Update;   // To get updated values from the WTX, use method Update(..). 
 
             } while (_wtxDevice.Connection.IsConnected==false);
 
@@ -169,7 +169,7 @@ namespace WTXModbus
             // Connection establishment via Modbus or Jetbus :  
             try
             {
-                _wtxDevice.Connect();
+                _wtxDevice.Connect(5000);
             }
             catch (Exception)
             {
@@ -262,7 +262,7 @@ namespace WTXModbus
 
                         // Change connection from Modbus to Jetbus: 
                         case 'j':
-                            _wtxDevice.OnData -= Update;   // Delete Callback method 'Update' from the Eventhandler 'DataUpdateEvent'.
+                            _wtxDevice.DataReceived -= Update;   // Delete Callback method 'Update' from the Eventhandler 'DataUpdateEvent'.
 
                             mode = "Jetbus";
 
@@ -275,7 +275,7 @@ namespace WTXModbus
                             Thread.Sleep(WAIT_DISCONNECT);     // Wait for 2 seconds till the disconnection request is finished. 
 
                             InitializeConnection();
-                            _wtxDevice.OnData += Update;   // To get updated values from the WTX, use method Update(..). 
+                            _wtxDevice.DataReceived += Update;   // To get updated values from the WTX, use method Update(..). 
                             break;
 
 
@@ -308,7 +308,7 @@ namespace WTXModbus
                         // Change connection from Jetbus to Modbus: 
                         case 'j':
                            
-                            _wtxDevice.OnData -= Update;   // Delete Callback method 'Update' from the Eventhandler 'DataUpdateEvent'.
+                            _wtxDevice.DataReceived -= Update;   // Delete Callback method 'Update' from the Eventhandler 'DataUpdateEvent'.
 
                             mode = "Modbus";
 
@@ -321,7 +321,7 @@ namespace WTXModbus
                             Thread.Sleep(WAIT_DISCONNECT);     // Wait for 2 seconds till the disconnection request is finished. 
 
                             InitializeConnection();
-                            _wtxDevice.OnData += Update;   // To get updated values from the WTX, use method Update(..). 
+                            _wtxDevice.DataReceived += Update;   // To get updated values from the WTX, use method Update(..). 
                             break;
 
                         default: break;
@@ -426,7 +426,7 @@ namespace WTXModbus
         }
 
         // This method prints the values of the device (as a integer and the interpreted string) as well as the description of each bit. 
-        private static void Update(object sender, DataEvent e)
+        private static void Update(object sender, DeviceDataReceivedEventArgs e)
         {
             // The description and the value of the WTX are only printed on the console if the Interface, containing all auto-properties of the values is 
             // not null (respectively empty) and if no calibration is done at that moment.

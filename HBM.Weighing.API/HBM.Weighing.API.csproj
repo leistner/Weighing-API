@@ -62,7 +62,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DataEvent.cs" />
+    <Compile Include="DeviceDataReceivedEventArgs.cs" />
     <Compile Include="IDeviceData.cs" />
     <Compile Include="INetConnection.cs" />
     <Compile Include="LogEvent.cs" />

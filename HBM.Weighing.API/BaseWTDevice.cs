@@ -49,14 +49,17 @@ namespace HBM.Weighing.API
             }
         }
 
-        public abstract event EventHandler<DataEvent> OnData;
+        public abstract event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
 
         public abstract bool isConnected { get; }
-    
+
+
         /// <summary>
         /// Synchronous call to connect
         /// </summary>
-        public abstract void Connect();
+        /// <param name="timeoutMs">Timeout to wait for connect</param>
+        public abstract void Connect(double timeoutMs);
+
 
         /// <summary>
         /// Asynchronous calll to connect
@@ -68,12 +71,12 @@ namespace HBM.Weighing.API
         public abstract void Disconnect(Action<bool> DisconnectCompleted);
 
         public abstract string getWTXType { get; }
-        
+
+        public abstract void OnData(object sender, DeviceDataReceivedEventArgs e);
+
         public abstract IDeviceData DeviceValues { get; }    
           
-        public abstract bool IsDataReceived { get; set; }       
-
-        public abstract void UpdateEvent(object sender, DataEvent e);
+        public abstract bool IsDataReceived { get; }       
         
         public abstract string[] GetDataStr { get;}
 

@@ -31,12 +31,12 @@ using System;
 
 namespace HBM.Weighing.API
 {
-    public class DataEvent : EventArgs 
+    public class DeviceDataReceivedEventArgs : EventArgs 
     {
         private ushort[] _ushortArgs;
         private string[] _strArgs;
 
-        public DataEvent(ushort[] _ushortArrayParam, string[] _strArrayParam)
+        public DeviceDataReceivedEventArgs(ushort[] _ushortArrayParam, string[] _strArrayParam)
         {
             _ushortArgs = _ushortArrayParam;
             _strArgs = _strArrayParam;
