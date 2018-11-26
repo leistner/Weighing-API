@@ -89,11 +89,8 @@ namespace HBM.Weighing.API.WTX.Modbus
             this.connectCallbackCalled = false;
 
             WTXModbusObj.Connect(this.OnConnect, 100);
-
-            Thread.Sleep(300);
             
             return WTXModbusObj.isConnected;
-                 // Alternative : Assert.AreEqual(this.connectCallbackCalled, true); 
         }
 
         private void OnConnect(bool connectCompleted)
@@ -109,13 +106,10 @@ namespace HBM.Weighing.API.WTX.Modbus
             WTXModbusObj = new WtxModbus(testConnection, 200);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
-
-            Thread.Sleep(1000); // Do something.... and disconnect.
-
+            
             WTXModbusObj.Disconnect(this.OnDisconnect);
 
-            return WTXModbusObj.isConnected;
-                // Alternative : Assert.AreEqual(WTXModbusObj.isConnected, true);           
+            return WTXModbusObj.isConnected;       
         }
 
         private void OnDisconnect(bool disonnectCompleted)

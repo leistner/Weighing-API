@@ -13,7 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModbusTest", "Tests\ModbusT
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{12B47EE7-56FE-4A7C-9C41-1433C5D8B196}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WTXGUIsimple", "Examples\GUIsimple\GUIsimple.csproj", "{BD4E877B-0A77-4976-8FE6-53D9450B9CA0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUIsimple", "Examples\GUIsimple\GUIsimple.csproj", "{BD4E877B-0A77-4976-8FE6-53D9450B9CA0}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "Examples\CommandLine\CommandLine.csproj", "{8241DD4F-A40A-4E8D-8BAC-8CD878BC1ABF}"
 EndProject
