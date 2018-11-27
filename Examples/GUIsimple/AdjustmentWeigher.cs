@@ -111,8 +111,8 @@ namespace WTXModbusGUIsimple
                     catch (FormatException)
                     {
                         txtInfo.Text = "Wrong format!" + Environment.NewLine
-                        + "Accepted format(comma): " + _wtxDevice.NetGrossValueStringComment(19876, _wtxDevice.Decimals)
-                        + " ; or(dot): " + _wtxDevice.NetGrossValueStringComment(19876, _wtxDevice.Decimals).Replace(",", ".");
+                        + "Accepted format(comma): " + _wtxDevice.CurrentWeight(19876, _wtxDevice.Decimals)
+                        + " ; or(dot): " + _wtxDevice.CurrentWeight(19876, _wtxDevice.Decimals).Replace(",", ".");
                         break;
                     }
                     catch (OverflowException)

@@ -394,7 +394,7 @@ namespace WTXModbusExamples
         private void button4_Click(object sender, EventArgs e)
         {
             // Taring       
-            _wtxDevice.taring(Write_DataReceived);
+            _wtxDevice.Tare(Write_DataReceived);
         }
 
         // This method sends a command to the device : Change between gross and net value. Command : 0x2 
@@ -402,7 +402,7 @@ namespace WTXModbusExamples
         private void button1_Click(object sender, EventArgs e)
         {
             // Gross/Net
-            _wtxDevice.gross(Write_DataReceived);
+            _wtxDevice.SetGross(Write_DataReceived);
         }
 
         
@@ -411,7 +411,7 @@ namespace WTXModbusExamples
         private void button5_Click(object sender, EventArgs e)
         {
             // Zeroing
-            _wtxDevice.zeroing(Write_DataReceived);
+            _wtxDevice.zero(Write_DataReceived);
         }
 
         // This method sends a command to the device : Adjust zero. Command : 0x80
@@ -567,13 +567,11 @@ namespace WTXModbusExamples
             dataGridView1.Columns.Clear();
 
             this.set_GUI_rows();
-
-            _wtxDevice.Refreshed = true;
+            
 
             _wtxDevice.DataReceived += ValuesOnConsole;
 
             // New eventhandler for a change in a data grid cell : 
-
             dataGridView1.CellValueChanged += new DataGridViewCellEventHandler(GridValueChangedMethod);
 
         }
@@ -920,24 +918,7 @@ namespace WTXModbusExamples
                 this._isStandard = false;
 
             // For the application mode(standard or filler) and the printing on the GUI the WTX registers are read out first.      
-            this.set_GUI_rows();
-
-            _wtxDevice.Refreshed = true;
-        }
-
-        private void Gui_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
-
-        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void toolStripStatusLabel6_Click(object sender, EventArgs e)
-        {
-
+            this.set_GUI_rows();            
         }
     }
 }

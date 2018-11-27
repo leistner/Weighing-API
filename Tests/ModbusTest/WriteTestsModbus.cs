@@ -282,7 +282,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.zeroing(callbackMethod);
+            _wtxObj.zero(callbackMethod);
 
             //return testConnection.getCommand;
             Assert.AreEqual(0x40, _wtxObj.getCommand);
@@ -422,7 +422,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.gross(callbackMethod);
+            _wtxObj.SetGross(callbackMethod);
 
             //return _wtxObj.getCommand;
             Assert.AreEqual(0x2, _wtxObj.getCommand);
@@ -437,7 +437,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.taring(callbackMethod);
+            _wtxObj.Tare(callbackMethod);
 
             //return _wtxObj.getCommand;
             Assert.AreEqual(0x1, _wtxObj.getCommand);

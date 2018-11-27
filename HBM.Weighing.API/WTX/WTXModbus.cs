@@ -50,17 +50,20 @@ namespace HBM.Weighing.API.WTX
 
         private Action<IDeviceData> _callbackObj;
 
-        private bool _dataReceived;
+        //private bool _dataReceived;
         private ushort _command;
         //private string _ipAddr;
 
         private double dPreload, dNominalLoad, multiplierMv2D;
 
+        private int decimalFactor = 1;
+        private int currentWeightNoDecimals = 0;
+
         public System.Timers.Timer _aTimer;
         
         private INetConnection _connection;
 
-        private IDeviceData _thisValues;
+        private IDeviceData deviceData;
 
         public override event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
 
@@ -91,7 +94,7 @@ namespace HBM.Weighing.API.WTX
             this._isCalibrating = false;
             this._isRefreshed = false;
             //this._isNet = false;
-            this._dataReceived = false;
+            //this._dataReceived = false;
 
             this._timerInterval = 0;
 
@@ -138,9 +141,17 @@ namespace HBM.Weighing.API.WTX
             this._connection.Disconnect();
         }
 
+
+        // To terminate,break, a connection to the WTX device via class WTX120_Modbus.
+        public override void Disconnect()
+        {
+            this._connection.Disconnect();
+        }
+
+
         public void Async_Call(int commandParam, Action<IDeviceData> callbackParam)
         {
-            this._dataReceived = false;
+            //this._dataReceived = false;
             BackgroundWorker bgWorker = new BackgroundWorker();   // At the class level, create an instance of the BackgroundWorker class.
             
             this._command = (ushort)commandParam;
@@ -168,7 +179,7 @@ namespace HBM.Weighing.API.WTX
         public void SyncCall(ushort wordNumber, ushort commandParam, Action<IDeviceData> callbackParam)      // Callback-Methode nicht benötigt. 
         {
             this._command = commandParam;
-            this._dataReceived = false;           
+            //this._dataReceived = false;           
             this._callbackObj = callbackParam;
 
             if (this._command == 0x00)
@@ -210,7 +221,7 @@ namespace HBM.Weighing.API.WTX
         // @param : sender - the object of this class. dowork_asynchronous - the argument of the event. 
         public void ReadDoWork(object sender, DoWorkEventArgs doworkAsynchronous)
         {
-            this._dataReceived = false;
+            //this._dataReceived = false;
             doworkAsynchronous.Result = (IDeviceData)this.AsyncReadData((BackgroundWorker)sender); // the private method "this.read_data" in called to read the register in class Modbus_TCP
             // dowork_asynchronous.Result contains all values defined in Interface IDevice_Values.
         }
@@ -221,7 +232,7 @@ namespace HBM.Weighing.API.WTX
         {
             this._connection.Read(0);
 
-            return this;
+            return this.deviceData;
         }
 
         public IDeviceData SyncReadData()
@@ -229,43 +240,26 @@ namespace HBM.Weighing.API.WTX
             this._connection.Read(0);
             //this.JetConnObj.Read();
 
-            return this;
+            return this.deviceData;
         }
 
-        public override IDeviceData DeviceValues
+        public override IDeviceData DeviceData
         {
             get
             {
-                return _thisValues;
+                return deviceData;
             }
         }
 
         public void ReadCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this._callbackObj((IDeviceData)e.Result);         // Interface commited via callback. 
-
-            // For synchronous check that data is received:
-            _dataReceived = true;
+            this._callbackObj((IDeviceData)e.Result);
         }
 
-        public override bool IsDataReceived
-        {
-            get
-            {
-                return this._dataReceived;
-            }
-            /*
-            set
-            {
-                this._dataReceived = value;
-            }
-            */
-
-        }
 
         public void WriteDoWork(object sender, DoWorkEventArgs e)
         {
-            // (1) Sending of a command:        
+            // (1) Sending of a command:     
             
             this._connection.Write(0, this._command);
             this._connection.Read(0);
@@ -290,7 +284,7 @@ namespace HBM.Weighing.API.WTX
 
         public void WriteCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            this._callbackObj(this);         // Committing the interface with the updated values after writing. 
+            this._callbackObj(this.deviceData);         // Committing the interface with the updated values after writing. 
             this._command = 0x00;            // After write : Set command to zero. 
         }
 
@@ -380,16 +374,11 @@ namespace HBM.Weighing.API.WTX
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             Async_Call(0x00, DataReceivedTimer);
-
-            //thisConnection.RaiseDataEvent += UpdateEvent;   // Subscribe to the event.
         }
 
         private void DataReceivedTimer(IDeviceData deviceValues)
         {
-            _thisValues = deviceValues;
-
-            int previousNetValue = deviceValues.NetValue;
-
+            deviceData = deviceValues;
         }
 
         /// <summary>
@@ -401,8 +390,8 @@ namespace HBM.Weighing.API.WTX
         {
             this._data = e.ushortArgs;
 
-            this.GetDataStr[0] = this.NetGrossValueStringComment(this.NetValue, this.Decimals);  // 1 equal to "Net measured" as a parameter
-            this.GetDataStr[1] = this.NetGrossValueStringComment(this.GrossValue, this.Decimals);  // 2 equal to "Gross measured" as a parameter
+            this.GetDataStr[0] = this.CurrentWeight(this.NetValue, this.Decimals);  // 1 equal to "Net measured" as a parameter
+            this.GetDataStr[1] = this.CurrentWeight(this.GrossValue, this.Decimals);  // 2 equal to "Gross measured" as a parameter
 
             this.GetDataStr[2] = this.GeneralWeightError.ToString();
             this.GetDataStr[3] = this.ScaleAlarmTriggered.ToString();
@@ -603,33 +592,14 @@ namespace HBM.Weighing.API.WTX
                 DataReceived?.Invoke(this, e);
 
                 this._isCalibrating = false;
-                this.Refreshed = false;
             }
 
             this._previousData = this._data;
 
-            // As an alternative to 'DataUpdateEvent?.Invoke(this, e);' : Both implementations do the same.  
-            /*
-            EventHandler<NetConnectionEventArgs<ushort[]>> handler2 = DataUpdateEvent;        
-
-            if (handler2 != null)
-                handler2(this, e);
-            */
         }
 
-        public bool Refreshed
-        {
-            get { return this._isRefreshed; }
-            set { this._isRefreshed = value; }
-        }
 
-        public bool DataChanged
-        {
-            get { return this._compareDataChanged; }
-            set { this._compareDataChanged = value; }
-        }
-
-        public override string getWTXType
+        public override string ConnectionType
         {
             get
             {
@@ -2203,8 +2173,7 @@ namespace HBM.Weighing.API.WTX
 
         // In the following methods the different options for the single integer values are used to define and
         // interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
-
-        public override string NetGrossValueStringComment(int value, int decimals)
+        public override string CurrentWeight(int value, int decimals)
         {
             double dvalue = value / Math.Pow(10, decimals);
             string returnvalue = "";
@@ -2222,6 +2191,11 @@ namespace HBM.Weighing.API.WTX
 
             }
             return returnvalue;
+        }
+
+        public override double CurrentWeight()
+        {
+            return this.currentWeightNoDecimals * this.decimalFactor;
         }
 
         public string WeightMovingStringComment()
@@ -2450,15 +2424,15 @@ namespace HBM.Weighing.API.WTX
             set { this._isCalibrating = value; }
         }
 
-        public override void gross(Action<IDeviceData> WriteDataCompleted)
+        public override void SetGross(Action<IDeviceData> WriteDataCompleted)
         {
             this.Async_Call(0x2, WriteDataCompleted);
         }
-        public override void taring(Action<IDeviceData> WriteDataCompleted)
+        public override void Tare(Action<IDeviceData> WriteDataCompleted)
         {
             this.Async_Call(0x1, WriteDataCompleted);
         }
-        public override void zeroing(Action<IDeviceData> WriteDataCompleted)
+        public override void zero(Action<IDeviceData> WriteDataCompleted)
         {
             this.Async_Call(0x40, WriteDataCompleted);
         }

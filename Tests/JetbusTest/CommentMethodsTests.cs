@@ -228,7 +228,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue=_wtxObj.NetGrossValueStringComment(_wtxObj.GrossValue,_wtxObj.Decimals);
+            string strValue=_wtxObj.CurrentWeight(_wtxObj.GrossValue,_wtxObj.Decimals);
 
             double dValue = _wtxObj.GrossValue / Math.Pow(10, _wtxObj.Decimals);
 
@@ -244,7 +244,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.NetGrossValueStringComment(_wtxObj.GrossValue, 3);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 3);
 
             double dValue = _wtxObj.GrossValue / Math.Pow(10, 3);
 
@@ -260,7 +260,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.NetGrossValueStringComment(_wtxObj.GrossValue, 2);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 2);
 
             double dValue = _wtxObj.GrossValue / Math.Pow(10, 2);
 
@@ -276,7 +276,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.NetGrossValueStringComment(_wtxObj.GrossValue, 1);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 1);
 
             double dValue = _wtxObj.GrossValue / Math.Pow(10, 1);
 
@@ -292,7 +292,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.NetGrossValueStringComment(_wtxObj.GrossValue, 5);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 5);
 
             double dValue = _wtxObj.GrossValue / Math.Pow(10, 5);
 
@@ -308,7 +308,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.NetGrossValueStringComment(_wtxObj.GrossValue, 6);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 6);
 
             double dValue = _wtxObj.GrossValue / Math.Pow(10, 6);
 
@@ -324,7 +324,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.NetGrossValueStringComment(_wtxObj.GrossValue, 7);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 7);
 
             double dValue = _wtxObj.GrossValue / Math.Pow(10, 7);
 
@@ -340,7 +340,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.NetGrossValueStringComment(_wtxObj.GrossValue, 0);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 0);
 
             double dValue = _wtxObj.GrossValue / Math.Pow(10, 0);
 

@@ -183,9 +183,9 @@ namespace WTXGUIsimple
             {
                 int taraValue = _wtxDevice.NetValue - _wtxDevice.GrossValue;
 
-                txtInfo.Text = "Net:" + _wtxDevice.NetGrossValueStringComment(_wtxDevice.NetValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
-                + "Gross:" + _wtxDevice.NetGrossValueStringComment(_wtxDevice.GrossValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
-                + "Tara:" + _wtxDevice.NetGrossValueStringComment(taraValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment();
+                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
+                + "Gross:" + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
+                + "Tara:" + _wtxDevice.CurrentWeight(taraValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment();
                 txtInfo.TextAlign = HorizontalAlignment.Right;
             }));
 
@@ -224,10 +224,10 @@ namespace WTXGUIsimple
         private void cmdConnect_Click(object sender, EventArgs e)
         {
             if (_wtxDevice != null)    // Necessary to check if the object of BaseWtDevice have been created and a connection exists. 
-                if (this.rbtConnectionJet.Checked == true && _wtxDevice.getWTXType == "Jetbus" && txtIPAddress.Text==_wtxDevice.Connection.IpAddress)
+                if (this.rbtConnectionJet.Checked == true && _wtxDevice.ConnectionType == "Jetbus" && txtIPAddress.Text==_wtxDevice.Connection.IpAddress)
                     return;
                 else
-                if (this.rbtConnectionModbus.Checked == true && _wtxDevice.getWTXType == "Modbus" && txtIPAddress.Text == _wtxDevice.Connection.IpAddress)
+                if (this.rbtConnectionModbus.Checked == true && _wtxDevice.ConnectionType == "Modbus" && txtIPAddress.Text == _wtxDevice.Connection.IpAddress)
                     return;
                 else
                 {
@@ -249,19 +249,19 @@ namespace WTXGUIsimple
         // button click event for switching to gross or net value. 
         private void cmdGrossNet_Click(object sender, EventArgs e)
         {
-                _wtxDevice.gross(WriteDataCompleted);
+                _wtxDevice.SetGross(WriteDataCompleted);
         }
 
         // button click event for zeroing
         private void cmdZero_Click(object sender, EventArgs e)
         {
-                _wtxDevice.zeroing(WriteDataCompleted);
+                _wtxDevice.zero(WriteDataCompleted);
         }
 
         // button click event for taring 
         private void cmdTare_Click(object sender, EventArgs e)
         {
-            _wtxDevice.taring(WriteDataCompleted);
+            _wtxDevice.Tare(WriteDataCompleted);
         }
 
         //Method for calculate adjustment with dead load and span: 

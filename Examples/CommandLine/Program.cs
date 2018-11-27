@@ -214,9 +214,9 @@ namespace WTXModbus
                     switch (_valueOutputwords.KeyChar)
                     {
 
-                        case '0': _wtxDevice.taring(Write_DataReceived); break;                  // Taring 
-                        case '1': _wtxDevice.gross(Write_DataReceived); break;                   // Gross/Net
-                        case '2': _wtxDevice.zeroing(Write_DataReceived); break;                 // Zeroing
+                        case '0': _wtxDevice.Tare(Write_DataReceived); break;                  // Taring 
+                        case '1': _wtxDevice.SetGross(Write_DataReceived); break;                   // Gross/Net
+                        case '2': _wtxDevice.zero(Write_DataReceived); break;                 // Zeroing
                         case '3': _wtxDevice.adjustZero(Write_DataReceived); break;              // Adjust zero 
                         case '4': _wtxDevice.adjustNominal(Write_DataReceived); break;           // Adjust nominal
                         case '5': _wtxDevice.activateData(Write_DataReceived); break;            // Activate data
@@ -289,9 +289,9 @@ namespace WTXModbus
                     {
                     switch (_valueOutputwords.KeyChar)
                     {
-                        case '0': _wtxDevice.taring(Write_DataReceived); break;                  // Taring 
-                        case '1': _wtxDevice.gross(Write_DataReceived); break;                   // Gross/Net
-                        case '2': _wtxDevice.zeroing(Write_DataReceived); break;                 // Zeroing
+                        case '0': _wtxDevice.Tare(Write_DataReceived); break;                  // Taring 
+                        case '1': _wtxDevice.SetGross(Write_DataReceived); break;                   // Gross/Net
+                        case '2': _wtxDevice.zero(Write_DataReceived); break;                 // Zeroing
                         case '3': _wtxDevice.adjustZero(Write_DataReceived); break;              // Adjust zero 
                         case '4': _wtxDevice.adjustNominal(Write_DataReceived); break;           // Adjust nominal
                         case '5': _wtxDevice.activateData(Write_DataReceived); break;            // Activate data
@@ -461,19 +461,19 @@ namespace WTXModbus
 
                     if (_inputMode == 1)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.NetGrossValueStringComment(_wtxDevice.NetValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.NetValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.NetValue);
                     }
                     else
                         if (_inputMode == 2 || _inputMode == 3 || _inputMode == 4)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.NetGrossValueStringComment(_wtxDevice.NetValue, _wtxDevice.Decimals) +   "\t  As an Integer:  " + _wtxDevice.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.NetGrossValueStringComment(_wtxDevice.GrossValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) +   "\t  As an Integer:  " + _wtxDevice.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.GrossValue);
                     }
                     else
                             if (_inputMode == 5)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.NetGrossValueStringComment(_wtxDevice.NetValue, _wtxDevice.Decimals) +   "\t  As an Integer:  " + _wtxDevice.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.NetGrossValueStringComment(_wtxDevice.GrossValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) +   "\t  As an Integer:  " + _wtxDevice.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.GrossValue);
                         Console.WriteLine("General weight error:          " + _wtxDevice.GeneralWeightError.ToString() + "\t  As an Integer:  " + _wtxDevice.GeneralWeightError);
                         Console.WriteLine("Scale alarm triggered:         " + _wtxDevice.LimitStatus.ToString() +        "\t  As an Integer:  " + _wtxDevice.LimitStatus);
                         Console.WriteLine("Scale seal is open:            " + _wtxDevice.ScaleSealIsOpen.ToString() +    "\t  As an Integer:  " + _wtxDevice.ScaleSealIsOpen);
@@ -490,8 +490,8 @@ namespace WTXModbus
                     else
                     if (_inputMode == 6 || _inputMode == 38)
                     { 
-                        Console.WriteLine("Net value:                     " + _wtxDevice.NetGrossValueStringComment(_wtxDevice.NetValue, _wtxDevice.Decimals) +  "\t  As an Integer:  " + _wtxDevice.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.NetGrossValueStringComment(_wtxDevice.GrossValue, _wtxDevice.Decimals)+ "\t  As an Integer:  " + _wtxDevice.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) +  "\t  As an Integer:  " + _wtxDevice.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals)+ "\t  As an Integer:  " + _wtxDevice.GrossValue);
                         Console.WriteLine("General weight error:          " + _wtxDevice.GeneralWeightError.ToString() +                  "\t  As an Integer:  " + _wtxDevice.GeneralWeightError);
                         Console.WriteLine("Scale alarm triggered:         " + _wtxDevice.LimitStatus.ToString() +                         "\t  As an Integer:  " + _wtxDevice.LimitStatus);
                         Console.WriteLine("Scale seal is open:            " + _wtxDevice.ScaleSealIsOpen.ToString() +                     "\t  As an Integer:  " + _wtxDevice.ScaleSealIsOpen);
@@ -517,8 +517,8 @@ namespace WTXModbus
                 else
                     if (_wtxDevice.ApplicationMode == 2 || _wtxDevice.ApplicationMode == 1)
                     {
-                    Console.WriteLine("Net value:                     " + _wtxDevice.NetGrossValueStringComment(_wtxDevice.NetValue, _wtxDevice.Decimals) +   "\t  As an Integer:  " + _wtxDevice.NetValue);
-                    Console.WriteLine("Gross value:                   " + _wtxDevice.NetGrossValueStringComment(_wtxDevice.GrossValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.GrossValue);
+                    Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) +   "\t  As an Integer:  " + _wtxDevice.NetValue);
+                    Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.GrossValue);
                     Console.WriteLine("General weight error:          " + _wtxDevice.GeneralWeightError.ToString() +                   "\t  As an Integer:  " + _wtxDevice.GeneralWeightError);
                     Console.WriteLine("Scale alarm triggered:         " + _wtxDevice.LimitStatus.ToString() +     "\t  As an Integer:  " + _wtxDevice.LimitStatus);
                     Console.WriteLine("Scale seal is open:            " + _wtxDevice.ScaleSealIsOpen.ToString() + "\t  As an Integer:  " + _wtxDevice.ScaleSealIsOpen);

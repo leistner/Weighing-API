@@ -58,11 +58,11 @@ namespace HBM.Weighing.API
         /// <summary>
         ///Gets or sets a value indicating whether data are received. 
         /// </summary>
-        bool IsDataReceived
-        {
-            get;
+        // bool IsDataReceived
+        //{
+        //    get;
             //set;
-        }
+        //}
 
         /// <summary>
         ///Gets

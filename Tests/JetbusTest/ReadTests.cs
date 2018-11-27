@@ -1048,22 +1048,6 @@ namespace JetbusTest
             Assert.IsNotNull(_wtxObj.GetDataStr);
         }
    
-        [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_DataReceived")]
-        public bool testIsDataReceived(Behavior behavior)
-        {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WtxJet(_jetTestConnection);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            //_wtxObj.IsDataReceived = false;
-
-            _wtxObj.Connection.Read("601A/01");
-            
-            return _wtxObj.IsDataReceived;
-        }
-        
 
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testGetDataUshort(Behavior behavior)

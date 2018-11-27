@@ -170,7 +170,6 @@
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
             this.toolStripStatusLabel1.Size = new System.Drawing.Size(65, 17);
             this.toolStripStatusLabel1.Text = "Connected";
-            this.toolStripStatusLabel1.Click += new System.EventHandler(this.toolStripStatusLabel1_Click);
             // 
             // toolStripStatusLabel2
             // 
@@ -201,7 +200,6 @@
             this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
             this.toolStripStatusLabel6.Size = new System.Drawing.Size(70, 17);
             this.toolStripStatusLabel6.Text = "Jet/Modbus";
-            this.toolStripStatusLabel6.Click += new System.EventHandler(this.toolStripStatusLabel6_Click);
             // 
             // toolStrip1
             // 
@@ -421,7 +419,6 @@
             this.Controls.Add(this.dataGridView1);
             this.Name = "Gui";
             this.Text = "GUI";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Gui_FormClosing);
             this.Load += new System.EventHandler(this.GUI_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.statusStrip1.ResumeLayout(false);

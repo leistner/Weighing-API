@@ -31,15 +31,15 @@ using System;
 
 namespace HBM.Weighing.API
 {
-    public abstract class BaseWtDevice : IDeviceData
+    public abstract class BaseWtDevice 
     {
+
+        protected INetConnection connection;
 
         public BaseWtDevice(INetConnection connection)
         {
             this.connection = connection;
         }
-
-        protected INetConnection connection;
 
         public INetConnection Connection
         {
@@ -57,7 +57,7 @@ namespace HBM.Weighing.API
         /// <summary>
         /// Synchronous call to connect
         /// </summary>
-        /// <param name="timeoutMs">Timeout to wait for connect</param>
+        /// <param name="timeoutMs">Timeout to wait for connect response</param>
         public abstract void Connect(double timeoutMs);
 
 
@@ -65,33 +65,90 @@ namespace HBM.Weighing.API
         /// Asynchronous calll to connect
         /// </summary>
         /// <param name="completed">Callback raised after connection completed</param>
-        /// <param name="timeoutMs">Timeout to wait for connect</param>
-        public abstract void Connect(Action<bool> completed, double timeoutMs);  
-           
-        public abstract void Disconnect(Action<bool> DisconnectCompleted);
+        /// <param name="timeoutMs">Timeout to wait for connect response</param>
+        public abstract void Connect(Action<bool> completed, double timeoutMs);
 
-        public abstract string getWTXType { get; }
 
+        /// <summary>
+        /// Synchronous call to disconnect
+        /// </summary>
+        public abstract void Disconnect();
+
+
+        /// <summary>
+        /// Asynchronous call to disconnect
+        /// </summary
+        /// <param name="disconnectCompleted">Callback raised after disconnect completed</param>
+        public abstract void Disconnect(Action<bool> disconnectCompleted);
+
+
+        /// <summary>
+        /// Identify the device type (e.g. "Jetbus" or "Modbus")
+        /// </summary>
+        public abstract string ConnectionType { get; }
+
+
+        /// <summary>
+        /// Event raised whenever new data from device arrives
+        /// </summary>
+        /// <param name="sender">Sender</param>
+        /// <param name="e">EventArgs representing the device data</param>
         public abstract void OnData(object sender, DeviceDataReceivedEventArgs e);
 
-        public abstract IDeviceData DeviceValues { get; }    
+
+        /// <summary>
+        /// Collection with available device data 
+        /// </summary>
+        public abstract IDeviceData DeviceData { get; }    
           
-        public abstract bool IsDataReceived { get; }       
-        
+
+        //Brauchen wir das hier? ----------------------
         public abstract string[] GetDataStr { get;}
-
         public abstract ushort[] GetDataUshort { get;}
+        //---------------------------------------------
+               
 
-        public abstract string NetGrossValueStringComment(int value, int decimals);
+        /// <summary>
+        /// Current weight of device depending on decimal count, gross or net
+        /// </summary>
+        /// <returns>Current weight of device</returns>
+        public abstract string CurrentWeight(int weightNoDecimals, int decimals);
 
-        public abstract void gross(Action<IDeviceData> WriteDataCompleted);
 
-        public abstract void zeroing(Action<IDeviceData> WriteDataCompleted);
+        /// <summary>
+        /// Current weight of device, gross or net
+        /// </summary>
+        /// <returns>Current weight of device</returns>
+        public abstract double CurrentWeight();
 
-        public abstract void taring(Action<IDeviceData> WriteDataCompleted);
 
+        /// <summary>
+        /// Sets the the device to gross values
+        /// </summary>
+        /// <param name="WriteDataCompleted">Callback returns result of gross setting</param>
+        public abstract void SetGross(Action<IDeviceData> WriteDataCompleted);
+
+
+        /// <summary>
+        /// Zeroes the device
+        /// </summary>
+        /// <param name="WriteDataCompleted">Callback returns result of zero setting</param>
+        public abstract void zero(Action<IDeviceData> WriteDataCompleted);
+
+
+        /// <summary>
+        /// Tares the device
+        /// </summary>
+        /// <param name="WriteDataCompleted">Callback returns result of tare setting</param>
+        public abstract void Tare(Action<IDeviceData> WriteDataCompleted);
+
+
+        #region Scale adjustment
         public abstract void adjustZero(Action<IDeviceData> WriteDataCompleted);
         public abstract void adjustNominal(Action<IDeviceData> WriteDataCompleted);
+        #endregion
+
+
         public abstract void activateData(Action<IDeviceData> WriteDataCompleted);
         public abstract void manualTaring(Action<IDeviceData> WriteDataCompleted);
         public abstract void recordWeight(Action<IDeviceData> WriteDataCompleted);
@@ -146,43 +203,38 @@ namespace HBM.Weighing.API
         public abstract int WeightMemGross { get; }        // data[35]
         public abstract int WeightMemNet { get; }          // data[36]
 
+        //Filler process data
         public abstract int CoarseFlow { get; }            // data[37]
         public abstract int FineFlow { get; }              // data[38]
         public abstract int Ready { get; }                 // data[39]
         public abstract int ReDosing { get; }              // data[40]
-        public abstract int Emptying { get; }              // data[41]
-        
+        public abstract int Emptying { get; }              // data[41]        
         public abstract int FlowError { get; }             // data[42]
         public abstract int Alarm { get; }                 // data[43]
         public abstract int AdcOverUnderload { get; }     // data[44]
-        public abstract int MaxDosingTime { get; }         // data[45]
-        public abstract int LegalTradeOp { get; }          // data[46]
-        public abstract int ToleranceErrorPlus { get; }    // data[47]
-        public abstract int ToleranceErrorMinus { get; }   // data[48]
-        public abstract int StatusInput1 { get; }          // data[49]
-        public abstract int GeneralScaleError { get; }     // data[50]
-
         public abstract int FillingProcessStatus { get; }    // data[51]
         public abstract int NumberDosingResults { get; }     // data[52]
         public abstract int DosingResult { get; }            // data[53]
         public abstract int MeanValueDosingResults { get; }  // data[54]
         public abstract int StandardDeviation { get; }       // data[55]
         public abstract int TotalWeight { get; }             // data[56]
-        public abstract int FineFlowCutOffPoint { get; }     // data[57]
-        public abstract int CoarseFlowCutOffPoint { get; }   // data[58]
         public abstract int CurrentDosingTime { get; }        // data[59]
         public abstract int CurrentCoarseFlowTime { get; }    // data[60]
         public abstract int CurrentFineFlowTime { get; }      // data[61]
-        public abstract int ParameterSetProduct { get; }     // data[62]
+        public abstract int ToleranceErrorPlus { get; }    // data[47]
+        public abstract int ToleranceErrorMinus { get; }   // data[48]
 
+
+        public abstract int StatusInput1 { get; }          // data[49]
+        public abstract int GeneralScaleError { get; }     // data[50]
         public abstract int ManualTareValue { get; set; }
+        public abstract int LegalTradeOp { get; }          // data[46]
+
+        #region Limit switch devicde data
         public abstract int LimitValue1Input { get; set; }
         public abstract int LimitValue1Mode { get; set; }
         public abstract int LimitValue1ActivationLevelLowerBandLimit { get; set; }
         public abstract int LimitValue1HysteresisBandHeight { get; set; }
-
-        // Output words for the standard application: Not used so far
-
         public abstract int LimitValue2Source { get; set; }
         public abstract int LimitValue2Mode { get; set; }
         public abstract int LimitValue2ActivationLevelLowerBandLimit { get; set; }
@@ -195,10 +247,14 @@ namespace HBM.Weighing.API
         public abstract int LimitValue4Mode { get; set; }
         public abstract int LimitValue4ActivationLevelLowerBandLimit { get; set; }
         public abstract int LimitValue4HysteresisBandHeight { get; set; }
+        #endregion
 
-        // Output words for the filler application: Not used so far
+        public abstract int FineFlowCutOffPoint { get; }     // data[57]
+        public abstract int CoarseFlowCutOffPoint { get; }   // data[58]
+        public abstract int ParameterSetProduct { get; }     // data[62]
+        public abstract int MaxDosingTime { get; }         // data[45]
 
-
+        #region Filler device data
         public abstract int ResidualFlowTime { get; set; }
         public abstract int TargetFillingWeight { get; set; }
         public abstract int CoarseFlowCutOffPointSet { get; set; }
@@ -225,7 +281,8 @@ namespace HBM.Weighing.API
         public abstract int DownwardsDosing { get; set; }
         public abstract int ValveControl { get; set; }
         public abstract int EmptyingMode { get; set; }
-       
+        #endregion
+
     }
 }
 
