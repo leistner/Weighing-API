@@ -192,7 +192,6 @@
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.calibrationWithWeightToolStripMenuItem,
             this.calibrationToolStripMenuItem});
-            this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(49, 22);
