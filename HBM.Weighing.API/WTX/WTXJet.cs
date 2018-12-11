@@ -36,8 +36,10 @@ namespace HBM.Weighing.API.WTX
 {
     public class WtxJet : BaseWtDevice
     {
+        private INetConnection connection;
+
         public override event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
-        
+       
         private double dPreload;
         private double dNominalLoad;
         private double multiplierMv2D;
@@ -135,12 +137,16 @@ namespace HBM.Weighing.API.WTX
             Gross = 1936683623
         }
 
+        public override event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
 
-        public WtxJet(INetConnection connectionParameter) : base(connectionParameter)  // ParameterProperty umändern 
+        public WtxJet(INetConnection connectionParameter, EventHandler<DeviceDataReceivedEventArgs> updateMethodParam) : base(connectionParameter)  // ParameterProperty umändern 
         {
             connection = connectionParameter;
             
-            //_dataReceived = false;
+            this.DataReceived = updateMethodParam;
+
+            this.connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.
+            
             _dataStrArr = new string[185];
             _dataUshort = new ushort[185];
             _ID_value = 0;
@@ -149,17 +155,14 @@ namespace HBM.Weighing.API.WTX
             {
                 _dataStrArr[index] = "";
                 _dataUshort[index] = 0;
-            }
-
-            //this._isCalibrating = false;
-
-            this.connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.
+            }                   
         }
 
-
-        public override void OnData(object sender, DeviceDataReceivedEventArgs e)
+        public void OnData(object sender, DeviceDataReceivedEventArgs e)
         {
             this._dataStrArr = new string[e.strArgs.Length];
+
+            // Do something with the data, like in the class WTXModbus.cs           
             DataReceived?.Invoke(this, e);      
         }
 
@@ -514,62 +517,67 @@ namespace HBM.Weighing.API.WTX
             //this._isCalibrating = true;
         }
 
-        public override void zero(Action<IDeviceData> WriteDataCompleted)
+        public override void zero()
         {
             connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.Zero);       // SCALE_COMMAND = "6002/01"
         }
 
-        public override void SetGross(Action<IDeviceData> WriteDataCompleted)
+        public override void SetGross()
         {
             connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.Gross);       // SCALE_COMMAND = "6002/01"
         }
 
-        public override void Tare(Action<IDeviceData> WriteDataCompleted)
+        public override void Tare()
         {
             connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.Tare);       // SCALE_COMMAND = "6002/01"
         }
 
-        public override void adjustZero(Action<IDeviceData> WriteDataCompleted)
+        public override void adjustZero()
         {
             throw new NotImplementedException();
         }
 
-        public override void adjustNominal(Action<IDeviceData> WriteDataCompleted)
+        public override void adjustNominal()
         {
             throw new NotImplementedException();
         }
 
-        public override void activateData(Action<IDeviceData> WriteDataCompleted)
+        public override void activateData()
         {
             throw new NotImplementedException();
         }
 
-        public override void manualTaring(Action<IDeviceData> WriteDataCompleted)
+        public override void manualTaring()
         {
             throw new NotImplementedException();
         }
 
-        public override void recordWeight(Action<IDeviceData> WriteDataCompleted)
+        public override void recordWeight()
         {
             throw new NotImplementedException();
         }
 
-        public override void clearDosingResults(Action<IDeviceData> WriteDataCompleted)
+        public override void clearDosingResults()
         {
             throw new NotImplementedException();
         }
 
-        public override void abortDosing(Action<IDeviceData> WriteDataCompleted)
+        public override void abortDosing()
         {
             throw new NotImplementedException();
         }
 
-        public override void startDosing(Action<IDeviceData> WriteDataCompleted)
+        public override void startDosing()
         {
             throw new NotImplementedException();
         }
 
-        public override void manualReDosing(Action<IDeviceData> WriteDataCompleted)
+        public override void manualReDosing()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void OnData(ushort[] _asyncData)
         {
             throw new NotImplementedException();
         }

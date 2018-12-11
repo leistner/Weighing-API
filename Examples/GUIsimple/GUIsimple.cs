@@ -131,7 +131,7 @@ namespace WTXGUIsimple
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTcpConnection _modbusConnection = new ModbusTcpConnection(this._ipAddress);
 
-                _wtxDevice = new WtxModbus(_modbusConnection, this._timerInterval);
+                _wtxDevice = new WtxModbus(_modbusConnection, this._timerInterval,update);
             }
             else
             {
@@ -140,7 +140,7 @@ namespace WTXGUIsimple
                     // Creating objects of JetBusConnection and WTXJet: 
                     JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
 
-                    _wtxDevice = new WtxJet(_jetConnection);
+                    _wtxDevice = new WtxJet(_jetConnection,update);
                 }
             }
 
@@ -162,10 +162,6 @@ namespace WTXGUIsimple
                     picConnectionType.Image = WTXGUIsimple.Properties.Resources.modbus_symbol;
 
                 picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisActive;
-
-                _wtxDevice.DataReceived += Update;
-
-                this.Update(this, null);
             }
             else
             {
@@ -177,8 +173,8 @@ namespace WTXGUIsimple
 
 
         //Callback for automatically receiving event based data from the device
-        private void Update(object sender, DeviceDataReceivedEventArgs e)
-        {
+        private void update(object sender, DeviceDataReceivedEventArgs e)
+        {           
             txtInfo.Invoke(new Action(() =>
             {
                 int taraValue = _wtxDevice.NetValue - _wtxDevice.GrossValue;
@@ -249,19 +245,19 @@ namespace WTXGUIsimple
         // button click event for switching to gross or net value. 
         private void cmdGrossNet_Click(object sender, EventArgs e)
         {
-                _wtxDevice.SetGross(WriteDataCompleted);
+                _wtxDevice.gross();
         }
 
         // button click event for zeroing
         private void cmdZero_Click(object sender, EventArgs e)
         {
-                _wtxDevice.zero(WriteDataCompleted);
+                _wtxDevice.zeroing();
         }
 
         // button click event for taring 
         private void cmdTare_Click(object sender, EventArgs e)
         {
-            _wtxDevice.Tare(WriteDataCompleted);
+            _wtxDevice.taring();
         }
 
         //Method for calculate adjustment with dead load and span: 

@@ -148,7 +148,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
             
             _wtxObj.Connect(this.OnConnect, 100);        
 
@@ -172,7 +172,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -189,7 +189,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -209,7 +209,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -223,7 +223,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -237,7 +237,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -251,7 +251,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -265,7 +265,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -279,7 +279,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -293,7 +293,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -307,7 +307,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -321,7 +321,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -335,7 +335,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -351,7 +351,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -365,7 +365,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -378,7 +378,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -393,7 +393,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -407,7 +407,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -422,7 +422,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -436,7 +436,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -450,7 +450,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -464,7 +464,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -478,7 +478,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -492,7 +492,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -506,7 +506,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -520,7 +520,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -534,7 +534,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -548,7 +548,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -562,7 +562,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -577,7 +577,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -591,7 +591,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -605,7 +605,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -619,7 +619,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -633,7 +633,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -647,7 +647,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -661,7 +661,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -675,7 +675,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -689,7 +689,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -703,7 +703,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -717,7 +717,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -731,7 +731,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -745,7 +745,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -759,7 +759,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -773,7 +773,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -787,7 +787,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -801,7 +801,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -815,7 +815,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -829,7 +829,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -843,7 +843,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -857,7 +857,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -871,7 +871,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -885,7 +885,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -899,7 +899,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -913,7 +913,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -927,7 +927,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -941,7 +941,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -957,7 +957,7 @@ namespace JetbusTest
 
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -978,7 +978,7 @@ namespace JetbusTest
 
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -999,7 +999,7 @@ namespace JetbusTest
 
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -1020,7 +1020,7 @@ namespace JetbusTest
 
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -1039,7 +1039,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -1049,12 +1049,13 @@ namespace JetbusTest
         }
    
 
+
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testGetDataUshort(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -1065,6 +1066,11 @@ namespace JetbusTest
 
             Assert.AreEqual(testArray, _wtxObj.GetDataUshort);
 
+        }
+
+        private void update(object sender, DeviceDataReceivedEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
     }
 }

@@ -54,7 +54,7 @@ namespace HBM.Weighing.API.WTX.Jet
         {        
             testConnection = new TestJetbusConnection(behaviour, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; },1000);
 
-            WtxJet WTXJetObj = new WtxJet(testConnection);      
+            WtxJet WTXJetObj = new WtxJet(testConnection,update);      
 
             this.connectCallbackCalled = false;
 
@@ -68,7 +68,7 @@ namespace HBM.Weighing.API.WTX.Jet
         {
             testConnection = new TestJetbusConnection(behaviour, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            WtxJet WTXJetObj = new WtxJet(testConnection);
+            WtxJet WTXJetObj = new WtxJet(testConnection,update);
 
             this.connectCallbackCalled = false;
             
@@ -79,6 +79,10 @@ namespace HBM.Weighing.API.WTX.Jet
             return WTXJetObj.isConnected;
         }
 
+        private void update(object sender, DeviceDataReceivedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
 
         private void OnConnect(bool completed)
         {

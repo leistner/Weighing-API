@@ -38,6 +38,7 @@ using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace HBM.Weighing.API.WTX.Jet
 {
@@ -217,15 +218,25 @@ namespace HBM.Weighing.API.WTX.Jet
         }
 
 
+        private bool dataArrived;
+
         public virtual void FetchAll()
         {
+            dataArrived = false;
+
             Matcher matcher = new Matcher();
             FetchId id;
 
-            _peer.Fetch(out id, matcher, OnFetchData, OnFetch , this._timeoutMs);
-            WaitOne(3);         
+            _peer.Fetch(out id, matcher, OnFetchData, OnFetch, this._timeoutMs);
+            WaitOne(3);
+
+            dataArrived = true;
+
+            IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
+
+
         }
-        
+
         protected virtual void WaitOne(int timeoutMultiplier = 1)
         {
             if (!_mSuccessEvent.WaitOne(_timeoutMs * timeoutMultiplier))
@@ -293,8 +304,9 @@ namespace HBM.Weighing.API.WTX.Jet
                 }
 
                 this.ConvertJTokenToStringArray();
-
-                IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
+              
+                if (dataArrived == true)
+                    IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
 
                 BusActivityDetection?.Invoke(this, new LogEvent(data.ToString()));
             }
@@ -451,7 +463,17 @@ namespace HBM.Weighing.API.WTX.Jet
             }
             return sb.ToString();
         }
-        
+
+        public Task<int> WriteAsync(ushort index, ushort commandParam)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ushort[]> ReadAsync()
+        {
+            throw new NotImplementedException();
+        }
+
 
         public void Disconnect()
         {

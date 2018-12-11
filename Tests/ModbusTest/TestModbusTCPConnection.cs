@@ -6,6 +6,7 @@ namespace HBM.Weighing.API.WTX.Modbus
     using System;
     using System.Collections.Generic;
     using System.Threading;
+    using System.Threading.Tasks;
 
     public enum Behavior
     {
@@ -249,19 +250,9 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
+
         public int Read(object index)
         {
-            //if (_connected)
-                ReadRegisterPublishing(new DeviceDataReceivedEventArgs(_dataWTX, new string[0]));
-
-            return 0;
-        }
-
-        public void ReadRegisterPublishing(DeviceDataReceivedEventArgs e) 
-        {
-            // Behavoir : Kann in Standard oder Filler Mode sein, kann unterschiedliche "NumInputs" haben. Dementsprechend abhängig
-            // ist die Anzahl der eingelesenen Werte. Erstmal vom einfachen Fall ausgehen! 
-
             switch (this.behavior)
             {
                 case Behavior.WriteHandshakeTestSuccess:
@@ -272,7 +263,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                         if (_dataWTX[4] == 0x4000)
                         _dataWTX[4] = 0x0000;
                     break;
-            
+
                 case Behavior.InFillerMode:
 
                     //data word for a application mode being in filler mode: Bit .0-1 = 1 || 2 (2 is the given value for filler mode according to the manual, but actually it is 1.)
@@ -311,7 +302,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 case Behavior.MeasureZeroFail:
 
                     // Net value in hexadecimal: 
-                    _dataWTX[0] = 0x00;     
+                    _dataWTX[0] = 0x00;
                     _dataWTX[1] = 0x2710;
 
                     // Gross value in hexadecimal:
@@ -341,71 +332,8 @@ namespace HBM.Weighing.API.WTX.Modbus
                     if (_dataWTX[5] >> 14 == 0)
                         _dataWTX[5] = 0x4000;
                     else if (_dataWTX[5] >> 14 == 1)
-                        _dataWTX[5] = 0x0000; 
+                        _dataWTX[5] = 0x0000;
 
-                    break;
-
-                case Behavior.ReadFail:
-
-                    // If there is a connection fail, all data attributes get 0 as value.
-                    
-                    for (int index = 0; index < _dataWTX.Length; index++)
-                    {
-                        _dataWTX[index] = 0x0000;
-                    }
-
-                    _logObj = new LogEvent("Read failed : Registers have not been read");
-
-                    BusActivityDetection?.Invoke(this, _logObj);
-                    
-                    break;
-
-                case Behavior.ReadSuccess:
-
-                    // The most important data attributes from the WTX120 device: 
-
-                    _dataWTX[0] = 0x0000;
-                    _dataWTX[1] = 0x4040;
-                    _dataWTX[2] = 0x0000;
-                    _dataWTX[3] = 0x4040;
-                    _dataWTX[4] = 0x0000;
-                    _dataWTX[5] = 0x0000;
-                    
-                    _logObj = new LogEvent("Read successful: Registers have been read");
-                    BusActivityDetection?.Invoke(this, _logObj);
-                    break;
-
-
-                case Behavior.t_UnitValue_Success:
-                    _dataWTX[5] = 0x100;
-                    break;
-                case Behavior.t_UnitValue_Fail:
-                    _dataWTX[5] = 0x0000;
-                    break;
-
-                case Behavior.kg_UnitValue_Success:
-                    _dataWTX[5] = 0x0000;
-                    break;
-
-                case Behavior.kg_UnitValue_Fail:
-                    _dataWTX[5] = 0xFFFF;
-                    break;
-
-                case Behavior.g_UnitValue_Success:
-                    _dataWTX[5] = 0x80;
-                    break;
-
-                case Behavior.g_UnitValue_Fail:
-                    _dataWTX[5] = 0x0000;
-                    break;
-
-                case Behavior.lb_UnitValue_Success:
-                    _dataWTX[5] = 0x180;
-                    break;
-
-
-                case Behavior.lb_UnitValue_Fail:
-                    _dataWTX[5] = 0x0000;
                     break;
 
                 case Behavior.NetGrossValueStringComment_0D_Success:
@@ -436,103 +364,6 @@ namespace HBM.Weighing.API.WTX.Modbus
                     _dataWTX[5] = 0x60;
                     break;
 
-                // Simulate for testing 'Scale range': 
-
-                case Behavior.ScaleRangeStringComment_Range1_Fail:
-                    _dataWTX[4] = 0x200;
-                    break;
-
-                case Behavior.ScaleRangeStringComment_Range2_Fail:
-                    _dataWTX[4] = 0x0000;
-                    break;
-
-                case Behavior.ScaleRangeStringComment_Range3_Fail:
-                    _dataWTX[4] = 0x100;
-                    break;
-
-                case Behavior.ScaleRangeStringComment_Range1_Success:
-                    _dataWTX[4] = 0x0000;
-                    break;
-
-                case Behavior.ScaleRangeStringComment_Range2_Success:
-                    _dataWTX[4] = 0x100;
-                    break;
-
-                case Behavior.ScaleRangeStringComment_Range3_Success:
-                    _dataWTX[4] = 0x200;
-                    break;
-
-                // Simulate for testing 'Limit status': 
-
-                case Behavior.LimitStatusStringComment_Case0_Fail:
-                    _dataWTX[4] = 0xC;
-                    break;
-                case Behavior.LimitStatusStringComment_Case1_Fail:
-                    _dataWTX[4] = 0x8;
-                    break;
-                case Behavior.LimitStatusStringComment_Case2_Fail:
-                    _dataWTX[4] = 0x0000;
-                    break;
-                case Behavior.LimitStatusStringComment_Case3_Fail:
-                    _dataWTX[4] = 0x4;
-                    break;
-
-                case Behavior.LimitStatusStringComment_Case0_Success:
-                    _dataWTX[4] = 0x0000;
-                    break;
-                case Behavior.LimitStatusStringComment_Case1_Success:
-                    _dataWTX[4] = 0x4;
-                    break;
-                case Behavior.LimitStatusStringComment_Case2_Success:
-                    _dataWTX[4] = 0x8;
-                    break;
-                case Behavior.LimitStatusStringComment_Case3_Success:
-                    _dataWTX[4] = 0xC;
-                    break;
-
-                // Simulate for testing 'Weight moving': 
-                case Behavior.WeightMovingStringComment_Case0_Fail:
-                    _dataWTX[4] = 0x0010;
-                    break;
-                case Behavior.WeightMovingStringComment_Case1_Fail:
-                    _dataWTX[4] = 0x0000;
-                    break;
-                case Behavior.WeightMovingStringComment_Case0_Success:
-                    _dataWTX[4] = 0x0000;
-                    break;
-                case Behavior.WeightMovingStringComment_Case1_Success:
-                    _dataWTX[4] = 0x0010;
-                    break;
-
-                // Simulate for testing 'Weight type': 
-                case Behavior.WeightTypeStringComment_Case0_Fail:
-                    _dataWTX[4] = 0x0080;
-                    break;
-                case Behavior.WeightTypeStringComment_Case1_Fail:
-                    _dataWTX[4] = 0x0000;
-                    break;
-
-                case Behavior.WeightTypeStringComment_Case0_Success:
-                    _dataWTX[4] = 0x0000;
-                    break;
-                case Behavior.WeightTypeStringComment_Case1_Success:
-                    _dataWTX[4] = 0x0080;
-                    break;
-
-                case Behavior.LogEvent_Fail:
-
-                    _logObj = new LogEvent("Read failed : Registers have not been read");
-                    BusActivityDetection?.Invoke(this, _logObj);
-
-                    break;
-
-                case Behavior.LogEvent_Success:
-
-                    _logObj = new LogEvent("Read successful: Registers have been read");
-                    BusActivityDetection?.Invoke(this, _logObj);
-
-                    break;
-
                 default:
                     /*
                     for (int index = 0; index < _dataWTX.Length; index++)
@@ -542,17 +373,12 @@ namespace HBM.Weighing.API.WTX.Modbus
                     _logObj = new LogEvent("Read failed : Registers have not been read");
                     BusActivityDetection?.Invoke(this, _logObj);
                     */
-                    break; 
+                    break;
             }
 
             IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(this._dataWTX, new string[0]));
 
-            /*
-            var handler = RaiseDataEvent;
-
-            //If a subscriber exists: 
-            if (handler != null) handler(this, new DataEvent(_dataWTX));
-            */
+            return _dataWTX[Convert.ToInt16(index)];
         }
 
         public int getCommand
@@ -569,7 +395,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
 
                 case Behavior.UpdateOutputTestFail:
-                    this.command = 0x00; 
+                    this.command = 0x00;
                     break;
 
                 case Behavior.WriteU08ArrayTestSuccess:
@@ -601,12 +427,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 case Behavior.TareMethodTestFail:
                     this.command = 0;
                     break;
-                case Behavior.ZeroMethodTestSuccess:
-                    this.command = data;
-                    break;
-                case Behavior.ZeroMethodTestFail:
-                    //this.command = 0;
-                    break;
+
                 case Behavior.AdjustingZeroMethodSuccess:
                     this.command = data;
                     break;
@@ -637,12 +458,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 case Behavior.ClearDosingResultsMethodTestFail:
                     this.command = 0;
                     break;
-                case Behavior.AbortDosingMethodTestSuccess:
-                    this.command = data;
-                    break;
-                case Behavior.AbortDosingMethodTestFail:
-                    this.command = 0;
-                    break;
+
                 case Behavior.StartDosingMethodTestSuccess:
                     command = data;
                     break;
@@ -663,22 +479,22 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
                 case Behavior.WriteHandshakeTestSuccess:
 
-                    if(_dataWTX[4]==0x0000)
+                    if (_dataWTX[4] == 0x0000)
                     {
                         this.command = data;
                         _dataWTX[4] = 0x4000;
                     }
                     else
-                    if(_dataWTX[4]==0x4000)
+                    if (_dataWTX[4] == 0x4000)
                     {
                         this.command = 0x0;
                         _dataWTX[4] = 0x0000;
                     }
-                   
+
                     break;
 
                 case Behavior.WriteHandshakeTestFail:
-                    _dataWTX[4] = 0x0000;                  
+                    _dataWTX[4] = 0x0000;
                     break;
 
                 case Behavior.InFillerMode:
@@ -721,7 +537,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                         _dataWTX[5] = 0x4000;
                     else
                         if (_dataWTX[5] == 0x4000)
-                            _dataWTX[5] = 0x0000;
+                        _dataWTX[5] = 0x0000;
 
                     break;
 
@@ -838,6 +654,219 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             throw new NotImplementedException();
         }
+
+        public async Task<ushort[]> ReadAsync()
+        {
+            ushort[] value = new ushort[1];
+
+            switch (behavior)
+            {
+                case Behavior.ReadFail:
+
+                    // If there is a connection fail, all data attributes get 0 as value.
+
+                    for (int i = 0; i < _dataWTX.Length; i++)
+                    {
+                        _dataWTX[i] = 0x0000;
+                    }
+
+                    _logObj = new LogEvent("Read failed : Registers have not been read");
+
+                    BusActivityDetection?.Invoke(this, _logObj);
+
+                    break;
+
+                case Behavior.ReadSuccess:
+
+                    // The most important data attributes from the WTX120 device: 
+
+                    _dataWTX[0] = 0x0000;
+                    _dataWTX[1] = 0x4040;
+                    _dataWTX[2] = 0x0000;
+                    _dataWTX[3] = 0x4040;
+                    _dataWTX[4] = 0x0000;
+                    _dataWTX[5] = 0x0000;
+
+                    _logObj = new LogEvent("Read successful: Registers have been read");
+                    BusActivityDetection?.Invoke(this, _logObj);
+                    break;
+
+                // Simulate for testing 'Unit': 
+
+                case Behavior.t_UnitValue_Success:
+                    _dataWTX[5] = 0x100;
+                    break;
+                case Behavior.t_UnitValue_Fail:
+                    _dataWTX[5] = 0x0000;
+                    break;
+
+                case Behavior.kg_UnitValue_Success:
+                    _dataWTX[5] = 0x0000;
+                    break;
+
+                case Behavior.kg_UnitValue_Fail:
+                    _dataWTX[5] = 0xFFFF;
+                    break;
+
+                case Behavior.g_UnitValue_Success:
+                    _dataWTX[5] = 0x80;
+                    break;
+
+                case Behavior.g_UnitValue_Fail:
+                    _dataWTX[5] = 0x0000;
+                    break;
+
+                case Behavior.lb_UnitValue_Success:
+                    _dataWTX[5] = 0x180;
+                    break;
+
+
+                case Behavior.lb_UnitValue_Fail:
+                    _dataWTX[5] = 0x0000;
+                    break;
+
+
+                // Simulate for testing 'Limit status': 
+
+                case Behavior.LimitStatusStringComment_Case0_Fail:
+                    _dataWTX[4] = 0xC;
+                    break;
+                case Behavior.LimitStatusStringComment_Case1_Fail:
+                    _dataWTX[4] = 0x8;
+                    break;
+                case Behavior.LimitStatusStringComment_Case2_Fail:
+                    _dataWTX[4] = 0x0000;
+                    break;
+                case Behavior.LimitStatusStringComment_Case3_Fail:
+                    _dataWTX[4] = 0x4;
+                    break;
+
+                case Behavior.LimitStatusStringComment_Case0_Success:
+                    _dataWTX[4] = 0x0000;
+                    break;
+                case Behavior.LimitStatusStringComment_Case1_Success:
+                    _dataWTX[4] = 0x4;
+                    break;
+                case Behavior.LimitStatusStringComment_Case2_Success:
+                    _dataWTX[4] = 0x8;
+                    break;
+                case Behavior.LimitStatusStringComment_Case3_Success:
+                    _dataWTX[4] = 0xC;
+                    break;
+
+                // Simulate for testing 'Weight moving': 
+                case Behavior.WeightMovingStringComment_Case0_Fail:
+                    _dataWTX[4] = 0x0010;
+                    break;
+                case Behavior.WeightMovingStringComment_Case1_Fail:
+                    _dataWTX[4] = 0x0000;
+                    break;
+                case Behavior.WeightMovingStringComment_Case0_Success:
+                    _dataWTX[4] = 0x0000;
+                    break;
+                case Behavior.WeightMovingStringComment_Case1_Success:
+                    _dataWTX[4] = 0x0010;
+                    break;
+
+                // Simulate for testing 'Weight type': 
+                case Behavior.WeightTypeStringComment_Case0_Fail:
+                    _dataWTX[4] = 0x0080;
+                    break;
+                case Behavior.WeightTypeStringComment_Case1_Fail:
+                    _dataWTX[4] = 0x0000;
+                    break;
+
+                case Behavior.WeightTypeStringComment_Case0_Success:
+                    _dataWTX[4] = 0x0000;
+                    break;
+                case Behavior.WeightTypeStringComment_Case1_Success:
+                    _dataWTX[4] = 0x0080;
+                    break;
+
+
+                // Simulate for testing 'Scale range': 
+
+                case Behavior.ScaleRangeStringComment_Range1_Fail:
+                    _dataWTX[4] = 0x200;
+                    break;
+
+                case Behavior.ScaleRangeStringComment_Range2_Fail:
+                    _dataWTX[4] = 0x0000;
+                    break;
+
+                case Behavior.ScaleRangeStringComment_Range3_Fail:
+                    _dataWTX[4] = 0x100;
+                    break;
+
+                case Behavior.ScaleRangeStringComment_Range1_Success:
+                    _dataWTX[4] = 0x0000;
+                    break;
+
+                case Behavior.ScaleRangeStringComment_Range2_Success:
+                    _dataWTX[4] = 0x100;
+                    break;
+
+                case Behavior.ScaleRangeStringComment_Range3_Success:
+                    _dataWTX[4] = 0x200;
+                    break;
+
+                case Behavior.LogEvent_Fail:
+
+                    _logObj = new LogEvent("Read failed : Registers have not been read");
+                    BusActivityDetection?.Invoke(this, _logObj);
+                    break;
+
+                case Behavior.LogEvent_Success:
+
+                    _logObj = new LogEvent("Read successful: Registers have been read");
+                    BusActivityDetection?.Invoke(this, _logObj);
+                    break;
+            }
+            if (_dataWTX[5] == 0x0000)
+            {
+                _dataWTX[5] = 0x4000;
+            }
+            else
+            if (_dataWTX[5] == 0x4000)
+            {
+                _dataWTX[5] = 0x0000;
+            }
+            
+            return _dataWTX;
+        }
+
+        public async Task<int> WriteAsync(ushort index, ushort commandParam)
+        {
+            switch (behavior)
+            {
+                case Behavior.ZeroMethodTestSuccess:
+                    this.command = commandParam;
+                    break;
+                case Behavior.ZeroMethodTestFail:
+                    this.command = 0x00;
+                    break;
+
+                case Behavior.AbortDosingMethodTestSuccess:
+                    this.command = commandParam;
+                    break;
+                case Behavior.AbortDosingMethodTestFail:
+                    this.command = 0;
+                    break;
+            }
+
+            // Change the handshake bit : bit .14 from 0 to 1.
+            if (_dataWTX[5] == 0x0000)
+                _dataWTX[5] = 0x4000;
+            else
+                if (_dataWTX[5] == 0x4000)
+                _dataWTX[5] = 0x0000;
+
+
+            this.command = commandParam;
+
+            return this.command;
+        }
+
 
         Dictionary<string, int> INetConnection.getData()
         {

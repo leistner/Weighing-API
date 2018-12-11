@@ -66,11 +66,11 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            _wtxObj.Tare(WriteDataCompleted);     // Alternative : _jetTestConnection.Write("6002/01", 1701994868);
+          
+            _wtxObj.Tare();     // Alternative : _jetTestConnection.Write("6002/01", 1701994868);
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("6002/01") && _jetTestConnection.getDataBuffer.ContainsValue(1701994868))
                 return true;
@@ -90,11 +90,12 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.SetGross(WriteDataCompleted);     // Alternative : _jetTestConnection.Write("6002/01", 1936683623);
+            _wtxObj.SetGross();     // Alternative : _jetTestConnection.Write("6002/01", 1936683623);
+
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("6002/01") && _jetTestConnection.getDataBuffer.ContainsValue(1936683623))
                 return true;
@@ -104,16 +105,21 @@ namespace JetbusTest
 
         }
 
+        private void update(object sender, DeviceDataReceivedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         [Test, TestCaseSource(typeof(WriteTests), "WriteZeroTestCases")]
         public bool WriteZeroTest(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.zero(WriteDataCompleted);     // Alternative : _jetTestConnection.Write("6002/01", 1869768058);
+            _wtxObj.zero();     // Alternative : _jetTestConnection.Write("6002/01", 1869768058);
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("6002/01") && _jetTestConnection.getDataBuffer.ContainsValue(1869768058)) 
                 return true;
