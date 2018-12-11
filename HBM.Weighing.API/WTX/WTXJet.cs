@@ -37,10 +37,9 @@ namespace HBM.Weighing.API.WTX
     public class WtxJet : BaseWtDevice
     {
         private INetConnection connection;
-        private bool _dataReceived;
 
-        //private bool _isCalibrating;
-
+        public override event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
+       
         private double dPreload;
         private double dNominalLoad;
         private double multiplierMv2D;
@@ -49,6 +48,11 @@ namespace HBM.Weighing.API.WTX
         private ushort[] _dataUshort;
 
         private int _ID_value;
+
+        private int currentWeightNoDecimals;
+
+        private int decimalFactor; 
+
 
         public struct ID_keys
         {
@@ -142,8 +146,7 @@ namespace HBM.Weighing.API.WTX
             this.DataReceived = updateMethodParam;
 
             this.connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.
-
-            _dataReceived = false;
+            
             _dataStrArr = new string[185];
             _dataUshort = new ushort[185];
             _ID_value = 0;
@@ -157,40 +160,21 @@ namespace HBM.Weighing.API.WTX
 
         public void OnData(object sender, DeviceDataReceivedEventArgs e)
         {
-            // values from _mTokenBuffer as an array: 
-
             this._dataStrArr = new string[e.strArgs.Length];
 
-            this._dataReceived = true;
-
-            this.DataReceived?.Invoke(this, e);
-
             // Do something with the data, like in the class WTXModbus.cs           
+            DataReceived?.Invoke(this, e);      
         }
 
-        public override string getWTXType
+        public override string ConnectionType
         {
             get
             {
                 return "Jetbus";
             }
         }
-        
-        public override bool IsDataReceived
-        {
-            get
-            {
-                return this._dataReceived;
-            }
+       
 
-            /*
-            set
-            {
-                this._dataReceived = value;
-            }
-            */
-        }
-        
         public override int NetValue
         {
             get
@@ -367,7 +351,7 @@ namespace HBM.Weighing.API.WTX
         *In the following methods the different options for the single integer values are used to define and
         *interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
         */
-        public override string NetGrossValueStringComment(int value, int decimals)
+        public override string CurrentWeight(int value, int decimals)
         {
             double dvalue = value / Math.Pow(10, decimals);
             string returnvalue = "";
@@ -384,6 +368,11 @@ namespace HBM.Weighing.API.WTX
                 default: returnvalue = dvalue.ToString(); break;
             }
             return returnvalue;
+        }
+
+        public override double CurrentWeight()
+        {
+            return this.currentWeightNoDecimals / this.decimalFactor;
         }
 
 
@@ -428,10 +417,18 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
+
         public override void Disconnect(Action<bool> DisconnectCompleted)
         {
             connection.Disconnect();
         }
+
+
+        public override void Disconnect()
+        {
+            connection.Disconnect();
+        }
+
 
         public override bool isConnected
         {
@@ -520,17 +517,17 @@ namespace HBM.Weighing.API.WTX
             //this._isCalibrating = true;
         }
 
-        public override void zeroing()
+        public override void zero()
         {
             connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.Zero);       // SCALE_COMMAND = "6002/01"
         }
 
-        public override void gross()
+        public override void SetGross()
         {
             connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.Gross);       // SCALE_COMMAND = "6002/01"
         }
 
-        public override void taring()
+        public override void Tare()
         {
             connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.Tare);       // SCALE_COMMAND = "6002/01"
         }
@@ -1127,5 +1124,7 @@ namespace HBM.Weighing.API.WTX
         public override int CoarseFlowCutOffPointSet { get; set; }
         public override int FineFlowCutOffPointSet { get; set; }
         public override int StartWithFineFlow { get; set; }
+
+        public override IDeviceData DeviceData { get; }
     }
 }

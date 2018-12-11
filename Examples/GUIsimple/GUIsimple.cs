@@ -179,9 +179,9 @@ namespace WTXGUIsimple
             {
                 int taraValue = _wtxDevice.NetValue - _wtxDevice.GrossValue;
 
-                txtInfo.Text = "Net:" + _wtxDevice.NetGrossValueStringComment(_wtxDevice.NetValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
-                + "Gross:" + _wtxDevice.NetGrossValueStringComment(_wtxDevice.GrossValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
-                + "Tara:" + _wtxDevice.NetGrossValueStringComment(taraValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment();
+                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
+                + "Gross:" + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
+                + "Tara:" + _wtxDevice.CurrentWeight(taraValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment();
                 txtInfo.TextAlign = HorizontalAlignment.Right;
             }));
 
@@ -220,10 +220,10 @@ namespace WTXGUIsimple
         private void cmdConnect_Click(object sender, EventArgs e)
         {
             if (_wtxDevice != null)    // Necessary to check if the object of BaseWtDevice have been created and a connection exists. 
-                if (this.rbtConnectionJet.Checked == true && _wtxDevice.getWTXType == "Jetbus" && txtIPAddress.Text==_wtxDevice.Connection.IpAddress)
+                if (this.rbtConnectionJet.Checked == true && _wtxDevice.ConnectionType == "Jetbus" && txtIPAddress.Text==_wtxDevice.Connection.IpAddress)
                     return;
                 else
-                if (this.rbtConnectionModbus.Checked == true && _wtxDevice.getWTXType == "Modbus" && txtIPAddress.Text == _wtxDevice.Connection.IpAddress)
+                if (this.rbtConnectionModbus.Checked == true && _wtxDevice.ConnectionType == "Modbus" && txtIPAddress.Text == _wtxDevice.Connection.IpAddress)
                     return;
                 else
                 {

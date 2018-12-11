@@ -47,15 +47,21 @@ namespace HBM.Weighing.API.WTX
         private bool _isRefreshed;
         private bool _compareDataChanged;
         private int _timerInterval;
-        
-        private bool _dataReceived;
+
+        private Action<IDeviceData> _callbackObj;
+
         private ushort _command;
 
         private double dPreload, dNominalLoad, multiplierMv2D;
 
+        private int decimalFactor = 1;
+        private int currentWeightNoDecimals = 0;
+
         public System.Timers.Timer _aTimer;
         
         private INetConnection _connection;
+
+        private IDeviceData deviceData;
 
         public override event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
 
@@ -88,7 +94,7 @@ namespace HBM.Weighing.API.WTX
             this._isCalibrating = false;
             this._isRefreshed = false;
             //this._isNet = false;
-            this._dataReceived = false;
+            //this._dataReceived = false;
 
             this._timerInterval = 0;
 
@@ -129,6 +135,12 @@ namespace HBM.Weighing.API.WTX
             this._connection.Disconnect();
         }
 
+        // To terminate,break, a connection to the WTX device via class WTX120_Modbus.
+        public override void Disconnect()
+        {
+            this._connection.Disconnect();
+        }
+
         // This method writes a data word to the WTX120 device synchronously. 
         public void SyncCall(ushort wordNumber, ushort commandParam)
         {
@@ -136,8 +148,6 @@ namespace HBM.Weighing.API.WTX
             int handshakeBit = 0;
 
             this._command = commandParam;
-            this._dataReceived = false;
-            //this._callbackObj = callbackParam;
 
             if (this._command == 0x00)
                 dataWord = this._connection.Read(5);
@@ -178,29 +188,51 @@ namespace HBM.Weighing.API.WTX
             get { return this._command; }
         }
 
-        public IDeviceData SyncReadData()
-        {
-            this._connection.Read(0);
-            //this.JetConnObj.Read();
-
-            return this;
-        }
-
-        public override bool IsDataReceived
+        public override IDeviceData DeviceData
         {
             get
             {
-                return this._dataReceived;
+                return deviceData;
             }
-            /*
-            set
-            {
-                this._dataReceived = value;
-            }
-            */
-
         }
 
+        public void ReadCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this._callbackObj((IDeviceData)e.Result);
+        }
+
+
+        public void WriteDoWork(object sender, DoWorkEventArgs e)
+        {
+            // (1) Sending of a command:     
+            
+            this._connection.Write(0, this._command);
+            this._connection.Read(0);
+
+            while (this.Handshake == 0)
+            {
+                this._connection.Read(0);
+            }
+
+            // (2) If the handshake bit is equal to 1, the command has to be set to 0x00:
+            if (this.Handshake == 1)
+            {
+                this._connection.Write(0, 0x00);
+            }
+
+            // (3) Wait until the handshake bit is reset to 0x00: 
+            while (this.Handshake == 1 /* && this.status == 1 */)
+            {
+                this._connection.Read(0);
+            }      
+        }
+
+        public void WriteCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this._callbackObj(this.deviceData);         // Committing the interface with the updated values after writing. 
+            this._command = 0x00;            // After write : Set command to zero. 
+        }
+        
         public void WriteOutputWordS32(int valueParam, ushort wordNumber)
         {
             _dataWritten[0] = (ushort)((valueParam & 0xffff0000) >> 16);
@@ -281,7 +313,6 @@ namespace HBM.Weighing.API.WTX
         public async void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             // Call the async method 'AsyncTaskCall' by an Eventhandler:     
-
             if (isConnected)
             {
                 Task<ushort[]> FetchValues = _connection.ReadAsync();
@@ -298,6 +329,7 @@ namespace HBM.Weighing.API.WTX
                 */
             }
         }
+
         /// <summary>
         /// Called whenever new device data is available 
         /// </summary>
@@ -306,8 +338,8 @@ namespace HBM.Weighing.API.WTX
         {
             this._data = _asyncData;
 
-            this.GetDataStr[0] = this.NetGrossValueStringComment(this.NetValue, this.Decimals);  // 1 equal to "Net measured" as a parameter
-            this.GetDataStr[1] = this.NetGrossValueStringComment(this.GrossValue, this.Decimals);  // 2 equal to "Gross measured" as a parameter
+            this.GetDataStr[0] = this.CurrentWeight(this.NetValue, this.Decimals);  // 1 equal to "Net measured" as a parameter
+            this.GetDataStr[1] = this.CurrentWeight(this.GrossValue, this.Decimals);  // 2 equal to "Gross measured" as a parameter
 
             this.GetDataStr[2] = this.GeneralWeightError.ToString();
             this.GetDataStr[3] = this.ScaleAlarmTriggered.ToString();
@@ -509,11 +541,9 @@ namespace HBM.Weighing.API.WTX
                 this.DataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(this._data, this.GetDataStr));
 
                 this._isCalibrating = false;
-                this.Refreshed = false;
             }
 
             this._previousData = this._data;
-
 
         }
 
@@ -556,8 +586,6 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-
-
         public bool Refreshed
         {
             get { return this._isRefreshed; }
@@ -570,7 +598,7 @@ namespace HBM.Weighing.API.WTX
             set { this._compareDataChanged = value; }
         }
 
-        public override string getWTXType
+        public override string ConnectionType
         {
             get
             {
@@ -2144,8 +2172,7 @@ namespace HBM.Weighing.API.WTX
 
         // In the following methods the different options for the single integer values are used to define and
         // interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
-
-        public override string NetGrossValueStringComment(int value, int decimals)
+        public override string CurrentWeight(int value, int decimals)
         {
             double dvalue = value / Math.Pow(10, decimals);
             string returnvalue = "";
@@ -2163,6 +2190,11 @@ namespace HBM.Weighing.API.WTX
 
             }
             return returnvalue;
+        }
+
+        public override double CurrentWeight()
+        {
+            return this.currentWeightNoDecimals * this.decimalFactor;
         }
 
         public string WeightMovingStringComment()
@@ -2357,15 +2389,17 @@ namespace HBM.Weighing.API.WTX
             set { this._isCalibrating = value; }
         }
 
-        public async override void gross()
+        public async override void SetGross()
         {
             _command = (ushort)await AsyncWrite(0, 0x2);
         }
-        public async override void taring()
+        
+        public async override void Tare()
         {
             _command = (ushort)await AsyncWrite(0, 0x1);
         }
-        public async override void zeroing()
+        
+        public async override void zero()
         {
             _command = (ushort)await AsyncWrite(0, 0x40);
         }
