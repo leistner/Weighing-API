@@ -218,9 +218,9 @@ namespace WTXModbus
                     switch (_valueOutputwords.KeyChar)
                     {
 
-                        case '0': _wtxDevice.taring(); break;                  // Taring 
-                        case '1': _wtxDevice.gross(); break;                   // Gross/Net
-                        case '2': _wtxDevice.zeroing(); break;                 // Zeroing
+                        case '0': _wtxDevice.Tare(); break;                  // Taring 
+                        case '1': _wtxDevice.SetGross(); break;                   // Gross/Net
+                        case '2': _wtxDevice.Zero(); break;                 // Zeroing
                         case '3': _wtxDevice.adjustZero(); break;              // Adjust zero 
                         case '4': _wtxDevice.adjustNominal(); break;           // Adjust nominal
                         case '5': _wtxDevice.activateData(); break;            // Activate data
@@ -294,9 +294,9 @@ namespace WTXModbus
                     {
                     switch (_valueOutputwords.KeyChar)
                     {
-                        case '0': _wtxDevice.taring(); break;                  // Taring 
-                        case '1': _wtxDevice.gross(); break;                   // Gross/Net
-                        case '2': _wtxDevice.zeroing(); break;                 // Zeroing
+                        case '0': _wtxDevice.Tare(); break;                  // Taring 
+                        case '1': _wtxDevice.SetGross(); break;                   // Gross/Net
+                        case '2': _wtxDevice.Zero(); break;                 // Zeroing
                         case '3': _wtxDevice.adjustZero(); break;              // Adjust zero 
                         case '4': _wtxDevice.adjustNominal(); break;           // Adjust nominal
                         case '5': _wtxDevice.activateData(); break;            // Activate data

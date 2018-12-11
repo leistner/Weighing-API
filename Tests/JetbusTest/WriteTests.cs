@@ -119,7 +119,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.zero();     // Alternative : _jetTestConnection.Write("6002/01", 1869768058);
+            _wtxObj.Zero();     // Alternative : _jetTestConnection.Write("6002/01", 1869768058);
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("6002/01") && _jetTestConnection.getDataBuffer.ContainsValue(1869768058)) 
                 return true;

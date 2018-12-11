@@ -37,9 +37,7 @@ namespace HBM.Weighing.API.WTX
     public class WtxJet : BaseWtDevice
     {
         private INetConnection connection;
-
-        public override event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
-       
+              
         private double dPreload;
         private double dNominalLoad;
         private double multiplierMv2D;
@@ -163,7 +161,7 @@ namespace HBM.Weighing.API.WTX
             this._dataStrArr = new string[e.strArgs.Length];
 
             // Do something with the data, like in the class WTXModbus.cs           
-            DataReceived?.Invoke(this, e);      
+            DataReceived?.Invoke(this, e);
         }
 
         public override string ConnectionType
@@ -517,7 +515,7 @@ namespace HBM.Weighing.API.WTX
             //this._isCalibrating = true;
         }
 
-        public override void zero()
+        public override void Zero()
         {
             connection.Write(ID_keys.SCALE_COMMAND, (int)WTXCommand.Zero);       // SCALE_COMMAND = "6002/01"
         }

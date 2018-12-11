@@ -2399,7 +2399,7 @@ namespace HBM.Weighing.API.WTX
             _command = (ushort)await AsyncWrite(0, 0x1);
         }
         
-        public async override void zero()
+        public async override void Zero()
         {
             _command = (ushort)await AsyncWrite(0, 0x40);
         }

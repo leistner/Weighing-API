@@ -67,17 +67,29 @@ namespace HBM.Weighing.API
         /// <param name="timeoutMs">Timeout to wait for connect response</param>
         public abstract void Connect(Action<bool> completed, double timeoutMs);
 
+        /// <summary>
+        /// Method raised whenever new data from device arrives
+        /// </summary>
+        /// <param name="sender">_asyncData: data array</param>
         public abstract void OnData(ushort[] _asyncData);
-          
-        public abstract bool IsDataReceived { get; }       
-        
+               
         public abstract string[] GetDataStr { get;}
         public abstract ushort[] GetDataUshort { get;}
-        public abstract string NetGrossValueStringComment(int value, int decimals);
 
-        public abstract void gross();
-        public abstract void zeroing();
-        public abstract void taring();
+        /// <summary>
+        /// Sets the the device to gross values
+        /// </summary>
+        public abstract void SetGross();
+
+        /// <summary>
+        /// Zeroes the device
+        /// </summary>
+        public abstract void Zero();
+
+        /// <summary>
+        /// Tares the device
+        /// </summary>
+        public abstract void Tare();
 
         public abstract void adjustZero();
         public abstract void adjustNominal();
@@ -89,12 +101,11 @@ namespace HBM.Weighing.API
         public abstract void startDosing();
         public abstract void manualReDosing();
 
-/*
+
         /// <summary>
         /// Synchronous call to disconnect
         /// </summary>
         public abstract void Disconnect();
-
 
         /// <summary>
         /// Asynchronous call to disconnect
@@ -102,32 +113,10 @@ namespace HBM.Weighing.API
         /// <param name="disconnectCompleted">Callback raised after disconnect completed</param>
         public abstract void Disconnect(Action<bool> disconnectCompleted);
 
-
-        /// <summary>
-        /// Identify the device type (e.g. "Jetbus" or "Modbus")
-        /// </summary>
-        public abstract string ConnectionType { get; }
-
-
-        /// <summary>
-        /// Event raised whenever new data from device arrives
-        /// </summary>
-        /// <param name="sender">Sender</param>
-        /// <param name="e">EventArgs representing the device data</param>
-        public abstract void OnData(object sender, DeviceDataReceivedEventArgs e);
-
-
         /// <summary>
         /// Collection with available device data 
         /// </summary>
-        public abstract IDeviceData DeviceData { get; }    
-          
-
-        //Brauchen wir das hier? ----------------------
-        public abstract string[] GetDataStr { get;}
-        public abstract ushort[] GetDataUshort { get;}
-        //---------------------------------------------
-               
+        public abstract IDeviceData DeviceData { get; }
 
         /// <summary>
         /// Current weight of device depending on decimal count, gross or net
@@ -142,42 +131,10 @@ namespace HBM.Weighing.API
         /// <returns>Current weight of device</returns>
         public abstract double CurrentWeight();
 
-
         /// <summary>
-        /// Sets the the device to gross values
+        /// Identify the device type (e.g. "Jetbus" or "Modbus")
         /// </summary>
-        /// <param name="WriteDataCompleted">Callback returns result of gross setting</param>
-        public abstract void SetGross(Action<IDeviceData> WriteDataCompleted);
-
-
-        /// <summary>
-        /// Zeroes the device
-        /// </summary>
-        /// <param name="WriteDataCompleted">Callback returns result of zero setting</param>
-        public abstract void zero(Action<IDeviceData> WriteDataCompleted);
-
-
-        /// <summary>
-        /// Tares the device
-        /// </summary>
-        /// <param name="WriteDataCompleted">Callback returns result of tare setting</param>
-        public abstract void Tare(Action<IDeviceData> WriteDataCompleted);
-
-
-        #region Scale adjustment
-        public abstract void adjustZero(Action<IDeviceData> WriteDataCompleted);
-        public abstract void adjustNominal(Action<IDeviceData> WriteDataCompleted);
-        #endregion
-
-
-        public abstract void activateData(Action<IDeviceData> WriteDataCompleted);
-        public abstract void manualTaring(Action<IDeviceData> WriteDataCompleted);
-        public abstract void recordWeight(Action<IDeviceData> WriteDataCompleted);
-        public abstract void clearDosingResults(Action<IDeviceData> WriteDataCompleted);
-        public abstract void abortDosing(Action<IDeviceData> WriteDataCompleted);
-        public abstract void startDosing(Action<IDeviceData> WriteDataCompleted);
-        public abstract void manualReDosing(Action<IDeviceData> WriteDataCompleted);
-        */
+        public abstract string ConnectionType { get; }
 
         public abstract string UnitStringComment();
 

@@ -285,7 +285,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.zero();
+            _wtxObj.Zero();
 
             command = _wtxObj.getCommand;
 
@@ -402,7 +402,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.taring();
+            _wtxObj.Tare();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x1, _wtxObj.getCommand);
