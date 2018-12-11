@@ -209,7 +209,6 @@ namespace HBM.Weighing.API.WTX.Jet
             //
             // Wake up the waiting thread where call the construktor to connect the session
             //
-
             this._connected = true;
             _mSuccessEvent.Set();
             
@@ -233,8 +232,6 @@ namespace HBM.Weighing.API.WTX.Jet
             dataArrived = true;
 
             IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
-
-
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)

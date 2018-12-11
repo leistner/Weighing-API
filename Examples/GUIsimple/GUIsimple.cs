@@ -171,7 +171,6 @@ namespace WTXGUIsimple
 
         }
 
-
         //Callback for automatically receiving event based data from the device
         private void update(object sender, DeviceDataReceivedEventArgs e)
         {           
@@ -208,10 +207,7 @@ namespace WTXGUIsimple
                 }
             }));
         }
-
-        private void WriteDataCompleted(IDeviceData obj)
-        {
-        }
+        
         #endregion
 
 
@@ -245,19 +241,19 @@ namespace WTXGUIsimple
         // button click event for switching to gross or net value. 
         private void cmdGrossNet_Click(object sender, EventArgs e)
         {
-                _wtxDevice.gross();
+                _wtxDevice.SetGross();
         }
 
         // button click event for zeroing
         private void cmdZero_Click(object sender, EventArgs e)
         {
-                _wtxDevice.zeroing();
+                _wtxDevice.Zero();
         }
 
         // button click event for taring 
         private void cmdTare_Click(object sender, EventArgs e)
         {
-            _wtxDevice.taring();
+            _wtxDevice.Tare();
         }
 
         //Method for calculate adjustment with dead load and span: 

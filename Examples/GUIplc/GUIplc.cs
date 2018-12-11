@@ -399,7 +399,7 @@ namespace WTXModbusExamples
         private void button4_Click(object sender, EventArgs e)
         {
             // Taring       
-            _wtxDevice.taring();
+            _wtxDevice.Tare();
         }
 
         // This method sends a command to the device : Change between gross and net value. Command : 0x2 
@@ -407,7 +407,7 @@ namespace WTXModbusExamples
         private void button1_Click(object sender, EventArgs e)
         {
             // Gross/Net
-            _wtxDevice.gross();
+            _wtxDevice.SetGross();
 
         }
 
@@ -417,7 +417,7 @@ namespace WTXModbusExamples
         private void button5_Click(object sender, EventArgs e)
         {
             // Zeroing
-            _wtxDevice.zeroing();
+            _wtxDevice.Zero();
         }
 
         // This method sends a command to the device : Adjust zero. Command : 0x80
