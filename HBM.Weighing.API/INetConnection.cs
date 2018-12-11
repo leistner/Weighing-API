@@ -29,6 +29,7 @@
 // </copyright>
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace HBM.Weighing.API
 {
@@ -45,9 +46,11 @@ namespace HBM.Weighing.API
              
         void Disconnect();
 
-        int Read(object index);
-
+        int Read(object index);       
         void Write(object index, int data);
+
+        Task<ushort[]> ReadAsync();
+        Task<int> WriteAsync(ushort index, ushort commandParam);
 
         void WriteArray(ushort index, ushort[] data);
                 

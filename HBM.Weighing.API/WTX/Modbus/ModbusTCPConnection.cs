@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace HBM.Weighing.API.WTX.Modbus
 {
@@ -51,7 +52,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         private ModbusIpMaster _master;
         private TcpClient _client;
 
-        private bool connected;     
+        private bool _connected;     
         private string ipAddress;       
         private ushort _numOfPoints;
         private int _port;
@@ -65,7 +66,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public ModbusTcpConnection(string IpAddress)
         {
-            connected = false;
+            _connected = false;
             _port = 502;
             ipAddress = IpAddress; //IP-address to establish a successful connection to the device
 
@@ -102,11 +103,11 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                return this.connected;
+                return this._connected;
             }
             set
             {
-                this.connected = value;
+                this._connected = value;
             }
         }
 
@@ -117,15 +118,46 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public virtual event EventHandler<DeviceDataReceivedEventArgs> IncomingDataReceived; // virtual new due to tesing - 3.5.2018
 
-
-        // This method is called from the device class "WTX120" and calls the method ReadRegisterPublishing(e:MessageEvent)
-        // to create a new MessageEvent to read the register of the device. 
+        /// <summary>
+        /// This method is called from the device class "WTX120" to read the register of the device. 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns>dataword of the wtx device</returns>
         public int Read(object index)
         {
-            if (connected)
-                ReadRegisterPublishing(new DeviceDataReceivedEventArgs(_data, new string[0]));
+            try
+            {
+                _data = _master.ReadHoldingRegisters(this.StartAdress, this.NumOfPoints);
 
-            return 0; 
+                _connected = true;
+                BusActivityDetection?.Invoke(this, new LogEvent("Read successful: Registers have been read"));
+
+                return _data[Convert.ToInt16(index)];
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine("\nNumber of points has to be between 1 and 125.\n");
+            }
+
+            return 0;
+        }
+
+        public async Task<ushort[]> ReadAsync()
+        {
+            _data = await _master.ReadHoldingRegistersAsync(_startAdress, _numOfPoints);
+
+            return _data;
+        }
+
+        public async Task<int> WriteAsync(ushort index, ushort commandParam)
+        {
+            this.command = commandParam;
+
+            await _master.WriteSingleRegisterAsync(index, (ushort)command);
+
+            BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort) have been written successfully to the register"));
+
+            return this.command;
         }
 
         public void Write(object index, int data)
@@ -177,50 +209,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort array) have been written successfully to multiple registers"));
         }
 
-        // This method publishes the event (MessageEvent) and read the register, afterwards the message(from the register) will be sent back to WTX120.  
-        // This method is declared as a virtual method to allow derived class to override the event call.
-        //protected virtual void ReadRegisterPublishing(MessageEvent<ushort> e)
-
-        public virtual void ReadRegisterPublishing(DeviceDataReceivedEventArgs e) // 25.4 Comment : 'virtual' machte hier probleme beim durchlaufen :o 
-        {
-            // virtual new due to tesing - 3.5.2018
-            try
-            {
-                // Read the data: e.Message's type - ushort[]  
-                //e.Args = masterParam.ReadHoldingRegisters(this.StartAdress, this.getNumOfPoints);
-
-                e.ushortArgs = _master.ReadHoldingRegisters(StartAdress, NumOfPoints);
-                connected = true;
-
-                BusActivityDetection?.Invoke(this, new LogEvent("Read successful: Registers have been read"));
-            }
-            catch (ArgumentException)
-            {
-                Console.WriteLine("\nNumber of points has to be between 1 and 125.\n");
-            }
-            catch (InvalidOperationException)
-            {
-                BusActivityDetection?.Invoke(this, new LogEvent("Read failed : Registers have not been read"));
-
-                connected = false;
-
-                Connect();
-                Thread.Sleep(100);
-            }
-            
-            _data = e.ushortArgs;
-
-            // copy of the event to avoid that a race condition is prevented, if the former subscriber directly logs off after the last
-            // condition( and after if(handler!=null) ) and before the event is triggered. 
-
-            //RaiseDataEvent?.Invoke(this, e);
-
-            var handler = IncomingDataReceived;
-
-            //If a subscriber exists: 
-            if (handler != null) handler(this, e);
-        }
-
         // This method establishs a connection to the device. Therefore an IP address and the port number
         // for the TcpClient is need. The client itself is used for the implementation of the ModbusIpMaster. 
         public void Connect()
@@ -229,13 +217,13 @@ namespace HBM.Weighing.API.WTX.Modbus
             {
                 _client = new TcpClient(ipAddress, _port);
                 _master = ModbusIpMaster.CreateIp(_client);
-                connected = true;
+                _connected = true;
 
                 BusActivityDetection?.Invoke(this, new LogEvent("Connection has been established successfully"));
             }
             catch (Exception)
             {
-                connected = false; // If the connection establishment has not been successful - connected=false. 
+                _connected = false; // If the connection establishment has not been successful - connected=false. 
 
                 BusActivityDetection?.Invoke(this, new LogEvent("Connection has NOT been established successfully"));
             }
@@ -246,7 +234,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             _client.Close();
 
-            connected = false;
+            _connected = false;
             IncomingDataReceived = null;
         }
 

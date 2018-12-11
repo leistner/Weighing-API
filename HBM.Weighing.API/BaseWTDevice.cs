@@ -33,7 +33,6 @@ namespace HBM.Weighing.API
 {
     public abstract class BaseWtDevice : IDeviceData
     {
-
         public BaseWtDevice(INetConnection connection)
         {
             this.connection = connection;
@@ -60,7 +59,6 @@ namespace HBM.Weighing.API
         /// <param name="timeoutMs">Timeout to wait for connect</param>
         public abstract void Connect(double timeoutMs);
 
-
         /// <summary>
         /// Asynchronous calll to connect
         /// </summary>
@@ -72,33 +70,27 @@ namespace HBM.Weighing.API
 
         public abstract string getWTXType { get; }
 
-        public abstract void OnData(object sender, DeviceDataReceivedEventArgs e);
-
-        public abstract IDeviceData DeviceValues { get; }    
+        public abstract void OnData(ushort[] _asyncData);
           
         public abstract bool IsDataReceived { get; }       
         
         public abstract string[] GetDataStr { get;}
-
         public abstract ushort[] GetDataUshort { get;}
-
         public abstract string NetGrossValueStringComment(int value, int decimals);
 
-        public abstract void gross(Action<IDeviceData> WriteDataCompleted);
+        public abstract void gross();
+        public abstract void zeroing();
+        public abstract void taring();
 
-        public abstract void zeroing(Action<IDeviceData> WriteDataCompleted);
-
-        public abstract void taring(Action<IDeviceData> WriteDataCompleted);
-
-        public abstract void adjustZero(Action<IDeviceData> WriteDataCompleted);
-        public abstract void adjustNominal(Action<IDeviceData> WriteDataCompleted);
-        public abstract void activateData(Action<IDeviceData> WriteDataCompleted);
-        public abstract void manualTaring(Action<IDeviceData> WriteDataCompleted);
-        public abstract void recordWeight(Action<IDeviceData> WriteDataCompleted);
-        public abstract void clearDosingResults(Action<IDeviceData> WriteDataCompleted);
-        public abstract void abortDosing(Action<IDeviceData> WriteDataCompleted);
-        public abstract void startDosing(Action<IDeviceData> WriteDataCompleted);
-        public abstract void manualReDosing(Action<IDeviceData> WriteDataCompleted);
+        public abstract void adjustZero();
+        public abstract void adjustNominal();
+        public abstract void activateData();
+        public abstract void manualTaring();
+        public abstract void recordWeight();
+        public abstract void clearDosingResults();
+        public abstract void abortDosing();
+        public abstract void startDosing();
+        public abstract void manualReDosing();
 
         public abstract string UnitStringComment();
 

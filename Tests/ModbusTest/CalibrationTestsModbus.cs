@@ -31,7 +31,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public bool CalculateCalibrationTest(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus WTXModbusObj = new WtxModbus(testConnection, 200);
+            WtxModbus WTXModbusObj = new WtxModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
 
@@ -72,7 +72,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
 
-            WtxModbus WTXModbusObj = new WtxModbus(testConnection, 200);
+            WtxModbus WTXModbusObj = new WtxModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
 
@@ -97,6 +97,11 @@ namespace HBM.Weighing.API.WTX.Modbus
                 return false;
             }
 
+        }
+
+        private void update(object sender, DeviceDataReceivedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void OnConnect(bool obj)

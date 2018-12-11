@@ -151,7 +151,7 @@ namespace WTXModbus
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTcpConnection _modbusConection = new ModbusTcpConnection(_ipAddress);
 
-                _wtxDevice = new WtxModbus(_modbusConection, _timerInterval);
+                _wtxDevice = new WtxModbus(_modbusConection, _timerInterval,update);
 
                 _wtxDevice.Connection.NumofPoints = 6;
             }
@@ -162,7 +162,7 @@ namespace WTXModbus
                     // Creating objects of JetBusConnection and WTXJet: 
                     JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
 
-                    _wtxDevice = new WtxJet(_jetConnection);
+                    _wtxDevice = new WtxJet(_jetConnection,update);
                 }
             }
 
@@ -198,6 +198,10 @@ namespace WTXModbus
 
         } // End method Connect() 
 
+        private static void update(object sender, DeviceDataReceivedEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
 
         private static void MenuCases()
         {
@@ -214,14 +218,14 @@ namespace WTXModbus
                     switch (_valueOutputwords.KeyChar)
                     {
 
-                        case '0': _wtxDevice.taring(Write_DataReceived); break;                  // Taring 
-                        case '1': _wtxDevice.gross(Write_DataReceived); break;                   // Gross/Net
-                        case '2': _wtxDevice.zeroing(Write_DataReceived); break;                 // Zeroing
-                        case '3': _wtxDevice.adjustZero(Write_DataReceived); break;              // Adjust zero 
-                        case '4': _wtxDevice.adjustNominal(Write_DataReceived); break;           // Adjust nominal
-                        case '5': _wtxDevice.activateData(Write_DataReceived); break;            // Activate data
-                        case '6': _wtxDevice.manualTaring(Write_DataReceived); break;            // Manual taring
-                        case '7': _wtxDevice.recordWeight(Write_DataReceived); break;            // Record Weight
+                        case '0': _wtxDevice.taring(); break;                  // Taring 
+                        case '1': _wtxDevice.gross(); break;                   // Gross/Net
+                        case '2': _wtxDevice.zeroing(); break;                 // Zeroing
+                        case '3': _wtxDevice.adjustZero(); break;              // Adjust zero 
+                        case '4': _wtxDevice.adjustNominal(); break;           // Adjust nominal
+                        case '5': _wtxDevice.activateData(); break;            // Activate data
+                        case '6': _wtxDevice.manualTaring(); break;            // Manual taring
+                        case '7': _wtxDevice.recordWeight(); break;            // Record Weight
 
                         // 'c' for writing on multiple registers, which is necessary for the calibration. 
                         case 'c':       // Calculate Calibration
@@ -289,14 +293,14 @@ namespace WTXModbus
                     {
                     switch (_valueOutputwords.KeyChar)
                     {
-                        case '0': _wtxDevice.taring(Write_DataReceived); break;                  // Taring 
-                        case '1': _wtxDevice.gross(Write_DataReceived); break;                   // Gross/Net
-                        case '2': _wtxDevice.zeroing(Write_DataReceived); break;                 // Zeroing
-                        case '3': _wtxDevice.adjustZero(Write_DataReceived); break;              // Adjust zero 
-                        case '4': _wtxDevice.adjustNominal(Write_DataReceived); break;           // Adjust nominal
-                        case '5': _wtxDevice.activateData(Write_DataReceived); break;            // Activate data
-                        case '6': _wtxDevice.manualTaring(Write_DataReceived); break;            // Manual taring
-                        case '7': _wtxDevice.recordWeight(Write_DataReceived); break;            // Record Weight
+                        case '0': _wtxDevice.taring(); break;                  // Taring 
+                        case '1': _wtxDevice.gross(); break;                   // Gross/Net
+                        case '2': _wtxDevice.zeroing(); break;                 // Zeroing
+                        case '3': _wtxDevice.adjustZero(); break;              // Adjust zero 
+                        case '4': _wtxDevice.adjustNominal(); break;           // Adjust nominal
+                        case '5': _wtxDevice.activateData(); break;            // Activate data
+                        case '6': _wtxDevice.manualTaring(); break;            // Manual taring
+                        case '7': _wtxDevice.recordWeight(); break;            // Record Weight
 
                         // 'c' for writing on multiple registers, which is necessary for the calibration. 
                         case 'c':       // Calculate Calibration

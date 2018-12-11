@@ -11,6 +11,7 @@ namespace HBM.Weighing.API.WTX.Jet
     using System.Linq;
     using System.Net.Security;
     using System.Threading;
+    using System.Threading.Tasks;
 
     public enum Behavior
     {
@@ -494,11 +495,6 @@ namespace HBM.Weighing.API.WTX.Jet
             messages.Add(json);
         }
 
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
-
         public class FetchData
         {
             public string path { get; set; }
@@ -506,6 +502,20 @@ namespace HBM.Weighing.API.WTX.Jet
             public int value { get; set; }
         }
 
+        public Task<ushort[]> ReadAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<int> WriteAsync(ushort index, ushort commandParam)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

@@ -88,6 +88,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
+        private ushort[] _data;
         
 
         [SetUp]
@@ -129,20 +130,22 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         // Test for reading: 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "ReadTestCases")]
-        public ushort ReadTestModbus(Behavior behavior)
+        public async Task<ushort> ReadTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbusObj = new WtxModbus(testConnection, 200);
+            WTXModbusObj = new WtxModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
-            testConnection.IsConnected = true;
-
-            WTXModbusObj.SyncCall(0, 0x00, callbackMethod);
-
+            
+            _data = await testConnection.ReadAsync();
+            
             return WTXModbusObj.GetDataUshort[1];
+            
+        }
 
-            //return (ushort)WTXModbusObj.NetValue;  
-            // Alternative :Assert.AreEqual(_dataReadSuccess[0], WTXModbusObj.GetDataUshort[0]);
+        private void update(object sender, DeviceDataReceivedEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         // Test for checking the handshake bit 
@@ -150,11 +153,11 @@ namespace HBM.Weighing.API.WTX.Modbus
         public int testHandshake(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbusObj = new WtxModbus(testConnection, 200);
+            WTXModbusObj = new WtxModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
 
-            WTXModbusObj.SyncCall(0, 0x1, OnWriteData);
+            WTXModbusObj.SyncCall(0, 0x1);
 
             return WTXModbusObj.Handshake;
         }
@@ -171,14 +174,12 @@ namespace HBM.Weighing.API.WTX.Modbus
         public bool MeasureZeroTest(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbusObj = new WtxModbus(testConnection, 200);
+            WTXModbusObj = new WtxModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
 
             WTXModbusObj.MeasureZero();
-
-            WTXModbusObj.Async_Call(0x00, OnReadData);
-
+            
             //check if : write reg 48, 0x7FFFFFFF and if Net and gross value are zero. 
 
             if ((testConnection.getArrElement1 == (0x7FFFFFFF & 0xffff0000) >> 16) &&
@@ -198,7 +199,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
 
-            WtxModbus WTXModbusObj = new WtxModbus(testConnection, 200);
+            WtxModbus WTXModbusObj = new WtxModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
 
@@ -212,15 +213,15 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "LogEventTestCases")]
-        public bool LogEventGetTest(Behavior behavior)
+        public async Task<bool> LogEventGetTest(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbusObj = new WtxModbus(testConnection, 200);
+            WTXModbusObj = new WtxModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
             testConnection.IsConnected = true;
-            
-            WTXModbusObj.SyncCall(0,0x00, callbackMethod);
+
+            _data = await testConnection.ReadAsync();
             
             if (testConnection._logObj.Args.Equals("Read successful: Registers have been read"))
                 return true;
@@ -235,15 +236,15 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "LogEventTestCases")]
-        public bool LogEventSetTest(Behavior behavior)
+        public async Task<bool> LogEventSetTest(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbusObj = new WtxModbus(testConnection, 200);
+            WTXModbusObj = new WtxModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
             testConnection.IsConnected = true;
 
-            WTXModbusObj.SyncCall(0, 0x00, callbackMethod);
+            _data = await testConnection.ReadAsync();
 
             if (testConnection._logObj.Args.Equals("Read successful: Registers have been read"))
                 return true;

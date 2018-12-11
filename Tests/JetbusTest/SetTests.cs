@@ -45,7 +45,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection);
+            _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -82,6 +82,11 @@ namespace JetbusTest
                     return false;
 
             return false;
+        }
+
+        private void update(object sender, DeviceDataReceivedEventArgs e)
+        {
+            //throw new NotImplementedException();
         }
 
         private void WriteDataCompleted(IDeviceData obj)
