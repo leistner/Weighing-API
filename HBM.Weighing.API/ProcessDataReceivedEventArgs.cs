@@ -1,4 +1,4 @@
-﻿// <copyright file="DataEvent.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="ProcessDataReceivedEventArgs.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
@@ -31,12 +31,12 @@ using System;
 
 namespace HBM.Weighing.API
 {
-    public class DeviceDataReceivedEventArgs : EventArgs 
+    public class ProcessDataReceivedEventArgs : EventArgs 
     {
         private ushort[] _ushortArgs;
         private string[] _strArgs;
 
-        public DeviceDataReceivedEventArgs(ushort[] _ushortArrayParam, string[] _strArrayParam)
+        public ProcessDataReceivedEventArgs(ushort[] _ushortArrayParam, string[] _strArrayParam)
         {
             _ushortArgs = _ushortArrayParam;
             _strArgs = _strArrayParam;

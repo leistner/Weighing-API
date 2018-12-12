@@ -134,7 +134,7 @@ namespace WTXModbusExamples
             _arrayLength = 0;
         }
 
-        private void update(object sender, DeviceDataReceivedEventArgs e)
+        private void update(object sender, ProcessDataReceivedEventArgs e)
         {
             //throw new NotImplementedException();
         }
@@ -575,7 +575,7 @@ namespace WTXModbusExamples
             this.set_GUI_rows();
             
 
-            _wtxDevice.DataReceived += ValuesOnConsole;
+            _wtxDevice.ProcessDataReceived += ValuesOnConsole;
 
             // New eventhandler for a change in a data grid cell : 
             dataGridView1.CellValueChanged += new DataGridViewCellEventHandler(GridValueChangedMethod);
@@ -740,7 +740,7 @@ namespace WTXModbusExamples
 
         }
 
-        private void ValuesOnConsole(object sender, DeviceDataReceivedEventArgs e)
+        private void ValuesOnConsole(object sender, ProcessDataReceivedEventArgs e)
         {
             this._dataStr = _wtxDevice.GetDataStr;
 
@@ -751,7 +751,7 @@ namespace WTXModbusExamples
         // Afterwards the timer and the application can be restarted.
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _wtxDevice.DataReceived -= ValuesOnConsole;
+            _wtxDevice.ProcessDataReceived -= ValuesOnConsole;
             toolStripStatusLabel1.Text = "Disconnected";    
         }
 
@@ -761,7 +761,7 @@ namespace WTXModbusExamples
         {
             toolStripStatusLabel1.Text = "Disconnected";
 
-            _wtxDevice.DataReceived -= ValuesOnConsole;
+            _wtxDevice.ProcessDataReceived -= ValuesOnConsole;
             this.Close();
             
             Application.Exit();

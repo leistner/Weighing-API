@@ -559,7 +559,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             return _wtxObj.WeightTypeStringComment();
         }
 
-        private void update(object sender, DeviceDataReceivedEventArgs e)
+        private void update(object sender, ProcessDataReceivedEventArgs e)
         {
             //throw new NotImplementedException();
         }

@@ -40,7 +40,7 @@ namespace HBM.Weighing.API
     {
         event EventHandler BusActivityDetection;
 
-        event EventHandler<DeviceDataReceivedEventArgs> IncomingDataReceived;
+        event EventHandler<ProcessDataReceivedEventArgs> IncomingDataReceived;
 
         void Connect();
              

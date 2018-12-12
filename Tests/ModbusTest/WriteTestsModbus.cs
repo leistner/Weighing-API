@@ -412,7 +412,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         }
 
-        private void Update(object sender, DeviceDataReceivedEventArgs e)
+        private void Update(object sender, ProcessDataReceivedEventArgs e)
         {
 
         }

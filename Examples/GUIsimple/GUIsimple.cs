@@ -172,7 +172,7 @@ namespace WTXGUIsimple
         }
 
         //Callback for automatically receiving event based data from the device
-        private void update(object sender, DeviceDataReceivedEventArgs e)
+        private void update(object sender, ProcessDataReceivedEventArgs e)
         {           
             txtInfo.Invoke(new Action(() =>
             {
