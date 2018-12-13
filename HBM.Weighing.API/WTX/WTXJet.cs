@@ -158,7 +158,6 @@ namespace HBM.Weighing.API.WTX
         {
             this._dataStrArr = new string[e.strArgs.Length];
 
-            // Do something with the data, like in the class WTXModbus.cs           
             ProcessDataReceived?.Invoke(this, e);
         }
 

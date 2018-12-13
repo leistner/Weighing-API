@@ -91,14 +91,8 @@ namespace HBM.Weighing.API.WTX.Jet
         }
 
         // Constructor with ssh certification
-        public JetBusConnection(string IPAddress, int TimeoutMs = 20000)
+        public JetBusConnection(string IPAddress, int TimeoutMs = 20000) : this(IPAddress, "Administrator", "wtx", TimeoutMs)
         {
-            string _uri = "wss://" + IPAddress + ":443/jet/canopen";
-            IJetConnection jetConnection = new WebSocketJetConnection(_uri, RemoteCertificationCheck);
-
-            _peer = new JetPeer(jetConnection);
-
-            this._timeoutMs = TimeoutMs;
         }
         #endregion
 
@@ -117,6 +111,16 @@ namespace HBM.Weighing.API.WTX.Jet
             this._connected = false;
             this.IncomingDataReceived = null;
         }
+        
+
+        private void ConnectPeer(string User, string Password, int TimeoutMs)
+        {
+            this._user = User;
+            this._password = Password;
+
+            _peer.Connect(OnConnectAuhtenticate, TimeoutMs);
+            WaitOne(2);
+        }
 
 
         public bool IsConnected
@@ -126,40 +130,7 @@ namespace HBM.Weighing.API.WTX.Jet
                 return _connected;
             } 
         }
-
-
-        public string[] getStringData
-        {
-            get
-            {
-                return this.DataStrArray;
-            }
-        }
-
-        private void OnAuthenticate(bool success, JToken token)
-        {           
-            if (!success)
-            {
-
-                this._connected = false;
-                JetBusException exception = new JetBusException(token);
-                _mException = new Exception(exception.Error.ToString());
-            }
-            _mSuccessEvent.Set();
-        }
                      
-
-        private void OnConnect(bool connected)
-        {
-            if (!connected)
-            {
-                _mException = new Exception("Connection failed.");
-            }
-
-            this._connected = true;
-            _mSuccessEvent.Set();
-        }
-
 
         private void OnConnectAuhtenticate(bool connected)
         {
@@ -175,24 +146,31 @@ namespace HBM.Weighing.API.WTX.Jet
                 _mException = new Exception("Connection failed");
                 _mSuccessEvent.Set();
             }
-
         }
 
 
-        private void ConnectPeer(int timeoutMs)
-        {
-            _peer.Connect(OnConnect, timeoutMs);
-            WaitOne();
+        private void OnAuthenticate(bool success, JToken token)
+        {           
+            if (!success)
+            {
+
+                this._connected = false;
+                JetBusException exception = new JetBusException(token);
+                _mException = new Exception(exception.Message);
+            }
+            _mSuccessEvent.Set();
         }
 
 
-        private void ConnectPeer(string User, string Password, int TimeoutMs)
+        private void OnConnect(bool connected)
         {
-            this._user = User;
-            this._password = Password;
+            if (!connected)
+            {
+                _mException = new Exception("Connection failed.");
+            }
 
-            _peer.Connect(OnConnectAuhtenticate, TimeoutMs);
-            WaitOne(2);
+            this._connected = true;
+            _mSuccessEvent.Set();
         }
 
 
@@ -204,7 +182,7 @@ namespace HBM.Weighing.API.WTX.Jet
                 this._connected = false;
 
                 JetBusException exception = new JetBusException(token);
-                _mException = new Exception(exception.Error.ToString());
+                _mException = new Exception(exception.ErrorCode.ToString());
             }
             //
             // Wake up the waiting thread where call the construktor to connect the session
@@ -399,7 +377,7 @@ namespace HBM.Weighing.API.WTX.Jet
            if (!success)
            {
                 JetBusException exception = new JetBusException(token);
-                _mException = new Exception(exception.Error.ToString());
+                _mException = new Exception(exception.ErrorCode.ToString());
            }
             
            _mSuccessEvent.Set();
@@ -644,36 +622,6 @@ namespace HBM.Weighing.API.WTX.Jet
         */
 
         #endregion
-    }
-
-
-
-    public class JetBusException : Exception
-    {
-        private int _mError;
-        private string _mMessage;
-
-        public JetBusException(JToken token)
-        {
-            _mError = int.Parse(token["error"]["code"].ToString());
-
-            _mMessage = token["error"]["message"].ToString();
-        }
-
-        public int Error
-        {
-            get
-            {
-                return _mError;
-            }
-        }
-
-        public override string Message
-        {
-            get {
-                return _mMessage + " [ 0x" + _mError.ToString("X") + " ]";
-            }
-        }
     }
 
 }
