@@ -27,7 +27,6 @@
 // SOFTWARE.
 //
 // </copyright>
-using HBM.Weighing.API.WTX;
 using System;
 
 namespace HBM.Weighing.API

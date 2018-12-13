@@ -337,11 +337,6 @@ namespace HBM.Weighing.API.WTX.Jet
             BusActivityDetection?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + _dataBuffer.Count));            
         }
 
-        private void Update1(object sender, ProcessDataReceivedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         protected virtual void WaitOne(int timeoutMultiplier = 1)
         {
             if (!_mSuccessEvent.WaitOne(_mTimeoutMs * timeoutMultiplier))

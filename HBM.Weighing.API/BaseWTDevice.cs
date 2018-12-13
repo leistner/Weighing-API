@@ -51,8 +51,6 @@ namespace HBM.Weighing.API
 
         public delegate void ProcessDataReceivedEventHandler(object source, ProcessDataReceivedEventArgs args);
 
-        //public abstract event ProcessDataReceivedEventHandler ProcessDataReceived;
-
         public abstract event ProcessDataReceivedEventHandler ProcessDataReceived;
 
         public abstract bool isConnected { get; }

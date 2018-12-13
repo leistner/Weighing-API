@@ -35,7 +35,7 @@ using System.Timers;
 namespace HBM.Weighing.API.WTX
 {
 
-    public class WtxModbus : BaseWtDevice
+    public class WtxModbus : BaseWtDevice   
     {
         private string[] _dataStr;
         private ushort[] _previousData;

@@ -381,11 +381,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             return _dataWTX[Convert.ToInt16(index)];
         }
 
-        private void Update1(object sender, ProcessDataReceivedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         public int getCommand
         {
             get { return this.command; }
