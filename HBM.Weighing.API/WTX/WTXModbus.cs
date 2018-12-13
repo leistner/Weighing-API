@@ -495,6 +495,7 @@ namespace HBM.Weighing.API.WTX
             {                                                                                                    // and the data should be send to the GUI/console and be printed out. 
                                                                                                                  // If the GUI has been refreshed, the values should also be send to the GUI/Console and be printed out. 
                                                                                                                  //DataUpdateEvent?.Invoke(this, new DataEvent(this._data, this.GetDataStr));
+<<<<<<< HEAD
                 _processDataObj.NetValue = this.NetValue;
                 _processDataObj.GrossValue = this.GrossValue;
                 _processDataObj.Tare = this.NetValue - this.GrossValue;
@@ -521,6 +522,9 @@ namespace HBM.Weighing.API.WTX
                 _processDataObj.LegalTradeOp = 0;
 
                 this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processDataObj));
+=======
+                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(this));
+>>>>>>> ae631d32394013003262a65e3cb82d182dad8ecc
 
                 this._isCalibrating = false;
             }

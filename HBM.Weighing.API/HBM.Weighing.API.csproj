@@ -67,6 +67,7 @@
     <Compile Include="LogEvent.cs" />
     <Compile Include="WTX\IProcessData.cs" />
     <Compile Include="WTX\Jet\JetBusConnection.cs" />
+    <Compile Include="WTX\Jet\JetBusException.cs" />
     <Compile Include="WTX\Modbus\ModbusTCPConnection.cs" />
     <Compile Include="WTX\ProcessData.cs" />
     <Compile Include="WTX\WTXJet.cs" />
