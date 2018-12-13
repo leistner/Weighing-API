@@ -31,7 +31,7 @@ using System;
 
 namespace HBM.Weighing.API
 {
-    public abstract class BaseWtDevice 
+    public abstract class BaseWtDevice: IDeviceData 
     {
 
         protected INetConnection connection;
@@ -50,6 +50,8 @@ namespace HBM.Weighing.API
         }
 
         public delegate void ProcessDataReceivedEventHandler(object source, ProcessDataReceivedEventArgs args);
+
+        //public abstract event ProcessDataReceivedEventHandler ProcessDataReceived;
 
         public abstract event ProcessDataReceivedEventHandler ProcessDataReceived;
 

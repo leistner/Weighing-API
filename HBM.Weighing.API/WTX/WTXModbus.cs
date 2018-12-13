@@ -35,7 +35,7 @@ using System.Timers;
 namespace HBM.Weighing.API.WTX
 {
 
-    public class WtxModbus : BaseWtDevice   
+    public class WtxModbus : BaseWtDevice
     {
         private string[] _dataStr;
         private ushort[] _previousData;
@@ -536,7 +536,7 @@ namespace HBM.Weighing.API.WTX
             {                                                                                                    // and the data should be send to the GUI/console and be printed out. 
                                                                                                                  // If the GUI has been refreshed, the values should also be send to the GUI/Console and be printed out. 
                                                                                                                  //DataUpdateEvent?.Invoke(this, new DataEvent(this._data, this.GetDataStr));
-                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(this._data, this.GetDataStr));
+                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(this));
 
                 this._isCalibrating = false;
             }

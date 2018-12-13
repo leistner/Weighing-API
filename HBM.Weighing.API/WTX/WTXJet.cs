@@ -156,9 +156,10 @@ namespace HBM.Weighing.API.WTX
 
         public void OnData(object sender, ProcessDataReceivedEventArgs e)
         {
-            this._dataStrArr = new string[e.strArgs.Length];
+            //this._dataStrArr = new string[e.strArgs.Length];
 
-            ProcessDataReceived?.Invoke(this, e);
+            // Do something with the data, like in the class WTXModbus.cs           
+            ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(this));
         }
 
         public override string ConnectionType
@@ -433,7 +434,7 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public override void Connect(double timeoutMs)
+        public override void Connect(double timeoutMs=20000)
         {
             connection.Connect();
 

@@ -376,9 +376,14 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
             }
 
-            IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(this._dataWTX, new string[0]));
-
+            //IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(this._dataWTX, new string[0]));
+            IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(new WtxJet(this, Update1)));
             return _dataWTX[Convert.ToInt16(index)];
+        }
+
+        private void Update1(object sender, ProcessDataReceivedEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public int getCommand

@@ -28,6 +28,8 @@
 //
 // </copyright>
 using System;
+using HBM.Weighing.API.WTX;
+using static HBM.Weighing.API.BaseWtDevice;
 
 namespace HBM.Weighing.API
 {
@@ -53,7 +55,7 @@ namespace HBM.Weighing.API
         /// <summary>
         ///
         /// </summary>
-        event EventHandler<ProcessDataReceivedEventArgs> DataReceived;
+        event ProcessDataReceivedEventHandler ProcessDataReceived;
 
         /// <summary>
         ///Gets or sets a value indicating whether data are received. 
