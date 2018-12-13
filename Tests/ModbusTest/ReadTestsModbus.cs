@@ -162,13 +162,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             return WTXModbusObj.Handshake;
         }
 
-        private void OnReadData(IDeviceData obj)
-        {
-        }
-
-        private void OnWriteData(IDeviceData obj)
-        {
-        }
 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "MeasureZeroTestCases")]
         public bool MeasureZeroTest(Behavior behavior)
@@ -264,9 +257,5 @@ namespace HBM.Weighing.API.WTX.Modbus
             throw new NotImplementedException();
         }
 
-        private void callbackMethod(IDeviceData obj)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

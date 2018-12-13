@@ -35,7 +35,9 @@ using HBM.Weighing.API.WTX.Jet;
 namespace HBM.Weighing.API.WTX
 {
     public class WtxJet : BaseWtDevice
-    {              
+    {
+        private ProcessData _processDataObj;
+
         private double dPreload;
         private double dNominalLoad;
         private double multiplierMv2D;
@@ -133,10 +135,12 @@ namespace HBM.Weighing.API.WTX
             Gross = 1936683623
         }
 
-        public override event ProcessDataReceivedEventHandler ProcessDataReceived;
+        public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
 
-        public WtxJet(INetConnection Connection, ProcessDataReceivedEventHandler OnProcessData) : base(Connection)  // ParameterProperty umändern 
+        public WtxJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)  // ParameterProperty umändern 
         {
+            _processDataObj = new ProcessData();
+
             connection = Connection;
             
             this.ProcessDataReceived += OnProcessData;
@@ -156,10 +160,33 @@ namespace HBM.Weighing.API.WTX
 
         public void OnData(object sender, ProcessDataReceivedEventArgs e)
         {
-            this._dataStrArr = new string[e.strArgs.Length];
+            _processDataObj.NetValue = this.NetValue;
+            _processDataObj.GrossValue = this.GrossValue;
+            _processDataObj.Tare = this.NetValue-this.GrossValue;
+            _processDataObj.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
+            _processDataObj.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
+            _processDataObj.LimitStatus = this.LimitStatus;
+            _processDataObj.WeightMoving = Convert.ToBoolean(this.WeightMoving);
+            _processDataObj.ScaleSealIsOpen = Convert.ToBoolean(this.ScaleSealIsOpen);
+            _processDataObj.ManualTare = Convert.ToBoolean(this.ManualTare);
+            _processDataObj.WeightType = Convert.ToBoolean(this.WeightType);
+            _processDataObj.ScaleRange = this.ScaleRange;
+            _processDataObj.ZeroRequired = Convert.ToBoolean(this.ZeroRequired);
+            _processDataObj.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
+            _processDataObj.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
+            _processDataObj.ApplicationMode = this.ApplicationMode;
+            _processDataObj.Decimals = this.Decimals;
+            _processDataObj.Unit = this.Unit;
+            _processDataObj.Handshake = Convert.ToBoolean(this.Handshake);
+            _processDataObj.Status = Convert.ToBoolean(this.Status);
+            _processDataObj.Underload = false;
+            _processDataObj.Overload = false;
+            _processDataObj.weightWithinLimits = false;
+            _processDataObj.higherSafeLoadLimit = false;
+            _processDataObj.LegalTradeOp = 0;
 
             // Do something with the data, like in the class WTXModbus.cs           
-            ProcessDataReceived?.Invoke(this, e);
+            this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processDataObj));
         }
 
         public override string ConnectionType
@@ -1120,7 +1147,6 @@ namespace HBM.Weighing.API.WTX
         public override int CoarseFlowCutOffPointSet { get; set; }
         public override int FineFlowCutOffPointSet { get; set; }
         public override int StartWithFineFlow { get; set; }
-
-        public override IDeviceData DeviceData { get; }
+        
     }
 }

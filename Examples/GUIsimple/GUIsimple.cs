@@ -176,30 +176,34 @@ namespace WTXGUIsimple
         {           
             txtInfo.Invoke(new Action(() =>
             {
-                int taraValue = _wtxDevice.NetValue - _wtxDevice.GrossValue;
+                int netValue   = e.ProcessData.NetValue;
+                int grossValue = e.ProcessData.GrossValue;
+                int decimals      = e.ProcessData.Decimals;
 
-                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
-                + "Gross:" + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
-                + "Tara:" + _wtxDevice.CurrentWeight(taraValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment();
+                int taraValue = netValue - grossValue;
+
+                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight(netValue, decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
+                + "Gross:" + _wtxDevice.CurrentWeight(grossValue, decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
+                + "Tara:" + _wtxDevice.CurrentWeight(taraValue, decimals) + _wtxDevice.UnitStringComment();
                 txtInfo.TextAlign = HorizontalAlignment.Right;
             }));
 
 
             txtInfo.Invoke(new Action(() =>
             {
-                if (_wtxDevice.LimitStatus == 1)
+                if (e.ProcessData.LimitStatus == 1)
                 {
                     txtInfo.Text = "Lower than minimum" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
 
                 }
-                if (_wtxDevice.LimitStatus == 2)
+                if (e.ProcessData.LimitStatus == 2)
                 {
                     txtInfo.Text = "Higher than maximum capacity" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
 
                 }
-                if (_wtxDevice.LimitStatus == 3)
+                if (e.ProcessData.LimitStatus == 3)
                 {
                     txtInfo.Text = "Higher than safe load limit" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;

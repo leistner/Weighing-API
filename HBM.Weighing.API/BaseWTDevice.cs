@@ -31,7 +31,7 @@ using System;
 
 namespace HBM.Weighing.API
 {
-    public abstract class BaseWtDevice:IDeviceData 
+    public abstract class BaseWtDevice 
     {
 
         protected INetConnection connection;
@@ -49,9 +49,9 @@ namespace HBM.Weighing.API
             }
         }
 
-        public delegate void ProcessDataReceivedEventHandler(object source, ProcessDataReceivedEventArgs args);
+        delegate void ProcessDataReceivedEventHandler(object source, ProcessDataReceivedEventArgs args);
 
-        public abstract event ProcessDataReceivedEventHandler ProcessDataReceived;
+        public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
 
         public abstract bool isConnected { get; }
 
@@ -114,11 +114,6 @@ namespace HBM.Weighing.API
         /// </summary
         /// <param name="disconnectCompleted">Callback raised after disconnect completed</param>
         public abstract void Disconnect(Action<bool> disconnectCompleted);
-
-        /// <summary>
-        /// Collection with available device data 
-        /// </summary>
-        public abstract IDeviceData DeviceData { get; }
 
         /// <summary>
         /// Current weight of device depending on decimal count, gross or net

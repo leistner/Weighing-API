@@ -80,11 +80,6 @@ namespace JetbusTest
 
         }
 
-        private void WriteDataCompleted(IDeviceData obj)
-        {
-            throw new NotImplementedException();
-        }
-
         [Test, TestCaseSource(typeof(WriteTests), "WriteGrossTestCases")]
         public bool WriteGrossTest(Behavior behavior)
         {

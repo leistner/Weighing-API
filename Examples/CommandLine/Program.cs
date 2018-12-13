@@ -723,19 +723,6 @@ namespace WTXModbus
             Console.WriteLine("It is recommended to use at least '6' for writing and reading. \nDefault setting for the full application in filler mode : '38'\nPlease tip the button 'Enter' after you typed in the number '1' or '2' or...'6'");
         }
 
-        /*
-         * This method is a callback method for the asnchronous writing via the method 'Async_Call', which is called once the writing is done. Here, in that case the 
-         * callback method 'Write_DataReceived' is empty, there is no need to print the values on the console twice because the timer in class 'WTX120_Modbus' does that already 
-         * in a short time intervall. 
-         * If you do not want a timer you can put f.e. the printing method into 'Write_DataReceived' f.e. .
-         */
-         
-        private static void Write_DataReceived(IDeviceData obj)
-        {
-            throw new NotImplementedException();
-        }
-        
-
     }
 }
 

@@ -360,11 +360,6 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
         */
 
-        // Callback method for writing on the WTX120 device: 
-        private void OnWriteData(IDeviceData obj)
-        {
-            throw new NotImplementedException();
-        }
 
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteArrayTestCases")]
         public bool WriteArrayTestCasesModbus(Behavior behavior)
@@ -418,11 +413,6 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         private void OnConnect(bool obj)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void Write_DataReceived(IDeviceData obj)
         {
             throw new NotImplementedException();
         }

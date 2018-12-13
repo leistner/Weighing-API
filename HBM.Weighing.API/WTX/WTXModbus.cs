@@ -37,6 +37,8 @@ namespace HBM.Weighing.API.WTX
 
     public class WtxModbus : BaseWtDevice   
     {
+        private ProcessData _processDataObj;
+
         private string[] _dataStr;
         private ushort[] _previousData;
         private ushort[] _data;
@@ -48,7 +50,7 @@ namespace HBM.Weighing.API.WTX
         private bool _compareDataChanged;
         private int _timerInterval;
 
-        private Action<IDeviceData> _callbackObj;
+        private Action<IProcessData> _callbackObj;
 
         private ushort _command;
 
@@ -59,12 +61,14 @@ namespace HBM.Weighing.API.WTX
 
         public System.Timers.Timer _aTimer;
         
-        private IDeviceData deviceData;
+        private IProcessData deviceData;
 
-        public override event ProcessDataReceivedEventHandler ProcessDataReceived;
+        public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
 
-        public WtxModbus(INetConnection connection, int paramTimerInterval, ProcessDataReceivedEventHandler OnProcessData) : base(connection)
+        public WtxModbus(INetConnection connection, int paramTimerInterval, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(connection)
         {
+            _processDataObj = new ProcessData();
+
             this.connection = connection;
 
             this.ProcessDataReceived += OnProcessData;
@@ -184,51 +188,6 @@ namespace HBM.Weighing.API.WTX
         public int getCommand
         {
             get { return this._command; }
-        }
-
-        public override IDeviceData DeviceData
-        {
-            get
-            {
-                return deviceData;
-            }
-        }
-
-        public void ReadCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            this._callbackObj((IDeviceData)e.Result);
-        }
-
-
-        public void WriteDoWork(object sender, DoWorkEventArgs e)
-        {
-            // (1) Sending of a command:     
-            
-            this.connection.Write(0, this._command);
-            this.connection.Read(0);
-
-            while (this.Handshake == 0)
-            {
-                this.connection.Read(0);
-            }
-
-            // (2) If the handshake bit is equal to 1, the command has to be set to 0x00:
-            if (this.Handshake == 1)
-            {
-                this.connection.Write(0, 0x00);
-            }
-
-            // (3) Wait until the handshake bit is reset to 0x00: 
-            while (this.Handshake == 1 /* && this.status == 1 */)
-            {
-                this.connection.Read(0);
-            }      
-        }
-
-        public void WriteCompleted(object sender, RunWorkerCompletedEventArgs e)
-        {
-            this._callbackObj(this.deviceData);         // Committing the interface with the updated values after writing. 
-            this._command = 0x00;            // After write : Set command to zero. 
         }
         
         public void WriteOutputWordS32(int valueParam, ushort wordNumber)
@@ -536,7 +495,32 @@ namespace HBM.Weighing.API.WTX
             {                                                                                                    // and the data should be send to the GUI/console and be printed out. 
                                                                                                                  // If the GUI has been refreshed, the values should also be send to the GUI/Console and be printed out. 
                                                                                                                  //DataUpdateEvent?.Invoke(this, new DataEvent(this._data, this.GetDataStr));
-                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(this._data, this.GetDataStr));
+                _processDataObj.NetValue = this.NetValue;
+                _processDataObj.GrossValue = this.GrossValue;
+                _processDataObj.Tare = this.NetValue - this.GrossValue;
+                _processDataObj.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
+                _processDataObj.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
+                _processDataObj.LimitStatus = this.LimitStatus;
+                _processDataObj.WeightMoving = Convert.ToBoolean(this.WeightMoving);
+                _processDataObj.ScaleSealIsOpen = Convert.ToBoolean(this.ScaleSealIsOpen);
+                _processDataObj.ManualTare = Convert.ToBoolean(this.ManualTare);
+                _processDataObj.WeightType = Convert.ToBoolean(this.WeightType);
+                _processDataObj.ScaleRange = this.ScaleRange;
+                _processDataObj.ZeroRequired = Convert.ToBoolean(this.ZeroRequired);
+                _processDataObj.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
+                _processDataObj.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
+                _processDataObj.ApplicationMode = this.ApplicationMode;
+                _processDataObj.Decimals = this.Decimals;
+                _processDataObj.Unit = this.Unit;
+                _processDataObj.Handshake = Convert.ToBoolean(this.Handshake);
+                _processDataObj.Status = Convert.ToBoolean(this.Status);
+                _processDataObj.Underload = false;
+                _processDataObj.Overload = false;
+                _processDataObj.weightWithinLimits = false;
+                _processDataObj.higherSafeLoadLimit = false;
+                _processDataObj.LegalTradeOp = 0;
+
+                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processDataObj));
 
                 this._isCalibrating = false;
             }
@@ -2309,16 +2293,10 @@ namespace HBM.Weighing.API.WTX
             // Check if the values of the WTX device are equal to the calibration value. It is also checked within a certain interval if the measurement is noisy.
             if ((this.NetValue != calibrationValue || this.GrossValue != calibrationValue))
             {
-                this.AsyncWrite(0, 0x00);
+                //Read method
             }
         }
-
-        private void Write_DataReceived(IDeviceData obj)
-        {
-            //throw new NotImplementedException();
-        }
-
-
+        
         public double getDPreload
         {
             get

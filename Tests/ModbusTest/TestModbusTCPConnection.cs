@@ -376,7 +376,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
             }
 
-            IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(this._dataWTX, new string[0]));
+            IncomingDataReceived?.Invoke(this, null);
 
             return _dataWTX[Convert.ToInt16(index)];
         }

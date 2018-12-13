@@ -384,15 +384,6 @@ namespace WTXModbusExamples
             this.Close();
         }
 
-        // This is the callback method for writing. First the values in "dataStr" are updated and 
-        // the GUI is actualized.
-        // A asynchronous call is used in the following button_Click methods. 
-        // The callback method is Write_DataReceived, which is called once the command is written into the register of the device.      
-        public void Write_DataReceived(IDeviceData deviceValues)
-        {
-            //this.dataStr = Device_Values.getDataStr;
-            //this.reset_values();
-        }
         
         // This method sends a command to the device : Taring. Command : 0x1       
         // For standard and filler application.
