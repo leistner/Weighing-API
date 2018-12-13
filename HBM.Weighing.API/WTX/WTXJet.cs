@@ -158,10 +158,12 @@ namespace HBM.Weighing.API.WTX
 
         public void OnData(object sender, DeviceDataReceivedEventArgs e)
         {
-            this._dataStrArr = new string[e.strArgs.Length];
+            //this._dataStrArr = new string[e.strArgs.Length];
 
             // Do something with the data, like in the class WTXModbus.cs           
-            DataReceived?.Invoke(this, e);
+            //DataReceived?.Invoke(this, e);
+
+            this.DataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(this));
         }
 
         public override string ConnectionType

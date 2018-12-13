@@ -27,43 +27,73 @@
 // SOFTWARE.
 //
 // </copyright>
+using HBM.Weighing.API.WTX;
 using System;
 
 namespace HBM.Weighing.API
 {
     public class DeviceDataReceivedEventArgs : EventArgs 
     {
-        private ushort[] _ushortArgs;
-        private string[] _strArgs;
+        private IDeviceData _processData; 
 
-        public DeviceDataReceivedEventArgs(ushort[] _ushortArrayParam, string[] _strArrayParam)
+        public DeviceDataReceivedEventArgs(IDeviceData _Idata)
         {
-            _ushortArgs = _ushortArrayParam;
-            _strArgs = _strArrayParam;
+            _processData = _Idata;
         }
        
-        public ushort[] ushortArgs
+        public IDeviceData ProcessData
         {
             get
             {
-                return _ushortArgs;
+                return _processData;
             }
             set
             {
-                _ushortArgs = value;
+                _processData = value;
             }
         }
 
-        public string[] strArgs
+    }
+}
+
+
+
+// Before: 
+/*
+public class DeviceDataReceivedEventArgs : EventArgs
+{
+    private ushort[] _ushortArgs;
+    private string[] _strArgs;
+    
+
+    public DeviceDataReceivedEventArgs(ushort[] _ushortArrayParam, string[] _strArrayParam)
+    {
+        _ushortArgs = _ushortArrayParam;
+        _strArgs = _strArrayParam;
+    }
+
+    public ushort[] ushortArgs
+    {
+        get
         {
-            get
-            {
-                return _strArgs;
-            }
-            set
-            {
-                _strArgs = value;
-            }
+            return _ushortArgs;
+        }
+        set
+        {
+            _ushortArgs = value;
+        }
+    }
+
+    public string[] strArgs
+    {
+        get
+        {
+            return _strArgs;
+        }
+        set
+        {
+            _strArgs = value;
         }
     }
 }
+*/

@@ -173,39 +173,40 @@ namespace WTXGUIsimple
 
         //Callback for automatically receiving event based data from the device
         private void update(object sender, DeviceDataReceivedEventArgs e)
-        {           
+        {
+
             txtInfo.Invoke(new Action(() =>
             {
-                int taraValue = _wtxDevice.NetValue - _wtxDevice.GrossValue;
+                int taraValue = e.ProcessData.NetValue - e.ProcessData.GrossValue;
 
-                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
-                + "Gross:" + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
-                + "Tara:" + _wtxDevice.CurrentWeight(taraValue, _wtxDevice.Decimals) + _wtxDevice.UnitStringComment();
+                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
+                + "Gross:" + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
+                + "Tara:" + _wtxDevice.CurrentWeight(taraValue, e.ProcessData.Decimals) + _wtxDevice.UnitStringComment();
                 txtInfo.TextAlign = HorizontalAlignment.Right;
             }));
 
-
             txtInfo.Invoke(new Action(() =>
             {
-                if (_wtxDevice.LimitStatus == 1)
+                if (e.ProcessData.LimitStatus == 1)
                 {
                     txtInfo.Text = "Lower than minimum" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
 
                 }
-                if (_wtxDevice.LimitStatus == 2)
+                if (e.ProcessData.LimitStatus == 2)
                 {
                     txtInfo.Text = "Higher than maximum capacity" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
 
                 }
-                if (_wtxDevice.LimitStatus == 3)
+                if (e.ProcessData.LimitStatus == 3)
                 {
                     txtInfo.Text = "Higher than safe load limit" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
 
                 }
             }));
+            
         }
         
         #endregion
