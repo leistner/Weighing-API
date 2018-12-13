@@ -27,20 +27,21 @@
 // SOFTWARE.
 //
 // </copyright>
+using HBM.Weighing.API.WTX;
 using System;
 
 namespace HBM.Weighing.API
 {
     public class ProcessDataReceivedEventArgs : EventArgs
     {
-        private IDeviceData _processData;
+        IProcessData _processData;
 
-        public ProcessDataReceivedEventArgs(IDeviceData _Idata)
+        public ProcessDataReceivedEventArgs(ProcessData processData)
         {
-            _processData = _Idata;
+            ProcessData = processData;
         }
-
-        public IDeviceData ProcessData
+       
+        public IProcessData ProcessData
         {
             get
             {
@@ -52,5 +53,5 @@ namespace HBM.Weighing.API
             }
         }
 
-    }
+        }
 }

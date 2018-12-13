@@ -208,8 +208,8 @@ namespace HBM.Weighing.API.WTX.Jet
             WaitOne(3);
 
             dataArrived = true;
-
-            //IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(new WtxJet(this, null)));
+            
+            IncomingDataReceived?.Invoke(this, null);
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)
@@ -306,7 +306,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
                     this.ConvertJTokenToStringArray();
                    
-                    //IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(DataUshortArray,DataStrArray));
+                   //IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(DataUshortArray,DataStrArray));
 
                     return _dataJTokenBuffer[index.ToString()];
                 }

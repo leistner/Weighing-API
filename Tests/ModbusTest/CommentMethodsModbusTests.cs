@@ -506,11 +506,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             return _wtxObj.LimitStatusStringComment();
         }   
 
-        private void OnReadData(IDeviceData obj)
-        {
-            throw new NotImplementedException();
-        }
-
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightMovingStringComment_Case0_TestCase_Modbus")]
         public async Task<string> testModbus_WeightMovingStringComment_Case0(Behavior behavior)
         {
@@ -561,17 +556,10 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
-            //throw new NotImplementedException();
-        }
-
-        private void ReadDataReceived(IDeviceData obj)
-        {
-            throw new NotImplementedException();
         }
 
         private void OnConnect(bool obj)
         {
-            throw new NotImplementedException();
         }
     }
 }

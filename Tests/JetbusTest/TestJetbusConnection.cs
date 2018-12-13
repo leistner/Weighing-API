@@ -232,8 +232,13 @@ namespace HBM.Weighing.API.WTX.Jet
             this.ConvertJTokenToStringArray();
 
             if (this.behavior != Behavior.ReadFail_DataReceived)
+<<<<<<< HEAD
+                IncomingDataReceived?.Invoke(this, null);
+
+=======
                 //IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
                 IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(new WtxJet(this, Update1)));
+>>>>>>> ae631d32394013003262a65e3cb82d182dad8ecc
             return _dataBuffer[index.ToString()];
             
         }
@@ -332,8 +337,13 @@ namespace HBM.Weighing.API.WTX.Jet
             this.ConvertJTokenToStringArray();
 
             if (this.behavior != Behavior.ReadFail_DataReceived)
+<<<<<<< HEAD
+                IncomingDataReceived?.Invoke(this, null);
+
+=======
                 //IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
                 IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(new WtxJet(this, Update1)));
+>>>>>>> ae631d32394013003262a65e3cb82d182dad8ecc
             BusActivityDetection?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + _dataBuffer.Count));            
         }
 

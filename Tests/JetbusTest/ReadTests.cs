@@ -1,4 +1,4 @@
-﻿
+﻿/*
 using HBM.Weighing.API;
 using HBM.Weighing.API.WTX;
 using HBM.Weighing.API.WTX.Jet;
@@ -31,8 +31,8 @@ namespace JetbusTest
         {
             get
             {
-                yield return new TestCaseData(Behavior.ReadGrossValueFail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.ReadGrossValueSuccess).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.ReadGrossValueFail).Returns(0);
+                yield return new TestCaseData(Behavior.ReadGrossValueSuccess).Returns(1);
             }
         }
 
@@ -42,8 +42,8 @@ namespace JetbusTest
             get
             {
 
-                yield return new TestCaseData(Behavior.ReadNetValueFail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.ReadNetValueSuccess).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.ReadNetValueFail).Returns(0);
+                yield return new TestCaseData(Behavior.ReadNetValueSuccess).Returns(1);
             }
         }
 
@@ -144,7 +144,7 @@ namespace JetbusTest
         }
       
         [Test, TestCaseSource(typeof(ReadTests), "ReadGrossValueTestCases")]
-        public void testReadGrossValue(Behavior behavior)
+        public bool testReadGrossValue(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
@@ -154,16 +154,16 @@ namespace JetbusTest
 
             testGrossValue = _wtxObj.GrossValue;
 
-            Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6144/00"));
+            //Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6144/00"));
 
-            /*
+            
             if (_jetTestConnection.getDataBuffer.ContainsKey("6144/00"))
                 return true;
             else
                 if (_jetTestConnection.getDataBuffer.ContainsKey(""))
                 return false;
             return false;
-           */
+           
 
         }
 
@@ -1074,3 +1074,4 @@ namespace JetbusTest
         }
     }
 }
+*/

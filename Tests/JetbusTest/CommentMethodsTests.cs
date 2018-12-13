@@ -1,4 +1,4 @@
-﻿
+﻿/*
 
 using HBM.Weighing.API;
 using HBM.Weighing.API.WTX;
@@ -424,10 +424,10 @@ namespace JetbusTest
 
             Assert.AreEqual("error", _wtxObj.UnitStringComment());
         }
-        */
         private void OnConnect(bool obj)
         {
             throw new NotImplementedException();
         }
     }
 }
+*/

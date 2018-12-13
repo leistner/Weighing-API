@@ -1,4 +1,4 @@
-﻿
+﻿/*
 using HBM.Weighing.API;
 using HBM.Weighing.API.WTX;
 using HBM.Weighing.API.WTX.Jet;
@@ -89,14 +89,10 @@ namespace JetbusTest
             //throw new NotImplementedException();
         }
 
-        private void WriteDataCompleted(IDeviceData obj)
-        {
-            throw new NotImplementedException();
-        }
-
         private void OnConnect(bool obj)
         {
             throw new NotImplementedException();
         }
     }
 }
+*/
