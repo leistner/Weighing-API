@@ -81,7 +81,7 @@ namespace JetbusTest
 
         }
 
-        private void update(object sender, DeviceDataReceivedEventArgs e)
+        private void update(object sender, ProcessDataReceivedEventArgs e)
         {
             //throw new NotImplementedException();
         }

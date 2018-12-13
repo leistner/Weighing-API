@@ -35,9 +35,7 @@ using HBM.Weighing.API.WTX.Jet;
 namespace HBM.Weighing.API.WTX
 {
     public class WtxJet : BaseWtDevice
-    {
-        private INetConnection connection;
-              
+    {              
         private double dPreload;
         private double dNominalLoad;
         private double multiplierMv2D;
@@ -135,13 +133,13 @@ namespace HBM.Weighing.API.WTX
             Gross = 1936683623
         }
 
-        public override event EventHandler<DeviceDataReceivedEventArgs> DataReceived;
+        public override event ProcessDataReceivedEventHandler ProcessDataReceived;
 
-        public WtxJet(INetConnection connectionParameter, EventHandler<DeviceDataReceivedEventArgs> updateMethodParam) : base(connectionParameter)  // ParameterProperty umändern 
+        public WtxJet(INetConnection Connection, ProcessDataReceivedEventHandler OnProcessData) : base(Connection)  // ParameterProperty umändern 
         {
-            connection = connectionParameter;
+            connection = Connection;
             
-            this.DataReceived = updateMethodParam;
+            this.ProcessDataReceived += OnProcessData;
 
             this.connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.
             
@@ -156,14 +154,12 @@ namespace HBM.Weighing.API.WTX
             }                   
         }
 
-        public void OnData(object sender, DeviceDataReceivedEventArgs e)
+        public void OnData(object sender, ProcessDataReceivedEventArgs e)
         {
-            //this._dataStrArr = new string[e.strArgs.Length];
+            this._dataStrArr = new string[e.strArgs.Length];
 
             // Do something with the data, like in the class WTXModbus.cs           
-            //DataReceived?.Invoke(this, e);
-
-            this.DataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(this));
+            ProcessDataReceived?.Invoke(this, e);
         }
 
         public override string ConnectionType

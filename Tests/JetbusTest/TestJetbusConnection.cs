@@ -108,7 +108,7 @@ namespace HBM.Weighing.API.WTX.Jet
         private bool connected;
 
         public event EventHandler BusActivityDetection;
-        public event EventHandler<DeviceDataReceivedEventArgs> IncomingDataReceived;
+        public event EventHandler<ProcessDataReceivedEventArgs> IncomingDataReceived;
 
         private int _mTimeoutMs;
 
@@ -232,8 +232,8 @@ namespace HBM.Weighing.API.WTX.Jet
             this.ConvertJTokenToStringArray();
 
             if (this.behavior != Behavior.ReadFail_DataReceived)
-                //IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
-                IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(new WtxJet(this, Update1)));
+                IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(DataUshortArray, DataStrArray));
+
             return _dataBuffer[index.ToString()];
             
         }
@@ -332,14 +332,9 @@ namespace HBM.Weighing.API.WTX.Jet
             this.ConvertJTokenToStringArray();
 
             if (this.behavior != Behavior.ReadFail_DataReceived)
-                //IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
-                IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(new WtxJet(this, Update1)));
-            BusActivityDetection?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + _dataBuffer.Count));            
-        }
+                IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(DataUshortArray, DataStrArray));
 
-        private void Update1(object sender, DeviceDataReceivedEventArgs e)
-        {
-            throw new NotImplementedException();
+            BusActivityDetection?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + _dataBuffer.Count));            
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)

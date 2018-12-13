@@ -116,7 +116,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public event EventHandler BusActivityDetection;
 
-        public virtual event EventHandler<DeviceDataReceivedEventArgs> IncomingDataReceived; // virtual new due to tesing - 3.5.2018
+        public virtual event EventHandler<ProcessDataReceivedEventArgs> IncomingDataReceived; // virtual new due to tesing - 3.5.2018
 
         /// <summary>
         /// This method is called from the device class "WTX120" to read the register of the device. 
