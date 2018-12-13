@@ -34,18 +34,18 @@ namespace HBM.Weighing.API
     public abstract class BaseWtDevice 
     {
 
-        protected INetConnection connection;
+        protected INetConnection _connection;
       
         public BaseWtDevice(INetConnection connection)
         {
-            this.connection = connection;
+            this._connection = connection;
         }
 
         public INetConnection Connection
         {
             get
             {
-                return connection;
+                return _connection;
             }
         }
 
@@ -120,13 +120,7 @@ namespace HBM.Weighing.API
         /// </summary>
         /// <returns>Current weight of device</returns>
         public abstract string CurrentWeight(int weightNoDecimals, int decimals);
-
-
-        /// <summary>
-        /// Current weight of device, gross or net
-        /// </summary>
-        /// <returns>Current weight of device</returns>
-        public abstract double CurrentWeight();
+        
 
         /// <summary>
         /// Identify the device type (e.g. "Jetbus" or "Modbus")

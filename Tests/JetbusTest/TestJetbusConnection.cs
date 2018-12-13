@@ -232,13 +232,8 @@ namespace HBM.Weighing.API.WTX.Jet
             this.ConvertJTokenToStringArray();
 
             if (this.behavior != Behavior.ReadFail_DataReceived)
-<<<<<<< HEAD
-                IncomingDataReceived?.Invoke(this, null);
+                IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(new ProcessData()));
 
-=======
-                //IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
-                IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(new WtxJet(this, Update1)));
->>>>>>> ae631d32394013003262a65e3cb82d182dad8ecc
             return _dataBuffer[index.ToString()];
             
         }
@@ -258,21 +253,24 @@ namespace HBM.Weighing.API.WTX.Jet
 
         }
 
-        public Dictionary<string, int> getData()
+        public Dictionary<string, int> AllData
         {
-            this.FetchAll();
-            
-            Dictionary<string, int> newDict = new Dictionary<string, int>();
-
-            foreach (var element in _dataBuffer)
+            get
             {
-                int i = 0;
+                this.FetchAll();
 
-                if (int.TryParse(element.Value.ToString(), out i))
-                    newDict.Add(element.Key, Convert.ToInt32(element.Value.ToString()));
+                Dictionary<string, int> newDict = new Dictionary<string, int>();
+
+                foreach (var element in _dataBuffer)
+                {
+                    int i = 0;
+
+                    if (int.TryParse(element.Value.ToString(), out i))
+                        newDict.Add(element.Key, Convert.ToInt32(element.Value.ToString()));
+                }
+
+                return newDict;
             }
-
-            return newDict;
         }
 
         public Dictionary<string, JToken> getDataBuffer
@@ -336,14 +334,9 @@ namespace HBM.Weighing.API.WTX.Jet
 
             this.ConvertJTokenToStringArray();
 
-            if (this.behavior != Behavior.ReadFail_DataReceived)
-<<<<<<< HEAD
-                IncomingDataReceived?.Invoke(this, null);
+            if (this.behavior != Behavior.ReadFail_DataReceived)                
+                IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(new ProcessData()));
 
-=======
-                //IncomingDataReceived?.Invoke(this, new DeviceDataReceivedEventArgs(DataUshortArray, DataStrArray));
-                IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(new WtxJet(this, Update1)));
->>>>>>> ae631d32394013003262a65e3cb82d182dad8ecc
             BusActivityDetection?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + _dataBuffer.Count));            
         }
 

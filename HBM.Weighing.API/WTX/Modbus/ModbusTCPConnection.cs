@@ -186,14 +186,16 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
-        public Dictionary<string, int> getData()
+        public Dictionary<string, int> AllData
         {
-
-            for(int i=0; i<_data.Length;i++)
+            get
             {
-                _dataIntegerBuffer.Add(i.ToString(), Convert.ToInt32(_data[i]));
+                for (int i = 0; i < _data.Length; i++)
+                {
+                    _dataIntegerBuffer.Add(i.ToString(), Convert.ToInt32(_data[i]));
+                }
+                return _dataIntegerBuffer;
             }
-            return _dataIntegerBuffer;
         }
 
         public ushort arr1; // For test purpose

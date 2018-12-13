@@ -54,7 +54,7 @@ namespace HBM.Weighing.API
 
         void WriteArray(ushort index, ushort[] data);
                 
-        Dictionary<string, int> getData();
+        Dictionary<string, int> AllData { get; }
 
         int NumofPoints     { get; set; }
 

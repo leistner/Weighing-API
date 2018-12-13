@@ -56,8 +56,8 @@ namespace HBM.Weighing.API.WTX
 
         private double dPreload, dNominalLoad, multiplierMv2D;
 
-        private int decimalFactor = 1;
-        private int currentWeightNoDecimals = 0;
+        //private int decimalFactor = 1;
+        //private int currentWeightNoDecimals = 0;
 
         public System.Timers.Timer _aTimer;
         
@@ -69,7 +69,7 @@ namespace HBM.Weighing.API.WTX
         {
             _processDataObj = new ProcessData();
 
-            this.connection = connection;
+            this._connection = connection;
 
             this.ProcessDataReceived += OnProcessData;
 
@@ -111,14 +111,14 @@ namespace HBM.Weighing.API.WTX
         // To establish a connection to the WTX device via class WTX120_Modbus.
         public override void Connect(double timeoutMs)
         {
-            this.connection.Connect();
+            this._connection.Connect();
         }
 
 
         // To establish a connection to the WTX device via class WTX120_Modbus.
         public override void Connect(Action<bool> ConnectCompleted, double timeoutMs)
         {
-            this.connection.Connect();
+            this._connection.Connect();
         }
 
 
@@ -127,20 +127,20 @@ namespace HBM.Weighing.API.WTX
         {
             get
             {
-                return connection.IsConnected;
+                return _connection.IsConnected;
             }
         }
 
         // To terminate,break, a connection to the WTX device via class WTX120_Modbus.
         public override void Disconnect(Action<bool> DisconnectCompleted)
         {
-            this.connection.Disconnect();
+            this._connection.Disconnect();
         }
 
         // To terminate,break, a connection to the WTX device via class WTX120_Modbus.
         public override void Disconnect()
         {
-            this.connection.Disconnect();
+            this._connection.Disconnect();
         }
 
         // This method writes a data word to the WTX120 device synchronously. 
@@ -152,27 +152,27 @@ namespace HBM.Weighing.API.WTX
             this._command = commandParam;
 
             if (this._command == 0x00)
-                dataWord = this.connection.Read(5);
+                dataWord = this._connection.Read(5);
 
             else
             {
                 // (1) Sending of a command:        
-                this.connection.Write(wordNumber, this._command);
-                dataWord = this.connection.Read(5);
+                this._connection.Write(wordNumber, this._command);
+                dataWord = this._connection.Read(5);
 
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 // Handshake protocol as given in the manual:                            
 
                 while (handshakeBit == 0)
                 {
-                    dataWord = this.connection.Read(5);
+                    dataWord = this._connection.Read(5);
                     handshakeBit = ((dataWord & 0x4000) >> 14);
                 }
 
                 // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
                 if (handshakeBit == 1)
                 {
-                    this.connection.Write(wordNumber, 0x00);
+                    this._connection.Write(wordNumber, 0x00);
                 }
 
                 /*
@@ -195,20 +195,20 @@ namespace HBM.Weighing.API.WTX
             _dataWritten[0] = (ushort)((valueParam & 0xffff0000) >> 16);
             _dataWritten[1] = (ushort)(valueParam & 0x0000ffff);
 
-            this.connection.WriteArray(wordNumber, _dataWritten);
+            this._connection.WriteArray(wordNumber, _dataWritten);
         }
 
         public void WriteOutputWordU08(int valueParam, ushort wordNumber)
         {
             _dataWritten[0] = (ushort)((valueParam & 0x000000ff));
-            this.connection.Write(wordNumber, _dataWritten[0]);
+            this._connection.Write(wordNumber, _dataWritten[0]);
         }
 
         public void WriteOutputWordU16(int valueParam, ushort wordNumber)
         {
             _dataWritten[0] = (ushort)((valueParam & 0xffff0000) >> 16);
 
-            this.connection.Write(wordNumber, _dataWritten[0]);
+            this._connection.Write(wordNumber, _dataWritten[0]);
         }
         // This methods sets the interval value of the timer. 
         public void ResetTimer(int timerIntervalParam)
@@ -272,7 +272,7 @@ namespace HBM.Weighing.API.WTX
             // Call the async method 'AsyncTaskCall' by an Eventhandler:     
             if (isConnected)
             {
-                Task<ushort[]> FetchValues = connection.ReadAsync();
+                Task<ushort[]> FetchValues = _connection.ReadAsync();
                 //DoIndependentWork();
                 ushort[] _asyncData = await FetchValues;
                 OnData(_asyncData);
@@ -533,7 +533,7 @@ namespace HBM.Weighing.API.WTX
         {
             if (isConnected)
             {
-                Task<int> WriteValue = connection.WriteAsync(index, commandParam);
+                Task<int> WriteValue = _connection.WriteAsync(index, commandParam);
                 DoHandshake(index);
                 int command = await WriteValue;
                 return command;
@@ -550,7 +550,7 @@ namespace HBM.Weighing.API.WTX
             // Handshake protocol as given in the manual:                            
             do
             {
-                dataWord = this.connection.Read(5);
+                dataWord = this._connection.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
 
             } while (this.Handshake == 0);
@@ -558,12 +558,12 @@ namespace HBM.Weighing.API.WTX
             // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
             if (handshakeBit == 1)
             {
-                this.connection.Write(index, 0x00);
+                this._connection.Write(index, 0x00);
             }
 
             while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
             {
-                dataWord = this.connection.Read(5);
+                dataWord = this._connection.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
             }
         }
@@ -614,7 +614,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 1)
+                    if (this._connection.NumofPoints > 1)
                         return (_data[1] + (_data[0] << 16));
                     else
                         return 0;
@@ -632,7 +632,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 3)
+                    if (this._connection.NumofPoints > 3)
                         return (_data[3] + (_data[2] << 16));
                     else
                         return 0;
@@ -649,7 +649,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return (_data[4] & 0x1);
                     else
                         return 0;
@@ -666,7 +666,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return ((_data[4] & 0x2) >> 1);
                     else
                         return 0;
@@ -683,7 +683,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return ((_data[4] & 0xC) >> 2);
                     else
                         return 0;
@@ -700,7 +700,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return ((_data[4] & 0x10) >> 4);
                     else
                         return 0;
@@ -717,7 +717,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return ((_data[4] & 0x20) >> 5);
                     else
                         return 0;
@@ -734,7 +734,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return ((_data[4] & 0x40) >> 6);
                     else
                         return 0;
@@ -751,7 +751,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return ((_data[4] & 0x80) >> 7);
                     else
                         return 0;
@@ -768,7 +768,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return ((_data[4] & 0x300) >> 8);
                     else
                         return 0;
@@ -785,7 +785,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return ((_data[4] & 0x400) >> 10);
                     else
                         return 0;
@@ -802,7 +802,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return ((_data[4] & 0x800) >> 11);
                     else
                         return 0;
@@ -819,7 +819,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 4)
+                    if (this._connection.NumofPoints > 4)
                         return ((_data[4] & 0x1000) >> 12);
                     else
                         return 0;
@@ -836,7 +836,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 5)
+                    if (this._connection.NumofPoints > 5)
                         return (_data[5] & 0x3>>1);
                     else
                         return 0;
@@ -853,7 +853,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 5)
+                    if (this._connection.NumofPoints > 5)
                         return ((_data[5] & 0x70) >> 4);
                     else
                         return 0;
@@ -870,7 +870,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 5)
+                    if (this._connection.NumofPoints > 5)
                         return ((_data[5] & 0x180) >> 7);
                     else
                         return 0;
@@ -905,7 +905,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 5)
+                    if (this._connection.NumofPoints > 5)
                         return ((_data[5] & 0x8000) >> 15);
                     else
                         return 0;
@@ -939,7 +939,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 6)
+                    if (this._connection.NumofPoints > 6)
                         return (_data[6] & 0x1);
                     else
                         return 0;
@@ -958,7 +958,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 6)
+                    if (this._connection.NumofPoints > 6)
                         return ((_data[6] & 0x2) >> 1);
                     else
                         return 0;
@@ -975,7 +975,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 6)
+                    if (this._connection.NumofPoints > 6)
                         return ((_data[6] & 0x4) >> 2);
                     else
                         return 0;
@@ -992,7 +992,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 6)
+                    if (this._connection.NumofPoints > 6)
                         return ((_data[6] & 0x8) >> 3);
                     else
                         return 0;
@@ -1009,7 +1009,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 7)
+                    if (this._connection.NumofPoints > 7)
                         return (_data[7] & 0x1);
                     else
                         return 0;
@@ -1026,7 +1026,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 7)
+                    if (this._connection.NumofPoints > 7)
                         return ((_data[7] & 0x2) >> 1);
                     else
                         return 0;
@@ -1043,7 +1043,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 7)
+                    if (this._connection.NumofPoints > 7)
                         return ((_data[7] & 0x4) >> 2);
                     else
                         return 0;
@@ -1060,7 +1060,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 7)
+                    if (this._connection.NumofPoints > 7)
                         return ((_data[7] & 0x8) >> 3);
                     else
                         return 0;
@@ -1077,7 +1077,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return (_data[8] & 0x1);
                     else
                         return 0;
@@ -1094,7 +1094,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x2) >> 1);
                     else
                         return 0;
@@ -1111,7 +1111,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x4) >> 2);
                     else
                         return 0;
@@ -1128,7 +1128,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x8) >> 3);
                     else
                         return 0;
@@ -1145,7 +1145,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 9)
+                    if (this._connection.NumofPoints > 9)
                         return (_data[9]);
                     else
                         return 0;
@@ -1162,7 +1162,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 10)
+                    if (this._connection.NumofPoints > 10)
                         return (_data[10]);
                     else
                         return 0;
@@ -1179,7 +1179,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 11)
+                    if (this._connection.NumofPoints > 11)
                         return (_data[11]);
                     else
                         return 0;
@@ -1196,7 +1196,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 12)
+                    if (this._connection.NumofPoints > 12)
                         return (_data[12]);
                     else
                         return 0;
@@ -1213,7 +1213,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 13)
+                    if (this._connection.NumofPoints > 13)
                         return (_data[13]);
                     else
                         return 0;
@@ -1230,7 +1230,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 14)
+                    if (this._connection.NumofPoints > 14)
                         return (_data[14]);
                     else
                         return 0;
@@ -1247,7 +1247,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return (_data[8] & 0x1);
                     else
                         return 0;
@@ -1264,7 +1264,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x2) >> 1);
                     else
                         return 0;
@@ -1281,7 +1281,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x4) >> 2);
                     else
                         return 0;
@@ -1298,7 +1298,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x8) >> 3);
                     else
                         return 0;
@@ -1315,7 +1315,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x10) >> 4);
                     else
                         return 0;
@@ -1332,7 +1332,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x20) >> 5);
                     else
                         return 0;
@@ -1349,7 +1349,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x40) >> 6);
                     else
                         return 0;
@@ -1366,7 +1366,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x80) >> 7);
                     else
                         return 0;
@@ -1385,7 +1385,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x100) >> 8);
                     else
                         return 0;
@@ -1402,7 +1402,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x200) >> 9);
                     else
                         return 0;
@@ -1419,7 +1419,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x400) >> 10);
                     else
                         return 0;
@@ -1436,7 +1436,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x800) >> 11);
                     else
                         return 0;
@@ -1453,7 +1453,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x4000) >> 14);
                     else
                         return 0;
@@ -1470,7 +1470,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 8)
+                    if (this._connection.NumofPoints > 8)
                         return ((_data[8] & 0x8000) >> 15);
                     else
                         return 0;
@@ -1487,7 +1487,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 9)
+                    if (this._connection.NumofPoints > 9)
                         return _data[9];
                     else
                         return 0;
@@ -1504,7 +1504,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 11)
+                    if (this._connection.NumofPoints > 11)
                         return _data[11];
                     else
                         return 0;
@@ -1521,7 +1521,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 12)
+                    if (this._connection.NumofPoints > 12)
                         return _data[12];
                     else
                         return 0;
@@ -1538,7 +1538,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 14)
+                    if (this._connection.NumofPoints > 14)
                         return _data[14];
                     else
                         return 0;
@@ -1555,7 +1555,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 16)
+                    if (this._connection.NumofPoints > 16)
                         return _data[16];
                     else
                         return 0;
@@ -1572,7 +1572,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 18)
+                    if (this._connection.NumofPoints > 18)
                         return _data[18];
                     else
                         return 0;
@@ -1589,7 +1589,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 20)
+                    if (this._connection.NumofPoints > 20)
                         return _data[20];
                     else
                         return 0;
@@ -1606,7 +1606,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 22)
+                    if (this._connection.NumofPoints > 22)
                         return _data[22];
                     else
                         return 0;
@@ -1623,7 +1623,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 24)
+                    if (this._connection.NumofPoints > 24)
                         return _data[24];
                     else
                         return 0;
@@ -1640,7 +1640,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 25)
+                    if (this._connection.NumofPoints > 25)
                         return _data[25];
                     else
                         return 0;
@@ -1657,7 +1657,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 26)
+                    if (this._connection.NumofPoints > 26)
                         return _data[26];
                     else
                         return 0;
@@ -1674,7 +1674,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 27)
+                    if (this._connection.NumofPoints > 27)
                         return _data[27];
                     else
                         return 0;
@@ -1693,7 +1693,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 28)
+                    if (this._connection.NumofPoints > 28)
                         return _data[28];
                     else
                         return 0;
@@ -1710,7 +1710,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 29)
+                    if (this._connection.NumofPoints > 29)
                         return _data[29];
                     else
                         return 0;
@@ -1727,7 +1727,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 30)
+                    if (this._connection.NumofPoints > 30)
                         return _data[30];
                     else
                         return 0;
@@ -1745,7 +1745,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 31)
+                    if (this._connection.NumofPoints > 31)
                         return _data[31];
                     else
                         return 0;
@@ -1762,7 +1762,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 32)
+                    if (this._connection.NumofPoints > 32)
                         return _data[32];
                     else
                         return 0;
@@ -1779,7 +1779,7 @@ namespace HBM.Weighing.API.WTX
             {
                 try
                 {
-                    if (this.connection.NumofPoints > 33)
+                    if (this._connection.NumofPoints > 33)
                         return _data[33];
                     else
                         return 0;
@@ -2174,10 +2174,6 @@ namespace HBM.Weighing.API.WTX
             return returnvalue;
         }
 
-        public override double CurrentWeight()
-        {
-            return this.currentWeightNoDecimals * this.decimalFactor;
-        }
 
         public string WeightMovingStringComment()
         {
@@ -2186,6 +2182,8 @@ namespace HBM.Weighing.API.WTX
             else
                 return "1=Weight is moving";
         }
+
+
         public string LimitStatusStringComment()
         {
             switch (this.LimitStatus)

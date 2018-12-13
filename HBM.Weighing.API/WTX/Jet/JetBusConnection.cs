@@ -287,9 +287,12 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
      
-        public Dictionary<string, int> getData()
+        public Dictionary<string, int> AllData
         {
-            return _dataIntegerBuffer;
+            get
+            {
+                return _dataIntegerBuffer;
+            }
         }
 
 
@@ -616,11 +619,6 @@ namespace HBM.Weighing.API.WTX.Jet
                 this.interval = value;
             }
         }
-
-        /*
-        public ushort[] getData { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        */
-
         #endregion
     }
 
