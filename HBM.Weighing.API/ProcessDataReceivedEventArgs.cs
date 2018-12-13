@@ -34,7 +34,6 @@ namespace HBM.Weighing.API
 {
     public class ProcessDataReceivedEventArgs : EventArgs
     {
-<<<<<<< HEAD
         IProcessData _processData;
 
         public ProcessDataReceivedEventArgs(ProcessData processData)
@@ -56,27 +55,3 @@ namespace HBM.Weighing.API
 
         }
 }
-
-=======
-        private IDeviceData _processData;
-
-        public ProcessDataReceivedEventArgs(IDeviceData _Idata)
-        {
-            _processData = _Idata;
-        }
-
-        public IDeviceData ProcessData
-        {
-            get
-            {
-                return _processData;
-            }
-            set
-            {
-                _processData = value;
-            }
-        }
-
-    }
-}
->>>>>>> ae631d32394013003262a65e3cb82d182dad8ecc

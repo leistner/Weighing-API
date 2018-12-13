@@ -31,11 +31,7 @@ using System;
 
 namespace HBM.Weighing.API
 {
-<<<<<<< HEAD
     public abstract class BaseWtDevice 
-=======
-    public abstract class BaseWtDevice: IDeviceData 
->>>>>>> ae631d32394013003262a65e3cb82d182dad8ecc
     {
 
         protected INetConnection connection;

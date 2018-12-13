@@ -160,7 +160,6 @@ namespace HBM.Weighing.API.WTX
 
         public void OnData(object sender, ProcessDataReceivedEventArgs e)
         {
-<<<<<<< HEAD
             _processDataObj.NetValue = this.NetValue;
             _processDataObj.GrossValue = this.GrossValue;
             _processDataObj.Tare = this.NetValue-this.GrossValue;
@@ -188,12 +187,6 @@ namespace HBM.Weighing.API.WTX
 
             // Do something with the data, like in the class WTXModbus.cs           
             this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processDataObj));
-=======
-            //this._dataStrArr = new string[e.strArgs.Length];
-
-            // Do something with the data, like in the class WTXModbus.cs           
-            ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(this));
->>>>>>> ae631d32394013003262a65e3cb82d182dad8ecc
         }
 
         public override string ConnectionType
