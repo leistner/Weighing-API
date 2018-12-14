@@ -36,9 +36,30 @@ namespace HBM.Weighing.API.WTX
 {
     public class WtxJet : BaseWtDevice
     {
-        //To be eliminated...-------------
+        //To be eliminated eventually !?...-------------
         private string[] _dataStrArr;
         private ushort[] _dataUshort;
+
+        public override string[] GetDataStr
+        {
+            get
+            {
+                return this._dataStrArr;
+            }
+        }
+
+        public override ushort[] GetDataUshort
+        {
+            get
+            {
+                return this._dataUshort;
+            }
+        }
+        
+        public override void OnData(ushort[] _asyncData)
+        {
+            throw new NotImplementedException();
+        }
         //----------------------------------
 
 
@@ -94,6 +115,41 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
 
+        #region Connection
+        public override void Disconnect(Action<bool> DisconnectCompleted)
+        {
+            _connection.Disconnect();
+        }
+
+
+        public override void Disconnect()
+        {
+            _connection.Disconnect();
+        }
+
+
+        public override bool isConnected
+        {
+            get
+            {
+                return _connection.IsConnected;
+            }
+        }
+
+        public override void Connect(double timeoutMs = 20000)
+        {
+            _connection.Connect();
+
+            //this.UpdateEvent(this, null);
+        }
+
+        public override void Connect(Action<bool> completed, double timeoutMs)
+        {
+            _connection.Connect();
+        }
+        #endregion
+
+
         #region Asynchronous process data callback
         public void OnData(object sender, ProcessDataReceivedEventArgs e)
         {
@@ -125,9 +181,11 @@ namespace HBM.Weighing.API.WTX
             // Do something with the data, like in the class WTXModbus.cs           
             this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processData));
         }
+
         #endregion
 
 
+        #region Identification
         public override string ConnectionType
         {
             get
@@ -135,167 +193,12 @@ namespace HBM.Weighing.API.WTX
                 return "Jetbus";
             }
         }
-       
-
-        public override int NetValue
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.NET_VALUE];
-             }
-        }
-
-        public override int GrossValue
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.GROSS_VALUE];
-            }
-        }
-
-        public override int Decimals
-        {
-            get
-            {
-                    return _connection.AllData[JetBusCommands.DECIMALS];
-            }
-        }
-
-        public override int FillingProcessStatus
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.DOSING_STATUS];
-            }
-        }
-
-        public override int NumberDosingResults
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.DOSING_COUNTER];
-            }
-        }
-
-        public override int DosingResult
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.DOSING_RESULT];
-            }
-        }
-
-        public override int GeneralWeightError
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1);
-            }
-        }
-
-        public override int ScaleAlarmTriggered
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1;
-            }
-        }
-
-        public override int LimitStatus
-        {
-            get
-            {
-                    return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
-             }
-        }
-
-        public override int WeightMoving
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4;
-            }
-        }
-
-        public override int ScaleSealIsOpen
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5;
-            }
-        }
-
-        public override int ManualTare
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6;
-            }
-        }
-        public override int WeightType
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7;
-            }
-        }
-
-        public override int ScaleRange
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
-            }
-        }
-
-        public override int ZeroRequired
-        {
-            get
-            {;
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10;
-            }
-        }
-
-        public override int WeightWithinTheCenterOfZero
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11;
-            }
-        }
-
-        public override int WeightInZeroRange
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12;
-            }
-        }
-
-        public override int Unit
-        {
-            get
-            {
-                try
-                {
-                    return (_connection.AllData[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
-                }
-                catch(Exception)
-                {
-                    return 76;
-                }
-
-            }
-        }
+        
+        public override int ApplicationMode { get { return 1; } }
+        #endregion
 
 
-        public override string[] GetDataStr
-        {
-            get
-            {
-                return this._dataStrArr;
-            }
-        }
+        #region Process data
 
         /* 
         *In the following methods the different options for the single integer values are used to define and
@@ -340,7 +243,7 @@ namespace HBM.Weighing.API.WTX
 
         public string StatusStringComment(int statusParam)
         {
-            switch(statusParam)
+            switch (statusParam)
             {
                 case SCALE_COMMAND_STATUS_OK:
                     return "Execution OK!";
@@ -362,173 +265,146 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-
-        public override void Disconnect(Action<bool> DisconnectCompleted)
-        {
-            _connection.Disconnect();
-        }
-
-
-        public override void Disconnect()
-        {
-            _connection.Disconnect();
-        }
-
-
-        public override bool isConnected
+        public override int NetValue
         {
             get
             {
-                return _connection.IsConnected;
+                return _connection.AllData[JetBusCommands.NET_VALUE];
+             }
+        }
+
+        public override int GrossValue
+        {
+            get
+            {
+                return _connection.AllData[JetBusCommands.GROSS_VALUE];
             }
         }
 
-        public override void Connect(double timeoutMs=20000)
-        {
-            _connection.Connect();
-
-            //this.UpdateEvent(this, null);
-        }
-
-        public override void Connect(Action<bool> completed, double timeoutMs)
-        {
-            _connection.Connect();
-        }
-        
-        public override ushort[] GetDataUshort
+        public override int Decimals
         {
             get
             {
-                return this._dataUshort;
+                    return _connection.AllData[JetBusCommands.DECIMALS];
             }
         }
 
 
-        /// <summary>
-        /// Calculates the values for deadload and nominal load in d from the inputs in mV/V and writes the into the WTX registers.
-        /// </summary>
-        /// <param name="preload"></param>
-        /// <param name="capacity"></param>
-        public override void Calculate(double scaleZeroLoad_mVV, double scaleCapacity_mVV)
+        public override int ManualTareValue { get; set; }
+
+
+        public override int GeneralWeightError
         {
-            int scalZeroLoad_d;
-            int scaleCapacity_d; 
-
-            scalZeroLoad_d = (int) (scaleZeroLoad_mVV * CONVERISION_FACTOR_MVV_TO_D);
-            scaleCapacity_d = (int)(scalZeroLoad_d + (scaleCapacity_mVV * CONVERISION_FACTOR_MVV_TO_D));
-
-
-            // write path 2110/06 - dead load = LDW_DEAD_WEIGHT 
-
-            _connection.Write(JetBusCommands.LDW_DEAD_WEIGHT, scalZeroLoad_d);         // Zero point = LDW_DEAD_WEIGHT= "2110/06"
-
-            // write path 2110/07 - capacity/span = Nominal value = LWT_NOMINAL_VALUE        
-
-            _connection.Write(JetBusCommands.LWT_NOMINAL_VALUE, Convert.ToInt32(scaleCapacity_d));    // Nominal value = LWT_NOMINAL_VALUE = "2110/07" ; 
-
-            //this._isCalibrating = true;
+            get
+            {
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1);
+            }
         }
 
-        public override void MeasureZero()
+        public override int ScaleAlarmTriggered
         {
-            //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
-
-            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
-
-            // check : command "on go" = command is in execution = 
-            while (_connection.Read(JetBusCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_ONGOING);
-            
-            // check : command "ok" = command is done = 
-            while (_connection.Read(JetBusCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_OK);
-            
+            get
+            {
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1;
+            }
         }
 
 
-        // This method sets the value for the nominal weight in the WTX.
-        public override void Calibrate(int calibrationValue, string calibrationWeightStr)
+        public override int LimitStatus
         {
-            _connection.Write(JetBusCommands.LFT_SCALE_CALIBRATION_WEIGHT, calibrationValue);          // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
-
-            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
-
-            // check : command "on go" = command is in execution = 
-            while (_connection.Read(JetBusCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
-
-            // check : command "ok" = command is done = 
-            while (_connection.Read(JetBusCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_OK) ;     
-
-            //this._isCalibrating = true;
+            get
+            {
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
+            }
         }
 
-        public override void Zero()
+        public override int WeightMoving
         {
-            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_ZERO);       
+            get
+            {
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4;
+            }
         }
 
-        public override void SetGross()
+        public override int ScaleSealIsOpen
         {
-            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_SET_GROSS);      
+            get
+            {
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5;
+            }
         }
 
-        public override void Tare()
+        public override int ManualTare
         {
-            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_TARE);    
+            get
+            {
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6;
+            }
+        }
+        public override int WeightType
+        {
+            get
+            {
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7;
+            }
         }
 
-        public override void adjustZero()
+        public override int ScaleRange
         {
-            throw new NotImplementedException();
+            get
+            {
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
+            }
         }
 
-        public override void adjustNominal()
+        public override int ZeroRequired
         {
-            throw new NotImplementedException();
+            get
+            {
+                ;
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10;
+            }
         }
 
-        public override void activateData()
+        public override int WeightWithinTheCenterOfZero
         {
-            throw new NotImplementedException();
+            get
+            {
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11;
+            }
         }
 
-        public override void manualTaring()
+        public override int WeightInZeroRange
         {
-            throw new NotImplementedException();
+            get
+            {
+                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12;
+            }
         }
 
-        public override void recordWeight()
+        public override int Unit
         {
-            throw new NotImplementedException();
+            get
+            {
+                try
+                {
+                    return (_connection.AllData[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
+                }
+                catch (Exception)
+                {
+                    return 76;
+                }
+
+            }
         }
 
-        public override void clearDosingResults()
-        {
-            throw new NotImplementedException();
-        }
+        public override int AdcOverUnderload { get { return 1; } }
 
-        public override void abortDosing()
-        {
-            throw new NotImplementedException();
-        }
+        public override int LegalTradeOp { get { return 1; } }
 
-        public override void startDosing()
-        {
-            throw new NotImplementedException();
-        }
+        public override int StatusInput1 { get { return 1; } }
 
-        public override void manualReDosing()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void OnData(ushort[] _asyncData)
-        {
-            throw new NotImplementedException();
-        }
-
-        /*
-        // Input values : To implement these you have to get the ID's from the manual and set them like:
-        // this.connection.Read(ParameterKeys.GROSS_VALUE);
-        */
+        public override int GeneralScaleError { get { return 1; } }
 
         public override int Input1
         {
@@ -594,13 +470,72 @@ namespace HBM.Weighing.API.WTX
             }
         }        // ID = OM4
 
+        #endregion
+
+
+        #region Process data methods
+
+        public override void Zero()
+        {
+            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_ZERO);
+        }
+
+        public override void SetGross()
+        {
+            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_SET_GROSS);
+        }
+
+        public override void Tare()
+        {
+            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_TARE);
+        }
+
+
+        public override void activateData()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void manualTaring()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void recordWeight()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int Status
+        {
+            get
+            {
+                return _connection.AllData[JetBusCommands.SCALE_COMMAND_STATUS];
+            }
+        }
+
+        // Method to check if the handshake is done.
+        public override int Handshake
+        {
+            get
+            {
+                if (_connection.AllData[JetBusCommands.SCALE_COMMAND_STATUS] == 1801543519)
+                    return 1;
+                else
+                    return 0;
+            }
+        }
+        #endregion
+
+
+        #region Process data - Standard
         public override int LimitStatus1
         {
             get
             {
                 return _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_1];
             }
-        }   // ID = OS1 
+        }  
 
         public override int LimitStatus2
         {
@@ -608,7 +543,7 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_2];
             }
-        }   // ID = OS2
+        } 
 
         public override int LimitStatus3
         {
@@ -616,7 +551,7 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
             }
-        }   // ID = OS3
+        }   
 
         public override int LimitStatus4
         {
@@ -624,7 +559,156 @@ namespace HBM.Weighing.API.WTX
             {
                 return _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_4];
             }
-        }   // ID = OS4
+        }
+        #endregion
+
+
+        #region Process data - Filling
+        public override int FillingProcessStatus
+        {
+            get
+            {
+                return _connection.AllData[JetBusCommands.DOSING_STATUS];
+            }
+        }
+
+
+        public override int NumberDosingResults
+        {
+            get
+            {
+                return _connection.AllData[JetBusCommands.DOSING_COUNTER];
+            }
+        }
+
+
+        public override int DosingResult
+        {
+            get
+            {
+                return _connection.AllData[JetBusCommands.DOSING_RESULT];
+            }
+        }
+
+
+        public override int CoarseFlow { get { return 1; } }
+        public override int FineFlow { get { return 1; } }
+        public override int Ready { get { return 1; } }
+        public override int ReDosing { get { return 1; } }
+        public override int Emptying { get { return 1; } }
+        public override int FlowError { get { return 1; } }
+        public override int Alarm { get { return 1; } }
+
+
+        public override int ToleranceErrorPlus { get { return 1; } }
+        public override int ToleranceErrorMinus { get { return 1; } }
+
+        public override int CurrentDosingTime { get { return 1; } }
+        public override int CurrentCoarseFlowTime { get { return 1; } }
+        public override int CurrentFineFlowTime { get { return 1; } }
+
+        #endregion
+
+
+        #region Process data methods - Filling
+        public override void clearDosingResults()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void abortDosing()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void startDosing()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void manualReDosing()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+
+        #region Adjustment methods
+
+        /// <summary>
+        /// Calculates the values for deadload and nominal load in d from the inputs in mV/V and writes the into the WTX registers.
+        /// </summary>
+        /// <param name="preload"></param>
+        /// <param name="capacity"></param>
+        public override void Calculate(double scaleZeroLoad_mVV, double scaleCapacity_mVV)
+        {
+            int scalZeroLoad_d;
+            int scaleCapacity_d; 
+
+            scalZeroLoad_d = (int) (scaleZeroLoad_mVV * CONVERISION_FACTOR_MVV_TO_D);
+            scaleCapacity_d = (int)(scalZeroLoad_d + (scaleCapacity_mVV * CONVERISION_FACTOR_MVV_TO_D));
+
+
+            // write path 2110/06 - dead load = LDW_DEAD_WEIGHT 
+
+            _connection.Write(JetBusCommands.LDW_DEAD_WEIGHT, scalZeroLoad_d);         // Zero point = LDW_DEAD_WEIGHT= "2110/06"
+
+            // write path 2110/07 - capacity/span = Nominal value = LWT_NOMINAL_VALUE        
+
+            _connection.Write(JetBusCommands.LWT_NOMINAL_VALUE, Convert.ToInt32(scaleCapacity_d));    // Nominal value = LWT_NOMINAL_VALUE = "2110/07" ; 
+
+            //this._isCalibrating = true;
+        }
+
+
+        public override void MeasureZero()
+        {
+            //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
+
+            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
+
+            // check : command "on go" = command is in execution = 
+            while (_connection.Read(JetBusCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_ONGOING);
+            
+            // check : command "ok" = command is done = 
+            while (_connection.Read(JetBusCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_OK);
+            
+        }
+
+
+        // This method sets the value for the nominal weight in the WTX.
+        public override void Calibrate(int calibrationValue, string calibrationWeightStr)
+        {
+            _connection.Write(JetBusCommands.LFT_SCALE_CALIBRATION_WEIGHT, calibrationValue);          // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
+
+            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
+
+            // check : command "on go" = command is in execution = 
+            while (_connection.Read(JetBusCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
+
+            // check : command "ok" = command is done = 
+            while (_connection.Read(JetBusCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_OK) ;     
+
+            //this._isCalibrating = true;
+        }
+
+
+        public override void adjustZero()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public override void adjustNominal()
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+
+
+        #region Filler
+
+        public override int ParameterSetProduct { get { return 1; } }
 
         public override int MaxDosingTime
         {
@@ -902,15 +986,7 @@ namespace HBM.Weighing.API.WTX
                 _connection.Write(JetBusCommands.EMPTYING_MODE, value);
             }
         }      // EMD
-
-
-        public override int Status
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.SCALE_COMMAND_STATUS];
-            }
-        }
+        
 
         public override int DelayTimeAfterFineFlow
         {
@@ -923,7 +999,7 @@ namespace HBM.Weighing.API.WTX
                 _connection.AllData[JetBusCommands.DELAY1_DOSING] = value;
                 _connection.Write(JetBusCommands.DELAY1_DOSING, value);
             }
-        }      // ID = DL1 : Delay 1 für Dosieren. 
+        }      
 
         public override int ActivationTimeAfterFineFlow
         {
@@ -936,10 +1012,18 @@ namespace HBM.Weighing.API.WTX
                 _connection.AllData[JetBusCommands.FINEFLOW_PHASE_BEFORE_COARSEFLOW] = value;
                 _connection.Write(JetBusCommands.FINEFLOW_PHASE_BEFORE_COARSEFLOW, value);
             }
-        } // ID = FFL : "Feinstromphase vor Grobstrom". 
+        }
+        
+       
+        public override int TotalWeight { get { return 1; } }
+        public override int TargetFillingWeight { get; set; }
+        public override int CoarseFlowCutOffPointSet { get; set; }
+        public override int FineFlowCutOffPointSet { get; set; }
+        public override int StartWithFineFlow { get; set; }
+        #endregion
 
 
-        // Limit values 1-4: 
+        #region Limit switches
         public override int LimitValue1Input
         {
             get
@@ -994,79 +1078,30 @@ namespace HBM.Weighing.API.WTX
                 _connection.AllData[JetBusCommands.LIMIT_VALUE] = value;
                 _connection.Write(JetBusCommands.LIMIT_VALUE, value);
             }
-        }
-
-
-        // Method to check if the handshake is done.
-        public override int Handshake
-        {
-            get
-            {
-                if (_connection.AllData[JetBusCommands.SCALE_COMMAND_STATUS] == 1801543519)
-                    return 1;
-                else
-                    return 0;
-            }
-        }
-
-        /*
-        // Input values : To implement these you have to get the ID's from the manual and set them like:
-        // this.connection.Read(ParameterKeys.GROSS_VALUE);
-        */
-
-        public override int ApplicationMode { get { return 1; } }
-
-        public override int WeightMemDay { get { return 1; } }
-        public override int WeightMemMonth { get { return 1; } }
-        public override int WeightMemYear { get { return 1; } }
-        public override int WeightMemSeqNumber { get { return 1; } }
-        public override int WeightMemGross { get { return 1; } }
-        public override int WeightMemNet { get { return 1; } }
-
-        public override int CoarseFlow { get { return 1; } }
-        public override int FineFlow { get { return 1; } }
-        public override int Ready { get { return 1; } }
-        public override int ReDosing { get { return 1; } }
-        public override int Emptying { get { return 1; } }
-        public override int FlowError { get { return 1; } }
-        public override int Alarm { get { return 1; } }
-        public override int AdcOverUnderload { get { return 1; } }
-
-        public override int LegalTradeOp { get { return 1; } }
-        public override int ToleranceErrorPlus { get { return 1; } }
-        public override int ToleranceErrorMinus { get { return 1; } }
-        public override int StatusInput1 { get { return 1; } }
-        public override int GeneralScaleError { get { return 1; } }
-
-        public override int CurrentDosingTime { get { return 1; } }
-        public override int CurrentCoarseFlowTime { get { return 1; } }
-        public override int CurrentFineFlowTime { get { return 1; } }
-        public override int ParameterSetProduct { get { return 1; } }
-
-        public override int ManualTareValue { get; set; }
-        public override int LimitValue1Mode { get; set; }
-        public override int LimitValue1ActivationLevelLowerBandLimit { get; set; }
-        public override int LimitValue1HysteresisBandHeight { get; set; }
-
-        // Output words for the standard application: Not implemented so far
+        }        
 
         public override int LimitValue2Mode { get; set; }
         public override int LimitValue2ActivationLevelLowerBandLimit { get; set; }
-        public override int LimitValue2HysteresisBandHeight { get; set; }        
+        public override int LimitValue2HysteresisBandHeight { get; set; }
         public override int LimitValue3Mode { get; set; }
         public override int LimitValue3ActivationLevelLowerBandLimit { get; set; }
         public override int LimitValue3HysteresisBandHeight { get; set; }
         public override int LimitValue4Mode { get; set; }
         public override int LimitValue4ActivationLevelLowerBandLimit { get; set; }
         public override int LimitValue4HysteresisBandHeight { get; set; }
+        public override int LimitValue1Mode { get; set; }
+        public override int LimitValue1ActivationLevelLowerBandLimit { get; set; }
+        public override int LimitValue1HysteresisBandHeight { get; set; }
+        #endregion
 
-        // Output words for the filler application: Not implemented so far
 
-        public override int TotalWeight { get { return 1; } }
-        public override int TargetFillingWeight { get; set; }
-        public override int CoarseFlowCutOffPointSet { get; set; }
-        public override int FineFlowCutOffPointSet { get; set; }
-        public override int StartWithFineFlow { get; set; }
-        
+        #region Alibi memory
+        public override int WeightMemDay { get { return 1; } }
+        public override int WeightMemMonth { get { return 1; } }
+        public override int WeightMemYear { get { return 1; } }
+        public override int WeightMemSeqNumber { get { return 1; } }
+        public override int WeightMemGross { get { return 1; } }
+        public override int WeightMemNet { get { return 1; } }
+        #endregion               
     }
 }
