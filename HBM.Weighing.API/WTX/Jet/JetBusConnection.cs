@@ -209,7 +209,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
             dataArrived = true;
             
-            IncomingDataReceived?.Invoke(this, null);
+            //IncomingDataReceived?.Invoke(this, null);  Hier???
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)
