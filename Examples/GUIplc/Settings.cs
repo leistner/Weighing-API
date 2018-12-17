@@ -49,8 +49,8 @@ namespace WTXModbusExamples
             textBox3.Text = this._numberInputs.ToString();
             
             label2.Text = "IP address";
-            label3.Text = "Timer/Sending interval";
-            label4.Text = "Number of inputs";
+            label3.Text = "Read interval";
+            label4.Text = "Read buffer length";
         }
 
         public string GetIpAddress
