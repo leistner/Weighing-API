@@ -55,9 +55,7 @@ namespace HBM.Weighing.API
         void WriteArray(ushort index, ushort[] data);
                 
         Dictionary<string, int> AllData { get; }
-
-        int NumofPoints     { get; set; }
-
+        
         bool IsConnected    { get; }
 
         string IpAddress    { get; set; }        

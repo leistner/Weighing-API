@@ -8,14 +8,10 @@
 using System;
 using System.Windows.Forms;
 using System.IO;
-using WTXModbusGUIsimple;
-using WTXModbus;
-using System.Threading;
-using System.ComponentModel;
-
 using HBM.Weighing.API.WTX;
 using HBM.Weighing.API;
 using HBM.Weighing.API.WTX.Modbus;
+using WTXModbusGUIsimple;
 
 namespace WTXModbusExamples
 {
@@ -329,7 +325,7 @@ namespace WTXModbusExamples
 
             toolStripStatusLabel2.Text = "IP address: " + _wtxDevice.Connection.IpAddress;
             toolStripStatusLabel3.Text = "Mode : " + this._dataStr[14]; // index 14 refers to application mode of the Device
-            toolStripStatusLabel5.Text = "Number of Inputs : " + _wtxDevice.Connection.NumofPoints; 
+            toolStripStatusLabel5.Text = "Number of Inputs : " + _wtxDevice.ReadBufferLength; 
         }
 
         // This method actualizes and resets the data grid with newly calculated values of the previous iteration. 
@@ -794,7 +790,7 @@ namespace WTXModbusExamples
             timer1.Enabled = false;     // Stop the timer (Restart is in Class "Settings_Form").
             timer1.Stop();
                   
-            _settings = new SettingsForm(_wtxDevice.Connection.IpAddress, this.timer1.Interval, (ushort)_wtxDevice.Connection.NumofPoints, this);
+            _settings = new SettingsForm(_wtxDevice.Connection.IpAddress, this.timer1.Interval, (ushort)_wtxDevice.ReadBufferLength, this);
             _settings.Show();
         }
 
@@ -810,8 +806,8 @@ namespace WTXModbusExamples
  
             this.timer1.Interval = _settings.GetSendingInterval;
 
-            _wtxDevice.Connection.NumofPoints = _settings.GetNumberInputs;
-            toolStripStatusLabel5.Text = "Number of Inputs : " + _wtxDevice.Connection.NumofPoints;
+            _wtxDevice.ReadBufferLength = _settings.GetNumberInputs;
+            toolStripStatusLabel5.Text = "Number of Inputs : " + _wtxDevice.ReadBufferLength;
         }
 
         // This method changes the GUI concerning the application mode.

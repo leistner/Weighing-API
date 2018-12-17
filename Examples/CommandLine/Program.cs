@@ -153,7 +153,7 @@ namespace WTXModbus
 
                 _wtxDevice = new WtxModbus(_modbusConection, _timerInterval,update);
 
-                _wtxDevice.Connection.NumofPoints = 6;
+                ((WtxModbus)_wtxDevice).ReadBufferLength = 6;
             }
             else
             {
