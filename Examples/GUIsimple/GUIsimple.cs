@@ -75,7 +75,6 @@ namespace WTXGUIsimple
             txtIPAddress.Text = _ipAddress;
 
             picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;
-            picConnectionType.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;
         }
         
         public GUIsimple(string[] args)
@@ -89,7 +88,6 @@ namespace WTXGUIsimple
             txtIPAddress.Text = _ipAddress;
 
             picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;
-            picConnectionType.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;
         }
         #endregion
 
@@ -101,12 +99,10 @@ namespace WTXGUIsimple
             {
                 if (args[0].ToLower() == "modbus")
                 {              
-                    picConnectionType.Image = WTXGUIsimple.Properties.Resources.modbus_symbol;
                     rbtConnectionModbus.Checked = true;
                 }
                 if (args[0].ToLower() == "jet")
                 {
-                    picConnectionType.Image = WTXGUIsimple.Properties.Resources.jet_symbol;
                     rbtConnectionJet.Checked = true;
                 }
             }
@@ -157,11 +153,6 @@ namespace WTXGUIsimple
 
             if (_wtxDevice.isConnected == true)
             {
-                if (this.rbtConnectionJet.Checked)
-                    picConnectionType.Image = WTXGUIsimple.Properties.Resources.jet_symbol;
-                if (this.rbtConnectionModbus.Checked)
-                    picConnectionType.Image = WTXGUIsimple.Properties.Resources.modbus_symbol;
-
                 picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisActive;
             }
             else
@@ -232,7 +223,6 @@ namespace WTXGUIsimple
                     _wtxDevice = null;
 
                     picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;
-                    picConnectionType.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;
 
                     Thread.Sleep(WAIT_DISCONNECT);     // Wait for 2 seconds till the disconnection request is finished. 
 
