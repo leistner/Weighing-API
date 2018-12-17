@@ -102,7 +102,6 @@
             this.rbtConnectionModbus.TabStop = true;
             this.rbtConnectionModbus.Text = "Modbus/TCP";
             this.rbtConnectionModbus.UseVisualStyleBackColor = true;
-            this.rbtConnectionModbus.CheckedChanged += new System.EventHandler(this.rbtConnectionModbus_CheckedChanged);
             // 
             // rbtConnectionJet
             // 
@@ -124,7 +123,6 @@
             this.picConnectionType.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picConnectionType.TabIndex = 25;
             this.picConnectionType.TabStop = false;
-            this.picConnectionType.Click += new System.EventHandler(this.picConnectionType_Click);
             // 
             // cmdGrossNet
             // 
@@ -224,7 +222,6 @@
             this.Controls.Add(this.grrpSetup);
             this.Name = "GUIsimple";
             this.Text = "GUIsimple";
-            this.Load += new System.EventHandler(this.LiveValue_Load);
             this.grrpSetup.ResumeLayout(false);
             this.grrpSetup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picConnectionType)).EndInit();

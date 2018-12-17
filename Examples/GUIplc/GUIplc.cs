@@ -60,16 +60,17 @@ namespace WTXModbusExamples
         private int _i;
         private int _arrayLength;
 
-        string[] _args;
         #endregion
 
         // Constructor of class GUI for the initialisation: 
         public Gui(string[] argsParam)
         {
+            string[] _args;
+
             // Initialize the GUI Form: 
             InitializeComponent();           // Call of this method to initialize the form.
 
-            this._args = argsParam;
+            _args = argsParam;
 
             if (_args.Length > 0)
             {
@@ -81,16 +82,16 @@ namespace WTXModbusExamples
             }
 
             //Get IPAddress and the timer interval from the command line of the VS project arguments (at "Debug").
-            if (this._args.Length > 1)
+            if (_args.Length > 1)
             {
-                this._ipAddress = this._args[1];
+                this._ipAddress = _args[1];
             }
             else
             {
                 WTXModbus.Properties.Settings.Default.Reload();
                 _ipAddress = WTXModbus.Properties.Settings.Default.IPAddress;
             }
-            if (this._args.Length > 2)
+            if (_args.Length > 2)
             {
                 this._timerInterval = Convert.ToInt32(_args[2]);
             }

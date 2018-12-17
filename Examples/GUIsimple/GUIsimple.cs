@@ -119,6 +119,7 @@ namespace WTXGUIsimple
         }
         #endregion
 
+
         #region Connection
         // This method connects to the given IP address
         private void InitializeConnection()
@@ -276,19 +277,5 @@ namespace WTXGUIsimple
         }
         #endregion
 
-        private void picConnectionType_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void rbtConnectionModbus_CheckedChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void LiveValue_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
