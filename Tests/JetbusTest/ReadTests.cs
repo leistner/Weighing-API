@@ -1,4 +1,4 @@
-﻿/*
+﻿
 using HBM.Weighing.API;
 using HBM.Weighing.API.WTX;
 using HBM.Weighing.API.WTX.Jet;
@@ -143,6 +143,7 @@ namespace JetbusTest
             testGrossValue = 0;            
         }
       
+        /*
         [Test, TestCaseSource(typeof(ReadTests), "ReadGrossValueTestCases")]
         public bool testReadGrossValue(Behavior behavior)
         {
@@ -166,7 +167,8 @@ namespace JetbusTest
            
 
         }
-
+        */
+        /*
         [Test, TestCaseSource(typeof(ReadTests), "ReadNetValueTestCases")]
         public void testReadNetValue(Behavior behavior)
         {
@@ -178,11 +180,11 @@ namespace JetbusTest
 
             testGrossValue = _wtxObj.NetValue;
 
-            Assert.IsTrue(_jetTestConnection.getData().ContainsKey("601A/01"));
+            Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("601A/01"));
 
             //Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("601A/01"));
         }
-
+        */
 
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testWeightMovingValue(Behavior behavior)
@@ -1074,4 +1076,3 @@ namespace JetbusTest
         }
     }
 }
-*/

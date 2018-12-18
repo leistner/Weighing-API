@@ -65,12 +65,14 @@
     <Compile Include="ProcessDataReceivedEventArgs.cs" />
     <Compile Include="INetConnection.cs" />
     <Compile Include="LogEvent.cs" />
-    <Compile Include="WTX\IProcessData.cs" />
+    <Compile Include="IProcessData.cs" />
     <Compile Include="WTX\Jet\JetBusCommands.cs" />
     <Compile Include="WTX\Jet\JetBusConnection.cs" />
     <Compile Include="WTX\Jet\JetBusException.cs" />
+
     <Compile Include="WTX\Modbus\ModbusTcpConnection.cs" />
     <Compile Include="WTX\ProcessData.cs" />
+
     <Compile Include="WTX\WTXJet.cs" />
     <Compile Include="WTX\WTXModbus.cs" />
     <Compile Include="BaseWTDevice.cs" />

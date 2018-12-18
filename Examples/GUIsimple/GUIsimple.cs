@@ -166,11 +166,11 @@ namespace WTXGUIsimple
         //Callback for automatically receiving event based data from the device
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {           
-            txtInfo.Invoke(new Action(() =>
+            txtInfo.BeginInvoke(new Action(() =>
             {
                 int netValue   = e.ProcessData.NetValue;
                 int grossValue = e.ProcessData.GrossValue;
-                int decimals      = e.ProcessData.Decimals;
+                int decimals   = e.ProcessData.Decimals;
 
                 int taraValue = netValue - grossValue;
 
@@ -180,27 +180,26 @@ namespace WTXGUIsimple
                 txtInfo.TextAlign = HorizontalAlignment.Right;
             }));
 
-
-            txtInfo.Invoke(new Action(() =>
+            txtInfo.BeginInvoke(new Action(() =>
             {
-                if (e.ProcessData.LimitStatus == 1)
+                if (e.ProcessData.Underload == true)
                 {
-                    txtInfo.Text = "Lower than minimum" + Environment.NewLine;
+                    txtInfo.Text = "Underload : Lower than minimum" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
 
                 }
-                if (e.ProcessData.LimitStatus == 2)
+                if (e.ProcessData.Overload == true)
                 {
-                    txtInfo.Text = "Higher than maximum capacity" + Environment.NewLine;
+                    txtInfo.Text = "Overload : Higher than maximum capacity" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
 
                 }
-                if (e.ProcessData.LimitStatus == 3)
+                if (e.ProcessData.higherSafeLoadLimit == true)
                 {
                     txtInfo.Text = "Higher than safe load limit" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
-
                 }
+                
             }));
         }
         

@@ -172,11 +172,9 @@ namespace HBM.Weighing.API.WTX
             _processData.Unit = this.Unit;
             _processData.Handshake = Convert.ToBoolean(this.Handshake);
             _processData.Status = Convert.ToBoolean(this.Status);
-            _processData.Underload = false;
-            _processData.Overload = false;
-            _processData.weightWithinLimits = false;
-            _processData.higherSafeLoadLimit = false;
-            _processData.LegalTradeOp = 0;
+
+            this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
+            _processData.LegalTradeOp = this.LegalTradeOp;
 
             // Do something with the data, like in the class WTXModbus.cs           
             this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processData));
@@ -690,6 +688,44 @@ namespace HBM.Weighing.API.WTX
             while (_connection.Read(JetBusCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_OK) ;     
 
             //this._isCalibrating = true;
+        }
+
+
+        private void limitStatusBool()
+        {
+            switch (this.LimitStatus)
+            {
+                case 0: // Weight within limits
+                    _processData.Underload = false;
+                    _processData.Overload = false;
+                    _processData.weightWithinLimits = true;
+                    _processData.higherSafeLoadLimit = false;
+                    break;
+                case 1: // Lower than minimum
+                    _processData.Underload = true;
+                    _processData.Overload = false;
+                    _processData.weightWithinLimits = false;
+                    _processData.higherSafeLoadLimit = false;
+                    break;
+                case 2: // Higher than maximum capacity
+                    _processData.Underload = false;
+                    _processData.Overload = true;
+                    _processData.weightWithinLimits = false;
+                    _processData.higherSafeLoadLimit = false;
+                    break;
+                case 3: // Higher than safe load limit
+                    _processData.Underload = false;
+                    _processData.Overload = false;
+                    _processData.weightWithinLimits = false;
+                    _processData.higherSafeLoadLimit = true;
+                    break;
+                default: // Lower than minimum
+                    _processData.Underload = true;
+                    _processData.Overload = false;
+                    _processData.weightWithinLimits = false;
+                    _processData.higherSafeLoadLimit = false;
+                    break;
+            }
         }
 
 

@@ -136,11 +136,15 @@ namespace HBM.Weighing.API.WTX.Modbus
             WTXModbusObj = new WtxModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
-            
-            _data = await testConnection.ReadAsync();
-            
+
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                WTXModbusObj.OnData(result);
+            });
+
             return WTXModbusObj.GetDataUshort[1];
-            
+
         }
 
         private void update(object sender, ProcessDataReceivedEventArgs e)

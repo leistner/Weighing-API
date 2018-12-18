@@ -658,7 +658,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         public async Task<ushort[]> ReadAsync()
         {
             ushort[] value = new ushort[1];
-
+            await Task.Run(async () =>
+             {
             switch (behavior)
             {
                 case Behavior.ReadFail:
@@ -782,8 +783,6 @@ namespace HBM.Weighing.API.WTX.Modbus
                 case Behavior.WeightTypeStringComment_Case1_Success:
                     _dataWTX[4] = 0x0080;
                     break;
-
-
                 // Simulate for testing 'Scale range': 
 
                 case Behavior.ScaleRangeStringComment_Range1_Fail:
@@ -831,7 +830,10 @@ namespace HBM.Weighing.API.WTX.Modbus
             {
                 _dataWTX[5] = 0x0000;
             }
-            
+
+            return _dataWTX;
+
+             });
             return _dataWTX;
         }
 

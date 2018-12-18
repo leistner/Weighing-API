@@ -272,7 +272,11 @@ namespace HBM.Weighing.API.WTX.Modbus
            
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.Unit;
         }
@@ -286,7 +290,11 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.Unit;
         }
@@ -300,7 +308,11 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.Unit;
         }
@@ -312,7 +324,11 @@ namespace HBM.Weighing.API.WTX.Modbus
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.Unit;
         }
@@ -420,16 +436,22 @@ namespace HBM.Weighing.API.WTX.Modbus
             Assert.AreEqual(dValue.ToString("0.000000"), strValue);
         }
 
+
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "ScaleRangeStringComment_Range1_TestCase_Modbus")]
+        //public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
         public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
-        {
+        {            
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                 ushort[] result = await testConnection.ReadAsync();
+                 _wtxObj.OnData(result);
+            });
 
-            return _wtxObj.ScaleRangeStringComment();
+            return _wtxObj.ScaleRangeStringComment();         
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "ScaleRangeStringComment_Range2_TestCase_Modbus")]
@@ -439,7 +461,11 @@ namespace HBM.Weighing.API.WTX.Modbus
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.ScaleRangeStringComment();
         }
@@ -451,9 +477,13 @@ namespace HBM.Weighing.API.WTX.Modbus
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
-            return _wtxObj.ScaleRangeStringComment();       
+            return _wtxObj.ScaleRangeStringComment();
         }
 
 
@@ -465,7 +495,11 @@ namespace HBM.Weighing.API.WTX.Modbus
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.LimitStatusStringComment();
         }
@@ -477,7 +511,11 @@ namespace HBM.Weighing.API.WTX.Modbus
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.LimitStatusStringComment();
         }
@@ -489,7 +527,11 @@ namespace HBM.Weighing.API.WTX.Modbus
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.LimitStatusStringComment();
         }
@@ -501,7 +543,11 @@ namespace HBM.Weighing.API.WTX.Modbus
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.LimitStatusStringComment();
         }   
@@ -513,7 +559,11 @@ namespace HBM.Weighing.API.WTX.Modbus
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.WeightMovingStringComment();
         }
@@ -525,9 +575,13 @@ namespace HBM.Weighing.API.WTX.Modbus
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
-            return _wtxObj.WeightMovingStringComment();        
+            return _wtxObj.WeightMovingStringComment();
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightTypeStringComment_Case0_TestCase_Modbus")]
@@ -537,7 +591,11 @@ namespace HBM.Weighing.API.WTX.Modbus
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _data = await testConnection.ReadAsync();
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.WeightTypeStringComment();
         }
@@ -548,8 +606,12 @@ namespace HBM.Weighing.API.WTX.Modbus
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
-            
-            _data=await testConnection.ReadAsync();
+
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             return _wtxObj.WeightTypeStringComment();
         }
