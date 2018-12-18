@@ -37,7 +37,7 @@ namespace HBM.Weighing.API.WTX
 
     public class WtxModbus : BaseWtDevice   
     {
-        private ProcessData _processDataObj;
+        private ProcessData _processData;
 
         private string[] _dataStr;
         private ushort[] _previousData;
@@ -49,25 +49,16 @@ namespace HBM.Weighing.API.WTX
         private bool _isRefreshed;
         private bool _compareDataChanged;
         private int _timerInterval;
-
-        private Action<IProcessData> _callbackObj;
-
+        
         private ushort _command;
-
-        private double dPreload, dNominalLoad, multiplierMv2D;
-
-        //private int decimalFactor = 1;
-        //private int currentWeightNoDecimals = 0;
-
+        private double dPreload, dNominalLoad, multiplierMv2D;      
         public System.Timers.Timer _aTimer;
         
-        private IProcessData deviceData;
-
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
 
         public WtxModbus(INetConnection connection, int paramTimerInterval, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(connection)
         {
-            _processDataObj = new ProcessData();
+            _processData = new ProcessData();
 
             this._connection = connection;
 
@@ -495,32 +486,29 @@ namespace HBM.Weighing.API.WTX
             {                                                                                                    // and the data should be send to the GUI/console and be printed out. 
                                                                                                                  // If the GUI has been refreshed, the values should also be send to the GUI/Console and be printed out. 
                                                                                                                  //DataUpdateEvent?.Invoke(this, new DataEvent(this._data, this.GetDataStr));
-                _processDataObj.NetValue = this.NetValue;
-                _processDataObj.GrossValue = this.GrossValue;
-                _processDataObj.Tare = this.NetValue - this.GrossValue;
-                _processDataObj.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
-                _processDataObj.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
-                _processDataObj.LimitStatus = this.LimitStatus;
-                _processDataObj.WeightMoving = Convert.ToBoolean(this.WeightMoving);
-                _processDataObj.ScaleSealIsOpen = Convert.ToBoolean(this.ScaleSealIsOpen);
-                _processDataObj.ManualTare = Convert.ToBoolean(this.ManualTare);
-                _processDataObj.WeightType = Convert.ToBoolean(this.WeightType);
-                _processDataObj.ScaleRange = this.ScaleRange;
-                _processDataObj.ZeroRequired = Convert.ToBoolean(this.ZeroRequired);
-                _processDataObj.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
-                _processDataObj.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
-                _processDataObj.ApplicationMode = this.ApplicationMode;
-                _processDataObj.Decimals = this.Decimals;
-                _processDataObj.Unit = this.Unit;
-                _processDataObj.Handshake = Convert.ToBoolean(this.Handshake);
-                _processDataObj.Status = Convert.ToBoolean(this.Status);
-                _processDataObj.Underload = false;
-                _processDataObj.Overload = false;
-                _processDataObj.weightWithinLimits = false;
-                _processDataObj.higherSafeLoadLimit = false;
-                _processDataObj.LegalTradeOp = 0;
+                _processData.NetValue = this.NetValue;
+                _processData.GrossValue = this.GrossValue;
+                _processData.Tare = this.NetValue - this.GrossValue;
+                _processData.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
+                _processData.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
+                _processData.LimitStatus = this.LimitStatus;
+                _processData.WeightMoving = Convert.ToBoolean(this.WeightMoving);
+                _processData.ScaleSealIsOpen = Convert.ToBoolean(this.ScaleSealIsOpen);
+                _processData.ManualTare = Convert.ToBoolean(this.ManualTare);
+                _processData.WeightType = Convert.ToBoolean(this.WeightType);
+                _processData.ScaleRange = this.ScaleRange;
+                _processData.ZeroRequired = Convert.ToBoolean(this.ZeroRequired);
+                _processData.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
+                _processData.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
+                _processData.ApplicationMode = this.ApplicationMode;
+                _processData.Decimals = this.Decimals;
+                _processData.Unit = this.Unit;
+                _processData.Handshake = Convert.ToBoolean(this.Handshake);
+                _processData.Status = Convert.ToBoolean(this.Status);
+                this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
+                _processData.LegalTradeOp = this.LegalTradeOp;
 
-                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processDataObj));
+                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processData));
 
                 this._isCalibrating = false;
             }
@@ -2200,6 +2188,45 @@ namespace HBM.Weighing.API.WTX
                     return "Lower than minimum";
             }
         }
+
+
+        private void limitStatusBool()
+        {
+            switch (this.LimitStatus)
+            {
+                case 0: // Weight within limits
+                    _processData.Underload = false;
+                    _processData.Overload = false;
+                    _processData.weightWithinLimits = true;
+                    _processData.higherSafeLoadLimit = false;
+                    break;
+                case 1: // Lower than minimum
+                    _processData.Underload = true;
+                    _processData.Overload = false;
+                    _processData.weightWithinLimits = false;
+                    _processData.higherSafeLoadLimit = false;
+                    break;
+                case 2: // Higher than maximum capacity
+                    _processData.Underload = false;
+                    _processData.Overload = true;
+                    _processData.weightWithinLimits = false;
+                    _processData.higherSafeLoadLimit = false;
+                    break;
+                case 3: // Higher than safe load limit
+                    _processData.Underload = false;
+                    _processData.Overload = false;
+                    _processData.weightWithinLimits = false;
+                    _processData.higherSafeLoadLimit = true;
+                    break;
+                default: // Lower than minimum
+                    _processData.Underload = true;
+                    _processData.Overload = false;
+                    _processData.weightWithinLimits = false;
+                    _processData.higherSafeLoadLimit = false;
+                    break;
+            }
+        }
+
         public string WeightTypeStringComment()
         {
             if (this.WeightType == 0)

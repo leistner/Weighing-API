@@ -281,7 +281,7 @@ namespace HBM.Weighing.API.WTX.Jet
                 this.ConvertJTokenToStringArray();
               
                 if (dataArrived == true)
-                    IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(null));
+                    IncomingDataReceived?.Invoke(this, null);
 
                 BusActivityDetection?.Invoke(this, new LogEvent(data.ToString()));
             }
@@ -308,12 +308,13 @@ namespace HBM.Weighing.API.WTX.Jet
                 if (_dataJTokenBuffer.ContainsKey(index.ToString())) {
 
                     this.ConvertJTokenToStringArray();
-                   
-                   //IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(DataUshortArray,DataStrArray));
 
-                    return _dataJTokenBuffer[index.ToString()];
+                    //IncomingDataReceived?.Invoke(this, null);
+
+                return _dataJTokenBuffer[index.ToString()];
                 }
-                else {
+                else
+                {
 
                     throw new Exception("Object does not exist in the object dictionary");
                 }

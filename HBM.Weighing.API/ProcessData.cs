@@ -30,7 +30,7 @@
 
 using System;
 
-namespace HBM.Weighing.API.WTX
+namespace HBM.Weighing.API
 {
     public class ProcessData : IProcessData
     {

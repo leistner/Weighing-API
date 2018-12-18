@@ -257,7 +257,7 @@ namespace HBM.Weighing.API.WTX.Jet
         {
             get
             {
-                this.FetchAll();
+                //this.FetchAll();
 
                 Dictionary<string, int> newDict = new Dictionary<string, int>();
 

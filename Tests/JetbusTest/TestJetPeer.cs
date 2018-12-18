@@ -34,16 +34,15 @@ namespace JetbusTest
             Event= "";
             data = 0;
         }
-        
+
         // Method to simulate the fetching of data from the wtx device : By adding and changing paths to the data buffer(='_databuffer') and by calling an event in TestJetbusConnection with invoke.  
         public JObject Fetch(out FetchId id, Matcher matcher, Action<JToken> fetchCallback, Action<bool, JToken> responseCallback, double responseTimeoutMs)
         {
             string path = "";
             string Event = "";
             int data = 0;
-
-            if (!_connection._dataBuffer.ContainsKey("6014/01")) // Only if the dictionary does not contain a path(for example "6014/01") the dictionary will be filled: 
-            {
+         
+            //if (!_connection._dataBuffer.ContainsKey("6014/01")) // Only if the dictionary does not contain a path(for example "6014/01") the dictionary will be filled: 
                 _connection._dataBuffer.Add("6144/00", simulateJTokenInstance("6144/00", "add", 1)["value"]);   // Read 'gross value'
                 _connection._dataBuffer.Add("601A/01", simulateJTokenInstance("601A/01", "add", 1)["value"]);   // Read 'net value'
                 _connection._dataBuffer.Add("6153/00", simulateJTokenInstance("6153/00", "add", 1)["value"]);   // Read 'weight moving detection'        
@@ -99,8 +98,7 @@ namespace JetbusTest
                 _connection._dataBuffer.Add("DL1", simulateJTokenInstance("DL1", "add", 1)["value"]);
                 _connection._dataBuffer.Add("6002/02", simulateJTokenInstance("6002/02", "add", 1801543519)["value"]); //StatusStringComment
                 _connection._dataBuffer.Add("2020/25", simulateJTokenInstance("2020/25", "add", 0xA)["value"]);   // 0xA(hex)=1010(binary) //Limit value status:
-            }
-
+                                                                                                                 
             JToken JTokenobj = simulateJTokenInstance(path,Event,data);
 
             id = null;
