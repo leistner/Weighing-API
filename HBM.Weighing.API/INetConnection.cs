@@ -42,25 +42,26 @@ namespace HBM.Weighing.API
 
         event EventHandler<ProcessDataReceivedEventArgs> IncomingDataReceived;
 
+        string IpAddress    { get; set; }       
+
+        bool IsConnected    { get; }
+
         void Connect();
              
         void Disconnect();
 
         int Read(object index);       
+
         void Write(object index, int data);
 
         Task<ushort[]> ReadAsync();
+
         Task<int> WriteAsync(ushort index, ushort commandParam);
 
         void WriteArray(ushort index, ushort[] data);
                 
         Dictionary<string, int> AllData { get; }
-
-        int NumofPoints     { get; set; }
-
-        bool IsConnected    { get; }
-
-        string IpAddress    { get; set; }        
+         
 
     }
     

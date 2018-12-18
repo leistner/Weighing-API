@@ -209,7 +209,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
             dataArrived = true;
             
-            IncomingDataReceived?.Invoke(this, null);
+            //IncomingDataReceived?.Invoke(this, null);  Hier???
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)
@@ -584,18 +584,6 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
         
-        public int NumofPoints 
-        {
-            get
-            {
-                return 38;
-            }
-
-            set
-            {
-                throw new NotImplementedException();
-            }
-        }
         
         public string IpAddress
         {
@@ -609,17 +597,6 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
 
-        public int SendingInterval
-        {
-            get
-            {
-                return this.interval;
-            }
-            set
-            {
-                this.interval = value;
-            }
-        }
         #endregion
     }
 

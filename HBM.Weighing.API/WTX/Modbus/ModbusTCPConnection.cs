@@ -49,6 +49,10 @@ namespace HBM.Weighing.API.WTX.Modbus
     /// </summary>
     public class ModbusTcpConnection : INetConnection 
     {
+        const int MODBUS_TCP_DEFAULT_PORT = 502;
+        const int WTX_DEFAULT_START_ADDRESS = 0;
+        const int WTX_DEFAULT_DATAWORD_COUNT = 38;
+
         private ModbusIpMaster _master;
         private TcpClient _client;
 
@@ -67,11 +71,11 @@ namespace HBM.Weighing.API.WTX.Modbus
         public ModbusTcpConnection(string IpAddress)
         {
             _connected = false;
-            _port = 502;
+            _port = MODBUS_TCP_DEFAULT_PORT;
             ipAddress = IpAddress; //IP-address to establish a successful connection to the device
 
-            _numOfPoints = 38;
-            _startAdress = 0;
+            _numOfPoints = WTX_DEFAULT_DATAWORD_COUNT;
+            _startAdress = WTX_DEFAULT_START_ADDRESS;
         }
         
         // Getter/Setter for the IP_Adress, StartAdress, NumofPoints, Sending_interval, Port, Is_connected()
@@ -105,10 +109,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             {
                 return this._connected;
             }
-            set
-            {
-                this._connected = value;
-            }
         }
 
         // Declaration of the event Eventhandler. For the message information from the register.
@@ -129,7 +129,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             {
                 _data = _master.ReadHoldingRegisters(this.StartAdress, this.NumOfPoints);
 
-                _connected = true;
                 BusActivityDetection?.Invoke(this, new LogEvent("Read successful: Registers have been read"));
 
                 return _data[Convert.ToInt16(index)];
@@ -141,6 +140,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return 0;
         }
+
 
         public async Task<ushort[]> ReadAsync()
         {
@@ -230,6 +230,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 BusActivityDetection?.Invoke(this, new LogEvent("Connection has NOT been established successfully"));
             }
         }
+
 
         // This method closes the connection to the device.
         public void Disconnect()

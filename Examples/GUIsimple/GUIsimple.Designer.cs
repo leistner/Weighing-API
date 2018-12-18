@@ -28,27 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIsimple));
             this.txtIPAddress = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cmdConnect = new System.Windows.Forms.Button();
             this.grrpSetup = new System.Windows.Forms.GroupBox();
             this.rbtConnectionModbus = new System.Windows.Forms.RadioButton();
             this.rbtConnectionJet = new System.Windows.Forms.RadioButton();
-            this.picConnectionType = new System.Windows.Forms.PictureBox();
             this.cmdGrossNet = new System.Windows.Forms.Button();
             this.cmdTare = new System.Windows.Forms.Button();
             this.cmdZero = new System.Windows.Forms.Button();
             this.txtInfo = new System.Windows.Forms.TextBox();
-            this.picNE107 = new System.Windows.Forms.PictureBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.calibrationWithWeightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.picNE107 = new System.Windows.Forms.PictureBox();
             this.grrpSetup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picConnectionType)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picNE107)).BeginInit();
             this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picNE107)).BeginInit();
             this.SuspendLayout();
             // 
             // txtIPAddress
@@ -69,9 +66,9 @@
             // 
             // cmdConnect
             // 
-            this.cmdConnect.Location = new System.Drawing.Point(255, 28);
+            this.cmdConnect.Location = new System.Drawing.Point(280, 19);
             this.cmdConnect.Name = "cmdConnect";
-            this.cmdConnect.Size = new System.Drawing.Size(61, 36);
+            this.cmdConnect.Size = new System.Drawing.Size(84, 36);
             this.cmdConnect.TabIndex = 2;
             this.cmdConnect.Text = "Connect";
             this.cmdConnect.UseVisualStyleBackColor = true;
@@ -82,7 +79,6 @@
             this.grrpSetup.Controls.Add(this.rbtConnectionModbus);
             this.grrpSetup.Controls.Add(this.rbtConnectionJet);
             this.grrpSetup.Controls.Add(this.txtIPAddress);
-            this.grrpSetup.Controls.Add(this.picConnectionType);
             this.grrpSetup.Controls.Add(this.label1);
             this.grrpSetup.Controls.Add(this.cmdConnect);
             this.grrpSetup.Location = new System.Drawing.Point(10, 31);
@@ -102,7 +98,6 @@
             this.rbtConnectionModbus.TabStop = true;
             this.rbtConnectionModbus.Text = "Modbus/TCP";
             this.rbtConnectionModbus.UseVisualStyleBackColor = true;
-            this.rbtConnectionModbus.CheckedChanged += new System.EventHandler(this.rbtConnectionModbus_CheckedChanged);
             // 
             // rbtConnectionJet
             // 
@@ -115,16 +110,6 @@
             this.rbtConnectionJet.TabStop = true;
             this.rbtConnectionJet.Text = "Jet";
             this.rbtConnectionJet.UseVisualStyleBackColor = true;
-            // 
-            // picConnectionType
-            // 
-            this.picConnectionType.Location = new System.Drawing.Point(322, 24);
-            this.picConnectionType.Name = "picConnectionType";
-            this.picConnectionType.Size = new System.Drawing.Size(42, 47);
-            this.picConnectionType.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picConnectionType.TabIndex = 25;
-            this.picConnectionType.TabStop = false;
-            this.picConnectionType.Click += new System.EventHandler(this.picConnectionType_Click);
             // 
             // cmdGrossNet
             // 
@@ -166,16 +151,6 @@
             this.txtInfo.Size = new System.Drawing.Size(364, 105);
             this.txtInfo.TabIndex = 26;
             // 
-            // picNE107
-            // 
-            this.picNE107.Image = global::WTXGUIsimple.Properties.Resources.NE107_OutOfSpecification;
-            this.picNE107.Location = new System.Drawing.Point(290, 118);
-            this.picNE107.Name = "picNE107";
-            this.picNE107.Size = new System.Drawing.Size(84, 72);
-            this.picNE107.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picNE107.TabIndex = 27;
-            this.picNE107.TabStop = false;
-            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -211,7 +186,18 @@
             this.calibrationToolStripMenuItem.Text = "Calibration with weight";
             this.calibrationToolStripMenuItem.Click += new System.EventHandler(this.calibrationToolStripMenuItem_Click_1);
             // 
-            // GUIsimple            // 
+            // picNE107
+            // 
+            this.picNE107.Image = global::WTXGUIsimple.Properties.Resources.NE107_OutOfSpecification;
+            this.picNE107.Location = new System.Drawing.Point(290, 118);
+            this.picNE107.Name = "picNE107";
+            this.picNE107.Size = new System.Drawing.Size(84, 72);
+            this.picNE107.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picNE107.TabIndex = 27;
+            this.picNE107.TabStop = false;
+            // 
+            // GUIsimple
+            // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(390, 313);
@@ -224,13 +210,11 @@
             this.Controls.Add(this.grrpSetup);
             this.Name = "GUIsimple";
             this.Text = "GUIsimple";
-            this.Load += new System.EventHandler(this.LiveValue_Load);
             this.grrpSetup.ResumeLayout(false);
             this.grrpSetup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picConnectionType)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picNE107)).EndInit();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picNE107)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -242,7 +226,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button cmdConnect;
         private System.Windows.Forms.GroupBox grrpSetup;
-        private System.Windows.Forms.PictureBox picConnectionType;
         private System.Windows.Forms.Button cmdGrossNet;
         private System.Windows.Forms.Button cmdTare;
         private System.Windows.Forms.Button cmdZero;
