@@ -1036,40 +1036,6 @@ namespace JetbusTest
             Assert.IsTrue(testVar);
         }
 
-        [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
-        public void testGetDataStr(Behavior behavior)
-        {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WtxJet(_jetTestConnection,update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            testGrossValue = _wtxObj.NetValue;
-
-            Assert.IsNotNull(_wtxObj.GetDataStr);
-        }
-   
-
-
-        [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
-        public void testGetDataUshort(Behavior behavior)
-        {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WtxJet(_jetTestConnection,update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            ushort[] testArray = new ushort[185];
-
-            for (int index = 0; index < testArray.Length; index++)
-                testArray[index] = 0;
-
-            Assert.AreEqual(testArray, _wtxObj.GetDataUshort);
-
-        }
-
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
             //throw new NotImplementedException();

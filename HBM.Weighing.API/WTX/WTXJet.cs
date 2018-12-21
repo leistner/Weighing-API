@@ -36,32 +36,6 @@ namespace HBM.Weighing.API.WTX
 {
     public class WtxJet : BaseWtDevice
     {
-        //To be eliminated eventually !?...-------------
-        private string[] _dataStrArr;
-        private ushort[] _dataUshort;
-
-        public override string[] GetDataStr
-        {
-            get
-            {
-                return this._dataStrArr;
-            }
-        }
-
-        public override ushort[] GetDataUshort
-        {
-            get
-            {
-                return this._dataUshort;
-            }
-        }
-        
-        public override void OnData(ushort[] _asyncData)
-        {
-            throw new NotImplementedException();
-        }
-        //----------------------------------
-
 
         #region Const
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)   
@@ -91,7 +65,6 @@ namespace HBM.Weighing.API.WTX
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
         #endregion
 
-
         #region Constructors
         public WtxJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)  // ParameterProperty umändern 
         {
@@ -101,16 +74,7 @@ namespace HBM.Weighing.API.WTX
             
             this.ProcessDataReceived += OnProcessData;
 
-            _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.
-            
-            _dataStrArr = new string[185];
-            _dataUshort = new ushort[185];
-
-            for (int index = 0; index < _dataStrArr.Length; index++)
-            {
-                _dataStrArr[index] = "";
-                _dataUshort[index] = 0;
-            }                   
+            _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.                          
         }
         #endregion
 
@@ -178,6 +142,11 @@ namespace HBM.Weighing.API.WTX
 
             // Do something with the data, like in the class WTXModbus.cs           
             this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processData));
+        }
+
+        public override void OnData(ushort[] _asyncData)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
