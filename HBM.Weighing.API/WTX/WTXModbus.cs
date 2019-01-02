@@ -34,28 +34,32 @@ using System.Timers;
 
 namespace HBM.Weighing.API.WTX
 {
-
+    /// <summary>
+    /// This class handles the data from ModbusTcpConnection for IProcessData. 
+    /// WtxModbus fetches, interprets the data and send it to the GUI or application by an eventhandler. 
+    /// </summary>
     public class WtxModbus : BaseWtDevice   
     {
+        #region privates
         private ProcessData _processData;
-
-        private string[] _dataStr;
-        private ushort[] _previousData;
+        
         private ushort[] _data;
         private ushort[] _outputData;
         private ushort[] _dataWritten;
         
         private bool _isCalibrating;
-        private bool _isRefreshed;
-        private bool _compareDataChanged;
         private int _timerInterval;
         
         private ushort _command;
         private double dPreload, dNominalLoad, multiplierMv2D;      
         public System.Timers.Timer _aTimer;
-        
-        public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        #endregion
 
+        #region Events
+        public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        #endregion
+
+        #region Constructor
         public WtxModbus(INetConnection connection, int paramTimerInterval, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(connection)
         {
             _processData = new ProcessData();
@@ -63,42 +67,27 @@ namespace HBM.Weighing.API.WTX
             this._connection = connection;
 
             this.ProcessDataReceived += OnProcessData;
-
-            this._previousData = new ushort[100];
-            this._dataStr = new string[100];
+            
             this._data = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
             this._dataWritten = new ushort[2];
 
-            for (int i = 0; i < 100; i++)
-            {
-                _dataStr[i] = "0";
-                _data[i] = 0;
-                this._previousData[i] = 0;
-            }
-
-            for (int i = 0; i < 43; i++)
-            {
-                this._outputData[i] = 0;
-            }
-
             this._command = 0x00; 
-            this._compareDataChanged = false;
             this._isCalibrating = false;
-            this._isRefreshed = false;
-            //this._isNet = false;
-            //this._dataReceived = false;
-
             this._timerInterval = 0;
 
             this.dPreload = 0;
             this.dNominalLoad = 0;
             this.multiplierMv2D = 500000;
 
+            this.ReadBufferLength = 38; // inital setting. 
+
             // For the connection and initializing of the timer:            
             this.initialize_timer(paramTimerInterval);
         }
+        #endregion
 
+        #region Connection
         // To establish a connection to the WTX device via class WTX120_Modbus.
         public override void Connect(double timeoutMs)
         {
@@ -134,16 +123,24 @@ namespace HBM.Weighing.API.WTX
             this._connection.Disconnect();
         }
 
+        public override string ConnectionType
+        {
+            get
+            {
+                return "Modbus";
+            }
+        }
 
         /// <summary>
         /// Length of read buffer in bytes for receiving ModbusTCP data.
         /// Only change for very fast applications with reduced data.
         /// </summary>
         public int ReadBufferLength {get; set;}
+        #endregion
 
-
+        #region Write methods
         // This method writes a data word to the WTX120 device synchronously. 
-        public void SyncCall(ushort wordNumber, ushort commandParam)
+        public void WriteSync(ushort wordNumber, ushort commandParam)
         {
             int dataWord = 0x00;
             int handshakeBit = 0;
@@ -174,13 +171,12 @@ namespace HBM.Weighing.API.WTX
                     this._connection.Write(wordNumber, 0x00);
                 }
 
-                /*
                 while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
                 {
-                    dataWord = this.connection.Read(5);
+                    dataWord = this._connection.Read(5);
                     handshakeBit = ((dataWord & 0x4000) >> 14);
                 }
-                */
+                
             }
         }
 
@@ -209,6 +205,49 @@ namespace HBM.Weighing.API.WTX
 
             this._connection.Write(wordNumber, _dataWritten[0]);
         }
+
+        public async Task<int> AsyncWrite(ushort index, ushort commandParam)
+        {
+            if (isConnected)
+            {
+                Task<int> WriteValue = _connection.WriteAsync(index, commandParam);
+                DoHandshake(index);
+                int command = await WriteValue;
+                return command;
+            }
+            else
+                return 0;
+        }
+
+        private void DoHandshake(ushort index)
+        {
+            int handshakeBit = 0;
+            int dataWord = 0x00;
+
+            // Handshake protocol as given in the manual:                            
+            do
+            {
+                dataWord = this._connection.Read(5);
+                handshakeBit = ((dataWord & 0x4000) >> 14);
+
+            } while (this.Handshake == 0);
+
+            // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
+            if (handshakeBit == 1)
+            {
+                this._connection.Write(index, 0x00);
+            }
+
+            while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
+            {
+                dataWord = this._connection.Read(5);
+                handshakeBit = ((dataWord & 0x4000) >> 14);
+            }
+        }
+
+        #endregion
+
+        #region Timer methods
         // This methods sets the interval value of the timer. 
         public void ResetTimer(int timerIntervalParam)
         {
@@ -285,7 +324,9 @@ namespace HBM.Weighing.API.WTX
                 */
             }
         }
+        #endregion
 
+        #region Asynchronous process data callback
         /// <summary>
         /// Called whenever new device data is available 
         /// </summary>
@@ -293,209 +334,12 @@ namespace HBM.Weighing.API.WTX
         public override void OnData(ushort[] _asyncData)
         {
             this._data = _asyncData;
-
-            this.GetDataStr[0] = this.CurrentWeight(this.NetValue, this.Decimals);  // 1 equal to "Net measured" as a parameter
-            this.GetDataStr[1] = this.CurrentWeight(this.GrossValue, this.Decimals);  // 2 equal to "Gross measured" as a parameter
-
-            this.GetDataStr[2] = this.GeneralWeightError.ToString();
-            this.GetDataStr[3] = this.ScaleAlarmTriggered.ToString();
-            this.GetDataStr[4] = this.LimitStatusStringComment();
-            this.GetDataStr[5] = this.WeightMovingStringComment();
-
-            this.GetDataStr[6] = this.ScaleSealIsOpen.ToString();
-            this.GetDataStr[7] = this.ManualTare.ToString();
-            this.GetDataStr[8] = this.WeightTypeStringComment();
-            this.GetDataStr[9] = this.ScaleRangeStringComment();
-
-            this.GetDataStr[10] = this.ZeroRequired.ToString();
-            this.GetDataStr[11] = this.WeightWithinTheCenterOfZero.ToString();
-            this.GetDataStr[12] = this.WeightInZeroRange.ToString();
-            this.GetDataStr[13] = this.ApplicationModeStringComment();
-
-            this.GetDataStr[14] = this.Decimals.ToString();
-            this.GetDataStr[15] = this.UnitStringComment();
-            this.GetDataStr[16] = this.Handshake.ToString();
-            this.GetDataStr[17] = this.StatusStringComment();
-
-            this.GetDataStr[18] = this.Input1.ToString();
-            this.GetDataStr[19] = this.Input2.ToString();
-            this.GetDataStr[20] = this.Input3.ToString();
-            this.GetDataStr[21] = this.Input4.ToString();
-
-            this.GetDataStr[22] = this.Output1.ToString();
-            this.GetDataStr[23] = this.Output2.ToString();
-            this.GetDataStr[24] = this.Output3.ToString();
-            this.GetDataStr[25] = this.Output4.ToString();
-
-            if (this.ApplicationMode == 0)
-            {
-                this.GetDataStr[26] = this.LimitStatus1.ToString();
-                this.GetDataStr[27] = this.LimitStatus2.ToString();
-                this.GetDataStr[28] = this.LimitStatus3.ToString();
-                this.GetDataStr[29] = this.LimitStatus4.ToString();
-
-                this.GetDataStr[30] = this.WeightMemDay.ToString();
-                this.GetDataStr[31] = this.WeightMemMonth.ToString();
-                this.GetDataStr[32] = this.WeightMemYear.ToString();
-                this.GetDataStr[33] = this.WeightMemSeqNumber.ToString();
-                this.GetDataStr[34] = this.WeightMemGross.ToString();
-                this.GetDataStr[35] = this.WeightMemNet.ToString();
-
-                this.ManualTareValue = _outputData[0];
-                this.LimitValue1Input = _outputData[1];
-                this.LimitValue1Mode = _outputData[2];
-                this.LimitValue1ActivationLevelLowerBandLimit = _outputData[3];
-                this.LimitValue1HysteresisBandHeight = _outputData[4];
-                this.LimitValue2Source = _outputData[5];
-                this.LimitValue2Mode = _outputData[6];
-                this.LimitValue2ActivationLevelLowerBandLimit = _outputData[7];
-                this.LimitValue2HysteresisBandHeight = _outputData[8];
-                this.LimitValue3Source = _outputData[9];
-                this.LimitValue3Mode = _outputData[10];
-                this.LimitValue3ActivationLevelLowerBandLimit = _outputData[11];
-                this.LimitValue3HysteresisBandHeight = _outputData[12];
-                this.LimitValue4Source = _outputData[13];
-                this.LimitValue4Mode = _outputData[14];
-                this.LimitValue4ActivationLevelLowerBandLimit = _outputData[15];
-                this.LimitValue4HysteresisBandHeight = _outputData[16];
-                this.ResidualFlowTime = _outputData[17];
-                this.TargetFillingWeight = _outputData[18];
-                this.CoarseFlowCutOffPointSet = _outputData[19];
-                this.FineFlowCutOffPointSet = _outputData[20];
-                this.MinimumFineFlow = _outputData[21];
-                this.OptimizationOfCutOffPoints = _outputData[22];
-                this.MaximumDosingTime = _outputData[23];
-                this.StartWithFineFlow = _outputData[24];
-                this.CoarseLockoutTime = _outputData[25];
-                this.FineLockoutTime = _outputData[26];
-                this.TareMode = _outputData[27];
-                this.UpperToleranceLimit = _outputData[28];
-                this.LowerToleranceLimit = _outputData[29];
-                this.MinimumStartWeight = _outputData[30];
-                this.EmptyWeight = _outputData[31];
-                this.TareDelay = _outputData[32];
-                this.CoarseFlowMonitoringTime = _outputData[33];
-                this.CoarseFlowMonitoring = _outputData[34];
-                this.FineFlowMonitoring = _outputData[35];
-                this.FineFlowMonitoringTime = _outputData[36];
-                this.DelayTimeAfterFineFlow = _outputData[37];
-                this.ActivationTimeAfterFineFlow = _outputData[38];
-                this.SystematicDifference = _outputData[39];
-                this.DownwardsDosing = _outputData[40];
-                this.ValveControl = _outputData[41];
-                this.EmptyingMode = _outputData[42];
-            }
-            else
-                if (this.ApplicationMode == 2 || this.ApplicationMode == 1) // in filler mode 
-            {
-                this.GetDataStr[26] = this.CoarseFlow.ToString();
-                this.GetDataStr[27] = this.FineFlow.ToString();
-                this.GetDataStr[28] = this.Ready.ToString();
-                this.GetDataStr[29] = this.ReDosing.ToString();
-
-                this.GetDataStr[30] = this.Emptying.ToString();
-                this.GetDataStr[31] = this.FlowError.ToString();
-                this.GetDataStr[32] = this.Alarm.ToString();
-                this.GetDataStr[33] = this.AdcOverUnderload.ToString();
-
-                this.GetDataStr[34] = this.MaxDosingTime.ToString();
-                this.GetDataStr[35] = this.LegalTradeOp.ToString();
-                this.GetDataStr[36] = this.ToleranceErrorPlus.ToString();
-                this.GetDataStr[37] = this.ToleranceErrorMinus.ToString();
-
-                this.GetDataStr[38] = this.StatusInput1.ToString();
-                this.GetDataStr[39] = this.GeneralScaleError.ToString();
-                this.GetDataStr[40] = this.FillingProcessStatus.ToString();
-                this.GetDataStr[41] = this.NumberDosingResults.ToString();
-
-                this.GetDataStr[42] = this.DosingResult.ToString();
-                this.GetDataStr[43] = this.MeanValueDosingResults.ToString();
-                this.GetDataStr[44] = this.StandardDeviation.ToString();
-                this.GetDataStr[45] = this.TotalWeight.ToString();
-
-                this.GetDataStr[46] = this.FineFlowCutOffPoint.ToString();
-                this.GetDataStr[47] = this.CoarseFlowCutOffPoint.ToString();
-                this.GetDataStr[48] = this.CurrentDosingTime.ToString();
-                this.GetDataStr[49] = this.CurrentCoarseFlowTime.ToString();
-
-                this.GetDataStr[50] = this.CurrentFineFlowTime.ToString();
-                this.GetDataStr[51] = this.ParameterSetProduct.ToString();
-
-                this.GetDataStr[52] = this.FillerWeightMemoryDay.ToString();
-                this.GetDataStr[53] = this.FillerWeightMemoryMonth.ToString();
-                this.GetDataStr[54] = this.FillerWeightMemoryYear.ToString();
-                this.GetDataStr[55] = this.FillerWeightMemorySeqNumber.ToString();
-                this.GetDataStr[56] = this.FillerWeightMemoryGross.ToString();
-                this.GetDataStr[57] = this.FillerWeightMemoryNet.ToString();
-
-
-                this.ManualTareValue = _outputData[0];
-                this.LimitValue1Input = _outputData[1];
-                this.LimitValue1Mode = _outputData[2];
-                this.LimitValue1ActivationLevelLowerBandLimit = _outputData[3];
-                this.LimitValue1HysteresisBandHeight = _outputData[4];
-                this.LimitValue2Source = _outputData[5];
-                this.LimitValue2Mode = _outputData[6];
-                this.LimitValue2ActivationLevelLowerBandLimit = _outputData[7];
-                this.LimitValue2HysteresisBandHeight = _outputData[8];
-                this.LimitValue3Source = _outputData[9];
-                this.LimitValue3Mode = _outputData[10];
-                this.LimitValue3ActivationLevelLowerBandLimit = _outputData[11];
-                this.LimitValue3HysteresisBandHeight = _outputData[12];
-                this.LimitValue4Source = _outputData[13];
-                this.LimitValue4Mode = _outputData[14];
-                this.LimitValue4ActivationLevelLowerBandLimit = _outputData[15];
-                this.LimitValue4HysteresisBandHeight = _outputData[16];
-                this.ResidualFlowTime = _outputData[17];
-                this.TargetFillingWeight = _outputData[18];
-                this.CoarseFlowCutOffPointSet = _outputData[19];
-                this.FineFlowCutOffPointSet = _outputData[20];
-                this.MinimumFineFlow = _outputData[21];
-                this.OptimizationOfCutOffPoints = _outputData[22];
-                this.MaximumDosingTime = _outputData[23];
-                this.StartWithFineFlow = _outputData[24];
-                this.CoarseLockoutTime = _outputData[25];
-                this.FineLockoutTime = _outputData[26];
-                this.TareMode = _outputData[27];
-                this.UpperToleranceLimit = _outputData[28];
-                this.LowerToleranceLimit = _outputData[29];
-                this.MinimumStartWeight = _outputData[30];
-                this.EmptyWeight = _outputData[31];
-                this.TareDelay = _outputData[32];
-                this.CoarseFlowMonitoringTime = _outputData[33];
-                this.CoarseFlowMonitoring = _outputData[34];
-                this.FineFlowMonitoring = _outputData[35];
-                this.FineFlowMonitoringTime = _outputData[36];
-                this.DelayTimeAfterFineFlow = _outputData[37];
-                this.ActivationTimeAfterFineFlow = _outputData[38];
-                this.SystematicDifference = _outputData[39];
-                this.DownwardsDosing = _outputData[40];
-                this.ValveControl = _outputData[41];
-                this.EmptyingMode = _outputData[42];
-            }
-
-            _compareDataChanged = false;
-
-            //e.ushortArgs = this._data;
-
-            for (int index = 0; index < 6; index++)
-            {
-                if (this._previousData[index] != this._data[index])
-                    _compareDataChanged = true;
-            }
-
-            // If one value of the data changes, the boolean value 'compareDataChanged' will be set to true and the data will be 
-            // updated in the following, as well as the GUI form. ('compareDataChanged' is for the purpose of comparision.)
-
-            // The data is only invoked by the event 'DataUpdateEvent' if the data has been changed. The comparision is made by...
-            // ... the arrays 'previousData' and 'data' with the boolean 
-
-            if ((this._compareDataChanged == true) || (this._isCalibrating == true) || this._isRefreshed == true)   // 'isCalibrating' indicates if a calibration is done just before ...
-            {                                                                                                    // and the data should be send to the GUI/console and be printed out. 
-                                                                                                                 // If the GUI has been refreshed, the values should also be send to the GUI/Console and be printed out. 
-                                                                                                                 //DataUpdateEvent?.Invoke(this, new DataEvent(this._data, this.GetDataStr));
+        
                 _processData.NetValue = this.NetValue;
                 _processData.GrossValue = this.GrossValue;
+                _processData.NetValueStr = this.CurrentWeight(this.NetValue, this.Decimals);
+                _processData.GrossValueStr = this.CurrentWeight(this.GrossValue, this.Decimals);
+
                 _processData.Tare = this.NetValue - this.GrossValue;
                 _processData.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
                 _processData.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
@@ -509,89 +353,21 @@ namespace HBM.Weighing.API.WTX
                 _processData.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
                 _processData.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
                 _processData.ApplicationMode = this.ApplicationMode;
+                _processData.ApplicationModeStr = ApplicationModeStringComment();
                 _processData.Decimals = this.Decimals;
                 _processData.Unit = this.Unit;
                 _processData.Handshake = Convert.ToBoolean(this.Handshake);
                 _processData.Status = Convert.ToBoolean(this.Status);
+
                 this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
                 _processData.LegalTradeOp = this.LegalTradeOp;
 
                 this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processData));
 
-                this._isCalibrating = false;
-            }
-
-            this._previousData = this._data;
-
+                this._isCalibrating = false;       
+            
         }
-
-        public async Task<int> AsyncWrite(ushort index, ushort commandParam)
-        {
-            if (isConnected)
-            {
-                Task<int> WriteValue = _connection.WriteAsync(index, commandParam);
-                DoHandshake(index);
-                int command = await WriteValue;
-                return command;
-            }
-            else
-                return 0;
-        }
-
-        private void DoHandshake(ushort index)
-        {
-            int handshakeBit = 0;
-            int dataWord = 0x00;
-
-            // Handshake protocol as given in the manual:                            
-            do
-            {
-                dataWord = this._connection.Read(5);
-                handshakeBit = ((dataWord & 0x4000) >> 14);
-
-            } while (this.Handshake == 0);
-
-            // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
-            if (handshakeBit == 1)
-            {
-                this._connection.Write(index, 0x00);
-            }
-
-            while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
-            {
-                dataWord = this._connection.Read(5);
-                handshakeBit = ((dataWord & 0x4000) >> 14);
-            }
-        }
-
-        public bool Refreshed
-        {
-            get { return this._isRefreshed; }
-            set { this._isRefreshed = value; }
-        }
-
-        public bool DataChanged
-        {
-            get { return this._compareDataChanged; }
-            set { this._compareDataChanged = value; }
-        }
-
-        public override string ConnectionType
-        {
-            get
-            {
-                return "Modbus";
-            }
-        }
-
-        public ushort[] getOutputData
-        {
-            get
-            {
-                return this._outputData;
-            }
-        }
-
+        
         public void UpdateOutputWords(ushort []valueArr)
         {
             for(int index=0;index<valueArr.Length;index++)
@@ -599,10 +375,9 @@ namespace HBM.Weighing.API.WTX
                _outputData[index] = valueArr[index];
             }         
         }
+        #endregion
 
-
-        // The following methods set the specific, single values from the whole array "data".
-
+        #region Process data - Standard 
 
         public override int NetValue
         {
@@ -621,7 +396,6 @@ namespace HBM.Weighing.API.WTX
                 }
             }
         }
-
         public override int GrossValue
         {
             get
@@ -910,22 +684,6 @@ namespace HBM.Weighing.API.WTX
                 {
                     return 0;
                 }
-            }
-        }
-
-        public override ushort[] GetDataUshort
-        {
-            get
-            {
-                return this._data;
-            }
-        }
-
-        public override string[] GetDataStr
-        {
-            get
-            {
-                return this._dataStr;
             }
         }
 
@@ -1237,6 +995,200 @@ namespace HBM.Weighing.API.WTX
                 }
             }
         }
+
+        public override int ManualTareValue
+        {
+            get
+            {
+                return this._outputData[0];
+            }
+            set
+            {
+                this._outputData[0] = (ushort)value;
+            }
+        }
+        public override int LimitValue1Input
+        {
+            get
+            {
+                return this._outputData[1];
+            }
+            set
+            {
+                this._outputData[1] = (ushort)value;
+            }
+        }
+        public override int LimitValue1Mode
+        {
+            get
+            {
+                return this._outputData[2];
+            }
+            set
+            {
+                this._outputData[2] = (ushort)value;
+            }
+        }
+        public override int LimitValue1ActivationLevelLowerBandLimit
+        {
+            get
+            {
+                return this._outputData[3];
+            }
+            set
+            {
+                this._outputData[3] = (ushort)value;
+            }
+        }
+        public override int LimitValue1HysteresisBandHeight
+        {
+            get
+            {
+                return this._outputData[4];
+            }
+            set
+            {
+                this._outputData[4] = (ushort)value;
+            }
+        }
+
+        public override int LimitValue2Source
+        {
+            get
+            {
+                return this._outputData[5];
+            }
+            set
+            {
+                this._outputData[5] = (ushort)value;
+            }
+        }
+        public override int LimitValue2Mode
+        {
+            get
+            {
+                return this._outputData[6];
+            }
+            set
+            {
+                this._outputData[6] = (ushort)value;
+            }
+        }
+        public override int LimitValue2ActivationLevelLowerBandLimit
+        {
+            get
+            {
+                return this._outputData[7];
+            }
+            set
+            {
+                this._outputData[7] = (ushort)value;
+            }
+        }
+        public override int LimitValue2HysteresisBandHeight
+        {
+            get
+            {
+                return this._outputData[8];
+            }
+            set
+            {
+                this._outputData[8] = (ushort)value;
+            }
+        }
+
+        public override int LimitValue3Source
+        {
+            get
+            {
+                return this._outputData[9];
+            }
+            set
+            {
+                this._outputData[9] = (ushort)value;
+            }
+        }
+        public override int LimitValue3Mode
+        {
+            get
+            {
+                return this._outputData[10];
+            }
+            set
+            {
+                this._outputData[10] = (ushort)value;
+            }
+        }
+        public override int LimitValue3ActivationLevelLowerBandLimit
+        {
+            get
+            {
+                return this._outputData[11];
+            }
+            set
+            {
+                this._outputData[11] = (ushort)value;
+            }
+        }
+        public override int LimitValue3HysteresisBandHeight
+        {
+            get
+            {
+                return this._outputData[12];
+            }
+            set
+            {
+                this._outputData[12] = (ushort)value;
+            }
+        }
+
+        public override int LimitValue4Source
+        {
+            get
+            {
+                return this._outputData[13];
+            }
+            set
+            {
+                this._outputData[13] = (ushort)value;
+            }
+        }
+        public override int LimitValue4Mode
+        {
+            get
+            {
+                return this._outputData[14];
+            }
+            set
+            {
+                this._outputData[14] = (ushort)value;
+            }
+        }
+        public override int LimitValue4ActivationLevelLowerBandLimit
+        {
+            get
+            {
+                return this._outputData[15];
+            }
+            set
+            {
+                this._outputData[15] = (ushort)value;
+            }
+        }
+        public override int LimitValue4HysteresisBandHeight
+        {
+            get
+            {
+                return this._outputData[16];
+            }
+            set
+            {
+                this._outputData[16] = (ushort)value;
+            }
+        }
+        #endregion
+
+        #region Process data - Filling
         public override int CoarseFlow
         {
             get
@@ -1373,7 +1325,6 @@ namespace HBM.Weighing.API.WTX
                 }
             }
         }
-
 
         public override int MaxDosingTime
         {
@@ -1682,7 +1633,6 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-
         public int FillerWeightMemoryDay
         {
             get
@@ -1786,218 +1736,6 @@ namespace HBM.Weighing.API.WTX
                 }
             }
         }
-
-        // Get and Set-Properties of the output words, for the standard and filler application. 
-
-        public override int ManualTareValue
-        {
-            get
-            {
-                return this._outputData[0];
-            }
-            set
-            {
-                this._outputData[0] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue1Input
-        {
-            get
-            {
-                return this._outputData[1];
-            }
-            set
-            {
-                this._outputData[1] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue1Mode
-        {
-            get
-            {
-                return this._outputData[2];
-            }
-            set
-            {
-                this._outputData[2] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue1ActivationLevelLowerBandLimit
-        {
-            get
-            {
-                return this._outputData[3];
-            }
-            set
-            {
-                this._outputData[3] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue1HysteresisBandHeight
-        {
-            get
-            {
-                return this._outputData[4];
-            }
-            set
-            {
-                this._outputData[4] = (ushort)value;
-            }
-        }
-
-
-
-        public override int LimitValue2Source
-        {
-            get
-            {
-                return this._outputData[5];
-            }
-            set
-            {
-                this._outputData[5] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue2Mode
-        {
-            get
-            {
-                return this._outputData[6];
-            }
-            set
-            {
-                this._outputData[6] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue2ActivationLevelLowerBandLimit
-        {
-            get
-            {
-                return this._outputData[7];
-            }
-            set
-            {
-                this._outputData[7] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue2HysteresisBandHeight
-        {
-            get
-            {
-                return this._outputData[8];
-            }
-            set
-            {
-                this._outputData[8] = (ushort)value;
-            }
-        }
-
-
-
-        public override int LimitValue3Source
-        {
-            get
-            {
-                return this._outputData[9];
-            }
-            set
-            {
-                this._outputData[9] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue3Mode
-        {
-            get
-            {
-                return this._outputData[10];
-            }
-            set
-            {
-                this._outputData[10] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue3ActivationLevelLowerBandLimit
-        {
-            get
-            {
-                return this._outputData[11];
-            }
-            set
-            {
-                this._outputData[11] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue3HysteresisBandHeight
-        {
-            get
-            {
-                return this._outputData[12];
-            }
-            set
-            {
-                this._outputData[12] = (ushort)value;
-            }
-        }
-
-
-        public override int LimitValue4Source
-        {
-            get
-            {
-                return this._outputData[13];
-            }
-            set
-            {
-                this._outputData[13] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue4Mode
-        {
-            get
-            {
-                return this._outputData[14];
-            }
-            set
-            {
-                this._outputData[14] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue4ActivationLevelLowerBandLimit
-        {
-            get
-            {
-                return this._outputData[15];
-            }
-            set
-            {
-                this._outputData[15] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue4HysteresisBandHeight
-        {
-            get
-            {
-                return this._outputData[16];
-            }
-            set
-            {
-                this._outputData[16] = (ushort)value;
-            }
-        }
-
 
         public override int ResidualFlowTime
         {
@@ -2134,19 +1872,9 @@ namespace HBM.Weighing.API.WTX
             set { this._outputData[42] = (ushort)value; }
         }
 
-        /*
-        public bool GetIsNet
-        {
-            get
-            {
-                return this._isNet;
-            }
-        }
-        */
+        #endregion
 
-        /* In den folgenden Comment-Methoden werden jeweils verschiedene Auswahloptionen mit Fallunterscheidungen
-        * betrachtet und je nach Fall eine unterschiedliche Option ausgewählt.
-        */
+        #region Comment methods
 
         // In the following methods the different options for the single integer values are used to define and
         // interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
@@ -2301,8 +2029,23 @@ namespace HBM.Weighing.API.WTX
                 return "error.";
 
         }
+        #endregion
 
+        #region Adjustment methods 
 
+        // This methods sets the value of the WTX to zero. 
+        public override void MeasureZero()
+        {
+            this.StopTimer();
+
+            //todo: write reg 48, 0x7FFFFFFF
+
+            this.WriteOutputWordS32(0x7FFFFFFF, 48);
+
+            Console.Write(".");
+
+            this.WriteSync(0, 0x80);
+        }
 
         // This method sets the value for the nominal weight in the WTX.
         public override void Calibrate(int calibrationValue, string calibrationWeightStr)
@@ -2317,7 +2060,7 @@ namespace HBM.Weighing.API.WTX
 
             Console.Write(".");
 
-            this.SyncCall(0, 0x100);
+            this.WriteSync(0, 0x100);
 
             this.RestartTimer();
 
@@ -2365,13 +2108,13 @@ namespace HBM.Weighing.API.WTX
 
             this.WriteOutputWordS32(Convert.ToInt32(dPreload), 48);
 
-            this.SyncCall(0, 0x80);
+            this.WriteSync(0, 0x80);
 
             //write reg 50, DNominalLoad;          
 
             this.WriteOutputWordS32(Convert.ToInt32(dNominalLoad), 50);
 
-            this.SyncCall(0, 0x100);
+            this.WriteSync(0, 0x100);
 
             this._isCalibrating = true;
 
@@ -2379,25 +2122,14 @@ namespace HBM.Weighing.API.WTX
 
         }
 
-        public override void MeasureZero()
-        {
-            this.StopTimer();
-
-            //todo: write reg 48, 0x7FFFFFFF
-
-            this.WriteOutputWordS32(0x7FFFFFFF, 48);
-            
-            Console.Write(".");
-
-            this.SyncCall(0, 0x80);
-        }
-
         public bool Calibrating
         {
             get { return this._isCalibrating; }
             set { this._isCalibrating = value; }
         }
+        #endregion
 
+        #region Process data methods - Standard
         public async override void SetGross()
         {
             _command = (ushort)await AsyncWrite(0, 0x2);
@@ -2432,7 +2164,9 @@ namespace HBM.Weighing.API.WTX
         {
             _command = (ushort)await AsyncWrite(0, 0x1000);
         }
+        #endregion
 
+        #region Process data methods - Filling
         public async override void clearDosingResults()
         {
             _command = (ushort)await AsyncWrite(0, 0x4);
@@ -2457,7 +2191,7 @@ namespace HBM.Weighing.API.WTX
         {
             _command = (ushort)await AsyncWrite(0, 0x8000);
         }
-
+        #endregion
 
 
     }

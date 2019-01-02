@@ -43,7 +43,7 @@ namespace WTXModbus
     /// This class implements a console application. An Object of the class 'ModbusTcpConnection' or 'JetBusConnection' and 'BaseWTDevice'('WTXJet' or WTXModbus') 
     /// are initialized as a publisher and subscriber. Afterwards a connection to the device is established and the timer/sending interval is set. 
     /// A timer with for example 500ms is created. After 500ms an event is triggered, which executes the method "Update" reading the register of the device
-    /// by an asynchronous call in the method '_wtxDevice.Async_Call'. As soon as the reading is finisihed, the callback method "Read_DataReceived" takes over the
+    /// by an asynchronous call in the method 'e.ProcessData.Async_Call'. As soon as the reading is finisihed, the callback method "Read_DataReceived" takes over the
     /// new data , which have already been interpreted in class 'WTX120_Modbus', so the data is given as a string array. 
     /// The data is also printed on the console in the callback method "Read_DataReceived". 
     /// Being in the while-loop it is possible to select commands to the device. For example taring, change from gross to net value, stop dosing, zeroing and so on. 
@@ -106,7 +106,7 @@ namespace WTXModbus
             {
                 InitializeConnection();
 
-                _wtxDevice.ProcessDataReceived += Update;   // To get updated values from the WTX, use method Update(..). 
+                //_wtxDevice.ProcessDataReceived += Update;   // To get updated values from the WTX, use method Update(..). 
 
             } while (_wtxDevice.Connection.IsConnected==false);
 
@@ -151,9 +151,9 @@ namespace WTXModbus
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTcpConnection _modbusConection = new ModbusTcpConnection(_ipAddress);
 
-                _wtxDevice = new WtxModbus(_modbusConection, _timerInterval,update);
+                _wtxDevice = new WtxModbus(_modbusConection, _timerInterval,Update);
 
-                ((WtxModbus)_wtxDevice).ReadBufferLength = 6;
+                ((WtxModbus)_wtxDevice).ReadBufferLength = 38;
             }
             else
             {
@@ -162,7 +162,7 @@ namespace WTXModbus
                     // Creating objects of JetBusConnection and WTXJet: 
                     JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
 
-                    _wtxDevice = new WtxJet(_jetConnection,update);
+                    _wtxDevice = new WtxJet(_jetConnection,Update);
                 }
             }
 
@@ -198,11 +198,8 @@ namespace WTXModbus
 
         } // End method Connect() 
 
-        private static void update(object sender, ProcessDataReceivedEventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
 
+        #region menu cases
         private static void MenuCases()
         {
             // This while loop is repeated till the user enters 'e' (=e meaning exit). After the timer interval the register of the device is read out. 
@@ -429,18 +426,20 @@ namespace WTXModbus
                                                              // ...casting to integer (easily possible because of the multiplying with ... 
                                                              // ...the potensied value) and returning of the value. 
         }
+        #endregion
 
+        #region callback
         // This method prints the values of the device (as a integer and the interpreted string) as well as the description of each bit. 
         private static void Update(object sender, ProcessDataReceivedEventArgs e)
         {
             // The description and the value of the WTX are only printed on the console if the Interface, containing all auto-properties of the values is 
             // not null (respectively empty) and if no calibration is done at that moment.
 
-            if (_wtxDevice != null/* && (_isCalibrating==false)*/)
+            if (_wtxDevice != null && e != null)
             {
                 Console.Clear();               
 
-                if (_wtxDevice.ApplicationMode == 0)  // If the WTX device is in standard application/mode.
+                if (e.ProcessData.ApplicationMode == 0)  // If the WTX device is in standard application/mode.
                 {
                     Console.WriteLine("0-Taring | 1-Gross/net  | 2-Zeroing  | 3- Adjust zero | 4-Adjust nominal |\n5-Activate Data \t| 6-Manual taring \t      | 7-Weight storage\n");
                 }
@@ -459,88 +458,88 @@ namespace WTXModbus
 
                 }
 
-                if (_wtxDevice.ApplicationMode == 0)   // If the device is in the standard mode (standard=0; filler=1 or filler=2) 
+                if (e.ProcessData.ApplicationMode == 0)   // If the device is in the standard mode (standard=0; filler=1 or filler=2) 
                 {
 
                     // The values are printed on the console according to the input - "numInputs": 
 
                     if (_inputMode == 1)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.NetValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) + "\t  As an Integer:  " + e.ProcessData.NetValue);
                     }
                     else
                         if (_inputMode == 2 || _inputMode == 3 || _inputMode == 4)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) +   "\t  As an Integer:  " + _wtxDevice.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an Integer:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an Integer:  " + e.ProcessData.GrossValue);
                     }
                     else
-                            if (_inputMode == 5)
+                       if (_inputMode == 5)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) +   "\t  As an Integer:  " + _wtxDevice.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.GrossValue);
-                        Console.WriteLine("General weight error:          " + _wtxDevice.GeneralWeightError.ToString() + "\t  As an Integer:  " + _wtxDevice.GeneralWeightError);
-                        Console.WriteLine("Scale alarm triggered:         " + _wtxDevice.LimitStatus.ToString() +        "\t  As an Integer:  " + _wtxDevice.LimitStatus);
-                        Console.WriteLine("Scale seal is open:            " + _wtxDevice.ScaleSealIsOpen.ToString() +    "\t  As an Integer:  " + _wtxDevice.ScaleSealIsOpen);
-                        Console.WriteLine("Manual tare:                   " + _wtxDevice.ManualTare.ToString() +         "\t  As an Integer:  " + _wtxDevice.ManualTare);
-                        Console.WriteLine("Weight type:                   " + _wtxDevice.WeightType + "\t  As an Integer:  " + _wtxDevice.WeightType);        //_wtxDevice.WeightTypeStringComment()
-                        Console.WriteLine("Scale range:                   " + _wtxDevice.ScaleRange + "\t  As an Integer:  " + _wtxDevice.ScaleRange);        //_wtxDevice.ScaleRangeStringComment()
-                        Console.WriteLine("Zero required/True zero:       " + _wtxDevice.ZeroRequired.ToString() +       "\t  As an Integer:  " + _wtxDevice.ZeroRequired);
-                        Console.WriteLine("Weight within center of zero:  " + _wtxDevice.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + _wtxDevice.WeightWithinTheCenterOfZero);
-                        Console.WriteLine("Weight in zero range:          " + _wtxDevice.WeightInZeroRange.ToString() +  "\t  As an Integer:  " + _wtxDevice.WeightInZeroRange);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, e.ProcessData.Decimals) +   "\t  As an Integer:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an Integer:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() + "\t  As an Integer:  " + e.ProcessData.GeneralWeightError);
+                        Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +        "\t  As an Integer:  " + e.ProcessData.LimitStatus);
+                        Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +    "\t  As an Integer:  " + e.ProcessData.ScaleSealIsOpen);
+                        Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +         "\t  As an Integer:  " + e.ProcessData.ManualTare);
+                        Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType + "\t  As an Integer:  " + e.ProcessData.WeightType);        //e.ProcessData.WeightTypeStringComment()
+                        Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange + "\t  As an Integer:  " + e.ProcessData.ScaleRange);        //e.ProcessData.ScaleRangeStringComment()
+                        Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +       "\t  As an Integer:  " + e.ProcessData.ZeroRequired);
+                        Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightWithinTheCenterOfZero);
+                        Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() +  "\t  As an Integer:  " + e.ProcessData.WeightInZeroRange);
 
-                        Console.WriteLine("Limit status:                  " + _wtxDevice.LimitStatus.ToString() + "        As an Integer:  " + _wtxDevice.LimitStatus);               //_wtxDevice.LimitStatusStringComment()
-                        Console.WriteLine("Weight moving:                 " + _wtxDevice.WeightMoving.ToString() + "          As an Integer: " + _wtxDevice.WeightMoving);                //_wtxDevice.WeightMovingStringComment()
+                        Console.WriteLine("Limit status:                  " + e.ProcessData.LimitStatus.ToString() + "        As an Integer:  " + e.ProcessData.LimitStatus);               //e.ProcessData.LimitStatusStringComment()
+                        Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "          As an Integer: " + e.ProcessData.WeightMoving);                //e.ProcessData.WeightMovingStringComment()
                     }
                     else
                     if (_inputMode == 6 || _inputMode == 38)
                     { 
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) +  "\t  As an Integer:  " + _wtxDevice.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals)+ "\t  As an Integer:  " + _wtxDevice.GrossValue);
-                        Console.WriteLine("General weight error:          " + _wtxDevice.GeneralWeightError.ToString() +                  "\t  As an Integer:  " + _wtxDevice.GeneralWeightError);
-                        Console.WriteLine("Scale alarm triggered:         " + _wtxDevice.LimitStatus.ToString() +                         "\t  As an Integer:  " + _wtxDevice.LimitStatus);
-                        Console.WriteLine("Scale seal is open:            " + _wtxDevice.ScaleSealIsOpen.ToString() +                     "\t  As an Integer:  " + _wtxDevice.ScaleSealIsOpen);
-                        Console.WriteLine("Manual tare:                   " + _wtxDevice.ManualTare.ToString() +        "\t  As an Integer:  " + _wtxDevice.ManualTare);
-                        Console.WriteLine("Weight type:                   " + _wtxDevice.WeightType + "\t  As an Integer:  " + _wtxDevice.WeightType);        //_wtxDevice.WeightTypeStringComment()
-                        Console.WriteLine("Scale range:                   " + _wtxDevice.ScaleRange + "\t  As an Integer:  " + _wtxDevice.ScaleRange);        //_wtxDevice.ScaleRangeStringComment()
-                        Console.WriteLine("Zero required/True zero:       " + _wtxDevice.ZeroRequired.ToString() +      "\t  As an Integer:  " + _wtxDevice.ZeroRequired);
-                        Console.WriteLine("Weight within center of zero:  " + _wtxDevice.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + _wtxDevice.WeightWithinTheCenterOfZero);
-                        Console.WriteLine("Weight in zero range:          " + _wtxDevice.WeightInZeroRange.ToString() + "\t  As an Integer:  " + _wtxDevice.WeightInZeroRange);
-                        Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() + "\t  As an Integer:  " + _wtxDevice.ApplicationMode);  //_wtxDevice.ApplicationModeStringComment()
-                        Console.WriteLine("Decimal places:                " + _wtxDevice.Decimals.ToString() +          "\t  As an Integer:  " + _wtxDevice.Decimals);
-                        Console.WriteLine("Unit:                          " + _wtxDevice.UnitStringComment() +                       "\t  As an Integer:  " + _wtxDevice.Unit);
-                        Console.WriteLine("Handshake:                     " + _wtxDevice.Handshake.ToString() +         "\t  As an Integer:  " + _wtxDevice.Handshake);
-                        Console.WriteLine("Status:                        " + statusCommentMethod() + "\t  As an Integer:  " + _wtxDevice.Status);     //_wtxDevice.StatusStringComment()
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +  "\t  As an Integer:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals)+ "\t  As an Integer:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() +                  "\t  As an Integer:  " + e.ProcessData.GeneralWeightError);
+                        Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +                         "\t  As an Integer:  " + e.ProcessData.LimitStatus);
+                        Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +                     "\t  As an Integer:  " + e.ProcessData.ScaleSealIsOpen);
+                        Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +        "\t  As an Integer:  " + e.ProcessData.ManualTare);
+                        Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType + "\t  As an Integer:  " + e.ProcessData.WeightType);        //e.ProcessData.WeightTypeStringComment()
+                        Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange + "\t  As an Integer:  " + e.ProcessData.ScaleRange);        //e.ProcessData.ScaleRangeStringComment()
+                        Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +      "\t  As an Integer:  " + e.ProcessData.ZeroRequired);
+                        Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightWithinTheCenterOfZero);
+                        Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightInZeroRange);
+                        Console.WriteLine("Application mode:              " + e.ProcessData.ApplicationMode.ToString() + "\t  As an Integer:  " + e.ProcessData.ApplicationMode);  //e.ProcessData.ApplicationModeStringComment()
+                        Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +          "\t  As an Integer:  " + e.ProcessData.Decimals);
+                        Console.WriteLine("Unit:                          " + _wtxDevice.UnitStringComment() +                       "\t  As an Integer:  " + e.ProcessData.Unit);
+                        Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +         "\t  As an Integer:  " + e.ProcessData.Handshake);
+                        Console.WriteLine("Status:                        " + statusCommentMethod() + "\t  As an Integer:  " + e.ProcessData.Status);     //e.ProcessData.StatusStringComment()
 
-                        Console.WriteLine("Limit status:                  " + limitCommentMethod() + "       As an Integer:  " + _wtxDevice.LimitStatus);               //_wtxDevice.LimitStatusStringComment()
-                        Console.WriteLine("Weight moving:                 " + _wtxDevice.WeightMoving.ToString() + "         As an Integer: " + _wtxDevice.WeightMoving);                //_wtxDevice.WeightMovingStringComment()
+                        Console.WriteLine("Limit status:                  " + limitCommentMethod() + "       As an Integer:  " + e.ProcessData.LimitStatus);               //e.ProcessData.LimitStatusStringComment()
+                        Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "         As an Integer: " + e.ProcessData.WeightMoving);                //e.ProcessData.WeightMovingStringComment()
 
                     }
                     else
                         Console.WriteLine("\nWrong input for the number of bytes, which should be read from the register!\nPlease enter 'b' to choose again.");
                 }
                 else
-                    if (_wtxDevice.ApplicationMode == 2 || _wtxDevice.ApplicationMode == 1)
+                    if (e.ProcessData.ApplicationMode == 2 || e.ProcessData.ApplicationMode == 1)
                     {
-                    Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, _wtxDevice.Decimals) +   "\t  As an Integer:  " + _wtxDevice.NetValue);
-                    Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(_wtxDevice.GrossValue, _wtxDevice.Decimals) + "\t  As an Integer:  " + _wtxDevice.GrossValue);
-                    Console.WriteLine("General weight error:          " + _wtxDevice.GeneralWeightError.ToString() +                   "\t  As an Integer:  " + _wtxDevice.GeneralWeightError);
-                    Console.WriteLine("Scale alarm triggered:         " + _wtxDevice.LimitStatus.ToString() +     "\t  As an Integer:  " + _wtxDevice.LimitStatus);
-                    Console.WriteLine("Scale seal is open:            " + _wtxDevice.ScaleSealIsOpen.ToString() + "\t  As an Integer:  " + _wtxDevice.ScaleSealIsOpen);
-                    Console.WriteLine("Manual tare:                   " + _wtxDevice.ManualTare.ToString() +      "\t  As an Integer:  " + _wtxDevice.ManualTare);
-                    Console.WriteLine("Weight type:                   " + _wtxDevice.WeightType +               "\t  As an Integer:  " + _wtxDevice.WeightType);        //_wtxDevice.WeightTypeStringComment()
-                    Console.WriteLine("Scale range:                   " + _wtxDevice.ScaleRange +               "\t  As an Integer:  " + _wtxDevice.ScaleRange);        //_wtxDevice.ScaleRangeStringComment()
-                    Console.WriteLine("Zero required/True zero:       " + _wtxDevice.ZeroRequired.ToString() +    "\t  As an Integer:  " + _wtxDevice.ZeroRequired);
-                    Console.WriteLine("Weight within center of zero:  " + _wtxDevice.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + _wtxDevice.WeightWithinTheCenterOfZero);
-                    Console.WriteLine("Weight in zero range:          " + _wtxDevice.WeightInZeroRange.ToString() +           "\t  As an Integer:  " + _wtxDevice.WeightInZeroRange);
-                    Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() +           "\t  As an Integer:  " + _wtxDevice.ApplicationMode);  //_wtxDevice.ApplicationModeStringComment()
-                    Console.WriteLine("Decimal places:                " + _wtxDevice.Decimals.ToString() +         "\t  As an Integer:  " + _wtxDevice.Decimals);
-                    Console.WriteLine("Unit:                          " + _wtxDevice.UnitStringComment() +                      "\t  As an Integer:  " + _wtxDevice.Unit);
-                    Console.WriteLine("Handshake:                     " + _wtxDevice.Handshake.ToString() +        "\t  As an Integer:  " + _wtxDevice.Handshake);
-                    Console.WriteLine("Status:                        " + statusCommentMethod() +                    "\t  As an Integer:  " + _wtxDevice.Status);     //_wtxDevice.StatusStringComment()
+                    Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an Integer:  " + e.ProcessData.NetValue);
+                    Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an Integer:  " + e.ProcessData.GrossValue);
+                    Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() +                   "\t  As an Integer:  " + e.ProcessData.GeneralWeightError);
+                    Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +     "\t  As an Integer:  " + e.ProcessData.LimitStatus);
+                    Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() + "\t  As an Integer:  " + e.ProcessData.ScaleSealIsOpen);
+                    Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +      "\t  As an Integer:  " + e.ProcessData.ManualTare);
+                    Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType +               "\t  As an Integer:  " + e.ProcessData.WeightType);        //e.ProcessData.WeightTypeStringComment()
+                    Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange +               "\t  As an Integer:  " + e.ProcessData.ScaleRange);        //e.ProcessData.ScaleRangeStringComment()
+                    Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +    "\t  As an Integer:  " + e.ProcessData.ZeroRequired);
+                    Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightWithinTheCenterOfZero);
+                    Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() +           "\t  As an Integer:  " + e.ProcessData.WeightInZeroRange);
+                    Console.WriteLine("Application mode:              " + e.ProcessData.ApplicationMode.ToString() +           "\t  As an Integer:  " + e.ProcessData.ApplicationMode);  //e.ProcessData.ApplicationModeStringComment()
+                    Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +         "\t  As an Integer:  " + e.ProcessData.Decimals);
+                    Console.WriteLine("Unit:                          " + _wtxDevice.UnitStringComment() +                      "\t  As an Integer:  " + e.ProcessData.Unit);
+                    Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +        "\t  As an Integer:  " + e.ProcessData.Handshake);
+                    Console.WriteLine("Status:                        " + statusCommentMethod() +                    "\t  As an Integer:  " + e.ProcessData.Status);     //e.ProcessData.StatusStringComment()
 
-                    Console.WriteLine("Limit status:                  " + limitCommentMethod() +  "     As an Integer:  " + _wtxDevice.LimitStatus);               //_wtxDevice.LimitStatusStringComment()
-                    Console.WriteLine("Weight moving:                 " + _wtxDevice.WeightMoving.ToString() + "          As an Integer:  " + _wtxDevice.WeightMoving);                //_wtxDevice.WeightMovingStringComment()
+                    Console.WriteLine("Limit status:                  " + limitCommentMethod() +  "     As an Integer:  " + e.ProcessData.LimitStatus);               //e.ProcessData.LimitStatusStringComment()
+                    Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "          As an Integer:  " + e.ProcessData.WeightMoving);                //e.ProcessData.WeightMovingStringComment()
 
                     if (_showAllInputWords == true)
                     {
@@ -639,7 +638,9 @@ namespace WTXModbus
                 }
             }
         }
+        #endregion
 
+        #region comment methods
         private static string statusCommentMethod()
         {
 
@@ -700,7 +701,9 @@ namespace WTXModbus
             _capacity = double.Parse(_strCommaDot);                   // By using the method 'double.Parse(..)' you can use dots and commas.
 
         }
+        #endregion
 
+        #region print method
         // This method prints the table to choose how many byte of the register are read. 
         // The parameter "beginning" stands for the moment of the program, in which is this program is called Either on the beginning(=true) or during the execution while the timer is running (=false).
         private static void print_table_for_register_words(bool beginning)
@@ -722,8 +725,9 @@ namespace WTXModbus
 
             Console.WriteLine("It is recommended to use at least '6' for writing and reading. \nDefault setting for the full application in filler mode : '38'\nPlease tip the button 'Enter' after you typed in the number '1' or '2' or...'6'");
         }
-
+        #endregion
     }
 }
+
 
 #endregion

@@ -36,6 +36,8 @@ namespace HBM.Weighing.API
     {
         private int _NetValue;      // data type = double according to OPC-UA standard
         private int _GrossValue;    // data type = double according to OPC-UA standard
+        private string _NetValueStr;
+        private string _GrossValueStr;
         private int _Tare;          // data type = double according to OPC-UA standard
         private bool _GeneralWeightError;
         private bool _ScaleAlarmTriggered;
@@ -49,6 +51,7 @@ namespace HBM.Weighing.API
         private bool _WeightWithinTheCenterOfZero;
         private bool _WeightInZeroRange;
         private int _ApplicationMode;
+        private string _ApplicationModeStr;
         private int _Decimals;
         private int _Unit;
         private bool _Handshake;
@@ -61,8 +64,10 @@ namespace HBM.Weighing.API
 
         public ProcessData()
         {
+
              _NetValue = 0;     
              _GrossValue = 0;    
+
              _Tare = 0;       
              _GeneralWeightError = false;
              _ScaleAlarmTriggered = false;
@@ -76,6 +81,7 @@ namespace HBM.Weighing.API
              _WeightWithinTheCenterOfZero = false;
              _WeightInZeroRange = false;
              _ApplicationMode = 0;
+             _ApplicationModeStr = "";
              _Decimals = 0;
              _Unit = 0;
              _Handshake = false;
@@ -85,6 +91,7 @@ namespace HBM.Weighing.API
              _weightWithinLimits = false;
              _higherSafeLoadLimit = false;
              _LegalTradeOp = 0;
+             
         }
 
     public int NetValue     // data type = double according to OPC-UA standard
@@ -98,6 +105,19 @@ namespace HBM.Weighing.API
             get { return _GrossValue; }
             set { this._GrossValue = value; }
         }
+
+        public string NetValueStr     // data type = double according to OPC-UA standard
+        {
+            get { return _NetValueStr; }
+            set { this._NetValueStr = value; }
+        }
+
+        public string GrossValueStr   // data type = double according to OPC-UA standard
+        {
+            get { return _GrossValueStr; }
+            set { this._GrossValueStr = value; }
+        }
+
 
         public int Tare         // data type = double according to OPC-UA standard
         {
@@ -176,6 +196,13 @@ namespace HBM.Weighing.API
             get { return _ApplicationMode; }
             set { this._ApplicationMode = value; }
         }
+
+        public string ApplicationModeStr
+        {
+            get { return _ApplicationModeStr; }
+            set { this._ApplicationModeStr = value; }
+        }
+
 
         public int Decimals
         {

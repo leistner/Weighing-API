@@ -36,13 +36,25 @@ namespace HBM.Weighing.API
 
     public interface IProcessData
     {
-        int NetValue // Gross value of weight 
+        int NetValue // Net value of weight 
         {
             get;
             set;
         }
 
-        int GrossValue // Net value of weight
+        string NetValueStr
+        {
+            get;
+            set;
+        }
+
+        int GrossValue // Gross value of weight
+        {
+            get;
+            set;
+        }
+
+        string GrossValueStr
         {
             get;
             set;
@@ -121,6 +133,11 @@ namespace HBM.Weighing.API
         }
 
         int ApplicationMode
+        {
+            get;
+            set;
+        }
+        string ApplicationModeStr
         {
             get;
             set;

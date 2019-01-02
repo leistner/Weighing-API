@@ -75,9 +75,6 @@ namespace HBM.Weighing.API
         /// <param name="sender">_asyncData: data array</param>
         public abstract void OnData(ushort[] _asyncData);
                
-        public abstract string[] GetDataStr { get;}
-        public abstract ushort[] GetDataUshort { get;}
-
         /// <summary>
         /// Sets the the device to gross values
         /// </summary>

@@ -308,25 +308,10 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.SyncCall(0, 0x100);
+            _wtxObj.WriteSync(0, 0x100);
 
             return testConnection.getCommand;
             // Alternative : Assert.AreEqual(0x100, testConnection.getCommand);
-        }
-
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteTestCases")]
-        public int WriteTestCasesModbus(Behavior behavior)
-        {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            // Write : Gross/Net 
-            //_wtxObj.Async_Call(0x2, OnWriteData);
-
-            return testConnection.getCommand;
-            // Alternative Assert.AreEqual(0x2, testConnection.getCommand);
         }
 
         // Still not working : 

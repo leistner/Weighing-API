@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace HBM.Weighing.API.WTX.Jet
 {
-    static class JetBusCommands
+    /// <summary>
+    /// ID's/Commands for subscribing values of the WTX device. 
+    /// The ID's are commited as a parameter a the read and/or write method call.  
+    /// </summary>
+    struct JetBusCommands
     {
         public const string NET_VALUE = "601A/01";
         public const string GROSS_VALUE = "6144/00";

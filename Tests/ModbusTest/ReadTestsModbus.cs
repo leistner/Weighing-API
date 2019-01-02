@@ -143,7 +143,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 WTXModbusObj.OnData(result);
             });
 
-            return WTXModbusObj.GetDataUshort[1];
+            return (ushort)WTXModbusObj.NetValue;
 
         }
 
@@ -161,7 +161,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             WTXModbusObj.Connect(this.OnConnect, 100);
 
-            WTXModbusObj.SyncCall(0, 0x1);
+            WTXModbusObj.WriteSync(0, 0x1);
 
             return WTXModbusObj.Handshake;
         }
