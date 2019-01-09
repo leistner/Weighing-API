@@ -39,163 +39,137 @@ namespace HBM.Weighing.API
         int NetValue // Net value of weight 
         {
             get;
-            set;
         }
 
         string NetValueStr
         {
             get;
-            set;
         }
 
         int GrossValue // Gross value of weight
         {
             get;
-            set;
         }
 
         string GrossValueStr
         {
             get;
-            set;
         }
 
-        int Tare // Tare value of weight
+        int TareValue // Tare value of weight
         {
             get;
-            set;
         }
 
         bool GeneralWeightError
         {
             get;
-            set;
         }
 
         bool ScaleAlarmTriggered
         {
             get;
-            set;
         }
 
         int LimitStatus
         {
             get;
-            set;
         }
 
         bool WeightMoving  // = WeightStable (OPC-UA Standard)
         {
             get;
-            set;
         }
 
         bool ScaleSealIsOpen
         {
             get;
-            set;
         }
 
         bool ManualTare
         {
             get;
-            set;
         }
 
         bool WeightType
         {
             get;
-            set;
         }
 
         int ScaleRange // = CurrentRangeId (OPC-UA Standard)
         {
             get;
-            set;
         }
 
         bool ZeroRequired
         {
             get;
-            set;
         }
 
         bool WeightWithinTheCenterOfZero // = CenterOfZero (OPC-UA Standard)
         {
             get;
-            set;
+
         }
 
         bool WeightInZeroRange // = Inside zero (OPC-UA Standard)
         {
             get;
-            set;
         }
 
         int ApplicationMode
         {
             get;
-            set;
         }
+
         string ApplicationModeStr
         {
             get;
-            set;
         }
 
         int Decimals
         {
             get;
-            set;
         }
 
         int Unit
         {
             get;
-            set;
         }
 
         bool Handshake
         {
             get;
-            set;
         }
 
         bool Status
         {
             get;
-            set;
         }
-
 
         bool Underload // = Underload (OPC-UA Standard)
         {
             get;
-            set;
         }
 
         bool Overload // = Overload (OPC-UA Standard)
         {
             get;
-            set;
         }
 
         bool weightWithinLimits 
         {
             get;
-            set;
         }
 
         bool higherSafeLoadLimit
         {
             get;
-            set;
         }
 
         int LegalTradeOp // = LegalForTrade (OPC-UA Standard)
         {
             get;
-            set;
         }
 
     }

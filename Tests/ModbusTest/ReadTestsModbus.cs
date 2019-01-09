@@ -52,7 +52,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             get
             {
                // yield return new TestCaseData(Behavior.HandshakeFail).Returns(1);
-                yield return new TestCaseData(Behavior.HandshakeSuccess).Returns(0);
+                yield return new TestCaseData(Behavior.HandshakeSuccess).Returns(false);
             }
         }
 
@@ -154,7 +154,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         // Test for checking the handshake bit 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "HandshakeTestCases")]
-        public int testHandshake(Behavior behavior)
+        public bool testHandshake(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             WTXModbusObj = new WtxModbus(testConnection, 200,update);

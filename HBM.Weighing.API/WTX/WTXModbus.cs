@@ -41,8 +41,6 @@ namespace HBM.Weighing.API.WTX
     public class WtxModbus : BaseWtDevice   
     {
         #region privates
-        private ProcessData _processData;
-        
         private ushort[] _data;
         private ushort[] _outputData;
         private ushort[] _dataWritten;
@@ -62,8 +60,6 @@ namespace HBM.Weighing.API.WTX
         #region Constructor
         public WtxModbus(INetConnection connection, int paramTimerInterval, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(connection)
         {
-            _processData = new ProcessData();
-
             this._connection = connection;
 
             this.ProcessDataReceived += OnProcessData;
@@ -230,7 +226,7 @@ namespace HBM.Weighing.API.WTX
                 dataWord = this._connection.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
 
-            } while (this.Handshake == 0);
+            } while (this.Handshake == false);
 
             // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
             if (handshakeBit == 1)
@@ -326,6 +322,8 @@ namespace HBM.Weighing.API.WTX
         }
         #endregion
 
+        int _previousNetValue = 0;
+
         #region Asynchronous process data callback
         /// <summary>
         /// Called whenever new device data is available 
@@ -334,40 +332,159 @@ namespace HBM.Weighing.API.WTX
         public override void OnData(ushort[] _asyncData)
         {
             this._data = _asyncData;
-        
-                _processData.NetValue = this.NetValue;
-                _processData.GrossValue = this.GrossValue;
-                _processData.NetValueStr = this.CurrentWeight(this.NetValue, this.Decimals);
-                _processData.GrossValueStr = this.CurrentWeight(this.GrossValue, this.Decimals);
 
-                _processData.Tare = this.NetValue - this.GrossValue;
-                _processData.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
-                _processData.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
-                _processData.LimitStatus = this.LimitStatus;
-                _processData.WeightMoving = Convert.ToBoolean(this.WeightMoving);
-                _processData.ScaleSealIsOpen = Convert.ToBoolean(this.ScaleSealIsOpen);
-                _processData.ManualTare = Convert.ToBoolean(this.ManualTare);
-                _processData.WeightType = Convert.ToBoolean(this.WeightType);
-                _processData.ScaleRange = this.ScaleRange;
-                _processData.ZeroRequired = Convert.ToBoolean(this.ZeroRequired);
-                _processData.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
-                _processData.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
-                _processData.ApplicationMode = this.ApplicationMode;
-                _processData.ApplicationModeStr = ApplicationModeStringComment();
-                _processData.Decimals = this.Decimals;
-                _processData.Unit = this.Unit;
-                _processData.Handshake = Convert.ToBoolean(this.Handshake);
-                _processData.Status = Convert.ToBoolean(this.Status);
+            this._previousNetValue = ProcessData.NetValue;
 
-                this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
-                _processData.LegalTradeOp = this.LegalTradeOp;
+            // Update data for standard mode:
+            UpdateStandardData();
 
-                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processData));
+            // Update process data : 
+            UpdateProcessData();
 
-                this._isCalibrating = false;       
-            
+            // Update data for filler mode:
+            UpdateFillerData();
+
+            // Update data for filler extended mode:
+            // UpdateFillerExtendedData(_data);
+
+            this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
+
+            ProcessData.LegalTradeOp = this.LegalTradeOp;
+
+            // Only if the net value changed, the data will be send to the GUI
+            if(_previousNetValue != ProcessData.NetValue)
+                // Invoke Event - GUI/application class receives _processData: 
+                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
+       
         }
-        
+
+        private void UpdateStandardData()
+        {
+            NetValue = _data[1] + (_data[0] << 16);
+            GrossValue = _data[3] + (_data[2] << 16);
+
+            TareValue = NetValue - GrossValue;
+            GeneralWeightError = Convert.ToBoolean((_data[4] & 0x1));
+            ScaleAlarmTriggered = Convert.ToBoolean(((_data[4] & 0x2) >> 1));
+            LimitStatus = ((_data[4] & 0xC) >> 2);
+            WeightMoving = Convert.ToBoolean(((_data[4] & 0x10) >> 4));
+
+            ScaleSealIsOpen = Convert.ToBoolean(((_data[4] & 0x20) >> 5));
+            ManualTare = Convert.ToBoolean(((_data[4] & 0x40) >> 6));
+            WeightType = Convert.ToBoolean(((_data[4] & 0x80) >> 7));
+            ScaleRange = ((_data[4] & 0x300) >> 8);
+
+            ZeroRequired = Convert.ToBoolean((_data[4] & 0x400) >> 10);
+            WeightWithinTheCenterOfZero = Convert.ToBoolean(((_data[4] & 0x800) >> 11));
+            WeightInZeroRange = Convert.ToBoolean(((_data[4] & 0x1000) >> 12));
+            ApplicationMode = (_data[5] & 0x3 >> 1);
+            ApplicationModeStr = "";
+
+            Decimals = ((_data[5] & 0x70) >> 4);
+            Unit = ((_data[5] & 0x180) >> 7);
+            Handshake = Convert.ToBoolean(((_data[5] & 0x4000) >> 14));
+            Status = Convert.ToBoolean(((_data[5] & 0x8000) >> 15));
+
+            Underload = false;
+            Overload = false;
+            WeightWithinLimits = false;
+            HigherSafeLoadLimit = false;
+            LegalTradeOp = 0;
+
+            Input1 = (_data[6] & 0x1);
+            Input2 = ((_data[6] & 0x2) >> 1);
+            Input3 = ((_data[6] & 0x4) >> 2);
+            Input4 = ((_data[6] & 0x8) >> 3);
+
+            Output1 = (_data[7] & 0x1); ;
+            Output2 = ((_data[7] & 0x2) >> 1);
+            Output3 = ((_data[7] & 0x4) >> 2);
+            Output4 = ((_data[7] & 0x8) >> 3);
+
+            LimitValue1 = (_data[8] & 0x1); ;
+            LimitValue2 = ((_data[8] & 0x2) >> 1);
+            LimitValue3 = ((_data[8] & 0x4) >> 2);
+            LimitValue4 = ((_data[8] & 0x8) >> 3);
+
+            WeightMemDay = _data[9];
+            WeightMemMonth = _data[10];
+            WeightMemYear = _data[11];
+            WeightMemSeqNumber = _data[12];
+            WeightMemGross = _data[13];
+            WeightMemNet = _data[14];
+
+        }
+
+        private void UpdateFillerData()
+        {
+            CoarseFlow = (_data[8] & 0x1);
+            FineFlow = (_data[8] & 0x2) >> 1;
+            Ready = (_data[8] & 0x4) >> 2;
+            ReDosing = (_data[8] & 0x8) >> 3;
+
+            Emptying = (_data[8] & 0x10) >> 4;
+            FlowError = (_data[8] & 0x20) >> 5;
+            Alarm = (_data[8] & 0x40) >> 6;
+            AdcOverUnderload = (_data[8] & 0x80) >> 7;
+
+            MaxDosingTime = (_data[8] & 0x100) >> 8;
+            LegalForTradeOperation = (_data[8] & 0x200) >> 9;
+            ToleranceErrorPlus = (_data[8] & 0x400) >> 10;
+            ToleranceErrorMinus = (_data[8] & 0x800) >> 11;
+
+            StatusInput1 = (_data[8] & 0x4000) >> 14;
+            GeneralScaleError = (_data[8] & 0x8000) >> 15;
+
+            FillingProcessStatus = _data[9];
+            NumberDosingResults = _data[11];
+            DosingResult = _data[12];
+            MeanValueDosingResults = _data[14];
+
+            StandardDeviation = _data[16];
+            TotalWeight = _data[18];
+            FineFlowCutOffPoint = _data[20];
+            CoarseFlowCutOffPoint = _data[22];
+
+            CurrentDosingTime = _data[24];
+            CurrentCoarseFlowTime = _data[25];
+            CurrentFineFlowTime = _data[26];
+            ParameterSetProduct = _data[27];
+
+            WeightMemDay = _data[32];
+            WeightMemMonth = _data[33];
+            WeightMemYear = _data[34];
+            WeightMemSeqNumber = _data[35];
+            WeightMemGross = _data[36]; //FillerWeightMemoryGross - Naming according to mode? 
+            WeightMemNet = _data[37];
+        }
+
+        private void UpdateProcessData()
+        {
+            ProcessData.NetValue = this.NetValue;
+            ProcessData.GrossValue = this.GrossValue;
+            ProcessData.NetValueStr = this.CurrentWeight(this.NetValue, this.Decimals);
+            ProcessData.GrossValueStr = this.CurrentWeight(this.GrossValue, this.Decimals);
+
+            ProcessData.TareValue = this.NetValue - this.GrossValue;
+            ProcessData.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
+            ProcessData.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
+            ProcessData.LimitStatus = this.LimitStatus;
+            ProcessData.WeightMoving = Convert.ToBoolean(this.WeightMoving);
+            ProcessData.ScaleSealIsOpen = Convert.ToBoolean(this.ScaleSealIsOpen);
+            ProcessData.ManualTare = Convert.ToBoolean(this.ManualTare);
+            ProcessData.WeightType = Convert.ToBoolean(this.WeightType);
+            ProcessData.ScaleRange = this.ScaleRange;
+            ProcessData.ZeroRequired = Convert.ToBoolean(this.ZeroRequired);
+            ProcessData.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
+            ProcessData.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
+            ProcessData.ApplicationMode = this.ApplicationMode;
+            ProcessData.ApplicationModeStr = ApplicationModeStringComment();
+            ProcessData.Decimals = this.Decimals;
+            ProcessData.Unit = this.Unit;
+            ProcessData.Handshake = Convert.ToBoolean(this.Handshake);
+            ProcessData.Status = Convert.ToBoolean(this.Status);
+        }
+
         public void UpdateOutputWords(ushort []valueArr)
         {
             for(int index=0;index<valueArr.Length;index++)
@@ -375,1503 +492,6 @@ namespace HBM.Weighing.API.WTX
                _outputData[index] = valueArr[index];
             }         
         }
-        #endregion
-
-        #region Process data - Standard 
-
-        public override int NetValue
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 1)
-                        return (_data[1] + (_data[0] << 16));
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int GrossValue
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 3)
-                        return (_data[3] + (_data[2] << 16));
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int GeneralWeightError
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return (_data[4] & 0x1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int ScaleAlarmTriggered
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return ((_data[4] & 0x2) >> 1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int LimitStatus
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return ((_data[4] & 0xC) >> 2);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int WeightMoving
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return ((_data[4] & 0x10) >> 4);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int ScaleSealIsOpen
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return ((_data[4] & 0x20) >> 5);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int ManualTare
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return ((_data[4] & 0x40) >> 6);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int WeightType
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return ((_data[4] & 0x80) >> 7);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int ScaleRange
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return ((_data[4] & 0x300) >> 8);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int ZeroRequired
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return ((_data[4] & 0x400) >> 10);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int WeightWithinTheCenterOfZero
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return ((_data[4] & 0x800) >> 11);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int WeightInZeroRange
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 4)
-                        return ((_data[4] & 0x1000) >> 12);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int ApplicationMode
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 5)
-                        return (_data[5] & 0x3>>1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Decimals
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 5)
-                        return ((_data[5] & 0x70) >> 4);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Unit
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 5)
-                        return ((_data[5] & 0x180) >> 7);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Handshake
-        {
-            get
-            {
-                try
-                {
-                    //if (this.connection.NumofPoints > 5)
-                    return ((_data[5] & 0x4000) >> 14);
-                    //else
-                    //    return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-
-            }
-        }
-        public override int Status
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 5)
-                        return ((_data[5] & 0x8000) >> 15);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-
-        public override int Input1
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 6)
-                        return (_data[6] & 0x1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-
-
-        }
-        public override int Input2
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 6)
-                        return ((_data[6] & 0x2) >> 1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Input3
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 6)
-                        return ((_data[6] & 0x4) >> 2);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Input4
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 6)
-                        return ((_data[6] & 0x8) >> 3);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Output1
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 7)
-                        return (_data[7] & 0x1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Output2
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 7)
-                        return ((_data[7] & 0x2) >> 1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Output3
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 7)
-                        return ((_data[7] & 0x4) >> 2);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Output4
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 7)
-                        return ((_data[7] & 0x8) >> 3);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int LimitStatus1
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return (_data[8] & 0x1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int LimitStatus2
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x2) >> 1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int LimitStatus3
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x4) >> 2);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int LimitStatus4
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x8) >> 3);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int WeightMemDay
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 9)
-                        return (_data[9]);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int WeightMemMonth
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 10)
-                        return (_data[10]);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int WeightMemYear
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 11)
-                        return (_data[11]);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int WeightMemSeqNumber
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 12)
-                        return (_data[12]);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int WeightMemGross
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 13)
-                        return (_data[13]);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int WeightMemNet
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 14)
-                        return (_data[14]);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-
-        public override int ManualTareValue
-        {
-            get
-            {
-                return this._outputData[0];
-            }
-            set
-            {
-                this._outputData[0] = (ushort)value;
-            }
-        }
-        public override int LimitValue1Input
-        {
-            get
-            {
-                return this._outputData[1];
-            }
-            set
-            {
-                this._outputData[1] = (ushort)value;
-            }
-        }
-        public override int LimitValue1Mode
-        {
-            get
-            {
-                return this._outputData[2];
-            }
-            set
-            {
-                this._outputData[2] = (ushort)value;
-            }
-        }
-        public override int LimitValue1ActivationLevelLowerBandLimit
-        {
-            get
-            {
-                return this._outputData[3];
-            }
-            set
-            {
-                this._outputData[3] = (ushort)value;
-            }
-        }
-        public override int LimitValue1HysteresisBandHeight
-        {
-            get
-            {
-                return this._outputData[4];
-            }
-            set
-            {
-                this._outputData[4] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue2Source
-        {
-            get
-            {
-                return this._outputData[5];
-            }
-            set
-            {
-                this._outputData[5] = (ushort)value;
-            }
-        }
-        public override int LimitValue2Mode
-        {
-            get
-            {
-                return this._outputData[6];
-            }
-            set
-            {
-                this._outputData[6] = (ushort)value;
-            }
-        }
-        public override int LimitValue2ActivationLevelLowerBandLimit
-        {
-            get
-            {
-                return this._outputData[7];
-            }
-            set
-            {
-                this._outputData[7] = (ushort)value;
-            }
-        }
-        public override int LimitValue2HysteresisBandHeight
-        {
-            get
-            {
-                return this._outputData[8];
-            }
-            set
-            {
-                this._outputData[8] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue3Source
-        {
-            get
-            {
-                return this._outputData[9];
-            }
-            set
-            {
-                this._outputData[9] = (ushort)value;
-            }
-        }
-        public override int LimitValue3Mode
-        {
-            get
-            {
-                return this._outputData[10];
-            }
-            set
-            {
-                this._outputData[10] = (ushort)value;
-            }
-        }
-        public override int LimitValue3ActivationLevelLowerBandLimit
-        {
-            get
-            {
-                return this._outputData[11];
-            }
-            set
-            {
-                this._outputData[11] = (ushort)value;
-            }
-        }
-        public override int LimitValue3HysteresisBandHeight
-        {
-            get
-            {
-                return this._outputData[12];
-            }
-            set
-            {
-                this._outputData[12] = (ushort)value;
-            }
-        }
-
-        public override int LimitValue4Source
-        {
-            get
-            {
-                return this._outputData[13];
-            }
-            set
-            {
-                this._outputData[13] = (ushort)value;
-            }
-        }
-        public override int LimitValue4Mode
-        {
-            get
-            {
-                return this._outputData[14];
-            }
-            set
-            {
-                this._outputData[14] = (ushort)value;
-            }
-        }
-        public override int LimitValue4ActivationLevelLowerBandLimit
-        {
-            get
-            {
-                return this._outputData[15];
-            }
-            set
-            {
-                this._outputData[15] = (ushort)value;
-            }
-        }
-        public override int LimitValue4HysteresisBandHeight
-        {
-            get
-            {
-                return this._outputData[16];
-            }
-            set
-            {
-                this._outputData[16] = (ushort)value;
-            }
-        }
-        #endregion
-
-        #region Process data - Filling
-        public override int CoarseFlow
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return (_data[8] & 0x1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int FineFlow
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x2) >> 1);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Ready
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x4) >> 2);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int ReDosing
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x8) >> 3);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Emptying
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x10) >> 4);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int FlowError
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x20) >> 5);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int Alarm
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x40) >> 6);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int AdcOverUnderload
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x80) >> 7);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-
-        public override int MaxDosingTime
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x100) >> 8);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int LegalTradeOp
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x200) >> 9);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int ToleranceErrorPlus
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x400) >> 10);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int ToleranceErrorMinus
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x800) >> 11);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int StatusInput1
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x4000) >> 14);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int GeneralScaleError
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 8)
-                        return ((_data[8] & 0x8000) >> 15);
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int FillingProcessStatus
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 9)
-                        return _data[9];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int NumberDosingResults
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 11)
-                        return _data[11];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int DosingResult
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 12)
-                        return _data[12];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int MeanValueDosingResults
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 14)
-                        return _data[14];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int StandardDeviation
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 16)
-                        return _data[16];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int TotalWeight
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 18)
-                        return _data[18];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int FineFlowCutOffPoint
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 20)
-                        return _data[20];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int CoarseFlowCutOffPoint
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 22)
-                        return _data[22];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int CurrentDosingTime
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 24)
-                        return _data[24];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int CurrentCoarseFlowTime
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 25)
-                        return _data[25];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int CurrentFineFlowTime
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 26)
-                        return _data[26];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public override int ParameterSetProduct
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 27)
-                        return _data[27];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-
-        public int FillerWeightMemoryDay
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 28)
-                        return _data[28];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public int FillerWeightMemoryMonth
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 29)
-                        return _data[29];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public int FillerWeightMemoryYear
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 30)
-                        return _data[30];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-
-        }
-        public int FillerWeightMemorySeqNumber
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 31)
-                        return _data[31];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public int FillerWeightMemoryGross
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 32)
-                        return _data[32];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-        public int FillerWeightMemoryNet
-        {
-            get
-            {
-                try
-                {
-                    if (this.ReadBufferLength > 33)
-                        return _data[33];
-                    else
-                        return 0;
-                }
-                catch (System.IndexOutOfRangeException)
-                {
-                    return 0;
-                }
-            }
-        }
-
-        public override int ResidualFlowTime
-        {
-            get { return this._outputData[17]; }
-            set { this._outputData[17] = (ushort)value; }
-        }
-
-        public override int TargetFillingWeight
-        {
-            get { return this._outputData[18]; }
-            set { this._outputData[18] = (ushort)value; }
-        }
-
-        public override int CoarseFlowCutOffPointSet
-        {
-            get { return this._outputData[19]; }
-            set { this._outputData[19] = (ushort)value; }
-        }
-
-        public override int FineFlowCutOffPointSet
-        {
-            get { return this._outputData[20]; }
-            set { this._outputData[20] = (ushort)value; }
-        }
-        public override int MinimumFineFlow
-        {
-            get { return this._outputData[21]; }
-            set { this._outputData[21] = (ushort)value; }
-        }
-
-        public override int OptimizationOfCutOffPoints
-        {
-            get { return this._outputData[22]; }
-            set { this._outputData[22] = (ushort)value; }
-        }
-        public override int MaximumDosingTime
-        {
-            get { return this._outputData[23]; }
-            set { this._outputData[23] = (ushort)value; }
-        }
-        public override int StartWithFineFlow
-        {
-            get { return this._outputData[24]; }
-            set { this._outputData[24] = (ushort)value; }
-        }
-        public override int CoarseLockoutTime
-        {
-            get { return this._outputData[25]; }
-            set { this._outputData[25] = (ushort)value; }
-        }
-        public override int FineLockoutTime
-        {
-            get { return this._outputData[26]; }
-            set { this._outputData[26] = (ushort)value; }
-        }
-        public override int TareMode
-        {
-            get { return this._outputData[27]; }
-            set { this._outputData[27] = (ushort)value; }
-        }
-        public override int UpperToleranceLimit
-        {
-            get { return this._outputData[28]; }
-            set { this._outputData[28] = (ushort)value; }
-        }
-        public override int LowerToleranceLimit
-        {
-            get { return this._outputData[29]; }
-            set { this._outputData[29] = (ushort)value; }
-        }
-        public override int MinimumStartWeight
-        {
-            get { return this._outputData[30]; }
-            set { this._outputData[30] = (ushort)value; }
-        }
-        public override int EmptyWeight
-        {
-            get { return this._outputData[31]; }
-            set { this._outputData[31] = (ushort)value; }
-        }
-        public override int TareDelay
-        {
-            get { return this._outputData[32]; }
-            set { this._outputData[32] = (ushort)value; }
-        }
-        public override int CoarseFlowMonitoringTime
-        {
-            get { return this._outputData[33]; }
-            set { this._outputData[33] = (ushort)value; }
-        }
-        public override int CoarseFlowMonitoring
-        {
-            get { return this._outputData[34]; }
-            set { this._outputData[34] = (ushort)value; }
-        }
-        public override int FineFlowMonitoring
-        {
-            get { return this._outputData[35]; }
-            set { this._outputData[35] = (ushort)value; }
-        }
-        public override int FineFlowMonitoringTime
-        {
-            get { return this._outputData[36]; }
-            set { this._outputData[36] = (ushort)value; }
-        }
-        public override int DelayTimeAfterFineFlow
-        {
-            get { return this._outputData[37]; }
-            set { this._outputData[37] = (ushort)value; }
-        }
-        public override int ActivationTimeAfterFineFlow
-        {
-            get { return this._outputData[38]; }
-            set { this._outputData[38] = (ushort)value; }
-        }
-        public override int SystematicDifference
-        {
-            get { return this._outputData[39]; }
-            set { this._outputData[39] = (ushort)value; }
-        }
-        public override int DownwardsDosing
-        {
-            get { return this._outputData[40]; }
-            set { this._outputData[40] = (ushort)value; }
-        }
-        public override int ValveControl
-        {
-            get { return this._outputData[41]; }
-            set { this._outputData[41] = (ushort)value; }
-        }
-        public override int EmptyingMode
-        {
-            get { return this._outputData[42]; }
-            set { this._outputData[42] = (ushort)value; }
-        }
-
         #endregion
 
         #region Comment methods
@@ -1901,7 +521,7 @@ namespace HBM.Weighing.API.WTX
 
         public string WeightMovingStringComment()
         {
-            if (this.WeightMoving == 0)
+            if (this.WeightMoving == false)
                 return "0=Weight is not moving.";
             else
                 return "1=Weight is moving";
@@ -1931,41 +551,41 @@ namespace HBM.Weighing.API.WTX
             switch (this.LimitStatus)
             {
                 case 0: // Weight within limits
-                    _processData.Underload = false;
-                    _processData.Overload = false;
-                    _processData.weightWithinLimits = true;
-                    _processData.higherSafeLoadLimit = false;
+                    ProcessData.Underload = false;
+                    ProcessData.Overload = false;
+                    ProcessData.weightWithinLimits = true;
+                    ProcessData.higherSafeLoadLimit = false;
                     break;
                 case 1: // Lower than minimum
-                    _processData.Underload = true;
-                    _processData.Overload = false;
-                    _processData.weightWithinLimits = false;
-                    _processData.higherSafeLoadLimit = false;
+                    ProcessData.Underload = true;
+                    ProcessData.Overload = false;
+                    ProcessData.weightWithinLimits = false;
+                    ProcessData.higherSafeLoadLimit = false;
                     break;
                 case 2: // Higher than maximum capacity
-                    _processData.Underload = false;
-                    _processData.Overload = true;
-                    _processData.weightWithinLimits = false;
-                    _processData.higherSafeLoadLimit = false;
+                    ProcessData.Underload = false;
+                    ProcessData.Overload = true;
+                    ProcessData.weightWithinLimits = false;
+                    ProcessData.higherSafeLoadLimit = false;
                     break;
                 case 3: // Higher than safe load limit
-                    _processData.Underload = false;
-                    _processData.Overload = false;
-                    _processData.weightWithinLimits = false;
-                    _processData.higherSafeLoadLimit = true;
+                    ProcessData.Underload = false;
+                    ProcessData.Overload = false;
+                    ProcessData.weightWithinLimits = false;
+                    ProcessData.higherSafeLoadLimit = true;
                     break;
                 default: // Lower than minimum
-                    _processData.Underload = true;
-                    _processData.Overload = false;
-                    _processData.weightWithinLimits = false;
-                    _processData.higherSafeLoadLimit = false;
+                    ProcessData.Underload = true;
+                    ProcessData.Overload = false;
+                    ProcessData.weightWithinLimits = false;
+                    ProcessData.higherSafeLoadLimit = false;
                     break;
             }
         }
 
         public string WeightTypeStringComment()
         {
-            if (this.WeightType == 0)
+            if (this.WeightType == false)
             {
                 //this._isNet = false;
                 return "gross";
@@ -2020,10 +640,10 @@ namespace HBM.Weighing.API.WTX
         }
         public string StatusStringComment()
         {
-            if (this.Status == 1)
+            if (this.Status == true)
                 return "Execution OK!";
             else
-                if (this.Status != 1)
+                if (this.Status != true)
                 return "Execution not OK!";
             else
                 return "error.";

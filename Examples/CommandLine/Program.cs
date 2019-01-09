@@ -441,20 +441,20 @@ namespace WTXModbus
 
                 if (e.ProcessData.ApplicationMode == 0)  // If the WTX device is in standard application/mode.
                 {
-                    Console.WriteLine("0-Taring | 1-Gross/net  | 2-Zeroing  | 3- Adjust zero | 4-Adjust nominal |\n5-Activate Data \t| 6-Manual taring \t      | 7-Weight storage\n");
+                    Console.WriteLine("0-Taring | 1-Gross/net   | 2-Zeroing  | 3- Adjust zero    | 4-Adjust nominal |\n5-Activate Data          | 6-Manual taring                | 7-Weight storage | \nj-Connection to Jetbus   | a-Show all input words 0 to 37 |\no-Show output words 9-44 | b-Bytes read from the register |\nc-Calculate Calibration  | w-Calibration with weight      | e-Exit\n");
                 }
                 else
-                    if (_wtxDevice.ApplicationMode == 1 || _wtxDevice.ApplicationMode == 2) // If the WTX device is in filler application/mode.
+                    if (e.ProcessData.ApplicationMode == 1 || e.ProcessData.ApplicationMode == 2) // If the WTX device is in filler application/mode.
                     {
 
                     if(_showAllInputWords==false && mode=="Modbus")
-                    Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Jetbus | a-Show all input words 0 to 37 |\no-Show output words 9-44 | b-Bytes read from the register |\nc-Calculate Calibration | w-Calibration with weight | e-Exit the application\n");
+                    Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Jetbus | a-Show all input words 0 to 37 |\no-Show output words 9-44 | b-Bytes read from the register |\nc-Calculate Calibration | w-Calibration with weight       | e-Exit\n");
                     else
                     if (_showAllInputWords == true && mode == "Modbus")
-                        Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Modbus | a-Show only input word 0 to 5 |\nb-Bytes read from the register |\nc-Calculate Calibration | w-Calibration with weight | e-Exit the application\n");
+                        Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Modbus | a-Show only input word 0 to 5 |\nb-Bytes read from the register |\nc-Calculate Calibration | w-Calibration with weight       | e-Exit\n");
 
                     if (mode == "Jet" || mode == "Jetbus" || mode == "jet" || mode == "jetbus")
-                        Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Modbus | \nc-Calculate Calibration | w-Calibration with weight | e-Exit the application\n");
+                        Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Modbus | \nc-Calculate Calibration | w-Calibration with weight  | e-Exit the application\n");
 
                 }
 
@@ -646,19 +646,19 @@ namespace WTXModbus
 
             if (mode == "Jetbus" || mode == "Jet" || mode == "jet" || mode == "jetbus")
             {
-                if (_wtxDevice.Status == 1634168417)
+                if (_wtxDevice.Status == false) // 1634168417 = false
                     return "Command on go";
 
-                if (_wtxDevice.Status == 1801543519)
+                if (_wtxDevice.Status == true) // 1801543519 = true
                     return "Command ok";
             }
             else
                 if (mode == "Modbus" || mode == "modbus")
                 {
-                    if (_wtxDevice.Status == 0)
+                    if (_wtxDevice.Status == false)
                         return "Command on go";
 
-                    if (_wtxDevice.Status == 1)
+                    if (_wtxDevice.Status == true)
                         return "Command ok";
                  }
             return "Command on go";
