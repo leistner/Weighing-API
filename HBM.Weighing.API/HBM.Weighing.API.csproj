@@ -62,11 +62,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProcessData.cs" />
+    <Compile Include="Data\DataFiller.cs" />
+    <Compile Include="Data\DataFillerExtended.cs" />
+    <Compile Include="Data\DataStandard.cs" />
+    <Compile Include="Data\IDataFiller.cs" />
+    <Compile Include="Data\IDataFillerExtended.cs" />
+    <Compile Include="Data\IDataStandard.cs" />
+    <Compile Include="Data\IProcessData.cs" />
+    <Compile Include="Data\ProcessData.cs" />
     <Compile Include="ProcessDataReceivedEventArgs.cs" />
     <Compile Include="INetConnection.cs" />
     <Compile Include="LogEvent.cs" />
-    <Compile Include="IProcessData.cs" />
     <Compile Include="WTX\Jet\JetBusCommands.cs" />
     <Compile Include="WTX\Jet\JetBusConnection.cs" />
     <Compile Include="WTX\Jet\JetBusException.cs" />

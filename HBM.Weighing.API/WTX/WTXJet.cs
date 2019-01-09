@@ -36,7 +36,6 @@ namespace HBM.Weighing.API.WTX
 {
     public class WtxJet : BaseWtDevice
     {
-
         #region Const
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)   
 
@@ -55,11 +54,9 @@ namespace HBM.Weighing.API.WTX
         private const int SCALE_COMMAND_STATUS_ERROR_E3 = 860184415;         
         #endregion
 
-
         #region Privates 
         private ProcessData _processData;
         #endregion
-
 
         #region Events
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
@@ -77,7 +74,6 @@ namespace HBM.Weighing.API.WTX
             _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.                          
         }
         #endregion
-
 
         #region Connection
         public override void Disconnect(Action<bool> DisconnectCompleted)
@@ -113,35 +109,166 @@ namespace HBM.Weighing.API.WTX
         }
         #endregion
 
-
         #region Asynchronous process data callback
         public void OnData(object sender, ProcessDataReceivedEventArgs e)
         {
-            _processData.NetValue = this.NetValue;
-            _processData.GrossValue = this.GrossValue;
-            _processData.Tare = this.NetValue-this.GrossValue;
-            _processData.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
-            _processData.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
-            _processData.LimitStatus = this.LimitStatus;
-            _processData.WeightMoving = Convert.ToBoolean(this.WeightMoving);
-            _processData.ScaleSealIsOpen = Convert.ToBoolean(this.ScaleSealIsOpen);
-            _processData.ManualTare = Convert.ToBoolean(this.ManualTare);
-            _processData.WeightType = Convert.ToBoolean(this.WeightType);
-            _processData.ScaleRange = this.ScaleRange;
-            _processData.ZeroRequired = Convert.ToBoolean(this.ZeroRequired);
-            _processData.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
-            _processData.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
-            _processData.ApplicationMode = this.ApplicationMode;
-            _processData.Decimals = this.Decimals;
-            _processData.Unit = this.Unit;
-            _processData.Handshake = Convert.ToBoolean(this.Handshake);
-            _processData.Status = Convert.ToBoolean(this.Status);
+            // Update data for standard mode:
+            this.UpdateStandardData();
+
+            // Update process data : 
+            this.UpdateProcessData();
+
+            // Update data for filler mode:
+            this.UpdateFillerData();
+
+            // Update data for filler extended mode:
+            //this.UpdateFillerExtendedData();
 
             this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
             _processData.LegalTradeOp = this.LegalTradeOp;
 
             // Do something with the data, like in the class WTXModbus.cs           
             this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processData));
+        }
+
+        private void UpdateProcessData()
+        {
+            ProcessData.NetValue = this.NetValue;
+            ProcessData.GrossValue = this.GrossValue;
+            ProcessData.NetValueStr = this.CurrentWeight(this.NetValue, this.Decimals);
+            ProcessData.GrossValueStr = this.CurrentWeight(this.GrossValue, this.Decimals);
+
+            ProcessData.TareValue = this.NetValue - this.GrossValue;
+            ProcessData.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
+            ProcessData.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
+            ProcessData.LimitStatus = this.LimitStatus;
+            ProcessData.WeightMoving = Convert.ToBoolean(this.WeightMoving);
+            ProcessData.ScaleSealIsOpen = Convert.ToBoolean(this.ScaleSealIsOpen);
+            ProcessData.ManualTare = Convert.ToBoolean(this.ManualTare);
+            ProcessData.WeightType = Convert.ToBoolean(this.WeightType);
+            ProcessData.ScaleRange = this.ScaleRange;
+            ProcessData.ZeroRequired = Convert.ToBoolean(this.ZeroRequired);
+            ProcessData.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
+            ProcessData.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
+            ProcessData.ApplicationMode = this.ApplicationMode;
+            ProcessData.ApplicationModeStr = ApplicationModeStringComment();
+            ProcessData.Decimals = this.Decimals;
+            ProcessData.Unit = this.Unit;
+            ProcessData.Handshake = Convert.ToBoolean(this.Handshake);
+            ProcessData.Status = Convert.ToBoolean(this.Status);
+        }
+
+        private void UpdateStandardData()
+        {
+            this.NetValue = _connection.AllData[JetBusCommands.NET_VALUE];
+            this.GrossValue = _connection.AllData[JetBusCommands.GROSS_VALUE];
+            this.Decimals = _connection.AllData[JetBusCommands.DECIMALS];
+            this.ManualTareValue = 0;
+            this.GeneralWeightError = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1));
+            this.ScaleAlarmTriggered = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1);
+            this.LimitStatus = (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
+            this.WeightMoving = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4);
+            this.ScaleSealIsOpen = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5);
+            this.ManualTare = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6);
+            this.WeightType = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7);
+            this.ScaleRange = (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
+            this.ZeroRequired = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10);
+            this.WeightWithinTheCenterOfZero = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11);
+            this.WeightInZeroRange = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12);
+            this.Unit = (_connection.AllData[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
+            this.Handshake = UpdateHandshake();
+            this.Status = Convert.ToBoolean(_connection.AllData[JetBusCommands.SCALE_COMMAND_STATUS]);
+
+            // Commented out because of undefined ID's:
+            /*
+            this.LimitStatus1 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_1];
+            this.LimitStatus2 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_2];
+            this.LimitStatus3 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
+            this.LimitStatus4 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_4];
+            
+            this.FillingProcessStatus  = _connection.AllData[JetBusCommands.DOSING_STATUS];
+            this.NumberDosingResults = _connection.AllData[JetBusCommands.DOSING_COUNTER];
+            this.DosingResult = _connection.AllData[JetBusCommands.DOSING_RESULT];
+            
+            this.Input1 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_1];
+            this.Input2 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_2];
+            this.Input3 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_3];
+            this.Input4 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_4];
+            
+            this.Output1 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_1];
+            this.Output2 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_2];
+            this.Output3 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_3];
+            this.Output4 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_4];
+            */
+
+        }
+
+        private void UpdateFillerData()
+        {
+            this.AdcOverUnderload = 0;   // undefined ID
+            this.LegalTradeOp = 0;       // undefined ID
+            this.StatusInput1 = 0;       // undefined ID
+            this.GeneralScaleError = 0;  // undefined ID
+            this.CoarseFlow = 0;         // undefined ID
+            this.FineFlow = 0;           // undefined ID
+            this.Ready = 0;              // undefined ID
+            this.ReDosing = 0;           // undefined ID
+            this.Emptying = 0;           // undefined ID
+            this.FlowError = 0;          // undefined ID
+            this.Alarm = 0;              // undefined ID
+            this.ToleranceErrorPlus = 0; // undefined ID
+            this.ToleranceErrorMinus = 0;// undefined ID
+            this.CurrentDosingTime = 0;  // undefined ID
+            this.CurrentCoarseFlowTime = 0; // undefined ID
+            this.CurrentFineFlowTime = 0;   // undefined ID
+
+            this.ParameterSetProduct = 0;    // undefined ID 
+            this.DownwardsDosing = 0;        // undefined ID
+            this.LegalForTradeOperation = 0; // undefined ID
+
+            // Commented out because of undefined ID's:
+            /*
+            this.MaxDosingTime = _connection.AllData[JetBusCommands.MAXIMUM_DOSING_TIME];
+            this.MeanValueDosingResults = _connection.AllData[JetBusCommands.MEAN_VALUE_DOSING_RESULTS];
+            this.StandardDeviation = _connection.AllData[JetBusCommands.STANDARD_DEVIATION];
+            this.FineFlowCutOffPoint = _connection.AllData[JetBusCommands.FINE_FLOW_CUT_OFF_POINT];
+            this.CoarseFlowCutOffPoint = _connection.AllData[JetBusCommands.COARSE_FLOW_CUT_OFF_POINT];
+            this.ResidualFlowTime = _connection.AllData[JetBusCommands.RESIDUAL_FLOW_TIME];
+            this.MinimumFineFlow = _connection.AllData[JetBusCommands.MINIMUM_FINE_FLOW];
+            this.OptimizationOfCutOffPoints = _connection.AllData[JetBusCommands.OPTIMIZATION];
+            this.MaximumDosingTime = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
+            this.CoarseLockoutTime = _connection.AllData[JetBusCommands.COARSE_FLOW_TIME];
+            this.FineLockoutTime = _connection.AllData[JetBusCommands.FINE_FLOW_TIME];
+            this.TareMode = _connection.AllData[JetBusCommands.TARE_MODE];
+            this.UpperToleranceLimit = _connection.AllData[JetBusCommands.UPPER_TOLERANCE_LIMIT];
+            this.LowerToleranceLimit = _connection.AllData[JetBusCommands.LOWER_TOLERANCE_LOMIT];
+            this.MinimumStartWeight = _connection.AllData[JetBusCommands.MINIMUM_START_WEIGHT];
+            this.EmptyWeight = _connection.AllData[JetBusCommands.EMPTY_WEIGHT];
+            this.TareDelay = _connection.AllData[JetBusCommands.TARE_DELAY];
+            this.CoarseFlowMonitoringTime = _connection.AllData[JetBusCommands.COARSE_FLOW_MONITORING_TIME];
+            this.CoarseFlowMonitoring = _connection.AllData[JetBusCommands.COARSE_FLOW_MONITORING];
+            this.FineFlowMonitoring = _connection.AllData[JetBusCommands.FINE_FLOW_MONITORING];
+            this.FineFlowMonitoringTime = _connection.AllData[JetBusCommands.FINE_FLOW_MONITORING_TIME];
+            this.SystematicDifference = _connection.AllData[JetBusCommands.SYSTEMATIC_DIFFERENCE];
+            this.ValveControl = _connection.AllData[JetBusCommands.VALVE_CONTROL];
+            this.EmptyingMode = _connection.AllData[JetBusCommands.EMPTYING_MODE];
+            this.DelayTimeAfterFineFlow = _connection.AllData[JetBusCommands.DELAY1_DOSING];
+            this.ActivationTimeAfterFineFlow = _connection.AllData[JetBusCommands.FINEFLOW_PHASE_BEFORE_COARSEFLOW];
+            */
+
+            this.TotalWeight = 0;             // undefined ID
+            this.TargetFillingWeight = 0;     // undefined ID
+            this.CoarseFlowCutOffPointSet = 0;// undefined ID
+            this.FineFlowCutOffPointSet = 0;  // undefined ID
+            this.StartWithFineFlow = 0;       // undefined ID
+        }
+
+        public bool UpdateHandshake()
+        {
+            if (_connection.AllData[JetBusCommands.SCALE_COMMAND_STATUS] == 1801543519)
+                return true;
+            else
+                return false;
         }
 
         public override void OnData(ushort[] _asyncData)
@@ -151,7 +278,6 @@ namespace HBM.Weighing.API.WTX
 
         #endregion
 
-
         #region Identification
         public override string ConnectionType
         {
@@ -160,10 +286,39 @@ namespace HBM.Weighing.API.WTX
                 return "Jetbus";
             }
         }
-        
-        public override int ApplicationMode { get { return 1; } }
         #endregion
 
+        #region Process data methods
+
+        public override void Zero()
+        {
+            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_ZERO);
+        }
+
+        public override void SetGross()
+        {
+            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_SET_GROSS);
+        }
+
+        public override void Tare()
+        {
+            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_TARE);
+        }
+
+
+        public override void activateData()
+        {
+        }
+
+        public override void manualTaring()
+        {
+        }
+
+        public override void recordWeight()
+        {
+        }
+
+        #endregion
 
         #region Process data
 
@@ -232,350 +387,20 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public override int NetValue
+        public string ApplicationModeStringComment()
         {
-            get
-            {
-                return _connection.AllData[JetBusCommands.NET_VALUE];
-             }
+            if (this.ApplicationMode == 0)
+                return "Standard";
+            else
+
+                if (this.ApplicationMode == 2 || this.ApplicationMode == 1)  // Will be changed to '2', so far '1'. 
+                return "Filler";
+            else
+
+                return "error";
         }
-
-        public override int GrossValue
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.GROSS_VALUE];
-            }
-        }
-
-        public override int Decimals
-        {
-            get
-            {
-                    return _connection.AllData[JetBusCommands.DECIMALS];
-            }
-        }
-
-
-        public override int ManualTareValue { get; set; }
-
-
-        public override int GeneralWeightError
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1);
-            }
-        }
-
-        public override int ScaleAlarmTriggered
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1;
-            }
-        }
-
-
-        public override int LimitStatus
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
-            }
-        }
-
-        public override int WeightMoving
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4;
-            }
-        }
-
-        public override int ScaleSealIsOpen
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5;
-            }
-        }
-
-        public override int ManualTare
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6;
-            }
-        }
-        public override int WeightType
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7;
-            }
-        }
-
-        public override int ScaleRange
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
-            }
-        }
-
-        public override int ZeroRequired
-        {
-            get
-            {
-                ;
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10;
-            }
-        }
-
-        public override int WeightWithinTheCenterOfZero
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11;
-            }
-        }
-
-        public override int WeightInZeroRange
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12;
-            }
-        }
-
-        public override int Unit
-        {
-            get
-            {
-                try
-                {
-                    return (_connection.AllData[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
-                }
-                catch (Exception)
-                {
-                    return 76;
-                }
-
-            }
-        }
-
-        public override int AdcOverUnderload { get { return 1; } }
-
-        public override int LegalTradeOp { get { return 1; } }
-
-        public override int StatusInput1 { get { return 1; } }
-
-        public override int GeneralScaleError { get { return 1; } }
-
-        public override int Input1
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_1];
-            }
-        }         // ID = IM1
-
-        public override int Input2
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_2];
-            }
-        }         // ID = IM2
-
-        public override int Input3
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_3];
-            }
-        }         // ID = IM3        
-
-        public override int Input4
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_4];
-            }
-        }         // ID = IM4          
-
-        public override int Output1
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_1];
-            }
-        }        // ID = OM1
-
-        public override int Output2
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_2];
-            }
-        }        // ID = OM2 
-
-        public override int Output3
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_3];
-            }
-        }        // ID = OM3
-
-        public override int Output4
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_4];
-            }
-        }        // ID = OM4
 
         #endregion
-
-
-        #region Process data methods
-
-        public override void Zero()
-        {
-            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_ZERO);
-        }
-
-        public override void SetGross()
-        {
-            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_SET_GROSS);
-        }
-
-        public override void Tare()
-        {
-            _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_TARE);
-        }
-
-
-        public override void activateData()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void manualTaring()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void recordWeight()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int Status
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.SCALE_COMMAND_STATUS];
-            }
-        }
-
-        // Method to check if the handshake is done.
-        public override int Handshake
-        {
-            get
-            {
-                if (_connection.AllData[JetBusCommands.SCALE_COMMAND_STATUS] == 1801543519)
-                    return 1;
-                else
-                    return 0;
-            }
-        }
-        #endregion
-
-
-        #region Process data - Standard
-        public override int LimitStatus1
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_1];
-            }
-        }  
-
-        public override int LimitStatus2
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_2];
-            }
-        } 
-
-        public override int LimitStatus3
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
-            }
-        }   
-
-        public override int LimitStatus4
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_4];
-            }
-        }
-        #endregion
-
-
-        #region Process data - Filling
-        public override int FillingProcessStatus
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.DOSING_STATUS];
-            }
-        }
-
-
-        public override int NumberDosingResults
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.DOSING_COUNTER];
-            }
-        }
-
-
-        public override int DosingResult
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.DOSING_RESULT];
-            }
-        }
-
-
-        public override int CoarseFlow { get { return 1; } }
-        public override int FineFlow { get { return 1; } }
-        public override int Ready { get { return 1; } }
-        public override int ReDosing { get { return 1; } }
-        public override int Emptying { get { return 1; } }
-        public override int FlowError { get { return 1; } }
-        public override int Alarm { get { return 1; } }
-
-
-        public override int ToleranceErrorPlus { get { return 1; } }
-        public override int ToleranceErrorMinus { get { return 1; } }
-
-        public override int CurrentDosingTime { get { return 1; } }
-        public override int CurrentCoarseFlowTime { get { return 1; } }
-        public override int CurrentFineFlowTime { get { return 1; } }
-
-        #endregion
-
 
         #region Process data methods - Filling
         public override void clearDosingResults()
@@ -598,7 +423,6 @@ namespace HBM.Weighing.API.WTX
             throw new NotImplementedException();
         }
         #endregion
-
 
         #region Adjustment methods
 
@@ -710,331 +534,12 @@ namespace HBM.Weighing.API.WTX
         }
         #endregion
 
-
-        #region Filler
-
-        public override int ParameterSetProduct { get { return 1; } }
-
-        public override int MaxDosingTime
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.MAXIMUM_DOSING_TIME];
-            }
-        } // MDT
-
-        public override int MeanValueDosingResults
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.MEAN_VALUE_DOSING_RESULTS];
-            }
-        }    // SDM
-        public override int StandardDeviation
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.STANDARD_DEVIATION];
-            }
-        }         // SDS 
-
-        public override int FineFlowCutOffPoint
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FINE_FLOW_CUT_OFF_POINT];
-            }
-        }       // FFD
-        public override int CoarseFlowCutOffPoint
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.COARSE_FLOW_CUT_OFF_POINT];
-            }
-        }     // CFD
-
-        public override int ResidualFlowTime
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.RESIDUAL_FLOW_TIME];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.RESIDUAL_FLOW_TIME] = value;
-                _connection.Write(JetBusCommands.RESIDUAL_FLOW_TIME, value);
-            }
-        }    // RFT
-
-        public override int MinimumFineFlow
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.MINIMUM_FINE_FLOW];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.MINIMUM_FINE_FLOW] = value;
-                _connection.Write(JetBusCommands.MINIMUM_FINE_FLOW, value);
-            }
-        }     //FFM
-        public override int OptimizationOfCutOffPoints
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.OPTIMIZATION];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.OPTIMIZATION] = value;
-                _connection.Write(JetBusCommands.OPTIMIZATION, value);
-            }
-        }   // OSN
-        public override int MaximumDosingTime
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_3] = value;
-                _connection.Write(JetBusCommands.STATUS_DIGITAL_OUTPUT_3, value);
-            }
-        }   // MDT
-
-        public override int CoarseLockoutTime
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.COARSE_FLOW_TIME];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.COARSE_FLOW_TIME] = value;
-                _connection.Write(JetBusCommands.COARSE_FLOW_TIME, value);
-            }
-        }    // CFT
-        public override int FineLockoutTime
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FINE_FLOW_TIME];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.FINE_FLOW_TIME] = value;
-                _connection.Write(JetBusCommands.FINE_FLOW_TIME, value);
-            }
-        }      // Fine flow time = FFT
-        public override int TareMode
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.TARE_MODE];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.TARE_MODE] = value;
-                _connection.Write(JetBusCommands.TARE_MODE, value);
-            }
-        }             // ID = TMD 
-
-        public override int UpperToleranceLimit
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.UPPER_TOLERANCE_LIMIT];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.UPPER_TOLERANCE_LIMIT] = value;
-                _connection.Write(JetBusCommands.UPPER_TOLERANCE_LIMIT, value);
-            }
-        }      // UTL
-        public override int LowerToleranceLimit
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.LOWER_TOLERANCE_LOMIT];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.LOWER_TOLERANCE_LOMIT] = value;
-                _connection.Write(JetBusCommands.LOWER_TOLERANCE_LOMIT, value);
-            }
-        }      // LTL
-
-        public override int MinimumStartWeight
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.MINIMUM_START_WEIGHT];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.MINIMUM_START_WEIGHT] = value;
-                _connection.Write(JetBusCommands.MINIMUM_START_WEIGHT, value);
-            }
-        }        // MSW
-        public override int EmptyWeight
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.EMPTY_WEIGHT];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.EMPTY_WEIGHT] = value;
-                _connection.Write(JetBusCommands.EMPTY_WEIGHT, value);
-            }
-        }  // EWT
-
-        public override int TareDelay
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.TARE_DELAY];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.TARE_DELAY] = value;
-                _connection.Write(JetBusCommands.TARE_DELAY, value);
-            }
-        }    // TAD
-
-        public override int CoarseFlowMonitoringTime
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.COARSE_FLOW_MONITORING_TIME];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.COARSE_FLOW_MONITORING_TIME] = value;
-                _connection.Write(JetBusCommands.COARSE_FLOW_MONITORING_TIME, value);
-            }
-        }  // CBT
-        public override int CoarseFlowMonitoring
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.COARSE_FLOW_MONITORING];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.COARSE_FLOW_MONITORING] = value;
-                _connection.Write(JetBusCommands.COARSE_FLOW_MONITORING, value);
-            }
-        }      // CBK
-        public override int FineFlowMonitoring
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FINE_FLOW_MONITORING];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.FINE_FLOW_MONITORING] = value;
-                _connection.Write(JetBusCommands.FINE_FLOW_MONITORING, value);
-            }
-        }        // FBK
-        public override int FineFlowMonitoringTime
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FINE_FLOW_MONITORING_TIME];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.FINE_FLOW_MONITORING_TIME] = value;
-                _connection.Write(JetBusCommands.FINE_FLOW_MONITORING_TIME, value);
-            }
-        }    // FBT
-
-        public override int SystematicDifference
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.SYSTEMATIC_DIFFERENCE];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.SYSTEMATIC_DIFFERENCE] = value;
-                _connection.Write(JetBusCommands.SYSTEMATIC_DIFFERENCE, value);
-            }
-        }  // SYD
-
-        public override int DownwardsDosing { get; set; }
-
-        public override int ValveControl
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.VALVE_CONTROL];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.VALVE_CONTROL] = value;
-                _connection.Write(JetBusCommands.VALVE_CONTROL, value);
-            }
-        }      // VCT
-        public override int EmptyingMode
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.EMPTYING_MODE];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.EMPTYING_MODE] = value;
-                _connection.Write(JetBusCommands.EMPTYING_MODE, value);
-            }
-        }      // EMD
-        
-
-        public override int DelayTimeAfterFineFlow
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.DELAY1_DOSING];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.DELAY1_DOSING] = value;
-                _connection.Write(JetBusCommands.DELAY1_DOSING, value);
-            }
-        }      
-
-        public override int ActivationTimeAfterFineFlow
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.FINEFLOW_PHASE_BEFORE_COARSEFLOW];
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.FINEFLOW_PHASE_BEFORE_COARSEFLOW] = value;
-                _connection.Write(JetBusCommands.FINEFLOW_PHASE_BEFORE_COARSEFLOW, value);
-            }
-        }
-        
-       
-        public override int TotalWeight { get { return 1; } }
-        public override int TargetFillingWeight { get; set; }
-        public override int CoarseFlowCutOffPointSet { get; set; }
-        public override int FineFlowCutOffPointSet { get; set; }
-        public override int StartWithFineFlow { get; set; }
-        #endregion
-
-
         #region Limit switches
-        public override int LimitValue1Input
+        public int LimitValue1Input
         {
             get
             {
-                int value = _connection.AllData[JetBusCommands.LIMIT_VALUE];
-                return (value & 0x1);
+                return _connection.AllData[JetBusCommands.LIMIT_VALUE] & 0x1;
             }
             set
             {
@@ -1043,12 +548,11 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public override int LimitValue2Source
+        public int LimitValue2Source
         {
             get
             {
-                int value = _connection.AllData[JetBusCommands.LIMIT_VALUE];
-                return (value & 0x2)>>1;
+                return (_connection.AllData[JetBusCommands.LIMIT_VALUE] & 0x2) >> 1;
             }
             set
             {
@@ -1057,12 +561,11 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public override int LimitValue3Source
+        public int LimitValue3Source
         {
             get
             {
-                int value = _connection.AllData[JetBusCommands.LIMIT_VALUE];
-                return (value & 0x4) >> 2;
+                return (_connection.AllData[JetBusCommands.LIMIT_VALUE] & 0x4) >> 2;
             }
             set
             {
@@ -1071,42 +574,20 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public override int LimitValue4Source
+        public int LimitValue4Source
         {
             get
             {
-                int value = _connection.AllData[JetBusCommands.LIMIT_VALUE];
-                return (value & 0x8) >> 3;
+                return (_connection.AllData[JetBusCommands.LIMIT_VALUE] & 0x8) >> 3;
             }
             set
             {
                 _connection.AllData[JetBusCommands.LIMIT_VALUE] = value;
                 _connection.Write(JetBusCommands.LIMIT_VALUE, value);
             }
-        }        
-
-        public override int LimitValue2Mode { get; set; }
-        public override int LimitValue2ActivationLevelLowerBandLimit { get; set; }
-        public override int LimitValue2HysteresisBandHeight { get; set; }
-        public override int LimitValue3Mode { get; set; }
-        public override int LimitValue3ActivationLevelLowerBandLimit { get; set; }
-        public override int LimitValue3HysteresisBandHeight { get; set; }
-        public override int LimitValue4Mode { get; set; }
-        public override int LimitValue4ActivationLevelLowerBandLimit { get; set; }
-        public override int LimitValue4HysteresisBandHeight { get; set; }
-        public override int LimitValue1Mode { get; set; }
-        public override int LimitValue1ActivationLevelLowerBandLimit { get; set; }
-        public override int LimitValue1HysteresisBandHeight { get; set; }
+        }
         #endregion
 
 
-        #region Alibi memory
-        public override int WeightMemDay { get { return 1; } }
-        public override int WeightMemMonth { get { return 1; } }
-        public override int WeightMemYear { get { return 1; } }
-        public override int WeightMemSeqNumber { get { return 1; } }
-        public override int WeightMemGross { get { return 1; } }
-        public override int WeightMemNet { get { return 1; } }
-        #endregion               
     }
 }

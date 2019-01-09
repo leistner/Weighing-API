@@ -747,7 +747,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 return false;
 
         }
-
+        /*
         [Test, TestCaseSource(typeof(WriteTestsModbus), "UpdateOutputTestCases")]
         public bool UpdateOutput1Test(Behavior behavior)
         {
@@ -781,7 +781,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
 
             _wtxObj.activateData();
 
-            if (compareDataWritten == true/* && testConnection.getCommand==0x800*/)
+            if (compareDataWritten == true) // && testConnection.getCommand==0x800)
 
                 return true;
 
@@ -789,6 +789,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 return false;
 
         }
+        */
 
         private bool testGetOutputwords()
         {

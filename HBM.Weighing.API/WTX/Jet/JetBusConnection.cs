@@ -454,6 +454,7 @@ namespace HBM.Weighing.API.WTX.Jet
         }
 
 
+
         public void Disconnect()
         {
             _peer.Disconnect();

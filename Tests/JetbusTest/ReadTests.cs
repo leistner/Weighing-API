@@ -23,7 +23,8 @@ namespace JetbusTest
     {
         private TestJetbusConnection _jetTestConnection;
         private WtxJet _wtxObj;
-        private int testGrossValue;
+        private int _testInteger;
+        private bool _testBoolean;
         
 
         // Test case source for reading values from the WTX120 device. 
@@ -140,7 +141,8 @@ namespace JetbusTest
         [SetUp]
         public void Setup()
         {
-            testGrossValue = 0;            
+            _testInteger = 0;
+            _testBoolean = false;
         }
       
         /*
@@ -153,7 +155,7 @@ namespace JetbusTest
             
             _wtxObj.Connect(this.OnConnect, 100);        
 
-            testGrossValue = _wtxObj.GrossValue;
+            _testInteger = _wtxObj.GrossValue;
 
             //Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6144/00"));
 
@@ -178,7 +180,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.NetValue;
+            _testInteger = _wtxObj.NetValue;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("601A/01"));
 
@@ -195,7 +197,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.WeightMoving;
+            _testBoolean = _wtxObj.WeightMoving;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -215,7 +217,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.GeneralWeightError;
+            _testBoolean = _wtxObj.GeneralWeightError;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -229,7 +231,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.ScaleAlarmTriggered;
+            _testBoolean = _wtxObj.ScaleAlarmTriggered;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -243,7 +245,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.LimitStatus;
+            _testInteger = _wtxObj.LimitStatus;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -257,7 +259,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.ScaleSealIsOpen;
+            _testBoolean = _wtxObj.ScaleSealIsOpen;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -271,7 +273,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.ManualTare;
+            _testBoolean = _wtxObj.ManualTare;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -285,7 +287,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.WeightType;
+            _testBoolean = _wtxObj.WeightType;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -299,7 +301,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.ScaleRange;
+            _testInteger = _wtxObj.ScaleRange;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -313,7 +315,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.ZeroRequired;
+            _testBoolean = _wtxObj.ZeroRequired;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -327,7 +329,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.WeightWithinTheCenterOfZero;
+            _testBoolean = _wtxObj.WeightWithinTheCenterOfZero;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -341,7 +343,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.WeightInZeroRange;
+            _testBoolean = _wtxObj.WeightInZeroRange;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -357,7 +359,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.Decimals;
+            _testInteger = _wtxObj.Decimals;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6013/01"));
         }
@@ -371,7 +373,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.FillingProcessStatus;
+            _testInteger = _wtxObj.FillingProcessStatus;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SDO"));
         }
@@ -384,7 +386,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.DosingResult;
+            _testInteger = _wtxObj.DosingResult;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FRS1"));
         }
@@ -399,7 +401,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.NumberDosingResults;
+            _testInteger = _wtxObj.NumberDosingResults;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("NDS"));
         }
@@ -413,7 +415,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.Unit;
+            _testInteger = _wtxObj.Unit;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6014/01"));
         }
@@ -428,7 +430,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.Input1;
+            _testInteger = _wtxObj.Input1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM1"));
         }
@@ -442,7 +444,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.Input2;
+            _testInteger = _wtxObj.Input2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM2"));
         }
@@ -456,7 +458,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.Input3;
+            _testInteger = _wtxObj.Input3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM3"));
         }
@@ -470,7 +472,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.Input4;
+            _testInteger = _wtxObj.Input4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM4"));
         }
@@ -484,7 +486,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.Output1;
+            _testInteger = _wtxObj.Output1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM1"));
         }
@@ -498,7 +500,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.Output2;
+            _testInteger = _wtxObj.Output2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM2"));
         }
@@ -512,7 +514,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.Output3;
+            _testInteger = _wtxObj.Output3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM3"));
         }
@@ -526,7 +528,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.Output4;
+            _testInteger = _wtxObj.Output4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM4"));
         }
@@ -540,7 +542,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.LimitStatus1;
+            _testInteger = _wtxObj.LimitStatus1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS1"));
         }
@@ -554,7 +556,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.LimitStatus2;
+            _testInteger = _wtxObj.LimitStatus2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS2"));
         }
@@ -568,7 +570,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.LimitStatus3;
+            _testInteger = _wtxObj.LimitStatus3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS3"));
         }
@@ -583,7 +585,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.LimitStatus4;
+            _testInteger = _wtxObj.LimitStatus4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS4"));
         }
@@ -597,7 +599,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.MaxDosingTime;
+            _testInteger = _wtxObj.MaxDosingTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("MDT"));
         }
@@ -611,7 +613,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.MeanValueDosingResults;
+            _testInteger = _wtxObj.MeanValueDosingResults;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SDM"));
         }
@@ -625,7 +627,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.StandardDeviation;
+            _testInteger = _wtxObj.StandardDeviation;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SDS"));
         }
@@ -639,7 +641,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.FineFlowCutOffPoint;
+            _testInteger = _wtxObj.FineFlowCutOffPoint;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFD"));
         }
@@ -653,7 +655,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.CoarseFlowCutOffPoint;
+            _testInteger = _wtxObj.CoarseFlowCutOffPoint;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CFD"));
         }
@@ -667,7 +669,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.ResidualFlowTime;
+            _testInteger = _wtxObj.ResidualFlowTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("RFT"));
         }
@@ -681,7 +683,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.MinimumFineFlow;
+            _testInteger = _wtxObj.MinimumFineFlow;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFM"));
         }
@@ -695,7 +697,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.OptimizationOfCutOffPoints;
+            _testInteger = _wtxObj.OptimizationOfCutOffPoints;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OSN"));
         }
@@ -709,7 +711,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.MaximumDosingTime;
+            _testInteger = _wtxObj.MaximumDosingTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("MDT"));
         }
@@ -723,7 +725,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.CoarseLockoutTime;
+            _testInteger = _wtxObj.CoarseLockoutTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CFT"));
         }
@@ -737,7 +739,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.FineLockoutTime;
+            _testInteger = _wtxObj.FineLockoutTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFT"));
         }
@@ -751,7 +753,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.TareMode;
+            _testInteger = _wtxObj.TareMode;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("TMD"));
         }
@@ -765,7 +767,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.UpperToleranceLimit;
+            _testInteger = _wtxObj.UpperToleranceLimit;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("UTL"));
         }
@@ -779,7 +781,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.LowerToleranceLimit;
+            _testInteger = _wtxObj.LowerToleranceLimit;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("LTL"));
         }
@@ -793,7 +795,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.MinimumStartWeight;
+            _testInteger = _wtxObj.MinimumStartWeight;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("MSW"));
         }
@@ -807,7 +809,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.EmptyWeight;
+            _testInteger = _wtxObj.EmptyWeight;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("EWT"));
         }
@@ -821,7 +823,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.TareDelay;
+            _testInteger = _wtxObj.TareDelay;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("TAD"));
         }
@@ -835,7 +837,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.CoarseFlowMonitoringTime;
+            _testInteger = _wtxObj.CoarseFlowMonitoringTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CBT"));
         }
@@ -849,7 +851,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.CoarseFlowMonitoring;
+            _testInteger = _wtxObj.CoarseFlowMonitoring;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CBK"));
         }
@@ -863,7 +865,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.FineFlowMonitoring;
+            _testInteger = _wtxObj.FineFlowMonitoring;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FBK"));
         }
@@ -877,7 +879,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.FineFlowMonitoringTime;
+            _testInteger = _wtxObj.FineFlowMonitoringTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FBT"));
         }
@@ -891,7 +893,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.SystematicDifference;
+            _testInteger = _wtxObj.SystematicDifference;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SYD"));
         }
@@ -905,7 +907,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.ValveControl;
+            _testInteger = _wtxObj.ValveControl;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("VCT"));
         }
@@ -919,7 +921,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.EmptyingMode;
+            _testInteger = _wtxObj.EmptyingMode;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("EMD"));
         }
@@ -933,7 +935,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.DelayTimeAfterFineFlow;
+            _testInteger = _wtxObj.DelayTimeAfterFineFlow;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("DL1"));
         }
@@ -947,7 +949,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            testGrossValue = _wtxObj.ActivationTimeAfterFineFlow;
+            _testInteger = _wtxObj.ActivationTimeAfterFineFlow;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFL"));
         }
@@ -973,6 +975,7 @@ namespace JetbusTest
             Assert.IsTrue(testVar);
         }
 
+
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testLimitValueStatusLVS2(Behavior behavior)
         {
@@ -980,7 +983,7 @@ namespace JetbusTest
 
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection,update);
+            _wtxObj = new WtxJet(_jetTestConnection, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
