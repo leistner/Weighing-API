@@ -67,9 +67,9 @@ namespace WTXModbusGUIsimple
             }
 
             // Get some settings from the connected Device
-            _wtxDeviceDecimals = wtxDevice.Decimals;
+            _wtxDeviceDecimals = wtxDevice.ProcessData.Decimals;
 
-            switch (wtxDevice.Unit)
+            switch (wtxDevice.ProcessData.Unit)
             {
                 case 0:
                     lblUnit.Text = "kg";
@@ -111,8 +111,8 @@ namespace WTXModbusGUIsimple
                     catch (FormatException)
                     {
                         txtInfo.Text = "Wrong format!" + Environment.NewLine
-                        + "Accepted format(comma): " + _wtxDevice.CurrentWeight(19876, _wtxDevice.Decimals)
-                        + " ; or(dot): " + _wtxDevice.CurrentWeight(19876, _wtxDevice.Decimals).Replace(",", ".");
+                        + "Accepted format(comma): " + _wtxDevice.CurrentWeight(19876, _wtxDevice.ProcessData.Decimals)
+                        + " ; or(dot): " + _wtxDevice.CurrentWeight(19876, _wtxDevice.ProcessData.Decimals).Replace(",", ".");
                         break;
                     }
                     catch (OverflowException)
@@ -155,9 +155,9 @@ namespace WTXModbusGUIsimple
                 case 3:  // Check calibration:
 
                     if (
-                         _wtxDevice.NetValue == (int)expCalibrationWeight ||
-                        (_wtxDevice.NetValue > (int) expCalibrationWeight && _wtxDevice.NetValue < (int) expCalibrationWeight + 5) ||
-                        (_wtxDevice.NetValue < (int) expCalibrationWeight && _wtxDevice.NetValue > (int) expCalibrationWeight - 5)
+                         _wtxDevice.ProcessData.NetValue == (int)expCalibrationWeight ||
+                        (_wtxDevice.ProcessData.NetValue > (int) expCalibrationWeight && _wtxDevice.ProcessData.NetValue < (int) expCalibrationWeight + 5) ||
+                        (_wtxDevice.ProcessData.NetValue < (int) expCalibrationWeight && _wtxDevice.ProcessData.NetValue > (int) expCalibrationWeight - 5)
                         )
                         txtInfo.Text = "Calibration finished and successful";
 
@@ -194,7 +194,7 @@ namespace WTXModbusGUIsimple
 
         private int CalibrationWeightWithoutDecimals()
         {
-            potency = Math.Pow(10, _wtxDevice.Decimals);
+            potency = Math.Pow(10, _wtxDevice.ProcessData.Decimals);
 
             expCalibrationWeight = _calibrationWeight * potency;
 

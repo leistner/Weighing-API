@@ -795,14 +795,14 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
         {
             if
              (
-            _wtxObj.ManualTareValue == 1 && _wtxObj.LimitValue1Input == 1 && _wtxObj.LimitValue1Mode == 1 && _wtxObj.LimitValue1ActivationLevelLowerBandLimit == 1 && _wtxObj.LimitValue1HysteresisBandHeight == 1 &&
-            _wtxObj.LimitValue2Source == 1 && _wtxObj.LimitValue2Mode == 1 && _wtxObj.LimitValue2ActivationLevelLowerBandLimit == 1 && _wtxObj.LimitValue2HysteresisBandHeight == 1 && _wtxObj.LimitValue3Source == 1 &&
-            _wtxObj.LimitValue3Mode == 1 && _wtxObj.LimitValue3ActivationLevelLowerBandLimit == 1 && _wtxObj.LimitValue3HysteresisBandHeight == 1 && _wtxObj.LimitValue4Source == 1 && _wtxObj.LimitValue4Mode == 1 &&
-            _wtxObj.LimitValue4ActivationLevelLowerBandLimit == 1 && _wtxObj.LimitValue4HysteresisBandHeight == 1 && _wtxObj.ResidualFlowTime == 1 && _wtxObj.TargetFillingWeight == 1 && _wtxObj.EmptyingMode == 1 &&
-            _wtxObj.CoarseFlowCutOffPointSet == 1 && _wtxObj.FineFlowCutOffPointSet == 1 && _wtxObj.MinimumFineFlow == 1 && _wtxObj.OptimizationOfCutOffPoints == 1 && _wtxObj.MaximumDosingTime == 1 && _wtxObj.ValveControl == 1 &&
-            _wtxObj.StartWithFineFlow == 1 && _wtxObj.CoarseLockoutTime == 1 && _wtxObj.FineLockoutTime == 1 && _wtxObj.TareMode == 1 && _wtxObj.UpperToleranceLimit == 1 && _wtxObj.LowerToleranceLimit == 1 &&
-            _wtxObj.MinimumStartWeight == 1 && _wtxObj.TareDelay == 1 && _wtxObj.CoarseFlowMonitoringTime == 1 && _wtxObj.CoarseFlowMonitoring == 1 && _wtxObj.FineFlowMonitoring == 1 && _wtxObj.EmptyWeight == 1 &&
-            _wtxObj.FineFlowMonitoringTime == 1 && _wtxObj.DelayTimeAfterFineFlow == 1 && _wtxObj.ActivationTimeAfterFineFlow == 1 && _wtxObj.SystematicDifference == 1 && _wtxObj.DownwardsDosing == 1
+            _wtxObj.DataStandard.ManualTareValue == 1 && _wtxObj.DataStandard.LimitValue1Input == 1 && _wtxObj.DataStandard.LimitValue1Mode == 1 && _wtxObj.DataStandard.LimitValue1ActivationLevelLowerBandLimit == 1 && _wtxObj.DataStandard.LimitValue1HysteresisBandHeight == 1 &&
+            _wtxObj.DataStandard.LimitValue2Source == 1 && _wtxObj.DataStandard.LimitValue2Mode == 1 && _wtxObj.DataStandard.LimitValue2ActivationLevelLowerBandLimit == 1 && _wtxObj.DataStandard.LimitValue2HysteresisBandHeight == 1 && _wtxObj.DataStandard.LimitValue3Source == 1 &&
+            _wtxObj.DataStandard.LimitValue3Mode == 1 && _wtxObj.DataStandard.LimitValue3ActivationLevelLowerBandLimit == 1 && _wtxObj.DataStandard.LimitValue3HysteresisBandHeight == 1 && _wtxObj.DataStandard.LimitValue4Source == 1 && _wtxObj.DataStandard.LimitValue4Mode == 1 &&
+            _wtxObj.DataStandard.LimitValue4ActivationLevelLowerBandLimit == 1 && _wtxObj.DataStandard.LimitValue4HysteresisBandHeight == 1 && _wtxObj.DataFiller.ResidualFlowTime == 1 && _wtxObj.DataFiller.TargetFillingWeight == 1 && _wtxObj.DataFiller.EmptyingMode == 1 &&
+            _wtxObj.DataFiller.CoarseFlowCutOffPointSet == 1 && _wtxObj.DataFiller.FineFlowCutOffPointSet == 1 && _wtxObj.DataFiller.MinimumFineFlow == 1 && _wtxObj.DataFiller.OptimizationOfCutOffPoints == 1 && _wtxObj.DataFiller.MaximumDosingTime == 1 && _wtxObj.DataFiller.ValveControl == 1 &&
+            _wtxObj.DataFiller.StartWithFineFlow == 1 && _wtxObj.DataFiller.CoarseLockoutTime == 1 && _wtxObj.DataFiller.FineLockoutTime == 1 && _wtxObj.DataFiller.TareMode == 1 && _wtxObj.DataFiller.UpperToleranceLimit == 1 && _wtxObj.DataFiller.LowerToleranceLimit == 1 &&
+            _wtxObj.DataFiller.MinimumStartWeight == 1 && _wtxObj.DataFiller.TareDelay == 1 && _wtxObj.DataFiller.CoarseFlowMonitoringTime == 1 && _wtxObj.DataFiller.CoarseFlowMonitoring == 1 && _wtxObj.DataFiller.FineFlowMonitoring == 1 && _wtxObj.DataFiller.EmptyWeight == 1 &&
+            _wtxObj.DataFiller.FineFlowMonitoringTime == 1 && _wtxObj.DataFiller.DelayTimeAfterFineFlow == 1 && _wtxObj.DataFiller.ActivationTimeAfterFineFlow == 1 && _wtxObj.DataFiller.SystematicDifference == 1 && _wtxObj.DataFiller.DownwardsDosing == 1
             )
                 return true;
 

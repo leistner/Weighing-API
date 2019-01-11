@@ -30,6 +30,7 @@
 
 using System;
 using System.Threading;
+using HBM.Weighing.API.Data;
 using HBM.Weighing.API.WTX.Jet;
 
 namespace HBM.Weighing.API.WTX
@@ -51,11 +52,11 @@ namespace HBM.Weighing.API.WTX
         private const int SCALE_COMMAND_STATUS_OK = 1801543519;
         private const int SCALE_COMMAND_STATUS_ERROR_E1 = 826629983;
         private const int SCALE_COMMAND_STATUS_ERROR_E2 = 843407199;
-        private const int SCALE_COMMAND_STATUS_ERROR_E3 = 860184415;         
+        private const int SCALE_COMMAND_STATUS_ERROR_E3 = 860184415;
         #endregion
 
         #region Privates 
-        private ProcessData _processData;
+
         #endregion
 
         #region Events
@@ -65,8 +66,6 @@ namespace HBM.Weighing.API.WTX
         #region Constructors
         public WtxJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)  // ParameterProperty umändern 
         {
-            _processData = new ProcessData();
-
             _connection = Connection;
             
             this.ProcessDataReceived += OnProcessData;
@@ -113,162 +112,47 @@ namespace HBM.Weighing.API.WTX
         public void OnData(object sender, ProcessDataReceivedEventArgs e)
         {
             // Update data for standard mode:
-            this.UpdateStandardData();
+            DataStandard.UpdateStandardDataJet(_connection.AllData);
 
             // Update process data : 
-            this.UpdateProcessData();
+            ProcessData.UpdateProcessDataJet(_connection.AllData);
 
             // Update data for filler mode:
-            this.UpdateFillerData();
+            DataFiller.UpdateFillerDataJet(_connection.AllData);
 
             // Update data for filler extended mode:
-            //this.UpdateFillerExtendedData();
+            DataFillerExtended.UpdateFillerExtendedDataJet(_connection.AllData);
 
             this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
-            _processData.LegalTradeOp = this.LegalTradeOp;
 
             // Do something with the data, like in the class WTXModbus.cs           
-            this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(_processData));
-        }
-
-        private void UpdateProcessData()
-        {
-            ProcessData.NetValue = this.NetValue;
-            ProcessData.GrossValue = this.GrossValue;
-            ProcessData.NetValueStr = this.CurrentWeight(this.NetValue, this.Decimals);
-            ProcessData.GrossValueStr = this.CurrentWeight(this.GrossValue, this.Decimals);
-
-            ProcessData.TareValue = this.NetValue - this.GrossValue;
-            ProcessData.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
-            ProcessData.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
-            ProcessData.LimitStatus = this.LimitStatus;
-            ProcessData.WeightMoving = Convert.ToBoolean(this.WeightMoving);
-            ProcessData.ScaleSealIsOpen = Convert.ToBoolean(this.ScaleSealIsOpen);
-            ProcessData.ManualTare = Convert.ToBoolean(this.ManualTare);
-            ProcessData.WeightType = Convert.ToBoolean(this.WeightType);
-            ProcessData.ScaleRange = this.ScaleRange;
-            ProcessData.ZeroRequired = Convert.ToBoolean(this.ZeroRequired);
-            ProcessData.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
-            ProcessData.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
-            ProcessData.ApplicationMode = this.ApplicationMode;
-            ProcessData.ApplicationModeStr = ApplicationModeStringComment();
-            ProcessData.Decimals = this.Decimals;
-            ProcessData.Unit = this.Unit;
-            ProcessData.Handshake = Convert.ToBoolean(this.Handshake);
-            ProcessData.Status = Convert.ToBoolean(this.Status);
+            this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
         }
 
         private void UpdateStandardData()
         {
-            this.NetValue = _connection.AllData[JetBusCommands.NET_VALUE];
-            this.GrossValue = _connection.AllData[JetBusCommands.GROSS_VALUE];
-            this.Decimals = _connection.AllData[JetBusCommands.DECIMALS];
-            this.ManualTareValue = 0;
-            this.GeneralWeightError = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1));
-            this.ScaleAlarmTriggered = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1);
-            this.LimitStatus = (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
-            this.WeightMoving = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4);
-            this.ScaleSealIsOpen = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5);
-            this.ManualTare = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6);
-            this.WeightType = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7);
-            this.ScaleRange = (_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
-            this.ZeroRequired = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10);
-            this.WeightWithinTheCenterOfZero = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11);
-            this.WeightInZeroRange = Convert.ToBoolean((_connection.AllData[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12);
-            this.Unit = (_connection.AllData[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
-            this.Handshake = UpdateHandshake();
-            this.Status = Convert.ToBoolean(_connection.AllData[JetBusCommands.SCALE_COMMAND_STATUS]);
-
             // Commented out because of undefined ID's:
             /*
-            this.LimitStatus1 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_1];
-            this.LimitStatus2 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_2];
-            this.LimitStatus3 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
-            this.LimitStatus4 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_4];
+            DataStandard.LimitStatus1 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_1];
+            DataStandard.LimitStatus2 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_2];
+            DataStandard.LimitStatus3 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
+            DataStandard.LimitStatus4 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_4];
             
-            this.FillingProcessStatus  = _connection.AllData[JetBusCommands.DOSING_STATUS];
-            this.NumberDosingResults = _connection.AllData[JetBusCommands.DOSING_COUNTER];
-            this.DosingResult = _connection.AllData[JetBusCommands.DOSING_RESULT];
+            DataStandard.FillingProcessStatus  = _connection.AllData[JetBusCommands.DOSING_STATUS];
+            DataStandard.NumberDosingResults = _connection.AllData[JetBusCommands.DOSING_COUNTER];
+            DataStandard.DosingResult = _connection.AllData[JetBusCommands.DOSING_RESULT];
             
-            this.Input1 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_1];
-            this.Input2 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_2];
-            this.Input3 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_3];
-            this.Input4 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_4];
+            DataStandard.Input1 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_1];
+            DataStandard.Input2 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_2];
+            DataStandard.Input3 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_3];
+            DataStandard.Input4 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_4];
             
-            this.Output1 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_1];
-            this.Output2 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_2];
-            this.Output3 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_3];
-            this.Output4 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_4];
+            DataStandard.Output1 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_1];
+            DataStandard.Output2 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_2];
+            DataStandard.Output3 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_3];
+            DataStandard.Output4 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_4];
             */
 
-        }
-
-        private void UpdateFillerData()
-        {
-            this.AdcOverUnderload = 0;   // undefined ID
-            this.LegalTradeOp = 0;       // undefined ID
-            this.StatusInput1 = 0;       // undefined ID
-            this.GeneralScaleError = 0;  // undefined ID
-            this.CoarseFlow = 0;         // undefined ID
-            this.FineFlow = 0;           // undefined ID
-            this.Ready = 0;              // undefined ID
-            this.ReDosing = 0;           // undefined ID
-            this.Emptying = 0;           // undefined ID
-            this.FlowError = 0;          // undefined ID
-            this.Alarm = 0;              // undefined ID
-            this.ToleranceErrorPlus = 0; // undefined ID
-            this.ToleranceErrorMinus = 0;// undefined ID
-            this.CurrentDosingTime = 0;  // undefined ID
-            this.CurrentCoarseFlowTime = 0; // undefined ID
-            this.CurrentFineFlowTime = 0;   // undefined ID
-
-            this.ParameterSetProduct = 0;    // undefined ID 
-            this.DownwardsDosing = 0;        // undefined ID
-            this.LegalForTradeOperation = 0; // undefined ID
-
-            // Commented out because of undefined ID's:
-            /*
-            this.MaxDosingTime = _connection.AllData[JetBusCommands.MAXIMUM_DOSING_TIME];
-            this.MeanValueDosingResults = _connection.AllData[JetBusCommands.MEAN_VALUE_DOSING_RESULTS];
-            this.StandardDeviation = _connection.AllData[JetBusCommands.STANDARD_DEVIATION];
-            this.FineFlowCutOffPoint = _connection.AllData[JetBusCommands.FINE_FLOW_CUT_OFF_POINT];
-            this.CoarseFlowCutOffPoint = _connection.AllData[JetBusCommands.COARSE_FLOW_CUT_OFF_POINT];
-            this.ResidualFlowTime = _connection.AllData[JetBusCommands.RESIDUAL_FLOW_TIME];
-            this.MinimumFineFlow = _connection.AllData[JetBusCommands.MINIMUM_FINE_FLOW];
-            this.OptimizationOfCutOffPoints = _connection.AllData[JetBusCommands.OPTIMIZATION];
-            this.MaximumDosingTime = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
-            this.CoarseLockoutTime = _connection.AllData[JetBusCommands.COARSE_FLOW_TIME];
-            this.FineLockoutTime = _connection.AllData[JetBusCommands.FINE_FLOW_TIME];
-            this.TareMode = _connection.AllData[JetBusCommands.TARE_MODE];
-            this.UpperToleranceLimit = _connection.AllData[JetBusCommands.UPPER_TOLERANCE_LIMIT];
-            this.LowerToleranceLimit = _connection.AllData[JetBusCommands.LOWER_TOLERANCE_LOMIT];
-            this.MinimumStartWeight = _connection.AllData[JetBusCommands.MINIMUM_START_WEIGHT];
-            this.EmptyWeight = _connection.AllData[JetBusCommands.EMPTY_WEIGHT];
-            this.TareDelay = _connection.AllData[JetBusCommands.TARE_DELAY];
-            this.CoarseFlowMonitoringTime = _connection.AllData[JetBusCommands.COARSE_FLOW_MONITORING_TIME];
-            this.CoarseFlowMonitoring = _connection.AllData[JetBusCommands.COARSE_FLOW_MONITORING];
-            this.FineFlowMonitoring = _connection.AllData[JetBusCommands.FINE_FLOW_MONITORING];
-            this.FineFlowMonitoringTime = _connection.AllData[JetBusCommands.FINE_FLOW_MONITORING_TIME];
-            this.SystematicDifference = _connection.AllData[JetBusCommands.SYSTEMATIC_DIFFERENCE];
-            this.ValveControl = _connection.AllData[JetBusCommands.VALVE_CONTROL];
-            this.EmptyingMode = _connection.AllData[JetBusCommands.EMPTYING_MODE];
-            this.DelayTimeAfterFineFlow = _connection.AllData[JetBusCommands.DELAY1_DOSING];
-            this.ActivationTimeAfterFineFlow = _connection.AllData[JetBusCommands.FINEFLOW_PHASE_BEFORE_COARSEFLOW];
-            */
-
-            this.TotalWeight = 0;             // undefined ID
-            this.TargetFillingWeight = 0;     // undefined ID
-            this.CoarseFlowCutOffPointSet = 0;// undefined ID
-            this.FineFlowCutOffPointSet = 0;  // undefined ID
-            this.StartWithFineFlow = 0;       // undefined ID
-        }
-
-        public bool UpdateHandshake()
-        {
-            if (_connection.AllData[JetBusCommands.SCALE_COMMAND_STATUS] == 1801543519)
-                return true;
-            else
-                return false;
         }
 
         public override void OnData(ushort[] _asyncData)
@@ -277,6 +161,7 @@ namespace HBM.Weighing.API.WTX
         }
 
         #endregion
+
 
         #region Identification
         public override string ConnectionType
@@ -348,7 +233,7 @@ namespace HBM.Weighing.API.WTX
 
         public override string UnitStringComment()
         {
-            switch (this.Unit)
+            switch (ProcessData.Unit)
             {
                 case 0x02:
                     return "kg";
@@ -389,11 +274,11 @@ namespace HBM.Weighing.API.WTX
 
         public string ApplicationModeStringComment()
         {
-            if (this.ApplicationMode == 0)
+            if (ProcessData.ApplicationMode == 0)
                 return "Standard";
             else
 
-                if (this.ApplicationMode == 2 || this.ApplicationMode == 1)  // Will be changed to '2', so far '1'. 
+                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 1)  // Will be changed to '2', so far '1'. 
                 return "Filler";
             else
 
@@ -486,37 +371,37 @@ namespace HBM.Weighing.API.WTX
 
         private void limitStatusBool()
         {
-            switch (this.LimitStatus)
+            switch (ProcessData.LimitStatus)
             {
                 case 0: // Weight within limits
-                    _processData.Underload = false;
-                    _processData.Overload = false;
-                    _processData.weightWithinLimits = true;
-                    _processData.higherSafeLoadLimit = false;
+                    ProcessData.Underload = false;
+                    ProcessData.Overload = false;
+                    ProcessData.weightWithinLimits = true;
+                    ProcessData.higherSafeLoadLimit = false;
                     break;
                 case 1: // Lower than minimum
-                    _processData.Underload = true;
-                    _processData.Overload = false;
-                    _processData.weightWithinLimits = false;
-                    _processData.higherSafeLoadLimit = false;
+                    ProcessData.Underload = true;
+                    ProcessData.Overload = false;
+                    ProcessData.weightWithinLimits = false;
+                    ProcessData.higherSafeLoadLimit = false;
                     break;
                 case 2: // Higher than maximum capacity
-                    _processData.Underload = false;
-                    _processData.Overload = true;
-                    _processData.weightWithinLimits = false;
-                    _processData.higherSafeLoadLimit = false;
+                    ProcessData.Underload = false;
+                    ProcessData.Overload = true;
+                    ProcessData.weightWithinLimits = false;
+                    ProcessData.higherSafeLoadLimit = false;
                     break;
                 case 3: // Higher than safe load limit
-                    _processData.Underload = false;
-                    _processData.Overload = false;
-                    _processData.weightWithinLimits = false;
-                    _processData.higherSafeLoadLimit = true;
+                    ProcessData.Underload = false;
+                    ProcessData.Overload = false;
+                    ProcessData.weightWithinLimits = false;
+                    ProcessData.higherSafeLoadLimit = true;
                     break;
                 default: // Lower than minimum
-                    _processData.Underload = true;
-                    _processData.Overload = false;
-                    _processData.weightWithinLimits = false;
-                    _processData.higherSafeLoadLimit = false;
+                    ProcessData.Underload = true;
+                    ProcessData.Overload = false;
+                    ProcessData.weightWithinLimits = false;
+                    ProcessData.higherSafeLoadLimit = false;
                     break;
             }
         }

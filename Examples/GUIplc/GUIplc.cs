@@ -376,13 +376,13 @@ namespace WTXModbusExamples
                      
             int maximumIndex = 0;
 
-            if (_wtxDevice.ApplicationMode == 0)     // if in standard mode: 
+            if (_wtxDevice.ProcessData.ApplicationMode == 0)     // if in standard mode: 
             {
                 _startIndex = 8;
                 _arrayLength = 17;
                 maximumIndex = 25;
             }
-            else if (_wtxDevice.ApplicationMode == 1 || _wtxDevice.ApplicationMode == 2)  // if in filler mode: 
+            else if (_wtxDevice.ProcessData.ApplicationMode == 1 || _wtxDevice.ProcessData.ApplicationMode == 2)  // if in filler mode: 
             {
                 _startIndex  = 11;
                 _arrayLength = 26;
@@ -486,14 +486,14 @@ namespace WTXModbusExamples
             // The connection to the device is established. 
             _wtxDevice.Connection.Connect();     // Alternative : _wtxObj.Connect();    
 
-            if (_wtxDevice.ApplicationMode == 0 && this._isStandard == false)
+            if (_wtxDevice.ProcessData.ApplicationMode == 0 && this._isStandard == false)
                 this._isStandard = true;
 
             else
-                if (_wtxDevice.ApplicationMode == 1 && this._isStandard == true)
+                if (_wtxDevice.ProcessData.ApplicationMode == 1 && this._isStandard == true)
                 this._isStandard = false;
             else
-                if (_wtxDevice.ApplicationMode == 2 && this._isStandard == true)
+                if (_wtxDevice.ProcessData.ApplicationMode == 2 && this._isStandard == true)
                 this._isStandard = false;
 
             // For the application mode(standard or filler) and the printing on the GUI the WTX registers are read out first.      
@@ -570,24 +570,24 @@ namespace WTXModbusExamples
 
                             switch (e.RowIndex)
                             {
-                                case  8: _wtxDevice.ManualTareValue = value; break;
-                                case  9: _wtxDevice.LimitValue1Input = value; break;
-                                case 10: _wtxDevice.LimitValue1Mode = value; break;
-                                case 11: _wtxDevice.LimitValue1ActivationLevelLowerBandLimit = value; break;
-                                case 12: _wtxDevice.LimitValue1HysteresisBandHeight = value; break;
-                                case 13: _wtxDevice.LimitValue2Source = value; break;
-                                case 14: _wtxDevice.LimitValue2Mode = value; break;
-                                case 15: _wtxDevice.LimitValue2ActivationLevelLowerBandLimit = value; break;
-                                case 16: _wtxDevice.LimitValue2HysteresisBandHeight = value; break;
+                                case  8: _wtxDevice.DataStandard.ManualTareValue = value; break;
+                                case  9: _wtxDevice.DataStandard.LimitValue1Input = value; break;
+                                case 10: _wtxDevice.DataStandard.LimitValue1Mode = value; break;
+                                case 11: _wtxDevice.DataStandard.LimitValue1ActivationLevelLowerBandLimit = value; break;
+                                case 12: _wtxDevice.DataStandard.LimitValue1HysteresisBandHeight = value; break;
+                                case 13: _wtxDevice.DataStandard.LimitValue2Source = value; break;
+                                case 14: _wtxDevice.DataStandard.LimitValue2Mode = value; break;
+                                case 15: _wtxDevice.DataStandard.LimitValue2ActivationLevelLowerBandLimit = value; break;
+                                case 16: _wtxDevice.DataStandard.LimitValue2HysteresisBandHeight = value; break;
 
-                                case 17: _wtxDevice.LimitValue3Source = value; break;
-                                case 18: _wtxDevice.LimitValue3Mode = value; break;
-                                case 19: _wtxDevice.LimitValue3ActivationLevelLowerBandLimit = value; break;
-                                case 20: _wtxDevice.LimitValue3HysteresisBandHeight = value; break;
-                                case 21: _wtxDevice.LimitValue4Source = value; break;
-                                case 22: _wtxDevice.LimitValue4Mode = value; break;
-                                case 23: _wtxDevice.LimitValue4ActivationLevelLowerBandLimit = value; break;
-                                case 24: _wtxDevice.LimitValue4HysteresisBandHeight = value; break;
+                                case 17: _wtxDevice.DataStandard.LimitValue3Source = value; break;
+                                case 18: _wtxDevice.DataStandard.LimitValue3Mode = value; break;
+                                case 19: _wtxDevice.DataStandard.LimitValue3ActivationLevelLowerBandLimit = value; break;
+                                case 20: _wtxDevice.DataStandard.LimitValue3HysteresisBandHeight = value; break;
+                                case 21: _wtxDevice.DataStandard.LimitValue4Source = value; break;
+                                case 22: _wtxDevice.DataStandard.LimitValue4Mode = value; break;
+                                case 23: _wtxDevice.DataStandard.LimitValue4ActivationLevelLowerBandLimit = value; break;
+                                case 24: _wtxDevice.DataStandard.LimitValue4HysteresisBandHeight = value; break;
 
                                 default: break;
                             }
@@ -600,35 +600,35 @@ namespace WTXModbusExamples
                             MessageBox.Show(value.ToString());  // for test purpose only.
                             switch (e.RowIndex)
                             {
-                                case 11: _wtxDevice.ResidualFlowTime = value; break;
-                                case 12: _wtxDevice.TargetFillingWeight = value; break;
-                                case 13: _wtxDevice.CoarseFlowCutOffPointSet = value; break;
-                                case 14: _wtxDevice.FineFlowCutOffPointSet = value; break;
-                                case 15: _wtxDevice.MinimumFineFlow = value; break;
-                                case 16: _wtxDevice.OptimizationOfCutOffPoints = value; break;
+                                case 11: _wtxDevice.DataFiller.ResidualFlowTime = value; break;
+                                case 12: _wtxDevice.DataFiller.TargetFillingWeight = value; break;
+                                case 13: _wtxDevice.DataFiller.CoarseFlowCutOffPointSet = value; break;
+                                case 14: _wtxDevice.DataFiller.FineFlowCutOffPointSet = value; break;
+                                case 15: _wtxDevice.DataFiller.MinimumFineFlow = value; break;
+                                case 16: _wtxDevice.DataFiller.OptimizationOfCutOffPoints = value; break;
 
-                                case 17: _wtxDevice.MaximumDosingTime = value; break;
-                                case 18: _wtxDevice.StartWithFineFlow = value; break;
-                                case 19: _wtxDevice.CoarseLockoutTime = value; break;
-                                case 20: _wtxDevice.FineLockoutTime = value; break;
-                                case 21: _wtxDevice.TareMode = value; break;
-                                case 22: _wtxDevice.UpperToleranceLimit = value; break;
-                                case 23: _wtxDevice.LowerToleranceLimit = value; break;
-                                case 24: _wtxDevice.MinimumStartWeight = value; break;
+                                case 17: _wtxDevice.DataFiller.MaximumDosingTime = value; break;
+                                case 18: _wtxDevice.DataFiller.StartWithFineFlow = value; break;
+                                case 19: _wtxDevice.DataFiller.CoarseLockoutTime = value; break;
+                                case 20: _wtxDevice.DataFiller.FineLockoutTime = value; break;
+                                case 21: _wtxDevice.DataFiller.TareMode = value; break;
+                                case 22: _wtxDevice.DataFiller.UpperToleranceLimit = value; break;
+                                case 23: _wtxDevice.DataFiller.LowerToleranceLimit = value; break;
+                                case 24: _wtxDevice.DataFiller.MinimumStartWeight = value; break;
 
-                                case 25: _wtxDevice.EmptyWeight = value; break;
-                                case 26: _wtxDevice.TareDelay = value; break;
-                                case 27: _wtxDevice.CoarseFlowMonitoringTime = value; break;
-                                case 28: _wtxDevice.CoarseFlowMonitoring = value; break;
-                                case 29: _wtxDevice.FineFlowMonitoring = value; break;
-                                case 30: _wtxDevice.FineFlowMonitoringTime = value; break;
+                                case 25: _wtxDevice.DataFiller.EmptyWeight = value; break;
+                                case 26: _wtxDevice.DataFiller.TareDelay = value; break;
+                                case 27: _wtxDevice.DataFiller.CoarseFlowMonitoringTime = value; break;
+                                case 28: _wtxDevice.DataFiller.CoarseFlowMonitoring = value; break;
+                                case 29: _wtxDevice.DataFiller.FineFlowMonitoring = value; break;
+                                case 30: _wtxDevice.DataFiller.FineFlowMonitoringTime = value; break;
 
-                                case 31: _wtxDevice.DelayTimeAfterFineFlow = value; break;
-                                case 32: _wtxDevice.ActivationTimeAfterFineFlow = value; break;
-                                case 33: _wtxDevice.SystematicDifference = value; break;
-                                case 34: _wtxDevice.DownwardsDosing = value; break;
-                                case 35: _wtxDevice.ValveControl = value; break;
-                                case 36: _wtxDevice.EmptyingMode = value; break;
+                                case 31: _wtxDevice.DataFiller.DelayTimeAfterFineFlow = value; break;
+                                case 32: _wtxDevice.DataFiller.ActivationTimeAfterFineFlow = value; break;
+                                case 33: _wtxDevice.DataFiller.SystematicDifference = value; break;
+                                case 34: _wtxDevice.DataFiller.DownwardsDosing = value; break;
+                                case 35: _wtxDevice.DataFiller.ValveControl = value; break;
+                                case 36: _wtxDevice.DataFiller.EmptyingMode = value; break;
 
                             }
                         }
@@ -712,14 +712,14 @@ namespace WTXModbusExamples
                     dataGridView1.Rows[16].Cells[6].Value = e.ProcessData.Handshake;
                     dataGridView1.Rows[17].Cells[6].Value = e.ProcessData.Status;
 
-                    dataGridView1.Rows[18].Cells[6].Value = _wtxDevice.Input1;
-                    dataGridView1.Rows[19].Cells[6].Value = _wtxDevice.Input2;
-                    dataGridView1.Rows[20].Cells[6].Value = _wtxDevice.Input3;
-                    dataGridView1.Rows[21].Cells[6].Value = _wtxDevice.Input4;
-                    dataGridView1.Rows[22].Cells[6].Value = _wtxDevice.Output1;
-                    dataGridView1.Rows[23].Cells[6].Value = _wtxDevice.Output2;
-                    dataGridView1.Rows[24].Cells[6].Value = _wtxDevice.Output3;
-                    dataGridView1.Rows[25].Cells[6].Value = _wtxDevice.Output4;
+                    dataGridView1.Rows[18].Cells[6].Value = _wtxDevice.DataStandard.Input1;
+                    dataGridView1.Rows[19].Cells[6].Value = _wtxDevice.DataStandard.Input2;
+                    dataGridView1.Rows[20].Cells[6].Value = _wtxDevice.DataStandard.Input3;
+                    dataGridView1.Rows[21].Cells[6].Value = _wtxDevice.DataStandard.Input4;
+                    dataGridView1.Rows[22].Cells[6].Value = _wtxDevice.DataStandard.Output1;
+                    dataGridView1.Rows[23].Cells[6].Value = _wtxDevice.DataStandard.Output2;
+                    dataGridView1.Rows[24].Cells[6].Value = _wtxDevice.DataStandard.Output3;
+                    dataGridView1.Rows[25].Cells[6].Value = _wtxDevice.DataStandard.Output4;
             }
                 catch (Exception) { }
 
@@ -728,16 +728,16 @@ namespace WTXModbusExamples
                     try
                     {
                         // Index 27 bis 35:
-                        dataGridView1.Rows[26].Cells[6].Value = _wtxDevice.LimitStatus1;
-                        dataGridView1.Rows[27].Cells[6].Value = _wtxDevice.LimitStatus2;
-                        dataGridView1.Rows[28].Cells[6].Value = _wtxDevice.LimitStatus3;
-                        dataGridView1.Rows[29].Cells[6].Value = _wtxDevice.LimitStatus4;
-                        dataGridView1.Rows[30].Cells[6].Value = _wtxDevice.WeightMemDay;
-                        dataGridView1.Rows[31].Cells[6].Value = _wtxDevice.WeightMemMonth;
-                        dataGridView1.Rows[32].Cells[6].Value = _wtxDevice.WeightMemYear;
-                        dataGridView1.Rows[33].Cells[6].Value = _wtxDevice.WeightMemSeqNumber;
-                        dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.WeightMemGross;
-                        dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.WeightMemNet;
+                        dataGridView1.Rows[26].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus1;
+                        dataGridView1.Rows[27].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus2;
+                        dataGridView1.Rows[28].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus3;
+                        dataGridView1.Rows[29].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus4;
+                        dataGridView1.Rows[30].Cells[6].Value = _wtxDevice.DataStandard.WeightMemDay;
+                        dataGridView1.Rows[31].Cells[6].Value = _wtxDevice.DataStandard.WeightMemMonth;
+                        dataGridView1.Rows[32].Cells[6].Value = _wtxDevice.DataStandard.WeightMemYear;
+                        dataGridView1.Rows[33].Cells[6].Value = _wtxDevice.DataStandard.WeightMemSeqNumber;
+                        dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.DataStandard.WeightMemGross;
+                        dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.DataStandard.WeightMemNet;
                 }
                     catch (Exception) { }
                 }
@@ -747,39 +747,39 @@ namespace WTXModbusExamples
                     try
                     {
                     // Index 27 bis 55: 
-                    dataGridView1.Rows[26].Cells[6].Value = _wtxDevice.CoarseFlow;
-                    dataGridView1.Rows[27].Cells[6].Value = _wtxDevice.FineFlow;
-                    dataGridView1.Rows[28].Cells[6].Value = _wtxDevice.Ready;
-                    dataGridView1.Rows[29].Cells[6].Value = _wtxDevice.ReDosing;
-                    dataGridView1.Rows[30].Cells[6].Value = _wtxDevice.Emptying;
-                    dataGridView1.Rows[31].Cells[6].Value = _wtxDevice.FlowError;
-                    dataGridView1.Rows[32].Cells[6].Value = _wtxDevice.Alarm;
-                    dataGridView1.Rows[33].Cells[6].Value = _wtxDevice.AdcOverUnderload;
-                    dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.MaximumDosingTime;
-                    dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.LegalTradeOp;
-                    dataGridView1.Rows[36].Cells[6].Value = _wtxDevice.ToleranceErrorPlus;
-                    dataGridView1.Rows[37].Cells[6].Value = _wtxDevice.ToleranceErrorMinus;
-                    dataGridView1.Rows[38].Cells[6].Value = _wtxDevice.StatusInput1;
-                    dataGridView1.Rows[39].Cells[6].Value = _wtxDevice.GeneralScaleError;
-                    dataGridView1.Rows[40].Cells[6].Value = _wtxDevice.FillingProcessStatus;
-                    dataGridView1.Rows[41].Cells[6].Value = _wtxDevice.NumberDosingResults;
-                    dataGridView1.Rows[42].Cells[6].Value = _wtxDevice.DosingResult;
-                    dataGridView1.Rows[43].Cells[6].Value = _wtxDevice.MeanValueDosingResults;
-                    dataGridView1.Rows[44].Cells[6].Value = _wtxDevice.StandardDeviation;
-                    dataGridView1.Rows[45].Cells[6].Value = _wtxDevice.TotalWeight;
-                    dataGridView1.Rows[46].Cells[6].Value = _wtxDevice.FineFlowCutOffPoint;
-                    dataGridView1.Rows[47].Cells[6].Value = _wtxDevice.CoarseFlowCutOffPoint;
-                    dataGridView1.Rows[48].Cells[6].Value = _wtxDevice.CurrentDosingTime;
-                    dataGridView1.Rows[49].Cells[6].Value = _wtxDevice.CurrentCoarseFlowTime;
-                    dataGridView1.Rows[50].Cells[6].Value = _wtxDevice.CurrentFineFlowTime ;
-                    dataGridView1.Rows[51].Cells[6].Value = _wtxDevice.ParameterSetProduct;
+                    dataGridView1.Rows[26].Cells[6].Value = _wtxDevice.DataFiller.CoarseFlow;
+                    dataGridView1.Rows[27].Cells[6].Value = _wtxDevice.DataFiller.FineFlow;
+                    dataGridView1.Rows[28].Cells[6].Value = _wtxDevice.DataFiller.Ready;
+                    dataGridView1.Rows[29].Cells[6].Value = _wtxDevice.DataFiller.ReDosing;
+                    dataGridView1.Rows[30].Cells[6].Value = _wtxDevice.DataFiller.Emptying;
+                    dataGridView1.Rows[31].Cells[6].Value = _wtxDevice.DataFiller.FlowError;
+                    dataGridView1.Rows[32].Cells[6].Value = _wtxDevice.DataFiller.Alarm;
+                    dataGridView1.Rows[33].Cells[6].Value = _wtxDevice.DataFiller.AdcOverUnderload;
+                    dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.DataFiller.MaximumDosingTime;
+                    dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.DataFiller.LegalForTradeOperation;
+                    dataGridView1.Rows[36].Cells[6].Value = _wtxDevice.DataFiller.ToleranceErrorPlus;
+                    dataGridView1.Rows[37].Cells[6].Value = _wtxDevice.DataFiller.ToleranceErrorMinus;
+                    dataGridView1.Rows[38].Cells[6].Value = _wtxDevice.DataFiller.StatusInput1;
+                    dataGridView1.Rows[39].Cells[6].Value = _wtxDevice.DataFiller.GeneralScaleError;
+                    dataGridView1.Rows[40].Cells[6].Value = _wtxDevice.DataFiller.FillingProcessStatus;
+                    dataGridView1.Rows[41].Cells[6].Value = _wtxDevice.DataFiller.NumberDosingResults;
+                    dataGridView1.Rows[42].Cells[6].Value = _wtxDevice.DataFiller.DosingResult;
+                    dataGridView1.Rows[43].Cells[6].Value = _wtxDevice.DataFiller.MeanValueDosingResults;
+                    dataGridView1.Rows[44].Cells[6].Value = _wtxDevice.DataFiller.StandardDeviation;
+                    dataGridView1.Rows[45].Cells[6].Value = _wtxDevice.DataFiller.TotalWeight;
+                    dataGridView1.Rows[46].Cells[6].Value = _wtxDevice.DataFiller.FineFlowCutOffPoint;
+                    dataGridView1.Rows[47].Cells[6].Value = _wtxDevice.DataFiller.CoarseFlowCutOffPoint;
+                    dataGridView1.Rows[48].Cells[6].Value = _wtxDevice.DataFiller.CurrentDosingTime;
+                    dataGridView1.Rows[49].Cells[6].Value = _wtxDevice.DataFiller.CurrentCoarseFlowTime;
+                    dataGridView1.Rows[50].Cells[6].Value = _wtxDevice.DataFiller.CurrentFineFlowTime ;
+                    dataGridView1.Rows[51].Cells[6].Value = _wtxDevice.DataFiller.ParameterSetProduct;
 
-                    dataGridView1.Rows[52].Cells[6].Value = _wtxDevice.WeightMemDay;
-                    dataGridView1.Rows[53].Cells[6].Value = _wtxDevice.WeightMemMonth;
-                    dataGridView1.Rows[54].Cells[6].Value = _wtxDevice.WeightMemYear;
-                    dataGridView1.Rows[55].Cells[6].Value = _wtxDevice.WeightMemSeqNumber;
-                    dataGridView1.Rows[56].Cells[6].Value = _wtxDevice.WeightMemGross;
-                    dataGridView1.Rows[57].Cells[6].Value = _wtxDevice.WeightMemNet;
+                    dataGridView1.Rows[52].Cells[6].Value = _wtxDevice.DataStandard.WeightMemDay;
+                    dataGridView1.Rows[53].Cells[6].Value = _wtxDevice.DataStandard.WeightMemMonth;
+                    dataGridView1.Rows[54].Cells[6].Value = _wtxDevice.DataStandard.WeightMemYear;
+                    dataGridView1.Rows[55].Cells[6].Value = _wtxDevice.DataStandard.WeightMemSeqNumber;
+                    dataGridView1.Rows[56].Cells[6].Value = _wtxDevice.DataStandard.WeightMemGross;
+                    dataGridView1.Rows[57].Cells[6].Value = _wtxDevice.DataStandard.WeightMemNet;
                 }
                     catch (Exception) { }
                 }           
@@ -951,14 +951,14 @@ namespace WTXModbusExamples
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
 
-            if (_wtxDevice.ApplicationMode == 0 && this._isStandard == false)
+            if (_wtxDevice.ProcessData.ApplicationMode == 0 && this._isStandard == false)
                 this._isStandard = true;
 
             else
-            if (_wtxDevice.ApplicationMode == 1 && this._isStandard == true)
+            if (_wtxDevice.ProcessData.ApplicationMode == 1 && this._isStandard == true)
                 this._isStandard = false;
             else
-            if (_wtxDevice.ApplicationMode == 2 && this._isStandard == true)
+            if (_wtxDevice.ProcessData.ApplicationMode == 2 && this._isStandard == true)
                 this._isStandard = false;
 
             // For the application mode(standard or filler) and the printing on the GUI the WTX registers are read out first.      

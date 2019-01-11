@@ -27,6 +27,7 @@
 // SOFTWARE.
 //
 // </copyright>
+using HBM.Weighing.API.Data;
 using System;
 using System.ComponentModel;
 using System.Threading.Tasks;
@@ -226,7 +227,7 @@ namespace HBM.Weighing.API.WTX
                 dataWord = this._connection.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
 
-            } while (this.Handshake == false);
+            } while (ProcessData.Handshake == false);
 
             // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
             if (handshakeBit == 1)
@@ -310,14 +311,6 @@ namespace HBM.Weighing.API.WTX
                 //DoIndependentWork();
                 ushort[] _asyncData = await FetchValues;
                 OnData(_asyncData);
-
-                /* Alternative
-                Task FetchValues = connection.ReadAsync().ContinueWith(t =>
-                {
-                    ushort[] _asyncData = t.Result;
-                    OnData(_asyncData);
-                });
-                */
             }
         }
         #endregion
@@ -329,160 +322,26 @@ namespace HBM.Weighing.API.WTX
         /// Called whenever new device data is available 
         /// </summary>
         /// <param name="_asyncData"></param>
-        public override void OnData(ushort[] _asyncData)
+        public override void OnData(ushort[] _data)
         {
-            this._data = _asyncData;
-
             this._previousNetValue = ProcessData.NetValue;
 
-            // Update data for standard mode:
-            UpdateStandardData();
-
             // Update process data : 
-            UpdateProcessData();
+            ProcessData.UpdateProcessDataModbus(_data);
+
+            // Update data for standard mode:
+            DataStandard.UpdateStandardDataModbus(_data);
 
             // Update data for filler mode:
-            UpdateFillerData();
-
-            // Update data for filler extended mode:
-            // UpdateFillerExtendedData(_data);
+            DataFiller.UpdateFillerDataModbus(_data);
 
             this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
-
-            ProcessData.LegalTradeOp = this.LegalTradeOp;
 
             // Only if the net value changed, the data will be send to the GUI
             if(_previousNetValue != ProcessData.NetValue)
                 // Invoke Event - GUI/application class receives _processData: 
                 this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
        
-        }
-
-        private void UpdateStandardData()
-        {
-            NetValue = _data[1] + (_data[0] << 16);
-            GrossValue = _data[3] + (_data[2] << 16);
-
-            TareValue = NetValue - GrossValue;
-            GeneralWeightError = Convert.ToBoolean((_data[4] & 0x1));
-            ScaleAlarmTriggered = Convert.ToBoolean(((_data[4] & 0x2) >> 1));
-            LimitStatus = ((_data[4] & 0xC) >> 2);
-            WeightMoving = Convert.ToBoolean(((_data[4] & 0x10) >> 4));
-
-            ScaleSealIsOpen = Convert.ToBoolean(((_data[4] & 0x20) >> 5));
-            ManualTare = Convert.ToBoolean(((_data[4] & 0x40) >> 6));
-            WeightType = Convert.ToBoolean(((_data[4] & 0x80) >> 7));
-            ScaleRange = ((_data[4] & 0x300) >> 8);
-
-            ZeroRequired = Convert.ToBoolean((_data[4] & 0x400) >> 10);
-            WeightWithinTheCenterOfZero = Convert.ToBoolean(((_data[4] & 0x800) >> 11));
-            WeightInZeroRange = Convert.ToBoolean(((_data[4] & 0x1000) >> 12));
-            ApplicationMode = (_data[5] & 0x3 >> 1);
-            ApplicationModeStr = "";
-
-            Decimals = ((_data[5] & 0x70) >> 4);
-            Unit = ((_data[5] & 0x180) >> 7);
-            Handshake = Convert.ToBoolean(((_data[5] & 0x4000) >> 14));
-            Status = Convert.ToBoolean(((_data[5] & 0x8000) >> 15));
-
-            Underload = false;
-            Overload = false;
-            WeightWithinLimits = false;
-            HigherSafeLoadLimit = false;
-            LegalTradeOp = 0;
-
-            Input1 = (_data[6] & 0x1);
-            Input2 = ((_data[6] & 0x2) >> 1);
-            Input3 = ((_data[6] & 0x4) >> 2);
-            Input4 = ((_data[6] & 0x8) >> 3);
-
-            Output1 = (_data[7] & 0x1); ;
-            Output2 = ((_data[7] & 0x2) >> 1);
-            Output3 = ((_data[7] & 0x4) >> 2);
-            Output4 = ((_data[7] & 0x8) >> 3);
-
-            LimitValue1 = (_data[8] & 0x1); ;
-            LimitValue2 = ((_data[8] & 0x2) >> 1);
-            LimitValue3 = ((_data[8] & 0x4) >> 2);
-            LimitValue4 = ((_data[8] & 0x8) >> 3);
-
-            WeightMemDay = _data[9];
-            WeightMemMonth = _data[10];
-            WeightMemYear = _data[11];
-            WeightMemSeqNumber = _data[12];
-            WeightMemGross = _data[13];
-            WeightMemNet = _data[14];
-
-        }
-
-        private void UpdateFillerData()
-        {
-            CoarseFlow = (_data[8] & 0x1);
-            FineFlow = (_data[8] & 0x2) >> 1;
-            Ready = (_data[8] & 0x4) >> 2;
-            ReDosing = (_data[8] & 0x8) >> 3;
-
-            Emptying = (_data[8] & 0x10) >> 4;
-            FlowError = (_data[8] & 0x20) >> 5;
-            Alarm = (_data[8] & 0x40) >> 6;
-            AdcOverUnderload = (_data[8] & 0x80) >> 7;
-
-            MaxDosingTime = (_data[8] & 0x100) >> 8;
-            LegalForTradeOperation = (_data[8] & 0x200) >> 9;
-            ToleranceErrorPlus = (_data[8] & 0x400) >> 10;
-            ToleranceErrorMinus = (_data[8] & 0x800) >> 11;
-
-            StatusInput1 = (_data[8] & 0x4000) >> 14;
-            GeneralScaleError = (_data[8] & 0x8000) >> 15;
-
-            FillingProcessStatus = _data[9];
-            NumberDosingResults = _data[11];
-            DosingResult = _data[12];
-            MeanValueDosingResults = _data[14];
-
-            StandardDeviation = _data[16];
-            TotalWeight = _data[18];
-            FineFlowCutOffPoint = _data[20];
-            CoarseFlowCutOffPoint = _data[22];
-
-            CurrentDosingTime = _data[24];
-            CurrentCoarseFlowTime = _data[25];
-            CurrentFineFlowTime = _data[26];
-            ParameterSetProduct = _data[27];
-
-            WeightMemDay = _data[32];
-            WeightMemMonth = _data[33];
-            WeightMemYear = _data[34];
-            WeightMemSeqNumber = _data[35];
-            WeightMemGross = _data[36]; //FillerWeightMemoryGross - Naming according to mode? 
-            WeightMemNet = _data[37];
-        }
-
-        private void UpdateProcessData()
-        {
-            ProcessData.NetValue = this.NetValue;
-            ProcessData.GrossValue = this.GrossValue;
-            ProcessData.NetValueStr = this.CurrentWeight(this.NetValue, this.Decimals);
-            ProcessData.GrossValueStr = this.CurrentWeight(this.GrossValue, this.Decimals);
-
-            ProcessData.TareValue = this.NetValue - this.GrossValue;
-            ProcessData.GeneralWeightError = Convert.ToBoolean(this.GeneralWeightError);
-            ProcessData.ScaleAlarmTriggered = Convert.ToBoolean(this.ScaleAlarmTriggered);
-            ProcessData.LimitStatus = this.LimitStatus;
-            ProcessData.WeightMoving = Convert.ToBoolean(this.WeightMoving);
-            ProcessData.ScaleSealIsOpen = Convert.ToBoolean(this.ScaleSealIsOpen);
-            ProcessData.ManualTare = Convert.ToBoolean(this.ManualTare);
-            ProcessData.WeightType = Convert.ToBoolean(this.WeightType);
-            ProcessData.ScaleRange = this.ScaleRange;
-            ProcessData.ZeroRequired = Convert.ToBoolean(this.ZeroRequired);
-            ProcessData.WeightWithinTheCenterOfZero = Convert.ToBoolean(this.WeightWithinTheCenterOfZero);
-            ProcessData.WeightInZeroRange = Convert.ToBoolean(this.WeightInZeroRange);
-            ProcessData.ApplicationMode = this.ApplicationMode;
-            ProcessData.ApplicationModeStr = ApplicationModeStringComment();
-            ProcessData.Decimals = this.Decimals;
-            ProcessData.Unit = this.Unit;
-            ProcessData.Handshake = Convert.ToBoolean(this.Handshake);
-            ProcessData.Status = Convert.ToBoolean(this.Status);
         }
 
         public void UpdateOutputWords(ushort []valueArr)
@@ -521,7 +380,7 @@ namespace HBM.Weighing.API.WTX
 
         public string WeightMovingStringComment()
         {
-            if (this.WeightMoving == false)
+            if (ProcessData.WeightMoving == false)
                 return "0=Weight is not moving.";
             else
                 return "1=Weight is moving";
@@ -530,7 +389,7 @@ namespace HBM.Weighing.API.WTX
 
         public string LimitStatusStringComment()
         {
-            switch (this.LimitStatus)
+            switch (ProcessData.LimitStatus)
             {
                 case 0:
                     return "Weight within limits";
@@ -548,7 +407,7 @@ namespace HBM.Weighing.API.WTX
 
         private void limitStatusBool()
         {
-            switch (this.LimitStatus)
+            switch (ProcessData.LimitStatus)
             {
                 case 0: // Weight within limits
                     ProcessData.Underload = false;
@@ -585,7 +444,7 @@ namespace HBM.Weighing.API.WTX
 
         public string WeightTypeStringComment()
         {
-            if (this.WeightType == false)
+            if (ProcessData.WeightType == false)
             {
                 //this._isNet = false;
                 return "gross";
@@ -598,7 +457,7 @@ namespace HBM.Weighing.API.WTX
         }
         public string ScaleRangeStringComment()
         {
-            switch (this.ScaleRange)
+            switch (ProcessData.ScaleRange)
             {
                 case 0:
                     return "Range 1";
@@ -612,11 +471,11 @@ namespace HBM.Weighing.API.WTX
         }
         public string ApplicationModeStringComment()
         {
-            if (this.ApplicationMode == 0)
+            if (ProcessData.ApplicationMode == 0)
                 return "Standard";
             else
 
-                if (this.ApplicationMode == 2 || this.ApplicationMode == 1)  // Will be changed to '2', so far '1'. 
+                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 1)  // Will be changed to '2', so far '1'. 
                 return "Filler";
             else
 
@@ -624,7 +483,7 @@ namespace HBM.Weighing.API.WTX
         }
         public override string UnitStringComment()
         {
-            switch (this.Unit)
+            switch (ProcessData.Unit)
             {
                 case 0:
                     return "kg";
@@ -640,10 +499,10 @@ namespace HBM.Weighing.API.WTX
         }
         public string StatusStringComment()
         {
-            if (this.Status == true)
+            if (ProcessData.Status == true)
                 return "Execution OK!";
             else
-                if (this.Status != true)
+                if (ProcessData.Status != true)
                 return "Execution not OK!";
             else
                 return "error.";
@@ -687,7 +546,7 @@ namespace HBM.Weighing.API.WTX
             this._isCalibrating = true;
 
             // Check if the values of the WTX device are equal to the calibration value. It is also checked within a certain interval if the measurement is noisy.
-            if ((this.NetValue != calibrationValue || this.GrossValue != calibrationValue))
+            if ((ProcessData.NetValue != calibrationValue || ProcessData.GrossValue != calibrationValue))
             {
                 //Read method
             }

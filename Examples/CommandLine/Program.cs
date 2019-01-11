@@ -114,7 +114,7 @@ namespace WTXModbus
             MenuCases();
 
             //Get a single value from the WTX device : 
-            int x = _wtxDevice.NetValue; 
+            int x = _wtxDevice.ProcessData.NetValue; 
 
         } // end main  
 
@@ -420,7 +420,7 @@ namespace WTXModbus
             _strCommaDot = _calibrationWeight.Replace(".", ","); // Transformation into a floating-point number.Thereby commas and dots can be used as input for the calibration weight.
             _doubleCalibrationWeight = double.Parse(_strCommaDot);                  
 
-            _potenz = Math.Pow(10, _wtxDevice.Decimals); // Potentisation by 10^(decimals). 
+            _potenz = Math.Pow(10, _wtxDevice.ProcessData.Decimals); // Potentisation by 10^(decimals). 
             
             return (int) (_doubleCalibrationWeight * _potenz); // Multiplying of the potentiated values with the calibration weight, ...
                                                              // ...casting to integer (easily possible because of the multiplying with ... 
@@ -451,7 +451,7 @@ namespace WTXModbus
                     Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Jetbus | a-Show all input words 0 to 37 |\no-Show output words 9-44 | b-Bytes read from the register |\nc-Calculate Calibration | w-Calibration with weight       | e-Exit\n");
                     else
                     if (_showAllInputWords == true && mode == "Modbus")
-                        Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Modbus | a-Show only input word 0 to 5 |\nb-Bytes read from the register |\nc-Calculate Calibration | w-Calibration with weight       | e-Exit\n");
+                        Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Jetbus | a-Show only input word 0 to 5 |\nb-Bytes read from the register |\nc-Calculate Calibration | w-Calibration with weight       | e-Exit\n");
 
                     if (mode == "Jet" || mode == "Jetbus" || mode == "jet" || mode == "jetbus")
                         Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Modbus | \nc-Calculate Calibration | w-Calibration with weight  | e-Exit the application\n");
@@ -476,7 +476,7 @@ namespace WTXModbus
                     else
                        if (_inputMode == 5)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(_wtxDevice.NetValue, e.ProcessData.Decimals) +   "\t  As an Integer:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an Integer:  " + e.ProcessData.NetValue);
                         Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an Integer:  " + e.ProcessData.GrossValue);
                         Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() + "\t  As an Integer:  " + e.ProcessData.GeneralWeightError);
                         Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +        "\t  As an Integer:  " + e.ProcessData.LimitStatus);
@@ -544,54 +544,54 @@ namespace WTXModbus
                     if (_showAllInputWords == true)
                     {
 
-                        Console.WriteLine("Digital input  1:              " + _wtxDevice.Input1.ToString() + "\t  As an Integer:  " + _wtxDevice.Input1);
-                        Console.WriteLine("Digital input  2:              " + _wtxDevice.Input2.ToString() + "\t  As an Integer:  " + _wtxDevice.Input2);
-                        Console.WriteLine("Digital input  3:              " + _wtxDevice.Input3.ToString() + "\t  As an Integer:  " + _wtxDevice.Input3);
-                        Console.WriteLine("Digital input  4:              " + _wtxDevice.Input4.ToString() + "\t  As an Integer:  " + _wtxDevice.Input4);
+                        Console.WriteLine("Digital input  1:              " + _wtxDevice.DataStandard.Input1.ToString() + "\t  As an Integer:  " + _wtxDevice.DataStandard.Input1);
+                        Console.WriteLine("Digital input  2:              " + _wtxDevice.DataStandard.Input2.ToString() + "\t  As an Integer:  " + _wtxDevice.DataStandard.Input2);
+                        Console.WriteLine("Digital input  3:              " + _wtxDevice.DataStandard.Input3.ToString() + "\t  As an Integer:  " + _wtxDevice.DataStandard.Input3);
+                        Console.WriteLine("Digital input  4:              " + _wtxDevice.DataStandard.Input4.ToString() + "\t  As an Integer:  " + _wtxDevice.DataStandard.Input4);
 
-                        Console.WriteLine("Digital output 1:              " + _wtxDevice.Output1.ToString() + "\t  As an Integer:  " + _wtxDevice.Output1);
-                        Console.WriteLine("Digital output 2:              " + _wtxDevice.Output2.ToString() + "\t  As an Integer:  " + _wtxDevice.Output2);
-                        Console.WriteLine("Digital output 3:              " + _wtxDevice.Output3.ToString() + "\t  As an Integer:  " + _wtxDevice.Output3);
-                        Console.WriteLine("Digital output 4:              " + _wtxDevice.Output4.ToString() + "\t  As an Integer:  " + _wtxDevice.Output4);
+                        Console.WriteLine("Digital output 1:              " + _wtxDevice.DataStandard.Output1.ToString() + "\t  As an Integer:  " + _wtxDevice.DataStandard.Output1);
+                        Console.WriteLine("Digital output 2:              " + _wtxDevice.DataStandard.Output2.ToString() + "\t  As an Integer:  " + _wtxDevice.DataStandard.Output2);
+                        Console.WriteLine("Digital output 3:              " + _wtxDevice.DataStandard.Output3.ToString() + "\t  As an Integer:  " + _wtxDevice.DataStandard.Output3);
+                        Console.WriteLine("Digital output 4:              " + _wtxDevice.DataStandard.Output4.ToString() + "\t  As an Integer:  " + _wtxDevice.DataStandard.Output4);
 
-                        Console.WriteLine("Coarse flow:                   " + _wtxDevice.CoarseFlow.ToString() +  "\t  As an Integer:  " + _wtxDevice.CoarseFlow);
-                        Console.WriteLine("Fine flow:                     " + _wtxDevice.FineFlow.ToString() +    "\t  As an Integer:  " + _wtxDevice.FineFlow);
-                        Console.WriteLine("Ready:                         " + _wtxDevice.Ready.ToString() +       "\t  As an Integer:  " + _wtxDevice.Ready);
-                        Console.WriteLine("Re-dosing:                     " + _wtxDevice.ReDosing.ToString() +    "\t  As an Integer:  " + _wtxDevice.ReDosing);
+                        Console.WriteLine("Coarse flow:                   " + _wtxDevice.DataFiller.CoarseFlow.ToString() +  "\t  As an Integer:  " + _wtxDevice.DataFiller.CoarseFlow);
+                        Console.WriteLine("Fine flow:                     " + _wtxDevice.DataFiller.FineFlow.ToString() +    "\t  As an Integer:  " + _wtxDevice.DataFiller.FineFlow);
+                        Console.WriteLine("Ready:                         " + _wtxDevice.DataFiller.Ready.ToString() +       "\t  As an Integer:  " + _wtxDevice.DataFiller.Ready);
+                        Console.WriteLine("Re-dosing:                     " + _wtxDevice.DataFiller.ReDosing.ToString() +    "\t  As an Integer:  " + _wtxDevice.DataFiller.ReDosing);
 
-                        Console.WriteLine("Emptying:                      " + _wtxDevice.Emptying.ToString() +          "\t  As an Integer:  " + _wtxDevice.Emptying);
-                        Console.WriteLine("Flow error:                    " + _wtxDevice.FlowError.ToString() +         "\t  As an Integer:  " + _wtxDevice.FlowError);
-                        Console.WriteLine("Alarm:                         " + _wtxDevice.Alarm.ToString() +             "\t  As an Integer:  " + _wtxDevice.Alarm);
-                        Console.WriteLine("ADC Overload/Unterload:        " + _wtxDevice.AdcOverUnderload.ToString() + "\t  As an Integer:  " + _wtxDevice.AdcOverUnderload);
+                        Console.WriteLine("Emptying:                      " + _wtxDevice.DataFiller.Emptying.ToString() +          "\t  As an Integer:  " + _wtxDevice.DataFiller.Emptying);
+                        Console.WriteLine("Flow error:                    " + _wtxDevice.DataFiller.FlowError.ToString() +         "\t  As an Integer:  " + _wtxDevice.DataFiller.FlowError);
+                        Console.WriteLine("Alarm:                         " + _wtxDevice.DataFiller.Alarm.ToString() +             "\t  As an Integer:  " + _wtxDevice.DataFiller.Alarm);
+                        Console.WriteLine("ADC Overload/Unterload:        " + _wtxDevice.DataFiller.AdcOverUnderload.ToString() + "\t  As an Integer:  " + _wtxDevice.DataFiller.AdcOverUnderload);
 
-                        Console.WriteLine("Max.Dosing time:               " + _wtxDevice.MaxDosingTime.ToString() +          "\t  As an Integer:  " + _wtxDevice.MaxDosingTime);
-                        Console.WriteLine("Legal-for-trade operation:     " + _wtxDevice.LegalTradeOp.ToString() +           "\t  As an Integer:  " + _wtxDevice.LegalTradeOp);
-                        Console.WriteLine("Tolerance error+:              " + _wtxDevice.ToleranceErrorPlus.ToString() +     "\t  As an Integer:  " + _wtxDevice.ToleranceErrorPlus);
-                        Console.WriteLine("Tolerance error-:              " + _wtxDevice.ToleranceErrorMinus.ToString() +    "\t  As an Integer:  " + _wtxDevice.ToleranceErrorMinus);
+                        Console.WriteLine("Max.Dosing time:               " + _wtxDevice.DataFiller.MaxDosingTime.ToString() +          "\t  As an Integer:  " + _wtxDevice.DataFiller.MaxDosingTime);
+                        Console.WriteLine("Legal-for-trade operation:     " + _wtxDevice.DataFiller.LegalForTradeOperation.ToString() +           "\t  As an Integer:  " + _wtxDevice.DataFiller.LegalForTradeOperation);
+                        Console.WriteLine("Tolerance error+:              " + _wtxDevice.DataFiller.ToleranceErrorPlus.ToString() +     "\t  As an Integer:  " + _wtxDevice.DataFiller.ToleranceErrorPlus);
+                        Console.WriteLine("Tolerance error-:              " + _wtxDevice.DataFiller.ToleranceErrorMinus.ToString() +    "\t  As an Integer:  " + _wtxDevice.DataFiller.ToleranceErrorMinus);
                                             
-                        Console.WriteLine("Status digital input 1:        " + _wtxDevice.StatusInput1.ToString() +           "\t  As an Integer:  " + _wtxDevice.StatusInput1);
-                        Console.WriteLine("General scale error:           " + _wtxDevice.GeneralScaleError.ToString() +      "\t  As an Integer:  " + _wtxDevice.GeneralScaleError);
-                        Console.WriteLine("Filling process status:        " + _wtxDevice.FillingProcessStatus.ToString() +   "\t  As an Integer:  " + _wtxDevice.FillingProcessStatus);
-                        Console.WriteLine("Number of dosing results:      " + _wtxDevice.NumberDosingResults.ToString() +    "\t  As an Integer:  " + _wtxDevice.NumberDosingResults);
+                        Console.WriteLine("Status digital input 1:        " + _wtxDevice.DataFiller.StatusInput1.ToString() +           "\t  As an Integer:  " + _wtxDevice.DataFiller.StatusInput1);
+                        Console.WriteLine("General scale error:           " + _wtxDevice.DataFiller.GeneralScaleError.ToString() +      "\t  As an Integer:  " + _wtxDevice.DataFiller.GeneralScaleError);
+                        Console.WriteLine("Filling process status:        " + _wtxDevice.DataFiller.FillingProcessStatus.ToString() +   "\t  As an Integer:  " + _wtxDevice.DataFiller.FillingProcessStatus);
+                        Console.WriteLine("Number of dosing results:      " + _wtxDevice.DataFiller.NumberDosingResults.ToString() +    "\t  As an Integer:  " + _wtxDevice.DataFiller.NumberDosingResults);
 
-                        Console.WriteLine("Dosing result:                 " + _wtxDevice.DosingResult.ToString() +           "\t  As an Integer:  " + _wtxDevice.DosingResult);
-                        Console.WriteLine("Mean value of dosing results:  " + _wtxDevice.MeanValueDosingResults.ToString() + "\t  As an Integer:  " + _wtxDevice.MeanValueDosingResults);
-                        Console.WriteLine("Standard deviation:            " + _wtxDevice.StandardDeviation.ToString() +      "\t  As an Integer:  " + _wtxDevice.StandardDeviation);
-                        Console.WriteLine("Total weight:                  " + _wtxDevice.TotalWeight.ToString() +            "\t  As an Integer:  " + _wtxDevice.TotalWeight);
+                        Console.WriteLine("Dosing result:                 " + _wtxDevice.DataFiller.DosingResult.ToString() +           "\t  As an Integer:  " + _wtxDevice.DataFiller.DosingResult);
+                        Console.WriteLine("Mean value of dosing results:  " + _wtxDevice.DataFiller.MeanValueDosingResults.ToString() + "\t  As an Integer:  " + _wtxDevice.DataFiller.MeanValueDosingResults);
+                        Console.WriteLine("Standard deviation:            " + _wtxDevice.DataFiller.StandardDeviation.ToString() +      "\t  As an Integer:  " + _wtxDevice.DataFiller.StandardDeviation);
+                        Console.WriteLine("Total weight:                  " + _wtxDevice.DataFiller.TotalWeight.ToString() +            "\t  As an Integer:  " + _wtxDevice.DataFiller.TotalWeight);
 
-                        Console.WriteLine("Fine flow cut-off point:       " + _wtxDevice.FineFlowCutOffPoint.ToString() +    "\t  As an Integer:  " + _wtxDevice.FineFlowCutOffPoint);
-                        Console.WriteLine("Coarse flow cut-off point:     " + _wtxDevice.CoarseFlowCutOffPoint.ToString() +  "\t  As an Integer:  " + _wtxDevice.CoarseFlowCutOffPoint);
-                        Console.WriteLine("Current dosing time:           " + _wtxDevice.CurrentDosingTime.ToString() +      "\t  As an Integer:  " + _wtxDevice.CurrentDosingTime);
-                        Console.WriteLine("Current coarse flow time:      " + _wtxDevice.CurrentCoarseFlowTime.ToString() +  "\t  As an Integer:  " + _wtxDevice.CurrentCoarseFlowTime);
-                        Console.WriteLine("Current fine flow time:        " + _wtxDevice.CurrentFineFlowTime.ToString() +    "\t  As an Integer:  " + _wtxDevice.CurrentFineFlowTime);
+                        Console.WriteLine("Fine flow cut-off point:       " + _wtxDevice.DataFiller.FineFlowCutOffPoint.ToString() +    "\t  As an Integer:  " + _wtxDevice.DataFiller.FineFlowCutOffPoint);
+                        Console.WriteLine("Coarse flow cut-off point:     " + _wtxDevice.DataFiller.CoarseFlowCutOffPoint.ToString() +  "\t  As an Integer:  " + _wtxDevice.DataFiller.CoarseFlowCutOffPoint);
+                        Console.WriteLine("Current dosing time:           " + _wtxDevice.DataFiller.CurrentDosingTime.ToString() +      "\t  As an Integer:  " + _wtxDevice.DataFiller.CurrentDosingTime);
+                        Console.WriteLine("Current coarse flow time:      " + _wtxDevice.DataFiller.CurrentCoarseFlowTime.ToString() +  "\t  As an Integer:  " + _wtxDevice.DataFiller.CurrentCoarseFlowTime);
+                        Console.WriteLine("Current fine flow time:        " + _wtxDevice.DataFiller.CurrentFineFlowTime.ToString() +    "\t  As an Integer:  " + _wtxDevice.DataFiller.CurrentFineFlowTime);
 
-                        Console.WriteLine("Parameter set (product):       " + _wtxDevice.ParameterSetProduct.ToString() + "\t  As an Integer:  " + _wtxDevice.ParameterSetProduct);
-                        Console.WriteLine("Weight memory, Day:            " + _wtxDevice.WeightMemDay.ToString() +        "\t  As an Integer:  " + _wtxDevice.WeightMemDay);
-                        Console.WriteLine("Weight memory, Month:          " + _wtxDevice.WeightMemMonth.ToString() +      "\t  As an Integer:  " + _wtxDevice.WeightMemMonth);
-                        Console.WriteLine("Weight memory, Year:           " + _wtxDevice.WeightMemYear.ToString() +       "\t  As an Integer:  " + _wtxDevice.WeightMemYear);
-                        Console.WriteLine("Weight memory, Seq.Number:     " + _wtxDevice.WeightMemSeqNumber.ToString() +  "\t  As an Integer:  " + _wtxDevice.WeightMemSeqNumber);
-                        Console.WriteLine("Weight memory, gross:          " + _wtxDevice.WeightMemGross.ToString() +      "\t  As an Integer:  " + _wtxDevice.WeightMemGross);
-                        Console.WriteLine("Weight memory, net:            " + _wtxDevice.WeightMemNet.ToString() +        "\t  As an Integer:  " + _wtxDevice.WeightMemNet);
+                        Console.WriteLine("Parameter set (product):       " + _wtxDevice.DataFiller.ParameterSetProduct.ToString() + "\t  As an Integer:  " + _wtxDevice.DataFiller.ParameterSetProduct);
+                        Console.WriteLine("Weight memory, Day:            " + _wtxDevice.DataStandard.WeightMemDay.ToString() +        "\t  As an Integer:  " + _wtxDevice.DataStandard.WeightMemDay);
+                        Console.WriteLine("Weight memory, Month:          " + _wtxDevice.DataStandard.WeightMemMonth.ToString() +      "\t  As an Integer:  " + _wtxDevice.DataStandard.WeightMemMonth);
+                        Console.WriteLine("Weight memory, Year:           " + _wtxDevice.DataStandard.WeightMemYear.ToString() +       "\t  As an Integer:  " + _wtxDevice.DataStandard.WeightMemYear);
+                        Console.WriteLine("Weight memory, Seq.Number:     " + _wtxDevice.DataStandard.WeightMemSeqNumber.ToString() +  "\t  As an Integer:  " + _wtxDevice.DataStandard.WeightMemSeqNumber);
+                        Console.WriteLine("Weight memory, gross:          " + _wtxDevice.DataStandard.WeightMemGross.ToString() +      "\t  As an Integer:  " + _wtxDevice.DataStandard.WeightMemGross);
+                        Console.WriteLine("Weight memory, net:            " + _wtxDevice.DataStandard.WeightMemNet.ToString() +        "\t  As an Integer:  " + _wtxDevice.DataStandard.WeightMemNet);
 
                         Console.WriteLine("\nPress 'a' again to hide the input words.");
                     }
@@ -600,36 +600,36 @@ namespace WTXModbus
                     {
                         Console.WriteLine("\nOutput words:\n");
                   
-                        Console.WriteLine(" 9) Residual flow time:            " + _wtxDevice.ResidualFlowTime      + " Press '9' and a value to write");
-                        Console.WriteLine("10) Target filling weight:         " + _wtxDevice.TargetFillingWeight   + " Press '10' and a value to write");
-                        Console.WriteLine("12) Coarse flow cut-off point:     " + _wtxDevice.CoarseFlowCutOffPoint + " Press '12' and a value to write");
-                        Console.WriteLine("14) Fine flow cut-off point:       " + _wtxDevice.FineFlowCutOffPoint   + " Press '14' and a value to write");
+                        Console.WriteLine(" 9) Residual flow time:            " + _wtxDevice.DataFillerExtended.ResidualFlowTime      + " Press '9' and a value to write");
+                        Console.WriteLine("10) Target filling weight:         " + _wtxDevice.DataFillerExtended.TargetFillingWeight   + " Press '10' and a value to write");
+                        Console.WriteLine("12) Coarse flow cut-off point:     " + _wtxDevice.DataFillerExtended.CoarseFlowCutOffPoint + " Press '12' and a value to write");
+                        Console.WriteLine("14) Fine flow cut-off point:       " + _wtxDevice.DataFillerExtended.FineFlowCutOffPoint   + " Press '14' and a value to write");
 
-                        Console.WriteLine("16) Minimum fine flow:             " + _wtxDevice.MinimumFineFlow   + " Press '16' and a value to write");
-                        Console.WriteLine("18) Optimization of cut-off points:" + _wtxDevice.OptimizationOfCutOffPoints + " Press '18' and a value to write");
-                        Console.WriteLine("19) Maximum dosing time:           " + _wtxDevice.MaxDosingTime     + " Press '19' and a value to write");
-                        Console.WriteLine("20) Start with fine flow:          " + _wtxDevice.StartWithFineFlow + " Press '20' and a value to write");
+                        Console.WriteLine("16) Minimum fine flow:             " + _wtxDevice.DataFillerExtended.MinimumFineFlow   + " Press '16' and a value to write");
+                        Console.WriteLine("18) Optimization of cut-off points:" + _wtxDevice.DataFillerExtended.OptimizationOfCutOffPoints + " Press '18' and a value to write");
+                        Console.WriteLine("19) Maximum dosing time:           " + _wtxDevice.DataFillerExtended.MaxDosingTime     + " Press '19' and a value to write");
+                        Console.WriteLine("20) Start with fine flow:          " + _wtxDevice.DataFillerExtended.StartWithFineFlow + " Press '20' and a value to write");
 
-                        Console.WriteLine("21) Coarse lockout time:           " + _wtxDevice.CoarseLockoutTime + " Press '21' and a value to write");
-                        Console.WriteLine("22) Fine lockout time:             " + _wtxDevice.FineLockoutTime   + " Press '22' and a value to write");
-                        Console.WriteLine("23) Tare mode:                     " + _wtxDevice.TareMode + " Press '23' and a value to write");
-                        Console.WriteLine("24) Upper tolerance limit + :      " + _wtxDevice.UpperToleranceLimit + " Press '24' and a value to write");
+                        Console.WriteLine("21) Coarse lockout time:           " + _wtxDevice.DataFillerExtended.CoarseLockoutTime + " Press '21' and a value to write");
+                        Console.WriteLine("22) Fine lockout time:             " + _wtxDevice.DataFillerExtended.FineLockoutTime   + " Press '22' and a value to write");
+                        Console.WriteLine("23) Tare mode:                     " + _wtxDevice.DataFillerExtended.TareMode + " Press '23' and a value to write");
+                        Console.WriteLine("24) Upper tolerance limit + :      " + _wtxDevice.DataFillerExtended.UpperToleranceLimit + " Press '24' and a value to write");
 
-                        Console.WriteLine("26) Lower tolerance limit -:       " + _wtxDevice.LowerToleranceLimit + " Press '26' and a value to write");
-                        Console.WriteLine("28) Minimum start weight:          " + _wtxDevice.MinimumStartWeight  + " Press '28' and a value to write");
-                        Console.WriteLine("30) Empty weight:                  " + _wtxDevice.EmptyWeight + " Press '30' and a value to write");
-                        Console.WriteLine("32) Tare delay:                    " + _wtxDevice.TareDelay   + " Press '32' and a value to write");
+                        Console.WriteLine("26) Lower tolerance limit -:       " + _wtxDevice.DataFillerExtended.LowerToleranceLimit + " Press '26' and a value to write");
+                        Console.WriteLine("28) Minimum start weight:          " + _wtxDevice.DataFillerExtended.MinimumStartWeight  + " Press '28' and a value to write");
+                        Console.WriteLine("30) Empty weight:                  " + _wtxDevice.DataFillerExtended.EmptyWeight + " Press '30' and a value to write");
+                        Console.WriteLine("32) Tare delay:                    " + _wtxDevice.DataFillerExtended.TareDelay   + " Press '32' and a value to write");
 
-                        Console.WriteLine("33) Coarse flow monitoring time:   " + _wtxDevice.CoarseFlowMonitoringTime + " Press '33' and a value to write");
-                        Console.WriteLine("34) Coarse flow monitoring:        " + _wtxDevice.CoarseFlowMonitoring   + " Press '34' and a value to write");
-                        Console.WriteLine("36) Fine flow monitoring:          " + _wtxDevice.FineFlowMonitoring     + " Press '36' and a value to write");
-                        Console.WriteLine("38) Fine flow monitoring time:     " + _wtxDevice.FineFlowMonitoringTime + " Press '38' and a value to write");
+                        Console.WriteLine("33) Coarse flow monitoring time:   " + _wtxDevice.DataFillerExtended.CoarseFlowMonitoringTime + " Press '33' and a value to write");
+                        Console.WriteLine("34) Coarse flow monitoring:        " + _wtxDevice.DataFillerExtended.CoarseFlowMonitoring   + " Press '34' and a value to write");
+                        Console.WriteLine("36) Fine flow monitoring:          " + _wtxDevice.DataFillerExtended.FineFlowMonitoring     + " Press '36' and a value to write");
+                        Console.WriteLine("38) Fine flow monitoring time:     " + _wtxDevice.DataFillerExtended.FineFlowMonitoringTime + " Press '38' and a value to write");
 
-                        Console.WriteLine("40) Delay time after fine flow:    " + _wtxDevice.DelayTimeAfterFineFlow + " Press '40' and a value to write");
-                        Console.WriteLine("41) Systematic difference:         " + _wtxDevice.SystematicDifference + " Press '41' and a value to write");
-                        Console.WriteLine("42) Downwards dosing:              " + _wtxDevice.DownwardsDosing + " Press '42' and a value to write");
-                        Console.WriteLine("43) Valve control:                 " + _wtxDevice.ValveControl   + " Press '43' and a value to write");
-                        Console.WriteLine("44) Emptying mode:                 " + _wtxDevice.EmptyingMode   + " Press '44' and a value to write");
+                        Console.WriteLine("40) Delay time after fine flow:    " + _wtxDevice.DataFillerExtended.DelayTimeAfterFineFlow + " Press '40' and a value to write");
+                        Console.WriteLine("41) Systematic difference:         " + _wtxDevice.DataFillerExtended.SystematicDifference + " Press '41' and a value to write");
+                        Console.WriteLine("42) Downwards dosing:              " + _wtxDevice.DataFillerExtended.DownwardsDosing + " Press '42' and a value to write");
+                        Console.WriteLine("43) Valve control:                 " + _wtxDevice.DataFillerExtended.ValveControl   + " Press '43' and a value to write");
+                        Console.WriteLine("44) Emptying mode:                 " + _wtxDevice.DataFillerExtended.EmptyingMode   + " Press '44' and a value to write");
 
                         Console.WriteLine("\nPress 'o' again to hide the output words.");
 
@@ -646,19 +646,19 @@ namespace WTXModbus
 
             if (mode == "Jetbus" || mode == "Jet" || mode == "jet" || mode == "jetbus")
             {
-                if (_wtxDevice.Status == false) // 1634168417 = false
+                if (_wtxDevice.ProcessData.Status == false) // 1634168417 = false
                     return "Command on go";
 
-                if (_wtxDevice.Status == true) // 1801543519 = true
+                if (_wtxDevice.ProcessData.Status == true) // 1801543519 = true
                     return "Command ok";
             }
             else
                 if (mode == "Modbus" || mode == "modbus")
                 {
-                    if (_wtxDevice.Status == false)
+                    if (_wtxDevice.ProcessData.Status == false)
                         return "Command on go";
 
-                    if (_wtxDevice.Status == true)
+                    if (_wtxDevice.ProcessData.Status == true)
                         return "Command ok";
                  }
             return "Command on go";
@@ -667,7 +667,7 @@ namespace WTXModbus
         private static string limitCommentMethod()
         {
 
-            switch(_wtxDevice.LimitStatus)
+            switch(_wtxDevice.ProcessData.LimitStatus)
             {
                 case 0:
                     return "Weight within limits";
