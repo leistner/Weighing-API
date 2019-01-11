@@ -24,10 +24,10 @@ namespace HBM.Weighing.API.Data
         private int _output3;
         private int _output4;
 
-        private int _limitValue1;
-        private int _limitValue2;
-        private int _limitValue3;
-        private int _limitValue4;
+        private int _limitStatus1;
+        private int _limitStatus2;
+        private int _limitStatus3;
+        private int _limitStatus4;
 
         private int _weightMemDay;
         private int _weightMemMonth;
@@ -80,10 +80,10 @@ namespace HBM.Weighing.API.Data
             _output3=0;
             _output4=0;
 
-            _limitValue1=0;
-            _limitValue2=0;
-            _limitValue3=0;
-            _limitValue4=0;
+            _limitStatus1 = 0;
+            _limitStatus2 = 0;
+            _limitStatus3 = 0;
+            _limitStatus4 = 0;
 
             _weightMemDay=0;
             _weightMemMonth=0;
@@ -124,7 +124,7 @@ namespace HBM.Weighing.API.Data
 
         #region Update methods for standard mode
 
-    public void UpdateStandardDataModbus(ushort[] _dataParam)
+        public void UpdateStandardDataModbus(ushort[] _dataParam)
         {
             this._data = _dataParam;
 
@@ -138,10 +138,10 @@ namespace HBM.Weighing.API.Data
             _output3 = ((_data[7] & 0x4) >> 2);
             _output4 = ((_data[7] & 0x8) >> 3);
 
-            _limitValue1 = (_data[8] & 0x1); ;
-            _limitValue2 = ((_data[8] & 0x2) >> 1);
-            _limitValue3 = ((_data[8] & 0x4) >> 2);
-            _limitValue4 = ((_data[8] & 0x8) >> 3);
+            _limitStatus1 = (_data[8] & 0x1); ;
+            _limitStatus2 = ((_data[8] & 0x2) >> 1);
+            _limitStatus3 = ((_data[8] & 0x4) >> 2);
+            _limitStatus4 = ((_data[8] & 0x8) >> 3);
 
             _weightMemDay = (_data[9]);
             _weightMemMonth = (_data[10]);
@@ -195,19 +195,19 @@ namespace HBM.Weighing.API.Data
         }
         public int LimitStatus1
         {
-            get{ return _limitValue1; }
+            get{ return _limitStatus1; }
         }
         public int LimitStatus2
         {
-            get{ return _limitValue2; }
+            get{ return _limitStatus2; }
         }
         public int LimitStatus3
         {
-            get{ return _limitValue3; }
+            get{ return _limitStatus3; }
         }
         public int LimitStatus4
         {
-            get{ return _limitValue4; }
+            get{ return _limitStatus4; }
         }
         public int WeightMemDay
         {
@@ -240,22 +240,6 @@ namespace HBM.Weighing.API.Data
             set { this._weightMemNet = value; }
         }
 
-        public int LimitValue1
-        {
-            get { return _limitValue1; }
-        }
-        public int LimitValue2
-        {
-            get { return _limitValue2; }
-        }
-        public int LimitValue3
-        {
-            get { return _limitValue3; }
-        }
-        public int LimitValue4
-        {
-            get { return _limitValue4; }
-        }
         #endregion
 
         #region Get-/Set-properties for standard mode 

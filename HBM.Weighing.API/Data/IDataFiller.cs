@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HBM.Weighing.API
 {
-    interface IDataFiller
+    public interface IDataFiller
     {
         #region Filler device data - Input words
 
@@ -51,38 +51,38 @@ namespace HBM.Weighing.API
 
         #region Filler device data - Output words
 
-        int ResidualFlowTime { set; }
-        int TargetFillingWeight { set; }
-        int CoarseFlowCutOffPointSet { set; }
-        int FineFlowCutOffPointSet { set; }
+        int ResidualFlowTime { get; set; }
+        int TargetFillingWeight { get;  set; }
+        int CoarseFlowCutOffPointSet { get;  set; }
+        int FineFlowCutOffPointSet { get;  set; }
 
-        int MinimumFineFlow { set; }
-        int OptimizationOfCutOffPoints { set; }
-        int MaximumDosingTime { set; }
-        int StartWithFineFlow { set; }
+        int MinimumFineFlow { get;  set; }
+        int OptimizationOfCutOffPoints { get;  set; }
+        int MaximumDosingTime { get;  set; }
+        int StartWithFineFlow { get;  set; }
 
-        int CoarseLockoutTime { set; }
-        int FineLockoutTime { set; }
-        int TareMode { set; }
-        int UpperToleranceLimit { set; }
+        int CoarseLockoutTime { get;  set; }
+        int FineLockoutTime { get;  set; }
+        int TareMode { get;  set; }
+        int UpperToleranceLimit { get;  set; }
 
-        int LowerToleranceLimit { set; }
-        int MinimumStartWeight { set; }
-        int EmptyWeight { set; }
-        int TareDelay { set; }
+        int LowerToleranceLimit { get;  set; }
+        int MinimumStartWeight { get;  set; }
+        int EmptyWeight { get;  set; }
+        int TareDelay { get;  set; }
 
-        int CoarseFlowMonitoringTime { set; }
-        int CoarseFlowMonitoring { set; }
-        int FineFlowMonitoring { set; }
-        int FineFlowMonitoringTime { set; }
+        int CoarseFlowMonitoringTime { get;  set; }
+        int CoarseFlowMonitoring { get;  set; }
+        int FineFlowMonitoring { get;  set; }
+        int FineFlowMonitoringTime { get;  set; }
 
-        int DelayTimeAfterFineFlow { set; }
-        int ActivationTimeAfterFineFlow { set; }
-        int SystematicDifference { set; }
-        int DownwardsDosing { set; }
+        int DelayTimeAfterFineFlow { get;  set; }
+        int ActivationTimeAfterFineFlow { get;  set; }
+        int SystematicDifference { get;  set; }
+        int DownwardsDosing { get;  set; }
 
-        int ValveControl { set; }
-        int EmptyingMode { set; }
+        int ValveControl { get;  set; }
+        int EmptyingMode { get;  set; }
         #endregion
 
         #region Filler device data - Input and output words
@@ -92,5 +92,11 @@ namespace HBM.Weighing.API
 
         #endregion
 
+        #region Update methods for the data of standard mode
+
+        void UpdateFillerDataModbus(ushort[] _dataParam);
+        void UpdateFillerDataJet(Dictionary<string, int> _dataParam);
+
+        #endregion
     }
 }

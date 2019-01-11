@@ -37,7 +37,7 @@ namespace HBM.Weighing.API.WTX
 {
     public class WtxJet : BaseWtDevice
     {
-        #region Const
+        #region Constants
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)   
 
         private const int SCALE_COMMAND_CALIBRATE_ZERO = 2053923171;
@@ -53,10 +53,6 @@ namespace HBM.Weighing.API.WTX
         private const int SCALE_COMMAND_STATUS_ERROR_E1 = 826629983;
         private const int SCALE_COMMAND_STATUS_ERROR_E2 = 843407199;
         private const int SCALE_COMMAND_STATUS_ERROR_E3 = 860184415;
-        #endregion
-
-        #region Privates 
-
         #endregion
 
         #region Events
