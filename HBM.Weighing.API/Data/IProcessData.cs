@@ -36,141 +36,37 @@ namespace HBM.Weighing.API
 
     public interface IProcessData
     {
-        int NetValue // Net value of weight 
-        {
-            get;
-        }
+        int NetValue { get; } // Net value of weight 
+        string NetValueStr { get; }
+        int GrossValue { get; } // Gross value of weight
+        string GrossValueStr { get; }
 
-        string NetValueStr
-        {
-            get;
-        }
+        int TareValue { get; } // Tare value of weight
+        bool GeneralWeightError { get; }
+        bool ScaleAlarmTriggered { get; }
+        int LimitStatus { get; }
 
-        int GrossValue // Gross value of weight
-        {
-            get;
-        }
+        bool WeightMoving { get; } // = WeightStable (OPC-UA Standard)
+        bool ScaleSealIsOpen { get; }
+        bool ManualTare { get; }
+        bool WeightType { get; }
 
-        string GrossValueStr
-        {
-            get;
-        }
+        int ScaleRange { get; } // = CurrentRangeId (OPC-UA Standard)
+        bool ZeroRequired { get; }
+        bool WeightWithinTheCenterOfZero { get; } // = CenterOfZero (OPC-UA Standard)
+        bool WeightInZeroRange { get; }// = Inside zero (OPC-UA Standard)
 
-        int TareValue // Tare value of weight
-        {
-            get;
-        }
+        int ApplicationMode { get; }
+        string ApplicationModeStr { get; }
+        int Decimals { get; }
+        int Unit { get; }
 
-        bool GeneralWeightError
-        {
-            get;
-        }
+        bool Handshake { get; }
+        bool Status { get; }
+        bool Underload{ get; } // = Underload (OPC-UA Standard)
+        bool Overload { get; } // = Overload (OPC-UA Standard)
 
-        bool ScaleAlarmTriggered
-        {
-            get;
-        }
-
-        int LimitStatus
-        {
-            get;
-        }
-
-        bool WeightMoving  // = WeightStable (OPC-UA Standard)
-        {
-            get;
-        }
-
-        bool ScaleSealIsOpen
-        {
-            get;
-        }
-
-        bool ManualTare
-        {
-            get;
-        }
-
-        bool WeightType
-        {
-            get;
-        }
-
-        int ScaleRange // = CurrentRangeId (OPC-UA Standard)
-        {
-            get;
-        }
-
-        bool ZeroRequired
-        {
-            get;
-        }
-
-        bool WeightWithinTheCenterOfZero // = CenterOfZero (OPC-UA Standard)
-        {
-            get;
-
-        }
-
-        bool WeightInZeroRange // = Inside zero (OPC-UA Standard)
-        {
-            get;
-        }
-
-        int ApplicationMode
-        {
-            get;
-        }
-
-        string ApplicationModeStr
-        {
-            get;
-        }
-
-        int Decimals
-        {
-            get;
-        }
-
-        int Unit
-        {
-            get;
-        }
-
-        bool Handshake
-        {
-            get;
-        }
-
-        bool Status
-        {
-            get;
-        }
-
-        bool Underload // = Underload (OPC-UA Standard)
-        {
-            get;
-        }
-
-        bool Overload // = Overload (OPC-UA Standard)
-        {
-            get;
-        }
-
-        bool weightWithinLimits 
-        {
-            get;
-        }
-
-        bool higherSafeLoadLimit
-        {
-            get;
-        }
-
-        int LegalTradeOp // = LegalForTrade (OPC-UA Standard)
-        {
-            get;
-        }
-
+        bool weightWithinLimits { get; }
+        bool higherSafeLoadLimit { get; }
     }
 }

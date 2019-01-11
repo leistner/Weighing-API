@@ -28,7 +28,9 @@
 //
 // </copyright>
 
+using HBM.Weighing.API.WTX.Jet;
 using System;
+using System.Collections.Generic;
 
 namespace HBM.Weighing.API
 {
@@ -60,7 +62,8 @@ namespace HBM.Weighing.API
         private bool _overload;
         private bool _weightWithinLimits;
         private bool _higherSafeLoadLimit;
-        private int _legalTradeOp;
+
+#region constructor of ProcessData
 
         public ProcessData()
         {
@@ -89,141 +92,225 @@ namespace HBM.Weighing.API
              _overload = false;
              _weightWithinLimits = false;
              _higherSafeLoadLimit = false;
-             _legalTradeOp = 0;
-             
         }
 
-    public int NetValue     // data type = double according to OPC-UA standard
+#endregion
+
+        #region update methods for process data
+
+        public void UpdateProcessDataModbus(ushort[] _data)
+        {
+            _netValue = _data[1] + (_data[0] << 16);
+            _grossValue = _data[3] + (_data[2] << 16);
+            _netValueStr = this.CurrentWeight(_netValue, _decimals);
+            _grossValueStr = this.CurrentWeight(_grossValue, _decimals);
+
+            _tareValue = _netValue - _grossValue;
+            _generalWeightError = Convert.ToBoolean((_data[4] & 0x1));
+            _scaleAlarmTriggered = Convert.ToBoolean(((_data[4] & 0x2) >> 1));
+            _limitStatus = ((_data[4] & 0xC) >> 2);
+            _weightMoving = Convert.ToBoolean(((_data[4] & 0x10) >> 4));
+
+            _scaleSealIsOpen = Convert.ToBoolean(((_data[4] & 0x20) >> 5));
+            _manualTare = Convert.ToBoolean(((_data[4] & 0x40) >> 6));
+            _weightType = Convert.ToBoolean(((_data[4] & 0x80) >> 7));
+            _scaleRange = ((_data[4] & 0x300) >> 8);
+
+            _zeroRequired = Convert.ToBoolean((_data[4] & 0x400) >> 10);
+            _weightWithinTheCenterOfZero = Convert.ToBoolean(((_data[4] & 0x800) >> 11));
+            _weightInZeroRange = Convert.ToBoolean(((_data[4] & 0x1000) >> 12));
+            _applicationMode = (_data[5] & 0x3 >> 1);
+            _applicationModeStr = ApplicationModeStringComment();
+
+            _decimals = ((_data[5] & 0x70) >> 4);
+            _unit = ((_data[5] & 0x180) >> 7);
+            _handshake = Convert.ToBoolean(((_data[5] & 0x4000) >> 14));
+            _status = Convert.ToBoolean(((_data[5] & 0x8000) >> 15));
+        }
+
+        public void UpdateProcessDataJet(Dictionary <string,int> _data)
+        {
+            _netValue = _data[JetBusCommands.NET_VALUE];
+            _grossValue = _data[JetBusCommands.GROSS_VALUE];
+            _netValueStr = this.CurrentWeight(_netValue, _decimals);
+            _grossValueStr = this.CurrentWeight(_grossValue, _decimals);
+
+            _tareValue = _netValue - _grossValue;
+            _generalWeightError = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1));
+            _scaleAlarmTriggered = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1);
+            _limitStatus = (_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
+            _weightMoving = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4);
+            _scaleSealIsOpen = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5);
+            _manualTare = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6);
+            _weightType = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7);
+            _scaleRange = (_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
+            _zeroRequired = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10);
+            _weightWithinTheCenterOfZero = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11);
+            _weightInZeroRange = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12);
+            //_applicationMode = this.ApplicationMode;
+            //_applicationModeStr = ApplicationModeStringComment();
+            _decimals = _data[JetBusCommands.DECIMALS];
+            _unit = (_data[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
+            _handshake = UpdateHandshake(_data[JetBusCommands.SCALE_COMMAND_STATUS]);
+            _status = Convert.ToBoolean(_data[JetBusCommands.SCALE_COMMAND_STATUS]);
+        }
+
+        public bool UpdateHandshake(int _handshakeValue)
+        {
+            if (_handshakeValue == 1801543519)
+                return true;
+            else
+                return false;
+        }
+
+        // In the following methods the different options for the single integer values are used to define and
+        // interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
+        public string CurrentWeight(int value, int decimals)
+        {
+            double dvalue = value / Math.Pow(10, decimals);
+            string returnvalue = "";
+
+            switch (_decimals)
+            {
+                case 0: returnvalue = dvalue.ToString(); break;
+                case 1: returnvalue = dvalue.ToString("0.0"); break;
+                case 2: returnvalue = dvalue.ToString("0.00"); break;
+                case 3: returnvalue = dvalue.ToString("0.000"); break;
+                case 4: returnvalue = dvalue.ToString("0.0000"); break;
+                case 5: returnvalue = dvalue.ToString("0.00000"); break;
+                case 6: returnvalue = dvalue.ToString("0.000000"); break;
+                default: returnvalue = dvalue.ToString(); break;
+
+            }
+            return returnvalue;
+        }
+
+        public string ApplicationModeStringComment()
+        {
+            if (_applicationMode == 0)
+                return "Standard";
+            else
+
+                if (_applicationMode == 2 || _applicationMode == 1)  // Will be changed to '2', so far '1'. 
+                return "Filler";
+            else
+
+                return "error";
+        }
+
+        #endregion
+
+#region Get-properties of process data
+
+        public int NetValue     // data type = double according to OPC-UA standard
         {
             get { return _netValue; }
-            set { this._netValue = value; }
         }
 
         public int GrossValue   // data type = double according to OPC-UA standard
         {
             get { return _grossValue; }
-            set { this._grossValue = value; }
         }
 
         public string NetValueStr     // data type = double according to OPC-UA standard
         {
             get { return _netValueStr; }
-            set { this._netValueStr = value; }
         }
 
         public string GrossValueStr   // data type = double according to OPC-UA standard
         {
             get { return _grossValueStr; }
-            set { this._grossValueStr = value; }
         }
 
 
         public int TareValue         // data type = double according to OPC-UA standard
         {
             get { return _tareValue; }
-            set { this._tareValue = value; }
         }
 
         public bool GeneralWeightError
         {
             get { return _generalWeightError; }
-            set { this._generalWeightError = value; }
         }
 
         public bool ScaleAlarmTriggered
         {
             get { return _scaleAlarmTriggered; }
-            set { this._scaleAlarmTriggered = value; }
         }
 
         public int LimitStatus
         {
             get { return _limitStatus; }
-            set { this._limitStatus = value; }
         }
 
         public bool WeightMoving
         {
             get { return _weightMoving; }
-            set { this._weightMoving = value; }
         }
 
         public bool ScaleSealIsOpen
         {
             get { return _scaleSealIsOpen; }
-            set { this._scaleSealIsOpen = value; }
         }
 
         public bool ManualTare
         {
             get { return _manualTare; }
-            set { this._manualTare = value; }
         }
 
         public bool WeightType
         {
             get { return _weightType; }
-            set { this._weightType = value; }
         }
 
         public int ScaleRange
         {
             get { return _scaleRange; }
-            set { this._scaleRange = value; }
         }
 
         public bool ZeroRequired
         {
             get { return _zeroRequired; }
-            set { this._zeroRequired = value; }
         }
 
         public bool WeightWithinTheCenterOfZero
         {
             get { return _weightWithinTheCenterOfZero; }
-            set { this._weightWithinTheCenterOfZero = value; }
         }
 
         public bool WeightInZeroRange
         {
             get { return _weightInZeroRange; }
-            set { this._weightInZeroRange = value; }
         }
 
         public int ApplicationMode
         {
             get { return _applicationMode; }
-            set { this._applicationMode = value; }
         }
 
         public string ApplicationModeStr
         {
             get { return _applicationModeStr; }
-            set { this._applicationModeStr = value; }
         }
 
         public int Decimals
         {
             get { return _decimals; }
-            set { this._decimals = value; }
         }
 
         public int Unit
         {
             get { return _unit; }
-            set { this._unit = value; }
         }
 
         public bool Handshake
         {
             get { return _handshake; }
-            set { this._handshake = value; }
         }
 
         public bool Status
         {
             get { return _status; }
-            set { this._status = value; }
         }
 
         public bool Underload
@@ -249,11 +336,6 @@ namespace HBM.Weighing.API
             get { return _higherSafeLoadLimit; }
             set { this._higherSafeLoadLimit = value; }
         }
-
-        public int LegalTradeOp
-        {
-            get { return _legalTradeOp; }
-            set { this._legalTradeOp = value; }
-        }
+        #endregion
     }
 }

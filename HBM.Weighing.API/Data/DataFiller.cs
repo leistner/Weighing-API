@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HBM.Weighing.API.WTX.Jet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HBM.Weighing.API.Data
 {
-    public class DataFiller : DataStandard, IDataFiller
+    public class DataFiller : IDataFiller
     {
         #region privates for filler mode
 
@@ -18,7 +19,7 @@ namespace HBM.Weighing.API.Data
         private int _reDosing;
 
         private int _emptying;
-            private int _flowError;
+        private int _flowError;
         private int _alarm;
         private int _adcOverUnderload;
 
@@ -45,37 +46,14 @@ namespace HBM.Weighing.API.Data
         private int _currentFineFlowTime;
         private int _parameterSetProduct;
 
-        private int _fillerWeightMemoryDay;
-        private int _fillerWeightMemoryMonth;
-        private int _fillerWeightMemoryYear;
-        private int _fillerWeightMemorySeqNumber;
-        private int _fillerWeightMemoryGross;
-        private int _fillerWeightMemoryNet;
-
-       //Output words - Update neccessary?
-
-        private int _manualTareValue;
-        private int _limitValue1Input;
-        private int _limitValue1Mode;
-
-        private int _limitValue1ActivationLevelLowerBandLimit;
-        private int _limitValue1HysteresisBandHeight;
-        private int _limitValue2Source;
-        private int _limitValue2Mode;
-
-        private int _limitValue2ActivationLevelLowerBandLimit;
-        private int _limitValue2HysteresisBandHeight;
-        private int _limitValue3Source;
-        private int _limitValue3Mode;
-
-        private int _limitValue3ActivationLevelLowerBandLimit;
-        private int _limitValue3HysteresisBandHeight;
-        private int _limitValue4Source;
-
-        private int _limitValue4Mode;
-        private int _limitValue4ActivationLevelLowerBandLimit;
-        private int _limitValue4HysteresisBandHeight;
-
+        private int _weightMemoryDay;
+        private int _weightMemoryMonth;
+        private int _weightMemoryYear;
+        private int _weightMemorySeqNumber;
+        private int _weightMemoryGross;
+        private int _weightMemoryNet;
+        
+        // Output words for filler mode: 
 
         private int _residualFlowTime;
         private int _targetFillingWeight;
@@ -142,27 +120,6 @@ namespace HBM.Weighing.API.Data
             _statusInput1=0;
 
             _generalScaleError=0;
-            _manualTareValue=0;
-            _limitValue1Input=0;
-            _limitValue1Mode=0;
-
-            _limitValue1ActivationLevelLowerBandLimit=0;
-            _limitValue1HysteresisBandHeight=0;
-            _limitValue2Source=0;
-            _limitValue2Mode=0;
-
-            _limitValue2ActivationLevelLowerBandLimit=0;
-            _limitValue2HysteresisBandHeight=0;
-            _limitValue3Source=0;
-            _limitValue3Mode=0;
-
-            _limitValue3ActivationLevelLowerBandLimit=0;
-            _limitValue3HysteresisBandHeight=0;
-            _limitValue4Source=0;
-
-            _limitValue4Mode=0;
-            _limitValue4ActivationLevelLowerBandLimit=0;
-            _limitValue4HysteresisBandHeight=0;
             _fineFlowCutOffPoint=0;
 
             _coarseFlowCutOffPoint=0;
@@ -207,7 +164,7 @@ namespace HBM.Weighing.API.Data
 
         #region Update methods for the filler mode
 
-        public void UpdateFillerData(ushort[] dataParam)
+        public void UpdateFillerDataModbus(ushort[] dataParam)
         {
             this._data = dataParam;
 
@@ -222,7 +179,7 @@ namespace HBM.Weighing.API.Data
             _adcOverUnderload = ((_data[8] & 0x80) >> 7);
 
             _maxDosingTime          = ((_data[8] & 0x100) >> 8);
-            _legalForTradeOperation = 0;
+            _legalForTradeOperation = ((_data[8] & 0x200) >> 9);
             _toleranceErrorPlus     = ((_data[8] & 0x400) >> 10);
             _toleranceErrorMinus    = ((_data[8] & 0x800) >> 11);
 
@@ -244,38 +201,15 @@ namespace HBM.Weighing.API.Data
             _currentFineFlowTime   = _data[26];      
             _parameterSetProduct   = _data[27];
 
-            _fillerWeightMemoryDay       = _data[32];
-            _fillerWeightMemoryMonth     = _data[33];
-            _fillerWeightMemoryYear      = _data[34];
-            _fillerWeightMemorySeqNumber = _data[35];
-            _fillerWeightMemoryGross     = _data[36];
-            _fillerWeightMemoryNet       = _data[37];
+            _weightMemoryDay       = _data[32];
+            _weightMemoryMonth     = _data[33];
+            _weightMemoryYear      = _data[34];
+            _weightMemorySeqNumber = _data[35];
+            _weightMemoryGross     = _data[36];
+            _weightMemoryNet       = _data[37];
 
             //Output words:
             /*
-            _manualTareValue;
-            _limitValue1Input;
-            _limitValue1Mode;
-
-            _limitValue1ActivationLevelLowerBandLimit;
-            _limitValue1HysteresisBandHeight;
-            _limitValue2Source;
-            _limitValue2Mode;
-
-            _limitValue2ActivationLevelLowerBandLimit;
-            _limitValue2HysteresisBandHeight;
-            _limitValue3Source;
-            _limitValue3Mode;
-
-            _limitValue3ActivationLevelLowerBandLimit;
-            _limitValue3HysteresisBandHeight;
-            _limitValue4Source;
-
-            _limitValue4Mode;
-            _limitValue4ActivationLevelLowerBandLimit;
-            _limitValue4HysteresisBandHeight;
-
-
             _residualFlowTime;
             _targetFillingWeight;
             _coarseFlowCutOffPointSet;
@@ -311,199 +245,153 @@ namespace HBM.Weighing.API.Data
             */
         }
 
-    #endregion
+        public void UpdateFillerDataJet(Dictionary<string, int> _data)
+        {
+            _adcOverUnderload = 0;       // undefined ID
+            _legalForTradeOperation = 0; // undefined ID
+            _statusInput1 = 0;           // undefined ID
+            _generalScaleError = 0;      // undefined ID
+            _coarseFlow = 0;             // undefined ID
+            _fineFlow = 0;               // undefined ID
+            _ready = 0;                  // undefined ID
+            _reDosing = 0;               // undefined ID
+            _emptying = 0;               // undefined ID
+            _flowError = 0;              // undefined ID
+            _alarm = 0;                  // undefined ID
+            _toleranceErrorPlus = 0;     // undefined ID
+            _toleranceErrorMinus = 0;    // undefined ID
+            _currentDosingTime = 0;      // undefined ID
+            _currentCoarseFlowTime = 0;  // undefined ID
+            _currentFineFlowTime = 0;    // undefined ID
 
-        #region properties for filler mode
+            _parameterSetProduct = 0;    // undefined ID 
+            _downwardsDosing = 0;        // undefined ID
+            _legalForTradeOperation = 0; // undefined ID
 
-    public int CoarseFlow
+            // Commented out because of undefined ID's:
+            /*
+            _maxDosingTime = _data[JetBusCommands.MAXIMUM_DOSING_TIME];
+            _meanValueDosingResults = _data[JetBusCommands.MEAN_VALUE_DOSING_RESULTS];
+            _standardDeviation = _data[JetBusCommands.STANDARD_DEVIATION];
+            _fineFlowCutOffPoint = _data[JetBusCommands.FINE_FLOW_CUT_OFF_POINT];
+            _coarseFlowCutOffPoint = _data[JetBusCommands.COARSE_FLOW_CUT_OFF_POINT];
+            _residualFlowTime = _data[JetBusCommands.RESIDUAL_FLOW_TIME];
+            _minimumFineFlow = _data[JetBusCommands.MINIMUM_FINE_FLOW];
+            _optimizationOfCutOffPoints = _data[JetBusCommands.OPTIMIZATION];
+            _maximumDosingTime = _data[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
+            _coarseLockoutTime = _data[JetBusCommands.COARSE_FLOW_TIME];
+            _fineLockoutTime = _data[JetBusCommands.FINE_FLOW_TIME];
+            _tareMode = _data[JetBusCommands.TARE_MODE];
+            _upperToleranceLimit = _data[JetBusCommands.UPPER_TOLERANCE_LIMIT];
+            _lowerToleranceLimit = _data[JetBusCommands.LOWER_TOLERANCE_LOMIT];
+            _minimumStartWeight = _data[JetBusCommands.MINIMUM_START_WEIGHT];
+            _emptyWeight = _data[JetBusCommands.EMPTY_WEIGHT];
+            _tareDelay = _data[JetBusCommands.TARE_DELAY];
+            _coarseFlowMonitoringTime = _data[JetBusCommands.COARSE_FLOW_MONITORING_TIME];
+            _coarseFlowMonitoring = _data[JetBusCommands.COARSE_FLOW_MONITORING];
+            _fineFlowMonitoring = _data[JetBusCommands.FINE_FLOW_MONITORING];
+            _fineFlowMonitoringTime = _data[JetBusCommands.FINE_FLOW_MONITORING_TIME];
+            _systematicDifference = _data[JetBusCommands.SYSTEMATIC_DIFFERENCE];
+            _valveControl = _data[JetBusCommands.VALVE_CONTROL];
+            _emptyingMode = _data[JetBusCommands.EMPTYING_MODE];
+            _delayTimeAfterFineFlow = _data[JetBusCommands.DELAY1_DOSING];
+            _activationTimeAfterFineFlow = _data[JetBusCommands.FINEFLOW_PHASE_BEFORE_COARSEFLOW];
+            */
+
+            _totalWeight = 0;             // undefined ID
+            _targetFillingWeight = 0;     // undefined ID
+            _coarseFlowCutOffPointSet = 0;// undefined ID
+            _fineFlowCutOffPointSet = 0;  // undefined ID
+            _startWithFineFlow = 0;       // undefined ID
+        }
+
+        #endregion
+
+        #region Get-properties for input words of filler mode
+
+        public int CoarseFlow
         {
             get { return _coarseFlow; }
-            set { this._coarseFlow = value; }
         }
         public int FineFlow
         {
             get { return _fineFlow; }
-            set { this._fineFlow = value; }
         }
         public int Ready
         {
             get { return _ready; }
-            set { this._ready = value; }
         }
         public int ReDosing
         {
             get { return _reDosing; }
-            set { this._reDosing = value; }
         }
         public int Emptying
         {
             get { return _emptying; }
-            set { this._emptying = value; }
         }
         public int FlowError
         {
             get { return _flowError; }
-            set { this._flowError = value; }
         }
         public int Alarm
         {
             get { return _alarm; }
-            set { this._alarm = value; }
         }
         public int AdcOverUnderload
         {
             get { return _adcOverUnderload; }
-            set { this._adcOverUnderload = value; }
         }
         public int FillingProcessStatus
         {
             get { return _fillingProcessStatus; }
-            set { this._fillingProcessStatus = value; }
         }
         public int NumberDosingResults
         {
             get { return _numberDosingResults; }
-            set { this._numberDosingResults = value; }
         }
         public int DosingResult
         {
             get { return _dosingResult; }
-            set { this._dosingResult = value; }
         }
         public int MeanValueDosingResults
         {
             get { return _meanValueDosingResults; }
-            set { this._meanValueDosingResults = value; }
         }
         public int StandardDeviation
         {
             get { return _standardDeviation; }
-            set { this._standardDeviation = value; }
         }
         public int TotalWeight
         {
             get { return _totalWeight; }
-            set { this._totalWeight = value; }
         }
         public int CurrentDosingTime
         {
             get { return _currentDosingTime; }
-            set { this._currentDosingTime = value; }
         }
         public int CurrentCoarseFlowTime
         {
             get { return _currentCoarseFlowTime; }
-            set { this._currentCoarseFlowTime = value; }
         }
         public int CurrentFineFlowTime
         {
             get { return _currentFineFlowTime; }
-            set { this._currentFineFlowTime = value; }
         }
         public int ToleranceErrorPlus
         {
             get { return _toleranceErrorPlus; }
-            set { this._toleranceErrorPlus = value; }
         }
         public int ToleranceErrorMinus
         {
             get { return _toleranceErrorMinus; }
-            set { this._toleranceErrorMinus = value; }
         }
         public int StatusInput1
         {
             get { return _statusInput1; }
-            set { this._statusInput1 = value; }
         }
         public int GeneralScaleError
         {
             get { return _generalScaleError; }
-            set { this._generalScaleError = value; }
-        }
-        public int ManualTareValue
-        {
-            get { return _manualTareValue; }
-            set { this._manualTareValue = value; }
-        }
-        public int LimitValue1Input
-        {
-            get { return _limitValue1Input; }
-            set { this._limitValue1Input = value; }
-        }
-        public int LimitValue1Mode
-        {
-            get { return _limitValue1Mode; }
-            set { this._limitValue1Mode = value; }
-        }
-        public int LimitValue1ActivationLevelLowerBandLimit
-        {
-            get { return _limitValue1ActivationLevelLowerBandLimit; }
-            set { this._limitValue1ActivationLevelLowerBandLimit = value; }
-        }
-        public int LimitValue1HysteresisBandHeight
-        {
-            get { return _limitValue1HysteresisBandHeight; }
-            set { this._limitValue1HysteresisBandHeight = value; }
-        }
-        public int LimitValue2Source
-        {
-            get { return _limitValue2Source; }
-            set { this._limitValue2Source = value; }
-        }
-        public int LimitValue2Mode
-        {
-            get { return _limitValue2Mode; }
-            set { this._limitValue2Mode = value; }
-        }
-        public int LimitValue2ActivationLevelLowerBandLimit
-        {
-            get { return _limitValue2ActivationLevelLowerBandLimit; }
-            set { this._limitValue2ActivationLevelLowerBandLimit = value; }
-        }
-        public int LimitValue2HysteresisBandHeight
-        {
-            get { return _limitValue2HysteresisBandHeight; }
-            set { this._limitValue2HysteresisBandHeight = value; }
-        }
-        public int LimitValue3Source
-        {
-            get { return _limitValue3Source; }
-            set { this._limitValue3Source = value; }
-        }
-        public int LimitValue3Mode
-        {
-            get { return _limitValue3Mode; }
-            set { this._limitValue3Mode = value; }
-        }
-        public int LimitValue3ActivationLevelLowerBandLimit
-        {
-            get { return _limitValue3ActivationLevelLowerBandLimit; }
-            set { this._limitValue3ActivationLevelLowerBandLimit = value; }
-        }
-        public int LimitValue3HysteresisBandHeight
-        {
-            get { return _limitValue3HysteresisBandHeight; }
-            set { this._limitValue3HysteresisBandHeight = value; }
-        }
-        public int LimitValue4Source
-        {
-            get { return _limitValue4Source; }
-            set { this._limitValue4Source = value; }
-        }
-        public int LimitValue4Mode
-        {
-            get { return _limitValue4Mode; }
-            set { this._limitValue4Mode = value; }
-        }
-        public int LimitValue4ActivationLevelLowerBandLimit
-        {
-            get { return _limitValue4ActivationLevelLowerBandLimit; }
-            set { this._limitValue4ActivationLevelLowerBandLimit = value; }
-        }
-        public int LimitValue4HysteresisBandHeight
-        {
-            get { return _limitValue4HysteresisBandHeight; }
-            set { this._limitValue4HysteresisBandHeight = value; }
         }
         public int FineFlowCutOffPoint
         {
@@ -518,18 +406,44 @@ namespace HBM.Weighing.API.Data
         public int ParameterSetProduct
         {
             get { return _parameterSetProduct; }
-            set { this._parameterSetProduct = value; }
         }
         public int MaxDosingTime
         {
             get { return _maxDosingTime; }
-            set { this._maxDosingTime = value; }
         }
         public int LegalForTradeOperation
         {
             get { return _legalForTradeOperation; }
-            set { this._legalForTradeOperation = value; }
         }
+        public int WeightMemDay
+        {
+            get { return _weightMemoryDay; }
+        }
+        public int WeightMemMonth
+        {
+            get { return _weightMemoryMonth; }
+        }
+        public int WeightMemYear
+        {
+            get { return _weightMemoryYear; }
+        }
+        public int WeightMemSeqNumber
+        {
+            get { return _weightMemorySeqNumber; }
+        }
+        public int WeightMemGross
+        {
+            get { return _weightMemoryGross; }
+        }
+        public int WeightMemNet
+        {
+            get { return _weightMemoryNet; }
+        }
+
+        #endregion
+
+        #region Set-properties for output words of filler mode
+
         public int ResidualFlowTime
         {
             get { return _residualFlowTime; }
@@ -655,6 +569,7 @@ namespace HBM.Weighing.API.Data
             get { return _valveControl; }
             set { this._valveControl = value; }
         }
+    
         public int EmptyingMode
         {
             get { return _emptyingMode; }

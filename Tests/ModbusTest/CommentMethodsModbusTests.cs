@@ -278,7 +278,8 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _wtxObj.OnData(result);
             });
 
-            return _wtxObj.Unit;
+
+            return _wtxObj.ProcessData.Unit;
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "KG_UnitValueTestCases")]
@@ -296,7 +297,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _wtxObj.OnData(result);
             });
 
-            return _wtxObj.Unit;
+            return _wtxObj.ProcessData.Unit;
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "G_UnitValueTestCases")]
@@ -314,7 +315,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _wtxObj.OnData(result);
             });
 
-            return _wtxObj.Unit;
+            return _wtxObj.ProcessData.Unit;
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "LB_UnitValueTestCases")]
@@ -330,7 +331,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _wtxObj.OnData(result);
             });
 
-            return _wtxObj.Unit;
+            return _wtxObj.ProcessData.Unit;
         }
 
         
@@ -343,8 +344,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
            _wtxObj.WriteSync(0, 0x00);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, _wtxObj.Decimals);
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, _wtxObj.Decimals);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, _wtxObj.ProcessData.Decimals);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, _wtxObj.ProcessData.Decimals);
 
             Assert.AreEqual(dValue.ToString(), strValue);
         }
@@ -359,9 +360,9 @@ namespace HBM.Weighing.API.WTX.Modbus
 
            _wtxObj.WriteSync(0, 0x00);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 1 /*_wtxObj.Decimals*/);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 1 /*_wtxObj.Decimals*/);
 
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 1 /*_wtxObj.Decimals*/);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 1 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.0"), strValue);
         }
@@ -374,8 +375,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
            _wtxObj.WriteSync(0, 0x00);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 2/*_wtxObj.Decimals*/);
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 2 /*_wtxObj.Decimals*/);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 2/*_wtxObj.Decimals*/);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 2 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.00"), strValue);
         }
@@ -388,8 +389,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
            _wtxObj.WriteSync(0, 0x00);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 3/*_wtxObj.Decimals*/);
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 3 /*_wtxObj.Decimals*/);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 3/*_wtxObj.Decimals*/);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 3 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.000"), strValue);
         }
@@ -402,8 +403,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
            _wtxObj.WriteSync(0, 0x00);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 4/*_wtxObj.Decimals*/);
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 4 /*_wtxObj.Decimals*/);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 4/*_wtxObj.Decimals*/);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 4 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.0000"), strValue);
         }
@@ -416,8 +417,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
            _wtxObj.WriteSync(0, 0x00);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 5/*_wtxObj.Decimals*/);
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 5 /*_wtxObj.Decimals*/);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 5/*_wtxObj.Decimals*/);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 5 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.00000"), strValue);
         }
@@ -430,8 +431,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
            _wtxObj.WriteSync(0, 0x00);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 6/*_wtxObj.Decimals*/);
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 6 /*_wtxObj.Decimals*/);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 6/*_wtxObj.Decimals*/);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 6 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.000000"), strValue);
         }

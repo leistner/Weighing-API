@@ -32,13 +32,16 @@ using System;
 
 namespace HBM.Weighing.API
 {
-    public abstract class BaseWtDevice : DataFiller
+    public abstract class BaseWtDevice
     {
         #region attributes
 
         protected INetConnection _connection;
 
         private ProcessData _processData;
+        private DataStandard _dataStandard;
+        private DataFiller _dataFiller;
+        private DataFillerExtended _dataFillerExtended;
 
         //delegate void ProcessDataReceivedEventHandler(object source, ProcessDataReceivedEventArgs args);
 
@@ -52,6 +55,10 @@ namespace HBM.Weighing.API
         public BaseWtDevice(INetConnection connection) : base()
         {
             _processData = new ProcessData();
+
+            _dataStandard = new DataStandard();
+            _dataFiller = new DataFiller();
+            _dataFillerExtended = new DataFillerExtended();
 
             this._connection = connection;
         }
@@ -76,6 +83,30 @@ namespace HBM.Weighing.API
             get
             {
                 return _processData;
+            }
+        }
+
+        public DataStandard DataStandard
+        {
+            get
+            {
+                return _dataStandard;
+            }
+        }
+
+        public DataFiller DataFiller
+        {
+            get
+            {
+                return _dataFiller;
+            }
+        }
+
+        public DataFillerExtended DataFillerExtended
+        {
+            get
+            {
+                return _dataFillerExtended;
             }
         }
         #endregion

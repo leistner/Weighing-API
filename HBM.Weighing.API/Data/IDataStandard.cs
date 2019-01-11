@@ -8,219 +8,60 @@ namespace HBM.Weighing.API
 {
     interface IDataStandard 
     {
-        int NetValue // Net value of weight 
-        {
-            get; set;
-        }
+        #region Input words for standard mode
 
-        string NetValueStr
-        {
-            get; set;
-        }
+        int Input1 { get; }
+        int Input2 { get; }
+        int Input3 { get; }
+        int Input4 { get; }
 
-        int GrossValue // Gross value of weight
-        {
-            get; set;
-        }
+        int Output1 { get; }
+        int Output2 { get; }
+        int Output3 { get; }
+        int Output4 { get; }
 
-        string GrossValueStr
-        {
-            get; set;
-        }
+        int LimitValue1 { get; }
+        int LimitValue2 { get; }
+        int LimitValue3 { get; }
+        int LimitValue4 { get; }
 
-        int TareValue // Tare value of weight
-        {
-            get; set;
-        }
+        int WeightMemDay      { get; set; }
+        int WeightMemMonth    { get; set; }
+        int WeightMemYear     { get; set; }
+        int WeightMemSeqNumber{ get; set; }
+        int WeightMemGross    { get; set; }
+        int WeightMemNet      { get; set; }
 
-        bool GeneralWeightError
-        {
-            get; set;
-        }
+        #endregion
 
-        bool ScaleAlarmTriggered
-        {
-            get; set;
-        }
+        #region Output words for standard mode 
 
-        int LimitStatus
-        {
-            get; set;
-        }
+        int ManualTareValue { get;  set; }
+        int LimitValue1Input { get;  set; }
+        int LimitValue1Mode { get;  set; }
 
-        bool WeightMoving  // = WeightStable (OPC-UA Standard)
-        {
-            get; set;
-        }
+        int LimitValue1ActivationLevelLowerBandLimit { get;  set; }
+        int LimitValue1HysteresisBandHeight { get;  set; }
+        int LimitValue2Source { get;  set; }
+        int LimitValue2Mode { get;  set; }
 
-        bool ScaleSealIsOpen
-        {
-            get; set;
-        }
+        int LimitValue2ActivationLevelLowerBandLimit { get;  set; }
+        int LimitValue2HysteresisBandHeight { get;  set; }
+        int LimitValue3Source { get;  set; }
+        int LimitValue3Mode { get;  set; }
 
-        bool ManualTare
-        {
-            get; set;
-        }
+        int LimitValue3ActivationLevelLowerBandLimit { get;  set; }
+        int LimitValue3HysteresisBandHeight { get;  set; }
+        int LimitValue4Source { get;  set; }
 
-        bool WeightType
-        {
-            get; set;
-        }
+        int LimitValue4Mode { get;  set; }
+        int LimitValue4ActivationLevelLowerBandLimit { get;  set; }
+        int LimitValue4HysteresisBandHeight { get;  set; }
 
-        int ScaleRange // = CurrentRangeId (OPC-UA Standard)
-        {
-            get; set;
-        }
+        int CalibrationWeight { get;  set; }
+        int ZeroLoad { get;  set; }
+        int NominalLoad { get;  set; }
 
-        bool ZeroRequired
-        {
-            get; set;
-        }
-
-        bool WeightWithinTheCenterOfZero // = CenterOfZero (OPC-UA Standard)
-        {
-            get; set;
-
-        }
-
-        bool WeightInZeroRange // = Inside zero (OPC-UA Standard)
-        {
-            get; set;
-        }
-
-        int ApplicationMode
-        {
-            get; set;
-        }
-        string ApplicationModeStr
-        {
-            get; set;
-        }
-
-        int Decimals
-        {
-            get; set;
-        }
-
-        int Unit
-        {
-            get; set;
-        }
-
-        bool Handshake
-        {
-            get; set;
-        }
-
-        bool Status
-        {
-            get; set;
-        }
-
-
-        bool Underload // = Underload (OPC-UA Standard)
-        {
-            get; set;
-        }
-
-        bool Overload // = Overload (OPC-UA Standard)
-        {
-            get; set;
-        }
-
-        bool WeightWithinLimits
-        {
-            get; set;
-        }
-
-        bool HigherSafeLoadLimit
-        {
-            get; set;
-        }
-
-        int LegalTradeOp // = LegalForTrade (OPC-UA Standard)
-        {
-            get; set;
-        }
-
-        int Input1 
-        {
-            get; set;
-        }
-        int Input2
-        {
-            get; set;
-        }
-        int Input3
-        {
-            get; set;
-        }
-        int Input4
-        {
-            get; set;
-        }
-        int Output1
-        {
-            get; set;
-        }
-        int Output2
-        {
-            get; set;
-        }
-        int Output3
-        {
-            get; set;
-        }
-        int Output4
-        {
-            get; set;
-        }
-        int LimitValue1
-        {
-            get; set;
-        }
-        int LimitValue2
-        {
-            get; set;
-        }
-        int LimitValue3
-        {
-            get; set;
-        }
-        int LimitValue4
-        {
-            get; set;
-        }
-
-        int WeightMemDay
-        {
-            get; set;
-        }     
-        
-        int WeightMemMonth
-        {
-            get; set;
-        }        
-
-        int WeightMemYear
-        {
-            get; set;
-        }        
-
-        int WeightMemSeqNumber
-        {
-            get; set;
-        }   
-
-        int WeightMemGross
-        {
-            get; set;
-        }     
-        
-        int WeightMemNet
-        {
-            get; set;
-        }        
+        #endregion
     }
 }

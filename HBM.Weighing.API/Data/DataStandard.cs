@@ -12,33 +12,7 @@ namespace HBM.Weighing.API.Data
 
         private ushort[] _data;
 
-        private int _netValue;      // data type = double according to OPC-UA standard
-        private int _grossValue;    // data type = double according to OPC-UA standard
-        private string _netValueStr;
-        private string _grossValueStr;
-        private int _tareValue;          // data type = double according to OPC-UA standard
-        private bool _generalWeightError;
-        private bool _scaleAlarmTriggered;
-        private int _limitStatus;
-        private bool _weightMoving;
-        private bool _scaleSealIsOpen;
-        private bool _manualTare;
-        private bool _weightType;
-        private int _scaleRange;
-        private bool _zeroRequired;
-        private bool _weightWithinTheCenterOfZero;
-        private bool _weightInZeroRange;
-        private int _applicationMode;
-        private string _applicationModeStr;
-        private int _decimals;
-        private int _unit;
-        private bool _handshake;
-        private bool _status;
-        private bool _underload;
-        private bool _overload;
-        private bool _weightWithinLimits;
-        private bool _higherSafeLoadLimit;
-        private int _legalTradeOp;
+        // Input words :
 
         private int _input1;
         private int _input2;
@@ -62,39 +36,40 @@ namespace HBM.Weighing.API.Data
         private int _weightMemGross;
         private int _weightMemNet;
 
+        // Output words : 
+
+        private int _manualTareValue;
+        private int _limitValue1Input;
+        private int _limitValue1Mode;
+
+        private int _limitValue1ActivationLevelLowerBandLimit;
+        private int _limitValue1HysteresisBandHeight;
+        private int _limitValue2Source;
+        private int _limitValue2Mode;
+
+        private int _limitValue2ActivationLevelLowerBandLimit;
+        private int _limitValue2HysteresisBandHeight;
+        private int _limitValue3Source;
+        private int _limitValue3Mode;
+
+        private int _limitValue3ActivationLevelLowerBandLimit;
+        private int _limitValue3HysteresisBandHeight;
+        private int _limitValue4Source;
+
+        private int _limitValue4Mode;
+        private int _limitValue4ActivationLevelLowerBandLimit;
+        private int _limitValue4HysteresisBandHeight;
+
+        private int _calibrationWeight;
+        private int _zeroLoad;
+        private int _nomnialLoad; 
+
         #endregion
 
         #region constructor
 
         public DataStandard()
         {
-            _netValue = 0;
-            _grossValue = 0;
-
-            _tareValue = 0;
-            _generalWeightError = false;
-            _scaleAlarmTriggered = false;
-            _limitStatus = 0;
-            _weightMoving = false;
-            _scaleSealIsOpen = false;
-            _manualTare = false;
-            _weightType = false;
-            _scaleRange = 0;
-            _zeroRequired = false;
-            _weightWithinTheCenterOfZero = false;
-            _weightInZeroRange = false;
-            _applicationMode = 0;
-            _applicationModeStr = "";
-            _decimals = 0;
-            _unit = 0;
-            _handshake = false;
-            _status = false;
-            _underload = false;
-            _overload = false;
-            _weightWithinLimits = false;
-            _higherSafeLoadLimit = false;
-            _legalTradeOp = 0;
-
             _input1 =0;
             _input2=0;
             _input3=0;
@@ -116,46 +91,42 @@ namespace HBM.Weighing.API.Data
             _weightMemSeqNumber=0;
             _weightMemGross=0;
             _weightMemNet=0;
+
+            _manualTareValue=0;
+            _limitValue1Input=0;
+            _limitValue1Mode=0;
+
+            _limitValue1ActivationLevelLowerBandLimit=0;
+            _limitValue1HysteresisBandHeight=0;
+            _limitValue2Source=0;
+            _limitValue2Mode=0;
+
+            _limitValue2ActivationLevelLowerBandLimit=0;
+            _limitValue2HysteresisBandHeight=0;
+            _limitValue3Source=0;
+            _limitValue3Mode=0;
+
+            _limitValue3ActivationLevelLowerBandLimit=0;
+            _limitValue3HysteresisBandHeight=0;
+            _limitValue4Source=0;
+
+            _limitValue4Mode=0;
+            _limitValue4ActivationLevelLowerBandLimit=0;
+            _limitValue4HysteresisBandHeight=0;
+
+            _calibrationWeight=0;
+            _zeroLoad=0;
+            _nomnialLoad=0;
+
     }
 
-        #endregion
+    #endregion
 
         #region Update methods for standard mode
 
-        public void UpdateStandardData(ushort[] dataParam)
+    public void UpdateStandardDataModbus(ushort[] _dataParam)
         {
-            this._data = dataParam;
-
-            _netValue = _data[1] + (_data[0] << 16);
-            _grossValue = _data[3] + (_data[2] << 16);
-
-            _tareValue = _netValue - _grossValue;
-            _generalWeightError = Convert.ToBoolean((_data[4] & 0x1));
-            _scaleAlarmTriggered = Convert.ToBoolean(((_data[4] & 0x2) >> 1));
-            _limitStatus = ((_data[4] & 0xC) >> 2);
-            _weightMoving = Convert.ToBoolean(((_data[4] & 0x10) >> 4));
-
-            _scaleSealIsOpen = Convert.ToBoolean(((_data[4] & 0x20) >> 5));
-            _manualTare = Convert.ToBoolean(((_data[4] & 0x40) >> 6));
-            _weightType = Convert.ToBoolean(((_data[4] & 0x80) >> 7));
-            _scaleRange = ((_data[4] & 0x300) >> 8);
-
-            _zeroRequired = Convert.ToBoolean((_data[4] & 0x400) >> 10);
-            _weightWithinTheCenterOfZero = Convert.ToBoolean(((_data[4] & 0x800) >> 11));
-            _weightInZeroRange = Convert.ToBoolean(((_data[4] & 0x1000) >> 12));
-            _applicationMode = (_data[5] & 0x3 >> 1);
-            _applicationModeStr = "";
-
-            _decimals = ((_data[5] & 0x70) >> 4);
-            _unit = ((_data[5] & 0x180) >> 7);
-            _handshake = Convert.ToBoolean(((_data[5] & 0x4000) >> 14));
-            _status = Convert.ToBoolean(((_data[5] & 0x8000) >> 15));
-
-            _underload = false;
-            _overload = false;
-            _weightWithinLimits = false;
-            _higherSafeLoadLimit = false;
-            _legalTradeOp = 0;
+            this._data = _dataParam;
 
             _input1 = (_data[6] & 0x1);
             _input2 = ((_data[6] & 0x2) >> 1);
@@ -181,269 +152,215 @@ namespace HBM.Weighing.API.Data
 
         }
 
+        public void UpdateStandardDataJet(Dictionary<string, int> _dataParam)
+        {
+
+        }
+
         #endregion
 
-        #region properties for standard mode
-
-        public int NetValue
-        {
-            get { return _netValue; }
-            set { this._netValue = value; }
-
-        }
-        public int GrossValue
-        {
-            get{ return _grossValue; }
-            set{ this._grossValue = value; }
-        }
-        public bool GeneralWeightError
-        {
-            get{ return _generalWeightError; }
-            set{ this._generalWeightError = value; }
-        }
-        public bool ScaleAlarmTriggered
-        {
-            get{ return _scaleAlarmTriggered; }
-            set{ this._scaleAlarmTriggered = value; }
-        }
-        public int LimitStatus
-        {
-            get { return _limitStatus; }
-            set { this._limitStatus = value; }
-        }
-        public bool WeightMoving
-        {
-            get { return _weightMoving; }
-            set { this._weightMoving = value; }
-        }
-        public bool ScaleSealIsOpen
-        {
-            get { return _scaleSealIsOpen; }
-            set { this._scaleSealIsOpen = value; }
-        }
-        public bool ManualTare
-        {
-            get { return _manualTare; }
-            set { this._manualTare = value; }
-        }
-        public bool WeightType
-        {
-            get { return _weightType; }
-            set { this._weightType = value; }
-        }
-        public int ScaleRange
-        {
-            get{ return _scaleRange; }
-            set{ this._scaleRange = value; }
-        }
-        public bool ZeroRequired
-        {
-            get{ return _zeroRequired; }
-            set{ this._zeroRequired = value; }
-        }
-        public bool WeightWithinTheCenterOfZero
-        {
-            get{ return _weightWithinTheCenterOfZero; }
-            set{ this._weightWithinTheCenterOfZero = value; }
-        }
-        public bool WeightInZeroRange
-        {
-            get{ return _weightInZeroRange; }
-            set{ this._weightInZeroRange = value; }
-        }
-        public int ApplicationMode
-        {
-            get{ return _applicationMode; }
-            set{ this._applicationMode = value; }
-        }
-        public int Decimals
-        {
-            get{ return _decimals; }
-            set{ this._decimals = value; }
-        }
-        public int Unit
-        {
-            get{ return _unit; }
-            set{ this._unit = value; }
-        }
-        public bool Handshake
-        {
-            get{ return _handshake; }
-            set{ this._handshake = value; }
-        }
-        public bool Status
-        {
-            get{ return _status; }
-            set{ this._status = value; }
-        }
+        #region Get-properties for standard mode
 
         public int Input1
         {
             get{ return _input1; }
-            set{ this._input1 = value; }
         }
         public int Input2
         {
             get{ return _input2; }
-            set{ this._input2 = value; }
         }
         public int Input3
         {
             get{ return _input3; }
-            set{ this._input3 = value; }
         }
         public int Input4
         {
             get{ return _input4; }
-            set{ this._input4 = value; }
         }
         public int Output1
         {
             get{ return _output1; }
-            set{ this._output1 = value; }
         }
         public int Output2
         {
             get{ return _output2; }
-            set{ this._output2 = value; }
         }
         public int Output3
         {
             get{ return _output3; }
-            set{ this._output3 = value; }
         }
         public int Output4
         {
             get{ return _output4; }
-            set{ this._output4 = value; }
         }
         public int LimitStatus1
         {
             get{ return _limitValue1; }
-            set{ this._limitValue1 = value; }
         }
         public int LimitStatus2
         {
             get{ return _limitValue2; }
-            set{ this._limitValue2 = value; }
         }
         public int LimitStatus3
         {
             get{ return _limitValue3; }
-            set{ this._limitValue3 = value;}
         }
         public int LimitStatus4
         {
             get{ return _limitValue4; }
-            set{ this._limitValue4 = value; }
         }
         public int WeightMemDay
         {
             get{ return _weightMemDay; }
-            set{ this._weightMemDay = value; }
+            set { this._weightMemDay = value; }
         }
         public int WeightMemMonth
         {
             get{ return _weightMemMonth; }
-            set{ this._weightMemMonth = value; }
+            set { this._weightMemMonth = value; }
         }
         public int WeightMemYear
         {
             get{ return _weightMemYear;}
-            set{ this._weightMemYear = value; }
+            set { this._weightMemYear = value; }
         }
         public int WeightMemSeqNumber
         {
             get{ return _weightMemSeqNumber; }
-            set{ this._weightMemSeqNumber = value; }
+            set { this._weightMemSeqNumber = value; }
         }
         public int WeightMemGross
         {
             get{ return _weightMemGross; }
-            set{ this._weightMemGross = value; }
+            set { this._weightMemGross = value; }
         }
         public int WeightMemNet
         {
-            get{ return WeightMemNet; }
-            set{ this._weightMemNet = value; }
-        }
-
-        public string NetValueStr     // data type = double according to OPC-UA standard
-        {
-            get { return _netValueStr; }
-            set { this._netValueStr = value;}
-        }
-
-        public string GrossValueStr   // data type = double according to OPC-UA standard
-        {
-            get { return _grossValueStr; }
-            set { this._grossValueStr = value; }
-        }
-
-        public int TareValue         // data type = double according to OPC-UA standard
-        {
-            get { return _tareValue; }
-            set { this._tareValue = value; }
-        }
-      
-        public bool Underload
-        {
-            get { return _underload; }
-            set { this._underload = value; }
-        }
-
-        public bool Overload
-        {
-            get { return _overload; }
-            set { this._overload = value; }
-        }
-
-
-        public bool WeightWithinLimits
-        {
-            get { return _weightWithinLimits; }
-            set { this._weightWithinLimits = value; }
-        }
-
-        public bool HigherSafeLoadLimit
-        {
-            get { return _higherSafeLoadLimit; }
-            set { this._higherSafeLoadLimit = value; }
-        }
-
-        public int LegalTradeOp
-        {
-            get { return _legalTradeOp; }
-            set { this._legalTradeOp = value; }
+            get{ return _weightMemNet; }
+            set { this._weightMemNet = value; }
         }
 
         public int LimitValue1
         {
             get { return _limitValue1; }
-            set { this._limitValue1 = value; }
         }
         public int LimitValue2
         {
             get { return _limitValue2; }
-            set { this._limitValue2 = value; }
         }
         public int LimitValue3
         {
             get { return _limitValue3; }
-            set { this._limitValue3 = value; }
         }
         public int LimitValue4
         {
             get { return _limitValue4; }
-            set { this._limitValue4 = value; }
         }
-
-        public string ApplicationModeStr
-        {
-            get{ return this._applicationModeStr;}
-            set { this._applicationModeStr = value; }
-        }
-
         #endregion
+
+        #region Get-/Set-properties for standard mode 
+
+        public int ManualTareValue
+        {
+            get { return _manualTareValue; }
+            set { _manualTareValue = value; }
+        }
+        public int LimitValue1Input
+        {
+            get { return _limitValue1Input; }
+            set { _limitValue1Input = value; }
+        }
+        public int LimitValue1Mode
+        {
+            get { return _limitValue1Mode; }
+            set { _limitValue1Mode = value; }
+        }
+        public int LimitValue1ActivationLevelLowerBandLimit
+        {
+            get { return _limitValue1ActivationLevelLowerBandLimit; }
+            set { _limitValue1ActivationLevelLowerBandLimit = value; }
+        }
+        public int LimitValue1HysteresisBandHeight
+        {
+            get { return _limitValue1HysteresisBandHeight; }
+            set { _limitValue1HysteresisBandHeight = value; }
+        }
+        public int LimitValue2Source
+        {
+            get { return _limitValue2Source; }
+            set { _limitValue2Source = value; }
+        }
+        public int LimitValue2Mode
+        {
+            get { return _limitValue2Mode; }
+            set { _limitValue2Mode = value; }
+        }
+        public int LimitValue2ActivationLevelLowerBandLimit
+        {
+            get { return _limitValue2ActivationLevelLowerBandLimit; }
+            set { _limitValue2ActivationLevelLowerBandLimit = value; }
+        }
+        public int LimitValue2HysteresisBandHeight
+        {
+            get { return _limitValue2HysteresisBandHeight; }
+            set { _limitValue2HysteresisBandHeight = value; }
+        }
+        public int LimitValue3Source
+        {
+            get { return _limitValue3Source; }
+            set { _limitValue3Source = value; }
+        }
+        public int LimitValue3Mode
+        {
+            get { return _limitValue3Mode; }
+            set { _limitValue3Mode = value; }
+        }
+        public int LimitValue3ActivationLevelLowerBandLimit
+        {
+            get { return _limitValue3ActivationLevelLowerBandLimit; }
+            set { _limitValue3ActivationLevelLowerBandLimit = value; }
+        }
+        public int LimitValue3HysteresisBandHeight
+        {
+            get { return _limitValue3HysteresisBandHeight; }
+            set { _limitValue3HysteresisBandHeight = value; }
+        }
+        public int LimitValue4Source
+        {
+            get { return _limitValue4Source; }
+            set { _limitValue4Source = value; }
+        }
+        public int LimitValue4Mode
+        {
+            get { return _limitValue4Mode; }
+            set { _limitValue4Mode = value; }
+        }
+        public int LimitValue4ActivationLevelLowerBandLimit
+        {
+            get { return _limitValue4ActivationLevelLowerBandLimit; }
+            set { _limitValue4ActivationLevelLowerBandLimit = value; }
+        }
+        public int LimitValue4HysteresisBandHeight
+        {
+            get { return _limitValue4HysteresisBandHeight; }
+            set { _limitValue4HysteresisBandHeight = value; }
+        }
+        public int CalibrationWeight
+        {
+            get { return _calibrationWeight; }
+            set { _calibrationWeight = value; }
+        }
+        public int ZeroLoad
+        {
+            get { return _zeroLoad; }
+            set { _zeroLoad = value; }
+        }
+        public int NominalLoad
+        {
+            get { return _nomnialLoad; }
+            set { _nomnialLoad = value; }
+        }
+        #endregion
+
     }
 }
