@@ -36,7 +36,7 @@ namespace HBM.Weighing.API
     {
         IProcessData _processData;
 
-        public ProcessDataReceivedEventArgs(ProcessData processData)
+        public ProcessDataReceivedEventArgs(IProcessData processData)
         {
             ProcessData = processData;
         }

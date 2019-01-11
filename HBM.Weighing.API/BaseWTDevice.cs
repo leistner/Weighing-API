@@ -38,10 +38,10 @@ namespace HBM.Weighing.API
 
         protected INetConnection _connection;
 
-        private ProcessData _processData;
-        private DataStandard _dataStandard;
-        private DataFiller _dataFiller;
-        private DataFillerExtended _dataFillerExtended;
+        private IProcessData _processData;
+        private IDataStandard _dataStandard;
+        private IDataFiller _dataFiller;
+        private IDataFillerExtended _dataFillerExtended;
 
         //delegate void ProcessDataReceivedEventHandler(object source, ProcessDataReceivedEventArgs args);
 
@@ -78,7 +78,7 @@ namespace HBM.Weighing.API
         /// <summary>
         /// Get-Property : Class of interface IProcessData containing the real-time data
         /// </summary>
-        public ProcessData ProcessData
+        public IProcessData ProcessData
         {
             get
             {
@@ -86,7 +86,7 @@ namespace HBM.Weighing.API
             }
         }
 
-        public DataStandard DataStandard
+        public IDataStandard DataStandard
         {
             get
             {
@@ -94,7 +94,7 @@ namespace HBM.Weighing.API
             }
         }
 
-        public DataFiller DataFiller
+        public IDataFiller DataFiller
         {
             get
             {
@@ -102,7 +102,7 @@ namespace HBM.Weighing.API
             }
         }
 
-        public DataFillerExtended DataFillerExtended
+        public IDataFillerExtended DataFillerExtended
         {
             get
             {

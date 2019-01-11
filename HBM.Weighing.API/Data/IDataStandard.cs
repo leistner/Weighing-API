@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HBM.Weighing.API
 {
-    interface IDataStandard 
+    public interface IDataStandard 
     {
         #region Input words for standard mode
 
@@ -20,10 +20,10 @@ namespace HBM.Weighing.API
         int Output3 { get; }
         int Output4 { get; }
 
-        int LimitValue1 { get; }
-        int LimitValue2 { get; }
-        int LimitValue3 { get; }
-        int LimitValue4 { get; }
+        int LimitStatus1 { get; }
+        int LimitStatus2 { get; }
+        int LimitStatus3 { get; }
+        int LimitStatus4 { get; }
 
         int WeightMemDay      { get; set; }
         int WeightMemMonth    { get; set; }
@@ -61,6 +61,13 @@ namespace HBM.Weighing.API
         int CalibrationWeight { get;  set; }
         int ZeroLoad { get;  set; }
         int NominalLoad { get;  set; }
+
+        #endregion
+
+        #region Update methods for the data of standard mode
+
+        void UpdateStandardDataModbus(ushort[] _dataParam);
+        void UpdateStandardDataJet(Dictionary<string, int> _dataParam);
 
         #endregion
     }

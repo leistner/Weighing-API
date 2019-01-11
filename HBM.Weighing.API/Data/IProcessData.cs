@@ -30,12 +30,16 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 
 namespace HBM.Weighing.API
 {
 
     public interface IProcessData
     {
+
+        #region Process device data 
+
         int NetValue { get; } // Net value of weight 
         string NetValueStr { get; }
         int GrossValue { get; } // Gross value of weight
@@ -63,10 +67,19 @@ namespace HBM.Weighing.API
 
         bool Handshake { get; }
         bool Status { get; }
-        bool Underload{ get; } // = Underload (OPC-UA Standard)
-        bool Overload { get; } // = Overload (OPC-UA Standard)
+        bool Underload{ get; set; } // = Underload (OPC-UA Standard)
+        bool Overload { get; set; } // = Overload (OPC-UA Standard)
 
-        bool weightWithinLimits { get; }
-        bool higherSafeLoadLimit { get; }
+        bool weightWithinLimits { get; set; }
+        bool higherSafeLoadLimit{ get; set; }
+
+        #endregion
+
+        #region Update methods for the process data
+
+        void UpdateProcessDataModbus(ushort[] _dataParam);
+        void UpdateProcessDataJet(Dictionary<string, int> _dataParam);
+
+        #endregion
     }
 }
