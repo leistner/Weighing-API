@@ -124,12 +124,6 @@ namespace HBM.Weighing.API
         /// <param name="completed">Callback raised after connection completed</param>
         /// <param name="timeoutMs">Timeout to wait for connect response</param>
         public abstract void Connect(Action<bool> completed, double timeoutMs);
-
-        /// <summary>
-        /// Method raised whenever new data from device arrives
-        /// </summary>
-        /// <param name="sender">_asyncData: data array</param>
-        public abstract void OnData(ushort[] _asyncData);
                
         /// <summary>
         /// Sets the the device to gross values

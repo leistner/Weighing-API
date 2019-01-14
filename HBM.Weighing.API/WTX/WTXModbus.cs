@@ -322,7 +322,7 @@ namespace HBM.Weighing.API.WTX
         /// Called whenever new device data is available 
         /// </summary>
         /// <param name="_asyncData"></param>
-        public override void OnData(ushort[] _data)
+        public void OnData(ushort[] _data)
         {
             this._previousNetValue = ProcessData.NetValue;
 
@@ -333,8 +333,9 @@ namespace HBM.Weighing.API.WTX
             DataStandard.UpdateStandardDataModbus(_data);
 
             // Update data for filler mode:
-            DataFiller.UpdateFillerDataModbus(_data);
-
+            if (ProcessData.ApplicationModeStr == "Filler")           
+                DataFiller.UpdateFillerDataModbus(_data);
+            
             this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
 
             // Only if the net value changed, the data will be send to the GUI

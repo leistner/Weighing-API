@@ -35,9 +35,11 @@ using System.Collections.Generic;
 namespace HBM.Weighing.API
 {
 
+    /// <summary>
+    /// Interface containing the process data of your WTX device
+    /// </summary>
     public interface IProcessData
     {
-
         #region Process device data 
 
         int NetValue { get; } // Net value of weight 
