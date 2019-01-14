@@ -1,4 +1,35 @@
-﻿using System;
+﻿// <copyright file="JetBusConnection.cs" company="Hottinger Baldwin Messtechnik GmbH">
+//
+// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+//
+// The MIT License (MIT)
+//
+// Copyright (C) Hottinger Baldwin Messtechnik GmbH
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+// BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+// </copyright>
+
+using HBM.Weighing.API.WTX.Jet;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +37,9 @@ using System.Threading.Tasks;
 
 namespace HBM.Weighing.API.Data
 {
+    /// <summary>
+    /// Implementation of the interface IDataStandard for the standard mode.
+    /// </summary>
     public class DataStandard : IDataStandard
     {
         #region privates for standard mode
@@ -152,9 +186,22 @@ namespace HBM.Weighing.API.Data
 
         }
 
-        public void UpdateStandardDataJet(Dictionary<string, int> _dataParam)
+        public void UpdateStandardDataJet(Dictionary<string, int> _data)
         {
+            _input1 = _data[JetBusCommands.STATUS_DIGITAL_INPUT_1];
+            _input2 = _data[JetBusCommands.STATUS_DIGITAL_INPUT_2];
+            _input3 = _data[JetBusCommands.STATUS_DIGITAL_INPUT_3];
+            _input4 = _data[JetBusCommands.STATUS_DIGITAL_INPUT_4];
 
+            _output1 = _data[JetBusCommands.STATUS_DIGITAL_OUTPUT_1];
+            _output2 = _data[JetBusCommands.STATUS_DIGITAL_OUTPUT_2];
+            _output3 = _data[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
+            _output4 = _data[JetBusCommands.STATUS_DIGITAL_OUTPUT_4];
+
+            _limitStatus1 = (_data[JetBusCommands.LIMIT_VALUE] & 0x1);
+            _limitStatus2 = (_data[JetBusCommands.LIMIT_VALUE] & 0x2) >> 1;
+            _limitStatus3 = (_data[JetBusCommands.LIMIT_VALUE] & 0x4) >> 2;
+            _limitStatus4 = (_data[JetBusCommands.LIMIT_VALUE] & 0x8) >> 3;
         }
 
         #endregion

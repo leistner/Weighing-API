@@ -60,7 +60,7 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Constructors
-        public WtxJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)  // ParameterProperty umändern 
+        public WtxJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)
         {
             _connection = Connection;
             
@@ -113,47 +113,20 @@ namespace HBM.Weighing.API.WTX
             // Update process data : 
             ProcessData.UpdateProcessDataJet(_connection.AllData);
 
+            // Not implemented, because of the missing application-mode-ID for the application check: 
+            /*
             // Update data for filler mode:
-            DataFiller.UpdateFillerDataJet(_connection.AllData);
-
+            if (ProcessData.ApplicationModeStr == "Filler")
+                DataFiller.UpdateFillerDataJet(_connection.AllData);
             // Update data for filler extended mode:
-            DataFillerExtended.UpdateFillerExtendedDataJet(_connection.AllData);
+            if (ProcessData.ApplicationModeStr == "Filler Extended")
+                DataFillerExtended.UpdateFillerExtendedDataJet(_connection.AllData);
+            */
 
-            this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
+            this.limitStatusBool(); // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
 
             // Do something with the data, like in the class WTXModbus.cs           
             this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
-        }
-
-        private void UpdateStandardData()
-        {
-            // Commented out because of undefined ID's:
-            /*
-            DataStandard.LimitStatus1 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_1];
-            DataStandard.LimitStatus2 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_2];
-            DataStandard.LimitStatus3 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
-            DataStandard.LimitStatus4 = _connection.AllData[JetBusCommands.STATUS_DIGITAL_OUTPUT_4];
-            
-            DataStandard.FillingProcessStatus  = _connection.AllData[JetBusCommands.DOSING_STATUS];
-            DataStandard.NumberDosingResults = _connection.AllData[JetBusCommands.DOSING_COUNTER];
-            DataStandard.DosingResult = _connection.AllData[JetBusCommands.DOSING_RESULT];
-            
-            DataStandard.Input1 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_1];
-            DataStandard.Input2 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_2];
-            DataStandard.Input3 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_3];
-            DataStandard.Input4 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_INPUT_4];
-            
-            DataStandard.Output1 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_1];
-            DataStandard.Output2 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_2];
-            DataStandard.Output3 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_3];
-            DataStandard.Output4 = _connection.AllData[JetBusCommands.FUNCTION_DIGITAL_OUTPUT_4];
-            */
-
-        }
-
-        public override void OnData(ushort[] _asyncData)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -414,61 +387,5 @@ namespace HBM.Weighing.API.WTX
             throw new NotImplementedException();
         }
         #endregion
-
-        #region Limit switches
-        public int LimitValue1Input
-        {
-            get
-            {
-                return _connection.AllData[JetBusCommands.LIMIT_VALUE] & 0x1;
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.LIMIT_VALUE] = value;
-                _connection.Write(JetBusCommands.LIMIT_VALUE, value);
-            }
-        }
-
-        public int LimitValue2Source
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.LIMIT_VALUE] & 0x2) >> 1;
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.LIMIT_VALUE] = value;
-                _connection.Write(JetBusCommands.LIMIT_VALUE, value);
-            }
-        }
-
-        public int LimitValue3Source
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.LIMIT_VALUE] & 0x4) >> 2;
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.LIMIT_VALUE] = value;
-                _connection.Write(JetBusCommands.LIMIT_VALUE, value);
-            }
-        }
-
-        public int LimitValue4Source
-        {
-            get
-            {
-                return (_connection.AllData[JetBusCommands.LIMIT_VALUE] & 0x8) >> 3;
-            }
-            set
-            {
-                _connection.AllData[JetBusCommands.LIMIT_VALUE] = value;
-                _connection.Write(JetBusCommands.LIMIT_VALUE, value);
-            }
-        }
-        #endregion
-
-
     }
 }

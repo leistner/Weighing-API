@@ -34,6 +34,9 @@ using System.Collections.Generic;
 
 namespace HBM.Weighing.API
 {
+    /// <summary>
+    /// Implementation of the interface IProcessData for the process data
+    /// </summary>
     public class ProcessData : IProcessData
     {
         private int _netValue;      // data type = double according to OPC-UA standard

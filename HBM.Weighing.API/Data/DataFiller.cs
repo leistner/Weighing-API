@@ -1,4 +1,34 @@
-﻿using HBM.Weighing.API.WTX.Jet;
+﻿// <copyright file="JetBusConnection.cs" company="Hottinger Baldwin Messtechnik GmbH">
+//
+// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+//
+// The MIT License (MIT)
+//
+// Copyright (C) Hottinger Baldwin Messtechnik GmbH
+//
+// Permission is hereby granted, free of charge, to any person obtaining
+// a copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to
+// permit persons to whom the Software is furnished to do so, subject to
+// the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+// BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+// </copyright>
+
+using HBM.Weighing.API.WTX.Jet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +37,9 @@ using System.Threading.Tasks;
 
 namespace HBM.Weighing.API.Data
 {
+    /// <summary>
+    /// Implementation of the interface IDataFiller for the filler mode.
+    /// </summary>
     public class DataFiller : IDataFiller
     {
         #region privates for filler mode
@@ -247,29 +280,6 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateFillerDataJet(Dictionary<string, int> _data)
         {
-            _adcOverUnderload = 0;       // undefined ID
-            _legalForTradeOperation = 0; // undefined ID
-            _statusInput1 = 0;           // undefined ID
-            _generalScaleError = 0;      // undefined ID
-            _coarseFlow = 0;             // undefined ID
-            _fineFlow = 0;               // undefined ID
-            _ready = 0;                  // undefined ID
-            _reDosing = 0;               // undefined ID
-            _emptying = 0;               // undefined ID
-            _flowError = 0;              // undefined ID
-            _alarm = 0;                  // undefined ID
-            _toleranceErrorPlus = 0;     // undefined ID
-            _toleranceErrorMinus = 0;    // undefined ID
-            _currentDosingTime = 0;      // undefined ID
-            _currentCoarseFlowTime = 0;  // undefined ID
-            _currentFineFlowTime = 0;    // undefined ID
-
-            _parameterSetProduct = 0;    // undefined ID 
-            _downwardsDosing = 0;        // undefined ID
-            _legalForTradeOperation = 0; // undefined ID
-
-            // Commented out because of undefined ID's:
-            /*
             _maxDosingTime = _data[JetBusCommands.MAXIMUM_DOSING_TIME];
             _meanValueDosingResults = _data[JetBusCommands.MEAN_VALUE_DOSING_RESULTS];
             _standardDeviation = _data[JetBusCommands.STANDARD_DEVIATION];
@@ -296,13 +306,35 @@ namespace HBM.Weighing.API.Data
             _emptyingMode = _data[JetBusCommands.EMPTYING_MODE];
             _delayTimeAfterFineFlow = _data[JetBusCommands.DELAY1_DOSING];
             _activationTimeAfterFineFlow = _data[JetBusCommands.FINEFLOW_PHASE_BEFORE_COARSEFLOW];
-            */
 
-            _totalWeight = 0;             // undefined ID
-            _targetFillingWeight = 0;     // undefined ID
-            _coarseFlowCutOffPointSet = 0;// undefined ID
-            _fineFlowCutOffPointSet = 0;  // undefined ID
-            _startWithFineFlow = 0;       // undefined ID
+            // Undefined ID's: 
+
+            _adcOverUnderload = 0;       
+            _legalForTradeOperation = 0; 
+            _statusInput1 = 0;           
+            _generalScaleError = 0;      
+            _coarseFlow = 0;             
+            _fineFlow = 0;               
+            _ready = 0;                  
+            _reDosing = 0;               
+            _emptying = 0;               
+            _flowError = 0;              
+            _alarm = 0;                  
+            _toleranceErrorPlus = 0;     
+            _toleranceErrorMinus = 0;    
+            _currentDosingTime = 0;      
+            _currentCoarseFlowTime = 0;  
+            _currentFineFlowTime = 0;    
+
+            _parameterSetProduct = 0;     
+            _downwardsDosing = 0;        
+            _legalForTradeOperation = 0; 
+            
+            _totalWeight = 0;             
+            _targetFillingWeight = 0;     
+            _coarseFlowCutOffPointSet = 0;
+            _fineFlowCutOffPointSet = 0;  
+            _startWithFineFlow = 0;       
         }
 
         #endregion

@@ -39,13 +39,9 @@ namespace HBM.Weighing.API.WTX.Modbus
 {
 
     /// <summary>
-    ///     This class establishs the communication to the device(here: WTX120), starts/ends the connection,
-    ///     read and write the register and shows the status of the connection and closes the connection to
-    ///     the device (here: WTX120).
-    ///     Once a button event is clicked in class GUI, an asynchronous call in class WTX120 is started
-    ///     and finally in this class "Modbus_TCP" the register (of the device) is read or written.
-    ///     The data exchange for reading a register between class "Modbus_TCP" and class "WTX_120" is event-based.
-    ///     This class publishes the event (MessageEvent) and read the register, afterwards it will be sent back to WTX120.
+    /// Use this class to handle a connection via Ethernet.
+    /// This class establishs the communication to your WTX device, starts/ends the connection,
+    /// read and write the register and shows the status of the connection and closes the connection to the device.
     /// </summary>
     public class ModbusTcpConnection : INetConnection 
     {
@@ -198,14 +194,8 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
-        public ushort arr1; // For test purpose
-        public ushort arr2; // For test purpose
-
         public void WriteArray(ushort index, ushort[] data)
         {
-            this.arr1 = data[0];
-            this.arr1 = data[1]; 
-
             _master.WriteMultipleRegisters(index, data);
 
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort array) have been written successfully to multiple registers"));

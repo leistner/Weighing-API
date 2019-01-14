@@ -954,6 +954,7 @@ namespace JetbusTest
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFL"));
         }
 
+        /*
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testLimitValueStatusLVS1(Behavior behavior)
         {
@@ -986,7 +987,7 @@ namespace JetbusTest
             _wtxObj = new WtxJet(_jetTestConnection, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
+        
             int limitvalue2 = _wtxObj.LimitValue2Source;
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && limitvalue2 == 1)
@@ -1038,7 +1039,7 @@ namespace JetbusTest
 
             Assert.IsTrue(testVar);
         }
-
+        */
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
             //throw new NotImplementedException();
