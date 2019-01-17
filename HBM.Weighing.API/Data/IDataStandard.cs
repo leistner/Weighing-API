@@ -1,4 +1,4 @@
-﻿// <copyright file="JetBusConnection.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="IDataStandard.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
 //

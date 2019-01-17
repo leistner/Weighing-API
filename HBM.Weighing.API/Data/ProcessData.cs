@@ -1,4 +1,4 @@
-﻿// <copyright file="IDeviceData.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="ProcessData.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
@@ -60,7 +60,7 @@ namespace HBM.Weighing.API
         private int _decimals;
         private int _unit;
         private bool _handshake;
-        private bool _status;
+        private int _status;
         private bool _underload;
         private bool _overload;
         private bool _weightWithinLimits;
@@ -90,7 +90,7 @@ namespace HBM.Weighing.API
              _decimals = 0;
              _unit = 0;
              _handshake = false;
-             _status = false;
+             _status = 0;
              _underload = false;
              _overload = false;
              _weightWithinLimits = false;
@@ -122,13 +122,15 @@ namespace HBM.Weighing.API
             _zeroRequired = Convert.ToBoolean((_data[4] & 0x400) >> 10);
             _weightWithinTheCenterOfZero = Convert.ToBoolean(((_data[4] & 0x800) >> 11));
             _weightInZeroRange = Convert.ToBoolean(((_data[4] & 0x1000) >> 12));
-            _applicationMode = (_data[5] & 0x3 >> 1);
-            _applicationModeStr = ApplicationModeStringComment();
+            _applicationMode = _data[5] & 0x3;
+            _applicationModeStr = this.ApplicationModeStr;
 
             _decimals = ((_data[5] & 0x70) >> 4);
             _unit = ((_data[5] & 0x180) >> 7);
             _handshake = Convert.ToBoolean(((_data[5] & 0x4000) >> 14));
-            _status = Convert.ToBoolean(((_data[5] & 0x8000) >> 15));
+            _status = ((_data[5] & 0x8000) >> 15);
+
+            this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
         }
 
         public void UpdateProcessDataJet(Dictionary <string,int> _data)
@@ -142,6 +144,7 @@ namespace HBM.Weighing.API
             _generalWeightError = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1));
             _scaleAlarmTriggered = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1);
             _limitStatus = (_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
+
             _weightMoving = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4);
             _scaleSealIsOpen = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5);
             _manualTare = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6);
@@ -150,12 +153,16 @@ namespace HBM.Weighing.API
             _zeroRequired = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10);
             _weightWithinTheCenterOfZero = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11);
             _weightInZeroRange = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12);
-            //_applicationMode = this.ApplicationMode;
-            //_applicationModeStr = ApplicationModeStringComment();
+
+            _applicationMode = _data[JetBusCommands.APPLICATION_MODE];
+            _applicationModeStr = this.ApplicationModeStr;
             _decimals = _data[JetBusCommands.DECIMALS];
             _unit = (_data[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
+
             _handshake = UpdateHandshake(_data[JetBusCommands.SCALE_COMMAND_STATUS]);
-            _status = Convert.ToBoolean(_data[JetBusCommands.SCALE_COMMAND_STATUS]);
+            _status = _data[JetBusCommands.SCALE_COMMAND_STATUS];
+
+            this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
         }
 
         public bool UpdateHandshake(int _handshakeValue)
@@ -188,22 +195,55 @@ namespace HBM.Weighing.API
             return returnvalue;
         }
 
-        public string ApplicationModeStringComment()
+        private void limitStatusBool()
         {
-            if (_applicationMode == 0)
-                return "Standard";
-            else
-
-                if (_applicationMode == 2 || _applicationMode == 1)  // Will be changed to '2', so far '1'. 
-                return "Filler";
-            else
-
-                return "error";
+            switch (_limitStatus)
+            {
+                case 0: // Weight within limits
+                    _underload = false;
+                    _overload = false;
+                    _weightWithinLimits = true;
+                    _higherSafeLoadLimit = false;
+                    break;
+                case 1: // Lower than minimum
+                    _underload = true;
+                    _overload = false;
+                    _weightWithinLimits = false;
+                    _higherSafeLoadLimit = false;
+                    break;
+                case 2: // Higher than maximum capacity
+                    _underload = false;
+                    _overload = true;
+                    _weightWithinLimits = false;
+                    _higherSafeLoadLimit = false;
+                    break;
+                case 3: // Higher than safe load limit
+                    _underload = false;
+                    _overload = false;
+                    _weightWithinLimits = false;
+                    _higherSafeLoadLimit = true;
+                    break;
+                default: // Lower than minimum
+                    _underload = true;
+                    _overload = false;
+                    _weightWithinLimits = false;
+                    _higherSafeLoadLimit = false;
+                    break;
+            }
         }
+
+        public string WeightMovingStringComment()
+        {
+            if (_weightMoving == false)
+                return "0=Weight is not moving.";
+            else
+                return "1=Weight is moving";
+        }
+
 
         #endregion
 
-#region Get-properties of process data
+        #region Get-properties of process data
 
         public int NetValue     // data type = double according to OPC-UA standard
         {
@@ -224,7 +264,6 @@ namespace HBM.Weighing.API
         {
             get { return _grossValueStr; }
         }
-
 
         public int TareValue         // data type = double according to OPC-UA standard
         {
@@ -311,7 +350,7 @@ namespace HBM.Weighing.API
             get { return _handshake; }
         }
 
-        public bool Status
+        public int Status
         {
             get { return _status; }
         }
@@ -339,6 +378,7 @@ namespace HBM.Weighing.API
             get { return _higherSafeLoadLimit; }
             set { this._higherSafeLoadLimit = value; }
         }
+
         #endregion
     }
 }

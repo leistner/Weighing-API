@@ -193,11 +193,35 @@ namespace HBM.Weighing.API
         public abstract string ConnectionType { get; }
 
         /// <summary>
-        /// Sets the unit according to an integer value 
+        /// Sets the unit according to an integer value : g, kg, lb, t 
         /// </summary>
         /// <returns></returns>
         public abstract string UnitStringComment();
         #endregion
+
+        /// <summary>
+        /// Sets the status according according to the integer value in ProcessData : F.e. "Execution OK!" or "Execution not OK!"
+        /// </summary>
+        /// <returns></returns>
+        public abstract string StatusStringComment();
+
+        /// <summary>
+        /// Sets the application mode according to the integer value in ProcessData : Standard or filler mode
+        /// </summary>
+        /// <returns></returns>
+        public abstract string ApplicationModeStringComment();
+
+        /// <summary>
+        /// Sets the weight type according to the integer value in ProcessData: gross or net
+        /// </summary>
+        /// <returns></returns>
+        public abstract string WeightTypeStringComment();
+
+        /// <summary>
+        /// Sets the scale range according to the integer value in ProcessData : Range 1, 2, 3
+        /// </summary>
+        /// <returns></returns>
+        public abstract string ScaleRangeStringComment();
 
     }
 }
