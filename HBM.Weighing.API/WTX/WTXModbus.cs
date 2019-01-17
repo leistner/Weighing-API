@@ -336,8 +336,6 @@ namespace HBM.Weighing.API.WTX
             if (ProcessData.ApplicationModeStr == "Filler")           
                 DataFiller.UpdateFillerDataModbus(_data);
             
-            this.limitStatusBool();                                      // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
-
             // Only if the net value changed, the data will be send to the GUI
             if(_previousNetValue != ProcessData.NetValue)
                 // Invoke Event - GUI/application class receives _processData: 
@@ -405,58 +403,18 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-
-        private void limitStatusBool()
-        {
-            switch (ProcessData.LimitStatus)
-            {
-                case 0: // Weight within limits
-                    ProcessData.Underload = false;
-                    ProcessData.Overload = false;
-                    ProcessData.weightWithinLimits = true;
-                    ProcessData.higherSafeLoadLimit = false;
-                    break;
-                case 1: // Lower than minimum
-                    ProcessData.Underload = true;
-                    ProcessData.Overload = false;
-                    ProcessData.weightWithinLimits = false;
-                    ProcessData.higherSafeLoadLimit = false;
-                    break;
-                case 2: // Higher than maximum capacity
-                    ProcessData.Underload = false;
-                    ProcessData.Overload = true;
-                    ProcessData.weightWithinLimits = false;
-                    ProcessData.higherSafeLoadLimit = false;
-                    break;
-                case 3: // Higher than safe load limit
-                    ProcessData.Underload = false;
-                    ProcessData.Overload = false;
-                    ProcessData.weightWithinLimits = false;
-                    ProcessData.higherSafeLoadLimit = true;
-                    break;
-                default: // Lower than minimum
-                    ProcessData.Underload = true;
-                    ProcessData.Overload = false;
-                    ProcessData.weightWithinLimits = false;
-                    ProcessData.higherSafeLoadLimit = false;
-                    break;
-            }
-        }
-
-        public string WeightTypeStringComment()
+        public override string WeightTypeStringComment()
         {
             if (ProcessData.WeightType == false)
             {
-                //this._isNet = false;
                 return "gross";
             }
-            else // if (this.WeightType == 1)
+            else
             {
-                //this._isNet = true;
                 return "net";
             }
         }
-        public string ScaleRangeStringComment()
+        public override string ScaleRangeStringComment()
         {
             switch (ProcessData.ScaleRange)
             {
@@ -470,13 +428,13 @@ namespace HBM.Weighing.API.WTX
                     return "error";
             }
         }
-        public string ApplicationModeStringComment()
+        public override string ApplicationModeStringComment()
         {
-            if (ProcessData.ApplicationMode == 0)
+            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
                 return "Standard";
             else
 
-                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 1)  // Will be changed to '2', so far '1'. 
+                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)
                 return "Filler";
             else
 
@@ -498,12 +456,12 @@ namespace HBM.Weighing.API.WTX
                     return "error";
             }
         }
-        public string StatusStringComment()
+        public override string StatusStringComment()
         {
-            if (ProcessData.Status == true)
+            if (ProcessData.Status == 1)
                 return "Execution OK!";
             else
-                if (ProcessData.Status != true)
+                if (ProcessData.Status != 1)
                 return "Execution not OK!";
             else
                 return "error.";

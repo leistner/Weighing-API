@@ -1,5 +1,4 @@
-﻿
-// <copyright file="IDeviceData.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="IProcessData.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
@@ -68,7 +67,7 @@ namespace HBM.Weighing.API
         int Unit { get; }
 
         bool Handshake { get; }
-        bool Status { get; }
+        int Status { get; }
         bool Underload{ get; set; } // = Underload (OPC-UA Standard)
         bool Overload { get; set; } // = Overload (OPC-UA Standard)
 

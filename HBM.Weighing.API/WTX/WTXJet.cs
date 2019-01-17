@@ -113,17 +113,16 @@ namespace HBM.Weighing.API.WTX
             // Update process data : 
             ProcessData.UpdateProcessDataJet(_connection.AllData);
 
-            // Not implemented, because of the missing application-mode-ID for the application check: 
-            /*
             // Update data for filler mode:
             if (ProcessData.ApplicationModeStr == "Filler")
-                DataFiller.UpdateFillerDataJet(_connection.AllData);
-            // Update data for filler extended mode:
-            if (ProcessData.ApplicationModeStr == "Filler Extended")
-                DataFillerExtended.UpdateFillerExtendedDataJet(_connection.AllData);
-            */
+            {
+                if (ProcessData.ApplicationModeStr == "Filler")
+                    DataFiller.UpdateFillerDataJet(_connection.AllData);
 
-            this.limitStatusBool(); // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
+                // Update data for filler extended mode:
+                if (ProcessData.ApplicationModeStr == "Filler Extended")
+                    DataFillerExtended.UpdateFillerExtendedDataJet(_connection.AllData);
+            }
 
             // Do something with the data, like in the class WTXModbus.cs           
             this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
@@ -217,9 +216,35 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public string StatusStringComment(int statusParam)
+        public override string WeightTypeStringComment()
         {
-            switch (statusParam)
+            if (ProcessData.WeightType == false)
+            {
+                return "gross";
+            }
+            else
+            {
+                return "net";
+            }
+        }
+        public override string ScaleRangeStringComment()
+        {
+            switch (ProcessData.ScaleRange)
+            {
+                case 0:
+                    return "Range 1";
+                case 1:
+                    return "Range 2";
+                case 2:
+                    return "Range 3";
+                default:
+                    return "error";
+            }
+        }
+
+        public override string StatusStringComment()
+        {
+            switch (ProcessData.Status)
             {
                 case SCALE_COMMAND_STATUS_OK:
                     return "Execution OK!";
@@ -241,13 +266,13 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public string ApplicationModeStringComment()
+        public override string ApplicationModeStringComment()
         {
-            if (ProcessData.ApplicationMode == 0)
+            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
                 return "Standard";
             else
 
-                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 1)  // Will be changed to '2', so far '1'. 
+                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)
                 return "Filler";
             else
 
@@ -296,7 +321,7 @@ namespace HBM.Weighing.API.WTX
 
             // write path 2110/06 - dead load = LDW_DEAD_WEIGHT 
 
-            _connection.Write(JetBusCommands.LDW_DEAD_WEIGHT, scalZeroLoad_d);         // Zero point = LDW_DEAD_WEIGHT= "2110/06"
+            _connection.Write(JetBusCommands.LDW_DEAD_WEIGHT, scalZeroLoad_d);         // Zero point = LDW_DEAD_WEIGHT= "2110/06" 
 
             // write path 2110/07 - capacity/span = Nominal value = LWT_NOMINAL_VALUE        
 
@@ -324,7 +349,7 @@ namespace HBM.Weighing.API.WTX
         // This method sets the value for the nominal weight in the WTX.
         public override void Calibrate(int calibrationValue, string calibrationWeightStr)
         {
-            _connection.Write(JetBusCommands.LFT_SCALE_CALIBRATION_WEIGHT, calibrationValue);          // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
+            _connection.Write(JetBusCommands.LFT_SCALE_CALIBRATION_WEIGHT, calibrationValue);   // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
 
             _connection.Write(JetBusCommands.SCALE_COMMAND, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
 
@@ -336,45 +361,6 @@ namespace HBM.Weighing.API.WTX
 
             //this._isCalibrating = true;
         }
-
-
-        private void limitStatusBool()
-        {
-            switch (ProcessData.LimitStatus)
-            {
-                case 0: // Weight within limits
-                    ProcessData.Underload = false;
-                    ProcessData.Overload = false;
-                    ProcessData.weightWithinLimits = true;
-                    ProcessData.higherSafeLoadLimit = false;
-                    break;
-                case 1: // Lower than minimum
-                    ProcessData.Underload = true;
-                    ProcessData.Overload = false;
-                    ProcessData.weightWithinLimits = false;
-                    ProcessData.higherSafeLoadLimit = false;
-                    break;
-                case 2: // Higher than maximum capacity
-                    ProcessData.Underload = false;
-                    ProcessData.Overload = true;
-                    ProcessData.weightWithinLimits = false;
-                    ProcessData.higherSafeLoadLimit = false;
-                    break;
-                case 3: // Higher than safe load limit
-                    ProcessData.Underload = false;
-                    ProcessData.Overload = false;
-                    ProcessData.weightWithinLimits = false;
-                    ProcessData.higherSafeLoadLimit = true;
-                    break;
-                default: // Lower than minimum
-                    ProcessData.Underload = true;
-                    ProcessData.Overload = false;
-                    ProcessData.weightWithinLimits = false;
-                    ProcessData.higherSafeLoadLimit = false;
-                    break;
-            }
-        }
-
 
         public override void adjustZero()
         {

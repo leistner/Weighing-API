@@ -1,4 +1,4 @@
-﻿// <copyright file="JetBusConnection.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="DataFiller.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
@@ -280,7 +280,7 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateFillerDataJet(Dictionary<string, int> _data)
         {
-            _maxDosingTime = _data[JetBusCommands.MAXIMUM_DOSING_TIME];
+            _maxDosingTime = _data[JetBusCommands.MAXIMAL_DOSING_TIME];
             _meanValueDosingResults = _data[JetBusCommands.MEAN_VALUE_DOSING_RESULTS];
             _standardDeviation = _data[JetBusCommands.STANDARD_DEVIATION];
             _fineFlowCutOffPoint = _data[JetBusCommands.FINE_FLOW_CUT_OFF_POINT];
@@ -295,7 +295,7 @@ namespace HBM.Weighing.API.Data
             _upperToleranceLimit = _data[JetBusCommands.UPPER_TOLERANCE_LIMIT];
             _lowerToleranceLimit = _data[JetBusCommands.LOWER_TOLERANCE_LOMIT];
             _minimumStartWeight = _data[JetBusCommands.MINIMUM_START_WEIGHT];
-            _emptyWeight = _data[JetBusCommands.EMPTY_WEIGHT];
+            _emptyWeight = _data[JetBusCommands.EMPTY_WEIGHT_TOLERANCE];
             _tareDelay = _data[JetBusCommands.TARE_DELAY];
             _coarseFlowMonitoringTime = _data[JetBusCommands.COARSE_FLOW_MONITORING_TIME];
             _coarseFlowMonitoring = _data[JetBusCommands.COARSE_FLOW_MONITORING];
@@ -305,7 +305,7 @@ namespace HBM.Weighing.API.Data
             _valveControl = _data[JetBusCommands.VALVE_CONTROL];
             _emptyingMode = _data[JetBusCommands.EMPTYING_MODE];
             _delayTimeAfterFineFlow = _data[JetBusCommands.DELAY1_DOSING];
-            _activationTimeAfterFineFlow = _data[JetBusCommands.FINEFLOW_PHASE_BEFORE_COARSEFLOW];
+            _activationTimeAfterFineFlow = _data[JetBusCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW];
 
             // Undefined ID's: 
 
