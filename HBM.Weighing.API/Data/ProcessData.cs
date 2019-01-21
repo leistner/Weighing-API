@@ -145,17 +145,19 @@ namespace HBM.Weighing.API
             _scaleAlarmTriggered = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1);
             _limitStatus = (_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
 
+            
             _weightMoving = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4);
             _scaleSealIsOpen = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5);
             _manualTare = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6);
             _weightType = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7);
             _scaleRange = (_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
+            
             _zeroRequired = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10);
             _weightWithinTheCenterOfZero = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11);
             _weightInZeroRange = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12);
-
             _applicationMode = _data[JetBusCommands.APPLICATION_MODE];
             _applicationModeStr = this.ApplicationModeStr;
+            
             _decimals = _data[JetBusCommands.DECIMALS];
             _unit = (_data[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
 

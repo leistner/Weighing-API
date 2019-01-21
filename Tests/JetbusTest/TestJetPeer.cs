@@ -52,8 +52,6 @@ namespace JetbusTest
                 _connection._dataBuffer.Add("FRS1", simulateJTokenInstance("FRS1", "add", 1)["value"]);
                 _connection._dataBuffer.Add("NDS", simulateJTokenInstance("NDS", "add", 1)["value"]);
 
-                _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4C0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
-
                 _connection._dataBuffer.Add("6013/01", simulateJTokenInstance("6013/01", "add", 4)["value"]);   // Read 'Weight decimal point', f.e. = 4.
                 _connection._dataBuffer.Add("IM1", simulateJTokenInstance("IM1", "add", 1)["value"]);
                 _connection._dataBuffer.Add("IM2", simulateJTokenInstance("IM2", "add", 1)["value"]);
@@ -96,9 +94,44 @@ namespace JetbusTest
                 _connection._dataBuffer.Add("OSN", simulateJTokenInstance("OSN", "add", 1)["value"]);
                 _connection._dataBuffer.Add("FFL", simulateJTokenInstance("FFL", "add", 1)["value"]);
                 _connection._dataBuffer.Add("DL1", simulateJTokenInstance("DL1", "add", 1)["value"]);
-                _connection._dataBuffer.Add("6002/02", simulateJTokenInstance("6002/02", "add", 1801543519)["value"]); //StatusStringComment
-                _connection._dataBuffer.Add("2020/25", simulateJTokenInstance("2020/25", "add", 0xA)["value"]);   // 0xA(hex)=1010(binary) //Limit value status:
-                                                                                                                 
+                _connection._dataBuffer.Add("6002/02", simulateJTokenInstance("6002/02", "add", 1801543519)["value"]); // = Status
+                _connection._dataBuffer.Add("2020/25", simulateJTokenInstance("2020/25", "add", 0xA)["value"]);   // = Limit value status
+
+                _connection._dataBuffer.Add("2010/07", simulateJTokenInstance("2010/07", "add", 1)["value"]);
+
+                _connection._dataBuffer.Add("2020/18", simulateJTokenInstance("2020/18", "add", 0)["value"]);   // = Status digital input 1
+                _connection._dataBuffer.Add("2020/19", simulateJTokenInstance("2020/19", "add", 0)["value"]);   // = Status digital input 2
+                _connection._dataBuffer.Add("2020/1A", simulateJTokenInstance("2020/1A", "add", 0)["value"]);   // = Status digital input 3
+                _connection._dataBuffer.Add("2020/1B", simulateJTokenInstance("2020/1B", "add", 0)["value"]);   // = Status digital input 4
+
+                _connection._dataBuffer.Add("2020/1E", simulateJTokenInstance("2020/1E", "add", 0)["value"]);   // = Status digital output 1
+                _connection._dataBuffer.Add("2020/1F", simulateJTokenInstance("2020/1F", "add", 0)["value"]);   // = Status digital output 2
+                _connection._dataBuffer.Add("2020/20", simulateJTokenInstance("2020/20", "add", 0)["value"]);   // = Status digital output 3
+                _connection._dataBuffer.Add("2020/21", simulateJTokenInstance("2020/21", "add", 0)["value"]);   // = Status digital output 4
+
+                 _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4C0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+
+            // For the different unit cases : lb, g, kg, t
+            /*
+            switch (this.behavior)
+            {
+                case Behavior.t_UnitValue_Success:
+                    _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4C0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+                    break;
+                case Behavior.kg_UnitValue_Success:
+                    _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x020000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+                    break;
+                case Behavior.g_UnitValue_Success:
+                    _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4B0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+                    break;
+                case Behavior.lb_UnitValue_Success:
+                    _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0xA60000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+                    break;
+                default:
+                    _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4C0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+                    break;        
+            }
+            */
             JToken JTokenobj = simulateJTokenInstance(path,Event,data);
 
             id = null;
