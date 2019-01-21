@@ -146,5 +146,83 @@ namespace HBM.Weighing.API.WTX.Jet
 
         #endregion
 
+        #region All other ID commands for Operator, Administrator and Maintenance : 
+
+        public const string ERROR_REGISTER = "1001/00";
+        public const string SAVE_ALL_PARAMETERS = "1010/01";
+        public const string RESTORE_ALL_DEFAULT_PARAMETERS ="1011/01";
+        public const string VENDOR_ID ="1018/01";
+        public const string PRODUCT_CODE ="1018/02";
+        public const string SERIAL_NUMBER ="1018/04";
+        public const string IMPLEMENTED_PROFILE_SPECIFICATION = "1030/01";
+        public const string LC_CAPABILITY ="6001/01";
+        public const string WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER ="6015/01";
+
+        public const string WEIGHING_DEVICE_1_WEIGHT_STEP = "6016/01";
+        public const string ALARMS = "6018/01";
+        public const string WEIGHING_DEVICE_1_OUTPUT_WEIGHT = "601A/01";
+        public const string WEIGHING_DEVICE_1_SETTING = "6020/01";
+        public const string LOCAL_GRAVITY_FACTOR = "6021/01";
+        public const string SCALE_FILTER_SETUP = "6040/01";
+        public const string DATA_SAMPLE_RATE = "6050/01";
+        public const string FILTER_ORDER_CRITICALLY_DAMPED ="60A1/01";
+        public const string CUT_OFF_FREQUENCY_CRITICALLY_DAMPED = "60A1/02";
+        public const string FILTER_ORDER_BUTTERWORTH = "60A1/01";
+        public const string CUT_OFF_FREQUENCY_BUTTERWORTH = "60A2/02";
+        public const string FILTER_ORDER_BESSEL = "60B1/01";
+        public const string CUT_OFF_FREQUENCY_BESSEL = "60B1/02";
+        public const string SCALE_SUPPY_NOMINAL_VOLTAGE = "6110/01";
+        public const string SCALE_SUPPY_MINIMUM_VOLTAGE = "6110/02";
+        public const string SCALE_SUPPY_MAXIMUM_VOLTAGE = "6110/03";
+        public const string SCALE_ACCURACY_CLASS ="6111/01";
+        public const string SCALE_MINIMUM_DEAD_LOAD ="6112/01";
+        public const string SCALE_MAXIMUM_CAPACITY = "6113/01";
+        public const string SCALE_MAXIMUM_NUMBER_OF_VERIFICATION_INTERVAL = "6114/01";
+        public const string SCALE_APPORTIONMENT_FACTOR = "6116/01";
+        public const string SCALE_SAFE_LOAD_LIMIT ="6117/01";
+        public const string SCALE_OPERATION_NOMINAL_TEMPERATURE = "6118/01";
+        public const string SCALE_OPERATION_MINIMUM_TEMPERATURE = "6118/02";
+        public const string SCALE_OPERATION_MAXIMUM_TEMPERATURE = "6118/03";
+        public const string SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL = "611B/01";     
+        public const string INTERVAL_RANGE_CONTROL = "611C/01";
+        public const string MULTI_LIMIT_1 = "611C/02";
+        public const string MULTI_LIMIT_2 = "611C/03";
+        public const string OIML_CERTIFICAITON_INFORMATION = "6138/01";
+        public const string NTEP_CERTIFICAITON_INFORMATION = "6138/02";
+        public const string MAXIMUM_ZEROING_TIME = "6141/02";
+        public const string MAXIMUM_PEAK_VALUE_GROSS = "6149/01";
+        public const string MINIMUM_PEAK_VALUE_GROSS = "6149/02";
+        public const string MAXIMUM_PEAK_VALUE = "6149/03";
+        public const string MINIMUM_PEAK_VALUE = "6149/04";
+        public const string WEIGHT_MOVING_DETECTION = "6153/00";
+        public const string DEVICE_ADDRESS = "2600/00";
+
+        public const string HAREWARE_VERSION = "2520/0A"; // = Hardware Variante
+        public const string IDENTIFICATION = "2520/01";
+        public const string LIMIT_VALUE_MONITORING_LIV11 = "2030/01"; // = Grenzwertüberwachung
+        public const string SIGNAL_SOURCE_LIV12 = "2030/02";
+        public const string SWITCH_ON_LEVEL_LIV13 =  "2030/03";  // = Einschaltpegel
+        public const string SWTICH_OFF_LEVEL_LIV14 = "2030/04";  // = Ausschaltpegel
+        public const string LIMIT_VALUE_MONITORING_LIV21 = "2030/05";
+        public const string SIGNAL_SOURCE_LIV22 = "2030/06";
+        public const string SWITCH_ON_LEVEL_LIV23 = "2030/07";
+        public const string SWTICH_OFF_LEVEL_LIV24 = "2030/08";
+        public const string LIMIT_VALUE_MONITORING_LIV31 = "2030/09";
+        public const string SIGNAL_SOURCE_LIV32 = "2030/0A";
+        public const string SWITCH_ON_LEVEL_LIV33 = "2030/0B";
+        public const string SWTICH_OFF_LEVEL_LIV34 = "2030/0C";
+        public const string LIMIT_VALUE_MONITORING_LIV41 = "2030/0D";
+        public const string SIGNAL_SOURCE_LIV42 = "2030/0E";
+        public const string SWITCH_ON_LEVEL_LIV43 = "2030/0F";
+        public const string Ausschaltpegel_LIV44 = "2030/10";
+        public const string OUTPUT_SCALE = "2110/0A";
+        public const string FIRMWARE_DATE = "2520/05";
+        public const string RESET_TRIGGER = "2D00/04";
+        public const string STATE_DIGITAL_IO_EXTENDED = "2020/12";  //Zustand Digital-IO(erweitert)
+        public const string SOFTWARE_IDENTIFICATION = "2600/22";
+        public const string SOFTWARE_VERSION = "2600/16";
+        public const string DATE_TIME = "2E00/02";
+
+        #endregion
     }
 }

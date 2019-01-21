@@ -118,7 +118,7 @@ namespace HBM.Weighing.API.WTX.Jet
             this._user = User;
             this._password = Password;
 
-            _peer.Connect(OnConnectAuhtenticate, TimeoutMs);
+            _peer.Connect(OnConnectAuthenticate, TimeoutMs);
             WaitOne(2);
         }
 
@@ -132,7 +132,7 @@ namespace HBM.Weighing.API.WTX.Jet
         }
                      
 
-        private void OnConnectAuhtenticate(bool connected)
+        private void OnConnectAuthenticate(bool connected)
         {
             if (connected)
             {
@@ -209,7 +209,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
             dataArrived = true;
             
-            //IncomingDataReceived?.Invoke(this, null);  Hier???
+            IncomingDataReceived?.Invoke(this, null);  // For getting data already in the FetchAll() 
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)

@@ -1,5 +1,4 @@
-﻿/*
-
+﻿
 using HBM.Weighing.API;
 using HBM.Weighing.API.WTX;
 using HBM.Weighing.API.WTX.Jet;
@@ -9,7 +8,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 
 namespace JetbusTest
 {
@@ -122,7 +121,7 @@ namespace JetbusTest
             value = 0;
         }
 
-
+        
         [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
         public void test_StatusStringComment_OK(Behavior behavior)
         {
@@ -132,13 +131,15 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            value = _wtxObj.Status;
+            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
 
-            string Strvalue = _wtxObj.StatusStringComment(value);
+            value = _wtxObj.ProcessData.Status;
+
+            string Strvalue = _wtxObj.StatusStringComment();
             
             Assert.AreEqual("Execution OK!", Strvalue);
         }
-
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
         public void test_StatusStringComment_ONGO(Behavior behavior)
         {
@@ -198,7 +199,7 @@ namespace JetbusTest
 
             value = 860184415;
 
-            string Strvalue = _wtxObj.StatusStringComment(value);
+            string Strvalue = _wtxObj.ProcessData.StatusStringComment(value);
 
             Assert.AreEqual("Error 3, E3", Strvalue);
         }
@@ -218,20 +219,25 @@ namespace JetbusTest
 
             Assert.AreEqual("Invalid status", Strvalue);
         }
+        */
 
+        private int _grossValue = 0;
+        private int _decimals = 0;
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_4D_TestCase")]
         public void test_NetGrossValueStringComment_4Decimals(Behavior behavior)
         {
-             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+             TestJetbusConnection _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-             _wtxObj = new WtxJet(_jetTestConnection,update);
+             WtxJet _wtxObj = new WtxJet(_jetTestConnection, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue=_wtxObj.CurrentWeight(_wtxObj.GrossValue,_wtxObj.Decimals);
+            _wtxObj.OnData(this,new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
 
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, _wtxObj.Decimals);
+            string strValue=_wtxObj.CurrentWeight(_grossValue, _decimals);
+
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, _wtxObj.ProcessData.Decimals);
 
             Assert.AreEqual(dValue.ToString("0.0000"), strValue);
         }
@@ -245,9 +251,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 3);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 3);
 
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 3);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 3);
 
             Assert.AreEqual(dValue.ToString("0.000"), strValue);
         }
@@ -261,9 +267,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 2);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 2);
 
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 2);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 2);
 
             Assert.AreEqual(dValue.ToString("0.00"), strValue);
         }
@@ -277,9 +283,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 1);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 1);
 
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 1);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 1);
 
             Assert.AreEqual(dValue.ToString("0.0"), strValue);
         }
@@ -293,9 +299,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 5);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 5);
 
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 5);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 5);
 
             Assert.AreEqual(dValue.ToString("0.00000"), strValue);
         }
@@ -309,9 +315,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 6);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 6);
 
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 6);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 6);
 
             Assert.AreEqual(dValue.ToString("0.000000"), strValue);
         }
@@ -325,9 +331,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 7);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 7);
 
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 7);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 7);
 
             Assert.AreEqual(dValue.ToString(), strValue);
         }
@@ -341,9 +347,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.GrossValue, 0);
+            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 0);
 
-            double dValue = _wtxObj.GrossValue / Math.Pow(10, 0);
+            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 0);
 
             Assert.AreEqual(dValue.ToString(), strValue);
         }
@@ -358,16 +364,18 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            value = _wtxObj.Unit;
+            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+
+            value = _wtxObj.ProcessData.Unit;
 
             Assert.AreEqual("t", _wtxObj.UnitStringComment());
         }
 
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
-            //throw new NotImplementedException();
+            _grossValue = e.ProcessData.GrossValue;
+            _decimals =   e.ProcessData.Decimals;
         }
-
         /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "KG_UnitValueTestCases")]
         public void testUnit_kg(Behavior behavior)
@@ -378,7 +386,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            value = _wtxObj.Unit;
+            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+
+            value = _wtxObj.ProcessData.Unit;
 
             Assert.AreEqual("kg", _wtxObj.UnitStringComment());
         }
@@ -392,7 +402,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            value = _wtxObj.Unit;
+            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+
+            value = _wtxObj.ProcessData.Unit;
 
             Assert.AreEqual("g", _wtxObj.UnitStringComment());
         }
@@ -406,11 +418,13 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            value = _wtxObj.Unit;
+            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+
+            value = _wtxObj.ProcessData.Unit;
 
             Assert.AreEqual("lb", _wtxObj.UnitStringComment());
         }
-
+        
         [Test, TestCaseSource(typeof(CommentMethodsTests), "LB_UnitValueTestCases")]
         public void testUnit_default(Behavior behavior)
         {
@@ -420,14 +434,16 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            value = _wtxObj.Unit;
+            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+
+            value = _wtxObj.ProcessData.Unit;
 
             Assert.AreEqual("error", _wtxObj.UnitStringComment());
         }
+        */
         private void OnConnect(bool obj)
         {
             throw new NotImplementedException();
         }
     }
 }
-*/
