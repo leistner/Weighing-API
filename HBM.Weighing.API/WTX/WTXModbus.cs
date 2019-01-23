@@ -30,6 +30,7 @@
 using HBM.Weighing.API.Data;
 using System;
 using System.ComponentModel;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 
@@ -81,6 +82,9 @@ namespace HBM.Weighing.API.WTX
 
             // For the connection and initializing of the timer:            
             this.initialize_timer(paramTimerInterval);
+
+            this.DataFiller = new DataFiller();
+            this.DataStandard = new DataStandard();
         }
         #endregion
 
@@ -137,17 +141,18 @@ namespace HBM.Weighing.API.WTX
 
         #region Write methods
         // This method writes a data word to the WTX120 device synchronously. 
-        public void WriteSync(ushort wordNumber, ushort commandParam)
+        private void WriteSync(ushort wordNumber, ushort commandParam)
         {
             int dataWord = 0x00;
             int handshakeBit = 0;
 
             this._command = commandParam;
 
-            if (this._command == 0x00)
-                dataWord = this._connection.Read(5);
+            //if (this._command == 0x00)        ???
+            //    dataWord = this._connection.Read(5);
 
-            else
+            //else
+
             {
                 // (1) Sending of a command:        
                 this._connection.Write(wordNumber, this._command);
@@ -181,28 +186,30 @@ namespace HBM.Weighing.API.WTX
         {
             get { return this._command; }
         }
+
         
-        public void WriteOutputWordS32(int valueParam, ushort wordNumber)
+        private void WriteOutputWordS32(int valueParam, ushort wordNumber)
         {
             _dataWritten[0] = (ushort)((valueParam & 0xffff0000) >> 16);
             _dataWritten[1] = (ushort)(valueParam & 0x0000ffff);
 
             this._connection.WriteArray(wordNumber, _dataWritten);
         }
-
-        public void WriteOutputWordU08(int valueParam, ushort wordNumber)
+        /*
+        private void WriteOutputWordU08(int valueParam, ushort wordNumber)
         {
             _dataWritten[0] = (ushort)((valueParam & 0x000000ff));
             this._connection.Write(wordNumber, _dataWritten[0]);
         }
-
+        */
+        /*
         public void WriteOutputWordU16(int valueParam, ushort wordNumber)
         {
             _dataWritten[0] = (ushort)((valueParam & 0xffff0000) >> 16);
 
             this._connection.Write(wordNumber, _dataWritten[0]);
         }
-
+        */
         public async Task<int> AsyncWrite(ushort index, ushort commandParam)
         {
             if (isConnected)
@@ -215,31 +222,32 @@ namespace HBM.Weighing.API.WTX
             else
                 return 0;
         }
-
+        /// <summary>
+        /// Handshake protocol as given in the manual
+        /// </summary>
+        /// <param name="index"></param>
         private void DoHandshake(ushort index)
         {
             int handshakeBit = 0;
             int dataWord = 0x00;
-
-            // Handshake protocol as given in the manual:                            
+                       
             do
             {
                 dataWord = this._connection.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
-
-            } while (ProcessData.Handshake == false);
-
-            // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
-            if (handshakeBit == 1)
-            {
-                this._connection.Write(index, 0x00);
+                Thread.Sleep(50);
             }
+            while (handshakeBit == 0);
+            
+            this._connection.Write(index, 0x00);
 
-            while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
+            do
             {
                 dataWord = this._connection.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
+                Thread.Sleep(50);
             }
+            while (handshakeBit == 1);
         }
 
         #endregion
@@ -314,6 +322,9 @@ namespace HBM.Weighing.API.WTX
             }
         }
         #endregion
+
+        public DataStandard DataStandard { get; set; }
+        public DataFiller DataFiller { get; set; }
 
         int _previousNetValue = 0;
 

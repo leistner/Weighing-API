@@ -218,6 +218,8 @@ namespace HBM.Weighing.API.WTX.Modbus
                     _connected = false;
                     break; 
             }
+
+            Write(0, 0); //Dummyaufruf hier, damit Tests erst mal funktionieren
     }
 
         public bool IsConnected

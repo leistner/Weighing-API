@@ -404,7 +404,7 @@ namespace WTXModbusExamples
                 if (inputStr != "0")
                 {
                     valueArr[_i] = (ushort)Convert.ToInt32(dataGridView1.Rows[index].Cells[6].Value);
-
+                    /* Ändern in direkte Zugriffe auf die Properties!
                     if (dataGridView1.Rows[index].Cells[9].Value.ToString()=="S32")
                         _wtxDevice.WriteOutputWordS32(valueArr[_i], (ushort)Convert.ToInt32(dataGridView1.Rows[index].Cells[6].Value));
                     else
@@ -412,6 +412,7 @@ namespace WTXModbusExamples
                             _wtxDevice.WriteOutputWordU08(valueArr[_i], (ushort)Convert.ToUInt16(dataGridView1.Rows[index].Cells[6].Value));           
                     else if (dataGridView1.Rows[index].Cells[9].Value.ToString() == "U16")
                               _wtxDevice.WriteOutputWordU16(valueArr[_i], (ushort)Convert.ToUInt16(dataGridView1.Rows[index].Cells[6].Value));
+                    */
                     
                 }
             }
@@ -651,6 +652,7 @@ namespace WTXModbusExamples
                     */
                 } // end - if (inputFormatIsRight == true)
 
+                /* Ändern in direkte Zugriffe auf die Properties
                 if (dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString() == "S32")
                     _wtxDevice.WriteOutputWordS32(value, index);
 
@@ -659,6 +661,7 @@ namespace WTXModbusExamples
 
                 if (dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString() == "U16")
                     _wtxDevice.WriteOutputWordU16(value, index);
+                */
             }
 
             // Test Activate Data after the write of an output word: 

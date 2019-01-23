@@ -37,6 +37,10 @@ namespace HBM.Weighing.API.WTX
 {
     public class WtxJet : BaseWtDevice
     {
+        public IDataStandard DataStandard { get; set; }
+        public IDataFillerExtended DataFillerExtended { get; set; }
+        
+
         #region Constants
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)   
 
@@ -66,7 +70,10 @@ namespace HBM.Weighing.API.WTX
             
             this.ProcessDataReceived += OnProcessData;
 
-            _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.                          
+            _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.   
+
+            DataStandard = new DataStandard();
+            DataFillerExtended = new DataFillerExtended();
         }
         #endregion
 
@@ -116,8 +123,8 @@ namespace HBM.Weighing.API.WTX
             // Update data for filler mode:
             if (ProcessData.ApplicationModeStr == "Filler")
             {
-                if (ProcessData.ApplicationModeStr == "Filler")
-                    DataFiller.UpdateFillerDataJet(_connection.AllData);
+                //if (ProcessData.ApplicationModeStr == "Filler")
+                //    DataFiller.UpdateFillerDataJet(_connection.AllData);
 
                 // Update data for filler extended mode:
                 if (ProcessData.ApplicationModeStr == "Filler Extended")

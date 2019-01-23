@@ -41,6 +41,7 @@ namespace HBM.Weighing.API
     /// </summary>
     public interface IDataFillerExtended : IDataFiller
     {
+        /*
         #region Output words for the data of filler extended mode
 
         int ResidualFlowTime { get;  set; }
@@ -77,7 +78,7 @@ namespace HBM.Weighing.API
         int EmptyingMode { get;  set; }
 
         #endregion 
-
+        */
         #region Update methods for the data of filler extended mode
 
         void UpdateFillerExtendedDataModbus(ushort[] _dataParam);

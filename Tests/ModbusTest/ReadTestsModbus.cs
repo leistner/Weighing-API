@@ -160,7 +160,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxDevice.Connect(this.OnConnect, 100);
 
-            _wtxDevice.WriteSync(0, 0x1);
+            //_wtxDevice.WriteSync(0, 0x1);
 
             return _wtxDevice.ProcessData.Handshake;
         }

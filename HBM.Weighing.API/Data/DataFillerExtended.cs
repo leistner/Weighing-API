@@ -44,7 +44,8 @@ namespace HBM.Weighing.API.Data
         #region privates
 
         private ushort[] _data;
-
+        /*
+                private int _alarm;
                 private int _residualFlowTime;
                 private int _targetFillingWeight;
                 private int _coarseFlowCutOffPointSet;
@@ -77,13 +78,13 @@ namespace HBM.Weighing.API.Data
 
                 private int _valveControl;
                 private int _emptyingMode;
-
+                */
         #endregion
 
         #region constructor
 
         public DataFillerExtended()
-        {
+        {/*
             _residualFlowTime=0;
             _targetFillingWeight=0;
             _coarseFlowCutOffPointSet=0;
@@ -116,6 +117,7 @@ namespace HBM.Weighing.API.Data
 
             _valveControl=0;
             _emptyingMode=0;
+            */
          }
 
         #endregion
@@ -135,8 +137,12 @@ namespace HBM.Weighing.API.Data
         }
 
         #endregion
-
+        /*
         #region Properties for the filler extended data
+        public int Alarm
+        {
+            get { return _alarm; }
+        }
 
         public int ResidualFlowTime
         {
@@ -269,6 +275,6 @@ namespace HBM.Weighing.API.Data
             set { this._emptyingMode = value; }
         }
         #endregion
-
+        */
     }
 }

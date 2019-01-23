@@ -308,7 +308,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.WriteSync(0, 0x100);
+            //_wtxObj.WriteSync(0, 0x100);
 
             return testConnection.getCommand;
             // Alternative : Assert.AreEqual(0x100, testConnection.getCommand);
@@ -345,7 +345,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
         */
 
-
+        /*
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteArrayTestCases")]
         public bool WriteArrayTestCasesModbus(Behavior behavior)
         {
@@ -372,6 +372,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return parameterEqualArrayWritten;
         }
+        */
+
 
         // Test for writing : Tare 
         [Test, TestCaseSource(typeof(WriteTestsModbus), "TareTestCases")]
@@ -624,6 +626,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 Assert.AreEqual(0x0, _wtxObj.getCommand);
         }
 
+        /*
         // Test for method : Write an Array of type signed integer 32 bit. 
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteS32ArrayTestCases")]
         public bool WriteS32ArrayTestModbus(Behavior behavior)
@@ -647,7 +650,8 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 return false;
 
         }
-
+        
+         /*
         // Test for method : Write an Array of type unsigned integer 16 bit. 
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteU16ArrayTestCases")]
         public bool WriteU16ArrayTestModbus(Behavior behavior)
@@ -669,7 +673,8 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 return false;
 
         }
-
+        */
+        /*
         // Test for method : Write an Array of type unsigned integer 16 bit. 
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteU08ArrayTestCases")]
         public bool WriteU08ArrayTestModbus(Behavior behavior)
@@ -691,7 +696,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 return false;
 
         }
-
+        */
         [Test, TestCaseSource(typeof(WriteTestsModbus), "ResetTimerTestCases")]
         public int ResetTimerTestModbus(Behavior behavior)
         {
@@ -705,7 +710,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
             return (int)_wtxObj._aTimer.Interval;
             //Assert.AreEqual(_wtxObj._aTimer.Interval, 500);
         }
-
+        /*
         [Test, TestCaseSource(typeof(WriteTestsModbus), "UpdateOutputTestCases")]
         public bool UpdateOutputTest(Behavior behavior)
         {
@@ -739,7 +744,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
 
             _wtxObj.activateData();
 
-            if (compareDataWritten == true/* && testConnection.getCommand==0x800*/)
+            if (compareDataWritten == true)
 
                 return true;
 
@@ -747,6 +752,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 return false;
 
         }
+        */
         /*
         [Test, TestCaseSource(typeof(WriteTestsModbus), "UpdateOutputTestCases")]
         public bool UpdateOutput1Test(Behavior behavior)

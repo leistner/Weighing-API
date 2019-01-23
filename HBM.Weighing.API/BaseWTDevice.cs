@@ -34,16 +34,11 @@ namespace HBM.Weighing.API
 {
     public abstract class BaseWtDevice
     {
-        #region attributes
+        #region Attributes
 
         protected INetConnection _connection;
 
         private IProcessData _processData;
-        private IDataStandard _dataStandard;
-        private IDataFiller _dataFiller;
-        private IDataFillerExtended _dataFillerExtended;
-
-        //delegate void ProcessDataReceivedEventHandler(object source, ProcessDataReceivedEventArgs args);
 
         /// Eventhandler to raise an event and commit the data to the GUI/application from WTXJet and WTXModbus
         public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
@@ -55,10 +50,6 @@ namespace HBM.Weighing.API
         public BaseWtDevice(INetConnection connection) : base()
         {
             _processData = new ProcessData();
-
-            _dataStandard = new DataStandard();
-            _dataFiller = new DataFiller();
-            _dataFillerExtended = new DataFillerExtended();
 
             this._connection = connection;
         }
@@ -83,30 +74,6 @@ namespace HBM.Weighing.API
             get
             {
                 return _processData;
-            }
-        }
-
-        public IDataStandard DataStandard
-        {
-            get
-            {
-                return _dataStandard;
-            }
-        }
-
-        public IDataFiller DataFiller
-        {
-            get
-            {
-                return _dataFiller;
-            }
-        }
-
-        public IDataFillerExtended DataFillerExtended
-        {
-            get
-            {
-                return _dataFillerExtended;
             }
         }
         #endregion
