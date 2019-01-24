@@ -116,19 +116,15 @@ namespace HBM.Weighing.API.WTX
         {
             // Update data for standard mode:
             DataStandard.UpdateStandardDataJet(_connection.AllData);
-
+          
             // Update process data : 
             ProcessData.UpdateProcessDataJet(_connection.AllData);
 
             // Update data for filler mode:
-            if (ProcessData.ApplicationModeStr == "Filler")
+            if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)
             {
-                //if (ProcessData.ApplicationModeStr == "Filler")
-                //    DataFiller.UpdateFillerDataJet(_connection.AllData);
-
                 // Update data for filler extended mode:
-                if (ProcessData.ApplicationModeStr == "Filler Extended")
-                    DataFillerExtended.UpdateFillerExtendedDataJet(_connection.AllData);
+                DataFillerExtended.UpdateFillerExtendedDataJet(_connection.AllData);
             }
 
             // Do something with the data, like in the class WTXModbus.cs           
@@ -136,7 +132,6 @@ namespace HBM.Weighing.API.WTX
         }
 
         #endregion
-
 
         #region Identification
         public override string ConnectionType
@@ -205,6 +200,18 @@ namespace HBM.Weighing.API.WTX
             return returnvalue;
         }
 
+        public override string ApplicationModeStringComment()
+        {
+            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
+                return "Standard";
+            else
+
+                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)
+                return "Filler";
+            else
+
+                return "error";
+        }
 
         public override string UnitStringComment()
         {
@@ -271,19 +278,6 @@ namespace HBM.Weighing.API.WTX
                 default:
                     return "Invalid status";
             }
-        }
-
-        public override string ApplicationModeStringComment()
-        {
-            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
-                return "Standard";
-            else
-
-                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)
-                return "Filler";
-            else
-
-                return "error";
         }
 
         #endregion

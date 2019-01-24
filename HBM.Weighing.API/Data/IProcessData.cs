@@ -62,7 +62,6 @@ namespace HBM.Weighing.API
         bool WeightInZeroRange { get; }// = Inside zero (OPC-UA Standard)
 
         int ApplicationMode { get; }
-        string ApplicationModeStr { get; }
         int Decimals { get; }
         int Unit { get; }
 

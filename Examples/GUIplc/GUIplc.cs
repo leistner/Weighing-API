@@ -107,22 +107,6 @@ namespace WTXModbusExamples
                 MessageBox.Show("Bitte geben sie unter 'Edit->Settings' die IP-Adresse ein und auf 'File->Start' für einen Verbindungsaufbau. Es wird mit der 'Default IP-Adresse' fortgefahren." +
                                 "Kein Timer-Intervall in der Kommandozeile gegeben, bitte unter Edit->Settings einfügen. Es wird einem Timer-Intervall von 100 msec. fortgefahren.");
 
-            /*
-             Connection establishment : 
-             Create objects of ModbusTcpConnection and WtxModbus to establish a connection.
-            */
-
-            ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
-            _wtxDevice = new WtxModbus(_connection, this._timerInterval,Update);
-
-            _isStandard = true;      // change between standard and application mode in the GUI. 
-            _ApplicationModeStr = "Standard";
-
-            startToolStripMenuItem_Click(this, new EventArgs());
-
-            _startIndex = 8;   // Default setting for standard mode. 
-            _i = 0;
-            _arrayLength = 0;
         }
 
         public void setTimerInterval(int timerIntervalParam)
@@ -133,7 +117,22 @@ namespace WTXModbusExamples
         // This method could also load the datagrid at the beginning of the application: For printing the datagrid on the beginning.
         private void GUI_Load_1(object sender, EventArgs e)
         {
+                /*
+                Connection establishment : 
+                Create objects of ModbusTcpConnection and WtxModbus to establish a connection.
+                */
 
+                ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
+                _wtxDevice = new WtxModbus(_connection, this._timerInterval, Update);
+
+                _isStandard = true;      // change between standard and application mode in the GUI. 
+                _ApplicationModeStr = "Standard";
+
+                startToolStripMenuItem_Click(this, new EventArgs());
+
+                _startIndex = 8;   // Default setting for standard mode. 
+                _i = 0;
+                _arrayLength = 0;
         }
         
         // This method is called from the constructor and sets the columns and the rows of the data grid.
@@ -680,7 +679,7 @@ namespace WTXModbusExamples
         /// <param name="e"></param>
         private void Update(object sender, ProcessDataReceivedEventArgs e)
         {
-                this._ApplicationModeStr = e.ProcessData.ApplicationModeStr;
+            this._ApplicationModeStr = _wtxDevice.ApplicationModeStringComment(); 
 
                 if (_wtxDevice.Connection.IsConnected == true)
                     toolStripStatusLabel1.Text = "Connected";
@@ -709,7 +708,7 @@ namespace WTXModbusExamples
                     dataGridView1.Rows[10].Cells[6].Value = e.ProcessData.ZeroRequired;
                     dataGridView1.Rows[11].Cells[6].Value = e.ProcessData.WeightWithinTheCenterOfZero;
                     dataGridView1.Rows[12].Cells[6].Value = e.ProcessData.WeightInZeroRange;
-                    dataGridView1.Rows[13].Cells[6].Value = e.ProcessData.ApplicationModeStr;
+                    dataGridView1.Rows[13].Cells[6].Value = _wtxDevice.ApplicationModeStringComment();
                     dataGridView1.Rows[14].Cells[6].Value = e.ProcessData.Decimals;
                     dataGridView1.Rows[15].Cells[6].Value = e.ProcessData.Unit;
                     dataGridView1.Rows[16].Cells[6].Value = e.ProcessData.Handshake;

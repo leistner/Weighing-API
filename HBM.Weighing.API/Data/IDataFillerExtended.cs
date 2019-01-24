@@ -41,47 +41,102 @@ namespace HBM.Weighing.API
     /// </summary>
     public interface IDataFillerExtended : IDataFiller
     {
-        /*
         #region Output words for the data of filler extended mode
 
-        int ResidualFlowTime { get;  set; }
-        int TargetFillingWeight { get;  set; }
-        int CoarseFlowCutOffPointSet { get;  set; }
-        int FineFlowCutOffPointSet { get;  set; }
+        int ErrorRegister { get; set; }
+        int SaveAllParameters { get; set; }
+        int RestoreAllDefaultParameters { get; set; }
+        int VendorID { get; set; }
+        int ProductCode { get; set; }
+        int SerialNumber { get; set; }
+        int ImplementedProfileSpecification { get; set; }
+        int LcCapability { get; set; }
+        int WeighingDevice1UnitPrefixOutputParameter{ get; set; }
+        
+        int WeighingDevice1WeightStep { get; set; }
+        int Alarms { get; set; }
+        int WeighingDevice1OutputWeight { get; set; }
+        int WeighingDevice1Setting { get; set; }
+        int LocalGravityFactor { get; set; }
+        int ScaleFilterSetup { get; set; }
+        int DataSampleRate { get; set; }
+        int FilterOrderCriticallyDamped { get; set; }
+        int CutOffFrequencyCriticallyDamped { get; set; }
+        int FilterOrderButterworth { get; set; }
+        int CutOffFrequencyButterWorth { get; set; }
+        int FilterOrderBessel { get; set; }
+        int CutOffFrequencyBessel { get; set; }
+        int ScaleSupplyNominalVoltage { get; set; }
+        int ScaleSupplyMinimumVoltage { get; set; }
+        int ScaleSupplyMaximumVoltage { get; set; }
+        int ScaleAccuracyClass { get; set; }
+        int ScaleMinimumDeadLoad { get; set; }
+        int ScaleMaximumCapacity { get; set; }
+        
+        int ScaleMaximumNumberVerificationInterval { get; set; }
+        int ScaleApportionmentFactor { get; set; }
+        int ScaleSafeLoadLimit { get; set; }
+        int ScaleOperationNominalTemperature { get; set; }
+        int ScaleOperationMinimumTemperature { get; set; }
+        int ScaleOperationMaximumTemperature { get; set; }
+        int ScaleRelativeMinimumLoadCellVerficationInterval { get; set; }
+        int IntervalRangeControl { get; set; }
+        int MultiLimit1 { get; set; }
+        int MultiLimit2 { get; set; }
+        int OimlCertificationInformation { get; set; }
+        int NtepCertificationInformation { get; set; }
+        int MaximumZeroingTime { get; set; }
+        int MaximumPeakValueGross { get; set; }
+        int MinimumPeakValueGross { get; set; }
 
-        int MinimumFineFlow { get;  set; }
-        int OptimizationOfCutOffPoints { get;  set; }
-        int MaximumDosingTime { get;  set; }
-        int StartWithFineFlow { get;  set; }
+        int MaximumPeakValue { get; set; }
+        int MinimumPeakValue { get; set; }
+        int WeightMovingDetection{ get; set; }
+        int DeviceAddress { get; set; }
 
-        int CoarseLockoutTime { get;  set; }
-        int FineLockoutTime { get;  set; }
-        int TareMode { get;  set; }
-        int UpperToleranceLimit { get;  set; }
+        int HardwareVersion { get; set; }           // = Hardware Variante
+        int Identification { get; set; }
+        int LimitValueMonitoringLIV11 { get; set; } // = Grenzwertüberwachung
+        int SignalSourceLIV12 { get; set; }
+        int SwitchOnLevelLIV13 { get; set; }        // = Einschaltpegel
+        int SwitchOffLevelLIV14 { get; set; }       // = Ausschaltpegel
+        int LimitValueMonitoringLIV21 { get; set; }
+        int SignalSourceLIV22 { get; set; }
+        int SwitchOnLevelLIV23 { get; set; } 
+        int SwitchOffLevelLIV24 { get; set; }
+        
+        int LimitValueMonitoringLIV31 { get; set; } 
+        int SignalSourceLIV32 { get; set; }
+        int SwitchOnLevelLIV33 { get; set; }
+        int SwitchOffLevelLIV34 { get; set; } 
+        int LimitValueMonitoringLIV41 { get; set; }
+        int SignalSourceLIV42 { get; set; }
+        int SwitchOnLevelLIV43 { get; set; } 
+        int SwitchOffLevelLIV44 { get; set; } 
+        int OutputScale { get; set; }
+        int FirmwareDate { get; set; }
+        int ResetTrigger { get; set; }
+        int StateDigital_IO_Extended { get; set; }  //Zustand Digital-IO(erweitert)
+        int SoftwareIdentification { get; set; }
+        int SoftwareVersion { get; set; }
+        int DateTime { get; set; }
 
-        int LowerToleranceLimit { get;  set; }
-        int MinimumStartWeight { get;  set; }
-        int EmptyWeight { get;  set; }
-        int TareDelay { get;  set; }
+        int BreakDosing { get; set; }
+        int DeleteDosingResult { get; set; }
+        int MaterialStreamLastDosing { get; set; }
+        int Sum { get; set; }
+        int SpecialDosingFunctions { get; set; }
+        int DischargeTime { get; set; }
+        int ExceedingWeightBreak { get; set; }
+        int Delay1Dosing { get; set; }
+        int Delay2Dosing { get; set; }
+        int EmptyWeightTolerance { get; set; }
+        int ResidualFlowDosingCycle { get; set; }
 
-        int CoarseFlowMonitoringTime { get;  set; }
-        int CoarseFlowMonitoring { get;  set; }
-        int FineFlowMonitoring { get;  set; }
-        int FineFlowMonitoringTime { get;  set; }
+        #endregion
 
-        int DelayTimeAfterFineFlow { get;  set; }
-        int ActivationTimeAfterFineFlow { get;  set; }
-        int SystematicDifference { get;  set; }
-        int DownwardsDosing { get;  set; }
-
-        int ValveControl { get;  set; }
-        int EmptyingMode { get;  set; }
-
-        #endregion 
-        */
         #region Update methods for the data of filler extended mode
-
-        void UpdateFillerExtendedDataModbus(ushort[] _dataParam);
+        
         void UpdateFillerExtendedDataJet(Dictionary<string, int> _dataParam);
 
         #endregion
