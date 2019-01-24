@@ -121,7 +121,7 @@ namespace JetbusTest
             value = 0;
         }
 
-        
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
         public void test_StatusStringComment_OK(Behavior behavior)
         {
@@ -139,6 +139,7 @@ namespace JetbusTest
             
             Assert.AreEqual("Execution OK!", Strvalue);
         }
+        */
         /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
         public void test_StatusStringComment_ONGO(Behavior behavior)
@@ -224,6 +225,7 @@ namespace JetbusTest
         private int _grossValue = 0;
         private int _decimals = 0;
 
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_4D_TestCase")]
         public void test_NetGrossValueStringComment_4Decimals(Behavior behavior)
         {
@@ -241,6 +243,7 @@ namespace JetbusTest
 
             Assert.AreEqual(dValue.ToString("0.0000"), strValue);
         }
+        */
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_3D_TestCase")]
         public void test_NetGrossValueStringComment_3Decimals(Behavior behavior)
@@ -354,7 +357,7 @@ namespace JetbusTest
             Assert.AreEqual(dValue.ToString(), strValue);
         }
 
-
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "T_UnitValueTestCases")]
         public void testUnit_t(Behavior behavior)
         {
@@ -370,6 +373,7 @@ namespace JetbusTest
 
             Assert.AreEqual("t", _wtxObj.UnitStringComment());
         }
+        */
 
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {

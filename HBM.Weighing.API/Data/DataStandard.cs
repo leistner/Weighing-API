@@ -96,7 +96,24 @@ namespace HBM.Weighing.API.Data
 
         private int _calibrationWeight;
         private int _zeroLoad;
-        private int _nomnialLoad; 
+        private int _nomnialLoad;
+
+        private int _limitValueMonitoringLIV11;
+        private int _signalSourceLIV12;
+        private int _switchOnLevelLIV13;
+        private int _switchOffLevelLIV14;
+        private int _limitValueMonitoringLIV21;
+        private int _signalSourceLIV22;
+        private int _switchOnLevelLIV23;
+        private int _switchOffLevelLIV24;
+        private int _limitValueMonitoringLIV31;
+        private int _signalSourceLIV32;
+        private int _switchOnLevelLIV33;
+        private int _switchOffLevelLIV34;
+        private int _limitValueMonitoringLIV41;
+        private int _signalSourceLIV42;
+        private int _switchOnLevelLIV43;
+        private int _switchOffLevelLIV44;
 
         #endregion
 
@@ -152,7 +169,24 @@ namespace HBM.Weighing.API.Data
             _zeroLoad=0;
             _nomnialLoad=0;
 
-    }
+            _limitValueMonitoringLIV11 = 0;
+            _signalSourceLIV12 = 0;
+            _switchOnLevelLIV13 = 0;
+            _switchOffLevelLIV14 = 0;
+            _limitValueMonitoringLIV21 = 0;
+            _signalSourceLIV22 = 0;
+            _switchOnLevelLIV23 = 0;
+            _switchOffLevelLIV24 = 0;
+            _limitValueMonitoringLIV31 = 0;
+            _signalSourceLIV32 = 0;
+            _switchOnLevelLIV33 = 0;
+            _switchOffLevelLIV34 = 0;
+            _limitValueMonitoringLIV41 = 0;
+            _signalSourceLIV42 = 0;
+            _switchOnLevelLIV43 = 0;
+            _switchOffLevelLIV44 = 0;
+
+        }
 
     #endregion
 
@@ -202,6 +236,26 @@ namespace HBM.Weighing.API.Data
             _limitStatus2 = (_data[JetBusCommands.LIMIT_VALUE] & 0x2) >> 1;
             _limitStatus3 = (_data[JetBusCommands.LIMIT_VALUE] & 0x4) >> 2;
             _limitStatus4 = (_data[JetBusCommands.LIMIT_VALUE] & 0x8) >> 3;
+
+            _limitValueMonitoringLIV11 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV11];
+            _signalSourceLIV12 = _data[JetBusCommands.SIGNAL_SOURCE_LIV12];
+            _switchOnLevelLIV13 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV13];
+            _switchOffLevelLIV14 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV14];
+
+            _limitValueMonitoringLIV21 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV21];
+            _signalSourceLIV22 = _data[JetBusCommands.SIGNAL_SOURCE_LIV22];
+            _switchOnLevelLIV23 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV23];
+            _switchOffLevelLIV24 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV24];
+
+            _limitValueMonitoringLIV31 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV31];
+            _signalSourceLIV32 = _data[JetBusCommands.SIGNAL_SOURCE_LIV32];
+            _switchOnLevelLIV33 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV33];
+            _switchOffLevelLIV34 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV34];
+
+            _limitValueMonitoringLIV41 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV41];
+            _signalSourceLIV42 = _data[JetBusCommands.SIGNAL_SOURCE_LIV42];
+            _switchOnLevelLIV43 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV43];
+            _switchOffLevelLIV44 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV44];
         }
 
         #endregion
