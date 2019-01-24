@@ -342,7 +342,7 @@ namespace HBM.Weighing.API.WTX
             this._previousNetValue = ProcessData.NetValue;
 
             // Update process data : 
-            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
+            if (_applicationMode == ApplicationMode.Standard)
             {
                 ProcessData.UpdateProcessDataModbus(_data);
             }

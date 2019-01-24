@@ -117,8 +117,8 @@ namespace HBM.Weighing.API.WTX
         public void OnData(object sender, ProcessDataReceivedEventArgs e)
         {
             // Update data for standard mode:
-            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
-            {
+            if (_applicationMode == ApplicationMode.Standard)
+            { 
                 DataStandard.UpdateStandardDataJet(_connection.AllData);
             }
             // Update process data : 

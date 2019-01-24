@@ -32,7 +32,12 @@ using System;
 
 namespace HBM.Weighing.API
 {
-    public enum ApplicationMode { Standard, Filler};
+    public enum ApplicationMode
+    {
+        Standard = 0,
+        Checkweigher = 1,
+        Filler = 2
+    };
 
     public abstract class BaseWtDevice
     {
@@ -110,7 +115,9 @@ namespace HBM.Weighing.API
         public abstract void Tare();
 
         public abstract void adjustZero();
+
         public abstract void adjustNominal();
+
         public abstract void activateData();
         public abstract void manualTaring();
         public abstract void recordWeight();
