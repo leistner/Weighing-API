@@ -40,8 +40,9 @@ namespace HBM.Weighing.API.WTX
     /// This class handles the data from ModbusTcpConnection for IProcessData. 
     /// WtxModbus fetches, interprets the data and send it to the GUI or application by an eventhandler. 
     /// </summary>
-    public class WtxModbus : BaseWtDevice   
+    public class WtxModbus : BaseWtDevice
     {
+
         #region privates
         private ushort[] _data;
         private ushort[] _outputData;
@@ -341,8 +342,10 @@ namespace HBM.Weighing.API.WTX
             this._previousNetValue = ProcessData.NetValue;
 
             // Update process data : 
-            ProcessData.UpdateProcessDataModbus(_data);
-
+            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
+            {
+                ProcessData.UpdateProcessDataModbus(_data);
+            }
             // Update data for standard mode:
             DataStandard.UpdateStandardDataModbus(_data);
 

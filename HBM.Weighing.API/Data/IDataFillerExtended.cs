@@ -42,8 +42,6 @@ namespace HBM.Weighing.API
     public interface IDataFillerExtended : IDataFiller
     {
         #region Output words for the data of filler extended mode
-
-        int ErrorRegister { get; set; }
         int SaveAllParameters { get; set; }
         int RestoreAllDefaultParameters { get; set; }
         int VendorID { get; set; }

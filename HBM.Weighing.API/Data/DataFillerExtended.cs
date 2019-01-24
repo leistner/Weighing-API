@@ -44,9 +44,6 @@ namespace HBM.Weighing.API.Data
     {
         #region privates
 
-        private ushort[] _data;
-
-        private int _errorRegister;
         private int _saveAllParameters;
         private int _restoreAllDefaultParameters;
         private int _vendorID;
@@ -95,6 +92,7 @@ namespace HBM.Weighing.API.Data
         private int _deviceAddress;
         private int _hardwareVersion;
         private int _identification;
+
         private int _limitValueMonitoringLIV11;
         private int _signalSourceLIV12;
         private int _switchOnLevelLIV13;
@@ -103,7 +101,6 @@ namespace HBM.Weighing.API.Data
         private int _signalSourceLIV22;
         private int _switchOnLevelLIV23;
         private int _switchOffLevelLIV24;
-
         private int _limitValueMonitoringLIV31;
         private int _signalSourceLIV32;
         private int _switchOnLevelLIV33;
@@ -112,6 +109,7 @@ namespace HBM.Weighing.API.Data
         private int _signalSourceLIV42;
         private int _switchOnLevelLIV43;
         private int _switchOffLevelLIV44;
+
         private int _outputScale;
         private int _firmwareDate;
         private int _resetTrigger;
@@ -119,7 +117,6 @@ namespace HBM.Weighing.API.Data
         private int _softwareIdentification;
         private int _softwareVersion;
         private int _dateTime;
-
         private int _breakDosing;
         private int _deleteDosingResult;
         private int _materialStreamLastDosing;
@@ -139,7 +136,6 @@ namespace HBM.Weighing.API.Data
 
         public DataFillerExtended()
         {
-            _errorRegister=0;
             _saveAllParameters=0;
             _restoreAllDefaultParameters=0;
             _vendorID=0;
@@ -188,6 +184,7 @@ namespace HBM.Weighing.API.Data
             _deviceAddress=0;
             _hardwareVersion=0;
             _identification=0;
+
             _limitValueMonitoringLIV11=0;
             _signalSourceLIV12=0;
             _switchOnLevelLIV13=0;
@@ -196,7 +193,6 @@ namespace HBM.Weighing.API.Data
             _signalSourceLIV22=0;
             _switchOnLevelLIV23=0;
             _switchOffLevelLIV24=0;
-
             _limitValueMonitoringLIV31=0;
             _signalSourceLIV32=0;
             _switchOnLevelLIV33=0;
@@ -205,6 +201,7 @@ namespace HBM.Weighing.API.Data
             _signalSourceLIV42=0;
             _switchOnLevelLIV43=0;
             _switchOffLevelLIV44=0;
+
             _outputScale=0;
             _firmwareDate=0;
             _resetTrigger=0;
@@ -234,6 +231,7 @@ namespace HBM.Weighing.API.Data
         {
             this.UpdateFillerDataJet(_data);
 
+            /*
             _errorRegister = _data[JetBusCommands.ERROR_REGISTER];
             _saveAllParameters = _data[JetBusCommands.SAVE_ALL_PARAMETERS];
             _restoreAllDefaultParameters = _data[JetBusCommands.RESTORE_ALL_DEFAULT_PARAMETERS];
@@ -244,7 +242,7 @@ namespace HBM.Weighing.API.Data
             _implementedProfileSpecification = _data[JetBusCommands.IMPLEMENTED_PROFILE_SPECIFICATION];
             _lcCapability = _data[JetBusCommands.LC_CAPABILITY];
             _weighingDevice1UnitPrefixOutputParameter = _data[JetBusCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER];
-
+            */
             _weighingDevice1WeightStep = _data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STEP];
             _alarms = _data[JetBusCommands.ALARMS];
             _weighingDevice1OutputWeight = _data[JetBusCommands.WEIGHING_DEVICE_1_OUTPUT_WEIGHT];
@@ -275,12 +273,12 @@ namespace HBM.Weighing.API.Data
             _scaleOperationMinimumTemperature = _data[JetBusCommands.SCALE_OPERATION_MINIMUM_TEMPERATURE];
             _scaleOperationMaximumTemperature = _data[JetBusCommands.SCALE_OPERATION_MAXIMUM_TEMPERATURE];
 
-            _scaleRelativeMinimumLoadCellVerficationInterval = _data[JetBusCommands.SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL];
+            //_scaleRelativeMinimumLoadCellVerficationInterval = _data[JetBusCommands.SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL];
             _intervalRangeControl = _data[JetBusCommands.INTERVAL_RANGE_CONTROL];
             _multiLimit1 = _data[JetBusCommands.MULTI_LIMIT_1];
             _multiLimit2 = _data[JetBusCommands.MULTI_LIMIT_2];
-            _oimlCertificationInformation = _data[JetBusCommands.OIML_CERTIFICAITON_INFORMATION];
-            _ntepCertificationInformation = _data[JetBusCommands.NTEP_CERTIFICAITON_INFORMATION];
+            //_oimlCertificationInformation = _data[JetBusCommands.OIML_CERTIFICAITON_INFORMATION];
+            //_ntepCertificationInformation = _data[JetBusCommands.NTEP_CERTIFICAITON_INFORMATION];
             _maximumZeroingTime = _data[JetBusCommands.MAXIMUM_ZEROING_TIME];
             _maximumPeakValueGross = _data[JetBusCommands.MAXIMUM_PEAK_VALUE_GROSS];
             _minimumPeakValueGross = _data[JetBusCommands.MINIMUM_PEAK_VALUE_GROSS];
@@ -288,37 +286,17 @@ namespace HBM.Weighing.API.Data
             _maximumPeakValue = _data[JetBusCommands.MAXIMUM_PEAK_VALUE];
             _minimumPeakValue = _data[JetBusCommands.MINIMUM_PEAK_VALUE];
             _weightMovingDetection = _data[JetBusCommands.WEIGHT_MOVING_DETECTION];
-            _deviceAddress = _data[JetBusCommands.DEVICE_ADDRESS];
-            _hardwareVersion = _data[JetBusCommands.HAREWARE_VERSION];
-            _identification = _data[JetBusCommands.IDENTIFICATION];
-
-            _limitValueMonitoringLIV11 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV11];
-            _signalSourceLIV12 = _data[JetBusCommands.SIGNAL_SOURCE_LIV12];
-            _switchOnLevelLIV13 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV13];
-            _switchOffLevelLIV14 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV14];
-
-            _limitValueMonitoringLIV21 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV21];
-            _signalSourceLIV22 = _data[JetBusCommands.SIGNAL_SOURCE_LIV22];
-            _switchOnLevelLIV23 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV23];
-            _switchOffLevelLIV24 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV24];
-
-            _limitValueMonitoringLIV31 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV31];
-            _signalSourceLIV32 = _data[JetBusCommands.SIGNAL_SOURCE_LIV32];
-            _switchOnLevelLIV33 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV33];
-            _switchOffLevelLIV34 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV34];
-
-            _limitValueMonitoringLIV41 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV41];
-            _signalSourceLIV42 = _data[JetBusCommands.SIGNAL_SOURCE_LIV42];
-            _switchOnLevelLIV43 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV43];
-            _switchOffLevelLIV44 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV44];
+            //_deviceAddress = _data[JetBusCommands.DEVICE_ADDRESS];
+            //_hardwareVersion = _data[JetBusCommands.HAREWARE_VERSION];
+            //_identification = _data[JetBusCommands.IDENTIFICATION];
 
             _outputScale = _data[JetBusCommands.OUTPUT_SCALE];
-            _firmwareDate = _data[JetBusCommands.FIRMWARE_DATE];
+            //_firmwareDate = _data[JetBusCommands.FIRMWARE_DATE];
             _resetTrigger = _data[JetBusCommands.RESET_TRIGGER];
             _stateDigital_IO_Extended = _data[JetBusCommands.STATE_DIGITAL_IO_EXTENDED];
 
-            _softwareIdentification = _data[JetBusCommands.SOFTWARE_IDENTIFICATION];
-            _softwareVersion = _data[JetBusCommands.SOFTWARE_VERSION];
+            //_softwareIdentification = _data[JetBusCommands.SOFTWARE_IDENTIFICATION];
+            //_softwareVersion = _data[JetBusCommands.SOFTWARE_VERSION];
             _dateTime = _data[JetBusCommands.DATE_TIME];
 
             _breakDosing = _data[JetBusCommands.BREAK_DOSING];
@@ -332,17 +310,14 @@ namespace HBM.Weighing.API.Data
             _delay2Dosing = _data[JetBusCommands.DELAY2_DOSING];
             _emptyWeightTolerance = _data[JetBusCommands.EMPTY_WEIGHT_TOLERANCE];
             _residualFlowDosingCycle = _data[JetBusCommands.RESIDUAL_FLOW_DOSING_CYCLE];
+
+
         }
 
         #endregion
 
         #region Properties for the filler extended data
 
-        public int ErrorRegister
-        {
-            get { return _errorRegister; }
-            set { this._errorRegister = value; }
-        }
         public int SaveAllParameters
         {
             get { return _saveAllParameters; }

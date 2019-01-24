@@ -29,6 +29,7 @@
 // </copyright>
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using HBM.Weighing.API.Data;
 using HBM.Weighing.API.WTX.Jet;
@@ -42,7 +43,6 @@ namespace HBM.Weighing.API.WTX
         public IDataStandard DataStandard { get; set; }
         public IDataFillerExtended DataFillerExtended { get; set; }
         
-
         #region Constants
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)   
 
@@ -117,8 +117,10 @@ namespace HBM.Weighing.API.WTX
         public void OnData(object sender, ProcessDataReceivedEventArgs e)
         {
             // Update data for standard mode:
-            DataStandard.UpdateStandardDataJet(_connection.AllData);
-          
+            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
+            {
+                DataStandard.UpdateStandardDataJet(_connection.AllData);
+            }
             // Update process data : 
             ProcessData.UpdateProcessDataJet(_connection.AllData);
 
