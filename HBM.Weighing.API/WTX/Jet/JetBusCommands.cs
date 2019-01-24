@@ -84,21 +84,14 @@ namespace HBM.Weighing.API.WTX.Jet
 
         #region ID commands for filler data
 
-        public const string BREAK_DOSING = "2240/01";                // BRK = Abbruch Dosierung
         public const string COARSE_FLOW_MONITORING = "2210/01";      // CBK = Füllstromüberwachung Grobstrom
         public const string COARSE_FLOW_MONITORING_TIME = "2220/01"; // CBT = Überwachungszeit Grobstrom
         public const string COARSE_FLOW_CUT_OFF_POINT = "2210/02";   // CFD = Grobstromabschaltpunkt
         public const string COARSE_FLOW_TIME = "2230/01";            // CFT = Grobstromzeit
-        public const string DELETE_DOSING_RESULT = "2230/02";        // CSN = Löschen Dosierergebniss
-        public const string DELAY1_DOSING = "2220/0B";               // DL1 = Delay 1 für Dosieren
-        public const string DELAY2_DOSING = "2220/0C";               // DL2 = Delay 2 für Dosieren
         public const string DOSING_MODE = "2200/04";                 // DMD = Dosiermodus
         public const string DOSING_TIME = "2230/03";                 // DST = Dosieristzeit
         public const string EMPTYING_MODE = "2200/05";               // EMD = Entleermodus
-        public const string DISCHARGE_TIME = "2220/02";              // EPT = Entleerzeit
 
-        public const string EXCEEDING_WEIGHT_BREAK = "2200/0F";      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
-        public const string EMPTY_WEIGHT_TOLERANCE = "2210/03";      // EWT = Entleertoleranz
         public const string FINE_FLOW_MONITORING = "2210/04";        // FBK = Füllstromüberwachung Feinstrom
         public const string FINE_FLOW_MONITORING_TIME = "2220/03";   // FBT = Überwachungszeit Feinstrom
         public const string FINE_FLOW_CUT_OFF_POINT = "2210/05";     // FFD = Feinstromabschaltpunkt
@@ -113,23 +106,19 @@ namespace HBM.Weighing.API.WTX.Jet
         public const string LOCKOUT_TIME_FINE_FLOW = "2220/05";      // LTF = Sperrzeit Feinstrom
         public const string LOWER_TOLERANCE_LOMIT = "2210/08";       // LTL = Untere Toleranz
         public const string MAXIMAL_DOSING_TIME = "2220/06";         // MDT = Maximale Dosierzeit
-        public const string MATERIAL_STREAM_LAST_DOSING = "2000/0E"; // MFO = Materialstrom des letzten Dosierzyklus
         public const string MINIMUM_START_WEIGHT = "2210/0B";        // MSW = Minimum Startgewicht
         public const string DOSING_COUNTER = "2230/05";              // NDS = Dosierzähler
         public const string OPTIMIZATION = "2200/07";                // OSN = Optimierung
         public const string RANGE_SELECTION_PARAMETER = "2200/02";   // RDP = Auswahl Dosierparameter
 
         public const string REDOSING = "2200/08";                    // RDS = Nachdosieren
-        public const string RESIDUAL_FLOW_DOSING_CYCLE = "2000/0F";  // RFO = Nachstrom des letzten Dosierzyklus
         public const string RESIDUAL_FLOW_TIME = "2220/07";          // RFT = Nachstromzeit
         public const string RUN_START_DOSING = "2240/02";            // RUN = Start Dosieren
-        public const string SPECIAL_DOSING_FUNCTIONS = "2200/0A";    // SDF = Sonderfunktionen
-        public const string MEAN_VALUE_DOSING_RESULTS = "2230/06";   // SDM = Mittelwert Dosieren
 
+        public const string MEAN_VALUE_DOSING_RESULTS = "2230/06";         // SDM = Mittelwert Dosieren
         public const string DOSING_STATE_FILLER = "2D00/02";               // SDO = Dosierstatus
         public const string STANDARD_DEVIATION = "2230/07";                // SDS = Standardabweichung
         public const string SETTLING_TIME_TRANSIENT_RESPONSE = "2220/08";  // STT = Beruhigungszeit
-        public const string SUM = "2230/08";                               // SUM = Summe
         public const string SYSTEMATIC_DIFFERENCE = "2210/09";             // SYD = Systematische Differenz
         public const string TARE_DELAY = "2220/09";                        // TAD = Tarierverzögerung
         public const string TARE_MODE = "2200/0B";                         // TMD = Tariermodus
@@ -214,7 +203,7 @@ namespace HBM.Weighing.API.WTX.Jet
         public const string LIMIT_VALUE_MONITORING_LIV41 = "2030/0D";
         public const string SIGNAL_SOURCE_LIV42 = "2030/0E";
         public const string SWITCH_ON_LEVEL_LIV43 = "2030/0F";
-        public const string Ausschaltpegel_LIV44 = "2030/10";
+        public const string SWTICH_OFF_LEVEL_LIV44 = "2030/10";
         public const string OUTPUT_SCALE = "2110/0A";
         public const string FIRMWARE_DATE = "2520/05";
         public const string RESET_TRIGGER = "2D00/04";
@@ -222,6 +211,18 @@ namespace HBM.Weighing.API.WTX.Jet
         public const string SOFTWARE_IDENTIFICATION = "2600/22";
         public const string SOFTWARE_VERSION = "2600/16";
         public const string DATE_TIME = "2E00/02";
+
+        public const string BREAK_DOSING = "2240/01";                // BRK = Abbruch Dosierung
+        public const string DELETE_DOSING_RESULT = "2230/02";        // CSN = Löschen Dosierergebniss
+        public const string MATERIAL_STREAM_LAST_DOSING = "2000/0E"; // MFO = Materialstrom des letzten Dosierzyklus
+        public const string SUM = "2230/08";                         // SUM = Summe
+        public const string SPECIAL_DOSING_FUNCTIONS = "2200/0A";    // SDF = Sonderfunktionen
+        public const string DISCHARGE_TIME = "2220/02";              // EPT = Entleerzeit
+        public const string EXCEEDING_WEIGHT_BREAK = "2200/0F";      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
+        public const string DELAY1_DOSING = "2220/0B";               // DL1 = Delay 1 für Dosieren
+        public const string DELAY2_DOSING = "2220/0C";               // DL2 = Delay 2 für Dosieren
+        public const string EMPTY_WEIGHT_TOLERANCE = "2210/03";      // EWT = Entleertoleranz
+        public const string RESIDUAL_FLOW_DOSING_CYCLE = "2000/0F";  // RFO = Nachstrom des letzten Dosierzyklus
 
         #endregion
     }

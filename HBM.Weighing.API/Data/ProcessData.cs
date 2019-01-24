@@ -123,7 +123,6 @@ namespace HBM.Weighing.API
             _weightWithinTheCenterOfZero = Convert.ToBoolean(((_data[4] & 0x800) >> 11));
             _weightInZeroRange = Convert.ToBoolean(((_data[4] & 0x1000) >> 12));
             _applicationMode = _data[5] & 0x3;
-            _applicationModeStr = this.ApplicationModeStr;
 
             _decimals = ((_data[5] & 0x70) >> 4);
             _unit = ((_data[5] & 0x180) >> 7);
@@ -156,8 +155,7 @@ namespace HBM.Weighing.API
             _weightWithinTheCenterOfZero = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11);
             _weightInZeroRange = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12);
             _applicationMode = _data[JetBusCommands.APPLICATION_MODE];
-            _applicationModeStr = this.ApplicationModeStr;
-            
+
             _decimals = _data[JetBusCommands.DECIMALS];
             _unit = (_data[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
 

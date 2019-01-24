@@ -43,6 +43,12 @@ namespace HBM.Weighing.API.WTX
     public class WtxModbus : BaseWtDevice   
     {
         #region privates
+
+        public DataStandard DataStandard { get; set; }
+        public DataFiller DataFiller { get; set; }
+
+        int _previousNetValue;
+
         private ushort[] _data;
         private ushort[] _outputData;
         private ushort[] _dataWritten;
@@ -65,7 +71,10 @@ namespace HBM.Weighing.API.WTX
             this._connection = connection;
 
             this.ProcessDataReceived += OnProcessData;
-            
+
+            this.DataFiller = new DataFiller();
+            this.DataStandard = new DataStandard();
+
             this._data = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
             this._dataWritten = new ushort[2];
@@ -73,6 +82,7 @@ namespace HBM.Weighing.API.WTX
             this._command = 0x00; 
             this._isCalibrating = false;
             this._timerInterval = 0;
+            this._previousNetValue = 0;
 
             this.dPreload = 0;
             this.dNominalLoad = 0;
@@ -82,9 +92,6 @@ namespace HBM.Weighing.API.WTX
 
             // For the connection and initializing of the timer:            
             this.initialize_timer(paramTimerInterval);
-
-            this.DataFiller = new DataFiller();
-            this.DataStandard = new DataStandard();
         }
         #endregion
 
@@ -101,8 +108,6 @@ namespace HBM.Weighing.API.WTX
         {
             this._connection.Connect();
         }
-
-
 
         public override bool isConnected
         {
@@ -148,38 +153,30 @@ namespace HBM.Weighing.API.WTX
 
             this._command = commandParam;
 
-            //if (this._command == 0x00)        ???
-            //    dataWord = this._connection.Read(5);
+            // (1) Sending of a command:        
+            this._connection.Write(wordNumber, this._command);
+            dataWord = this._connection.Read(5);
 
-            //else
+            handshakeBit = ((dataWord & 0x4000) >> 14);
+            // Handshake protocol as given in the manual:                            
 
+            while (handshakeBit == 0)
             {
-                // (1) Sending of a command:        
-                this._connection.Write(wordNumber, this._command);
                 dataWord = this._connection.Read(5);
-
                 handshakeBit = ((dataWord & 0x4000) >> 14);
-                // Handshake protocol as given in the manual:                            
-
-                while (handshakeBit == 0)
-                {
-                    dataWord = this._connection.Read(5);
-                    handshakeBit = ((dataWord & 0x4000) >> 14);
-                }
-
-                // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
-                if (handshakeBit == 1)
-                {
-                    this._connection.Write(wordNumber, 0x00);
-                }
-
-                while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
-                {
-                    dataWord = this._connection.Read(5);
-                    handshakeBit = ((dataWord & 0x4000) >> 14);
-                }
-                
             }
+
+            // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
+            if (handshakeBit == 1)
+            {
+                this._connection.Write(wordNumber, 0x00);
+            }
+
+            while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
+            {
+                dataWord = this._connection.Read(5);
+                handshakeBit = ((dataWord & 0x4000) >> 14);
+            }         
         }
 
         public int getCommand
@@ -323,11 +320,6 @@ namespace HBM.Weighing.API.WTX
         }
         #endregion
 
-        public DataStandard DataStandard { get; set; }
-        public DataFiller DataFiller { get; set; }
-
-        int _previousNetValue = 0;
-
         #region Asynchronous process data callback
         /// <summary>
         /// Called whenever new device data is available 
@@ -344,7 +336,7 @@ namespace HBM.Weighing.API.WTX
             DataStandard.UpdateStandardDataModbus(_data);
 
             // Update data for filler mode:
-            if (ProcessData.ApplicationModeStr == "Filler")           
+            if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)           
                 DataFiller.UpdateFillerDataModbus(_data);
             
             // Only if the net value changed, the data will be send to the GUI
@@ -387,6 +379,18 @@ namespace HBM.Weighing.API.WTX
             return returnvalue;
         }
 
+        public override string ApplicationModeStringComment()
+        {
+            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
+                return "Standard";
+            else
+
+                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)
+                return "Filler";
+            else
+
+                return "error";
+        }
 
         public string WeightMovingStringComment()
         {
@@ -439,18 +443,7 @@ namespace HBM.Weighing.API.WTX
                     return "error";
             }
         }
-        public override string ApplicationModeStringComment()
-        {
-            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
-                return "Standard";
-            else
 
-                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)
-                return "Filler";
-            else
-
-                return "error";
-        }
         public override string UnitStringComment()
         {
             switch (ProcessData.Unit)
