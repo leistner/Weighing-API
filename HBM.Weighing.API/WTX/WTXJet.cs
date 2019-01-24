@@ -37,6 +37,8 @@ namespace HBM.Weighing.API.WTX
 {
     public class WtxJet : BaseWtDevice
     {
+        private ApplicationMode _applicationMode;
+
         public IDataStandard DataStandard { get; set; }
         public IDataFillerExtended DataFillerExtended { get; set; }
         
@@ -121,7 +123,7 @@ namespace HBM.Weighing.API.WTX
             ProcessData.UpdateProcessDataJet(_connection.AllData);
 
             // Update data for filler mode:
-            if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)
+            if (_applicationMode == ApplicationMode.Filler)
             {
                 // Update data for filler extended mode:
                 DataFillerExtended.UpdateFillerExtendedDataJet(_connection.AllData);
@@ -200,17 +202,21 @@ namespace HBM.Weighing.API.WTX
             return returnvalue;
         }
 
-        public override string ApplicationModeStringComment()
+        public override ApplicationMode ApplicationMode
         {
-            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
-                return "Standard";
-            else
+            get
+            {
+                _applicationMode = ApplicationMode.Standard; 
 
-                if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)
-                return "Filler";
-            else
-
-                return "error";
+                return _applicationMode;
+            }
+                
+            /*
+            set
+            {
+                _applicationMode = value;
+            }
+            */
         }
 
         public override string UnitStringComment()
@@ -255,7 +261,7 @@ namespace HBM.Weighing.API.WTX
                     return "error";
             }
         }
-
+        /*
         public override string StatusStringComment()
         {
             switch (ProcessData.Status)
@@ -279,7 +285,7 @@ namespace HBM.Weighing.API.WTX
                     return "Invalid status";
             }
         }
-
+        */
         #endregion
 
         #region Process data methods - Filling

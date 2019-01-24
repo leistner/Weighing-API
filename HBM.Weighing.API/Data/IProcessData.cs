@@ -60,8 +60,7 @@ namespace HBM.Weighing.API
         bool ZeroRequired { get; }
         bool WeightWithinTheCenterOfZero { get; } // = CenterOfZero (OPC-UA Standard)
         bool WeightInZeroRange { get; }// = Inside zero (OPC-UA Standard)
-
-        int ApplicationMode { get; }
+        
         int Decimals { get; }
         int Unit { get; }
 

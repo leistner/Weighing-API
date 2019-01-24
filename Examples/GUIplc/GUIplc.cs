@@ -50,9 +50,7 @@ namespace WTXModbusExamples
         private AdjustmentWeigher _adjustmentWeigher;
 
         private string _ApplicationModeStr;
-
-        private bool _isStandard;
-
+        
         private string _ipAddress;
         private int _timerInterval;
 
@@ -124,8 +122,7 @@ namespace WTXModbusExamples
 
                 ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
                 _wtxDevice = new WtxModbus(_connection, this._timerInterval, Update);
-
-                _isStandard = true;      // change between standard and application mode in the GUI. 
+            
                 _ApplicationModeStr = "Standard";
 
                 startToolStripMenuItem_Click(this, new EventArgs());
@@ -156,7 +153,7 @@ namespace WTXModbusExamples
             dataGridView1.Columns.Add("Input:Content Content_header", "Input:Content Content");   // column 12
             dataGridView1.Columns.Add("Output:Value_header", "Output:Value");                     // column 13
 
-            if (this._isStandard == true) // case 1) Standard application. Initializing the description and a placeholder for the values in the data grid.
+            if (_wtxDevice.ApplicationMode == ApplicationMode.Standard) // case 1) Standard application. Initializing the description and a placeholder for the values in the data grid.
             {
                 dataGridView1.Rows.Add("0", "Measured Value", "Int32", "32Bit", "ProcessData.NetValue", "Net measured", "0", "0", "Control word", "Bit", ".0", "Taring", "Button taring");                                           // row 1 ; dataStr[1]      
                 dataGridView1.Rows.Add("2", "Measured Value", "Int32", "32Bit", "ProcessData.GrossValue", "Gross measured", "0", "0", "Control word", "Bit", ".1", "Gross/Net", "Button Gross/Net");                               // row 2 ; dataStr[2]      
@@ -203,7 +200,7 @@ namespace WTXModbusExamples
                 dataGridView1.Rows.Add("13", "Weight memory, gross", "Int16", ".0-15", "_wtxDevice.weightMemGross", "Stored gross value", "0", "-", "-", "-", "-", "-", "-", "-", "-");                           // row 36 ; dataStr[35]
                 dataGridView1.Rows.Add("14", "Weight memory, net", "Int16", ".0-15", "_wtxDevice.weightMemNet", "Stored net value", "0", "-", "-", "-", "-", "-", "-", "-", "-");                                 // row 37 ; dataStr[36]             
             }
-            if (this._isStandard==false) // case 2) Filler application. Initializing the description and a placeholder for the values in the data grid.
+            else
             {
                 dataGridView1.Rows.Add("0", "Measured Value", "Int32", "32Bit", "ProcessData.NetValue", "Net measured", "0", "0", "Control word", "Bit", ".0", "Taring",  "Button Taring");                               // row 1 ; dataStr[1]      
                 dataGridView1.Rows.Add("2", "Measured Value", "Int32", "32Bit", "ProcessData.GrossValue", "Gross measured", "0", "0", "Control word", "Bit", ".1", "Gross/Net", "Button Gross/Net");                      // row 2 ; dataStr[2]
@@ -375,13 +372,13 @@ namespace WTXModbusExamples
                      
             int maximumIndex = 0;
 
-            if (_wtxDevice.ProcessData.ApplicationMode == 0)     // if in standard mode: 
+            if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)     // if in standard mode: 
             {
                 _startIndex = 8;
                 _arrayLength = 17;
                 maximumIndex = 25;
             }
-            else if (_wtxDevice.ProcessData.ApplicationMode == 1 || _wtxDevice.ProcessData.ApplicationMode == 2)  // if in filler mode: 
+            else
             {
                 _startIndex  = 11;
                 _arrayLength = 26;
@@ -486,16 +483,6 @@ namespace WTXModbusExamples
             // The connection to the device is established. 
             _wtxDevice.Connection.Connect();     // Alternative : _wtxObj.Connect();    
 
-            if (_wtxDevice.ProcessData.ApplicationMode == 0 && this._isStandard == false)
-                this._isStandard = true;
-
-            else
-                if (_wtxDevice.ProcessData.ApplicationMode == 1 && this._isStandard == true)
-                this._isStandard = false;
-            else
-                if (_wtxDevice.ProcessData.ApplicationMode == 2 && this._isStandard == true)
-                this._isStandard = false;
-
             // For the application mode(standard or filler) and the printing on the GUI the WTX registers are read out first.      
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
@@ -518,7 +505,7 @@ namespace WTXModbusExamples
                 ushort index = 0;
                 bool inputFormatIsRight = false;
 
-                if (this._isStandard == true)
+                if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)
                 {
                     if (e.RowIndex >= 8 && e.RowIndex <= 24)
                     {
@@ -536,8 +523,7 @@ namespace WTXModbusExamples
                     else
                         MessageBox.Show("Bitte in den vorgegebenen Feldern eingeben für standard application.");
                 }
-
-                if (this._isStandard == false)
+                else
                 {
                     if (e.RowIndex >= 11 && e.RowIndex <= 36)
                     {
@@ -561,7 +547,7 @@ namespace WTXModbusExamples
                     index = (ushort)Convert.ToInt16(dataGridView1[6, e.RowIndex].Value); // For the index, the word number which should be written to the WTX device 
 
                     // For the standard application: 
-                    if (this._isStandard == true)
+                    if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)
                     {
                         if (e.RowIndex >= 8 && e.RowIndex <= 24)
                         {
@@ -593,7 +579,7 @@ namespace WTXModbusExamples
                             }
                         }
                     }
-                    else if (this._isStandard == false)  // for the filler application. 
+                    else
                     {
                         if (e.RowIndex >= 11 && e.RowIndex <= 36)
                         {
@@ -679,9 +665,13 @@ namespace WTXModbusExamples
         /// <param name="e"></param>
         private void Update(object sender, ProcessDataReceivedEventArgs e)
         {
-            this._ApplicationModeStr = _wtxDevice.ApplicationModeStringComment(); 
+            if (_wtxDevice.ApplicationMode == ApplicationMode.Filler)
+                _ApplicationModeStr = "Filler";
+            else
+                _ApplicationModeStr = "Standard";
 
-                if (_wtxDevice.Connection.IsConnected == true)
+
+            if (_wtxDevice.Connection.IsConnected == true)
                     toolStripStatusLabel1.Text = "Connected";
                 if (_wtxDevice.Connection.IsConnected == false)
                     toolStripStatusLabel1.Text = "Disconnected";
@@ -708,7 +698,7 @@ namespace WTXModbusExamples
                     dataGridView1.Rows[10].Cells[6].Value = e.ProcessData.ZeroRequired;
                     dataGridView1.Rows[11].Cells[6].Value = e.ProcessData.WeightWithinTheCenterOfZero;
                     dataGridView1.Rows[12].Cells[6].Value = e.ProcessData.WeightInZeroRange;
-                    dataGridView1.Rows[13].Cells[6].Value = _wtxDevice.ApplicationModeStringComment();
+                    dataGridView1.Rows[13].Cells[6].Value = _wtxDevice.ApplicationMode.ToString();
                     dataGridView1.Rows[14].Cells[6].Value = e.ProcessData.Decimals;
                     dataGridView1.Rows[15].Cells[6].Value = e.ProcessData.Unit;
                     dataGridView1.Rows[16].Cells[6].Value = e.ProcessData.Handshake;
@@ -725,7 +715,7 @@ namespace WTXModbusExamples
             }
                 catch (Exception) { }
 
-                if (e.ProcessData.ApplicationMode == 0)             // In the standard application: 
+                if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)             // In the standard application: 
                 {
                     try
                     {
@@ -744,7 +734,7 @@ namespace WTXModbusExamples
                     catch (Exception) { }
                 }
                 else
-                if (e.ProcessData.ApplicationMode == 1 || e.ProcessData.ApplicationMode == 2)   // In the filler application: 
+                if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)   // In the filler application: 
                 {
                     try
                     {
@@ -869,7 +859,6 @@ namespace WTXModbusExamples
         // the GUI. 
         private void standardToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this._isStandard = true;
             dataGridView1.Columns.Clear();
             dataGridView1.Rows.Clear();
             this.set_GUI_rows();
@@ -881,7 +870,6 @@ namespace WTXModbusExamples
         // the GUI. 
         private void fillerToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this._isStandard = false;
             dataGridView1.Columns.Clear();
             dataGridView1.Rows.Clear();
             this.set_GUI_rows();
@@ -952,16 +940,6 @@ namespace WTXModbusExamples
         {
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
-
-            if (_wtxDevice.ProcessData.ApplicationMode == 0 && this._isStandard == false)
-                this._isStandard = true;
-
-            else
-            if (_wtxDevice.ProcessData.ApplicationMode == 1 && this._isStandard == true)
-                this._isStandard = false;
-            else
-            if (_wtxDevice.ProcessData.ApplicationMode == 2 && this._isStandard == true)
-                this._isStandard = false;
 
             // For the application mode(standard or filler) and the printing on the GUI the WTX registers are read out first.      
             this.set_GUI_rows();            

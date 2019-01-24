@@ -439,13 +439,12 @@ namespace WTXModbus
             {
                 Console.Clear();               
 
-                if (e.ProcessData.ApplicationMode == 0 || e.ProcessData.ApplicationMode == 1)  // If the WTX device is in standard application/mode.
+                if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)  // If the WTX device is in standard application/mode.
                 {
                     Console.WriteLine("0-Taring | 1-Gross/net   | 2-Zeroing  | 3- Adjust zero    | 4-Adjust nominal |\n5-Activate Data          | 6-Manual taring                | 7-Weight storage | \nj-Connection to Jetbus   | a-Show all input words 0 to 37 |\no-Show output words 9-44 | b-Bytes read from the register |\nc-Calculate Calibration  | w-Calibration with weight      | e-Exit\n");
                 }
                 else
-                    if (e.ProcessData.ApplicationMode == 2 || e.ProcessData.ApplicationMode == 3) // If the WTX device is in filler application/mode.
-                    {
+                {
 
                     if(_showAllInputWords==false && mode=="Modbus")
                     Console.WriteLine("\n0-Taring  | 1-Gross/net  | 2-Clear dosing  | 3- Abort dosing | 4-Start dosing| \n5-Zeroing | 6-Adjust zero| 7-Adjust nominal| 8-Activate data | 9-Weight storage|m-Manual redosing | j-Connection to Jetbus | a-Show all input words 0 to 37 |\no-Show output words 9-44 | b-Bytes read from the register |\nc-Calculate Calibration | w-Calibration with weight       | e-Exit\n");
@@ -458,7 +457,7 @@ namespace WTXModbus
 
                 }
 
-                if (e.ProcessData.ApplicationMode == 0 || e.ProcessData.ApplicationMode == 1)   // If the device is in the standard mode (standard=0 or standard=1; filler=1 or filler=2) 
+                if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)   // If the device is in the standard mode (standard=0 or standard=1; filler=1 or filler=2) 
                 {
 
                     // The values are printed on the console according to the input - "numInputs": 
@@ -505,7 +504,7 @@ namespace WTXModbus
                         Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +      "\t  As an Integer:  " + e.ProcessData.ZeroRequired);
                         Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightWithinTheCenterOfZero);
                         Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightInZeroRange);
-                        Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationModeStringComment() + "\t  As an Integer:  " + e.ProcessData.ApplicationMode);
+                        Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() + "\t  As an Integer:  " + _wtxDevice.ApplicationMode.ToString());
                         Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +          "\t  As an Integer:  " + e.ProcessData.Decimals);
                         Console.WriteLine("Unit:                          " + _wtxDevice.UnitStringComment() +                       "\t  As an Integer:  " + e.ProcessData.Unit);
                         Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +         "\t  As an Integer:  " + e.ProcessData.Handshake);
@@ -519,7 +518,6 @@ namespace WTXModbus
                         Console.WriteLine("\nWrong input for the number of bytes, which should be read from the register!\nPlease enter 'b' to choose again.");
                 }
                 else
-                    if (e.ProcessData.ApplicationMode == 2 || e.ProcessData.ApplicationMode == 3)      // If the device is in the filler mode (standard=0 or standard=1; filler=2 or filler=3) 
                 {
                     Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an Integer:  " + e.ProcessData.NetValue);
                     Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an Integer:  " + e.ProcessData.GrossValue);
@@ -532,7 +530,7 @@ namespace WTXModbus
                     Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +    "\t  As an Integer:  " + e.ProcessData.ZeroRequired);
                     Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightWithinTheCenterOfZero);
                     Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() +           "\t  As an Integer:  " + e.ProcessData.WeightInZeroRange);
-                    Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationModeStringComment() +           "\t  As an Integer:  " + e.ProcessData.ApplicationMode);
+                    Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() +           "\t  As an Integer:  " + _wtxDevice.ApplicationMode);
                     Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +         "\t  As an Integer:  " + e.ProcessData.Decimals);
                     Console.WriteLine("Unit:                          " + _wtxDevice.UnitStringComment() +                      "\t  As an Integer:  " + e.ProcessData.Unit);
                     Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +        "\t  As an Integer:  " + e.ProcessData.Handshake);
@@ -682,18 +680,6 @@ namespace WTXModbus
             }
         }
 
-        public static string ApplicationModeStringComment()
-        {
-            if (_wtxDevice.ProcessData.ApplicationMode == 0 || _wtxDevice.ProcessData.ApplicationMode == 1)
-                return "Standard";
-            else
-
-                if (_wtxDevice.ProcessData.ApplicationMode == 2 || _wtxDevice.ProcessData.ApplicationMode == 3)
-                return "Filler";
-            else
-
-                return "error";
-        }
 
         private static void zero_load_nominal_load_input()
         {
