@@ -1,4 +1,4 @@
-﻿// <copyright file="INetConnection.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="DataEventArgs.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
@@ -27,42 +27,50 @@
 // SOFTWARE.
 //
 // </copyright>
+
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace HBM.Weighing.API
 {
-    /// <summary>
-    /// Defines the common communication interface
-    /// </summary>
-    public interface INetConnection
+    public class DataEventArgs
     {
-        event EventHandler BusActivityDetection;
+        private ushort[] _dataArray;
+        private Dictionary<string, int> _dataDict;
 
-        event EventHandler<DataEventArgs> IncomingDataReceived;
+        public DataEventArgs(ushort[] _dataArrayParam, Dictionary<string,int> _dataDictParam)
+        {
+            this._dataArray = _dataArrayParam;
+            this._dataDict = _dataDictParam; 
+        }
 
-        string IpAddress    { get; set; }       
+        public ushort[] Data
+        {
+            get
+            {
+                return this._dataArray;
+            }
+            set
+            {
+                this._dataArray = value;
+            }
+        }
 
-        bool IsConnected    { get; }
-
-        void Connect();
-             
-        void Disconnect();
-
-        int Read(object index);       
-
-        void Write(object index, int data);
-
-        Task<ushort[]> ReadAsync();
-
-        Task<int> WriteAsync(ushort index, ushort commandParam);
-
-        void WriteArray(ushort index, ushort[] data);
-                
-        Dictionary<string, int> AllData { get; }
-         
-
+        public Dictionary<string,int> DataDictionary
+        {
+            get
+            {
+                return this._dataDict;
+            }
+            set
+            {
+                this._dataDict = value;
+            }
+        }
     }
-    
 }
+

@@ -63,6 +63,7 @@ namespace HBM.Weighing.API.WTX
 
         #region Events
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        public override event EventHandler<DataEventArgs> UpdateDataClasses;
         #endregion
 
         #region Constructors
@@ -74,8 +75,8 @@ namespace HBM.Weighing.API.WTX
 
             _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.   
 
-            DataStandard = new DataStandard();
-            DataFillerExtended = new DataFillerExtended();
+            DataStandard = new DataStandard(this);
+            DataFillerExtended = new DataFillerExtended(this);
         }
         #endregion
 
@@ -114,22 +115,10 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Asynchronous process data callback
-        public void OnData(object sender, ProcessDataReceivedEventArgs e)
+        public void OnData(object sender, DataEventArgs e)
         {
-            // Update data for standard mode:
-            if (_applicationMode == ApplicationMode.Standard)
-            { 
-                DataStandard.UpdateStandardDataJet(_connection.AllData);
-            }
-            // Update process data : 
-            ProcessData.UpdateProcessDataJet(_connection.AllData);
-
-            // Update data for filler mode:
-            if (_applicationMode == ApplicationMode.Filler)
-            {
-                // Update data for filler extended mode:
-                DataFillerExtended.UpdateFillerExtendedDataJet(_connection.AllData);
-            }
+            if(e!=null)
+                this.UpdateDataClasses?.Invoke(this, new DataEventArgs(e.Data, e.DataDictionary));
 
             // Do something with the data, like in the class WTXModbus.cs           
             this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));

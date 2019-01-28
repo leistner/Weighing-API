@@ -29,6 +29,7 @@
 // </copyright>
 using HBM.Weighing.API.Data;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -44,12 +45,16 @@ namespace HBM.Weighing.API.WTX
     {
 
         #region privates
+        DataStandard _dataStandard;
+        DataFiller _dataFiller;
+
         private ushort[] _data;
         private ushort[] _outputData;
         private ushort[] _dataWritten;
         
         private bool _isCalibrating;
         private int _timerInterval;
+        private int _previousNetValue;
         private ApplicationMode _applicationMode;
 
         private ushort _command;
@@ -59,6 +64,7 @@ namespace HBM.Weighing.API.WTX
 
         #region Events
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        public override event EventHandler<DataEventArgs> UpdateDataClasses;
         #endregion
 
         #region Constructor
@@ -67,7 +73,10 @@ namespace HBM.Weighing.API.WTX
             this._connection = connection;
 
             this.ProcessDataReceived += OnProcessData;
-            
+
+            this._dataFiller = new DataFiller(this);
+            this._dataStandard = new DataStandard(this);
+
             this._data = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
             this._dataWritten = new ushort[2];
@@ -75,6 +84,7 @@ namespace HBM.Weighing.API.WTX
             this._command = 0x00; 
             this._isCalibrating = false;
             this._timerInterval = 0;
+            this._previousNetValue = 0;
 
             this.dPreload = 0;
             this.dNominalLoad = 0;
@@ -84,9 +94,6 @@ namespace HBM.Weighing.API.WTX
 
             // For the connection and initializing of the timer:            
             this.initialize_timer(paramTimerInterval);
-
-            this.DataFiller = new DataFiller();
-            this.DataStandard = new DataStandard();
         }
         #endregion
 
@@ -189,7 +196,17 @@ namespace HBM.Weighing.API.WTX
             get { return this._command; }
         }
 
-        
+        public DataStandard DataStandard
+        {
+            get { return this._dataStandard; }
+        }
+
+        public DataFiller DataFiller
+        {
+            get { return this._dataFiller; }
+        }
+
+
         private void WriteOutputWordS32(int valueParam, ushort wordNumber)
         {
             _dataWritten[0] = (ushort)((valueParam & 0xffff0000) >> 16);
@@ -324,12 +341,7 @@ namespace HBM.Weighing.API.WTX
             }
         }
         #endregion
-
-        public DataStandard DataStandard { get; set; }
-        public DataFiller DataFiller { get; set; }
-
-        int _previousNetValue = 0;
-
+    
         #region Asynchronous process data callback
         /// <summary>
         /// Called whenever new device data is available 
@@ -341,18 +353,9 @@ namespace HBM.Weighing.API.WTX
 
             this._previousNetValue = ProcessData.NetValue;
 
-            // Update process data : 
-            if (_applicationMode == ApplicationMode.Standard)
-            {
-                ProcessData.UpdateProcessDataModbus(_data);
-            }
-            // Update data for standard mode:
-            DataStandard.UpdateStandardDataModbus(_data);
+            // Updata data in data classes : 
+            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(_data,new Dictionary<string, int>()));
 
-            // Update data for filler mode:
-            if (ApplicationMode == ApplicationMode.Filler)         
-                DataFiller.UpdateFillerDataModbus(_data);
-            
             // Only if the net value changed, the data will be send to the GUI
             if(_previousNetValue != ProcessData.NetValue)
                 // Invoke Event - GUI/application class receives _processData: 
