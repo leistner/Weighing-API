@@ -293,32 +293,32 @@ namespace HBM.Weighing.API.Data
         {
             if ( (int)_baseWtDevice.ApplicationMode == 2 || (int)_baseWtDevice.ApplicationMode == 3)
             {
-                _maxDosingTime = e.DataDictionary[JetBusCommands.MAXIMAL_DOSING_TIME];
-                _meanValueDosingResults = e.DataDictionary[JetBusCommands.MEAN_VALUE_DOSING_RESULTS];
-                _standardDeviation = e.DataDictionary[JetBusCommands.STANDARD_DEVIATION];
-                _fineFlowCutOffPoint = e.DataDictionary[JetBusCommands.FINE_FLOW_CUT_OFF_POINT];
-                _coarseFlowCutOffPoint = e.DataDictionary[JetBusCommands.COARSE_FLOW_CUT_OFF_POINT];
-                _residualFlowTime = e.DataDictionary[JetBusCommands.RESIDUAL_FLOW_TIME];
-                _minimumFineFlow = e.DataDictionary[JetBusCommands.MINIMUM_FINE_FLOW];
-                _optimizationOfCutOffPoints = e.DataDictionary[JetBusCommands.OPTIMIZATION];
-                _maximumDosingTime = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
-                _coarseLockoutTime = e.DataDictionary[JetBusCommands.COARSE_FLOW_TIME];
-                _fineLockoutTime = e.DataDictionary[JetBusCommands.FINE_FLOW_TIME];
-                _tareMode = e.DataDictionary[JetBusCommands.TARE_MODE];
-                _upperToleranceLimit = e.DataDictionary[JetBusCommands.UPPER_TOLERANCE_LIMIT];
-                _lowerToleranceLimit = e.DataDictionary[JetBusCommands.LOWER_TOLERANCE_LOMIT];
-                _minimumStartWeight = e.DataDictionary[JetBusCommands.MINIMUM_START_WEIGHT];
-                _emptyWeight = e.DataDictionary[JetBusCommands.EMPTY_WEIGHT_TOLERANCE];
-                _tareDelay = e.DataDictionary[JetBusCommands.TARE_DELAY];
-                _coarseFlowMonitoringTime = e.DataDictionary[JetBusCommands.COARSE_FLOW_MONITORING_TIME];
-                _coarseFlowMonitoring = e.DataDictionary[JetBusCommands.COARSE_FLOW_MONITORING];
-                _fineFlowMonitoring = e.DataDictionary[JetBusCommands.FINE_FLOW_MONITORING];
-                _fineFlowMonitoringTime = e.DataDictionary[JetBusCommands.FINE_FLOW_MONITORING_TIME];
-                _systematicDifference = e.DataDictionary[JetBusCommands.SYSTEMATIC_DIFFERENCE];
-                _valveControl = e.DataDictionary[JetBusCommands.VALVE_CONTROL];
-                _emptyingMode = e.DataDictionary[JetBusCommands.EMPTYING_MODE];
-                _delayTimeAfterFineFlow = e.DataDictionary[JetBusCommands.DELAY1_DOSING];
-                _activationTimeAfterFineFlow = e.DataDictionary[JetBusCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW];
+                _maxDosingTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.MAXIMAL_DOSING_TIME]);
+                _meanValueDosingResults = Convert.ToInt32(e.DataDictionary[JetBusCommands.MEAN_VALUE_DOSING_RESULTS]);
+                _standardDeviation = Convert.ToInt32(e.DataDictionary[JetBusCommands.STANDARD_DEVIATION]);
+                _fineFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[JetBusCommands.FINE_FLOW_CUT_OFF_POINT]);
+                _coarseFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[JetBusCommands.COARSE_FLOW_CUT_OFF_POINT]);
+                _residualFlowTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.RESIDUAL_FLOW_TIME]);
+                _minimumFineFlow = Convert.ToInt32(e.DataDictionary[JetBusCommands.MINIMUM_FINE_FLOW]);
+                _optimizationOfCutOffPoints = Convert.ToInt32(e.DataDictionary[JetBusCommands.OPTIMIZATION]);
+                _maximumDosingTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_3]);
+                _coarseLockoutTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.COARSE_FLOW_TIME]);
+                _fineLockoutTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.FINE_FLOW_TIME]);
+                _tareMode = Convert.ToInt32(e.DataDictionary[JetBusCommands.TARE_MODE]);
+                _upperToleranceLimit = Convert.ToInt32(e.DataDictionary[JetBusCommands.UPPER_TOLERANCE_LIMIT]);
+                _lowerToleranceLimit = Convert.ToInt32(e.DataDictionary[JetBusCommands.LOWER_TOLERANCE_LOMIT]);
+                _minimumStartWeight = Convert.ToInt32(e.DataDictionary[JetBusCommands.MINIMUM_START_WEIGHT]);
+                _emptyWeight = Convert.ToInt32(e.DataDictionary[JetBusCommands.EMPTY_WEIGHT_TOLERANCE]);
+                _tareDelay = Convert.ToInt32(e.DataDictionary[JetBusCommands.TARE_DELAY]);
+                _coarseFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.COARSE_FLOW_MONITORING_TIME]);
+                _coarseFlowMonitoring = Convert.ToInt32(e.DataDictionary[JetBusCommands.COARSE_FLOW_MONITORING]);
+                _fineFlowMonitoring = Convert.ToInt32(e.DataDictionary[JetBusCommands.FINE_FLOW_MONITORING]);
+                _fineFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.FINE_FLOW_MONITORING_TIME]);
+                _systematicDifference = Convert.ToInt32(e.DataDictionary[JetBusCommands.SYSTEMATIC_DIFFERENCE]);
+                _valveControl = Convert.ToInt32(e.DataDictionary[JetBusCommands.VALVE_CONTROL]);
+                _emptyingMode = Convert.ToInt32(e.DataDictionary[JetBusCommands.EMPTYING_MODE]);
+                _delayTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[JetBusCommands.DELAY1_DOSING]);
+                _activationTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[JetBusCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW]);
 
                 // Undefined ID's: 
 

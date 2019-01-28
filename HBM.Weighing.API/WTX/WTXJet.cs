@@ -209,6 +209,14 @@ namespace HBM.Weighing.API.WTX
             }
             */
         }
+        public void UpdateApplicationMode(ushort[] Data)
+        {
+            if ((Data[5] & 0x03) == 0)
+                _applicationMode = ApplicationMode.Standard;
+            else
+                _applicationMode = ApplicationMode.Filler;
+        }
+
 
         public override string UnitStringComment()
         {

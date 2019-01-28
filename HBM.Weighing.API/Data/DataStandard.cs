@@ -233,40 +233,40 @@ namespace HBM.Weighing.API.Data
         {
             if ((int)_baseWtDevice.ApplicationMode == 0 || (int)_baseWtDevice.ApplicationMode == 1)
             {
-                _input1 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_1];
-                _input2 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_2];
-                _input3 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_3];
-                _input4 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_4];
+                _input1 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_1]);
+                _input2 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_2]);
+                _input3 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_3]);
+                _input4 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_4]);
 
-                _output1 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_1];
-                _output2 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_2];
-                _output3 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
-                _output4 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_4];
+                _output1 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_1]);
+                _output2 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_2]);
+                _output3 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_3]);
+                _output4 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_4]);
 
-                _limitStatus1 = (e.DataDictionary[JetBusCommands.LIMIT_VALUE] & 0x1);
-                _limitStatus2 = (e.DataDictionary[JetBusCommands.LIMIT_VALUE] & 0x2) >> 1;
-                _limitStatus3 = (e.DataDictionary[JetBusCommands.LIMIT_VALUE] & 0x4) >> 2;
-                _limitStatus4 = (e.DataDictionary[JetBusCommands.LIMIT_VALUE] & 0x8) >> 3;
+                _limitStatus1 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE]) & 0x1;
+                _limitStatus2 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE]) & 0x2 >> 1;
+                _limitStatus3 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE]) & 0x4 >> 2;
+                _limitStatus4 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE]) & 0x8 >> 3;
 
-                _limitValueMonitoringLIV11 = e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV11];
-                _signalSourceLIV12 = e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV12];
-                _switchOnLevelLIV13 = e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV13];
-                _switchOffLevelLIV14 = e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV14];
+                _limitValueMonitoringLIV11 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV11]);
+                _signalSourceLIV12 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV12]);
+                _switchOnLevelLIV13 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV13]);
+                _switchOffLevelLIV14 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV14]);
 
-                _limitValueMonitoringLIV21 = e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV21];
-                _signalSourceLIV22 = e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV22];
-                _switchOnLevelLIV23 = e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV23];
-                _switchOffLevelLIV24 = e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV24];
+                _limitValueMonitoringLIV21 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV21]);
+                _signalSourceLIV22 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV22]);
+                _switchOnLevelLIV23 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV23]);
+                _switchOffLevelLIV24 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV24]);
 
-                _limitValueMonitoringLIV31 = e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV31];
-                _signalSourceLIV32 = e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV32];
-                _switchOnLevelLIV33 = e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV33];
-                _switchOffLevelLIV34 = e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV34];
+                _limitValueMonitoringLIV31 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV31]);
+                _signalSourceLIV32 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV32]);
+                _switchOnLevelLIV33 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV33]);
+                _switchOffLevelLIV34 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV34]);
 
-                _limitValueMonitoringLIV41 = e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV41];
-                _signalSourceLIV42 = e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV42];
-                _switchOnLevelLIV43 = e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV43];
-                _switchOffLevelLIV44 = e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV44];
+                _limitValueMonitoringLIV41 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV41]);
+                _signalSourceLIV42 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV42]);
+                _switchOnLevelLIV43 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV43]);
+                _switchOffLevelLIV44 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV44]);
             }
         }
 
