@@ -209,7 +209,7 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateFillerDataModbus(object sender, DataEventArgs e)
         {
-            if (_baseWtDevice.ProcessData.ApplicationMode == 2 || _baseWtDevice.ProcessData.ApplicationMode == 3)
+            if ((int)_baseWtDevice.ApplicationMode == 2 || (int) _baseWtDevice.ApplicationMode == 3)
             {
                 _coarseFlow = (e.Data[8] & 0x1);
                 _fineFlow = ((e.Data[8] & 0x2) >> 1);
@@ -291,7 +291,7 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateFillerDataJet(object sender, DataEventArgs e)
         {
-            if (_baseWtDevice.ProcessData.ApplicationMode == 2 || _baseWtDevice.ProcessData.ApplicationMode == 3)
+            if ( (int)_baseWtDevice.ApplicationMode == 2 || (int)_baseWtDevice.ApplicationMode == 3)
             {
                 _maxDosingTime = e.DataDictionary[JetBusCommands.MAXIMAL_DOSING_TIME];
                 _meanValueDosingResults = e.DataDictionary[JetBusCommands.MEAN_VALUE_DOSING_RESULTS];

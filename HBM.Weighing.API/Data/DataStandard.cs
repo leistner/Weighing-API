@@ -203,7 +203,7 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardDataModbus(object sender, DataEventArgs e)
         {
-            if (_baseWtDevice.ProcessData.ApplicationMode == 0 || _baseWtDevice.ProcessData.ApplicationMode == 1)
+            if ((int)_baseWtDevice.ApplicationMode == 0 || (int)_baseWtDevice.ApplicationMode == 1)
             {
                 _input1 = (e.Data[6] & 0x1);
                 _input2 = ((e.Data[6] & 0x2) >> 1);
@@ -231,7 +231,7 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardDataJet(object sender, DataEventArgs e)
         {
-            if (_baseWtDevice.ProcessData.ApplicationMode == 0 || _baseWtDevice.ProcessData.ApplicationMode == 1)
+            if ((int)_baseWtDevice.ApplicationMode == 0 || (int)_baseWtDevice.ApplicationMode == 1)
             {
                 _input1 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_1];
                 _input2 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_2];

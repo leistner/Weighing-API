@@ -55,8 +55,8 @@ namespace HBM.Weighing.API
         private bool _zeroRequired;
         private bool _weightWithinTheCenterOfZero;
         private bool _weightInZeroRange;
-        private int _applicationMode;
-        private string _applicationModeStr;
+        //private int _applicationMode;
+        //private string _applicationModeStr;
         private int _decimals;
         private int _unit;
         private bool _handshake;
@@ -94,8 +94,8 @@ namespace HBM.Weighing.API
              _zeroRequired = false;
              _weightWithinTheCenterOfZero = false;
              _weightInZeroRange = false;
-             _applicationMode = 0;
-             _applicationModeStr = "";
+             //_applicationMode = 0;
+             //_applicationModeStr = "";
              _decimals = 0;
              _unit = 0;
              _handshake = false;
@@ -118,6 +118,9 @@ namespace HBM.Weighing.API
             _grossValueStr = this.CurrentWeight(_grossValue, _decimals);
 
             _tareValue = _netValue - _grossValue;
+
+            //_applicationMode = e.Data[5] & 0x3;
+
             _generalWeightError = Convert.ToBoolean((e.Data[4] & 0x1));
             _scaleAlarmTriggered = Convert.ToBoolean(((e.Data[4] & 0x2) >> 1));
             _limitStatus = ((e.Data[4] & 0xC) >> 2);
@@ -131,7 +134,6 @@ namespace HBM.Weighing.API
             _zeroRequired = Convert.ToBoolean((e.Data[4] & 0x400) >> 10);
             _weightWithinTheCenterOfZero = Convert.ToBoolean(((e.Data[4] & 0x800) >> 11));
             _weightInZeroRange = Convert.ToBoolean(((e.Data[4] & 0x1000) >> 12));
-            _applicationMode = e.Data[5] & 0x3;
 
             _decimals = ((e.Data[5] & 0x70) >> 4);
             _unit = ((e.Data[5] & 0x180) >> 7);
@@ -160,10 +162,10 @@ namespace HBM.Weighing.API
             _weightType = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7);
             _scaleRange = (e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
             
+            //_applicationMode = e.DataDictionary[JetBusCommands.APPLICATION_MODE];
             _zeroRequired = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10);
             _weightWithinTheCenterOfZero = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11);
             _weightInZeroRange = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12);
-            _applicationMode = e.DataDictionary[JetBusCommands.APPLICATION_MODE];
 
             _decimals = e.DataDictionary[JetBusCommands.DECIMALS];
             _unit = (e.DataDictionary[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
@@ -332,16 +334,6 @@ namespace HBM.Weighing.API
         public bool WeightInZeroRange
         {
             get { return _weightInZeroRange; }
-        }
-
-        public int ApplicationMode
-        {
-            get { return _applicationMode; }
-        }
-
-        public string ApplicationModeStr
-        {
-            get { return _applicationModeStr; }
         }
 
         public int Decimals

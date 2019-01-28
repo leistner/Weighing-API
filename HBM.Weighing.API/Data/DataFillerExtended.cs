@@ -228,12 +228,12 @@ namespace HBM.Weighing.API.Data
     }
 
         #endregion
-
+        
         #region update method for the filler extended data
 
         public void UpdateFillerExtendedDataJet(object sender, DataEventArgs e)
         {
-            if (_baseWtDevice.ProcessData.ApplicationMode == 2 || _baseWtDevice.ProcessData.ApplicationMode == 3)
+            if ((int) _baseWtDevice.ApplicationMode == 2 || (int) _baseWtDevice.ApplicationMode == 3)
             {
                 this.UpdateFillerDataJet(this, e);
                 /*

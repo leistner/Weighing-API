@@ -32,6 +32,13 @@ using System;
 
 namespace HBM.Weighing.API
 {
+    public enum ApplicationMode
+    {
+        Standard = 0,
+        Checkweigher = 1,
+        Filler = 2
+    };
+
     public abstract class BaseWtDevice
     {
         #region Attributes
@@ -110,7 +117,9 @@ namespace HBM.Weighing.API
         public abstract void Tare();
 
         public abstract void adjustZero();
+
         public abstract void adjustNominal();
+
         public abstract void activateData();
         public abstract void manualTaring();
         public abstract void recordWeight();
@@ -172,13 +181,13 @@ namespace HBM.Weighing.API
         /// Sets the status according according to the integer value in ProcessData : F.e. "Execution OK!" or "Execution not OK!"
         /// </summary>
         /// <returns></returns>
-        public abstract string StatusStringComment();
+        //public abstract string StatusStringComment();
 
         /// <summary>
         /// Sets the application mode according to the integer value in ProcessData : Standard or filler mode
         /// </summary>
         /// <returns></returns>
-        public abstract string ApplicationModeStringComment();
+        public abstract ApplicationMode ApplicationMode { get; }
 
         /// <summary>
         /// Sets the weight type according to the integer value in ProcessData: gross or net

@@ -135,7 +135,7 @@ namespace JetbusTest
 
             value = _wtxObj.ProcessData.Status;
 
-            string Strvalue = _wtxObj.StatusStringComment();
+            //string Strvalue = _wtxObj.StatusStringComment();
             
             Assert.AreEqual("Execution OK!", Strvalue);
         }
