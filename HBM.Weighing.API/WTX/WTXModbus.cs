@@ -28,6 +28,7 @@
 //
 // </copyright>
 using HBM.Weighing.API.Data;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -60,6 +61,8 @@ namespace HBM.Weighing.API.WTX
         private ushort _command;
         private double dPreload, dNominalLoad, multiplierMv2D;      
         public System.Timers.Timer _aTimer;
+
+        private Dictionary<string, JToken> _dataDict;
         #endregion
 
         #region Events
@@ -349,12 +352,12 @@ namespace HBM.Weighing.API.WTX
         /// <param name="_asyncData"></param>
         public void OnData(ushort[] _data)
         {
-            this.Update(_data);
+            this.UpdateApplicationMode(_data);  // Update the application mode
 
             this._previousNetValue = ProcessData.NetValue;
 
             // Updata data in data classes : 
-            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(_data,new Dictionary<string, int>()));
+            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(_data, _dataDict));
 
             // Only if the net value changed, the data will be send to the GUI
             if(_previousNetValue != ProcessData.NetValue)
@@ -363,7 +366,7 @@ namespace HBM.Weighing.API.WTX
        
         }
 
-        public void Update(ushort[] Data)
+        public void UpdateApplicationMode(ushort[] Data)
         {
             if ((_data[5] & 0x03) == 0)
                 _applicationMode = ApplicationMode.Standard;

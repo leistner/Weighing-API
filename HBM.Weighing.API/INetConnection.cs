@@ -61,8 +61,7 @@ namespace HBM.Weighing.API
         void WriteArray(ushort index, ushort[] data);
                 
         Dictionary<string, int> AllData { get; }
-         
-
+        
     }
     
 }

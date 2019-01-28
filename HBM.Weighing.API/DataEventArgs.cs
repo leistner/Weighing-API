@@ -40,9 +40,9 @@ namespace HBM.Weighing.API
     public class DataEventArgs
     {
         private ushort[] _dataArray;
-        private Dictionary<string, int> _dataDict;
+        private Dictionary<string, JToken> _dataDict;
 
-        public DataEventArgs(ushort[] _dataArrayParam, Dictionary<string,int> _dataDictParam)
+        public DataEventArgs(ushort[] _dataArrayParam, Dictionary<string,JToken> _dataDictParam)
         {
             this._dataArray = _dataArrayParam;
             this._dataDict = _dataDictParam; 
@@ -60,7 +60,7 @@ namespace HBM.Weighing.API
             }
         }
 
-        public Dictionary<string,int> DataDictionary
+        public Dictionary<string,JToken> DataDictionary
         {
             get
             {

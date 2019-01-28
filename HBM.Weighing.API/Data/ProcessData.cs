@@ -145,33 +145,33 @@ namespace HBM.Weighing.API
 
         public void UpdateProcessDataJet(object sender, DataEventArgs e)
         {
-            _netValue = e.DataDictionary[JetBusCommands.NET_VALUE];
-            _grossValue = e.DataDictionary[JetBusCommands.GROSS_VALUE];
+            _netValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.NET_VALUE]);
+            _grossValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.GROSS_VALUE]);
             _netValueStr = this.CurrentWeight(_netValue, _decimals);
             _grossValueStr = this.CurrentWeight(_grossValue, _decimals);
 
             _tareValue = _netValue - _grossValue;
-            _generalWeightError = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1));
-            _scaleAlarmTriggered = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1);
-            _limitStatus = (e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
+            _generalWeightError = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1);
+            _scaleAlarmTriggered = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x2) >> 1);
+            _limitStatus = (Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0xC) >> 2;
 
             
-            _weightMoving = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4);
-            _scaleSealIsOpen = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5);
-            _manualTare = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6);
-            _weightType = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7);
-            _scaleRange = (e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
+            _weightMoving = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x10) >> 4);
+            _scaleSealIsOpen = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x20) >> 5);
+            _manualTare = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x40) >> 6);
+            _weightType = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x80) >> 7);
+            _scaleRange = (Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x300) >> 8;
             
             //_applicationMode = e.DataDictionary[JetBusCommands.APPLICATION_MODE];
-            _zeroRequired = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10);
-            _weightWithinTheCenterOfZero = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11);
-            _weightInZeroRange = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12);
+            _zeroRequired = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x400) >> 10);
+            _weightWithinTheCenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x800) >> 11);
+            _weightInZeroRange = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1000) >> 12);
 
-            _decimals = e.DataDictionary[JetBusCommands.DECIMALS];
-            _unit = (e.DataDictionary[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
+            _decimals = Convert.ToInt32(e.DataDictionary[JetBusCommands.DECIMALS]);
+            _unit = (Convert.ToInt32(e.DataDictionary[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;
 
-            _handshake = UpdateHandshake(e.DataDictionary[JetBusCommands.SCALE_COMMAND_STATUS]);
-            _status = e.DataDictionary[JetBusCommands.SCALE_COMMAND_STATUS];
+            _handshake = UpdateHandshake(Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_COMMAND_STATUS]));
+            _status = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_COMMAND_STATUS]);
 
             this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
         }

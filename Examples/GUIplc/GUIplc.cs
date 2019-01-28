@@ -544,14 +544,22 @@ namespace WTXModbusExamples
 
                 if (inputFormatIsRight == true)
                 {
-                    index = (ushort)Convert.ToInt16(dataGridView1[6, e.RowIndex].Value); // For the index, the word number which should be written to the WTX device 
+                    index = (ushort)Convert.ToInt16(dataGridView1[7, e.RowIndex].Value); // For the index, the word number which should be written to the WTX device 
+
+                    _wtxDevice.Connection.Write(index, value);
+
+                    _wtxDevice.activateData();
 
                     // For the standard application: 
                     if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)
                     {
                         if (e.RowIndex >= 8 && e.RowIndex <= 24)
                         {
-                            MessageBox.Show(value.ToString());  // for test purpose only.
+                            MessageBox.Show("Write : " + value.ToString());  // for test purpose only.
+
+                            //_wtxDevice.Connection.WriteArray(index,)
+                            //_wtxDevice.activateData();    // Bit .11 - Activate Data
+
                             // If the specific cell of the row 8,9,10 till row 24 has changed, write the value to the specific properties. 
 
                             switch (e.RowIndex)
@@ -648,11 +656,6 @@ namespace WTXModbusExamples
                     _wtxDevice.WriteOutputWordU16(value, index);
                 */
             }
-
-            // Test Activate Data after the write of an output word: 
-
-            //_wtxDevice.activateData();    // Bit .11 - Activate Data
-
 
         }
 
