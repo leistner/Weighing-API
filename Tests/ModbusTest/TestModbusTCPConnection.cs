@@ -171,7 +171,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public int command; 
 
         public event EventHandler BusActivityDetection;
-        public event EventHandler<ProcessDataReceivedEventArgs> IncomingDataReceived;
+        public event EventHandler<DataEventArgs> IncomingDataReceived;
 
         private string IP;
         private int interval;
@@ -378,7 +378,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
             }
 
-            IncomingDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(new ProcessData()));
+            IncomingDataReceived?.Invoke(this, null/*new ProcessDataReceivedEventArgs(new ProcessData())*/);
 
             return _dataWTX[Convert.ToInt16(index)];
         }

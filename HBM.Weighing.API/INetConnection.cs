@@ -40,7 +40,7 @@ namespace HBM.Weighing.API
     {
         event EventHandler BusActivityDetection;
 
-        event EventHandler<ProcessDataReceivedEventArgs> IncomingDataReceived;
+        event EventHandler<DataEventArgs> IncomingDataReceived;
 
         string IpAddress    { get; set; }       
 

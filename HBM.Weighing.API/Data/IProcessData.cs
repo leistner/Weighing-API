@@ -77,8 +77,9 @@ namespace HBM.Weighing.API
 
         #region Update methods for the process data
 
-        void UpdateProcessDataModbus(ushort[] _dataParam);
-        void UpdateProcessDataJet(Dictionary<string, int> _dataParam);
+        void UpdateProcessDataModbus(object sender, DataEventArgs e);
+        void UpdateProcessDataJet(object sender, DataEventArgs e);
+
 
         #endregion
     }

@@ -29,6 +29,7 @@
 // </copyright>
 
 using HBM.Weighing.API.WTX.Jet;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,8 +44,6 @@ namespace HBM.Weighing.API.Data
     public class DataFiller : IDataFiller
     {
         #region privates for filler mode
-
-        private ushort[] _data;
 
         private int _coarseFlow;
         private int _fineFlow;
@@ -121,13 +120,24 @@ namespace HBM.Weighing.API.Data
         private int _valveControl;
         private int _emptyingMode;
 
+
+        private BaseWtDevice _baseWtDevice;
         #endregion
 
         #region contructor
 
-        public DataFiller() : base()
+        public DataFiller(BaseWtDevice BaseWtDeviceObject) : base()
         {
-            _coarseFlow=0;
+            _baseWtDevice = BaseWtDeviceObject;
+
+            if (_baseWtDevice.ConnectionType == "Modbus")
+                _baseWtDevice.UpdateDataClasses += UpdateFillerDataModbus;
+
+            if (_baseWtDevice.ConnectionType == "Jetbus")
+                _baseWtDevice.UpdateDataClasses += UpdateFillerDataJet;
+
+
+            _coarseFlow = 0;
             _fineFlow=0;
             _ready=0;
             _reDosing=0;
@@ -197,50 +207,51 @@ namespace HBM.Weighing.API.Data
 
         #region Update methods for the filler mode
 
-        public void UpdateFillerDataModbus(ushort[] dataParam)
+        public void UpdateFillerDataModbus(object sender, DataEventArgs e)
         {
-            this._data = dataParam;
+            if (_baseWtDevice.ProcessData.ApplicationMode == 2 || _baseWtDevice.ProcessData.ApplicationMode == 3)
+            {
+                _coarseFlow = (e.Data[8] & 0x1);
+                _fineFlow = ((e.Data[8] & 0x2) >> 1);
+                _ready = ((e.Data[8] & 0x4) >> 2);
+                _reDosing = ((e.Data[8] & 0x8) >> 3);
 
-            _coarseFlow = (_data[8] & 0x1);
-            _fineFlow   = ((_data[8] & 0x2) >> 1);
-            _ready      = ((_data[8] & 0x4) >> 2);
-            _reDosing   = ((_data[8] & 0x8) >> 3);
+                _emptying = ((e.Data[8] & 0x10) >> 4);
+                _flowError = ((e.Data[8] & 0x20) >> 5);
+                _alarm = ((e.Data[8] & 0x40) >> 6);
+                _adcOverUnderload = ((e.Data[8] & 0x80) >> 7);
 
-            _emptying  = ((_data[8] & 0x10) >> 4);
-            _flowError = ((_data[8] & 0x20) >> 5);
-            _alarm     = ((_data[8] & 0x40) >> 6);
-            _adcOverUnderload = ((_data[8] & 0x80) >> 7);
+                _maxDosingTime = ((e.Data[8] & 0x100) >> 8);
+                _legalForTradeOperation = ((e.Data[8] & 0x200) >> 9);
+                _toleranceErrorPlus = ((e.Data[8] & 0x400) >> 10);
+                _toleranceErrorMinus = ((e.Data[8] & 0x800) >> 11);
 
-            _maxDosingTime          = ((_data[8] & 0x100) >> 8);
-            _legalForTradeOperation = ((_data[8] & 0x200) >> 9);
-            _toleranceErrorPlus     = ((_data[8] & 0x400) >> 10);
-            _toleranceErrorMinus    = ((_data[8] & 0x800) >> 11);
+                _statusInput1 = ((e.Data[8] & 0x4000) >> 14);
+                _generalScaleError = ((e.Data[8] & 0x8000) >> 15);
 
-            _statusInput1      = ((_data[8] & 0x4000) >> 14);
-            _generalScaleError = ((_data[8] & 0x8000) >> 15);
+                _fillingProcessStatus = e.Data[9];
+                _numberDosingResults = e.Data[11];
+                _dosingResult = e.Data[12];
+                _meanValueDosingResults = e.Data[14];
 
-            _fillingProcessStatus   = _data[9];
-            _numberDosingResults    = _data[11];
-            _dosingResult           = _data[12];
-            _meanValueDosingResults = _data[14];
+                _standardDeviation = e.Data[16];
+                _totalWeight = e.Data[18];
+                _fineFlowCutOffPoint = e.Data[20];
+                _coarseFlowCutOffPoint = e.Data[22];
 
-            _standardDeviation     = _data[16];
-            _totalWeight           = _data[18];
-            _fineFlowCutOffPoint   = _data[20];
-            _coarseFlowCutOffPoint = _data[22];
+                _currentDosingTime = e.Data[24];
+                _currentCoarseFlowTime = e.Data[25];
+                _currentFineFlowTime = e.Data[26];
+                _parameterSetProduct = e.Data[27];
 
-            _currentDosingTime     = _data[24];
-            _currentCoarseFlowTime = _data[25];
-            _currentFineFlowTime   = _data[26];      
-            _parameterSetProduct   = _data[27];
+                _weightMemoryDay = e.Data[32];
+                _weightMemoryMonth = e.Data[33];
+                _weightMemoryYear = e.Data[34];
+                _weightMemorySeqNumber = e.Data[35];
+                _weightMemoryGross = e.Data[36];
+                _weightMemoryNet = e.Data[37];
 
-            _weightMemoryDay       = _data[32];
-            _weightMemoryMonth     = _data[33];
-            _weightMemoryYear      = _data[34];
-            _weightMemorySeqNumber = _data[35];
-            _weightMemoryGross     = _data[36];
-            _weightMemoryNet       = _data[37];
-
+            }
             //Output words:
             /*
             _residualFlowTime;
@@ -278,63 +289,66 @@ namespace HBM.Weighing.API.Data
             */
         }
 
-        public void UpdateFillerDataJet(Dictionary<string, int> _data)
+        public void UpdateFillerDataJet(object sender, DataEventArgs e)
         {
-            _maxDosingTime = _data[JetBusCommands.MAXIMAL_DOSING_TIME];
-            _meanValueDosingResults = _data[JetBusCommands.MEAN_VALUE_DOSING_RESULTS];
-            _standardDeviation = _data[JetBusCommands.STANDARD_DEVIATION];
-            _fineFlowCutOffPoint = _data[JetBusCommands.FINE_FLOW_CUT_OFF_POINT];
-            _coarseFlowCutOffPoint = _data[JetBusCommands.COARSE_FLOW_CUT_OFF_POINT];
-            _residualFlowTime = _data[JetBusCommands.RESIDUAL_FLOW_TIME];
-            _minimumFineFlow = _data[JetBusCommands.MINIMUM_FINE_FLOW];
-            _optimizationOfCutOffPoints = _data[JetBusCommands.OPTIMIZATION];
-            _maximumDosingTime = _data[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
-            _coarseLockoutTime = _data[JetBusCommands.COARSE_FLOW_TIME];
-            _fineLockoutTime = _data[JetBusCommands.FINE_FLOW_TIME];
-            _tareMode = _data[JetBusCommands.TARE_MODE];
-            _upperToleranceLimit = _data[JetBusCommands.UPPER_TOLERANCE_LIMIT];
-            _lowerToleranceLimit = _data[JetBusCommands.LOWER_TOLERANCE_LOMIT];
-            _minimumStartWeight = _data[JetBusCommands.MINIMUM_START_WEIGHT];
-            _emptyWeight = _data[JetBusCommands.EMPTY_WEIGHT_TOLERANCE];
-            _tareDelay = _data[JetBusCommands.TARE_DELAY];
-            _coarseFlowMonitoringTime = _data[JetBusCommands.COARSE_FLOW_MONITORING_TIME];
-            _coarseFlowMonitoring = _data[JetBusCommands.COARSE_FLOW_MONITORING];
-            _fineFlowMonitoring = _data[JetBusCommands.FINE_FLOW_MONITORING];
-            _fineFlowMonitoringTime = _data[JetBusCommands.FINE_FLOW_MONITORING_TIME];
-            _systematicDifference = _data[JetBusCommands.SYSTEMATIC_DIFFERENCE];
-            _valveControl = _data[JetBusCommands.VALVE_CONTROL];
-            _emptyingMode = _data[JetBusCommands.EMPTYING_MODE];
-            _delayTimeAfterFineFlow = _data[JetBusCommands.DELAY1_DOSING];
-            _activationTimeAfterFineFlow = _data[JetBusCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW];
+            if (_baseWtDevice.ProcessData.ApplicationMode == 2 || _baseWtDevice.ProcessData.ApplicationMode == 3)
+            {
+                _maxDosingTime = e.DataDictionary[JetBusCommands.MAXIMAL_DOSING_TIME];
+                _meanValueDosingResults = e.DataDictionary[JetBusCommands.MEAN_VALUE_DOSING_RESULTS];
+                _standardDeviation = e.DataDictionary[JetBusCommands.STANDARD_DEVIATION];
+                _fineFlowCutOffPoint = e.DataDictionary[JetBusCommands.FINE_FLOW_CUT_OFF_POINT];
+                _coarseFlowCutOffPoint = e.DataDictionary[JetBusCommands.COARSE_FLOW_CUT_OFF_POINT];
+                _residualFlowTime = e.DataDictionary[JetBusCommands.RESIDUAL_FLOW_TIME];
+                _minimumFineFlow = e.DataDictionary[JetBusCommands.MINIMUM_FINE_FLOW];
+                _optimizationOfCutOffPoints = e.DataDictionary[JetBusCommands.OPTIMIZATION];
+                _maximumDosingTime = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
+                _coarseLockoutTime = e.DataDictionary[JetBusCommands.COARSE_FLOW_TIME];
+                _fineLockoutTime = e.DataDictionary[JetBusCommands.FINE_FLOW_TIME];
+                _tareMode = e.DataDictionary[JetBusCommands.TARE_MODE];
+                _upperToleranceLimit = e.DataDictionary[JetBusCommands.UPPER_TOLERANCE_LIMIT];
+                _lowerToleranceLimit = e.DataDictionary[JetBusCommands.LOWER_TOLERANCE_LOMIT];
+                _minimumStartWeight = e.DataDictionary[JetBusCommands.MINIMUM_START_WEIGHT];
+                _emptyWeight = e.DataDictionary[JetBusCommands.EMPTY_WEIGHT_TOLERANCE];
+                _tareDelay = e.DataDictionary[JetBusCommands.TARE_DELAY];
+                _coarseFlowMonitoringTime = e.DataDictionary[JetBusCommands.COARSE_FLOW_MONITORING_TIME];
+                _coarseFlowMonitoring = e.DataDictionary[JetBusCommands.COARSE_FLOW_MONITORING];
+                _fineFlowMonitoring = e.DataDictionary[JetBusCommands.FINE_FLOW_MONITORING];
+                _fineFlowMonitoringTime = e.DataDictionary[JetBusCommands.FINE_FLOW_MONITORING_TIME];
+                _systematicDifference = e.DataDictionary[JetBusCommands.SYSTEMATIC_DIFFERENCE];
+                _valveControl = e.DataDictionary[JetBusCommands.VALVE_CONTROL];
+                _emptyingMode = e.DataDictionary[JetBusCommands.EMPTYING_MODE];
+                _delayTimeAfterFineFlow = e.DataDictionary[JetBusCommands.DELAY1_DOSING];
+                _activationTimeAfterFineFlow = e.DataDictionary[JetBusCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW];
 
-            // Undefined ID's: 
+                // Undefined ID's: 
 
-            _adcOverUnderload = 0;       
-            _legalForTradeOperation = 0; 
-            _statusInput1 = 0;           
-            _generalScaleError = 0;      
-            _coarseFlow = 0;             
-            _fineFlow = 0;               
-            _ready = 0;                  
-            _reDosing = 0;               
-            _emptying = 0;               
-            _flowError = 0;              
-            _alarm = 0;                  
-            _toleranceErrorPlus = 0;     
-            _toleranceErrorMinus = 0;    
-            _currentDosingTime = 0;      
-            _currentCoarseFlowTime = 0;  
-            _currentFineFlowTime = 0;    
+                _adcOverUnderload = 0;
+                _legalForTradeOperation = 0;
+                _statusInput1 = 0;
+                _generalScaleError = 0;
+                _coarseFlow = 0;
+                _fineFlow = 0;
+                _ready = 0;
+                _reDosing = 0;
+                _emptying = 0;
+                _flowError = 0;
+                _alarm = 0;
+                _toleranceErrorPlus = 0;
+                _toleranceErrorMinus = 0;
+                _currentDosingTime = 0;
+                _currentCoarseFlowTime = 0;
+                _currentFineFlowTime = 0;
 
-            _parameterSetProduct = 0;     
-            _downwardsDosing = 0;        
-            _legalForTradeOperation = 0; 
-            
-            _totalWeight = 0;             
-            _targetFillingWeight = 0;     
-            _coarseFlowCutOffPointSet = 0;
-            _fineFlowCutOffPointSet = 0;  
-            _startWithFineFlow = 0;       
+                _parameterSetProduct = 0;
+                _downwardsDosing = 0;
+                _legalForTradeOperation = 0;
+
+                _totalWeight = 0;
+                _targetFillingWeight = 0;
+                _coarseFlowCutOffPointSet = 0;
+                _fineFlowCutOffPointSet = 0;
+                _startWithFineFlow = 0;
+            }
         }
 
         #endregion

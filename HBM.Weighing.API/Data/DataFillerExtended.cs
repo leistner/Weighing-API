@@ -129,14 +129,18 @@ namespace HBM.Weighing.API.Data
         private int _emptyWeightTolerance;
         private int _residualFlowDosingCycle;
 
-
+        private BaseWtDevice _baseWtDevice;
         #endregion
 
         #region constructor
 
-        public DataFillerExtended()
+        public DataFillerExtended(BaseWtDevice BaseWtDeviceObject):base(BaseWtDeviceObject)          
         {
-            _saveAllParameters=0;
+            _baseWtDevice = BaseWtDeviceObject;
+
+            _baseWtDevice.UpdateDataClasses += UpdateFillerExtendedDataJet;
+
+            _saveAllParameters =0;
             _restoreAllDefaultParameters=0;
             _vendorID=0;
             _productCode=0;
@@ -227,91 +231,92 @@ namespace HBM.Weighing.API.Data
 
         #region update method for the filler extended data
 
-        public void UpdateFillerExtendedDataJet(Dictionary<string, int> _data)
+        public void UpdateFillerExtendedDataJet(object sender, DataEventArgs e)
         {
-            this.UpdateFillerDataJet(_data);
+            if (_baseWtDevice.ProcessData.ApplicationMode == 2 || _baseWtDevice.ProcessData.ApplicationMode == 3)
+            {
+                this.UpdateFillerDataJet(this, e);
+                /*
+                _errorRegister = _data[JetBusCommands.ERROR_REGISTER];
+                _saveAllParameters = _data[JetBusCommands.SAVE_ALL_PARAMETERS];
+                _restoreAllDefaultParameters = _data[JetBusCommands.RESTORE_ALL_DEFAULT_PARAMETERS];
+                _vendorID = _data[JetBusCommands.VENDOR_ID];
 
-            /*
-            _errorRegister = _data[JetBusCommands.ERROR_REGISTER];
-            _saveAllParameters = _data[JetBusCommands.SAVE_ALL_PARAMETERS];
-            _restoreAllDefaultParameters = _data[JetBusCommands.RESTORE_ALL_DEFAULT_PARAMETERS];
-            _vendorID = _data[JetBusCommands.VENDOR_ID];
+                _productCode = _data[JetBusCommands.PRODUCT_CODE];
+                _serialNumber = _data[JetBusCommands.SERIAL_NUMBER];
+                _implementedProfileSpecification = _data[JetBusCommands.IMPLEMENTED_PROFILE_SPECIFICATION];
+                _lcCapability = _data[JetBusCommands.LC_CAPABILITY];
+                _weighingDevice1UnitPrefixOutputParameter = _data[JetBusCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER];
+                */
+                _weighingDevice1WeightStep = e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STEP];
+                _alarms = e.DataDictionary[JetBusCommands.ALARMS];
+                _weighingDevice1OutputWeight = e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_OUTPUT_WEIGHT];
+                _weighingDevice1Setting = e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_SETTING];
 
-            _productCode = _data[JetBusCommands.PRODUCT_CODE];
-            _serialNumber = _data[JetBusCommands.SERIAL_NUMBER];
-            _implementedProfileSpecification = _data[JetBusCommands.IMPLEMENTED_PROFILE_SPECIFICATION];
-            _lcCapability = _data[JetBusCommands.LC_CAPABILITY];
-            _weighingDevice1UnitPrefixOutputParameter = _data[JetBusCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER];
-            */
-            _weighingDevice1WeightStep = _data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STEP];
-            _alarms = _data[JetBusCommands.ALARMS];
-            _weighingDevice1OutputWeight = _data[JetBusCommands.WEIGHING_DEVICE_1_OUTPUT_WEIGHT];
-            _weighingDevice1Setting = _data[JetBusCommands.WEIGHING_DEVICE_1_SETTING];
+                _localGravityFactor = e.DataDictionary[JetBusCommands.LOCAL_GRAVITY_FACTOR];
+                _scaleFilterSetup = e.DataDictionary[JetBusCommands.SCALE_FILTER_SETUP];
+                _dataSampleRate = e.DataDictionary[JetBusCommands.DATA_SAMPLE_RATE];
 
-            _localGravityFactor = _data[JetBusCommands.LOCAL_GRAVITY_FACTOR];
-            _scaleFilterSetup = _data[JetBusCommands.SCALE_FILTER_SETUP];
-            _dataSampleRate = _data[JetBusCommands.DATA_SAMPLE_RATE];
+                _filterOrderCriticallyDamped = e.DataDictionary[JetBusCommands.FILTER_ORDER_CRITICALLY_DAMPED];
+                _cutOffFrequencyCriticallyDamped = e.DataDictionary[JetBusCommands.CUT_OFF_FREQUENCY_CRITICALLY_DAMPED];
+                _filterOrderButterworth = e.DataDictionary[JetBusCommands.FILTER_ORDER_BUTTERWORTH];
+                _cutOffFrequencyButterWorth = e.DataDictionary[JetBusCommands.CUT_OFF_FREQUENCY_BUTTERWORTH];
+                _filterOrderBessel = e.DataDictionary[JetBusCommands.FILTER_ORDER_BESSEL];
 
-            _filterOrderCriticallyDamped = _data[JetBusCommands.FILTER_ORDER_CRITICALLY_DAMPED];
-            _cutOffFrequencyCriticallyDamped = _data[JetBusCommands.CUT_OFF_FREQUENCY_CRITICALLY_DAMPED];
-            _filterOrderButterworth = _data[JetBusCommands.FILTER_ORDER_BUTTERWORTH];
-            _cutOffFrequencyButterWorth = _data[JetBusCommands.CUT_OFF_FREQUENCY_BUTTERWORTH];
-            _filterOrderBessel = _data[JetBusCommands.FILTER_ORDER_BESSEL];
+                _cutOffFrequencyBessel = e.DataDictionary[JetBusCommands.CUT_OFF_FREQUENCY_BESSEL];
+                _scaleSupplyNominalVoltage = e.DataDictionary[JetBusCommands.SCALE_SUPPY_NOMINAL_VOLTAGE];
+                _scaleSupplyMinimumVoltage = e.DataDictionary[JetBusCommands.SCALE_SUPPY_MINIMUM_VOLTAGE];
+                _scaleSupplyMaximumVoltage = e.DataDictionary[JetBusCommands.SCALE_SUPPY_MAXIMUM_VOLTAGE];
 
-            _cutOffFrequencyBessel = _data[JetBusCommands.CUT_OFF_FREQUENCY_BESSEL];
-            _scaleSupplyNominalVoltage = _data[JetBusCommands.SCALE_SUPPY_NOMINAL_VOLTAGE];
-            _scaleSupplyMinimumVoltage = _data[JetBusCommands.SCALE_SUPPY_MINIMUM_VOLTAGE];
-            _scaleSupplyMaximumVoltage = _data[JetBusCommands.SCALE_SUPPY_MAXIMUM_VOLTAGE];
+                _scaleAccuracyClass = e.DataDictionary[JetBusCommands.SCALE_ACCURACY_CLASS];
+                _scaleMinimumDeadLoad = e.DataDictionary[JetBusCommands.SCALE_MINIMUM_DEAD_LOAD];
+                _scaleMaximumCapacity = e.DataDictionary[JetBusCommands.SCALE_MAXIMUM_CAPACITY];
+                _scaleMaximumNumberVerificationInterval = e.DataDictionary[JetBusCommands.SCALE_MAXIMUM_NUMBER_OF_VERIFICATION_INTERVAL];
+                _scaleApportionmentFactor = e.DataDictionary[JetBusCommands.SCALE_APPORTIONMENT_FACTOR];
+                _scaleSafeLoadLimit = e.DataDictionary[JetBusCommands.SCALE_SAFE_LOAD_LIMIT];
+                _scaleOperationNominalTemperature = e.DataDictionary[JetBusCommands.SCALE_OPERATION_NOMINAL_TEMPERATURE];
+                _scaleOperationMinimumTemperature = e.DataDictionary[JetBusCommands.SCALE_OPERATION_MINIMUM_TEMPERATURE];
+                _scaleOperationMaximumTemperature = e.DataDictionary[JetBusCommands.SCALE_OPERATION_MAXIMUM_TEMPERATURE];
 
-            _scaleAccuracyClass = _data[JetBusCommands.SCALE_ACCURACY_CLASS];
-            _scaleMinimumDeadLoad = _data[JetBusCommands.SCALE_MINIMUM_DEAD_LOAD];
-            _scaleMaximumCapacity = _data[JetBusCommands.SCALE_MAXIMUM_CAPACITY];
-            _scaleMaximumNumberVerificationInterval = _data[JetBusCommands.SCALE_MAXIMUM_NUMBER_OF_VERIFICATION_INTERVAL];
-            _scaleApportionmentFactor = _data[JetBusCommands.SCALE_APPORTIONMENT_FACTOR];
-            _scaleSafeLoadLimit = _data[JetBusCommands.SCALE_SAFE_LOAD_LIMIT];
-            _scaleOperationNominalTemperature = _data[JetBusCommands.SCALE_OPERATION_NOMINAL_TEMPERATURE];
-            _scaleOperationMinimumTemperature = _data[JetBusCommands.SCALE_OPERATION_MINIMUM_TEMPERATURE];
-            _scaleOperationMaximumTemperature = _data[JetBusCommands.SCALE_OPERATION_MAXIMUM_TEMPERATURE];
+                //_scaleRelativeMinimumLoadCellVerficationInterval = e.DataDictionary[JetBusCommands.SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL];
+                _intervalRangeControl = e.DataDictionary[JetBusCommands.INTERVAL_RANGE_CONTROL];
+                _multiLimit1 = e.DataDictionary[JetBusCommands.MULTI_LIMIT_1];
+                _multiLimit2 = e.DataDictionary[JetBusCommands.MULTI_LIMIT_2];
+                //_oimlCertificationInformation = e.DataDictionary[JetBusCommands.OIML_CERTIFICAITON_INFORMATION];
+                //_ntepCertificationInformation = e.DataDictionary[JetBusCommands.NTEP_CERTIFICAITON_INFORMATION];
+                _maximumZeroingTime = e.DataDictionary[JetBusCommands.MAXIMUM_ZEROING_TIME];
+                _maximumPeakValueGross = e.DataDictionary[JetBusCommands.MAXIMUM_PEAK_VALUE_GROSS];
+                _minimumPeakValueGross = e.DataDictionary[JetBusCommands.MINIMUM_PEAK_VALUE_GROSS];
 
-            //_scaleRelativeMinimumLoadCellVerficationInterval = _data[JetBusCommands.SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL];
-            _intervalRangeControl = _data[JetBusCommands.INTERVAL_RANGE_CONTROL];
-            _multiLimit1 = _data[JetBusCommands.MULTI_LIMIT_1];
-            _multiLimit2 = _data[JetBusCommands.MULTI_LIMIT_2];
-            //_oimlCertificationInformation = _data[JetBusCommands.OIML_CERTIFICAITON_INFORMATION];
-            //_ntepCertificationInformation = _data[JetBusCommands.NTEP_CERTIFICAITON_INFORMATION];
-            _maximumZeroingTime = _data[JetBusCommands.MAXIMUM_ZEROING_TIME];
-            _maximumPeakValueGross = _data[JetBusCommands.MAXIMUM_PEAK_VALUE_GROSS];
-            _minimumPeakValueGross = _data[JetBusCommands.MINIMUM_PEAK_VALUE_GROSS];
+                _maximumPeakValue = e.DataDictionary[JetBusCommands.MAXIMUM_PEAK_VALUE];
+                _minimumPeakValue = e.DataDictionary[JetBusCommands.MINIMUM_PEAK_VALUE];
+                _weightMovingDetection = e.DataDictionary[JetBusCommands.WEIGHT_MOVING_DETECTION];
+                //_deviceAddress = e.DataDictionary[JetBusCommands.DEVICE_ADDRESS];
+                //_hardwareVersion = e.DataDictionary[JetBusCommands.HAREWARE_VERSION];
+                //_identification = e.DataDictionary[JetBusCommands.IDENTIFICATION];
 
-            _maximumPeakValue = _data[JetBusCommands.MAXIMUM_PEAK_VALUE];
-            _minimumPeakValue = _data[JetBusCommands.MINIMUM_PEAK_VALUE];
-            _weightMovingDetection = _data[JetBusCommands.WEIGHT_MOVING_DETECTION];
-            //_deviceAddress = _data[JetBusCommands.DEVICE_ADDRESS];
-            //_hardwareVersion = _data[JetBusCommands.HAREWARE_VERSION];
-            //_identification = _data[JetBusCommands.IDENTIFICATION];
+                _outputScale = e.DataDictionary[JetBusCommands.OUTPUT_SCALE];
+                //_firmwareDate = e.DataDictionary[JetBusCommands.FIRMWARE_DATE];
+                _resetTrigger = e.DataDictionary[JetBusCommands.RESET_TRIGGER];
+                _stateDigital_IO_Extended = e.DataDictionary[JetBusCommands.STATE_DIGITAL_IO_EXTENDED];
 
-            _outputScale = _data[JetBusCommands.OUTPUT_SCALE];
-            //_firmwareDate = _data[JetBusCommands.FIRMWARE_DATE];
-            _resetTrigger = _data[JetBusCommands.RESET_TRIGGER];
-            _stateDigital_IO_Extended = _data[JetBusCommands.STATE_DIGITAL_IO_EXTENDED];
+                //_softwareIdentification = e.DataDictionary[JetBusCommands.SOFTWARE_IDENTIFICATION];
+                //_softwareVersion = e.DataDictionary[JetBusCommands.SOFTWARE_VERSION];
+                _dateTime = e.DataDictionary[JetBusCommands.DATE_TIME];
 
-            //_softwareIdentification = _data[JetBusCommands.SOFTWARE_IDENTIFICATION];
-            //_softwareVersion = _data[JetBusCommands.SOFTWARE_VERSION];
-            _dateTime = _data[JetBusCommands.DATE_TIME];
+                _breakDosing = e.DataDictionary[JetBusCommands.BREAK_DOSING];
+                _deleteDosingResult = e.DataDictionary[JetBusCommands.DELETE_DOSING_RESULT];
+                _materialStreamLastDosing = e.DataDictionary[JetBusCommands.MATERIAL_STREAM_LAST_DOSING];
+                _sum = e.DataDictionary[JetBusCommands.SUM];
+                _specialDosingFunctions = e.DataDictionary[JetBusCommands.SPECIAL_DOSING_FUNCTIONS];
+                _dischargeTime = e.DataDictionary[JetBusCommands.DISCHARGE_TIME];
+                _exceedingWeightBreak = e.DataDictionary[JetBusCommands.EXCEEDING_WEIGHT_BREAK];
+                _delay1Dosing = e.DataDictionary[JetBusCommands.DELAY1_DOSING];
+                _delay2Dosing = e.DataDictionary[JetBusCommands.DELAY2_DOSING];
+                _emptyWeightTolerance = e.DataDictionary[JetBusCommands.EMPTY_WEIGHT_TOLERANCE];
+                _residualFlowDosingCycle = e.DataDictionary[JetBusCommands.RESIDUAL_FLOW_DOSING_CYCLE];
 
-            _breakDosing = _data[JetBusCommands.BREAK_DOSING];
-            _deleteDosingResult = _data[JetBusCommands.DELETE_DOSING_RESULT];
-            _materialStreamLastDosing = _data[JetBusCommands.MATERIAL_STREAM_LAST_DOSING];
-            _sum = _data[JetBusCommands.SUM];
-            _specialDosingFunctions = _data[JetBusCommands.SPECIAL_DOSING_FUNCTIONS];
-            _dischargeTime = _data[JetBusCommands.DISCHARGE_TIME];
-            _exceedingWeightBreak = _data[JetBusCommands.EXCEEDING_WEIGHT_BREAK];
-            _delay1Dosing = _data[JetBusCommands.DELAY1_DOSING];
-            _delay2Dosing = _data[JetBusCommands.DELAY2_DOSING];
-            _emptyWeightTolerance = _data[JetBusCommands.EMPTY_WEIGHT_TOLERANCE];
-            _residualFlowDosingCycle = _data[JetBusCommands.RESIDUAL_FLOW_DOSING_CYCLE];
-
-
+            }
         }
 
         #endregion

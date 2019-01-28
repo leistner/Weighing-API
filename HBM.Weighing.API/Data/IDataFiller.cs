@@ -127,8 +127,8 @@ namespace HBM.Weighing.API
 
         #region Update methods for the data of standard mode
 
-        void UpdateFillerDataModbus(ushort[] _dataParam);
-        void UpdateFillerDataJet(Dictionary<string, int> _dataParam);
+        void UpdateFillerDataModbus(object sender, DataEventArgs e);
+        void UpdateFillerDataJet(object sender, DataEventArgs e);
 
         #endregion
     }

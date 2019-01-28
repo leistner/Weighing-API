@@ -29,10 +29,12 @@
 // </copyright>
 
 using HBM.Weighing.API.WTX.Jet;
+using HBM.Weighing.API.WTX.Modbus;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HBM.Weighing.API.Data
@@ -43,8 +45,6 @@ namespace HBM.Weighing.API.Data
     public class DataStandard : IDataStandard
     {
         #region privates for standard mode
-
-        private ushort[] _data;
 
         // Input words :
 
@@ -115,13 +115,22 @@ namespace HBM.Weighing.API.Data
         private int _switchOnLevelLIV43;
         private int _switchOffLevelLIV44;
 
+        private BaseWtDevice _baseWtDevice;
         #endregion
 
         #region constructor
-
-        public DataStandard()
+        
+        public DataStandard(BaseWtDevice BaseWtDeviceObject)
         {
-            _input1 =0;
+            _baseWtDevice = BaseWtDeviceObject;
+
+            if (_baseWtDevice.ConnectionType == "Modbus")
+                _baseWtDevice.UpdateDataClasses += UpdateStandardDataModbus;
+
+            if (_baseWtDevice.ConnectionType == "Jetbus")
+                _baseWtDevice.UpdateDataClasses += UpdateStandardDataJet;
+
+            _input1 = 0;
             _input2=0;
             _input3=0;
             _input4=0;
@@ -188,74 +197,77 @@ namespace HBM.Weighing.API.Data
 
         }
 
-    #endregion
+        #endregion
 
         #region Update methods for standard mode
 
-        public void UpdateStandardDataModbus(ushort[] _dataParam)
+        public void UpdateStandardDataModbus(object sender, DataEventArgs e)
         {
-            this._data = _dataParam;
+            if (_baseWtDevice.ProcessData.ApplicationMode == 0 || _baseWtDevice.ProcessData.ApplicationMode == 1)
+            {
+                _input1 = (e.Data[6] & 0x1);
+                _input2 = ((e.Data[6] & 0x2) >> 1);
+                _input3 = ((e.Data[6] & 0x4) >> 2);
+                _input4 = ((e.Data[6] & 0x8) >> 3);
 
-            _input1 = (_data[6] & 0x1);
-            _input2 = ((_data[6] & 0x2) >> 1);
-            _input3 = ((_data[6] & 0x4) >> 2);
-            _input4 = ((_data[6] & 0x8) >> 3);
+                _output1 = (e.Data[7] & 0x1); ;
+                _output2 = ((e.Data[7] & 0x2) >> 1);
+                _output3 = ((e.Data[7] & 0x4) >> 2);
+                _output4 = ((e.Data[7] & 0x8) >> 3);
 
-            _output1 = (_data[7] & 0x1); ;
-            _output2 = ((_data[7] & 0x2) >> 1);
-            _output3 = ((_data[7] & 0x4) >> 2);
-            _output4 = ((_data[7] & 0x8) >> 3);
+                _limitStatus1 = (e.Data[8] & 0x1); ;
+                _limitStatus2 = ((e.Data[8] & 0x2) >> 1);
+                _limitStatus3 = ((e.Data[8] & 0x4) >> 2);
+                _limitStatus4 = ((e.Data[8] & 0x8) >> 3);
 
-            _limitStatus1 = (_data[8] & 0x1); ;
-            _limitStatus2 = ((_data[8] & 0x2) >> 1);
-            _limitStatus3 = ((_data[8] & 0x4) >> 2);
-            _limitStatus4 = ((_data[8] & 0x8) >> 3);
-
-            _weightMemDay = (_data[9]);
-            _weightMemMonth = (_data[10]);
-            _weightMemYear = (_data[11]);
-            _weightMemSeqNumber = (_data[12]);
-            _weightMemGross = (_data[13]);
-            _weightMemNet = (_data[14]);
-
+                _weightMemDay = (e.Data[9]);
+                _weightMemMonth = (e.Data[10]);
+                _weightMemYear = (e.Data[11]);
+                _weightMemSeqNumber = (e.Data[12]);
+                _weightMemGross = (e.Data[13]);
+                _weightMemNet = (e.Data[14]);
+            }
         }
 
-        public void UpdateStandardDataJet(Dictionary<string, int> _data)
+        public void UpdateStandardDataJet(object sender, DataEventArgs e)
         {
-            _input1 = _data[JetBusCommands.STATUS_DIGITAL_INPUT_1];
-            _input2 = _data[JetBusCommands.STATUS_DIGITAL_INPUT_2];
-            _input3 = _data[JetBusCommands.STATUS_DIGITAL_INPUT_3];
-            _input4 = _data[JetBusCommands.STATUS_DIGITAL_INPUT_4];
+            if (_baseWtDevice.ProcessData.ApplicationMode == 0 || _baseWtDevice.ProcessData.ApplicationMode == 1)
+            {
+                _input1 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_1];
+                _input2 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_2];
+                _input3 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_3];
+                _input4 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_4];
 
-            _output1 = _data[JetBusCommands.STATUS_DIGITAL_OUTPUT_1];
-            _output2 = _data[JetBusCommands.STATUS_DIGITAL_OUTPUT_2];
-            _output3 = _data[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
-            _output4 = _data[JetBusCommands.STATUS_DIGITAL_OUTPUT_4];
+                _output1 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_1];
+                _output2 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_2];
+                _output3 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_3];
+                _output4 = e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_4];
 
-            _limitStatus1 = (_data[JetBusCommands.LIMIT_VALUE] & 0x1);
-            _limitStatus2 = (_data[JetBusCommands.LIMIT_VALUE] & 0x2) >> 1;
-            _limitStatus3 = (_data[JetBusCommands.LIMIT_VALUE] & 0x4) >> 2;
-            _limitStatus4 = (_data[JetBusCommands.LIMIT_VALUE] & 0x8) >> 3;
+                _limitStatus1 = (e.DataDictionary[JetBusCommands.LIMIT_VALUE] & 0x1);
+                _limitStatus2 = (e.DataDictionary[JetBusCommands.LIMIT_VALUE] & 0x2) >> 1;
+                _limitStatus3 = (e.DataDictionary[JetBusCommands.LIMIT_VALUE] & 0x4) >> 2;
+                _limitStatus4 = (e.DataDictionary[JetBusCommands.LIMIT_VALUE] & 0x8) >> 3;
 
-            _limitValueMonitoringLIV11 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV11];
-            _signalSourceLIV12 = _data[JetBusCommands.SIGNAL_SOURCE_LIV12];
-            _switchOnLevelLIV13 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV13];
-            _switchOffLevelLIV14 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV14];
+                _limitValueMonitoringLIV11 = e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV11];
+                _signalSourceLIV12 = e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV12];
+                _switchOnLevelLIV13 = e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV13];
+                _switchOffLevelLIV14 = e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV14];
 
-            _limitValueMonitoringLIV21 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV21];
-            _signalSourceLIV22 = _data[JetBusCommands.SIGNAL_SOURCE_LIV22];
-            _switchOnLevelLIV23 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV23];
-            _switchOffLevelLIV24 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV24];
+                _limitValueMonitoringLIV21 = e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV21];
+                _signalSourceLIV22 = e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV22];
+                _switchOnLevelLIV23 = e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV23];
+                _switchOffLevelLIV24 = e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV24];
 
-            _limitValueMonitoringLIV31 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV31];
-            _signalSourceLIV32 = _data[JetBusCommands.SIGNAL_SOURCE_LIV32];
-            _switchOnLevelLIV33 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV33];
-            _switchOffLevelLIV34 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV34];
+                _limitValueMonitoringLIV31 = e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV31];
+                _signalSourceLIV32 = e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV32];
+                _switchOnLevelLIV33 = e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV33];
+                _switchOffLevelLIV34 = e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV34];
 
-            _limitValueMonitoringLIV41 = _data[JetBusCommands.LIMIT_VALUE_MONITORING_LIV41];
-            _signalSourceLIV42 = _data[JetBusCommands.SIGNAL_SOURCE_LIV42];
-            _switchOnLevelLIV43 = _data[JetBusCommands.SWITCH_ON_LEVEL_LIV43];
-            _switchOffLevelLIV44 = _data[JetBusCommands.SWTICH_OFF_LEVEL_LIV44];
+                _limitValueMonitoringLIV41 = e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV41];
+                _signalSourceLIV42 = e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV42];
+                _switchOnLevelLIV43 = e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV43];
+                _switchOffLevelLIV44 = e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV44];
+            }
         }
 
         #endregion
@@ -445,6 +457,7 @@ namespace HBM.Weighing.API.Data
             get { return _nomnialLoad; }
             set { _nomnialLoad = value; }
         }
+        
         #endregion
 
     }

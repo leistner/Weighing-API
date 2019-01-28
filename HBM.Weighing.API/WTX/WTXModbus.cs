@@ -29,6 +29,7 @@
 // </copyright>
 using HBM.Weighing.API.Data;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
@@ -64,6 +65,7 @@ namespace HBM.Weighing.API.WTX
 
         #region Events
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        public override event EventHandler<DataEventArgs> UpdateDataClasses;
         #endregion
 
         #region Constructor
@@ -73,8 +75,8 @@ namespace HBM.Weighing.API.WTX
 
             this.ProcessDataReceived += OnProcessData;
 
-            this.DataFiller = new DataFiller();
-            this.DataStandard = new DataStandard();
+            this.DataFiller = new DataFiller(this);
+            this.DataStandard = new DataStandard(this);
 
             this._data = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
@@ -320,7 +322,7 @@ namespace HBM.Weighing.API.WTX
             }
         }
         #endregion
-
+        
         #region Asynchronous process data callback
         /// <summary>
         /// Called whenever new device data is available 
@@ -330,18 +332,9 @@ namespace HBM.Weighing.API.WTX
         {
             this._previousNetValue = ProcessData.NetValue;
 
-            // Update process data : 
-            if (ProcessData.ApplicationMode == 0 || ProcessData.ApplicationMode == 1)
-            {
-                ProcessData.UpdateProcessDataModbus(_data);
-            }
-            // Update data for standard mode:
-            DataStandard.UpdateStandardDataModbus(_data);
+            // Updata data in data classes : 
+            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(_data,new Dictionary<string, int>()));
 
-            // Update data for filler mode:
-            if (ProcessData.ApplicationMode == 2 || ProcessData.ApplicationMode == 3)           
-                DataFiller.UpdateFillerDataModbus(_data);
-            
             // Only if the net value changed, the data will be send to the GUI
             if(_previousNetValue != ProcessData.NetValue)
                 // Invoke Event - GUI/application class receives _processData: 

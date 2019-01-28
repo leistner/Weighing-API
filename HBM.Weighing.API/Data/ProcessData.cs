@@ -66,13 +66,22 @@ namespace HBM.Weighing.API
         private bool _weightWithinLimits;
         private bool _higherSafeLoadLimit;
 
-#region constructor of ProcessData
+        private BaseWtDevice _baseWtDevice;
 
-        public ProcessData()
+        #region constructor of ProcessData
+
+        public ProcessData(BaseWtDevice BaseWtDeviceObject)
         {
+            _baseWtDevice = BaseWtDeviceObject;
+
+            if (_baseWtDevice.ConnectionType == "Modbus")
+                _baseWtDevice.UpdateDataClasses += UpdateProcessDataModbus;
+
+            if (_baseWtDevice.ConnectionType=="Jetbus")
+                _baseWtDevice.UpdateDataClasses += UpdateProcessDataJet;
+
              _netValue = 0;     
              _grossValue = 0;    
-
              _tareValue = 0;       
              _generalWeightError = false;
              _scaleAlarmTriggered = false;
@@ -97,70 +106,70 @@ namespace HBM.Weighing.API
              _higherSafeLoadLimit = false;
         }
 
-#endregion
+        #endregion
 
         #region update methods for process data
 
-        public void UpdateProcessDataModbus(ushort[] _data)
+        public void UpdateProcessDataModbus(object sender, DataEventArgs e)
         {
-            _netValue = _data[1] + (_data[0] << 16);
-            _grossValue = _data[3] + (_data[2] << 16);
+            _netValue = e.Data[1] + (e.Data[0] << 16);
+            _grossValue = e.Data[3] + (e.Data[2] << 16);
             _netValueStr = this.CurrentWeight(_netValue, _decimals);
             _grossValueStr = this.CurrentWeight(_grossValue, _decimals);
 
             _tareValue = _netValue - _grossValue;
-            _generalWeightError = Convert.ToBoolean((_data[4] & 0x1));
-            _scaleAlarmTriggered = Convert.ToBoolean(((_data[4] & 0x2) >> 1));
-            _limitStatus = ((_data[4] & 0xC) >> 2);
-            _weightMoving = Convert.ToBoolean(((_data[4] & 0x10) >> 4));
+            _generalWeightError = Convert.ToBoolean((e.Data[4] & 0x1));
+            _scaleAlarmTriggered = Convert.ToBoolean(((e.Data[4] & 0x2) >> 1));
+            _limitStatus = ((e.Data[4] & 0xC) >> 2);
+            _weightMoving = Convert.ToBoolean(((e.Data[4] & 0x10) >> 4));
 
-            _scaleSealIsOpen = Convert.ToBoolean(((_data[4] & 0x20) >> 5));
-            _manualTare = Convert.ToBoolean(((_data[4] & 0x40) >> 6));
-            _weightType = Convert.ToBoolean(((_data[4] & 0x80) >> 7));
-            _scaleRange = ((_data[4] & 0x300) >> 8);
+            _scaleSealIsOpen = Convert.ToBoolean(((e.Data[4] & 0x20) >> 5));
+            _manualTare = Convert.ToBoolean(((e.Data[4] & 0x40) >> 6));
+            _weightType = Convert.ToBoolean(((e.Data[4] & 0x80) >> 7));
+            _scaleRange = ((e.Data[4] & 0x300) >> 8);
 
-            _zeroRequired = Convert.ToBoolean((_data[4] & 0x400) >> 10);
-            _weightWithinTheCenterOfZero = Convert.ToBoolean(((_data[4] & 0x800) >> 11));
-            _weightInZeroRange = Convert.ToBoolean(((_data[4] & 0x1000) >> 12));
-            _applicationMode = _data[5] & 0x3;
+            _zeroRequired = Convert.ToBoolean((e.Data[4] & 0x400) >> 10);
+            _weightWithinTheCenterOfZero = Convert.ToBoolean(((e.Data[4] & 0x800) >> 11));
+            _weightInZeroRange = Convert.ToBoolean(((e.Data[4] & 0x1000) >> 12));
+            _applicationMode = e.Data[5] & 0x3;
 
-            _decimals = ((_data[5] & 0x70) >> 4);
-            _unit = ((_data[5] & 0x180) >> 7);
-            _handshake = Convert.ToBoolean(((_data[5] & 0x4000) >> 14));
-            _status = ((_data[5] & 0x8000) >> 15);
+            _decimals = ((e.Data[5] & 0x70) >> 4);
+            _unit = ((e.Data[5] & 0x180) >> 7);
+            _handshake = Convert.ToBoolean(((e.Data[5] & 0x4000) >> 14));
+            _status = ((e.Data[5] & 0x8000) >> 15);
 
             this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
         }
 
-        public void UpdateProcessDataJet(Dictionary <string,int> _data)
+        public void UpdateProcessDataJet(object sender, DataEventArgs e)
         {
-            _netValue = _data[JetBusCommands.NET_VALUE];
-            _grossValue = _data[JetBusCommands.GROSS_VALUE];
+            _netValue = e.DataDictionary[JetBusCommands.NET_VALUE];
+            _grossValue = e.DataDictionary[JetBusCommands.GROSS_VALUE];
             _netValueStr = this.CurrentWeight(_netValue, _decimals);
             _grossValueStr = this.CurrentWeight(_grossValue, _decimals);
 
             _tareValue = _netValue - _grossValue;
-            _generalWeightError = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1));
-            _scaleAlarmTriggered = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1);
-            _limitStatus = (_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
+            _generalWeightError = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1));
+            _scaleAlarmTriggered = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x2) >> 1);
+            _limitStatus = (e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0xC) >> 2;
 
             
-            _weightMoving = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4);
-            _scaleSealIsOpen = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5);
-            _manualTare = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6);
-            _weightType = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7);
-            _scaleRange = (_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
+            _weightMoving = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x10) >> 4);
+            _scaleSealIsOpen = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x20) >> 5);
+            _manualTare = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x40) >> 6);
+            _weightType = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x80) >> 7);
+            _scaleRange = (e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x300) >> 8;
             
-            _zeroRequired = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10);
-            _weightWithinTheCenterOfZero = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11);
-            _weightInZeroRange = Convert.ToBoolean((_data[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12);
-            _applicationMode = _data[JetBusCommands.APPLICATION_MODE];
+            _zeroRequired = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x400) >> 10);
+            _weightWithinTheCenterOfZero = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x800) >> 11);
+            _weightInZeroRange = Convert.ToBoolean((e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] & 0x1000) >> 12);
+            _applicationMode = e.DataDictionary[JetBusCommands.APPLICATION_MODE];
 
-            _decimals = _data[JetBusCommands.DECIMALS];
-            _unit = (_data[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
+            _decimals = e.DataDictionary[JetBusCommands.DECIMALS];
+            _unit = (e.DataDictionary[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER] & 0xFF0000) >> 16;
 
-            _handshake = UpdateHandshake(_data[JetBusCommands.SCALE_COMMAND_STATUS]);
-            _status = _data[JetBusCommands.SCALE_COMMAND_STATUS];
+            _handshake = UpdateHandshake(e.DataDictionary[JetBusCommands.SCALE_COMMAND_STATUS]);
+            _status = e.DataDictionary[JetBusCommands.SCALE_COMMAND_STATUS];
 
             this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
         }

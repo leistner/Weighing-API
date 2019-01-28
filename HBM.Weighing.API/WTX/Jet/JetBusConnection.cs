@@ -57,7 +57,7 @@ namespace HBM.Weighing.API.WTX.Jet
         private Exception _mException = null;
 
         public event EventHandler BusActivityDetection;
-        public event EventHandler<ProcessDataReceivedEventArgs> IncomingDataReceived;
+        public event EventHandler<DataEventArgs> IncomingDataReceived;
 
         private bool _connected;
 
@@ -209,7 +209,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
             dataArrived = true;
             
-            IncomingDataReceived?.Invoke(this, null);  // For getting data already in the FetchAll() 
+            IncomingDataReceived?.Invoke(this, new DataEventArgs(this.DataUshortArray, this._dataIntegerBuffer));  // For getting data already in the FetchAll() 
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)
@@ -281,7 +281,7 @@ namespace HBM.Weighing.API.WTX.Jet
                 this.ConvertJTokenToStringArray();
               
                 if (dataArrived == true)
-                    IncomingDataReceived?.Invoke(this, null);
+                    IncomingDataReceived?.Invoke(this, new DataEventArgs(this.DataUshortArray, this._dataIntegerBuffer));
 
                 BusActivityDetection?.Invoke(this, new LogEvent(data.ToString()));
             }

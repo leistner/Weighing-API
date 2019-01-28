@@ -135,7 +135,7 @@ namespace HBM.Weighing.API
 
         #region Update methods for the data of filler extended mode
         
-        void UpdateFillerExtendedDataJet(Dictionary<string, int> _dataParam);
+        void UpdateFillerExtendedDataJet(object sender, DataEventArgs e);
 
         #endregion
     }

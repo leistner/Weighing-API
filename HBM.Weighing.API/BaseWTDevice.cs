@@ -43,13 +43,15 @@ namespace HBM.Weighing.API
         /// Eventhandler to raise an event and commit the data to the GUI/application from WTXJet and WTXModbus
         public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
 
+        public abstract event EventHandler<DataEventArgs> UpdateDataClasses;
+
         public abstract bool isConnected { get; }
         #endregion
 
         #region constructor of BaseWtDevice
         public BaseWtDevice(INetConnection connection) : base()
         {
-            _processData = new ProcessData();
+            _processData = new ProcessData(this);
 
             this._connection = connection;
         }
