@@ -251,22 +251,22 @@ namespace HBM.Weighing.API.Data
                 _limitValueMonitoringLIV11 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV11]);
                 _signalSourceLIV12 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV12]);
                 _switchOnLevelLIV13 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV13]);
-                _switchOffLevelLIV14 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV14]);
+                _switchOffLevelLIV14 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_OFF_LEVEL_LIV14]);
 
                 _limitValueMonitoringLIV21 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV21]);
                 _signalSourceLIV22 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV22]);
                 _switchOnLevelLIV23 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV23]);
-                _switchOffLevelLIV24 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV24]);
+                _switchOffLevelLIV24 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_OFF_LEVEL_LIV24]);
 
                 _limitValueMonitoringLIV31 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV31]);
                 _signalSourceLIV32 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV32]);
                 _switchOnLevelLIV33 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV33]);
-                _switchOffLevelLIV34 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV34]);
+                _switchOffLevelLIV34 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_OFF_LEVEL_LIV34]);
 
                 _limitValueMonitoringLIV41 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV41]);
                 _signalSourceLIV42 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV42]);
                 _switchOnLevelLIV43 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV43]);
-                _switchOffLevelLIV44 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWTICH_OFF_LEVEL_LIV44]);
+                _switchOffLevelLIV44 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_OFF_LEVEL_LIV44]);
             }
         }
 
@@ -325,137 +325,157 @@ namespace HBM.Weighing.API.Data
         public int WeightMemDay
         {
             get{ return _weightMemDay; }
-            set { this._weightMemDay = value; }
+            set{ this._weightMemDay = value; }
         }
         public int WeightMemMonth
         {
             get{ return _weightMemMonth; }
-            set { this._weightMemMonth = value; }
+            set{ this._weightMemMonth = value; }
         }
         public int WeightMemYear
         {
             get{ return _weightMemYear;}
-            set { this._weightMemYear = value; }
+            set{ this._weightMemYear = value; }
         }
         public int WeightMemSeqNumber
         {
             get{ return _weightMemSeqNumber; }
-            set { this._weightMemSeqNumber = value; }
+            set{ this._weightMemSeqNumber = value; }
         }
         public int WeightMemGross
         {
             get{ return _weightMemGross; }
-            set { this._weightMemGross = value; }
+            set{ this._weightMemGross = value; }
         }
         public int WeightMemNet
         {
             get{ return _weightMemNet; }
-            set { this._weightMemNet = value; }
+            set{ this._weightMemNet = value; }
         }
 
         #endregion
 
         #region Get-/Set-properties for standard mode 
 
-        public int ManualTareValue
+        public int ManualTareValue // Type : signed integer 32 Bit
         {
             get { return _manualTareValue; }
-            set { _manualTareValue = value; }
+            set { _baseWtDevice.SetOutput(2, value);
+                  _manualTareValue = value; }
         }
-        public int LimitValue1Input
+        public int LimitValue1Input // Type : unsigned integer 8 Bit
         {
             get { return _limitValue1Input; }
-            set { _limitValue1Input = value; }
+            set { _baseWtDevice.Connection.Write(4, value);
+                  _limitValue1Input = value; }
         }
-        public int LimitValue1Mode
+        public int LimitValue1Mode // Type : unsigned integer 8 Bit
         {
             get { return _limitValue1Mode; }
-            set { _limitValue1Mode = value; }
+            set { _baseWtDevice.Connection.Write(5, value); 
+                  _limitValue1Mode = value; }
         }
-        public int LimitValue1ActivationLevelLowerBandLimit
+        public int LimitValue1ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
         {
             get { return _limitValue1ActivationLevelLowerBandLimit; }
-            set { _limitValue1ActivationLevelLowerBandLimit = value; }
+            set { _baseWtDevice.SetOutput(6, value);
+                  _limitValue1ActivationLevelLowerBandLimit = value; }
         }
-        public int LimitValue1HysteresisBandHeight
+        public int LimitValue1HysteresisBandHeight // Type : signed integer 32 Bit
         {
             get { return _limitValue1HysteresisBandHeight; }
-            set { _limitValue1HysteresisBandHeight = value; }
+            set { _baseWtDevice.SetOutput(8, value);
+                  _limitValue1HysteresisBandHeight = value; }
         }
-        public int LimitValue2Source
+        public int LimitValue2Source // Type : unsigned integer 8 Bit
         {
             get { return _limitValue2Source; }
-            set { _limitValue2Source = value; }
+            set { _baseWtDevice.Connection.Write(10, value);
+                  _limitValue2Source = value; }
         }
-        public int LimitValue2Mode
+        public int LimitValue2Mode // Type : unsigned integer 8 Bit
         {
             get { return _limitValue2Mode; }
-            set { _limitValue2Mode = value; }
+            set { _baseWtDevice.Connection.Write(11, value);
+                  _limitValue2Mode = value; }
         }
-        public int LimitValue2ActivationLevelLowerBandLimit
+        public int LimitValue2ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
         {
             get { return _limitValue2ActivationLevelLowerBandLimit; }
-            set { _limitValue2ActivationLevelLowerBandLimit = value; }
+            set { _baseWtDevice.SetOutput(12, value);
+                  _limitValue2ActivationLevelLowerBandLimit = value; }
         }
-        public int LimitValue2HysteresisBandHeight
+        public int LimitValue2HysteresisBandHeight // Type : signed integer 32 Bit
         {
             get { return _limitValue2HysteresisBandHeight; }
-            set { _limitValue2HysteresisBandHeight = value; }
+            set { _baseWtDevice.SetOutput(14, value);
+                  _limitValue2HysteresisBandHeight = value; }
         }
-        public int LimitValue3Source
+        public int LimitValue3Source // Type : unsigned integer 8 Bit
         {
             get { return _limitValue3Source; }
-            set { _limitValue3Source = value; }
+            set { _baseWtDevice.Connection.Write(16, value);
+                  _limitValue3Source = value; }
         }
-        public int LimitValue3Mode
+        public int LimitValue3Mode // Type : unsigned integer 8 Bit
         {
             get { return _limitValue3Mode; }
-            set { _limitValue3Mode = value; }
+            set { _baseWtDevice.Connection.Write(17, value);
+                  _limitValue3Mode = value; }
         }
-        public int LimitValue3ActivationLevelLowerBandLimit
+        public int LimitValue3ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
         {
             get { return _limitValue3ActivationLevelLowerBandLimit; }
-            set { _limitValue3ActivationLevelLowerBandLimit = value; }
+            set { _baseWtDevice.SetOutput(18, value);
+                  _limitValue3ActivationLevelLowerBandLimit = value; }
         }
-        public int LimitValue3HysteresisBandHeight
+        public int LimitValue3HysteresisBandHeight // Type : signed integer 32 Bit
         {
             get { return _limitValue3HysteresisBandHeight; }
-            set { _limitValue3HysteresisBandHeight = value; }
+            set { _baseWtDevice.SetOutput(20, value);
+                  _limitValue3HysteresisBandHeight = value; }
         }
-        public int LimitValue4Source
+        public int LimitValue4Source // Type : unsigned integer 8 Bit
         {
             get { return _limitValue4Source; }
-            set { _limitValue4Source = value; }
+            set { _baseWtDevice.Connection.Write(22, value);
+                  _limitValue4Source = value; }
         }
-        public int LimitValue4Mode
+        public int LimitValue4Mode // Type : unsigned integer 8 Bit
         {
             get { return _limitValue4Mode; }
-            set { _limitValue4Mode = value; }
+            set { _baseWtDevice.Connection.Write(23, value);
+                  _limitValue4Mode = value; }
         }
-        public int LimitValue4ActivationLevelLowerBandLimit
+        public int LimitValue4ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
         {
             get { return _limitValue4ActivationLevelLowerBandLimit; }
-            set { _limitValue4ActivationLevelLowerBandLimit = value; }
+            set { _baseWtDevice.SetOutput(24, value);
+                  _limitValue4ActivationLevelLowerBandLimit = value; }
         }
-        public int LimitValue4HysteresisBandHeight
+        public int LimitValue4HysteresisBandHeight // Type : signed integer 32 Bit
         {
             get { return _limitValue4HysteresisBandHeight; }
-            set { _limitValue4HysteresisBandHeight = value; }
+            set { _baseWtDevice.SetOutput(26, value);
+                  _limitValue4HysteresisBandHeight = value; }
         }
-        public int CalibrationWeight
+        public int CalibrationWeight // Type : signed integer 32 Bit
         {
             get { return _calibrationWeight; }
-            set { _calibrationWeight = value; }
+            set { _baseWtDevice.SetOutput(46, value);
+                  _calibrationWeight = value; }
         }
-        public int ZeroLoad
+        public int ZeroLoad // Type : signed integer 32 Bit
         {
             get { return _zeroLoad; }
-            set { _zeroLoad = value; }
+            set { _baseWtDevice.SetOutput(48, value);
+                  _zeroLoad = value; }
         }
-        public int NominalLoad
+        public int NominalLoad // Type : signed integer 32 Bit
         {
             get { return _nomnialLoad; }
-            set { _nomnialLoad = value; }
+            set { _baseWtDevice.SetOutput(50, value); 
+                  _nomnialLoad = value; }
         }
         
         #endregion

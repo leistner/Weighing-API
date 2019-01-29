@@ -490,136 +490,162 @@ namespace HBM.Weighing.API.Data
 
         #region Set-properties for output words of filler mode
 
-        public int ResidualFlowTime
+        public int ResidualFlowTime // Type : unsigned integer 16 Bit
         {
             get { return _residualFlowTime; }
-            set { this._residualFlowTime = value; }
+            set { _baseWtDevice.Connection.Write(9, value);
+                  this._residualFlowTime = value; }
         }
-        public int TargetFillingWeight
+        public int TargetFillingWeight // Type : signed integer 32 Bit
         {
             get { return _targetFillingWeight; }
-            set { this._targetFillingWeight = value; }
+            set { _baseWtDevice.SetOutput(10, value);
+                   this._targetFillingWeight = value; }
         }
-        public int CoarseFlowCutOffPointSet
+        public int CoarseFlowCutOffPointSet // Type : signed integer 32 Bit
         {
             get { return _coarseFlowCutOffPointSet; }
-            set { this._coarseFlowCutOffPointSet = value; }
+            set { _baseWtDevice.SetOutput(12, value);
+                this._coarseFlowCutOffPointSet = value; }
         }
-        public int FineFlowCutOffPointSet
+        public int FineFlowCutOffPointSet // Type : signed integer 32 Bit
         {
             get { return _fineFlowCutOffPointSet; }
-            set { this._fineFlowCutOffPointSet = value; }
+            set { _baseWtDevice.SetOutput(14, value);
+                this._fineFlowCutOffPointSet = value; }
         }
-        public int MinimumFineFlow
+        public int MinimumFineFlow // Type : signed integer 32 Bit
         {
             get { return _minimumFineFlow; }
-            set { this._minimumFineFlow = value; }
+            set { _baseWtDevice.SetOutput(16, value);
+                this._minimumFineFlow = value; }
         }
-        public int OptimizationOfCutOffPoints
+        public int OptimizationOfCutOffPoints // Type : unsigned integer 8 Bit
         {
             get { return _optimizationOfCutOffPoints; }
-            set { this._optimizationOfCutOffPoints = value; }
+            set { _baseWtDevice.Connection.Write(18, value);
+                  this._optimizationOfCutOffPoints = value; }
         }
-        public int MaximumDosingTime
+        public int MaximumDosingTime // Type : unsigned integer 16 Bit
         {
             get { return _maximumDosingTime; }
-            set { this._maximumDosingTime = value; }
+            set { _baseWtDevice.Connection.Write(19, value);
+                  this._maximumDosingTime = value; }
         }
-        public int StartWithFineFlow
+        public int StartWithFineFlow // Type : unsigned integer 16 Bit
         {
             get { return _startWithFineFlow; }
-            set { this._startWithFineFlow = value; }
+            set { _baseWtDevice.Connection.Write(20, value);
+                this._startWithFineFlow = value; }
         }
-        public int CoarseLockoutTime
+        public int CoarseLockoutTime // Type : unsigned integer 16 Bit
         {
             get { return _coarseLockoutTime; }
-            set { this._coarseLockoutTime = value; }
+            set { _baseWtDevice.Connection.Write(21, value);
+                this._coarseLockoutTime = value; }
         }
-        public int FineLockoutTime
+        public int FineLockoutTime // Type : unsigned integer 16 Bit
         {
             get { return _fineLockoutTime; }
-            set { this._fineLockoutTime = value; }
+            set { _baseWtDevice.Connection.Write(22, value);
+                this._fineLockoutTime = value; }
         }
-        public int TareMode
+        public int TareMode // Type : unsigned integer 8 Bit
         {
             get { return _tareMode; }
-            set { this._tareMode = value; }
+            set { _baseWtDevice.Connection.Write(23, value);
+                this._tareMode = value; }
         }
-        public int UpperToleranceLimit
+        public int UpperToleranceLimit // Type : signed integer 32 Bit
         {
             get { return _upperToleranceLimit; }
-            set { this._upperToleranceLimit = value; }
+            set { _baseWtDevice.SetOutput(24, value);
+                this._upperToleranceLimit = value; }
         }
-        public int LowerToleranceLimit
+        public int LowerToleranceLimit // Type : signed integer 32 Bit
         {
             get { return _lowerToleranceLimit; }
-            set { this._lowerToleranceLimit = value; }
+            set { _baseWtDevice.SetOutput(26, value);
+                this._lowerToleranceLimit = value; }
         }
-        public int MinimumStartWeight
+        public int MinimumStartWeight // Type : signed integer 32 Bit
         {
             get { return _minimumStartWeight; }
-            set { this._minimumStartWeight = value; }
+            set { _baseWtDevice.SetOutput(28, value);
+                this._minimumStartWeight = value; }
         }
-        public int EmptyWeight
+        public int EmptyWeight // Type : signed integer 32 Bit
         {
             get { return _emptyWeight; }
-            set { this._emptyWeight = value; }
+            set { _baseWtDevice.SetOutput(30, value);
+                this._emptyWeight = value; }
         }
-        public int TareDelay
+        public int TareDelay // Type : unsigned integer 16 Bit
         {
             get { return _tareDelay; }
-            set { this._tareDelay = value; }
+            set { _baseWtDevice.Connection.Write(32, value);
+                this._tareDelay = value; }
         }
-        public int CoarseFlowMonitoringTime
+        public int CoarseFlowMonitoringTime // Type : unsigned integer 16 Bit
         {
             get { return _coarseFlowMonitoringTime; }
-            set { this._coarseFlowMonitoringTime = value; }
+            set { _baseWtDevice.Connection.Write(33, value);
+                this._coarseFlowMonitoringTime = value; }
         }
-        public int CoarseFlowMonitoring
+        public int CoarseFlowMonitoring  // Type : unsigned integer 32 Bit
         {
             get { return _coarseFlowMonitoring; }
-            set { this._coarseFlowMonitoring = value; }
+            set { _baseWtDevice.SetOutput(34, value);
+                this._coarseFlowMonitoring = value; }
         }
-        public int FineFlowMonitoring
+        public int FineFlowMonitoring  // Type : unsigned integer 32 Bit
         {
             get { return _fineFlowMonitoring; }
-            set { this._fineFlowMonitoring = value; }
+            set { _baseWtDevice.SetOutput(36, value);
+                this._fineFlowMonitoring = value; }
         }
-        public int FineFlowMonitoringTime
+        public int FineFlowMonitoringTime // Type : unsigned integer 16 Bit
         {
             get { return _fineFlowMonitoringTime; }
-            set { this._fineFlowMonitoringTime = value; }
+            set { _baseWtDevice.Connection.Write(38, value);
+                this._fineFlowMonitoringTime = value; }
         }
-        public int DelayTimeAfterFineFlow
+        public int DelayTimeAfterFineFlow  // Type : unsigned integer 8 Bit
         {
             get { return _delayTimeAfterFineFlow; }
-            set { this._delayTimeAfterFineFlow = value; }
+            set { _baseWtDevice.Connection.Write(39, value);
+                this._delayTimeAfterFineFlow = value; }
         }
-        public int ActivationTimeAfterFineFlow
+        public int ActivationTimeAfterFineFlow  // Type : unsigned integer 8 Bit
         {
             get { return _activationTimeAfterFineFlow; }
-            set { this._activationTimeAfterFineFlow = value; }
+            set { _baseWtDevice.Connection.Write(40, value);
+                this._activationTimeAfterFineFlow = value; }
         }
-        public int SystematicDifference
+        public int SystematicDifference // Type : unsigned integer 32 Bit
         {
             get { return _systematicDifference; }
-            set { this._systematicDifference = value; }
+            set { _baseWtDevice.SetOutput(41, value);
+                this._systematicDifference = value; }
         }
-        public int DownwardsDosing
+        public int DownwardsDosing  // Type : unsigned integer 8 Bit
         {
             get { return _downwardsDosing; }
-            set { this._downwardsDosing = value; }
+            set { _baseWtDevice.Connection.Write(43, value);
+                this._downwardsDosing = value; }
         }
-        public int ValveControl
+        public int ValveControl  // Type : unsigned integer 8 Bit
         {
             get { return _valveControl; }
-            set { this._valveControl = value; }
+            set { _baseWtDevice.Connection.Write(44, value);
+                this._valveControl = value; }
         }
     
-        public int EmptyingMode
+        public int EmptyingMode  // Type : unsigned integer 8 Bit
         {
             get { return _emptyingMode; }
-            set { this._emptyingMode = value; }
+            set { _baseWtDevice.Connection.Write(45, value);
+                this._emptyingMode = value; }
         }
         #endregion
 

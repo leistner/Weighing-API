@@ -129,6 +129,13 @@ namespace HBM.Weighing.API
         public abstract void manualReDosing();
 
         /// <summary>
+        /// Sets the output via Jetbus or Modbus
+        /// </summary>
+        /// <param name="value">value to be written/set via Jet or Modbus</param>
+        /// <param name="index">path, index of the value to be set</param>
+        public abstract void SetOutput(object index, int value);
+
+        /// <summary>
         /// Synchronous call to disconnect
         /// </summary>
         public abstract void Disconnect();
