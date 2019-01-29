@@ -210,12 +210,14 @@ namespace HBM.Weighing.API.WTX
         }
 
 
-        private void WriteOutputWordS32(int valueParam, ushort wordNumber)
+        public override void SetOutput(object index, int value)
         {
-            _dataWritten[0] = (ushort)((valueParam & 0xffff0000) >> 16);
-            _dataWritten[1] = (ushort)(valueParam & 0x0000ffff);
+            ushort _index = (ushort)(Convert.ToInt32(index));
 
-            this._connection.WriteArray(wordNumber, _dataWritten);
+            _dataWritten[0] = (ushort)((value & 0xffff0000) >> 16);
+            _dataWritten[1] = (ushort)(value & 0x0000ffff);
+
+            this._connection.WriteArray(_index, _dataWritten);
         }
         /*
         private void WriteOutputWordU08(int valueParam, ushort wordNumber)
@@ -504,7 +506,7 @@ namespace HBM.Weighing.API.WTX
 
             //todo: write reg 48, 0x7FFFFFFF
 
-            this.WriteOutputWordS32(0x7FFFFFFF, 48);
+            this.SetOutput(48, 0x7FFFFFFF);
 
             Console.Write(".");
 
@@ -516,11 +518,11 @@ namespace HBM.Weighing.API.WTX
         {
             //write reg 46, CalibrationWeight     
 
-            this.WriteOutputWordS32(calibrationValue, 46);
+            this.SetOutput(46, calibrationValue);
 
             //write reg 50, 0x7FFFFFFF
 
-            this.WriteOutputWordS32(0x7FFFFFFF, 50);
+            this.SetOutput(50, 0x7FFFFFFF);
 
             Console.Write(".");
 
@@ -570,13 +572,13 @@ namespace HBM.Weighing.API.WTX
 
             //write reg 48, DPreload;         
 
-            this.WriteOutputWordS32(Convert.ToInt32(dPreload), 48);
+            this.SetOutput(48, Convert.ToInt32(dPreload));
 
             this.WriteSync(0, 0x80);
 
             //write reg 50, DNominalLoad;          
 
-            this.WriteOutputWordS32(Convert.ToInt32(dNominalLoad), 50);
+            this.SetOutput(50, Convert.ToInt32(dNominalLoad));
 
             this.WriteSync(0, 0x100);
 

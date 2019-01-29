@@ -378,6 +378,11 @@ namespace HBM.Weighing.API.WTX
         {
             throw new NotImplementedException();
         }
+
+        public override void SetOutput(object index, int value)
+        {
+            _connection.Write(index,value);
+        }
         #endregion
     }
 }

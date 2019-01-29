@@ -326,412 +326,494 @@ namespace HBM.Weighing.API.Data
         public int SaveAllParameters
         {
             get { return _saveAllParameters; }
-            set { this._saveAllParameters = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SAVE_ALL_PARAMETERS, value);
+                 this._saveAllParameters = value; }
         }
         public int RestoreAllDefaultParameters
         {
             get { return _restoreAllDefaultParameters; }
-            set { this._restoreAllDefaultParameters = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.RESTORE_ALL_DEFAULT_PARAMETERS, value);
+                this._restoreAllDefaultParameters = value; }
         }
         public int VendorID
         {
             get { return _vendorID; }
-            set { this._vendorID = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.VENDOR_ID, value);
+                this._vendorID = value; }
         }
         public int ProductCode
         {
             get { return _productCode; }
-            set { this._productCode = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.PRODUCT_CODE, value);
+                this._productCode = value; }
         }
         public int SerialNumber
         {
             get { return _serialNumber; }
-            set { this._serialNumber = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SERIAL_NUMBER, value);
+                this._serialNumber = value; }
         }
         public int ImplementedProfileSpecification
         {
             get { return _implementedProfileSpecification; }
-            set { this._implementedProfileSpecification = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.IMPLEMENTED_PROFILE_SPECIFICATION, value);
+                this._implementedProfileSpecification = value; }
         }
         public int LcCapability
         {
             get { return _lcCapability; }
-            set { this._lcCapability = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.LC_CAPABILITY, value);
+                this._lcCapability = value; }
         }
         public int WeighingDevice1UnitPrefixOutputParameter
         {
             get { return _weighingDevice1UnitPrefixOutputParameter; }
-            set { this._weighingDevice1UnitPrefixOutputParameter = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER, value);
+                this._weighingDevice1UnitPrefixOutputParameter = value; }
         }
         public int WeighingDevice1WeightStep
         {
             get { return _weighingDevice1WeightStep; }
-            set { this._weighingDevice1WeightStep = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STEP, value);
+                this._weighingDevice1WeightStep = value; }
         }
         public int Alarms
         {
             get { return _alarms; }
-            set { this._alarms = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.ALARMS, value);
+                this._alarms = value; }
         }
         public int WeighingDevice1OutputWeight
         {
             get { return _weighingDevice1OutputWeight; }
-            set { this._weighingDevice1OutputWeight = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.WEIGHING_DEVICE_1_OUTPUT_WEIGHT, value);
+                this._weighingDevice1OutputWeight = value; }
         }
         public int WeighingDevice1Setting
         {
             get { return _weighingDevice1Setting; }
-            set { this._weighingDevice1Setting = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.WEIGHING_DEVICE_1_SETTING, value);
+                this._weighingDevice1Setting = value; }
         }
         public int LocalGravityFactor
         {
             get { return _localGravityFactor; }
-            set { this._localGravityFactor = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.LOCAL_GRAVITY_FACTOR, value);
+                this._localGravityFactor = value; }
         }
         public int ScaleFilterSetup
         {
             get { return _scaleFilterSetup; }
-            set { this._scaleFilterSetup = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_FILTER_SETUP, value);
+                this._scaleFilterSetup = value; }
         }
         public int DataSampleRate
         {
             get { return _dataSampleRate; }
-            set { this._dataSampleRate = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.DATA_SAMPLE_RATE, value);
+                this._dataSampleRate = value; }
         }
         public int FilterOrderCriticallyDamped
         {
             get { return _filterOrderCriticallyDamped; }
-            set { this._filterOrderCriticallyDamped = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.FILTER_ORDER_CRITICALLY_DAMPED, value);
+                this._filterOrderCriticallyDamped = value; }
         }
         public int CutOffFrequencyCriticallyDamped
         {
             get { return _cutOffFrequencyCriticallyDamped; }
-            set { this._cutOffFrequencyCriticallyDamped = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.CUT_OFF_FREQUENCY_CRITICALLY_DAMPED, value);
+                this._cutOffFrequencyCriticallyDamped = value; }
         }
         public int FilterOrderButterworth
         {
             get { return _filterOrderButterworth; }
-            set { this._filterOrderButterworth = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.FILTER_ORDER_BUTTERWORTH, value);
+                this._filterOrderButterworth = value; }
         }
         public int CutOffFrequencyButterWorth
         {
             get { return _cutOffFrequencyButterWorth; }
-            set { this._cutOffFrequencyButterWorth = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.CUT_OFF_FREQUENCY_BUTTERWORTH, value);
+                this._cutOffFrequencyButterWorth = value; }
         }
         public int FilterOrderBessel
         {
             get { return _filterOrderBessel; }
-            set { this._filterOrderBessel = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.FILTER_ORDER_BESSEL, value);
+                this._filterOrderBessel = value; }
         }
         public int CutOffFrequencyBessel
         {
             get { return _cutOffFrequencyBessel; }
-            set { this._cutOffFrequencyBessel = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.CUT_OFF_FREQUENCY_BESSEL, value);
+                this._cutOffFrequencyBessel = value; }
         }
         public int ScaleSupplyNominalVoltage
         {
             get { return _scaleSupplyNominalVoltage; }
-            set { this._scaleSupplyNominalVoltage = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_SUPPY_NOMINAL_VOLTAGE, value);
+                this._scaleSupplyNominalVoltage = value; }
         }
         public int ScaleSupplyMinimumVoltage
         {
             get { return _scaleSupplyMinimumVoltage; }
-            set { this._scaleSupplyMinimumVoltage = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_SUPPY_MINIMUM_VOLTAGE, value);
+                this._scaleSupplyMinimumVoltage = value; }
         }
         public int ScaleSupplyMaximumVoltage
         {
             get { return _scaleSupplyMaximumVoltage; }
-            set { this._scaleSupplyMaximumVoltage = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_SUPPY_MAXIMUM_VOLTAGE, value);
+                this._scaleSupplyMaximumVoltage = value; }
         }
         public int ScaleAccuracyClass
         {
             get { return _scaleAccuracyClass; }
-            set { this._scaleAccuracyClass = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_ACCURACY_CLASS, value);
+                this._scaleAccuracyClass = value; }
         }
         public int ScaleMinimumDeadLoad
         {
             get { return _scaleMinimumDeadLoad; }
-            set { this._scaleMinimumDeadLoad = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_MINIMUM_DEAD_LOAD, value);
+                this._scaleMinimumDeadLoad = value; }
         }
         public int ScaleMaximumCapacity
         {
             get { return _scaleMaximumCapacity; }
-            set { this._scaleMaximumCapacity = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_MAXIMUM_CAPACITY, value);
+                this._scaleMaximumCapacity = value; }
         }
         public int ScaleMaximumNumberVerificationInterval
         {
             get { return _scaleMaximumNumberVerificationInterval; }
-            set { this._scaleMaximumNumberVerificationInterval = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_MAXIMUM_NUMBER_OF_VERIFICATION_INTERVAL, value);
+                this._scaleMaximumNumberVerificationInterval = value; }
         }
         public int ScaleApportionmentFactor
         {
             get { return _scaleApportionmentFactor; }
-            set { this._scaleApportionmentFactor = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_APPORTIONMENT_FACTOR, value);
+                this._scaleApportionmentFactor = value; }
         }
         public int ScaleSafeLoadLimit
         {
             get { return _scaleSafeLoadLimit; }
-            set { this._scaleSafeLoadLimit = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_SAFE_LOAD_LIMIT, value);
+                this._scaleSafeLoadLimit = value; }
         }
         public int ScaleOperationNominalTemperature
         {
             get { return _scaleOperationNominalTemperature; }
-            set { this._scaleOperationNominalTemperature = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_OPERATION_NOMINAL_TEMPERATURE, value);
+                this._scaleOperationNominalTemperature = value; }
         }
         public int ScaleOperationMinimumTemperature
         {
             get { return _scaleOperationMinimumTemperature; }
-            set { this._scaleOperationMinimumTemperature = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_OPERATION_MINIMUM_TEMPERATURE, value);
+                this._scaleOperationMinimumTemperature = value; }
         }
         public int ScaleOperationMaximumTemperature
         {
             get { return _scaleOperationMaximumTemperature; }
-            set { this._scaleOperationMaximumTemperature = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_OPERATION_MAXIMUM_TEMPERATURE, value);
+                this._scaleOperationMaximumTemperature = value; }
         }
         public int ScaleRelativeMinimumLoadCellVerficationInterval
         {
             get { return _scaleRelativeMinimumLoadCellVerficationInterval; }
-            set { this._scaleRelativeMinimumLoadCellVerficationInterval = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL, value);
+                this._scaleRelativeMinimumLoadCellVerficationInterval = value; }
         }
         public int IntervalRangeControl
         {
             get { return _intervalRangeControl; }
-            set { this._intervalRangeControl = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.INTERVAL_RANGE_CONTROL, value);
+                this._intervalRangeControl = value; }
         }
         public int MultiLimit1
         {
             get { return _multiLimit1; }
-            set { this._multiLimit1 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.MULTI_LIMIT_1, value);
+                this._multiLimit1 = value; }
         }
         public int MultiLimit2
         {
             get { return _multiLimit2; }
-            set { this._multiLimit2 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.MULTI_LIMIT_2, value);
+                this._multiLimit2 = value; }
         }
         public int OimlCertificationInformation
         {
             get { return _oimlCertificationInformation; }
-            set { this._oimlCertificationInformation = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.OIML_CERTIFICAITON_INFORMATION, value);
+                this._oimlCertificationInformation = value; }
         }
         public int NtepCertificationInformation
         {
             get { return _ntepCertificationInformation; }
-            set { this._ntepCertificationInformation = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.NTEP_CERTIFICAITON_INFORMATION, value);
+                this._ntepCertificationInformation = value; }
         }
         public int MaximumZeroingTime
         {
             get { return _maximumZeroingTime; }
-            set { this._maximumZeroingTime = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.MAXIMUM_ZEROING_TIME, value);
+                this._maximumZeroingTime = value; }
         }
         public int MaximumPeakValueGross
         {
             get { return _maximumPeakValueGross; }
-            set { this._maximumPeakValueGross = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.MAXIMUM_PEAK_VALUE_GROSS, value);
+                this._maximumPeakValueGross = value; }
         }
         public int MinimumPeakValueGross
         {
             get { return _minimumPeakValueGross; }
-            set { this._minimumPeakValueGross = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.MINIMUM_PEAK_VALUE_GROSS, value);
+                this._minimumPeakValueGross = value; }
         }
         public int MaximumPeakValue
         {
             get { return _maximumPeakValue; }
-            set { this._maximumPeakValue = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.MAXIMUM_PEAK_VALUE, value);
+                this._maximumPeakValue = value; }
         }
         public int MinimumPeakValue
         {
             get { return _minimumPeakValue; }
-            set { this._minimumPeakValue = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.MINIMUM_PEAK_VALUE, value);
+                this._minimumPeakValue = value; }
         }
         public int WeightMovingDetection
         {
             get { return _weightMovingDetection; }
-            set { this._weightMovingDetection = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.WEIGHT_MOVING_DETECTION, value);
+                this._weightMovingDetection = value; }
         }
         public int DeviceAddress
         {
             get { return _deviceAddress; }
-            set { this._deviceAddress = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.DEVICE_ADDRESS, value);
+                this._deviceAddress = value; }
         }
         public int HardwareVersion
         {
             get { return _hardwareVersion; }
-            set { this._hardwareVersion = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.HARDWARE_VERSION, value);
+                this._hardwareVersion = value; }
         }
         public int Identification
         {
             get { return _identification; }
-            set { this._identification = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.IDENTIFICATION, value);
+                this._identification = value; }
         }
         public int LimitValueMonitoringLIV11
         {
             get { return _limitValueMonitoringLIV11; }
-            set { this._limitValueMonitoringLIV11 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.LIMIT_VALUE_MONITORING_LIV11, value);
+                this._limitValueMonitoringLIV11 = value; }
         }
         public int SignalSourceLIV12
         {
             get { return _signalSourceLIV12; }
-            set { this._signalSourceLIV12 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SIGNAL_SOURCE_LIV12, value);
+                this._signalSourceLIV12 = value; }
         }
         public int SwitchOnLevelLIV13
         {
             get { return _switchOnLevelLIV13; }
-            set { this._switchOnLevelLIV13 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_ON_LEVEL_LIV13, value);
+                this._switchOnLevelLIV13 = value; }
         }
         public int SwitchOffLevelLIV14
         {
             get { return _switchOffLevelLIV14; }
-            set { this._switchOffLevelLIV14 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_OFF_LEVEL_LIV14, value);
+                this._switchOffLevelLIV14 = value; }
         }
         public int LimitValueMonitoringLIV21
         {
             get { return _limitValueMonitoringLIV21; }
-            set { this._limitValueMonitoringLIV21 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.LIMIT_VALUE_MONITORING_LIV21, value);
+                this._limitValueMonitoringLIV21 = value; }
         }
         public int SignalSourceLIV22
         {
             get { return _signalSourceLIV22; }
-            set { this._signalSourceLIV22 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SIGNAL_SOURCE_LIV22, value);
+                this._signalSourceLIV22 = value; }
         }
         public int SwitchOnLevelLIV23
         {
             get { return _switchOnLevelLIV23; }
-            set { this._switchOnLevelLIV23 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_ON_LEVEL_LIV23, value);
+                this._switchOnLevelLIV23 = value; }
         }
         public int SwitchOffLevelLIV24
         {
             get { return _switchOffLevelLIV24; }
-            set { this._switchOffLevelLIV24 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_OFF_LEVEL_LIV24, value);
+                this._switchOffLevelLIV24 = value; }
         }
         public int LimitValueMonitoringLIV31
         {
             get { return _limitValueMonitoringLIV31; }
-            set { this._limitValueMonitoringLIV31 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.LIMIT_VALUE_MONITORING_LIV31, value);
+                this._limitValueMonitoringLIV31 = value; }
         }
         public int SignalSourceLIV32
         {
             get { return _signalSourceLIV32; }
-            set { this._signalSourceLIV32 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SIGNAL_SOURCE_LIV32, value);
+                this._signalSourceLIV32 = value; }
         }
         public int SwitchOnLevelLIV33
         {
             get { return _switchOnLevelLIV33; }
-            set { this._switchOnLevelLIV33 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_ON_LEVEL_LIV33, value);
+                this._switchOnLevelLIV33 = value; }
         }
         public int SwitchOffLevelLIV34
         {
             get { return _switchOffLevelLIV34; }
-            set { this._switchOffLevelLIV34 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_OFF_LEVEL_LIV34, value);
+                this._switchOffLevelLIV34 = value; }
         }
         public int LimitValueMonitoringLIV41
         {
             get { return _limitValueMonitoringLIV41; }
-            set { this._limitValueMonitoringLIV41 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.LIMIT_VALUE_MONITORING_LIV41, value);
+                this._limitValueMonitoringLIV41 = value; }
         }
         public int SignalSourceLIV42
         {
             get { return _signalSourceLIV42; }
-            set { this._signalSourceLIV42 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SIGNAL_SOURCE_LIV42, value);
+                this._signalSourceLIV42 = value; }
         }
         public int SwitchOnLevelLIV43
         {
             get { return _switchOnLevelLIV43; }
-            set { this._switchOnLevelLIV43 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_ON_LEVEL_LIV43, value);
+                this._switchOnLevelLIV43 = value; }
         }
         public int SwitchOffLevelLIV44
         {
             get { return _switchOffLevelLIV44; }
-            set { this._switchOffLevelLIV44 = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_OFF_LEVEL_LIV44, value);
+                this._switchOffLevelLIV44 = value; }
         }
         public int OutputScale
         {
             get { return _outputScale; }
-            set { this._outputScale = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.OUTPUT_SCALE, value);
+                this._outputScale = value; }
         }
         public int FirmwareDate
         {
             get { return _firmwareDate; }
-            set { this._firmwareDate = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.FIRMWARE_DATE, value);
+                this._firmwareDate = value; }
         }
         public int ResetTrigger
         {
             get { return _resetTrigger; }
-            set { this._resetTrigger = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.RESET_TRIGGER, value);
+                this._resetTrigger = value; }
         }
         public int StateDigital_IO_Extended
         {
             get { return _stateDigital_IO_Extended; }
-            set { this._stateDigital_IO_Extended = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.STATE_DIGITAL_IO_EXTENDED, value);
+                this._stateDigital_IO_Extended = value; }
         }
         public int SoftwareIdentification
         {
             get { return _softwareIdentification; }
-            set { this._softwareIdentification = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SOFTWARE_IDENTIFICATION, value);
+                this._softwareIdentification = value; }
         }
         public int SoftwareVersion
         {
             get { return _softwareVersion; }
-            set { this._softwareVersion = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SOFTWARE_VERSION, value);
+                this._softwareVersion = value; }
         }
         public int DateTime
         {
             get { return _dateTime; }
-            set { this._dateTime = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.DATE_TIME, value);
+                this._dateTime = value; }
         }
         public int BreakDosing
         {
             get { return _breakDosing; }
-            set { this._breakDosing = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.BREAK_DOSING, value);
+                this._breakDosing = value; }
         }
         public int DeleteDosingResult
         {
             get { return _deleteDosingResult; }
-            set { this._deleteDosingResult = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.DELETE_DOSING_RESULT, value);
+                this._deleteDosingResult = value; }
         }
         public int MaterialStreamLastDosing
         {
             get { return _materialStreamLastDosing; }
-            set { this._materialStreamLastDosing = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.MATERIAL_STREAM_LAST_DOSING, value);
+                this._materialStreamLastDosing = value; }
         }
         public int Sum
         {
             get { return _sum; }
-            set { this._sum = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SUM, value);
+                this._sum = value; }
         }
         public int SpecialDosingFunctions
         {
             get { return _specialDosingFunctions; }
-            set { this._specialDosingFunctions = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.SPECIAL_DOSING_FUNCTIONS, value);
+                this._specialDosingFunctions = value; }
         }
         public int DischargeTime
         {
             get { return _dischargeTime; }
-            set { this._dischargeTime = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.DISCHARGE_TIME, value);
+                this._dischargeTime = value; }
         }
         public int ExceedingWeightBreak
         {
             get { return _exceedingWeightBreak; }
-            set { this._exceedingWeightBreak = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.EXCEEDING_WEIGHT_BREAK, value);
+                this._exceedingWeightBreak = value; }
         }
         public int Delay1Dosing
         {
             get { return _delay1Dosing; }
-            set { this._delay1Dosing = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.DELAY1_DOSING, value);
+                this._delay1Dosing = value; }
         }
         public int Delay2Dosing
         {
             get { return _delay2Dosing; }
-            set { this._delay2Dosing = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.DELAY2_DOSING, value);
+                this._delay2Dosing = value; }
         }
         public int EmptyWeightTolerance
         {
             get { return _emptyWeightTolerance; }
-            set { this._emptyWeightTolerance = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.EMPTY_WEIGHT_TOLERANCE, value);
+                this._emptyWeightTolerance = value; }
         }
         public int ResidualFlowDosingCycle
         {
             get { return _residualFlowDosingCycle; }
-            set { this._residualFlowDosingCycle = value; }
+            set { _baseWtDevice.SetOutput(JetBusCommands.RESIDUAL_FLOW_DOSING_CYCLE, value);
+                this._residualFlowDosingCycle = value; }
         }
 
         #endregion

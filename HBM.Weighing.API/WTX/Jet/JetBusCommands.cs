@@ -186,24 +186,24 @@ namespace HBM.Weighing.API.WTX.Jet
         public const string WEIGHT_MOVING_DETECTION = "6153/00";
         public const string DEVICE_ADDRESS = "2600/00";
 
-        public const string HAREWARE_VERSION = "2520/0A"; // = Hardware Variante
+        public const string HARDWARE_VERSION = "2520/0A"; // = Hardware Variante
         public const string IDENTIFICATION = "2520/01";
         public const string LIMIT_VALUE_MONITORING_LIV11 = "2030/01"; // = Grenzwertüberwachung
         public const string SIGNAL_SOURCE_LIV12 = "2030/02";
         public const string SWITCH_ON_LEVEL_LIV13 =  "2030/03";  // = Einschaltpegel
-        public const string SWTICH_OFF_LEVEL_LIV14 = "2030/04";  // = Ausschaltpegel
+        public const string SWITCH_OFF_LEVEL_LIV14 = "2030/04";  // = Ausschaltpegel
         public const string LIMIT_VALUE_MONITORING_LIV21 = "2030/05";
         public const string SIGNAL_SOURCE_LIV22 = "2030/06";
         public const string SWITCH_ON_LEVEL_LIV23 = "2030/07";
-        public const string SWTICH_OFF_LEVEL_LIV24 = "2030/08";
+        public const string SWITCH_OFF_LEVEL_LIV24 = "2030/08";
         public const string LIMIT_VALUE_MONITORING_LIV31 = "2030/09";
         public const string SIGNAL_SOURCE_LIV32 = "2030/0A";
         public const string SWITCH_ON_LEVEL_LIV33 = "2030/0B";
-        public const string SWTICH_OFF_LEVEL_LIV34 = "2030/0C";
+        public const string SWITCH_OFF_LEVEL_LIV34 = "2030/0C";
         public const string LIMIT_VALUE_MONITORING_LIV41 = "2030/0D";
         public const string SIGNAL_SOURCE_LIV42 = "2030/0E";
         public const string SWITCH_ON_LEVEL_LIV43 = "2030/0F";
-        public const string SWTICH_OFF_LEVEL_LIV44 = "2030/10";
+        public const string SWITCH_OFF_LEVEL_LIV44 = "2030/10";
         public const string OUTPUT_SCALE = "2110/0A";
         public const string FIRMWARE_DATE = "2520/05";
         public const string RESET_TRIGGER = "2D00/04";

@@ -546,9 +546,10 @@ namespace WTXModbusExamples
                 {
                     index = (ushort)Convert.ToInt16(dataGridView1[7, e.RowIndex].Value); // For the index, the word number which should be written to the WTX device 
 
+                    /*
                     _wtxDevice.Connection.Write(index, value);
-
                     _wtxDevice.activateData();
+                    */ 
 
                     // For the standard application: 
                     if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)
@@ -627,6 +628,8 @@ namespace WTXModbusExamples
                             }
                         }
                     }
+
+                    _wtxDevice.activateData();
 
                     // For the filler application: 
 
