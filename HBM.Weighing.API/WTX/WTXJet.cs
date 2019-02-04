@@ -214,20 +214,23 @@ namespace HBM.Weighing.API.WTX
         }
 
 
-        public override string UnitStringComment()
+        public override string Unit
         {
-            switch (ProcessData.Unit)
+            get
             {
-                case 0x02:
-                    return "kg";
-                case 0x4B:
-                    return "g";
-                case 0x4C:
-                    return "t";
-                case 0XA6:
-                    return "lb";
-                default:
-                    return "error";
+                switch (ProcessData.Unit)
+                {
+                    case 0x02:
+                        return "kg";
+                    case 0x4B:
+                        return "g";
+                    case 0x4C:
+                        return "t";
+                    case 0XA6:
+                        return "lb";
+                    default:
+                        return "-";
+                }
             }
         }
 

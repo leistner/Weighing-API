@@ -183,7 +183,7 @@ namespace HBM.Weighing.API
         /// Sets the unit according to an integer value : g, kg, lb, t 
         /// </summary>
         /// <returns></returns>
-        public abstract string UnitStringComment();
+        public abstract string Unit { get; }
         #endregion
 
         /// <summary>

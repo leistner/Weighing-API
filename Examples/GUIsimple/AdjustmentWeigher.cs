@@ -69,24 +69,7 @@ namespace WTXModbusGUIsimple
             // Get some settings from the connected Device
             _wtxDeviceDecimals = wtxDevice.ProcessData.Decimals;
 
-            switch (wtxDevice.ProcessData.Unit)
-            {
-                case 0:
-                    lblUnit.Text = "kg";
-                    break;
-                case 1:
-                    lblUnit.Text = "g";
-                    break;
-                case 2:
-                    lblUnit.Text = "t";
-                    break;
-                case 3:
-                    lblUnit.Text = "lb";
-                    break;
-                default:
-                    lblUnit.Text = "unit";
-                    break;
-            }
+            lblUnit.Text = wtxDevice.Unit;
 
             txtInfo.Text = "Enter a calibration weight";
         }
