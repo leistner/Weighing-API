@@ -43,18 +43,18 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(24, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(56, 13);
+            this.label1.Size = new System.Drawing.Size(80, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Dead load";
+            this.label1.Text = "Scale zero load";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(24, 60);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(32, 13);
+            this.label2.Size = new System.Drawing.Size(77, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Span";
+            this.label2.Text = "Scale capacity";
             // 
             // textBox1
             // 
@@ -98,7 +98,7 @@
             this.buttonCalculate.Name = "buttonCalculate";
             this.buttonCalculate.Size = new System.Drawing.Size(75, 23);
             this.buttonCalculate.TabIndex = 6;
-            this.buttonCalculate.Text = "Caclulate";
+            this.buttonCalculate.Text = "Calculate";
             this.buttonCalculate.UseVisualStyleBackColor = true;
             this.buttonCalculate.Click += new System.EventHandler(this.buttonCalculate_Click);
             // 
@@ -112,7 +112,7 @@
             this.label5.Text = "Calibration Successful!";
             this.label5.Visible = false;
             // 
-            // CalcCalibration
+            // AdjustmentCalculator
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -126,7 +126,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "CalcCalibration";
+            this.Name = "AdjustmentCalculator";
             this.Text = "Calculate Calibration";
             this.ResumeLayout(false);
             this.PerformLayout();
