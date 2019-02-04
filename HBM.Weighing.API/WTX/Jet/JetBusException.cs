@@ -42,7 +42,7 @@ namespace HBM.Weighing.API.WTX.Jet
         public JetBusException(JToken token)
         {
             errorCode = token["error"]["code"].ToObject<int>();
-            message = token["error"]["data"].ToString();
+            message = token["error"]["message"].ToString();
         }
 
 
