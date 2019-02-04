@@ -28,6 +28,9 @@
 //
 // </copyright>
 using HBM.Weighing.API.Data;
+using HBM.Weighing.API.WTX;
+using HBM.Weighing.API.WTX.Jet;
+using HBM.Weighing.API.WTX.Modbus;
 using System;
 
 namespace HBM.Weighing.API
@@ -50,15 +53,13 @@ namespace HBM.Weighing.API
         /// Eventhandler to raise an event and commit the data to the GUI/application from WTXJet and WTXModbus
         public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
 
-        public abstract event EventHandler<DataEventArgs> UpdateDataClasses;
-
         public abstract bool isConnected { get; }
         #endregion
 
         #region constructor of BaseWtDevice
         public BaseWtDevice(INetConnection connection) : base()
         {
-            _processData = new ProcessData(this);
+            _processData = new ProcessData(connection);
 
             this._connection = connection;
         }
@@ -85,6 +86,7 @@ namespace HBM.Weighing.API
                 return _processData;
             }
         }
+
         #endregion
 
         #region Abstract methods for the wtx class(WTXJet or WTXModbus) to get, to send and to analyse data
@@ -207,6 +209,7 @@ namespace HBM.Weighing.API
         /// </summary>
         /// <returns></returns>
         public abstract string ScaleRangeStringComment();
+
 
     }
 }

@@ -27,6 +27,7 @@
 // SOFTWARE.
 //
 // </copyright>
+using HBM.Weighing.API.WTX;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -42,17 +43,21 @@ namespace HBM.Weighing.API
 
         event EventHandler<DataEventArgs> IncomingDataReceived;
 
+        event EventHandler<DataEventArgs> UpdateDataClasses;
+
         string IpAddress    { get; set; }       
 
         bool IsConnected    { get; }
 
         void Connect();
+
+        string ConnectionType { get; }
              
         void Disconnect();
 
         int Read(object index);       
 
-        void Write(object index, int data);
+        void Write(string index, int data);
 
         Task<ushort[]> ReadAsync();
 
@@ -61,7 +66,8 @@ namespace HBM.Weighing.API
         void WriteArray(ushort index, ushort[] data);
                 
         Dictionary<string, int> AllData { get; }
-        
-    }
-    
+
+        ICommands IDCommands { get; }
+        }
+
 }

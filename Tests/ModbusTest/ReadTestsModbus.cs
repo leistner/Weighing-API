@@ -127,6 +127,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         }
 
+        /*
         // Test for reading: 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "ReadTestCases")]
         public async Task<ushort> ReadTestModbus(Behavior behavior)
@@ -143,9 +144,8 @@ namespace HBM.Weighing.API.WTX.Modbus
             });
 
             return (ushort)_wtxDevice.ProcessData.NetValue;
-
         }
-
+        */
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
             //throw new NotImplementedException();
@@ -199,7 +199,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxDevice.Connect(this.OnConnect, 100);
 
-            testConnection.Write(0, 0);
+            testConnection.Write(Convert.ToString(0), 0);
 
             testConnection.Read(0);
 

@@ -691,8 +691,8 @@ namespace WTXModbusExamples
                     c.Width = 120;*/
                 try
                 {
-                    dataGridView1.Rows[0].Cells[6].Value = e.ProcessData.NetValueStr;
-                    dataGridView1.Rows[1].Cells[6].Value = e.ProcessData.GrossValueStr;
+                    dataGridView1.Rows[0].Cells[6].Value = _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals);
+                    dataGridView1.Rows[1].Cells[6].Value = _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals);
                     dataGridView1.Rows[2].Cells[6].Value = e.ProcessData.GeneralWeightError;
                     dataGridView1.Rows[3].Cells[6].Value = e.ProcessData.ScaleAlarmTriggered;
                     dataGridView1.Rows[4].Cells[6].Value = e.ProcessData.LimitStatus;

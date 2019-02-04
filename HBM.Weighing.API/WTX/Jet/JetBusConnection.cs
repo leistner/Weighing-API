@@ -56,13 +56,17 @@ namespace HBM.Weighing.API.WTX.Jet
         private AutoResetEvent _mSuccessEvent = new AutoResetEvent(false);
         private Exception _mException = null;
 
+        #region Events
         public event EventHandler BusActivityDetection;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
+        public event EventHandler<DataEventArgs> UpdateDataClasses;
+        #endregion
 
         private bool _connected;
 
         private string _ipaddress;
         private int interval;
+        private ICommands _commands;
 
         private JToken[] JTokenArray;
         private ushort[] DataUshortArray;
@@ -83,6 +87,8 @@ namespace HBM.Weighing.API.WTX.Jet
 
             IJetConnection jetConnection = new WebSocketJetConnection(_uri, RemoteCertificationCheck);
             _peer = new JetPeer(jetConnection);
+
+            _commands = new JetBusCommands();
 
             this._user = User;
             this._password = Password;
@@ -111,7 +117,11 @@ namespace HBM.Weighing.API.WTX.Jet
             this._connected = false;
             this.IncomingDataReceived = null;
         }
-        
+
+        public ICommands IDCommands
+        {
+            get { return this._commands; }
+        }
 
         private void ConnectPeer(string User, string Password, int TimeoutMs)
         {
@@ -122,6 +132,10 @@ namespace HBM.Weighing.API.WTX.Jet
             WaitOne(2);
         }
 
+        public string ConnectionType
+        {
+            get { return "Jet"; }
+        }
 
         public bool IsConnected
         {
@@ -209,7 +223,10 @@ namespace HBM.Weighing.API.WTX.Jet
 
             dataArrived = true;
             
-            IncomingDataReceived?.Invoke(this, new DataEventArgs(this.DataUshortArray, this._dataJTokenBuffer));  // For getting data already in the FetchAll() 
+            IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));  // For getting data already in the FetchAll() 
+
+            // Update data in data classes : 
+            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)
@@ -279,10 +296,13 @@ namespace HBM.Weighing.API.WTX.Jet
                 }
 
                 this.ConvertJTokenToStringArray();
-              
-                if (dataArrived == true)
-                    IncomingDataReceived?.Invoke(this, new DataEventArgs(this.DataUshortArray, this._dataJTokenBuffer));
 
+                if (dataArrived == true)
+                {
+                    IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+                    // Update data in data classes : 
+                    this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+                }
                 BusActivityDetection?.Invoke(this, new LogEvent(data.ToString()));
             }
         }
@@ -346,7 +366,7 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
 
-        public void Write(object index, int value) {
+        public void Write(string index, int value) {
             JValue jValue = new JValue(value);
             SetData(index, jValue);
         }
@@ -395,7 +415,7 @@ namespace HBM.Weighing.API.WTX.Jet
         /// </summary>
         /// <param name="path"></param>
         /// <param name="value"></param>
-        protected virtual void SetData(object path, JValue value)
+        protected virtual void SetData(string path, JValue value)
         {
             try
             {
@@ -408,21 +428,21 @@ namespace HBM.Weighing.API.WTX.Jet
         }
 
 
-        public void WriteInt(object index, int data)
+        public void WriteInt(string index, int data)
         {
             JValue value = new JValue(data);
             SetData(index, value);
         }
 
 
-        public void WriteDint(object index, long data)
+        public void WriteDint(string index, long data)
         {
             JValue value = new JValue(data);
             SetData(index, value);
         }
 
 
-        public void WriteAsc(object index, string data)
+        public void WriteAsc(string index, string data)
         {
             JValue value = new JValue(data);
             SetData(index, value);

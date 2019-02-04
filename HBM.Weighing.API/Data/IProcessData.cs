@@ -41,12 +41,10 @@ namespace HBM.Weighing.API
     {
         #region Process device data 
 
-        int NetValue { get; } // Net value of weight 
-        string NetValueStr { get; }
+        int NetValue { get; }   // Net value of weight 
         int GrossValue { get; } // Gross value of weight
-        string GrossValueStr { get; }
 
-        int TareValue { get; } // Tare value of weight
+        int TareValue { get; }  // Tare value of weight
         bool GeneralWeightError { get; }
         bool ScaleAlarmTriggered { get; }
         int LimitStatus { get; }
@@ -76,8 +74,7 @@ namespace HBM.Weighing.API
 
         #region Update methods for the process data
 
-        void UpdateProcessDataModbus(object sender, DataEventArgs e);
-        void UpdateProcessDataJet(object sender, DataEventArgs e);
+        void UpdateProcessData(object sender, DataEventArgs e);
 
 
         #endregion

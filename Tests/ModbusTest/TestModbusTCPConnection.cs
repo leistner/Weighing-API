@@ -172,6 +172,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public event EventHandler BusActivityDetection;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
+        public event EventHandler<DataEventArgs> UpdateDataClasses;
 
         private string IP;
         private int interval;
@@ -219,7 +220,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break; 
             }
 
-            Write(0, 0); //Dummyaufruf hier, damit Tests erst mal funktionieren
+            Write(Convert.ToString(0), 0); //Dummyaufruf hier, damit Tests erst mal funktionieren
     }
 
         public bool IsConnected
@@ -388,7 +389,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             get { return this.command; }
         }
 
-        public void Write(object index, int data)
+        public void Write(string index, int data)
         {
             switch (this.behavior)
             {
@@ -401,7 +402,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
 
                 case Behavior.WriteU08ArrayTestSuccess:
-                    this.wordNumberIndex = (ushort)index;
+                    this.wordNumberIndex = (ushort)Convert.ToUInt16(index);
                     this.arrayElement1 = (ushort)data;
                     break;
 
@@ -410,7 +411,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     this.arrayElement1 = 0;
                     break;
                 case Behavior.WriteU16ArrayTestSuccess:
-                    this.wordNumberIndex = (ushort)index;
+                    this.wordNumberIndex = (ushort)Convert.ToUInt16(index);
                     this.arrayElement1 = (ushort)data;
                     break;
                 case Behavior.WriteU16ArrayTestFail:
@@ -968,6 +969,13 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
 
         }
+
+        public string ConnectionType
+        {
+            get { return "Modbus"; }
+        }
+
+        public ICommands IDCommands => throw new NotImplementedException();
 
         //public Dictionary<string, JToken> getDataBuffer => throw new NotImplementedException();
     }

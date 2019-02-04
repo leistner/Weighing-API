@@ -67,7 +67,6 @@ namespace HBM.Weighing.API.WTX
 
         #region Events
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
-        public override event EventHandler<DataEventArgs> UpdateDataClasses;
         #endregion
 
         #region Constructor
@@ -77,8 +76,8 @@ namespace HBM.Weighing.API.WTX
 
             this.ProcessDataReceived += OnProcessData;
 
-            this._dataFiller = new DataFiller(this);
-            this._dataStandard = new DataStandard(this);
+            this._dataFiller = new DataFiller(connection);
+            this._dataStandard = new DataStandard(connection);
 
             this._data = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
@@ -167,7 +166,7 @@ namespace HBM.Weighing.API.WTX
 
             {
                 // (1) Sending of a command:        
-                this._connection.Write(wordNumber, this._command);
+                this._connection.Write(Convert.ToString(wordNumber), this._command);
                 dataWord = this._connection.Read(5);
 
                 handshakeBit = ((dataWord & 0x4000) >> 14);
@@ -182,7 +181,7 @@ namespace HBM.Weighing.API.WTX
                 // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
                 if (handshakeBit == 1)
                 {
-                    this._connection.Write(wordNumber, 0x00);
+                    this._connection.Write(Convert.ToString(wordNumber), 0x00);
                 }
 
                 while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
@@ -208,7 +207,6 @@ namespace HBM.Weighing.API.WTX
         {
             get { return this._dataFiller; }
         }
-
 
         public override void SetOutput(object index, int value)
         {
@@ -263,7 +261,7 @@ namespace HBM.Weighing.API.WTX
             }
             while (handshakeBit == 0);
             
-            this._connection.Write(index, 0x00);
+            this._connection.Write(Convert.ToString(index), 0x00);
 
             do
             {
@@ -358,11 +356,8 @@ namespace HBM.Weighing.API.WTX
 
             this._previousNetValue = ProcessData.NetValue;
 
-            // Updata data in data classes : 
-            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(_data, _dataDict));
-
             // Only if the net value changed, the data will be send to the GUI
-            if(_previousNetValue != ProcessData.NetValue)
+            //if(_previousNetValue != ProcessData.NetValue)
                 // Invoke Event - GUI/application class receives _processData: 
                 this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
        
@@ -378,29 +373,6 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Comment methods
-
-        // In the following methods the different options for the single integer values are used to define and
-        // interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
-        public override string CurrentWeight(int value, int decimals)
-        {
-            double dvalue = value / Math.Pow(10, decimals);
-            string returnvalue = "";
-
-            switch (decimals)
-            {
-                case 0: returnvalue = dvalue.ToString(); break;
-                case 1: returnvalue = dvalue.ToString("0.0"); break;
-                case 2: returnvalue = dvalue.ToString("0.00"); break;
-                case 3: returnvalue = dvalue.ToString("0.000"); break;
-                case 4: returnvalue = dvalue.ToString("0.0000"); break;
-                case 5: returnvalue = dvalue.ToString("0.00000"); break;
-                case 6: returnvalue = dvalue.ToString("0.000000"); break;
-                default: returnvalue = dvalue.ToString(); break;
-
-            }
-            return returnvalue;
-        }
-
 
         public string WeightMovingStringComment()
         {
@@ -656,6 +628,28 @@ namespace HBM.Weighing.API.WTX
         public async override void manualReDosing()
         {
             _command = (ushort)await AsyncWrite(0, 0x8000);
+        }
+
+        // In the following methods the different options for the single integer values are used to define and
+        // interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
+        public override string CurrentWeight(int value, int decimals)
+        {
+            double dvalue = value / Math.Pow(10, decimals);
+            string returnvalue = "";
+
+            switch (decimals)
+            {
+                case 0: returnvalue = dvalue.ToString(); break;
+                case 1: returnvalue = dvalue.ToString("0.0"); break;
+                case 2: returnvalue = dvalue.ToString("0.00"); break;
+                case 3: returnvalue = dvalue.ToString("0.000"); break;
+                case 4: returnvalue = dvalue.ToString("0.0000"); break;
+                case 5: returnvalue = dvalue.ToString("0.00000"); break;
+                case 6: returnvalue = dvalue.ToString("0.000000"); break;
+                default: returnvalue = dvalue.ToString(); break;
+
+            }
+            return returnvalue;
         }
         #endregion
 
