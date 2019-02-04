@@ -64,19 +64,9 @@ namespace WTXGUIsimple
 
         private int _timerInterval = 200;       
         #endregion
+
         
         #region Constructor
-        public GUIsimple()
-        {
-            InitializeComponent();
-
-            txtInfo.Text = "To Connect to the WTX device, please enter an IP address, select 'Jet' or 'Modbus/TCP' and press 'connect'.";
-
-            txtIPAddress.Text = _ipAddress;
-
-            picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;
-        }
-        
         public GUIsimple(string[] args)
         {
             InitializeComponent();
@@ -174,9 +164,9 @@ namespace WTXGUIsimple
 
                 int taraValue = netValue - grossValue;
 
-                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight(netValue, decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
-                + "Gross:" + _wtxDevice.CurrentWeight(grossValue, decimals) + _wtxDevice.UnitStringComment() + Environment.NewLine
-                + "Tara:" + _wtxDevice.CurrentWeight(taraValue, decimals) + _wtxDevice.UnitStringComment();
+                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight(netValue, decimals) + _wtxDevice.Unit + Environment.NewLine
+                + "Gross:" + _wtxDevice.CurrentWeight(grossValue, decimals) + _wtxDevice.Unit + Environment.NewLine
+                + "Tara:" + _wtxDevice.CurrentWeight(taraValue, decimals) + _wtxDevice.Unit;
                 txtInfo.TextAlign = HorizontalAlignment.Right;
             }));
 
@@ -186,20 +176,25 @@ namespace WTXGUIsimple
                 {
                     txtInfo.Text = "Underload : Lower than minimum" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
+                    picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_OutOfSpecification;
 
                 }
-                if (e.ProcessData.Overload == true)
+                else if (e.ProcessData.Overload == true)
                 {
                     txtInfo.Text = "Overload : Higher than maximum capacity" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
+                    picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_OutOfSpecification;
 
                 }
-                if (e.ProcessData.higherSafeLoadLimit == true)
+                else if (e.ProcessData.higherSafeLoadLimit == true)
                 {
                     txtInfo.Text = "Higher than safe load limit" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
+                    picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_OutOfSpecification;
                 }
-                
+                else
+                    picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisActive;
+
             }));
         }
         
@@ -219,9 +214,7 @@ namespace WTXGUIsimple
                 else
                 {
                     _wtxDevice.Connection.Disconnect();
-                    _wtxDevice = null;
-
-                    picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;
+                    _wtxDevice = null;                    
 
                     Thread.Sleep(WAIT_DISCONNECT);     // Wait for 2 seconds till the disconnection request is finished. 
 
@@ -266,9 +259,5 @@ namespace WTXGUIsimple
         }
         #endregion
 
-        private void GUIsimple_Load(object sender, EventArgs e)
-        {
-
-        }
     }
 }
