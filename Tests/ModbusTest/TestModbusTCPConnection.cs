@@ -975,7 +975,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             get { return "Modbus"; }
         }
 
-        public ICommands IDCommands => throw new NotImplementedException();
+        public ICommands IDCommands { get; set; }
 
         //public Dictionary<string, JToken> getDataBuffer => throw new NotImplementedException();
     }

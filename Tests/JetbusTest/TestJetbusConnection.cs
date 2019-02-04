@@ -326,7 +326,7 @@ namespace HBM.Weighing.API.WTX.Jet
             get { return "Jetbus"; }
         }
 
-        public ICommands IDCommands => throw new NotImplementedException();
+        public ICommands IDCommands { get; set; }
 
         public void FetchAll()
         {
