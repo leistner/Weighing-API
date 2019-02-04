@@ -144,7 +144,7 @@ namespace HBM.Weighing.API
 
         /// <summary>
         /// Asynchronous call to disconnect
-        /// </summary
+        /// </summary>
         /// <param name="disconnectCompleted">Callback raised after disconnect completed</param>
         public abstract void Disconnect(Action<bool> disconnectCompleted);
 
@@ -185,13 +185,7 @@ namespace HBM.Weighing.API
         /// <returns></returns>
         public abstract string Unit { get; }
         #endregion
-
-        /// <summary>
-        /// Sets the status according according to the integer value in ProcessData : F.e. "Execution OK!" or "Execution not OK!"
-        /// </summary>
-        /// <returns></returns>
-        //public abstract string StatusStringComment();
-
+        
         /// <summary>
         /// Sets the application mode according to the integer value in ProcessData : Standard or filler mode
         /// </summary>

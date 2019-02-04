@@ -313,8 +313,8 @@ namespace HBM.Weighing.API.WTX
         /// <summary>
         /// Calculates the values for deadload and nominal load in d from the inputs in mV/V and writes the into the WTX registers.
         /// </summary>
-        /// <param name="preload"></param>
-        /// <param name="capacity"></param>
+        /// <param name="scaleZeroLoad_mVV"></param>
+        /// <param name="scaleCapacity_mVV"></param>
         public override void Calculate(double scaleZeroLoad_mVV, double scaleCapacity_mVV)
         {
             int scalZeroLoad_d;

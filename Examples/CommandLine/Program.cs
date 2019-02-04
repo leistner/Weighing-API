@@ -506,7 +506,7 @@ namespace WTXModbus
                         Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightInZeroRange);
                         Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() + "\t  As an Integer:  " + _wtxDevice.ApplicationMode.ToString());
                         Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +          "\t  As an Integer:  " + e.ProcessData.Decimals);
-                        Console.WriteLine("Unit:                          " + _wtxDevice.Unit() +                       "\t  As an Integer:  " + e.ProcessData.Unit);
+                        Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                       "\t  As an Integer:  " + e.ProcessData.Unit);
                         Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +         "\t  As an Integer:  " + e.ProcessData.Handshake);
                         Console.WriteLine("Status:                        " + statusCommentMethod() + "\t  As an Integer:  " + e.ProcessData.Status);
 
@@ -532,7 +532,7 @@ namespace WTXModbus
                     Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() +           "\t  As an Integer:  " + e.ProcessData.WeightInZeroRange);
                     Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() +           "\t  As an Integer:  " + _wtxDevice.ApplicationMode);
                     Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +         "\t  As an Integer:  " + e.ProcessData.Decimals);
-                    Console.WriteLine("Unit:                          " + _wtxDevice.Unit() +                      "\t  As an Integer:  " + e.ProcessData.Unit);
+                    Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                      "\t  As an Integer:  " + e.ProcessData.Unit);
                     Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +        "\t  As an Integer:  " + e.ProcessData.Handshake);
                     Console.WriteLine("Status:                        " + statusCommentMethod() +                    "\t  As an Integer:  " + e.ProcessData.Status);
 

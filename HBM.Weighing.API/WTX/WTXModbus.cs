@@ -344,12 +344,12 @@ namespace HBM.Weighing.API.WTX
             }
         }
         #endregion
-    
+
         #region Asynchronous process data callback
         /// <summary>
         /// Called whenever new device data is available 
         /// </summary>
-        /// <param name="_asyncData"></param>
+        /// <param name="_data"></param>
         public void OnData(ushort[] _data)
         {
             this.UpdateApplicationMode(_data);  // Update the application mode
