@@ -128,7 +128,6 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "CalcCalibration";
             this.Text = "Calculate Calibration";
-            this.Load += new System.EventHandler(this.CalcCalibration_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

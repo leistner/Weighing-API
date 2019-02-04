@@ -71,7 +71,6 @@ namespace WTXModbusGUIsimple
                 bool abort = false;
                 try
                 {
-                    //Preload = Convert.ToDouble(textBox1.Text, Provider);
                     _strCommaDot = textBox1.Text.Replace(".", ",");          
                     _preload = double.Parse(_strCommaDot);
                     textBox1.Enabled = false;
@@ -132,29 +131,5 @@ namespace WTXModbusGUIsimple
             }
         }
 
-        // This is a callback method for the synchronous command, a write instruction to the WTX registers. 
-        // Once the writing is finished, this method is called. So the handshake and status bits are updated if
-        // the user is interested in the data transfer between application and WTX device. 
-        // Updating the handshake and status bit here is not necessary, because the data transfer is done
-        // in class 'WTX120_Modbus' and 'ModbusTCPConnection'. 
-        // By this optional example it is also shown how data can be simply called in another way:
-        // By 'obj.NetValue', 'obj.GrossValue' or 'obj.handshake'.
-
-/*
-        private void WriteDataReceived(IDeviceValues obj)
-        {
-            this.handshake_compare_optional = obj.handshake;
-            this.status_compare_optional = obj.status;
-        }
-*/
-        private void CalcCalibration_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
