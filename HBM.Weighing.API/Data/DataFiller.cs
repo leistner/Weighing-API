@@ -120,22 +120,20 @@ namespace HBM.Weighing.API.Data
         private int _valveControl;
         private int _emptyingMode;
 
+        private INetConnection _connection;
 
-        private BaseWtDevice _baseWtDevice;
+        private string _index;
         #endregion
 
         #region contructor
 
-        public DataFiller(BaseWtDevice BaseWtDeviceObject) : base()
+        public DataFiller(INetConnection Connection) : base()
         {
-            _baseWtDevice = BaseWtDeviceObject;
+            _connection = Connection;
+           
+            _connection.UpdateDataClasses += UpdateFillerData;
 
-            if (_baseWtDevice.ConnectionType == "Modbus")
-                _baseWtDevice.UpdateDataClasses += UpdateFillerDataModbus;
-
-            if (_baseWtDevice.ConnectionType == "Jetbus")
-                _baseWtDevice.UpdateDataClasses += UpdateFillerDataJet;
-
+            _index = "";
 
             _coarseFlow = 0;
             _fineFlow=0;
@@ -207,118 +205,40 @@ namespace HBM.Weighing.API.Data
 
         #region Update methods for the filler mode
 
-        public void UpdateFillerDataModbus(object sender, DataEventArgs e)
+        public void UpdateFillerData(object sender, DataEventArgs e)
         {
-            if ((int)_baseWtDevice.ApplicationMode == 2 || (int) _baseWtDevice.ApplicationMode == 3)
+            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 2)
             {
-                _coarseFlow = (e.Data[8] & 0x1);
-                _fineFlow = ((e.Data[8] & 0x2) >> 1);
-                _ready = ((e.Data[8] & 0x4) >> 2);
-                _reDosing = ((e.Data[8] & 0x8) >> 3);
+                _maxDosingTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MAXIMAL_DOSING_TIME)]);
+                _meanValueDosingResults = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MEAN_VALUE_DOSING_RESULTS)]);
+                _standardDeviation = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.STANDARD_DEVIATION)]);
+                _fineFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_CUT_OFF_POINT)]);
+                _coarseFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_CUT_OFF_POINT)]);
 
-                _emptying = ((e.Data[8] & 0x10) >> 4);
-                _flowError = ((e.Data[8] & 0x20) >> 5);
-                _alarm = ((e.Data[8] & 0x40) >> 6);
-                _adcOverUnderload = ((e.Data[8] & 0x80) >> 7);
+                _residualFlowTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.RESIDUAL_FLOW_TIME)]);
+                _minimumFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MINIMUM_FINE_FLOW)]);
+                _optimizationOfCutOffPoints = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.OPTIMIZATION)]);
+                _maximumDosingTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3)]);
+                _coarseLockoutTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_TIME)]);
+                _fineLockoutTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_TIME)]);
+                _tareMode = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.TARE_MODE)]);
 
-                _maxDosingTime = ((e.Data[8] & 0x100) >> 8);
-                _legalForTradeOperation = ((e.Data[8] & 0x200) >> 9);
-                _toleranceErrorPlus = ((e.Data[8] & 0x400) >> 10);
-                _toleranceErrorMinus = ((e.Data[8] & 0x800) >> 11);
+                _upperToleranceLimit = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.UPPER_TOLERANCE_LIMIT)]);
+                _lowerToleranceLimit = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.LOWER_TOLERANCE_LIMIT)]);
+                _minimumStartWeight = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MINIMUM_START_WEIGHT)]);
+                //_emptyWeight = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.EMPTY_WEIGHT_TOLERANCE]);
+                _tareDelay = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.TARE_DELAY)]);
 
-                _statusInput1 = ((e.Data[8] & 0x4000) >> 14);
-                _generalScaleError = ((e.Data[8] & 0x8000) >> 15);
+                _coarseFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_MONITORING_TIME)]);
+                _coarseFlowMonitoring = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_MONITORING)]);
+                _fineFlowMonitoring = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_MONITORING)]);
+                _fineFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_MONITORING_TIME)]); ;
 
-                _fillingProcessStatus = e.Data[9];
-                _numberDosingResults = e.Data[11];
-                _dosingResult = e.Data[12];
-                _meanValueDosingResults = e.Data[14];
-
-                _standardDeviation = e.Data[16];
-                _totalWeight = e.Data[18];
-                _fineFlowCutOffPoint = e.Data[20];
-                _coarseFlowCutOffPoint = e.Data[22];
-
-                _currentDosingTime = e.Data[24];
-                _currentCoarseFlowTime = e.Data[25];
-                _currentFineFlowTime = e.Data[26];
-                _parameterSetProduct = e.Data[27];
-
-                _weightMemoryDay = e.Data[32];
-                _weightMemoryMonth = e.Data[33];
-                _weightMemoryYear = e.Data[34];
-                _weightMemorySeqNumber = e.Data[35];
-                _weightMemoryGross = e.Data[36];
-                _weightMemoryNet = e.Data[37];
-
-            }
-            //Output words:
-            /*
-            _residualFlowTime;
-            _targetFillingWeight;
-            _coarseFlowCutOffPointSet;
-            _fineFlowCutOffPointSet;
-
-            _minimumFineFlow;
-            _optimizationOfCutOffPoints;
-            _maximumDosingTime;
-            _startWithFineFlow;
-
-            _coarseLockoutTime;
-            _fineLockoutTime;
-            _tareMode;
-            _upperToleranceLimit;
-
-            _lowerToleranceLimit;
-            _minimumStartWeight;
-            _emptyWeight;
-            _tareDelay;
-
-            _coarseFlowMonitoringTime;
-            _coarseFlowMonitoring;
-            _fineFlowMonitoring;
-            _fineFlowMonitoringTime;
-
-            _delayTimeAfterFineFlow;
-            _activationTimeAfterFineFlow;
-            _systematicDifference;
-            _downwardsDosing;
-
-            _valveControl;
-            _emptyingMode;
-            */
-        }
-
-        public void UpdateFillerDataJet(object sender, DataEventArgs e)
-        {
-            if ( (int)_baseWtDevice.ApplicationMode == 2 || (int)_baseWtDevice.ApplicationMode == 3)
-            {
-                _maxDosingTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.MAXIMAL_DOSING_TIME]);
-                _meanValueDosingResults = Convert.ToInt32(e.DataDictionary[JetBusCommands.MEAN_VALUE_DOSING_RESULTS]);
-                _standardDeviation = Convert.ToInt32(e.DataDictionary[JetBusCommands.STANDARD_DEVIATION]);
-                _fineFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[JetBusCommands.FINE_FLOW_CUT_OFF_POINT]);
-                _coarseFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[JetBusCommands.COARSE_FLOW_CUT_OFF_POINT]);
-                _residualFlowTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.RESIDUAL_FLOW_TIME]);
-                _minimumFineFlow = Convert.ToInt32(e.DataDictionary[JetBusCommands.MINIMUM_FINE_FLOW]);
-                _optimizationOfCutOffPoints = Convert.ToInt32(e.DataDictionary[JetBusCommands.OPTIMIZATION]);
-                _maximumDosingTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_3]);
-                _coarseLockoutTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.COARSE_FLOW_TIME]);
-                _fineLockoutTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.FINE_FLOW_TIME]);
-                _tareMode = Convert.ToInt32(e.DataDictionary[JetBusCommands.TARE_MODE]);
-                _upperToleranceLimit = Convert.ToInt32(e.DataDictionary[JetBusCommands.UPPER_TOLERANCE_LIMIT]);
-                _lowerToleranceLimit = Convert.ToInt32(e.DataDictionary[JetBusCommands.LOWER_TOLERANCE_LOMIT]);
-                _minimumStartWeight = Convert.ToInt32(e.DataDictionary[JetBusCommands.MINIMUM_START_WEIGHT]);
-                _emptyWeight = Convert.ToInt32(e.DataDictionary[JetBusCommands.EMPTY_WEIGHT_TOLERANCE]);
-                _tareDelay = Convert.ToInt32(e.DataDictionary[JetBusCommands.TARE_DELAY]);
-                _coarseFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.COARSE_FLOW_MONITORING_TIME]);
-                _coarseFlowMonitoring = Convert.ToInt32(e.DataDictionary[JetBusCommands.COARSE_FLOW_MONITORING]);
-                _fineFlowMonitoring = Convert.ToInt32(e.DataDictionary[JetBusCommands.FINE_FLOW_MONITORING]);
-                _fineFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.FINE_FLOW_MONITORING_TIME]);
-                _systematicDifference = Convert.ToInt32(e.DataDictionary[JetBusCommands.SYSTEMATIC_DIFFERENCE]);
-                _valveControl = Convert.ToInt32(e.DataDictionary[JetBusCommands.VALVE_CONTROL]);
-                _emptyingMode = Convert.ToInt32(e.DataDictionary[JetBusCommands.EMPTYING_MODE]);
-                _delayTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[JetBusCommands.DELAY1_DOSING]);
-                _activationTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[JetBusCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW]);
+                _systematicDifference = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.SYSTEMATIC_DIFFERENCE)]);
+                _valveControl = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.VALVE_CONTROL)]);
+                _emptyingMode = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.EMPTYING_MODE)]);
+                //_delayTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.DELAY1_DOSING)]);
+                //_activationTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW)]);
 
                 // Undefined ID's: 
 
@@ -352,6 +272,22 @@ namespace HBM.Weighing.API.Data
         }
 
         #endregion
+
+
+        private string getIndex(string indexParam)
+        {
+            if (indexParam.Contains("filler"))
+            {
+                if (indexParam.Length == 15)
+                    _index = indexParam.Remove(1);
+                if (indexParam.Length == 16)
+                    _index = indexParam.Remove(2);
+            }
+            else
+                _index = indexParam;
+
+            return _index;
+        }
 
         #region Get-properties for input words of filler mode
 
@@ -493,158 +429,158 @@ namespace HBM.Weighing.API.Data
         public int ResidualFlowTime // Type : unsigned integer 16 Bit
         {
             get { return _residualFlowTime; }
-            set { _baseWtDevice.Connection.Write(9, value);
+            set { _connection.Write(_connection.IDCommands.RESIDUAL_FLOW_TIME, value);
                   this._residualFlowTime = value; }
         }
         public int TargetFillingWeight // Type : signed integer 32 Bit
         {
             get { return _targetFillingWeight; }
-            set { _baseWtDevice.SetOutput(10, value);
+            set { _connection.Write(_connection.IDCommands.REFERENCE_VALUE_DOSING, value);
                    this._targetFillingWeight = value; }
         }
         public int CoarseFlowCutOffPointSet // Type : signed integer 32 Bit
         {
             get { return _coarseFlowCutOffPointSet; }
-            set { _baseWtDevice.SetOutput(12, value);
+            set { _connection.Write(_connection.IDCommands.COARSE_FLOW_CUT_OFF_POINT, value);
                 this._coarseFlowCutOffPointSet = value; }
         }
         public int FineFlowCutOffPointSet // Type : signed integer 32 Bit
         {
             get { return _fineFlowCutOffPointSet; }
-            set { _baseWtDevice.SetOutput(14, value);
+            set { _connection.Write(_connection.IDCommands.FINE_FLOW_CUT_OFF_POINT, value);
                 this._fineFlowCutOffPointSet = value; }
         }
         public int MinimumFineFlow // Type : signed integer 32 Bit
         {
             get { return _minimumFineFlow; }
-            set { _baseWtDevice.SetOutput(16, value);
+            set { _connection.Write(_connection.IDCommands.MINIMUM_FINE_FLOW, value);
                 this._minimumFineFlow = value; }
         }
         public int OptimizationOfCutOffPoints // Type : unsigned integer 8 Bit
         {
             get { return _optimizationOfCutOffPoints; }
-            set { _baseWtDevice.Connection.Write(18, value);
+            set { _connection.Write(_connection.IDCommands.OPTIMIZATION, value);
                   this._optimizationOfCutOffPoints = value; }
         }
         public int MaximumDosingTime // Type : unsigned integer 16 Bit
         {
             get { return _maximumDosingTime; }
-            set { _baseWtDevice.Connection.Write(19, value);
+            set { _connection.Write(_connection.IDCommands.MAXIMAL_DOSING_TIME, value);
                   this._maximumDosingTime = value; }
         }
         public int StartWithFineFlow // Type : unsigned integer 16 Bit
         {
             get { return _startWithFineFlow; }
-            set { _baseWtDevice.Connection.Write(20, value);
+            set { _connection.Write(_connection.IDCommands.RUN_START_DOSING, value);
                 this._startWithFineFlow = value; }
         }
         public int CoarseLockoutTime // Type : unsigned integer 16 Bit
         {
             get { return _coarseLockoutTime; }
-            set { _baseWtDevice.Connection.Write(21, value);
+            set { _connection.Write(_connection.IDCommands.LOCKOUT_TIME_COARSE_FLOW, value);
                 this._coarseLockoutTime = value; }
         }
         public int FineLockoutTime // Type : unsigned integer 16 Bit
         {
             get { return _fineLockoutTime; }
-            set { _baseWtDevice.Connection.Write(22, value);
+            set { _connection.Write(_connection.IDCommands.LOCKOUT_TIME_FINE_FLOW, value);
                 this._fineLockoutTime = value; }
         }
         public int TareMode // Type : unsigned integer 8 Bit
         {
             get { return _tareMode; }
-            set { _baseWtDevice.Connection.Write(23, value);
+            set { _connection.Write(_connection.IDCommands.TARE_MODE, value);
                 this._tareMode = value; }
         }
         public int UpperToleranceLimit // Type : signed integer 32 Bit
         {
             get { return _upperToleranceLimit; }
-            set { _baseWtDevice.SetOutput(24, value);
+            set { _connection.Write(_connection.IDCommands.UPPER_TOLERANCE_LIMIT, value);
                 this._upperToleranceLimit = value; }
         }
         public int LowerToleranceLimit // Type : signed integer 32 Bit
         {
             get { return _lowerToleranceLimit; }
-            set { _baseWtDevice.SetOutput(26, value);
+            set { _connection.Write(_connection.IDCommands.LOWER_TOLERANCE_LIMIT, value);
                 this._lowerToleranceLimit = value; }
         }
         public int MinimumStartWeight // Type : signed integer 32 Bit
         {
             get { return _minimumStartWeight; }
-            set { _baseWtDevice.SetOutput(28, value);
+            set { _connection.Write(_connection.IDCommands.MINIMUM_START_WEIGHT, value);
                 this._minimumStartWeight = value; }
         }
         public int EmptyWeight // Type : signed integer 32 Bit
         {
             get { return _emptyWeight; }
-            set { _baseWtDevice.SetOutput(30, value);
+            set { _connection.Write(_connection.IDCommands.EMPTY_WEIGHT_TOLERANCE, value);
                 this._emptyWeight = value; }
         }
         public int TareDelay // Type : unsigned integer 16 Bit
         {
             get { return _tareDelay; }
-            set { _baseWtDevice.Connection.Write(32, value);
+            set { _connection.Write(_connection.IDCommands.TARE_DELAY, value);
                 this._tareDelay = value; }
         }
         public int CoarseFlowMonitoringTime // Type : unsigned integer 16 Bit
         {
             get { return _coarseFlowMonitoringTime; }
-            set { _baseWtDevice.Connection.Write(33, value);
+            set { _connection.Write(_connection.IDCommands.COARSE_FLOW_MONITORING_TIME, value);
                 this._coarseFlowMonitoringTime = value; }
         }
         public int CoarseFlowMonitoring  // Type : unsigned integer 32 Bit
         {
             get { return _coarseFlowMonitoring; }
-            set { _baseWtDevice.SetOutput(34, value);
+            set { _connection.Write(_connection.IDCommands.COARSE_FLOW_MONITORING, value);
                 this._coarseFlowMonitoring = value; }
         }
         public int FineFlowMonitoring  // Type : unsigned integer 32 Bit
         {
             get { return _fineFlowMonitoring; }
-            set { _baseWtDevice.SetOutput(36, value);
+            set { _connection.Write(_connection.IDCommands.FINE_FLOW_MONITORING, value);
                 this._fineFlowMonitoring = value; }
         }
         public int FineFlowMonitoringTime // Type : unsigned integer 16 Bit
         {
             get { return _fineFlowMonitoringTime; }
-            set { _baseWtDevice.Connection.Write(38, value);
+            set { _connection.Write(_connection.IDCommands.FINE_FLOW_MONITORING_TIME, value);
                 this._fineFlowMonitoringTime = value; }
         }
         public int DelayTimeAfterFineFlow  // Type : unsigned integer 8 Bit
         {
             get { return _delayTimeAfterFineFlow; }
-            set { _baseWtDevice.Connection.Write(39, value);
+            set { _connection.Write("", value);
                 this._delayTimeAfterFineFlow = value; }
         }
         public int ActivationTimeAfterFineFlow  // Type : unsigned integer 8 Bit
         {
             get { return _activationTimeAfterFineFlow; }
-            set { _baseWtDevice.Connection.Write(40, value);
+            set { _connection.Write("", value);
                 this._activationTimeAfterFineFlow = value; }
         }
         public int SystematicDifference // Type : unsigned integer 32 Bit
         {
             get { return _systematicDifference; }
-            set { _baseWtDevice.SetOutput(41, value);
+            set { _connection.Write(_connection.IDCommands.SYSTEMATIC_DIFFERENCE, value);
                 this._systematicDifference = value; }
         }
         public int DownwardsDosing  // Type : unsigned integer 8 Bit
         {
             get { return _downwardsDosing; }
-            set { _baseWtDevice.Connection.Write(43, value);
+            set { //_connection.Write(_connection.IDCommands.DOWNWARDS_DOSING, value);  // Downwards dosing only for modbus according to its name. 
                 this._downwardsDosing = value; }
         }
         public int ValveControl  // Type : unsigned integer 8 Bit
         {
             get { return _valveControl; }
-            set { _baseWtDevice.Connection.Write(44, value);
+            set { _connection.Write(_connection.IDCommands.VALVE_CONTROL, value);
                 this._valveControl = value; }
         }
     
         public int EmptyingMode  // Type : unsigned integer 8 Bit
         {
             get { return _emptyingMode; }
-            set { _baseWtDevice.Connection.Write(45, value);
+            set { _connection.Write(_connection.IDCommands.EMPTYING_MODE, value);
                 this._emptyingMode = value; }
         }
         #endregion

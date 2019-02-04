@@ -96,7 +96,7 @@ namespace HBM.Weighing.API.Data
 
         private int _calibrationWeight;
         private int _zeroLoad;
-        private int _nomnialLoad;
+        private int _nominalLoad;
 
         private int _limitValueMonitoringLIV11;
         private int _signalSourceLIV12;
@@ -115,20 +115,20 @@ namespace HBM.Weighing.API.Data
         private int _switchOnLevelLIV43;
         private int _switchOffLevelLIV44;
 
-        private BaseWtDevice _baseWtDevice;
+        private INetConnection _connection;
+
+        private string _index;
         #endregion
 
         #region constructor
         
-        public DataStandard(BaseWtDevice BaseWtDeviceObject)
+        public DataStandard(INetConnection Connection)
         {
-            _baseWtDevice = BaseWtDeviceObject;
+            _connection = Connection;
 
-            if (_baseWtDevice.ConnectionType == "Modbus")
-                _baseWtDevice.UpdateDataClasses += UpdateStandardDataModbus;
+            _connection.UpdateDataClasses += UpdateStandardData;
 
-            if (_baseWtDevice.ConnectionType == "Jetbus")
-                _baseWtDevice.UpdateDataClasses += UpdateStandardDataJet;
+            _index = "";
 
             _input1 = 0;
             _input2=0;
@@ -176,7 +176,7 @@ namespace HBM.Weighing.API.Data
 
             _calibrationWeight=0;
             _zeroLoad=0;
-            _nomnialLoad=0;
+            _nominalLoad=0;
 
             _limitValueMonitoringLIV11 = 0;
             _signalSourceLIV12 = 0;
@@ -201,75 +201,72 @@ namespace HBM.Weighing.API.Data
 
         #region Update methods for standard mode
 
-        public void UpdateStandardDataModbus(object sender, DataEventArgs e)
+        public void UpdateStandardData(object sender, DataEventArgs e)
         {
-            if ((int)_baseWtDevice.ApplicationMode == 0 || (int)_baseWtDevice.ApplicationMode == 1)
+            
+            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/1") _input1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1] & 0x1;
+            else _input1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1];
+
+            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/2") _input2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2] & 0x2) >> 1;
+            else _input2 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2];
+
+            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/3") _input3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_3] & 0x4) >> 2;
+            else _input3 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_3];
+
+            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/4") _input4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_4] & 0x8) >> 3;
+            else _input4 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_4];
+
+            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "7/1") _output1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_1] & 0x1;
+            else _output1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_1];
+
+            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "7/2") _output2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_2] & 0x2) >> 1;
+            else _output2 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_2];
+
+            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "7/3") _output3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3] & 0x4) >> 2;
+            else _output3 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3];
+
+            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "7/4") _output4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4] & 0x8) >> 3;
+            else _output4 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4];
+            
+            _limitStatus1 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x1;
+            _limitStatus2 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x2 >> 1;
+            _limitStatus3 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x4 >> 2;
+            _limitStatus4 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x8 >> 3;
+
+            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 0)
             {
-                _input1 = (e.Data[6] & 0x1);
-                _input2 = ((e.Data[6] & 0x2) >> 1);
-                _input3 = ((e.Data[6] & 0x4) >> 2);
-                _input4 = ((e.Data[6] & 0x8) >> 3);
+                _limitValueMonitoringLIV11 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11];
+                _signalSourceLIV12 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
+                _switchOnLevelLIV13 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV13];
+                _switchOffLevelLIV14 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14];
 
-                _output1 = (e.Data[7] & 0x1); ;
-                _output2 = ((e.Data[7] & 0x2) >> 1);
-                _output3 = ((e.Data[7] & 0x4) >> 2);
-                _output4 = ((e.Data[7] & 0x8) >> 3);
+                _limitValueMonitoringLIV21 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21];
+                _signalSourceLIV22 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV22];
+                _switchOnLevelLIV23 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV23];
+                _switchOffLevelLIV24 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24];
 
-                _limitStatus1 = (e.Data[8] & 0x1); ;
-                _limitStatus2 = ((e.Data[8] & 0x2) >> 1);
-                _limitStatus3 = ((e.Data[8] & 0x4) >> 2);
-                _limitStatus4 = ((e.Data[8] & 0x8) >> 3);
+                _limitValueMonitoringLIV31 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31];
+                _signalSourceLIV32 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV32];
+                _switchOnLevelLIV33 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV33];
+                _switchOffLevelLIV34 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34];
 
+                _limitValueMonitoringLIV41 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41];
+                _signalSourceLIV42 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
+                _switchOnLevelLIV43 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
+                _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];
+            }
+                
+        }
+
+        // Missing input data words via modbus
+        /*
                 _weightMemDay = (e.Data[9]);
                 _weightMemMonth = (e.Data[10]);
                 _weightMemYear = (e.Data[11]);
                 _weightMemSeqNumber = (e.Data[12]);
                 _weightMemGross = (e.Data[13]);
                 _weightMemNet = (e.Data[14]);
-            }
-        }
-
-        public void UpdateStandardDataJet(object sender, DataEventArgs e)
-        {
-            if ((int)_baseWtDevice.ApplicationMode == 0 || (int)_baseWtDevice.ApplicationMode == 1)
-            {
-                _input1 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_1]);
-                _input2 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_2]);
-                _input3 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_3]);
-                _input4 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_INPUT_4]);
-
-                _output1 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_1]);
-                _output2 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_2]);
-                _output3 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_3]);
-                _output4 = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATUS_DIGITAL_OUTPUT_4]);
-
-                _limitStatus1 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE]) & 0x1;
-                _limitStatus2 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE]) & 0x2 >> 1;
-                _limitStatus3 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE]) & 0x4 >> 2;
-                _limitStatus4 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE]) & 0x8 >> 3;
-
-                _limitValueMonitoringLIV11 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV11]);
-                _signalSourceLIV12 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV12]);
-                _switchOnLevelLIV13 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV13]);
-                _switchOffLevelLIV14 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_OFF_LEVEL_LIV14]);
-
-                _limitValueMonitoringLIV21 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV21]);
-                _signalSourceLIV22 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV22]);
-                _switchOnLevelLIV23 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV23]);
-                _switchOffLevelLIV24 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_OFF_LEVEL_LIV24]);
-
-                _limitValueMonitoringLIV31 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV31]);
-                _signalSourceLIV32 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV32]);
-                _switchOnLevelLIV33 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV33]);
-                _switchOffLevelLIV34 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_OFF_LEVEL_LIV34]);
-
-                _limitValueMonitoringLIV41 = Convert.ToInt32(e.DataDictionary[JetBusCommands.LIMIT_VALUE_MONITORING_LIV41]);
-                _signalSourceLIV42 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SIGNAL_SOURCE_LIV42]);
-                _switchOnLevelLIV43 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_ON_LEVEL_LIV43]);
-                _switchOffLevelLIV44 = Convert.ToInt32(e.DataDictionary[JetBusCommands.SWITCH_OFF_LEVEL_LIV44]);
-            }
-        }
-
+        */
         #endregion
 
         #region Get-properties for standard mode
@@ -360,125 +357,203 @@ namespace HBM.Weighing.API.Data
         public int ManualTareValue // Type : signed integer 32 Bit
         {
             get { return _manualTareValue; }
-            set { _baseWtDevice.SetOutput(2, value);
-                  _manualTareValue = value; }
+            set
+            {
+                  _connection.Write(this.getIndex(_connection.IDCommands.TARE_VALUE), value);
+                  _manualTareValue = value;
+            }
         }
         public int LimitValue1Input // Type : unsigned integer 8 Bit
         {
             get { return _limitValue1Input; }
-            set { _baseWtDevice.Connection.Write(4, value);
-                  _limitValue1Input = value; }
+            set
+            {
+
+                _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV12), value);
+                _manualTareValue = value;
+            }
         }
         public int LimitValue1Mode // Type : unsigned integer 8 Bit
         {
             get { return _limitValue1Mode; }
-            set { _baseWtDevice.Connection.Write(5, value); 
-                  _limitValue1Mode = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11), value);
+                _manualTareValue = value;
+            }
         }
         public int LimitValue1ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
         {
             get { return _limitValue1ActivationLevelLowerBandLimit; }
-            set { _baseWtDevice.SetOutput(6, value);
-                  _limitValue1ActivationLevelLowerBandLimit = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
+                _manualTareValue = value;
+            }
         }
         public int LimitValue1HysteresisBandHeight // Type : signed integer 32 Bit
         {
             get { return _limitValue1HysteresisBandHeight; }
-            set { _baseWtDevice.SetOutput(8, value);
-                  _limitValue1HysteresisBandHeight = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
+                _limitValue1HysteresisBandHeight = value;
+            }
         }
         public int LimitValue2Source // Type : unsigned integer 8 Bit
         {
             get { return _limitValue2Source; }
-            set { _baseWtDevice.Connection.Write(10, value);
-                  _limitValue2Source = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV22), value);
+                _limitValue2Source = value;
+            }
         }
         public int LimitValue2Mode // Type : unsigned integer 8 Bit
         {
             get { return _limitValue2Mode; }
-            set { _baseWtDevice.Connection.Write(11, value);
-                  _limitValue2Mode = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21), value);
+                _limitValue2Mode = value;
+            }
         }
         public int LimitValue2ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
         {
             get { return _limitValue2ActivationLevelLowerBandLimit; }
-            set { _baseWtDevice.SetOutput(12, value);
-                  _limitValue2ActivationLevelLowerBandLimit = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV23), value);
+                _limitValue2ActivationLevelLowerBandLimit = value;
+            }
         }
         public int LimitValue2HysteresisBandHeight // Type : signed integer 32 Bit
         {
             get { return _limitValue2HysteresisBandHeight; }
-            set { _baseWtDevice.SetOutput(14, value);
-                  _limitValue2HysteresisBandHeight = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.TARE_VALUE), value);
+                _limitValue2HysteresisBandHeight = value;
+            }
         }
         public int LimitValue3Source // Type : unsigned integer 8 Bit
         {
             get { return _limitValue3Source; }
-            set { _baseWtDevice.Connection.Write(16, value);
-                  _limitValue3Source = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV32), value);
+                _limitValue3Source = value;
+            }
         }
         public int LimitValue3Mode // Type : unsigned integer 8 Bit
         {
             get { return _limitValue3Mode; }
-            set { _baseWtDevice.Connection.Write(17, value);
-                  _limitValue3Mode = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31), value);
+                _limitValue3Mode = value;
+            }
         }
         public int LimitValue3ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
         {
             get { return _limitValue3ActivationLevelLowerBandLimit; }
-            set { _baseWtDevice.SetOutput(18, value);
-                  _limitValue3ActivationLevelLowerBandLimit = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV33), value);
+                _limitValue3ActivationLevelLowerBandLimit = value;
+            }
         }
         public int LimitValue3HysteresisBandHeight // Type : signed integer 32 Bit
         {
             get { return _limitValue3HysteresisBandHeight; }
-            set { _baseWtDevice.SetOutput(20, value);
-                  _limitValue3HysteresisBandHeight = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34), value);
+                _limitValue3HysteresisBandHeight = value;
+            }
         }
         public int LimitValue4Source // Type : unsigned integer 8 Bit
         {
             get { return _limitValue4Source; }
-            set { _baseWtDevice.Connection.Write(22, value);
-                  _limitValue4Source = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV42), value);
+                _limitValue4Source = value;
+            }
         }
         public int LimitValue4Mode // Type : unsigned integer 8 Bit
         {
             get { return _limitValue4Mode; }
-            set { _baseWtDevice.Connection.Write(23, value);
-                  _limitValue4Mode = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41), value);
+                _limitValue4Mode = value;
+            }
         }
         public int LimitValue4ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
         {
             get { return _limitValue4ActivationLevelLowerBandLimit; }
-            set { _baseWtDevice.SetOutput(24, value);
-                  _limitValue4ActivationLevelLowerBandLimit = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV43), value);
+                _limitValue4ActivationLevelLowerBandLimit = value;
+            }
         }
         public int LimitValue4HysteresisBandHeight // Type : signed integer 32 Bit
         {
             get { return _limitValue4HysteresisBandHeight; }
-            set { _baseWtDevice.SetOutput(26, value);
-                  _limitValue4HysteresisBandHeight = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44), value);
+                _limitValue4HysteresisBandHeight = value;
+            }
         }
         public int CalibrationWeight // Type : signed integer 32 Bit
         {
             get { return _calibrationWeight; }
-            set { _baseWtDevice.SetOutput(46, value);
-                  _calibrationWeight = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), value);
+                _calibrationWeight = value;
+            }
         }
         public int ZeroLoad // Type : signed integer 32 Bit
         {
             get { return _zeroLoad; }
-            set { _baseWtDevice.SetOutput(48, value);
-                  _zeroLoad = value; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.LDW_DEAD_WEIGHT), value);
+                _zeroLoad = value;
+            }
         }
         public int NominalLoad // Type : signed integer 32 Bit
         {
-            get { return _nomnialLoad; }
-            set { _baseWtDevice.SetOutput(50, value); 
-                  _nomnialLoad = value; }
+            get { return _nominalLoad; }
+            set
+            {
+                _connection.Write(this.getIndex(_connection.IDCommands.LWT_NOMINAL_VALUE), value);
+                _nominalLoad = value;
+            }
         }
-        
+
         #endregion
+
+        private string getIndex(string indexParam)
+        {
+            if (indexParam.Contains("standard"))
+            {
+                if (indexParam.Length == 16)
+                    _index = indexParam.Remove(1);
+                if (indexParam.Length == 17)
+                    _index = indexParam.Remove(1);
+                if (indexParam.Length == 18)
+                    _index = indexParam.Remove(2);
+            }
+            else
+                _index = indexParam;
+
+            return _index;
+        }
 
     }
 }

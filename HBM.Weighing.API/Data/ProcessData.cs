@@ -41,8 +41,6 @@ namespace HBM.Weighing.API
     {
         private int _netValue;      // data type = double according to OPC-UA standard
         private int _grossValue;    // data type = double according to OPC-UA standard
-        private string _netValueStr;
-        private string _grossValueStr;
         private int _tareValue;          // data type = double according to OPC-UA standard
         private bool _generalWeightError;
         private bool _scaleAlarmTriggered;
@@ -55,8 +53,7 @@ namespace HBM.Weighing.API
         private bool _zeroRequired;
         private bool _weightWithinTheCenterOfZero;
         private bool _weightInZeroRange;
-        //private int _applicationMode;
-        //private string _applicationModeStr;
+        private int _applicationMode;
         private int _decimals;
         private int _unit;
         private bool _handshake;
@@ -66,19 +63,15 @@ namespace HBM.Weighing.API
         private bool _weightWithinLimits;
         private bool _higherSafeLoadLimit;
 
-        private BaseWtDevice _baseWtDevice;
+        private INetConnection _connection;
 
         #region constructor of ProcessData
 
-        public ProcessData(BaseWtDevice BaseWtDeviceObject)
+        public ProcessData(INetConnection Connection)
         {
-            _baseWtDevice = BaseWtDeviceObject;
+            _connection = Connection;
 
-            if (_baseWtDevice.ConnectionType == "Modbus")
-                _baseWtDevice.UpdateDataClasses += UpdateProcessDataModbus;
-
-            if (_baseWtDevice.ConnectionType=="Jetbus")
-                _baseWtDevice.UpdateDataClasses += UpdateProcessDataJet;
+            _connection.UpdateDataClasses += UpdateProcessData;
 
              _netValue = 0;     
              _grossValue = 0;    
@@ -94,8 +87,7 @@ namespace HBM.Weighing.API
              _zeroRequired = false;
              _weightWithinTheCenterOfZero = false;
              _weightInZeroRange = false;
-             //_applicationMode = 0;
-             //_applicationModeStr = "";
+             _applicationMode = 0;
              _decimals = 0;
              _unit = 0;
              _handshake = false;
@@ -110,100 +102,52 @@ namespace HBM.Weighing.API
 
         #region update methods for process data
 
-        public void UpdateProcessDataModbus(object sender, DataEventArgs e)
+        public void UpdateProcessData(object sender, DataEventArgs e)
         {
-            _netValue = e.Data[1] + (e.Data[0] << 16);
-            _grossValue = e.Data[3] + (e.Data[2] << 16);
-            _netValueStr = this.CurrentWeight(_netValue, _decimals);
-            _grossValueStr = this.CurrentWeight(_grossValue, _decimals);
+            _netValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.NET_VALUE]);
+            _grossValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.GROSS_VALUE]);
 
             _tareValue = _netValue - _grossValue;
 
-            //_applicationMode = e.Data[5] & 0x3;
+            _generalWeightError = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1);
+            _scaleAlarmTriggered = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x2) >> 1);
+            _limitStatus = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0xC) >> 2;
 
-            _generalWeightError = Convert.ToBoolean((e.Data[4] & 0x1));
-            _scaleAlarmTriggered = Convert.ToBoolean(((e.Data[4] & 0x2) >> 1));
-            _limitStatus = ((e.Data[4] & 0xC) >> 2);
-            _weightMoving = Convert.ToBoolean(((e.Data[4] & 0x10) >> 4));
+            _weightMoving = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x10) >> 4);
+            _scaleSealIsOpen = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x20) >> 5);
+            _manualTare = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x40) >> 6);
+            _weightType = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x80) >> 7);
+            _scaleRange = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x300) >> 8;
 
-            _scaleSealIsOpen = Convert.ToBoolean(((e.Data[4] & 0x20) >> 5));
-            _manualTare = Convert.ToBoolean(((e.Data[4] & 0x40) >> 6));
-            _weightType = Convert.ToBoolean(((e.Data[4] & 0x80) >> 7));
-            _scaleRange = ((e.Data[4] & 0x300) >> 8);
+            _applicationMode = e.DataDictionary[_connection.IDCommands.APPLICATION_MODE];
+            _zeroRequired = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x400) >> 10);
+            _weightWithinTheCenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x800) >> 11);
+            _weightInZeroRange = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1000) >> 12);
 
-            _zeroRequired = Convert.ToBoolean((e.Data[4] & 0x400) >> 10);
-            _weightWithinTheCenterOfZero = Convert.ToBoolean(((e.Data[4] & 0x800) >> 11));
-            _weightInZeroRange = Convert.ToBoolean(((e.Data[4] & 0x1000) >> 12));
+            _decimals = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DECIMALS]);
 
-            _decimals = ((e.Data[5] & 0x70) >> 4);
-            _unit = ((e.Data[5] & 0x180) >> 7);
-            _handshake = Convert.ToBoolean(((e.Data[5] & 0x4000) >> 14));
-            _status = ((e.Data[5] & 0x8000) >> 15);
-
-            this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
-        }
-
-        public void UpdateProcessDataJet(object sender, DataEventArgs e)
-        {
-            _netValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.NET_VALUE]);
-            _grossValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.GROSS_VALUE]);
-            _netValueStr = this.CurrentWeight(_netValue, _decimals);
-            _grossValueStr = this.CurrentWeight(_grossValue, _decimals);
-
-            _tareValue = _netValue - _grossValue;
-            _generalWeightError = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1);
-            _scaleAlarmTriggered = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x2) >> 1);
-            _limitStatus = (Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0xC) >> 2;
-
+            if (_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER.Equals("5/2/7"))
+                _unit = Convert.ToInt32(e.DataDictionary["5/2/7"]);
+            else
+                _unit = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;
             
-            _weightMoving = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x10) >> 4);
-            _scaleSealIsOpen = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x20) >> 5);
-            _manualTare = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x40) >> 6);
-            _weightType = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x80) >> 7);
-            _scaleRange = (Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x300) >> 8;
+            if (_connection.IDCommands.SCALE_COMMAND_STATUS.Equals("5/1/15"))
+            {
+                _status = (Convert.ToInt32(e.DataDictionary["5/1/15"]) & 0x8000) >> 15;
+                _handshake = Convert.ToBoolean(((Convert.ToInt32(e.DataDictionary["5/1/15"]) & 0x4000) >> 14));
+            }
+            else
+                _status = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]);
             
-            //_applicationMode = e.DataDictionary[JetBusCommands.APPLICATION_MODE];
-            _zeroRequired = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x400) >> 10);
-            _weightWithinTheCenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x800) >> 11);
-            _weightInZeroRange = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1000) >> 12);
-
-            _decimals = Convert.ToInt32(e.DataDictionary[JetBusCommands.DECIMALS]);
-            _unit = (Convert.ToInt32(e.DataDictionary[JetBusCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;
-
-            _handshake = UpdateHandshake(Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_COMMAND_STATUS]));
-            _status = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_COMMAND_STATUS]);
-
-            this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
+             this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
+             
         }
-
         public bool UpdateHandshake(int _handshakeValue)
         {
             if (_handshakeValue == 1801543519)
                 return true;
             else
                 return false;
-        }
-
-        // In the following methods the different options for the single integer values are used to define and
-        // interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
-        public string CurrentWeight(int value, int decimals)
-        {
-            double dvalue = value / Math.Pow(10, decimals);
-            string returnvalue = "";
-
-            switch (_decimals)
-            {
-                case 0: returnvalue = dvalue.ToString(); break;
-                case 1: returnvalue = dvalue.ToString("0.0"); break;
-                case 2: returnvalue = dvalue.ToString("0.00"); break;
-                case 3: returnvalue = dvalue.ToString("0.000"); break;
-                case 4: returnvalue = dvalue.ToString("0.0000"); break;
-                case 5: returnvalue = dvalue.ToString("0.00000"); break;
-                case 6: returnvalue = dvalue.ToString("0.000000"); break;
-                default: returnvalue = dvalue.ToString(); break;
-
-            }
-            return returnvalue;
         }
 
         private void limitStatusBool()
@@ -264,16 +208,6 @@ namespace HBM.Weighing.API
         public int GrossValue   // data type = double according to OPC-UA standard
         {
             get { return _grossValue; }
-        }
-
-        public string NetValueStr     // data type = double according to OPC-UA standard
-        {
-            get { return _netValueStr; }
-        }
-
-        public string GrossValueStr   // data type = double according to OPC-UA standard
-        {
-            get { return _grossValueStr; }
         }
 
         public int TareValue         // data type = double according to OPC-UA standard

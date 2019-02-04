@@ -129,16 +129,16 @@ namespace HBM.Weighing.API.Data
         private int _emptyWeightTolerance;
         private int _residualFlowDosingCycle;
 
-        private BaseWtDevice _baseWtDevice;
+        private INetConnection _connection;
         #endregion
 
         #region constructor
 
-        public DataFillerExtended(BaseWtDevice BaseWtDeviceObject):base(BaseWtDeviceObject)          
+        public DataFillerExtended(INetConnection Connection):base(Connection)          
         {
-            _baseWtDevice = BaseWtDeviceObject;
+            _connection = Connection;
 
-            _baseWtDevice.UpdateDataClasses += UpdateFillerExtendedDataJet;
+            _connection.UpdateDataClasses += UpdateFillerExtendedData;
 
             _saveAllParameters =0;
             _restoreAllDefaultParameters=0;
@@ -231,91 +231,90 @@ namespace HBM.Weighing.API.Data
         
         #region update method for the filler extended data
 
-        public void UpdateFillerExtendedDataJet(object sender, DataEventArgs e)
+        public void UpdateFillerExtendedData(object sender, DataEventArgs e)
         {
-            if ((int) _baseWtDevice.ApplicationMode == 2 || (int) _baseWtDevice.ApplicationMode == 3)
+            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 2)
             {
-                this.UpdateFillerDataJet(this, e);
+                this.UpdateFillerData(this, e);
                 /*
-                _errorRegister = _data[JetBusCommands.ERROR_REGISTER];
-                _saveAllParameters = _data[JetBusCommands.SAVE_ALL_PARAMETERS];
-                _restoreAllDefaultParameters = _data[JetBusCommands.RESTORE_ALL_DEFAULT_PARAMETERS];
-                _vendorID = _data[JetBusCommands.VENDOR_ID];
+                _errorRegister = _data[_connection.IDCommands.ERROR_REGISTER];
+                _saveAllParameters = _data[_connection.IDCommands.SAVE_ALL_PARAMETERS];
+                _restoreAllDefaultParameters = _data[_connection.IDCommands.RESTORE_ALL_DEFAULT_PARAMETERS];
+                _vendorID = _data[_connection.IDCommands.VENDOR_ID];
 
-                _productCode = _data[JetBusCommands.PRODUCT_CODE];
-                _serialNumber = _data[JetBusCommands.SERIAL_NUMBER];
-                _implementedProfileSpecification = _data[JetBusCommands.IMPLEMENTED_PROFILE_SPECIFICATION];
-                _lcCapability = _data[JetBusCommands.LC_CAPABILITY];
-                _weighingDevice1UnitPrefixOutputParameter = _data[JetBusCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER];
+                _productCode = _data[_connection.IDCommands.PRODUCT_CODE];
+                _serialNumber = _data[_connection.IDCommands.SERIAL_NUMBER];
+                _implementedProfileSpecification = _data[_connection.IDCommands.IMPLEMENTED_PROFILE_SPECIFICATION];
+                _lcCapability = _data[_connection.IDCommands.LC_CAPABILITY];
+                _weighingDevice1UnitPrefixOutputParameter = _data[_connection.IDCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER];
                 */
-                _weighingDevice1WeightStep = Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STEP]);
-                _alarms = Convert.ToInt32(e.DataDictionary[JetBusCommands.ALARMS]);
-                _weighingDevice1OutputWeight = Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_OUTPUT_WEIGHT]);
-                _weighingDevice1Setting = Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHING_DEVICE_1_SETTING]);
+                _weighingDevice1WeightStep = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STEP]);
+                _alarms = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.ALARMS]);
+                _weighingDevice1OutputWeight = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_OUTPUT_WEIGHT]);
+                _weighingDevice1Setting = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_SETTING]);
 
-                _localGravityFactor = Convert.ToInt32(e.DataDictionary[JetBusCommands.LOCAL_GRAVITY_FACTOR]);
-                _scaleFilterSetup = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_FILTER_SETUP]);
-                _dataSampleRate = Convert.ToInt32(e.DataDictionary[JetBusCommands.DATA_SAMPLE_RATE]);
+                _localGravityFactor = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.LOCAL_GRAVITY_FACTOR]);
+                _scaleFilterSetup = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_FILTER_SETUP]);
+                _dataSampleRate = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DATA_SAMPLE_RATE]);
 
-                _filterOrderCriticallyDamped = Convert.ToInt32(e.DataDictionary[JetBusCommands.FILTER_ORDER_CRITICALLY_DAMPED]);
-                _cutOffFrequencyCriticallyDamped = Convert.ToInt32(e.DataDictionary[JetBusCommands.CUT_OFF_FREQUENCY_CRITICALLY_DAMPED]);
-                _filterOrderButterworth = Convert.ToInt32(e.DataDictionary[JetBusCommands.FILTER_ORDER_BUTTERWORTH]);
-                _cutOffFrequencyButterWorth = Convert.ToInt32(e.DataDictionary[JetBusCommands.CUT_OFF_FREQUENCY_BUTTERWORTH]);
-                _filterOrderBessel = Convert.ToInt32(e.DataDictionary[JetBusCommands.FILTER_ORDER_BESSEL]);
+                _filterOrderCriticallyDamped = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.FILTER_ORDER_CRITICALLY_DAMPED]);
+                _cutOffFrequencyCriticallyDamped = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.CUT_OFF_FREQUENCY_CRITICALLY_DAMPED]);
+                _filterOrderButterworth = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.FILTER_ORDER_BUTTERWORTH]);
+                _cutOffFrequencyButterWorth = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.CUT_OFF_FREQUENCY_BUTTERWORTH]);
+                _filterOrderBessel = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.FILTER_ORDER_BESSEL]);
 
-                _cutOffFrequencyBessel = Convert.ToInt32(e.DataDictionary[JetBusCommands.CUT_OFF_FREQUENCY_BESSEL]);
-                _scaleSupplyNominalVoltage = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_SUPPY_NOMINAL_VOLTAGE]);
-                _scaleSupplyMinimumVoltage = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_SUPPY_MINIMUM_VOLTAGE]);
-                _scaleSupplyMaximumVoltage = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_SUPPY_MAXIMUM_VOLTAGE]);
+                _cutOffFrequencyBessel = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.CUT_OFF_FREQUENCY_BESSEL]);
+                _scaleSupplyNominalVoltage = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_SUPPY_NOMINAL_VOLTAGE]);
+                _scaleSupplyMinimumVoltage = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_SUPPY_MINIMUM_VOLTAGE]);
+                _scaleSupplyMaximumVoltage = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_SUPPY_MAXIMUM_VOLTAGE]);
 
-                _scaleAccuracyClass = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_ACCURACY_CLASS]);
-                _scaleMinimumDeadLoad = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_MINIMUM_DEAD_LOAD]);
-                _scaleMaximumCapacity = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_MAXIMUM_CAPACITY]);
-                _scaleMaximumNumberVerificationInterval = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_MAXIMUM_NUMBER_OF_VERIFICATION_INTERVAL]);
-                _scaleApportionmentFactor = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_APPORTIONMENT_FACTOR]);
-                _scaleSafeLoadLimit = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_SAFE_LOAD_LIMIT]);
-                _scaleOperationNominalTemperature = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_OPERATION_NOMINAL_TEMPERATURE]);
-                _scaleOperationMinimumTemperature = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_OPERATION_MINIMUM_TEMPERATURE]);
-                _scaleOperationMaximumTemperature = Convert.ToInt32(e.DataDictionary[JetBusCommands.SCALE_OPERATION_MAXIMUM_TEMPERATURE]);
+                _scaleAccuracyClass = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_ACCURACY_CLASS]);
+                _scaleMinimumDeadLoad = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_MINIMUM_DEAD_LOAD]);
+                _scaleMaximumCapacity = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_MAXIMUM_CAPACITY]);
+                _scaleMaximumNumberVerificationInterval = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_MAXIMUM_NUMBER_OF_VERIFICATION_INTERVAL]);
+                _scaleApportionmentFactor = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_APPORTIONMENT_FACTOR]);
+                _scaleSafeLoadLimit = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_SAFE_LOAD_LIMIT]);
+                _scaleOperationNominalTemperature = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_OPERATION_NOMINAL_TEMPERATURE]);
+                _scaleOperationMinimumTemperature = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_OPERATION_MINIMUM_TEMPERATURE]);
+                _scaleOperationMaximumTemperature = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_OPERATION_MAXIMUM_TEMPERATURE]);
 
-                //_scaleRelativeMinimumLoadCellVerficationInterval = e.DataDictionary[JetBusCommands.SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL]);
-                _intervalRangeControl = Convert.ToInt32(e.DataDictionary[JetBusCommands.INTERVAL_RANGE_CONTROL]);
-                _multiLimit1 = Convert.ToInt32(e.DataDictionary[JetBusCommands.MULTI_LIMIT_1]);
-                _multiLimit2 = Convert.ToInt32(e.DataDictionary[JetBusCommands.MULTI_LIMIT_2]);
-                //_oimlCertificationInformation = e.DataDictionary[JetBusCommands.OIML_CERTIFICAITON_INFORMATION]);
-                //_ntepCertificationInformation = e.DataDictionary[JetBusCommands.NTEP_CERTIFICAITON_INFORMATION]);
-                _maximumZeroingTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.MAXIMUM_ZEROING_TIME]);
-                _maximumPeakValueGross = Convert.ToInt32(e.DataDictionary[JetBusCommands.MAXIMUM_PEAK_VALUE_GROSS]);
-                _minimumPeakValueGross = Convert.ToInt32(e.DataDictionary[JetBusCommands.MINIMUM_PEAK_VALUE_GROSS]);
+                //_scaleRelativeMinimumLoadCellVerficationInterval = e.DataDictionary[_connection.IDCommands.SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL];
+                _intervalRangeControl = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.INTERVAL_RANGE_CONTROL]);
+                _multiLimit1 = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.MULTI_LIMIT_1]);
+                _multiLimit2 = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.MULTI_LIMIT_2]);
+                //_oimlCertificationInformation = e.DataDictionary[_connection.IDCommands.OIML_CERTIFICAITON_INFORMATION];
+                //_ntepCertificationInformation = e.DataDictionary[_connection.IDCommands.NTEP_CERTIFICAITON_INFORMATION];
+                _maximumZeroingTime = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.MAXIMUM_ZEROING_TIME]);
+                _maximumPeakValueGross = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.MAXIMUM_PEAK_VALUE_GROSS]);
+                _minimumPeakValueGross = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.MINIMUM_PEAK_VALUE_GROSS]);
 
-                _maximumPeakValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.MAXIMUM_PEAK_VALUE]);
-                _minimumPeakValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.MINIMUM_PEAK_VALUE]);
-                _weightMovingDetection = Convert.ToInt32(e.DataDictionary[JetBusCommands.WEIGHT_MOVING_DETECTION]);
-                //_deviceAddress = e.DataDictionary[JetBusCommands.DEVICE_ADDRESS]);
-                //_hardwareVersion = e.DataDictionary[JetBusCommands.HAREWARE_VERSION]);
-                //_identification = e.DataDictionary[JetBusCommands.IDENTIFICATION]);
+                _maximumPeakValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.MAXIMUM_PEAK_VALUE]);
+                _minimumPeakValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.MINIMUM_PEAK_VALUE]);
+                _weightMovingDetection = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHT_MOVING_DETECTION]);
+                //_deviceAddress = e.DataDictionary[_connection.IDCommands.DEVICE_ADDRESS]);
+                //_hardwareVersion = e.DataDictionary[_connection.IDCommands.HAREWARE_VERSION]);
+                //_identification = e.DataDictionary[_connection.IDCommands.IDENTIFICATION]);
 
-                _outputScale = Convert.ToInt32(e.DataDictionary[JetBusCommands.OUTPUT_SCALE]);
-                //_firmwareDate = e.DataDictionary[JetBusCommands.FIRMWARE_DATE]);
-                _resetTrigger = Convert.ToInt32(e.DataDictionary[JetBusCommands.RESET_TRIGGER]);
-                _stateDigital_IO_Extended = Convert.ToInt32(e.DataDictionary[JetBusCommands.STATE_DIGITAL_IO_EXTENDED]);
+                _outputScale = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.OUTPUT_SCALE]);
+                //_firmwareDate = e.DataDictionary[_connection.IDCommands.FIRMWARE_DATE]);
+                _resetTrigger = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.RESET_TRIGGER]);
+                _stateDigital_IO_Extended = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.STATE_DIGITAL_IO_EXTENDED]);
 
-                //_softwareIdentification = e.DataDictionary[JetBusCommands.SOFTWARE_IDENTIFICATION]);
-                //_softwareVersion = e.DataDictionary[JetBusCommands.SOFTWARE_VERSION]);
-                _dateTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.DATE_TIME]);
+                //_softwareIdentification = e.DataDictionary[_connection.IDCommands.SOFTWARE_IDENTIFICATION]);
+                //_softwareVersion = e.DataDictionary[_connection.IDCommands.SOFTWARE_VERSION]);
+                _dateTime = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DATE_TIME]);
 
-                _breakDosing = Convert.ToInt32(e.DataDictionary[JetBusCommands.BREAK_DOSING]);
-                _deleteDosingResult = Convert.ToInt32(e.DataDictionary[JetBusCommands.DELETE_DOSING_RESULT]);
-                _materialStreamLastDosing = Convert.ToInt32(e.DataDictionary[JetBusCommands.MATERIAL_STREAM_LAST_DOSING]);
-                _sum = Convert.ToInt32(e.DataDictionary[JetBusCommands.SUM]);
-                _specialDosingFunctions = Convert.ToInt32(e.DataDictionary[JetBusCommands.SPECIAL_DOSING_FUNCTIONS]);
-                _dischargeTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.DISCHARGE_TIME]);
-                _exceedingWeightBreak = Convert.ToInt32(e.DataDictionary[JetBusCommands.EXCEEDING_WEIGHT_BREAK]);
-                _delay1Dosing = Convert.ToInt32(e.DataDictionary[JetBusCommands.DELAY1_DOSING]);
-                _delay2Dosing = Convert.ToInt32(e.DataDictionary[JetBusCommands.DELAY2_DOSING]);
-                _emptyWeightTolerance = Convert.ToInt32(e.DataDictionary[JetBusCommands.EMPTY_WEIGHT_TOLERANCE]);
-                _residualFlowDosingCycle = Convert.ToInt32(e.DataDictionary[JetBusCommands.RESIDUAL_FLOW_DOSING_CYCLE]);
-
+                _breakDosing = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.BREAK_DOSING]);
+                _deleteDosingResult = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DELETE_DOSING_RESULT]);
+                _materialStreamLastDosing = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.MATERIAL_STREAM_LAST_DOSING]);
+                _sum = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SUM]);
+                _specialDosingFunctions = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SPECIAL_DOSING_FUNCTIONS]);
+                _dischargeTime = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DISCHARGE_TIME]);
+                _exceedingWeightBreak = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.EXCEEDING_WEIGHT_BREAK]);
+                _delay1Dosing = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DELAY1_DOSING]);
+                _delay2Dosing = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DELAY2_DOSING]);
+                _emptyWeightTolerance = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.EMPTY_WEIGHT_TOLERANCE]);
+                _residualFlowDosingCycle = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.RESIDUAL_FLOW_DOSING_CYCLE]);
             }
         }
 
@@ -326,493 +325,493 @@ namespace HBM.Weighing.API.Data
         public int SaveAllParameters
         {
             get { return _saveAllParameters; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SAVE_ALL_PARAMETERS, value);
+            set { _connection.Write(_connection.IDCommands.SAVE_ALL_PARAMETERS, value);
                  this._saveAllParameters = value; }
         }
         public int RestoreAllDefaultParameters
         {
             get { return _restoreAllDefaultParameters; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.RESTORE_ALL_DEFAULT_PARAMETERS, value);
+            set { _connection.Write(_connection.IDCommands.RESTORE_ALL_DEFAULT_PARAMETERS, value);
                 this._restoreAllDefaultParameters = value; }
         }
         public int VendorID
         {
             get { return _vendorID; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.VENDOR_ID, value);
+            set { _connection.Write(_connection.IDCommands.VENDOR_ID, value);
                 this._vendorID = value; }
         }
         public int ProductCode
         {
             get { return _productCode; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.PRODUCT_CODE, value);
+            set { _connection.Write(_connection.IDCommands.PRODUCT_CODE, value);
                 this._productCode = value; }
         }
         public int SerialNumber
         {
             get { return _serialNumber; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SERIAL_NUMBER, value);
+            set { _connection.Write(_connection.IDCommands.SERIAL_NUMBER, value);
                 this._serialNumber = value; }
         }
         public int ImplementedProfileSpecification
         {
             get { return _implementedProfileSpecification; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.IMPLEMENTED_PROFILE_SPECIFICATION, value);
+            set { _connection.Write(_connection.IDCommands.IMPLEMENTED_PROFILE_SPECIFICATION, value);
                 this._implementedProfileSpecification = value; }
         }
         public int LcCapability
         {
             get { return _lcCapability; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.LC_CAPABILITY, value);
+            set { _connection.Write(_connection.IDCommands.LC_CAPABILITY, value);
                 this._lcCapability = value; }
         }
         public int WeighingDevice1UnitPrefixOutputParameter
         {
             get { return _weighingDevice1UnitPrefixOutputParameter; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER, value);
+            set { _connection.Write(_connection.IDCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER, value);
                 this._weighingDevice1UnitPrefixOutputParameter = value; }
         }
         public int WeighingDevice1WeightStep
         {
             get { return _weighingDevice1WeightStep; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.WEIGHING_DEVICE_1_WEIGHT_STEP, value);
+            set { _connection.Write(_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STEP, value);
                 this._weighingDevice1WeightStep = value; }
         }
         public int Alarms
         {
             get { return _alarms; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.ALARMS, value);
+            set { _connection.Write(_connection.IDCommands.ALARMS, value);
                 this._alarms = value; }
         }
         public int WeighingDevice1OutputWeight
         {
             get { return _weighingDevice1OutputWeight; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.WEIGHING_DEVICE_1_OUTPUT_WEIGHT, value);
+            set { _connection.Write(_connection.IDCommands.WEIGHING_DEVICE_1_OUTPUT_WEIGHT, value);
                 this._weighingDevice1OutputWeight = value; }
         }
         public int WeighingDevice1Setting
         {
             get { return _weighingDevice1Setting; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.WEIGHING_DEVICE_1_SETTING, value);
+            set { _connection.Write(_connection.IDCommands.WEIGHING_DEVICE_1_SETTING, value);
                 this._weighingDevice1Setting = value; }
         }
         public int LocalGravityFactor
         {
             get { return _localGravityFactor; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.LOCAL_GRAVITY_FACTOR, value);
+            set { _connection.Write(_connection.IDCommands.LOCAL_GRAVITY_FACTOR, value);
                 this._localGravityFactor = value; }
         }
         public int ScaleFilterSetup
         {
             get { return _scaleFilterSetup; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_FILTER_SETUP, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_FILTER_SETUP, value);
                 this._scaleFilterSetup = value; }
         }
         public int DataSampleRate
         {
             get { return _dataSampleRate; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.DATA_SAMPLE_RATE, value);
+            set { _connection.Write(_connection.IDCommands.DATA_SAMPLE_RATE, value);
                 this._dataSampleRate = value; }
         }
         public int FilterOrderCriticallyDamped
         {
             get { return _filterOrderCriticallyDamped; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.FILTER_ORDER_CRITICALLY_DAMPED, value);
+            set { _connection.Write(_connection.IDCommands.FILTER_ORDER_CRITICALLY_DAMPED, value);
                 this._filterOrderCriticallyDamped = value; }
         }
         public int CutOffFrequencyCriticallyDamped
         {
             get { return _cutOffFrequencyCriticallyDamped; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.CUT_OFF_FREQUENCY_CRITICALLY_DAMPED, value);
+            set { _connection.Write(_connection.IDCommands.CUT_OFF_FREQUENCY_CRITICALLY_DAMPED, value);
                 this._cutOffFrequencyCriticallyDamped = value; }
         }
         public int FilterOrderButterworth
         {
             get { return _filterOrderButterworth; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.FILTER_ORDER_BUTTERWORTH, value);
+            set { _connection.Write(_connection.IDCommands.FILTER_ORDER_BUTTERWORTH, value);
                 this._filterOrderButterworth = value; }
         }
         public int CutOffFrequencyButterWorth
         {
             get { return _cutOffFrequencyButterWorth; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.CUT_OFF_FREQUENCY_BUTTERWORTH, value);
+            set { _connection.Write(_connection.IDCommands.CUT_OFF_FREQUENCY_BUTTERWORTH, value);
                 this._cutOffFrequencyButterWorth = value; }
         }
         public int FilterOrderBessel
         {
             get { return _filterOrderBessel; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.FILTER_ORDER_BESSEL, value);
+            set { _connection.Write(_connection.IDCommands.FILTER_ORDER_BESSEL, value);
                 this._filterOrderBessel = value; }
         }
         public int CutOffFrequencyBessel
         {
             get { return _cutOffFrequencyBessel; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.CUT_OFF_FREQUENCY_BESSEL, value);
+            set { _connection.Write(_connection.IDCommands.CUT_OFF_FREQUENCY_BESSEL, value);
                 this._cutOffFrequencyBessel = value; }
         }
         public int ScaleSupplyNominalVoltage
         {
             get { return _scaleSupplyNominalVoltage; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_SUPPY_NOMINAL_VOLTAGE, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_SUPPY_NOMINAL_VOLTAGE, value);
                 this._scaleSupplyNominalVoltage = value; }
         }
         public int ScaleSupplyMinimumVoltage
         {
             get { return _scaleSupplyMinimumVoltage; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_SUPPY_MINIMUM_VOLTAGE, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_SUPPY_MINIMUM_VOLTAGE, value);
                 this._scaleSupplyMinimumVoltage = value; }
         }
         public int ScaleSupplyMaximumVoltage
         {
             get { return _scaleSupplyMaximumVoltage; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_SUPPY_MAXIMUM_VOLTAGE, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_SUPPY_MAXIMUM_VOLTAGE, value);
                 this._scaleSupplyMaximumVoltage = value; }
         }
         public int ScaleAccuracyClass
         {
             get { return _scaleAccuracyClass; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_ACCURACY_CLASS, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_ACCURACY_CLASS, value);
                 this._scaleAccuracyClass = value; }
         }
         public int ScaleMinimumDeadLoad
         {
             get { return _scaleMinimumDeadLoad; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_MINIMUM_DEAD_LOAD, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_MINIMUM_DEAD_LOAD, value);
                 this._scaleMinimumDeadLoad = value; }
         }
         public int ScaleMaximumCapacity
         {
             get { return _scaleMaximumCapacity; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_MAXIMUM_CAPACITY, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_MAXIMUM_CAPACITY, value);
                 this._scaleMaximumCapacity = value; }
         }
         public int ScaleMaximumNumberVerificationInterval
         {
             get { return _scaleMaximumNumberVerificationInterval; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_MAXIMUM_NUMBER_OF_VERIFICATION_INTERVAL, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_MAXIMUM_NUMBER_OF_VERIFICATION_INTERVAL, value);
                 this._scaleMaximumNumberVerificationInterval = value; }
         }
         public int ScaleApportionmentFactor
         {
             get { return _scaleApportionmentFactor; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_APPORTIONMENT_FACTOR, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_APPORTIONMENT_FACTOR, value);
                 this._scaleApportionmentFactor = value; }
         }
         public int ScaleSafeLoadLimit
         {
             get { return _scaleSafeLoadLimit; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_SAFE_LOAD_LIMIT, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_SAFE_LOAD_LIMIT, value);
                 this._scaleSafeLoadLimit = value; }
         }
         public int ScaleOperationNominalTemperature
         {
             get { return _scaleOperationNominalTemperature; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_OPERATION_NOMINAL_TEMPERATURE, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_OPERATION_NOMINAL_TEMPERATURE, value);
                 this._scaleOperationNominalTemperature = value; }
         }
         public int ScaleOperationMinimumTemperature
         {
             get { return _scaleOperationMinimumTemperature; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_OPERATION_MINIMUM_TEMPERATURE, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_OPERATION_MINIMUM_TEMPERATURE, value);
                 this._scaleOperationMinimumTemperature = value; }
         }
         public int ScaleOperationMaximumTemperature
         {
             get { return _scaleOperationMaximumTemperature; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_OPERATION_MAXIMUM_TEMPERATURE, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_OPERATION_MAXIMUM_TEMPERATURE, value);
                 this._scaleOperationMaximumTemperature = value; }
         }
         public int ScaleRelativeMinimumLoadCellVerficationInterval
         {
             get { return _scaleRelativeMinimumLoadCellVerficationInterval; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL, value);
+            set { _connection.Write(_connection.IDCommands.SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL, value);
                 this._scaleRelativeMinimumLoadCellVerficationInterval = value; }
         }
         public int IntervalRangeControl
         {
             get { return _intervalRangeControl; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.INTERVAL_RANGE_CONTROL, value);
+            set { _connection.Write(_connection.IDCommands.INTERVAL_RANGE_CONTROL, value);
                 this._intervalRangeControl = value; }
         }
         public int MultiLimit1
         {
             get { return _multiLimit1; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.MULTI_LIMIT_1, value);
+            set { _connection.Write(_connection.IDCommands.MULTI_LIMIT_1, value);
                 this._multiLimit1 = value; }
         }
         public int MultiLimit2
         {
             get { return _multiLimit2; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.MULTI_LIMIT_2, value);
+            set { _connection.Write(_connection.IDCommands.MULTI_LIMIT_2, value);
                 this._multiLimit2 = value; }
         }
         public int OimlCertificationInformation
         {
             get { return _oimlCertificationInformation; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.OIML_CERTIFICAITON_INFORMATION, value);
+            set { _connection.Write(_connection.IDCommands.OIML_CERTIFICAITON_INFORMATION, value);
                 this._oimlCertificationInformation = value; }
         }
         public int NtepCertificationInformation
         {
             get { return _ntepCertificationInformation; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.NTEP_CERTIFICAITON_INFORMATION, value);
+            set { _connection.Write(_connection.IDCommands.NTEP_CERTIFICAITON_INFORMATION, value);
                 this._ntepCertificationInformation = value; }
         }
         public int MaximumZeroingTime
         {
             get { return _maximumZeroingTime; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.MAXIMUM_ZEROING_TIME, value);
+            set { _connection.Write(_connection.IDCommands.MAXIMUM_ZEROING_TIME, value);
                 this._maximumZeroingTime = value; }
         }
         public int MaximumPeakValueGross
         {
             get { return _maximumPeakValueGross; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.MAXIMUM_PEAK_VALUE_GROSS, value);
+            set { _connection.Write(_connection.IDCommands.MAXIMUM_PEAK_VALUE_GROSS, value);
                 this._maximumPeakValueGross = value; }
         }
         public int MinimumPeakValueGross
         {
             get { return _minimumPeakValueGross; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.MINIMUM_PEAK_VALUE_GROSS, value);
+            set { _connection.Write(_connection.IDCommands.MINIMUM_PEAK_VALUE_GROSS, value);
                 this._minimumPeakValueGross = value; }
         }
         public int MaximumPeakValue
         {
             get { return _maximumPeakValue; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.MAXIMUM_PEAK_VALUE, value);
+            set { _connection.Write(_connection.IDCommands.MAXIMUM_PEAK_VALUE, value);
                 this._maximumPeakValue = value; }
         }
         public int MinimumPeakValue
         {
             get { return _minimumPeakValue; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.MINIMUM_PEAK_VALUE, value);
+            set { _connection.Write(_connection.IDCommands.MINIMUM_PEAK_VALUE, value);
                 this._minimumPeakValue = value; }
         }
         public int WeightMovingDetection
         {
             get { return _weightMovingDetection; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.WEIGHT_MOVING_DETECTION, value);
+            set { _connection.Write(_connection.IDCommands.WEIGHT_MOVING_DETECTION, value);
                 this._weightMovingDetection = value; }
         }
         public int DeviceAddress
         {
             get { return _deviceAddress; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.DEVICE_ADDRESS, value);
+            set { _connection.Write(_connection.IDCommands.DEVICE_ADDRESS, value);
                 this._deviceAddress = value; }
         }
         public int HardwareVersion
         {
             get { return _hardwareVersion; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.HARDWARE_VERSION, value);
+            set { _connection.Write(_connection.IDCommands.HARDWARE_VERSION, value);
                 this._hardwareVersion = value; }
         }
         public int Identification
         {
             get { return _identification; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.IDENTIFICATION, value);
+            set { _connection.Write(_connection.IDCommands.IDENTIFICATION, value);
                 this._identification = value; }
         }
         public int LimitValueMonitoringLIV11
         {
             get { return _limitValueMonitoringLIV11; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.LIMIT_VALUE_MONITORING_LIV11, value);
+            set { _connection.Write(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11, value);
                 this._limitValueMonitoringLIV11 = value; }
         }
         public int SignalSourceLIV12
         {
             get { return _signalSourceLIV12; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SIGNAL_SOURCE_LIV12, value);
+            set { _connection.Write(_connection.IDCommands.SIGNAL_SOURCE_LIV12, value);
                 this._signalSourceLIV12 = value; }
         }
         public int SwitchOnLevelLIV13
         {
             get { return _switchOnLevelLIV13; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_ON_LEVEL_LIV13, value);
+            set { _connection.Write(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13, value);
                 this._switchOnLevelLIV13 = value; }
         }
         public int SwitchOffLevelLIV14
         {
             get { return _switchOffLevelLIV14; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_OFF_LEVEL_LIV14, value);
+            set { _connection.Write(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14, value);
                 this._switchOffLevelLIV14 = value; }
         }
         public int LimitValueMonitoringLIV21
         {
             get { return _limitValueMonitoringLIV21; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.LIMIT_VALUE_MONITORING_LIV21, value);
+            set { _connection.Write(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21, value);
                 this._limitValueMonitoringLIV21 = value; }
         }
         public int SignalSourceLIV22
         {
             get { return _signalSourceLIV22; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SIGNAL_SOURCE_LIV22, value);
+            set { _connection.Write(_connection.IDCommands.SIGNAL_SOURCE_LIV22, value);
                 this._signalSourceLIV22 = value; }
         }
         public int SwitchOnLevelLIV23
         {
             get { return _switchOnLevelLIV23; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_ON_LEVEL_LIV23, value);
+            set { _connection.Write(_connection.IDCommands.SWITCH_ON_LEVEL_LIV23, value);
                 this._switchOnLevelLIV23 = value; }
         }
         public int SwitchOffLevelLIV24
         {
             get { return _switchOffLevelLIV24; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_OFF_LEVEL_LIV24, value);
+            set { _connection.Write(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24, value);
                 this._switchOffLevelLIV24 = value; }
         }
         public int LimitValueMonitoringLIV31
         {
             get { return _limitValueMonitoringLIV31; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.LIMIT_VALUE_MONITORING_LIV31, value);
+            set { _connection.Write(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31, value);
                 this._limitValueMonitoringLIV31 = value; }
         }
         public int SignalSourceLIV32
         {
             get { return _signalSourceLIV32; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SIGNAL_SOURCE_LIV32, value);
+            set { _connection.Write(_connection.IDCommands.SIGNAL_SOURCE_LIV32, value);
                 this._signalSourceLIV32 = value; }
         }
         public int SwitchOnLevelLIV33
         {
             get { return _switchOnLevelLIV33; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_ON_LEVEL_LIV33, value);
+            set { _connection.Write(_connection.IDCommands.SWITCH_ON_LEVEL_LIV33, value);
                 this._switchOnLevelLIV33 = value; }
         }
         public int SwitchOffLevelLIV34
         {
             get { return _switchOffLevelLIV34; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_OFF_LEVEL_LIV34, value);
+            set { _connection.Write(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34, value);
                 this._switchOffLevelLIV34 = value; }
         }
         public int LimitValueMonitoringLIV41
         {
             get { return _limitValueMonitoringLIV41; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.LIMIT_VALUE_MONITORING_LIV41, value);
+            set { _connection.Write(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41, value);
                 this._limitValueMonitoringLIV41 = value; }
         }
         public int SignalSourceLIV42
         {
             get { return _signalSourceLIV42; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SIGNAL_SOURCE_LIV42, value);
+            set { _connection.Write(_connection.IDCommands.SIGNAL_SOURCE_LIV42, value);
                 this._signalSourceLIV42 = value; }
         }
         public int SwitchOnLevelLIV43
         {
             get { return _switchOnLevelLIV43; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_ON_LEVEL_LIV43, value);
+            set { _connection.Write(_connection.IDCommands.SWITCH_ON_LEVEL_LIV43, value);
                 this._switchOnLevelLIV43 = value; }
         }
         public int SwitchOffLevelLIV44
         {
             get { return _switchOffLevelLIV44; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SWITCH_OFF_LEVEL_LIV44, value);
+            set { _connection.Write(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44, value);
                 this._switchOffLevelLIV44 = value; }
         }
         public int OutputScale
         {
             get { return _outputScale; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.OUTPUT_SCALE, value);
+            set { _connection.Write(_connection.IDCommands.OUTPUT_SCALE, value);
                 this._outputScale = value; }
         }
         public int FirmwareDate
         {
             get { return _firmwareDate; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.FIRMWARE_DATE, value);
+            set { _connection.Write(_connection.IDCommands.FIRMWARE_DATE, value);
                 this._firmwareDate = value; }
         }
         public int ResetTrigger
         {
             get { return _resetTrigger; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.RESET_TRIGGER, value);
+            set { _connection.Write(_connection.IDCommands.RESET_TRIGGER, value);
                 this._resetTrigger = value; }
         }
         public int StateDigital_IO_Extended
         {
             get { return _stateDigital_IO_Extended; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.STATE_DIGITAL_IO_EXTENDED, value);
+            set { _connection.Write(_connection.IDCommands.STATE_DIGITAL_IO_EXTENDED, value);
                 this._stateDigital_IO_Extended = value; }
         }
         public int SoftwareIdentification
         {
             get { return _softwareIdentification; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SOFTWARE_IDENTIFICATION, value);
+            set { _connection.Write(_connection.IDCommands.SOFTWARE_IDENTIFICATION, value);
                 this._softwareIdentification = value; }
         }
         public int SoftwareVersion
         {
             get { return _softwareVersion; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SOFTWARE_VERSION, value);
+            set { _connection.Write(_connection.IDCommands.SOFTWARE_VERSION, value);
                 this._softwareVersion = value; }
         }
         public int DateTime
         {
             get { return _dateTime; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.DATE_TIME, value);
+            set { _connection.Write(_connection.IDCommands.DATE_TIME, value);
                 this._dateTime = value; }
         }
         public int BreakDosing
         {
             get { return _breakDosing; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.BREAK_DOSING, value);
+            set { _connection.Write(_connection.IDCommands.BREAK_DOSING, value);
                 this._breakDosing = value; }
         }
         public int DeleteDosingResult
         {
             get { return _deleteDosingResult; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.DELETE_DOSING_RESULT, value);
+            set { _connection.Write(_connection.IDCommands.DELETE_DOSING_RESULT, value);
                 this._deleteDosingResult = value; }
         }
         public int MaterialStreamLastDosing
         {
             get { return _materialStreamLastDosing; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.MATERIAL_STREAM_LAST_DOSING, value);
+            set { _connection.Write(_connection.IDCommands.MATERIAL_STREAM_LAST_DOSING, value);
                 this._materialStreamLastDosing = value; }
         }
         public int Sum
         {
             get { return _sum; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SUM, value);
+            set { _connection.Write(_connection.IDCommands.SUM, value);
                 this._sum = value; }
         }
         public int SpecialDosingFunctions
         {
             get { return _specialDosingFunctions; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.SPECIAL_DOSING_FUNCTIONS, value);
+            set { _connection.Write(_connection.IDCommands.SPECIAL_DOSING_FUNCTIONS, value);
                 this._specialDosingFunctions = value; }
         }
         public int DischargeTime
         {
             get { return _dischargeTime; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.DISCHARGE_TIME, value);
+            set { _connection.Write(_connection.IDCommands.DISCHARGE_TIME, value);
                 this._dischargeTime = value; }
         }
         public int ExceedingWeightBreak
         {
             get { return _exceedingWeightBreak; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.EXCEEDING_WEIGHT_BREAK, value);
+            set { _connection.Write(_connection.IDCommands.EXCEEDING_WEIGHT_BREAK, value);
                 this._exceedingWeightBreak = value; }
         }
         public int Delay1Dosing
         {
             get { return _delay1Dosing; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.DELAY1_DOSING, value);
+            set { _connection.Write(_connection.IDCommands.DELAY1_DOSING, value);
                 this._delay1Dosing = value; }
         }
         public int Delay2Dosing
         {
             get { return _delay2Dosing; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.DELAY2_DOSING, value);
+            set { _connection.Write(_connection.IDCommands.DELAY2_DOSING, value);
                 this._delay2Dosing = value; }
         }
         public int EmptyWeightTolerance
         {
             get { return _emptyWeightTolerance; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.EMPTY_WEIGHT_TOLERANCE, value);
+            set { _connection.Write(_connection.IDCommands.EMPTY_WEIGHT_TOLERANCE, value);
                 this._emptyWeightTolerance = value; }
         }
         public int ResidualFlowDosingCycle
         {
             get { return _residualFlowDosingCycle; }
-            set { _baseWtDevice.SetOutput(JetBusCommands.RESIDUAL_FLOW_DOSING_CYCLE, value);
+            set { _connection.Write(_connection.IDCommands.RESIDUAL_FLOW_DOSING_CYCLE, value);
                 this._residualFlowDosingCycle = value; }
         }
 

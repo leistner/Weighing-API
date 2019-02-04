@@ -57,7 +57,7 @@ namespace JetbusTest
             testGrossValue = 0;
         }
 
-
+        /*
         [Test, TestCaseSource(typeof(CalibrationTests), "CalibrationTestCases")]
         public bool CalibrationTest(Behavior behavior)
         {
@@ -144,7 +144,7 @@ namespace JetbusTest
             else
                 return false;
         }
-
+        */
 
         private void OnConnect(bool obj)
         {

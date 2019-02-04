@@ -109,6 +109,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
         public event EventHandler BusActivityDetection;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
+        public event EventHandler<DataEventArgs> UpdateDataClasses;
 
         private int _mTimeoutMs;
 
@@ -320,6 +321,13 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
 
+        public string ConnectionType
+        {
+            get { return "Jetbus"; }
+        }
+
+        public ICommands IDCommands => throw new NotImplementedException();
+
         public void FetchAll()
         {
 
@@ -455,7 +463,7 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
 
-        public void Write(object index, int data)
+        public void Write(string index, int data)
         {
             
             if(this.behavior == Behavior.WriteZeroSuccess   || this.behavior == Behavior.WriteGrossSuccess || this.behavior == Behavior.WriteTareSuccess   ||

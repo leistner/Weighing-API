@@ -263,6 +263,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private ushort[] _data;
 
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "T_UnitValueTestCases")]
         public async Task<int> testUnit_t(Behavior behavior)
         {
@@ -333,7 +334,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.ProcessData.Unit;
         }
-
+        */
         
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_0D_TestCase_Modbus")]
         public void testModbus_NetGrossValueStringComment_0D(Behavior behavior)
@@ -437,7 +438,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             Assert.AreEqual(dValue.ToString("0.000000"), strValue);
         }
 
-
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "ScaleRangeStringComment_Range1_TestCase_Modbus")]
         //public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
         public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
@@ -616,7 +617,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.WeightTypeStringComment();
         }
-
+        */
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
         }

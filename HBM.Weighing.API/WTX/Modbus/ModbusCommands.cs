@@ -1,4 +1,4 @@
-﻿// <copyright file="JetBusCommands.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="ModbusCommands.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
@@ -34,104 +34,124 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HBM.Weighing.API.WTX.Jet
+namespace HBM.Weighing.API.WTX.Modbus
 {
-    /// <summary>
-    /// ID's/Commands for subscribing values of the WTX device. 
-    /// The ID's are commited as a parameter for the read and/or write method call.  
-    /// </summary>
-    public class JetBusCommands : ICommands
+    public class ModbusCommands : ICommands
     {
-        public JetBusCommands()
+        public ModbusCommands()
         {
 
         }
 
         #region ID Commands : Maintenance - Calibration
 
-        private const string _ldw_dead_weight = "2110/06";                // LDW = Nullpunkt
-        private const string _lwt_nominal_value = "2110/07";              // LWT = Nennwert
-        private const string _lft_scale_calibration_weight = "6152/00";   // LFT = LFT scale calibration weight
+        private const string _ldw_dead_weight = "48";                // LDW = Nullpunkt
+        private const string _lwt_nominal_value = "50";              // LWT = Nennwert
+        private const string _lft_scale_calibration_weight = "46";   // LFT = LFT scale calibration weight
 
         #endregion
 
         #region ID commands for process data
-        private const string _net_value = "601A/01";
-        private const string _gross_value = "6144/00";
-        private const string _zero_value = "6142/00";
+        private const string _net_value = "0";
+        private const string _gross_value = "2";
+        private const string _zero_value = "";
 
-        private const string _tare_value = "6143/00";
-        private const string _weighing_device_1_weight_status = "6012/01";
-        private const string _unit_prefix_fixed_parameter = "6014/01";
+        private const string _weighing_device_1_weight_status = "4";
 
-        private const string _application_mode = "2010/07"; // IMD = Input mode ( Application mode)
+        private const string _limit_status = "4/2/2";                   // data word = 4 ; length = 2 ; offset = 2;
+        private const string _unit_prefix_fixed_parameter = "5/2/7";    // data word = 5 ; length = 2 ; offset = 7;
 
-        private const string _decimals = "6013/01";
-        private const string _scale_command = "6002/01";
-        private const string _scale_command_status = "6002/02";
+        private const string _application_mode = "5/2/0";               // data word = 5 ; length = 2 ; offset = 0;
+        private const string _decimals = "5/3/4";                       // data word = 5 ; length = 3 ; offset = 4;
+        private const string _scale_command_status = "5/1/15";          // data word = 5 ; length = 1 ; offset = 15;
+
+        private const string _scale_command = "";
+
         #endregion
 
         #region ID commands for standard mode
-        private const string _status_digital_input_1 = "2020/18";    // IS1
-        private const string _status_digital_input_2 = "2020/19";    // IS2
-        private const string _status_digital_input_3 = "2020/1A";    // IS3
-        private const string _status_digital_input_4 = "2020/1B";    // IS4
+        private const string _status_digital_input_1 = "6/1";    // IS1
+        private const string _status_digital_input_2 = "6/2";    // IS2
+        private const string _status_digital_input_3 = "6/3";    // IS3
+        private const string _status_digital_input_4 = "6/4";    // IS4
 
-        private const string _status_digital_output_1 = "2020/1E";   // OS1
-        private const string _status_digital_output_2 = "2020/1F";   // OS2
-        private const string _status_digital_output_3 = "2020/20";   // OS3
-        private const string _status_digital_output_4 = "2020/21";   // OS4
+        private const string _status_digital_output_1 = "7/1";   // OS1
+        private const string _status_digital_output_2 = "7/2";   // OS2
+        private const string _status_digital_output_3 = "7/3";   // OS3
+        private const string _status_digital_output_4 = "7/4";   // OS4
 
-        private const string _limit_value = "2020/25";   // LVS
+        private const string _limit_value = "8/standard/input";   // LVS
 
+        private const string _tare_value = "2";  // manual tare value
         #endregion
 
         #region ID commands for filler data
 
-        private const string _coarse_flow_monitoring = "2210/01";      // CBK = Füllstromüberwachung Grobstrom
-        private const string _coarse_flow_monitoring_time = "2220/01"; // CBT = Überwachungszeit Grobstrom
-        private const string _coarse_flow_cut_off_point = "2210/02";   // CFD = Grobstromabschaltpunkt
-        private const string _coarse_flow_time = "2230/01";            // CFT = Grobstromzeit
-        private const string _dosing_mode = "2200/04";                 // DMD = Dosiermodus
-        private const string _dosing_time = "2230/03";                 // DST = Dosieristzeit
-        private const string _emptying_mode = "2200/05";               // EMD = Entleermodus
+        private const string _coarse_flow_monitoring = "34/filler/output";      // CBK = Füllstromüberwachung Grobstrom
+        private const string _coarse_flow_monitoring_time = "33/filler/output"; // CBT = Überwachungszeit Grobstrom
+        private const string _coarse_flow_cut_off_point = "12/filler/output";   // CFD = Grobstromabschaltpunkt
+        private const string _coarse_flow_time = "25/filler/input";            // CFT = Grobstromzeit
+        private const string _dosing_mode = "";                   // DMD = Dosiermodus
+        private const string _dosing_time = "24/filler/input";                 // DST = Dosieristzeit
+        private const string _emptying_mode = "44/filler/output";               // EMD = Entleermodus
 
-        private const string _fine_flow_monitoring = "2210/04";        // FBK = Füllstromüberwachung Feinstrom
-        private const string _fine_flow_monitoring_time = "2220/03";   // FBT = Überwachungszeit Feinstrom
-        private const string _fine_flow_cut_off_point = "2210/05";     // FFD = Feinstromabschaltpunkt
-        private const string _fine_flow_phase_before_coarse_flow = "2220/0A"; // FFL = Feinstromphase vor Grobstrom
-        private const string _minimum_fine_flow = "2210/06";           // FFM = Minimaler Feinstromanteil
+        private const string _fine_flow_monitoring = "36/filler/output";        // FBK = Füllstromüberwachung Feinstrom
+        private const string _fine_flow_monitoring_time = "38/filler/output";   // FBT = Überwachungszeit Feinstrom
+        private const string _fine_flow_cut_off_point = "14/filler/output";     // FFD = Feinstromabschaltpunkt
+        private const string _fine_flow_phase_before_coarse_flow = ""; // FFL = Feinstromphase vor Grobstrom
+        private const string _minimum_fine_flow = "16/filler/output";           // FFM = Minimaler Feinstromanteil
 
-        private const string _fine_flow_time = "2230/04";              // FFT = Feinstromzeit
-        private const string _dosing_result = "2000/05";               // FRS1 = Dosierergebnis
-        private const string _dosing_state = "2000/06";                // FRS2 = Dosierstatus
-        private const string _reference_value_dosing = "2210/07";      // FWT = Sollwert dosieren
-        private const string _lockout_time_coarse_flow = "2220/04";    // LTC = Sperrzeit Grobstrom
-        private const string _lockout_time_fine_flow = "2220/05";      // LTF = Sperrzeit Feinstrom
-        private const string _lower_tolerance_lomit = "2210/08";       // LTL = Untere Toleranz
-        private const string _maximal_dosing_time = "2220/06";         // MDT = Maximale Dosierzeit
-        private const string _minimum_start_weight = "2210/0B";        // MSW = Minimum Startgewicht
-        private const string _dosing_counter = "2230/05";              // NDS = Dosierzähler
-        private const string _optimization = "2200/07";                // OSN = Optimierung
-        private const string _range_selection_parameter = "2200/02";   // RDP = Auswahl Dosierparameter
+        private const string _fine_flow_time = "26/filler/input";              // FFT = Feinstromzeit
+        private const string _dosing_result = "";                 // FRS1 = Dosierergebnis
+        private const string _dosing_state = "";                  // FRS2 = Dosierstatus
+        private const string _reference_value_dosing = "10/filler/output";      // FWT = Sollwert dosieren = Target filling weight
+        private const string _lockout_time_coarse_flow = "21/filler/output";    // LTC = Sperrzeit Grobstrom
+        private const string _lockout_time_fine_flow = "22/filler/output";      // LTF = Sperrzeit Feinstrom
+        private const string _lower_tolerance_lomit = "26/filler/output";       // LTL = Untere Toleranz
+        private const string _maximal_dosing_time = "19/filler/output";         // MDT = Maximale Dosierzeit
+        private const string _minimum_start_weight = "28/filler/output";        // MSW = Minimum Startgewicht
+        private const string _dosing_counter = "";                // NDS = Dosierzähler
+        private const string _optimization = "18/filler/output";                // OSN = Optimierung
+        private const string _range_selection_parameter = "27/filler/output";   // RDP = Auswahl Dosierparameter
 
-        private const string _redosing = "2200/08";                    // RDS = Nachdosieren
-        private const string _residual_flow_time = "2220/07";          // RFT = Nachstromzeit
-        private const string _run_start_dosing = "2240/02";            // RUN = Start Dosieren
+        private const string _redosing = "";                      // RDS = Nachdosieren
+        private const string _residual_flow_time = "9/filler/output";           // RFT = Nachstromzeit
+        private const string _run_start_dosing = "20/filler/output";            // RUN = Start Dosieren
 
-        private const string _mean_value_dosing_results = "2230/06";         // SDM = Mittelwert Dosieren
-        private const string _dosing_state_filler = "2D00/02";               // SDO = Dosierstatus
-        private const string _standard_deviation = "2230/07";                // SDS = Standardabweichung
-        private const string _settling_time_transient_response = "2220/08";  // STT = Beruhigungszeit
-        private const string _systematic_difference = "2210/09";             // SYD = Systematische Differenz
-        private const string _tare_delay = "2220/09";                        // TAD = Tarierverzögerung
-        private const string _tare_mode = "2200/0B";                         // TMD = Tariermodus
-        private const string _upper_tolerance_limit = "2210/0A";             // UTL = Obere Toleranz
+        private const string _mean_value_dosing_results = "";         // SDM = Mittelwert Dosieren
+        private const string _dosing_state_filler = "";               // SDO = Dosierstatus
+        private const string _standard_deviation = "";                // SDS = Standardabweichung
+        private const string _settling_time_transient_response = "";  // STT = Beruhigungszeit
+        private const string _systematic_difference = "41/filler/output";           // SYD = Systematische Differenz
+        private const string _tare_delay = "32/filler/output";                      // TAD = Tarierverzögerung
+        private const string _tare_mode = "23/filler/output";                       // TMD = Tariermodus
+        private const string _upper_tolerance_limit = "24/filler/output";           // UTL = Obere Toleranz
 
-        private const string _valve_control = "2200/0C";               // VCT = Ventilsteuerung
-        private const string _write_dosing_parameter_set = "2200/01";  // WDP = Dosierparametersatz schreiben
-        private const string _storage_weight = "2040/05";              // STO = Gewichtsspeicherung
-        private const string _storage_weight_mode = "2300/08";         // SMD = Modus Gewichtsspeicherung
+        private const string _valve_control = "43/filler/output";               // VCT = Ventilsteuerung
+        private const string _write_dosing_parameter_set = "";    // WDP = Dosierparametersatz schreiben
+        private const string _storage_weight = "";                // STO = Gewichtsspeicherung
+        private const string _storage_weight_mode = "";           // SMD = Modus Gewichtsspeicherung
+
+        private const string _limit_value_monitoring_liv11 = "4/standard/output"; // = Grenzwertüberwachung 
+        private const string _signal_source_liv12 = "5/standard/output";
+        private const string _switch_on_level_liv13 = "6/standard/output";   // = Einschaltpegel
+        private const string _switch_off_level_liv14 = "8/standard/output";  // = Ausschaltpegel
+
+        private const string _limit_value_monitoring_liv21 = "10/standard/output";
+        private const string _signal_source_liv22 = "11/standard/output";
+        private const string _switch_on_level_liv23 = "12/standard/output";
+        private const string _switch_off_level_liv24 = "14/standard/output";
+
+        private const string _limit_value_monitoring_liv31 = "16/standard/output";
+        private const string _signal_source_liv32 = "17/standard/output";
+        private const string _switch_on_level_liv33 = "18/standard/output";
+        private const string _switch_off_level_liv34 = "20/standard/output";
+
+        private const string _limit_value_monitoring_liv41 = "22/standard/output";
+        private const string _signal_source_liv42 = "23/standard/output";
+        private const string _switch_on_level_liv43 = "24/standard/output";
+        private const string _switch_off_level_liv44 = "26/standard/output";
+
 
         #endregion
 
@@ -141,199 +161,184 @@ namespace HBM.Weighing.API.WTX.Jet
 
         #region All other ID commands for Operator, Administrator and Maintenance : 
 
-        private const string _error_register = "1001/00";
-        private const string _save_all_parameters = "1010/01";
-        private const string _restore_all_default_parameters ="1011/01";
-        private const string _vendor_id ="1018/01";
-        private const string _product_code ="1018/02";
-        private const string _serial_number ="1018/04";
-        private const string _implemented_profile_specification = "1030/01";
-        private const string _lc_capability ="6001/01";
-        private const string _weighing_device_1_unit_prefix_output_parameter ="6015/01";
+        private const string _error_register = "";
+        private const string _save_all_parameters = "";
+        private const string _restore_all_default_parameters = "";
+        private const string _vendor_id = "";
+        private const string _product_code = "";
+        private const string _serial_number = "";
+        private const string _implemented_profile_specification = "";
+        private const string _lc_capability = "";
+        private const string _weighing_device_1_unit_prefix_output_parameter = "";
 
-        private const string _weighing_device_1_weight_step = "6016/01";
-        private const string _alarms = "6018/01";
-        private const string _weighing_device_1_output_weight = "601A/01";
-        private const string _weighing_device_1_setting = "6020/01";
-        private const string _local_gravity_factor = "6021/01";
-        private const string _scale_filter_setup = "6040/01";
-        private const string _data_sample_rate = "6050/01";
-        private const string _filter_order_critically_damped ="60A1/01";
-        private const string _cut_off_frequency_critically_damped = "60A1/02";
-        private const string _filter_order_butterworth = "60A1/01";
-        private const string _cut_off_frequency_butterworth = "60A2/02";
-        private const string _filter_order_bessel = "60B1/01";
-        private const string _cut_off_frequency_bessel = "60B1/02";
-        private const string _scale_suppy_nominal_voltage = "6110/01";
-        private const string _scale_suppy_minimum_voltage = "6110/02";
-        private const string _scale_suppy_maximum_voltage = "6110/03";
-        private const string _scale_accuracy_class ="6111/01";
-        private const string _scale_minimum_dead_load ="6112/01";
-        private const string _scale_maximum_capacity = "6113/01";
-        private const string _scale_maximum_number_of_verification_interval = "6114/01";
-        private const string _scale_apportionment_factor = "6116/01";
-        private const string _scale_safe_load_limit ="6117/01";
-        private const string _scale_operation_nominal_temperature = "6118/01";
-        private const string _scale_operation_minimum_temperature = "6118/02";
-        private const string _scale_operation_maximum_temperature = "6118/03";
-        private const string _scale_relative_minimum_load_cell_verification_interval = "611B/01";     
-        private const string _interval_range_control = "611C/01";
-        private const string _multi_limit_1 = "611C/02";
-        private const string _multi_limit_2 = "611C/03";
-        private const string _oiml_certificaiton_information = "6138/01";
-        private const string _ntep_certificaiton_information = "6138/02";
-        private const string _maximum_zeroing_time = "6141/02";
-        private const string _maximum_peak_value_gross = "6149/01";
-        private const string _minimum_peak_value_gross = "6149/02";
-        private const string _maximum_peak_value = "6149/03";
-        private const string _minimum_peak_value = "6149/04";
-        private const string _weight_moving_detection = "6153/00";
-        private const string _device_address = "2600/00";
+        private const string _weighing_device_1_weight_step = "";
+        private const string _alarms = "";
+        private const string _weighing_device_1_output_weight = "";
+        private const string _weighing_device_1_setting = "";
+        private const string _local_gravity_factor = "";
+        private const string _scale_filter_setup = "";
+        private const string _data_sample_rate = "";
+        private const string _filter_order_critically_damped = "";
+        private const string _cut_off_frequency_critically_damped = "";
+        private const string _filter_order_butterworth = "";
+        private const string _cut_off_frequency_butterworth = "";
+        private const string _filter_order_bessel = "";
+        private const string _cut_off_frequency_bessel = "";
+        private const string _scale_suppy_nominal_voltage = "";
+        private const string _scale_suppy_minimum_voltage = "";
+        private const string _scale_suppy_maximum_voltage = "";
+        private const string _scale_accuracy_class = "";
+        private const string _scale_minimum_dead_load = "";
+        private const string _scale_maximum_capacity = "";
+        private const string _scale_maximum_number_of_verification_interval = "";
+        private const string _scale_apportionment_factor = "";
+        private const string _scale_safe_load_limit = "";
+        private const string _scale_operation_nominal_temperature = "";
+        private const string _scale_operation_minimum_temperature = "";
+        private const string _scale_operation_maximum_temperature = "";
+        private const string _scale_relative_minimum_load_cell_verification_interval = "";
+        private const string _interval_range_control = "";
+        private const string _multi_limit_1 = "";
+        private const string _multi_limit_2 = "";
+        private const string _oiml_certificaiton_information = "";
+        private const string _ntep_certificaiton_information = "";
+        private const string _maximum_zeroing_time = "";
+        private const string _maximum_peak_value_gross = "";
+        private const string _minimum_peak_value_gross = "";
+        private const string _maximum_peak_value = "";
+        private const string _minimum_peak_value = "";
+        private const string _weight_moving_detection = "";
+        private const string _device_address = "";
 
-        private const string _hardware_version = "2520/0A"; // = Hardware Variante
-        private const string _identification = "2520/01";
-        private const string _limit_value_monitoring_liv11 = "2030/01"; // = Grenzwertüberwachung
-        private const string _signal_source_liv12 = "2030/02";
-        private const string _switch_on_level_liv13 =  "2030/03";  // = Einschaltpegel
-        private const string _switch_off_level_liv14 = "2030/04";  // = Ausschaltpegel
-        private const string _limit_value_monitoring_liv21 = "2030/05";
-        private const string _signal_source_liv22 = "2030/06";
-        private const string _switch_on_level_liv23 = "2030/07";
-        private const string _switch_off_level_liv24 = "2030/08";
-        private const string _limit_value_monitoring_liv31 = "2030/09";
-        private const string _signal_source_liv32 = "2030/0A";
-        private const string _switch_on_level_liv33 = "2030/0B";
-        private const string _switch_off_level_liv34 = "2030/0C";
-        private const string _limit_value_monitoring_liv41 = "2030/0D";
-        private const string _signal_source_liv42 = "2030/0E";
-        private const string _switch_on_level_liv43 = "2030/0F";
-        private const string _switch_off_level_liv44 = "2030/10";
-        private const string _output_scale = "2110/0A";
-        private const string _firmware_date = "2520/05";
-        private const string _reset_trigger = "2D00/04";
-        private const string _state_digital_io_extended = "2020/12";  //Zustand Digital-IO(erweitert)
-        private const string _software_identification = "2600/22";
-        private const string _software_version = "2600/16";
-        private const string _date_time = "2E00/02";
+        private const string _hardware_version = ""; // = Hardware Variante
+        private const string _identification = "";
 
-        private const string _break_dosing = "2240/01";                // BRK = Abbruch Dosierung
-        private const string _delete_dosing_result = "2230/02";        // CSN = Löschen Dosierergebniss
-        private const string _material_stream_last_dosing = "2000/0E"; // MFO = Materialstrom des letzten Dosierzyklus
-        private const string _sum = "2230/08";                         // SUM = Summe
-        private const string _special_dosing_functions = "2200/0A";    // SDF = Sonderfunktionen
-        private const string _discharge_time = "2220/02";              // EPT = Entleerzeit
-        private const string _exceeding_weight_break = "2200/0F";      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
-        private const string _delay1_dosing = "2220/0B";               // DL1 = Delay 1 für Dosieren
-        private const string _delay2_dosing = "2220/0C";               // DL2 = Delay 2 für Dosieren
-        private const string _empty_weight_tolerance = "2210/03";      // EWT = Entleertoleranz
-        private const string _residual_flow_dosing_cycle = "2000/0F";  // RFO = Nachstrom des letzten Dosierzyklus
+        private const string _output_scale = "";
+        private const string _firmware_date = "";
+        private const string _reset_trigger = "";
+        private const string _state_digital_io_extended = "";  //Zustand Digital-IO(erweitert)
+        private const string _software_identification = "";
+        private const string _software_version = "";
+        private const string _date_time = "";
 
-        string ICommands.LDW_DEAD_WEIGHT
+        private const string _break_dosing = "";                // BRK = Abbruch Dosierung
+        private const string _delete_dosing_result = "";        // CSN = Löschen Dosierergebniss
+        private const string _material_stream_last_dosing = ""; // MFO = Materialstrom des letzten Dosierzyklus
+        private const string _sum = "";                         // SUM = Summe
+        private const string _special_dosing_functions = "";    // SDF = Sonderfunktionen
+        private const string _discharge_time = "";              // EPT = Entleerzeit
+        private const string _exceeding_weight_break = "";      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
+        private const string _delay1_dosing = "";               // DL1 = Delay 1 für Dosieren
+        private const string _delay2_dosing = "";               // DL2 = Delay 2 für Dosieren
+        private const string _empty_weight_tolerance = "";      // EWT = Entleertoleranz
+        private const string _residual_flow_dosing_cycle = "";  // RFO = Nachstrom des letzten Dosierzyklus
+
+        public string LDW_DEAD_WEIGHT
         {
             get { return _ldw_dead_weight; }
         }
 
-        string ICommands.LWT_NOMINAL_VALUE
+        public string LWT_NOMINAL_VALUE
         {
             get { return _lwt_nominal_value; }
         }
 
-        string ICommands.LFT_SCALE_CALIBRATION_WEIGHT
+        public string LFT_SCALE_CALIBRATION_WEIGHT
         {
             get { return _lft_scale_calibration_weight; }
         }
 
-        string ICommands.NET_VALUE
+        public string NET_VALUE
         {
             get { return _net_value; }
         }
 
-        string ICommands.GROSS_VALUE
+        public string GROSS_VALUE
         {
             get { return _gross_value; }
         }
 
-        string ICommands.ZERO_VALUE
+        public string ZERO_VALUE
         {
             get { return _zero_value; }
         }
 
-        string ICommands.TARE_VALUE
+        public string TARE_VALUE
         {
             get { return _tare_value; }
         }
 
-        string ICommands.WEIGHING_DEVICE_1_WEIGHT_STATUS
+        public string WEIGHING_DEVICE_1_WEIGHT_STATUS
         {
             get { return _weighing_device_1_weight_status; }
         }
 
-        string ICommands.UNIT_PREFIX_FIXED_PARAMETER
+        public string UNIT_PREFIX_FIXED_PARAMETER
         {
             get { return _unit_prefix_fixed_parameter; }
         }
 
-        string ICommands.APPLICATION_MODE
+        public string APPLICATION_MODE
         {
             get { return _application_mode; }
         }
 
-        string ICommands.DECIMALS
+        public string DECIMALS
         {
             get { return _decimals; }
         }
 
-        string ICommands.SCALE_COMMAND
+        public string SCALE_COMMAND
         {
             get { return _scale_command; }
         }
 
-        string ICommands.SCALE_COMMAND_STATUS
+        public string SCALE_COMMAND_STATUS
         {
             get { return _scale_command_status; }
         }
 
-        string ICommands.STATUS_DIGITAL_INPUT_1
+        public string STATUS_DIGITAL_INPUT_1
         {
             get { return _status_digital_input_1; }
         }
 
-        string ICommands.STATUS_DIGITAL_INPUT_2
+        public string STATUS_DIGITAL_INPUT_2
         {
             get { return _status_digital_input_2; }
         }
 
-        string ICommands.STATUS_DIGITAL_INPUT_3
+        public string STATUS_DIGITAL_INPUT_3
         {
             get { return _status_digital_input_3; }
         }
 
-        string ICommands.STATUS_DIGITAL_INPUT_4
+        public string STATUS_DIGITAL_INPUT_4
         {
             get { return _status_digital_input_4; }
         }
 
-        string ICommands.STATUS_DIGITAL_OUTPUT_1
+        public string STATUS_DIGITAL_OUTPUT_1
         {
             get { return _status_digital_output_1; }
         }
 
-        string ICommands.STATUS_DIGITAL_OUTPUT_2
+        public string STATUS_DIGITAL_OUTPUT_2
         {
             get { return _status_digital_output_2; }
         }
 
-        string ICommands.STATUS_DIGITAL_OUTPUT_3
+        public string STATUS_DIGITAL_OUTPUT_3
         {
             get { return _status_digital_output_3; }
         }
 
-        string ICommands.STATUS_DIGITAL_OUTPUT_4
+        public string STATUS_DIGITAL_OUTPUT_4
         {
             get { return _status_digital_output_4; }
         }
 
-        string ICommands.LIMIT_VALUE
+        public string LIMIT_VALUE
         {
             get { return _limit_value; }
         }
@@ -949,5 +954,7 @@ namespace HBM.Weighing.API.WTX.Jet
         }
 
         #endregion
+
+
     }
 }
