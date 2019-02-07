@@ -204,7 +204,7 @@ namespace HBM.Weighing.API.Data
         public void UpdateStandardData(object sender, DataEventArgs e)
         {
             
-            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/1") _input1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1] & 0x1;
+            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/1") _input1 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1] & 0x1);
             else _input1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1];
 
             if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/2") _input2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2] & 0x2) >> 1;
@@ -228,10 +228,10 @@ namespace HBM.Weighing.API.Data
             if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "7/4") _output4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4] & 0x8) >> 3;
             else _output4 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4];
             
-            _limitStatus1 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x1;
-            _limitStatus2 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x2 >> 1;
-            _limitStatus3 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x4 >> 2;
-            _limitStatus4 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x8 >> 3;
+            _limitStatus1 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x1);
+            _limitStatus2 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x2) >> 1;
+            _limitStatus3 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x4) >> 2;
+            _limitStatus4 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x8) >> 3;
 
             if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 0)
             {
@@ -537,23 +537,12 @@ namespace HBM.Weighing.API.Data
         }
 
         #endregion
-
-        private string getIndex(string indexParam)
+        
+        private string getIndex(string IDCommandParam)
         {
-            if (indexParam.Contains("standard"))
-            {
-                if (indexParam.Length == 16)
-                    _index = indexParam.Remove(1);
-                if (indexParam.Length == 17)
-                    _index = indexParam.Remove(1);
-                if (indexParam.Length == 18)
-                    _index = indexParam.Remove(2);
-            }
-            else
-                _index = indexParam;
-
-            return _index;
+            return IDCommandParam.Split('/')[0];
         }
+       
 
     }
 }
