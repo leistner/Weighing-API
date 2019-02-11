@@ -356,7 +356,7 @@ namespace JetbusTest
             Assert.AreEqual(dValue.ToString(), strValue);
         }
 
-        /*
+        
         [Test, TestCaseSource(typeof(CommentMethodsTests), "T_UnitValueTestCases")]
         public void testUnit_t(Behavior behavior)
         {
@@ -365,14 +365,14 @@ namespace JetbusTest
             _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+            
+            _wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(_jetTestConnection.AllData));
 
             value = _wtxObj.ProcessData.Unit;
 
-            Assert.AreEqual("t", _wtxObj.UnitStringComment());
+            Assert.AreEqual("t", _wtxObj.Unit);
         }
-        */
+        
 
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
@@ -389,11 +389,11 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+            _wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(_jetTestConnection.AllData));
 
             value = _wtxObj.ProcessData.Unit;
 
-            Assert.AreEqual("kg", _wtxObj.UnitStringComment());
+            Assert.AreEqual("kg", _wtxObj.Unit);
         }
         
         [Test, TestCaseSource(typeof(CommentMethodsTests), "G_UnitValueTestCases")]
@@ -405,11 +405,11 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+            _wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(_jetTestConnection.AllData));
 
             value = _wtxObj.ProcessData.Unit;
 
-            Assert.AreEqual("g", _wtxObj.UnitStringComment());
+            Assert.AreEqual("g", _wtxObj.Unit);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "LB_UnitValueTestCases")]
@@ -421,11 +421,11 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+            _wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(_jetTestConnection.AllData));
 
             value = _wtxObj.ProcessData.Unit;
 
-            Assert.AreEqual("lb", _wtxObj.UnitStringComment());
+            Assert.AreEqual("lb", _wtxObj.Unit);
         }
         
         [Test, TestCaseSource(typeof(CommentMethodsTests), "LB_UnitValueTestCases")]
@@ -437,11 +437,11 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+            _wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(_jetTestConnection.AllData));
 
             value = _wtxObj.ProcessData.Unit;
 
-            Assert.AreEqual("error", _wtxObj.UnitStringComment());
+            Assert.AreEqual("error", _wtxObj.Unit);
         }
         */
         private void OnConnect(bool obj)

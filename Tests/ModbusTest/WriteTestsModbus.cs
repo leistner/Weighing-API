@@ -21,9 +21,6 @@ namespace HBM.Weighing.API.WTX.Modbus
         private bool disconnectCallbackCalled;
         private bool disconnectCompleted;
 
-        private static ushort[] _dataReadSuccess;
-        private static ushort[] _dataReadFail;
-
         // Test case source for writing values to the WTX120 device. 
         public static IEnumerable WriteTestCases
         {
@@ -48,8 +45,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                yield return new TestCaseData(Behavior.WriteSyncFail).Returns(0x100);
-                yield return new TestCaseData(Behavior.WriteSyncSuccess).Returns(0);
+                yield return new TestCaseData(Behavior.WriteSyncSuccess).Returns(0x100);
+                yield return new TestCaseData(Behavior.WriteSyncFail).Returns(0);
             }
         }
 
@@ -110,8 +107,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                yield return new TestCaseData(Behavior.ZeroMethodTestSuccess).ExpectedResult = (0x40);
-                yield return new TestCaseData(Behavior.ZeroMethodTestFail).ExpectedResult = (0x0);
+                yield return new TestCaseData(Behavior.ZeroMethodTestSuccess).ExpectedResult=(0x40);
+                yield return new TestCaseData(Behavior.ZeroMethodTestFail).ExpectedResult=(0x0);
             }
         }
 
@@ -235,6 +232,39 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
+        public static IEnumerable WriteLimitValue1ModeTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(Behavior.WriteLimitValue1ModeTestSuccess).Returns(true);
+                yield return new TestCaseData(Behavior.WriteLimitValue1ModeTestFail).Returns(false);
+            }
+        }
+
+        public static IEnumerable WriteLimitValue2ModeTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(Behavior.WriteLimitValue2ModeTestSuccess).Returns(true);
+                yield return new TestCaseData(Behavior.WriteLimitValue2ModeTestFail).Returns(false);
+            }
+        }
+        public static IEnumerable WriteLimitValue3ModeTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(Behavior.WriteLimitValue3ModeTestSuccess).Returns(true);
+                yield return new TestCaseData(Behavior.WriteLimitValue3ModeTestFail).Returns(false);
+            }
+        }
+        public static IEnumerable WriteLimitValue4ModeTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(Behavior.WriteLimitValue4ModeTestSuccess).Returns(true);
+                yield return new TestCaseData(Behavior.WriteLimitValue4ModeTestFail).Returns(false);
+            }
+        }
 
 
         [SetUp]
@@ -243,35 +273,74 @@ namespace HBM.Weighing.API.WTX.Modbus
             this.connectCallbackCalled = true;
             this.connectCompleted = true;
 
-            //Array size for standard mode of the WTX120 device: 
-            _dataReadFail = new ushort[59];
-            _dataReadSuccess = new ushort[59];
+        }
 
-            for (int i = 0; i < _dataReadSuccess.Length; i++)
-            {
-                _dataReadSuccess[i] = 0;
-                _dataReadFail[i] = 0;
-            }
+        // Tests for writing limit values : 
+        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitValue1ModeTestCases")]
+        public bool LimitValue1ModeWriteTestModbus(Behavior behavior)
+        {
+            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            _wtxObj = new WtxModbus(testConnection, 200, Update);
 
-            _dataReadSuccess[0] = 16448;       // Net value
-            _dataReadSuccess[1] = 16448;       // Gross value
-            _dataReadSuccess[2] = 0;           // General weight error
-            _dataReadSuccess[3] = 0;           // Scale alarm triggered
-            _dataReadSuccess[4] = 0;           // Limit status
-            _dataReadSuccess[5] = 0;           // Weight moving
-            _dataReadSuccess[6] = 0;//1;       // Scale seal is open
-            _dataReadSuccess[7] = 0;           // Manual tare
-            _dataReadSuccess[8] = 0;           // Weight type
-            _dataReadSuccess[9] = 0;           // Scale range
-            _dataReadSuccess[10] = 0;          // Zero required/True zero
-            _dataReadSuccess[11] = 0;          // Weight within center of zero 
-            _dataReadSuccess[12] = 0;          // weight in zero range
-            _dataReadSuccess[13] = 0;          // Application mode = 0
-            _dataReadSuccess[14] = 0; //4;     // Decimal Places
-            _dataReadSuccess[15] = 0; //2;     // Unit
-            _dataReadSuccess[16] = 0;          // Handshake
-            _dataReadSuccess[17] = 0;          // Status
+            _wtxObj.Connect(this.OnConnect, 100);
 
+            _wtxObj.DataStandard.LimitValue1Mode = 1;
+
+            if (testConnection.getCommand == 4 && _wtxObj.DataStandard.LimitValue1Mode == 1)
+                return true;
+
+            else
+                return false;
+        }
+
+        // Tests for writing limit values : 
+        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitValue2ModeTestCases")]
+        public bool LimitValue2ModeWriteTestModbus(Behavior behavior)
+        {
+            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj.Connect(this.OnConnect, 100);
+
+            _wtxObj.DataStandard.LimitValue2Mode = 2;
+
+            if (testConnection.getCommand == 11 && _wtxObj.DataStandard.LimitValue2Mode == 2)
+                return true;
+
+            else
+                return false;
+        }
+
+        // Tests for writing limit values : 
+        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitValue3ModeTestCases")]
+        public bool LimitValue3ModeWriteTestModbus(Behavior behavior)
+        {
+            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj.Connect(this.OnConnect, 100);
+
+            _wtxObj.DataStandard.LimitValue3Mode = 3;
+
+            if (testConnection.getCommand == 17 && _wtxObj.DataStandard.LimitValue3Mode == 3)
+                return true;
+
+            else
+                return false;
+        }
+
+        // Tests for writing limit values : 
+        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitValue4ModeTestCases")]
+        public bool LimitValue4ModeWriteTestModbus(Behavior behavior)
+        {
+            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj.Connect(this.OnConnect, 100);
+
+            _wtxObj.DataStandard.LimitValue4Mode = 4;
+
+            if (testConnection.getCommand == 23 && _wtxObj.DataStandard.LimitValue4Mode == 4)
+                return true;
+            else
+                return false;
         }
 
         // Test for method : Zeroing
@@ -289,13 +358,12 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             command = _wtxObj.getCommand;
 
-
             if (behavior == Behavior.ZeroMethodTestSuccess)
                 Assert.AreEqual(0x40, command);
             else
                 if (behavior == Behavior.ZeroMethodTestFail)
                 Assert.AreEqual(0x00, command);
-
+          
         }
 
         // Test for synchronous writing : Tare 
@@ -308,42 +376,10 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            //_wtxObj.WriteSync(0, 0x100);
+            _wtxObj.WriteSync(0, 0x100);
 
             return testConnection.getCommand;
-            // Alternative : Assert.AreEqual(0x100, testConnection.getCommand);
         }
-
-        // Still not working : 
-        /*
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "AsyncWriteBackgroundworkerCase")]
-        public bool AsyncWriteBackgroundworkerTest(Behavior behavior)
-        {
-            var runner = new BackgroundWorker();
-
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200,Update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            ManualResetEvent done = new ManualResetEvent(false);
-
-            runner.RunWorkerCompleted += delegate { done.Set(); };
-
-            runner.RunWorkerAsync();
-
-            DateTime end = DateTime.Now.AddSeconds(20);
-            bool res = false;
-
-            while ((!res) && (DateTime.Now < end))
-            {
-                _wtxObj.Async_Call(0x2, callbackMethod);       // Read data from register 
-
-                res = done.WaitOne(0);
-            }
-            return res;
-        }
-        */
 
         /*
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteArrayTestCases")]

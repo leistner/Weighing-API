@@ -102,9 +102,7 @@ namespace HBM.Weighing.API.WTX
 
         public override void Connect(double timeoutMs = 20000)
         {
-            _connection.Connect();
-
-            //this.UpdateEvent(this, null);
+            _connection.Connect();          
         }
 
         public override void Connect(Action<bool> completed, double timeoutMs)
@@ -116,7 +114,6 @@ namespace HBM.Weighing.API.WTX
         #region Asynchronous process data callback
         public void OnData(object sender, DataEventArgs e)
         {
-            // Do something with the data, like in the class WTXModbus.cs           
             this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
         }
 

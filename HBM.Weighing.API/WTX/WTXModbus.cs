@@ -152,19 +152,13 @@ namespace HBM.Weighing.API.WTX
 
         #region Write methods
         // This method writes a data word to the WTX120 device synchronously. 
-        private void WriteSync(ushort wordNumber, ushort commandParam)
+        public void WriteSync(ushort wordNumber, ushort commandParam)
         {
             int dataWord = 0x00;
             int handshakeBit = 0;
 
             this._command = commandParam;
 
-            //if (this._command == 0x00)        ???
-            //    dataWord = this._connection.Read(5);
-
-            //else
-
-            {
                 // (1) Sending of a command:        
                 this._connection.Write(Convert.ToString(wordNumber), this._command);
                 dataWord = this._connection.Read(5);
@@ -190,7 +184,7 @@ namespace HBM.Weighing.API.WTX
                     handshakeBit = ((dataWord & 0x4000) >> 14);
                 }
                 
-            }
+            
         }
 
         public int getCommand

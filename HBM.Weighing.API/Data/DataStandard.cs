@@ -253,8 +253,7 @@ namespace HBM.Weighing.API.Data
                 _limitValueMonitoringLIV41 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41];
                 _signalSourceLIV42 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
                 _switchOnLevelLIV43 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
-                _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];
-                
+                _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];            
             }
                 
         }
@@ -371,7 +370,7 @@ namespace HBM.Weighing.API.Data
             {
 
                 _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV12), value);
-                _manualTareValue = value;
+                _limitValue1Input = value;
             }
         }
         public int LimitValue1Mode // Type : unsigned integer 8 Bit
@@ -380,7 +379,7 @@ namespace HBM.Weighing.API.Data
             set
             {
                 _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11), value);
-                _manualTareValue = value;
+                _limitValue1Mode = value;
             }
         }
         public int LimitValue1ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
@@ -389,7 +388,7 @@ namespace HBM.Weighing.API.Data
             set
             {
                 _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
-                _manualTareValue = value;
+                _limitValue1ActivationLevelLowerBandLimit = value;
             }
         }
         public int LimitValue1HysteresisBandHeight // Type : signed integer 32 Bit

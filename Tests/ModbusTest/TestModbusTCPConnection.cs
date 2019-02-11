@@ -153,6 +153,15 @@ namespace HBM.Weighing.API.WTX.Modbus
 
          UpdateOutputTestSuccess,
          UpdateOutputTestFail,
+
+         WriteLimitValue1ModeTestSuccess,
+         WriteLimitValue1ModeTestFail,
+         WriteLimitValue2ModeTestSuccess,
+         WriteLimitValue2ModeTestFail,
+         WriteLimitValue3ModeTestSuccess,
+         WriteLimitValue3ModeTestFail,
+         WriteLimitValue4ModeTestSuccess,
+         WriteLimitValue4ModeTestFail,
     }
 
     public class TestModbusTCPConnection : INetConnection, IDisposable
@@ -509,6 +518,42 @@ namespace HBM.Weighing.API.WTX.Modbus
                 case Behavior.NetGrossValueStringComment_6D_Success:
                     _dataWTX[5] = 0x60;
                     break;
+                    
+                case Behavior.WriteSyncSuccess:
+
+                    this.command = 0x100;
+
+                    //Handshake bit:
+                    if (_dataWTX[5] >> 14 == 0)
+                        _dataWTX[5] = 0x4000;
+                    else if (_dataWTX[5] >> 14 == 1)
+                        _dataWTX[5] = 0x0000;
+
+                    break;
+
+                case Behavior.WriteSyncFail:
+
+                    this.command = 0;
+
+                    //Handshake bit:
+                    if (_dataWTX[5] >> 14 == 0)
+                        _dataWTX[5] = 0x4000;
+                    else if (_dataWTX[5] >> 14 == 1)
+                        _dataWTX[5] = 0x0000;
+
+                    break;
+                    
+                case Behavior.WriteFail:
+
+                    this.command = 0;
+
+                    //Handshake bit:
+                    if (_dataWTX[5] >> 14 == 0)
+                        _dataWTX[5] = 0x4000;
+                    else if (_dataWTX[5] >> 14 == 1)
+                        _dataWTX[5] = 0x0000;
+
+                    break;
 
                 default:
                     /*
@@ -669,11 +714,10 @@ namespace HBM.Weighing.API.WTX.Modbus
 
                     this.command = data;
 
-                    // Change the handshake bit : bit .14 from 0 to 1.
-                    if (_dataWTX[5] == 0x0000)
+                    //Handshake bit:
+                    if (_dataWTX[5] >> 14 == 0)
                         _dataWTX[5] = 0x4000;
-                    else
-                        if (_dataWTX[5] == 0x4000)
+                    else if (_dataWTX[5] >> 14 == 1)
                         _dataWTX[5] = 0x0000;
 
                     break;
@@ -682,15 +726,14 @@ namespace HBM.Weighing.API.WTX.Modbus
 
                     this.command = 0x100;
 
-                    // Change the handshake bit : bit .14 from 0 to 1.
-                    if (_dataWTX[5] == 0x0000)
+                    //Handshake bit:
+                    if (_dataWTX[5] >> 14 == 0)
                         _dataWTX[5] = 0x4000;
-                    else
-                        if (_dataWTX[5] == 0x4000)
+                    else if (_dataWTX[5] >> 14 == 1)
                         _dataWTX[5] = 0x0000;
 
                     break;
-
+                    
                 case Behavior.WriteFail:
                     this.command = 0x2;
                     break;
@@ -700,21 +743,44 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
 
                 case Behavior.HandshakeSuccess:
-                    // Change the handshake bit : bit .14 from 0 to 1.
-                    if (_dataWTX[5] == 0x0000)
+                    //Handshake bit:
+                    if (_dataWTX[5] >> 14 == 0)
                         _dataWTX[5] = 0x4000;
-                    else
-                    if (_dataWTX[5] == 0x4000)
+                    else if (_dataWTX[5] >> 14 == 1)
                         _dataWTX[5] = 0x0000;
                     break;
 
                 case Behavior.HandshakeFail:
-
-                    if (_dataWTX[5] == 0x0000)
+                    //Handshake bit:
+                    if (_dataWTX[5] >> 14 == 0)
                         _dataWTX[5] = 0x4000;
-                    else
-                    if (_dataWTX[5] == 0x4000)
-                        _dataWTX[5] = 0x4000;       // Error simulation : Handshake bit is not change to 0. 
+                    else if (_dataWTX[5] >> 14 == 1)
+                        _dataWTX[5] = 0x0000;
+                    break;
+
+                case Behavior.WriteLimitValue1ModeTestSuccess:
+                    this.command = 4; 
+                    break;
+                case Behavior.WriteLimitValue1ModeTestFail:
+                    this.command = 0;
+                    break;
+                case Behavior.WriteLimitValue2ModeTestSuccess:
+                    this.command = 11;
+                    break;
+                case Behavior.WriteLimitValue2ModeTestFail:
+                    this.command = 0;
+                    break;
+                case Behavior.WriteLimitValue3ModeTestSuccess:
+                    this.command = 17;
+                    break;
+                case Behavior.WriteLimitValue3ModeTestFail:
+                    this.command = 0;
+                    break;
+                case Behavior.WriteLimitValue4ModeTestSuccess:
+                    this.command = 23;
+                    break;
+                case Behavior.WriteLimitValue4ModeTestFail:
+                    this.command = 0;
                     break;
             }
 
@@ -828,6 +894,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
 
                 case Behavior.ReadSuccess:
+
 
                     // The most important data attributes from the WTX120 device: 
                     
@@ -998,6 +1065,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public async Task<int> WriteAsync(ushort index, ushort commandParam)
         {
+            this.command = commandParam;
+
             switch (behavior)
             {
                 case Behavior.ZeroMethodTestSuccess:
