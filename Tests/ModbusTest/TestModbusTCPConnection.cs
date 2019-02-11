@@ -173,6 +173,10 @@ namespace HBM.Weighing.API.WTX.Modbus
         public event EventHandler BusActivityDetection;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
         public event EventHandler<DataEventArgs> UpdateDataClasses;
+        
+        private Dictionary<string, int> _dataIntegerBuffer;
+
+        private ICommands _commands;
 
         private string IP;
         private int interval;
@@ -187,6 +191,12 @@ namespace HBM.Weighing.API.WTX.Modbus
             _dataWTX = new ushort[38];
             // size of 38 elements for the standard and filler application mode.            
 
+            _commands = new ModbusCommands();
+
+             _dataIntegerBuffer = new Dictionary<string, int>();
+
+            this.CreateDictionary();
+           
             this.behavior = behavior;
 
             this.numPoints = 6;
@@ -220,7 +230,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break; 
             }
 
-            Write(Convert.ToString(0), 0); //Dummyaufruf hier, damit Tests erst mal funktionieren
+            Write(Convert.ToString(0), 0);
     }
 
         public bool IsConnected
@@ -253,6 +263,139 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
+
+        private void CreateDictionary()
+        {
+            _dataIntegerBuffer.Add(_commands.NET_VALUE, 0);
+            _dataIntegerBuffer.Add(_commands.GROSS_VALUE, 0);
+
+            _dataIntegerBuffer.Add(_commands.WEIGHING_DEVICE_1_WEIGHT_STATUS, 0);
+            _dataIntegerBuffer.Add(_commands.UNIT_PREFIX_FIXED_PARAMETER, 0);
+
+            _dataIntegerBuffer.Add(_commands.FINE_FLOW_CUT_OFF_POINT, 0);
+            _dataIntegerBuffer.Add(_commands.COARSE_FLOW_CUT_OFF_POINT, 0);
+            _dataIntegerBuffer.Add(_commands.DECIMALS, 0);
+            _dataIntegerBuffer.Add(_commands.APPLICATION_MODE, 0);
+            _dataIntegerBuffer.Add(_commands.SCALE_COMMAND_STATUS, 0);
+
+            _dataIntegerBuffer.Add(_commands.COARSE_FLOW_MONITORING, 0);
+            _dataIntegerBuffer.Add(_commands.FINE_FLOW_MONITORING, 0);
+            _dataIntegerBuffer.Add(_commands.EMPTYING_MODE, 0);
+            _dataIntegerBuffer.Add(_commands.MAXIMAL_DOSING_TIME, 0);
+
+            _dataIntegerBuffer.Add(_commands.UPPER_TOLERANCE_LIMIT, 0);
+            _dataIntegerBuffer.Add(_commands.LOWER_TOLERANCE_LIMIT, 0);
+
+            //_dataIntegerBuffer.Add(_commands.DOSING_STATE, 0);
+            //_dataIntegerBuffer.Add(_commands.DOSING_RESULT, 0);
+
+            _dataIntegerBuffer.Add(_commands.DOSING_TIME, 0);
+            _dataIntegerBuffer.Add(_commands.COARSE_FLOW_TIME, 0);
+            _dataIntegerBuffer.Add(_commands.FINE_FLOW_TIME, 0);
+            _dataIntegerBuffer.Add(_commands.RANGE_SELECTION_PARAMETER, 0);
+
+            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_INPUT_1, 0);
+            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_INPUT_2, 0);
+            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_INPUT_3, 0);
+            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_INPUT_4, 0);
+            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_OUTPUT_1, 0);
+            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_OUTPUT_2, 0);
+            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_OUTPUT_3, 0);
+            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_OUTPUT_4, 0);
+
+            _dataIntegerBuffer.Add(_commands.LIMIT_VALUE, 0);
+
+            _dataIntegerBuffer.Add(_commands.LIMIT_VALUE_MONITORING_LIV11, 0); ;
+            _dataIntegerBuffer.Add(_commands.SIGNAL_SOURCE_LIV12, 0);
+            _dataIntegerBuffer.Add(_commands.SWITCH_ON_LEVEL_LIV13, 0);
+            _dataIntegerBuffer.Add(_commands.SWITCH_OFF_LEVEL_LIV14, 0);
+
+            _dataIntegerBuffer.Add(_commands.LIMIT_VALUE_MONITORING_LIV21, 0);
+            _dataIntegerBuffer.Add(_commands.SIGNAL_SOURCE_LIV22, 0);
+            _dataIntegerBuffer.Add(_commands.SWITCH_ON_LEVEL_LIV23, 0);
+            _dataIntegerBuffer.Add(_commands.SWITCH_OFF_LEVEL_LIV24, 0); ;
+
+            _dataIntegerBuffer.Add(_commands.LIMIT_VALUE_MONITORING_LIV31, 0);
+            _dataIntegerBuffer.Add(_commands.SIGNAL_SOURCE_LIV32, 0);
+            _dataIntegerBuffer.Add(_commands.SWITCH_ON_LEVEL_LIV33, 0);
+            _dataIntegerBuffer.Add(_commands.SWITCH_OFF_LEVEL_LIV34, 0);
+
+            _dataIntegerBuffer.Add(_commands.LIMIT_VALUE_MONITORING_LIV41, 0);
+            _dataIntegerBuffer.Add(_commands.SIGNAL_SOURCE_LIV42, 0);
+            _dataIntegerBuffer.Add(_commands.SWITCH_ON_LEVEL_LIV43, 0); ;
+            _dataIntegerBuffer.Add(_commands.SWITCH_OFF_LEVEL_LIV44, 0);
+        }
+
+
+        private void UpdateDictionary()
+        {
+            // Process data : 
+
+            _dataIntegerBuffer[_commands.NET_VALUE] = _dataWTX[1] + (_dataWTX[0] << 16);
+            _dataIntegerBuffer[_commands.GROSS_VALUE] = _dataWTX[3] + (_dataWTX[2] << 16);
+            _dataIntegerBuffer[_commands.WEIGHING_DEVICE_1_WEIGHT_STATUS] = _dataWTX[4];
+            _dataIntegerBuffer[_commands.SCALE_COMMAND_STATUS] = _dataWTX[5];                       // status -> Measured value status
+            _dataIntegerBuffer[_commands.STATUS_DIGITAL_INPUT_1] = _dataWTX[6];
+            _dataIntegerBuffer[_commands.STATUS_DIGITAL_OUTPUT_1] = _dataWTX[7];
+            _dataIntegerBuffer[_commands.LIMIT_VALUE] = _dataWTX[8];
+            _dataIntegerBuffer[_commands.FINE_FLOW_CUT_OFF_POINT] = _dataWTX[20];
+            _dataIntegerBuffer[_commands.COARSE_FLOW_CUT_OFF_POINT] = _dataWTX[22];
+
+            _dataIntegerBuffer[_commands.APPLICATION_MODE] = _dataWTX[5] & 0x1;                      // application mode 
+            _dataIntegerBuffer[_commands.DECIMALS] = (_dataWTX[5] & 0x70) >> 4;                      // decimals
+            _dataIntegerBuffer[_commands.UNIT_PREFIX_FIXED_PARAMETER] = (_dataWTX[5] & 0x180) >> 7;  // unit
+
+            _dataIntegerBuffer[_commands.COARSE_FLOW_MONITORING] = _dataWTX[8] & 0x1;         //_coarseFlow
+            _dataIntegerBuffer[_commands.FINE_FLOW_MONITORING] = ((_dataWTX[8] & 0x2) >> 1);  // _fineFlow
+
+            _dataIntegerBuffer[_commands.EMPTYING_MODE] = ((_dataWTX[8] & 0x10) >> 4);
+            _dataIntegerBuffer[_commands.MAXIMAL_DOSING_TIME] = ((_dataWTX[8] & 0x100) >> 8);
+            _dataIntegerBuffer[_commands.UPPER_TOLERANCE_LIMIT] = ((_dataWTX[8] & 0x400) >> 10);
+            _dataIntegerBuffer[_commands.LOWER_TOLERANCE_LIMIT] = ((_dataWTX[8] & 0x800) >> 11);
+            _dataIntegerBuffer[_commands.STATUS_DIGITAL_INPUT_1] = ((_dataWTX[8] & 0x4000) >> 14);
+
+            _dataIntegerBuffer[_commands.DOSING_RESULT] = _dataWTX[12];
+            _dataIntegerBuffer[_commands.MEAN_VALUE_DOSING_RESULTS] = _dataWTX[14];
+            _dataIntegerBuffer[_commands.STANDARD_DEVIATION] = _dataWTX[16];
+            _dataIntegerBuffer[_commands.DOSING_TIME] = _dataWTX[24];                 // _currentDosingTime = _dataWTX[24];
+
+            _dataIntegerBuffer[_commands.COARSE_FLOW_TIME] = _dataWTX[25];            // _currentCoarseFlowTime
+            _dataIntegerBuffer[_commands.FINE_FLOW_TIME] = _dataWTX[26];              // _currentFineFlowTime
+            _dataIntegerBuffer[_commands.RANGE_SELECTION_PARAMETER] = _dataWTX[27];   // _parameterSetProduct
+
+            _dataIntegerBuffer[_commands.LIMIT_VALUE] = _dataWTX[8];
+
+            // Standard data: Missing ID's
+            /*
+                _limitStatus1 = (_dataWTX[8] & 0x1); ;
+                _limitStatus2 = ((_dataWTX[8] & 0x2) >> 1);
+                _limitStatus3 = ((_dataWTX[8] & 0x4) >> 2);
+                _limitStatus4 = ((_dataWTX[8] & 0x8) >> 3);
+                _weightMemDay = (_dataWTX[9]);
+                _weightMemMonth = (_dataWTX[10]);
+                _weightMemYear = (_dataWTX[11]);
+                _weightMemSeqNumber = (_dataWTX[12]);
+                _weightMemGross = (_dataWTX[13]);
+                _weightMemNet = (_dataWTX[14]);
+           */
+
+            // Filler data: Missing ID's
+            /*
+                _ready = ((_dataWTX[8] & 0x4) >> 2);
+                _reDosing = ((_dataWTX[8] & 0x8) >> 3)
+                _emptying = ((_dataWTX[8] & 0x10) >> 4);
+                _flowError = ((_dataWTX[8] & 0x20) >> 5);
+                _alarm = ((_dataWTX[8] & 0x40) >> 6);
+                _adcOverUnderload = ((_dataWTX[8] & 0x80) >> 7);           
+                _legalForTradeOperation = ((_dataWTX[8] & 0x200) >> 9);
+                _statusInput1 = ((_dataWTX[8] & 0x4000) >> 14);
+                _generalScaleError = ((_dataWTX[8] & 0x8000) >> 15);
+                _fillingProcessStatus = _dataWTX[9];
+                _numberDosingResults = _dataWTX[11];          
+                _totalWeight = _dataWTX[18];
+            */
+
+        }
 
         public int Read(object index)
         {
@@ -379,7 +522,11 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
             }
 
-            IncomingDataReceived?.Invoke(this, null/*new ProcessDataReceivedEventArgs(new ProcessData())*/);
+            _dataIntegerBuffer["0"] = 1;
+
+            this.UpdateDictionary();
+            // Updata data in data classes : 
+            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
 
             return _dataWTX[Convert.ToInt16(index)];
         }
@@ -662,7 +809,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             ushort[] value = new ushort[1];
             await Task.Run(async () =>
-             {
+            {
             switch (behavior)
             {
                 case Behavior.ReadFail:
@@ -683,7 +830,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 case Behavior.ReadSuccess:
 
                     // The most important data attributes from the WTX120 device: 
-
+                    
                     _dataWTX[0] = 0x0000;
                     _dataWTX[1] = 0x4040;
                     _dataWTX[2] = 0x0000;
@@ -833,10 +980,19 @@ namespace HBM.Weighing.API.WTX.Modbus
             {
                 _dataWTX[5] = 0x0000;
             }
+            
+                this.UpdateDictionary();
+                // Update data in data classes : 
+                this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
 
-            return _dataWTX;
+                return _dataWTX;
 
              });
+
+            this.UpdateDictionary();
+            // Update data in data classes : 
+            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+
             return _dataWTX;
         }
 
@@ -873,11 +1029,11 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
 
-        Dictionary<string, int> INetConnection.AllData
+        public Dictionary<string, int> AllData
         {
             get
             {
-                throw new NotImplementedException();
+                return this._dataIntegerBuffer;
             }
         }
 
@@ -975,8 +1131,13 @@ namespace HBM.Weighing.API.WTX.Modbus
             get { return "Modbus"; }
         }
 
-        public ICommands IDCommands { get; set; }
-
+        public ICommands IDCommands
+        {
+            get
+            {
+                return this._commands;
+            }
+        }
         //public Dictionary<string, JToken> getDataBuffer => throw new NotImplementedException();
     }
 }
