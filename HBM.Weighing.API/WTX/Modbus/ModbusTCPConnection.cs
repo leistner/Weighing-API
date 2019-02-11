@@ -313,6 +313,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_OUTPUT_4, 0);
 
             _dataIntegerBuffer.Add(IDCommands.LIMIT_VALUE, 0);
+
             _dataIntegerBuffer.Add(IDCommands.LIMIT_VALUE_MONITORING_LIV11, 0); ;
             _dataIntegerBuffer.Add(IDCommands.SIGNAL_SOURCE_LIV12, 0);
             _dataIntegerBuffer.Add(IDCommands.SWITCH_ON_LEVEL_LIV13, 0);
@@ -371,6 +372,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _dataIntegerBuffer[IDCommands.FINE_FLOW_TIME] = _data[26];              // _currentFineFlowTime
                 _dataIntegerBuffer[IDCommands.RANGE_SELECTION_PARAMETER] = _data[27];   // _parameterSetProduct
 
+                _dataIntegerBuffer[IDCommands.LIMIT_VALUE] = _data[8];
 
             // Standard data: Missing ID's
             /*

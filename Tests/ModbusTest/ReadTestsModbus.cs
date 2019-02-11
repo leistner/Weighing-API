@@ -35,7 +35,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             get
             {
                 yield return new TestCaseData(Behavior.ReadFail).Returns(0);
-                yield return new TestCaseData(Behavior.ReadSuccess).Returns(16448);
+                yield return new TestCaseData(Behavior.ReadSuccess).Returns(3);
 
                 //Alternatives: 
 
@@ -105,27 +105,9 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _dataReadSuccess[i] = 0;
                 _dataReadFail[i] = 0;
             }
-
-            _dataReadSuccess[0] = 16448;       // Net value
-            _dataReadSuccess[1] = 16448;       // Gross value
-            _dataReadSuccess[2] = 0;           // General weight error
-            _dataReadSuccess[3] = 0;           // Scale alarm triggered
-            _dataReadSuccess[4] = 0;           // Limit status
-            _dataReadSuccess[5] = 0;           // Weight moving
-            _dataReadSuccess[6] = 0;//1;       // Scale seal is open
-            _dataReadSuccess[7] = 0;           // Manual tare
-            _dataReadSuccess[8] = 0;           // Weight type
-            _dataReadSuccess[9] = 0;           // Scale range
-            _dataReadSuccess[10] = 0;          // Zero required/True zero
-            _dataReadSuccess[11] = 0;          // Weight within center of zero 
-            _dataReadSuccess[12] = 0;          // weight in zero range
-            _dataReadSuccess[13] = 0;          // Application mode = 0
-            _dataReadSuccess[14] = 0; //4;     // Decimal Places
-            _dataReadSuccess[15] = 0; //2;     // Unit
-            _dataReadSuccess[16] = 0;          // Handshake
-            _dataReadSuccess[17] = 0;          // Status
-
         }
+
+        private ushort _testValue = 0;
 
         /*
         // Test for reading: 
@@ -133,22 +115,28 @@ namespace HBM.Weighing.API.WTX.Modbus
         public async Task<ushort> ReadTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxDevice = new WtxModbus(testConnection, 200,update);
+            _wtxDevice = new WtxModbus(testConnection, 200, UpdateReadTest);
 
             _wtxDevice.Connect(this.OnConnect, 100);
-
+          
             await Task.Run(async () =>
             {
                 ushort[] result = await testConnection.ReadAsync();
-                _wtxDevice.OnData(result);
-            });
 
-            return (ushort)_wtxDevice.ProcessData.NetValue;
+                _wtxDevice.ProcessData.UpdateProcessData(this, new DataEventArgs(testConnection.AllData));
+
+                //_wtxDevice.OnData(result);
+            });
+            
+            //return (ushort)_wtxDevice.ProcessData.NetValue;
+
+            return _testValue;
         }
         */
-        private void update(object sender, ProcessDataReceivedEventArgs e)
+
+        private void UpdateReadTest(object sender, ProcessDataReceivedEventArgs e)
         {
-            //throw new NotImplementedException();
+            _testValue = (ushort) e.ProcessData.NetValue;
         }
 
         // Test for checking the handshake bit 
@@ -156,7 +144,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public bool testHandshake(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxDevice = new WtxModbus(testConnection, 200,update);
+            _wtxDevice = new WtxModbus(testConnection, 200,UpdateTestHandshake);
 
             _wtxDevice.Connect(this.OnConnect, 100);
 
@@ -165,12 +153,15 @@ namespace HBM.Weighing.API.WTX.Modbus
             return _wtxDevice.ProcessData.Handshake;
         }
 
+        private void UpdateTestHandshake(object sender, ProcessDataReceivedEventArgs e)
+        {
+        }
 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "MeasureZeroTestCases")]
         public bool MeasureZeroTest(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxDevice = new WtxModbus(testConnection, 200,update);
+            _wtxDevice = new WtxModbus(testConnection, 200,UpdateMeasureZeroTest);
 
             _wtxDevice.Connect(this.OnConnect, 100);
 
@@ -190,12 +181,16 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
+        private void UpdateMeasureZeroTest(object sender, ProcessDataReceivedEventArgs e)
+        {
+        }
+
         [Test, TestCaseSource(typeof(ReadTestsModbus), "ApplicationModeTestCases")]
         public int ApplicationModeTest(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
 
-            WtxModbus _wtxDevice = new WtxModbus(testConnection, 200,update);
+            WtxModbus _wtxDevice = new WtxModbus(testConnection, 200,UpdateApplicationModeTest);
 
             _wtxDevice.Connect(this.OnConnect, 100);
 
@@ -208,11 +203,15 @@ namespace HBM.Weighing.API.WTX.Modbus
             //return _wtxDevice.ApplicationMode;
         }
 
+        private void UpdateApplicationModeTest(object sender, ProcessDataReceivedEventArgs e)
+        {
+        }
+
         [Test, TestCaseSource(typeof(ReadTestsModbus), "LogEventTestCases")]
         public async Task<bool> LogEventGetTest(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxDevice = new WtxModbus(testConnection, 200,update);
+            _wtxDevice = new WtxModbus(testConnection, 200,UpdateLogEventGetTest);
 
             _wtxDevice.Connect(this.OnConnect, 100);
             testConnection.IsConnected = true;
@@ -231,11 +230,15 @@ namespace HBM.Weighing.API.WTX.Modbus
             //return _wtxDevice.ApplicationMode;
         }
 
+        private void UpdateLogEventGetTest(object sender, ProcessDataReceivedEventArgs e)
+        {
+        }
+
         [Test, TestCaseSource(typeof(ReadTestsModbus), "LogEventTestCases")]
         public async Task<bool> LogEventSetTest(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxDevice = new WtxModbus(testConnection, 200,update);
+            _wtxDevice = new WtxModbus(testConnection, 200, UpdateLogEventSetTest);
 
             _wtxDevice.Connect(this.OnConnect, 100);
             testConnection.IsConnected = true;
@@ -252,6 +255,10 @@ namespace HBM.Weighing.API.WTX.Modbus
             else
                 return false;
             //return _wtxDevice.ApplicationMode;
+        }
+
+        private void UpdateLogEventSetTest(object sender, ProcessDataReceivedEventArgs e)
+        {
         }
 
 
