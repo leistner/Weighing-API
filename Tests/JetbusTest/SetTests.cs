@@ -1,4 +1,4 @@
-﻿/*
+﻿
 using HBM.Weighing.API;
 using HBM.Weighing.API.WTX;
 using HBM.Weighing.API.WTX.Jet;
@@ -20,9 +20,7 @@ namespace JetbusTest
     {
         private TestJetbusConnection _jetTestConnection;
         private WtxJet _wtxObj;
-
-        private int testValue;
-
+        
         // Test case source for writing values to the WTX120 device : Zeroing
         public static IEnumerable setTests
         {
@@ -36,7 +34,6 @@ namespace JetbusTest
         [SetUp]
         public void Setup()
         {
-            testValue = 1234;
         }
 
 
@@ -49,31 +46,33 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ActivationTimeAfterFineFlow = 1;
-            _wtxObj.CoarseFlowMonitoring = 10;
-            _wtxObj.CoarseFlowMonitoringTime = 101;
-            _wtxObj.CoarseLockoutTime = 110;
-            _wtxObj.DelayTimeAfterFineFlow = 111;
-            _wtxObj.EmptyingMode = 1000;
-            _wtxObj.EmptyWeight = 1001;
-            _wtxObj.FineFlowMonitoring = 1011;
-            _wtxObj.FineFlowMonitoringTime = 1100;
-            _wtxObj.FineLockoutTime = 1111;
-            _wtxObj.LimitValue1Input = 10000;
-            _wtxObj.LimitValue2Source = 10001;
-            _wtxObj.LimitValue3Source = 10010;
-            _wtxObj.LimitValue4Source = 10100;
-            _wtxObj.LowerToleranceLimit = 11000;
-            _wtxObj.MaximumDosingTime = 11001;
-            _wtxObj.MinimumFineFlow = 11001;
-            _wtxObj.MinimumStartWeight = 11010;
-            _wtxObj.OptimizationOfCutOffPoints = 11100;
-            _wtxObj.ResidualFlowTime = 11101;
-            _wtxObj.SystematicDifference = 11110;
-            _wtxObj.TareDelay = 11111;
-            _wtxObj.TareMode = 100000;
-            _wtxObj.UpperToleranceLimit = 100001;
-            _wtxObj.ValveControl = 100010;           
+            _wtxObj.DataStandard.LimitValue1Input = 10000;
+            _wtxObj.DataStandard.LimitValue2Source = 10001;
+            _wtxObj.DataStandard.LimitValue3Source = 10010;
+            _wtxObj.DataStandard.LimitValue4Source = 10100;
+
+            _wtxObj.DataFillerExtended.ActivationTimeAfterFineFlow = 1;
+            _wtxObj.DataFillerExtended.CoarseFlowMonitoring = 10;
+            _wtxObj.DataFillerExtended.CoarseFlowMonitoringTime = 101;
+            _wtxObj.DataFillerExtended.CoarseLockoutTime = 110;
+            _wtxObj.DataFillerExtended.DelayTimeAfterFineFlow = 111;
+            _wtxObj.DataFillerExtended.EmptyingMode = 1000;
+            _wtxObj.DataFillerExtended.EmptyWeight = 1001;
+            _wtxObj.DataFillerExtended.FineFlowMonitoring = 1011;
+            _wtxObj.DataFillerExtended.FineFlowMonitoringTime = 1100;
+            _wtxObj.DataFillerExtended.FineLockoutTime = 1111;
+
+            _wtxObj.DataFillerExtended.LowerToleranceLimit = 11000;
+            _wtxObj.DataFillerExtended.MaximumDosingTime = 11001;
+            _wtxObj.DataFillerExtended.MinimumFineFlow = 11001;
+            _wtxObj.DataFillerExtended.MinimumStartWeight = 11010;
+            _wtxObj.DataFillerExtended.OptimizationOfCutOffPoints = 11100;
+            _wtxObj.DataFillerExtended.ResidualFlowTime = 11101;
+            _wtxObj.DataFillerExtended.SystematicDifference = 11110;
+            _wtxObj.DataFillerExtended.TareDelay = 11111;
+            _wtxObj.DataFillerExtended.TareMode = 100000;
+            _wtxObj.DataFillerExtended.UpperToleranceLimit = 100001;
+            _wtxObj.DataFillerExtended.ValveControl = 100010;           
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("VCT") && _jetTestConnection.getDataBuffer.ContainsValue(100010))           
                 return true;
@@ -95,4 +94,3 @@ namespace JetbusTest
         }
     }
 }
-*/

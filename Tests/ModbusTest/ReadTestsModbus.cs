@@ -26,22 +26,13 @@ namespace HBM.Weighing.API.WTX.Modbus
         private bool disconnectCallbackCalled;
         private bool disconnectCompleted;
 
-        private static ushort[] _dataReadSuccess;
-        private static ushort[] _dataReadFail;
-
         // Test case source for reading values from the WTX120 device. 
         public static IEnumerable ReadTestCases
         {
             get
             {
                 yield return new TestCaseData(Behavior.ReadFail).Returns(0);
-                yield return new TestCaseData(Behavior.ReadSuccess).Returns(3);
-
-                //Alternatives: 
-
-                //yield return new TestCaseData(Behavior.ReadFail).ExpectedResult=(_dataReadFail);
-                //yield return new TestCaseData(Behavior.ReadSuccess).ExpectedResult=(_dataReadSuccess);
-
+                yield return new TestCaseData(Behavior.ReadSuccess).Returns(16448);
             }
         }
 
@@ -95,21 +86,10 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             this.connectCallbackCalled = true;
             this.connectCompleted = true;
-
-            //Array size for standard mode of the WTX120 device: 
-            _dataReadFail = new ushort[59];
-            _dataReadSuccess = new ushort[59];
-
-            for (int i = 0; i < _dataReadSuccess.Length; i++)
-            {
-                _dataReadSuccess[i] = 0;
-                _dataReadFail[i] = 0;
-            }
         }
 
-        private ushort _testValue = 0;
+        ushort _testValue = 0;
 
-        /*
         // Test for reading: 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "ReadTestCases")]
         public async Task<ushort> ReadTestModbus(Behavior behavior)
@@ -124,15 +104,11 @@ namespace HBM.Weighing.API.WTX.Modbus
                 ushort[] result = await testConnection.ReadAsync();
 
                 _wtxDevice.ProcessData.UpdateProcessData(this, new DataEventArgs(testConnection.AllData));
-
-                //_wtxDevice.OnData(result);
             });
-            
-            //return (ushort)_wtxDevice.ProcessData.NetValue;
 
+            _testValue = (ushort)_wtxDevice.ProcessData.NetValue;
             return _testValue;
         }
-        */
 
         private void UpdateReadTest(object sender, ProcessDataReceivedEventArgs e)
         {

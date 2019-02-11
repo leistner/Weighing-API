@@ -239,8 +239,7 @@ namespace HBM.Weighing.API.Data
                 _signalSourceLIV12 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
                 _switchOnLevelLIV13 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV13];
                 _switchOffLevelLIV14 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14];
-
-                /*
+                
                 _limitValueMonitoringLIV21 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21];
                 _signalSourceLIV22 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV22];
                 _switchOnLevelLIV23 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV23];
@@ -255,7 +254,7 @@ namespace HBM.Weighing.API.Data
                 _signalSourceLIV42 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
                 _switchOnLevelLIV43 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
                 _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];
-                */
+                
             }
                 
         }

@@ -113,6 +113,8 @@ namespace HBM.Weighing.API.WTX.Jet
 
         private int _mTimeoutMs;
 
+        private ICommands _commands;
+
         public Dictionary<string, JToken> _dataBuffer;
 
         private AutoResetEvent _mSuccessEvent = new AutoResetEvent(false);
@@ -136,6 +138,8 @@ namespace HBM.Weighing.API.WTX.Jet
             //IJetConnection jetConnection = new WebSocketJetConnection(_uri, RemoteCertificationCheck);
 
             _peer = new TestJetPeer(behavior, this);
+
+            _commands = new JetBusCommands();
 
             this.connected = false;
             this.behavior = behavior;
@@ -326,7 +330,13 @@ namespace HBM.Weighing.API.WTX.Jet
             get { return "Jetbus"; }
         }
 
-        public ICommands IDCommands { get; set; }
+        public ICommands IDCommands
+        {
+            get
+            {
+                return this._commands;
+            }
+        }
 
         public void FetchAll()
         {

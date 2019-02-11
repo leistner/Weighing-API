@@ -120,8 +120,7 @@ namespace JetbusTest
         {
             value = 0;
         }
-
-        /*
+       /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
         public void test_StatusStringComment_OK(Behavior behavior)
         {
@@ -131,11 +130,11 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.OnData(this, new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
+            _wtxObj.OnData(this, new DataEventArgs(_jetTestConnection.AllData));
 
             value = _wtxObj.ProcessData.Status;
 
-            //string Strvalue = _wtxObj.StatusStringComment();
+            string Strvalue = _wtxObj.StatusStringComment();
             
             Assert.AreEqual("Execution OK!", Strvalue);
         }

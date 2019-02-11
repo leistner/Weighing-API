@@ -60,7 +60,7 @@ namespace JetbusTest
             testGrossValue = 0;
         }
 
-        /*
+        
         [Test, TestCaseSource(typeof(WriteTests), "WriteTareTestCases")]
         public bool WriteTareTest(Behavior behavior)
         {
@@ -123,7 +123,7 @@ namespace JetbusTest
                 return false;          
 
         }
-        */
+        
         private void OnConnect(bool obj)
         {
             //Callback, do something ... 
