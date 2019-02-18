@@ -115,9 +115,7 @@ namespace HBM.Weighing.API.Data
         private int _switchOnLevelLIV43;
         private int _switchOffLevelLIV44;
 
-        private INetConnection _connection;
-
-        private ushort[] _dataToWrite;
+        private INetConnection _connection;        
         #endregion
 
         #region constructor
@@ -127,9 +125,7 @@ namespace HBM.Weighing.API.Data
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateStandardData;
-
-            _dataToWrite = new ushort[2];
-
+            
             _input1 = 0;
             _input2=0;
             _input3=0;
@@ -365,7 +361,6 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue1Input; }
             set
             {
-
                 _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV12), value);
                 _limitValue1Input = value;
             }
@@ -384,10 +379,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue1ActivationLevelLowerBandLimit; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-               this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), _dataToWrite);
+                this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
                 _limitValue1ActivationLevelLowerBandLimit = value;
             }
         }
@@ -396,10 +388,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue1HysteresisBandHeight; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), _dataToWrite);
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
                 _limitValue1HysteresisBandHeight = value;
             }
         }
@@ -426,10 +415,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue2ActivationLevelLowerBandLimit; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV23), _dataToWrite);
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV23), value);
                 _limitValue2ActivationLevelLowerBandLimit = value;
             }
         }
@@ -438,10 +424,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue2HysteresisBandHeight; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.TARE_VALUE), _dataToWrite);
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24), value);
                 _limitValue2HysteresisBandHeight = value;
             }
         }
@@ -468,10 +451,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue3ActivationLevelLowerBandLimit; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV33), _dataToWrite);
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV33), value);
                 _limitValue3ActivationLevelLowerBandLimit = value;
             }
         }
@@ -480,10 +460,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue3HysteresisBandHeight; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34), _dataToWrite);
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34), value);
                 _limitValue3HysteresisBandHeight = value;
             }
         }
@@ -510,10 +487,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue4ActivationLevelLowerBandLimit; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV43), _dataToWrite);
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV43), value);
                 _limitValue4ActivationLevelLowerBandLimit = value;
             }
         }
@@ -522,10 +496,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue4HysteresisBandHeight; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44), _dataToWrite);
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44), value);
                 _limitValue4HysteresisBandHeight = value;
             }
         }
@@ -534,10 +505,7 @@ namespace HBM.Weighing.API.Data
             get { return _calibrationWeight; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), _dataToWrite);
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), value);
                 _calibrationWeight = value;
             }
         }
@@ -546,10 +514,7 @@ namespace HBM.Weighing.API.Data
             get { return _zeroLoad; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.LDW_DEAD_WEIGHT), _dataToWrite);
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.LDW_DEAD_WEIGHT), value);
                 _zeroLoad = value;
             }
         }
@@ -558,10 +523,7 @@ namespace HBM.Weighing.API.Data
             get { return _nominalLoad; }
             set
             {
-                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.LWT_NOMINAL_VALUE), _dataToWrite);
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.LWT_NOMINAL_VALUE), value);
                 _nominalLoad = value;
             }
         }

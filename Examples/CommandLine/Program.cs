@@ -373,6 +373,8 @@ namespace WTXModbus
         {
             //_isCalibrating = true;
 
+            _wtxDevice.StopUpdate();
+
             zero_load_nominal_load_input();
            
             _wtxDevice.Calculate(_preload,_capacity);
@@ -387,9 +389,7 @@ namespace WTXModbus
          */
         private static void CalibrationWithWeight()
         {
-            //_isCalibrating = true;
-
-            //WTXObj.stopTimer();    // The timer is stopped in the method 'Calculate(..)' in class WTX120_Modbus.
+            _wtxDevice.StopUpdate();
 
             Console.Clear();
             Console.WriteLine("\nPlease tip the value for the calibration weight and tip enter to confirm : ");
@@ -405,9 +405,7 @@ namespace WTXModbus
 
             _wtxDevice.Calibrate(PotencyCalibrationWeight(), _calibrationWeight);
 
-            //WTXObj.restartTimer();   // The timer is restarted in the method 'Calculate(..)' in class WTX120_Modbus.
-
-            //_isCalibrating = false;
+            _wtxDevice.RestartUpdate();
         }  
 
         /*
@@ -464,54 +462,54 @@ namespace WTXModbus
 
                     if (_inputMode == 1)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) + "\t  As an Integer:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) + "\t  As an int/bool:  " + e.ProcessData.NetValue);
                     }
                     else
                         if (_inputMode == 2 || _inputMode == 3 || _inputMode == 4)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an Integer:  " + e.ProcessData.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an Integer:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
                     }
                     else
                        if (_inputMode == 5)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an Integer:  " + e.ProcessData.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an Integer:  " + e.ProcessData.GrossValue);
-                        Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() + "\t  As an Integer:  " + e.ProcessData.GeneralWeightError);
-                        Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +        "\t  As an Integer:  " + e.ProcessData.LimitStatus);
-                        Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +    "\t  As an Integer:  " + e.ProcessData.ScaleSealIsOpen);
-                        Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +         "\t  As an Integer:  " + e.ProcessData.ManualTare);
-                        Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType + "\t  As an Integer:  " + e.ProcessData.WeightType);
-                        Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange + "\t  As an Integer:  " + e.ProcessData.ScaleRange);
-                        Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +       "\t  As an Integer:  " + e.ProcessData.ZeroRequired);
-                        Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightWithinTheCenterOfZero);
-                        Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() +  "\t  As an Integer:  " + e.ProcessData.WeightInZeroRange);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() + "\t  As an int/bool:  " + e.ProcessData.GeneralWeightError);
+                        Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +        "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
+                        Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +    "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
+                        Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +         "\t  As an int/bool:  " + e.ProcessData.ManualTare);
+                        Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType + "\t  As an int/bool:  " + e.ProcessData.WeightType);
+                        Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange + "\t  As an int/bool:  " + e.ProcessData.ScaleRange);
+                        Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +       "\t  As an int/bool:  " + e.ProcessData.ZeroRequired);
+                        Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.WeightWithinTheCenterOfZero);
+                        Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() +  "\t  As an int/bool:  " + e.ProcessData.WeightInZeroRange);
 
-                        Console.WriteLine("Limit status:                  " + e.ProcessData.LimitStatus.ToString() + "        As an Integer:  " + e.ProcessData.LimitStatus);
-                        Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "          As an Integer: " + e.ProcessData.WeightMoving);
+                        Console.WriteLine("Limit status:                  " + e.ProcessData.LimitStatus.ToString() + "        As an int/bool:  " + e.ProcessData.LimitStatus);
+                        Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "          As an int/bool: " + e.ProcessData.WeightMoving);
                     }
                     else
                     if (_inputMode == 6 || _inputMode == 38)
                     { 
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +  "\t  As an Integer:  " + e.ProcessData.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals)+ "\t  As an Integer:  " + e.ProcessData.GrossValue);
-                        Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() +                  "\t  As an Integer:  " + e.ProcessData.GeneralWeightError);
-                        Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +                         "\t  As an Integer:  " + e.ProcessData.LimitStatus);
-                        Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +                     "\t  As an Integer:  " + e.ProcessData.ScaleSealIsOpen);
-                        Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +        "\t  As an Integer:  " + e.ProcessData.ManualTare);
-                        Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType + "\t  As an Integer:  " + e.ProcessData.WeightType);
-                        Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange + "\t  As an Integer:  " + e.ProcessData.ScaleRange);
-                        Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +      "\t  As an Integer:  " + e.ProcessData.ZeroRequired);
-                        Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightWithinTheCenterOfZero);
-                        Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightInZeroRange);
-                        Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() + "\t  As an Integer:  " + _wtxDevice.ApplicationMode.ToString());
-                        Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +          "\t  As an Integer:  " + e.ProcessData.Decimals);
-                        Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                       "\t  As an Integer:  " + e.ProcessData.Unit);
-                        Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +         "\t  As an Integer:  " + e.ProcessData.Handshake);
-                        Console.WriteLine("Status:                        " + statusCommentMethod() + "\t  As an Integer:  " + e.ProcessData.Status);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +  "\t  As an int/bool:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals)+ "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() +                  "\t  As an int/bool:  " + e.ProcessData.GeneralWeightError);
+                        Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +                         "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
+                        Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +                     "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
+                        Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +        "\t  As an int/bool:  " + e.ProcessData.ManualTare);
+                        Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType + "\t  As an int/bool:  " + e.ProcessData.WeightType);
+                        Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange + "\t  As an int/bool:  " + e.ProcessData.ScaleRange);
+                        Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +      "\t  As an int/bool:  " + e.ProcessData.ZeroRequired);
+                        Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.WeightWithinTheCenterOfZero);
+                        Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() + "\t  As an int/bool:  " + e.ProcessData.WeightInZeroRange);
+                        Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() + "\t  As an int/bool:  " + _wtxDevice.ApplicationMode.ToString());
+                        Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +          "\t  As an int/bool:  " + e.ProcessData.Decimals);
+                        Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                       "\t  As an int/bool:  " + e.ProcessData.Unit);
+                        Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +         "\t  As an int/bool:  " + e.ProcessData.Handshake);
+                        Console.WriteLine("Status:                        " + statusCommentMethod() + "\t  As an int/bool:  " + e.ProcessData.Status);
 
-                        Console.WriteLine("Limit status:                  " + limitCommentMethod() + "       As an Integer:  " + e.ProcessData.LimitStatus);
-                        Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "         As an Integer: " + e.ProcessData.WeightMoving);
+                        Console.WriteLine("Limit status:                  " + limitCommentMethod() + "       As an int/bool:  " + e.ProcessData.LimitStatus);
+                        Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "         As an int/bool: " + e.ProcessData.WeightMoving);
 
                     }
                     else
@@ -519,77 +517,77 @@ namespace WTXModbus
                 }
                 else
                 {
-                    Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an Integer:  " + e.ProcessData.NetValue);
-                    Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an Integer:  " + e.ProcessData.GrossValue);
-                    Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() +                   "\t  As an Integer:  " + e.ProcessData.GeneralWeightError);
-                    Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +     "\t  As an Integer:  " + e.ProcessData.LimitStatus);
-                    Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() + "\t  As an Integer:  " + e.ProcessData.ScaleSealIsOpen);
-                    Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +      "\t  As an Integer:  " + e.ProcessData.ManualTare);
-                    Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType +               "\t  As an Integer:  " + e.ProcessData.WeightType);
-                    Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange +               "\t  As an Integer:  " + e.ProcessData.ScaleRange);
-                    Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +    "\t  As an Integer:  " + e.ProcessData.ZeroRequired);
-                    Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an Integer:  " + e.ProcessData.WeightWithinTheCenterOfZero);
-                    Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() +           "\t  As an Integer:  " + e.ProcessData.WeightInZeroRange);
-                    Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() +           "\t  As an Integer:  " + _wtxDevice.ApplicationMode);
-                    Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +         "\t  As an Integer:  " + e.ProcessData.Decimals);
-                    Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                      "\t  As an Integer:  " + e.ProcessData.Unit);
-                    Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +        "\t  As an Integer:  " + e.ProcessData.Handshake);
-                    Console.WriteLine("Status:                        " + statusCommentMethod() +                    "\t  As an Integer:  " + e.ProcessData.Status);
+                    Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
+                    Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                    Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() +                   "\t  As an int/bool:  " + e.ProcessData.GeneralWeightError);
+                    Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +     "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
+                    Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() + "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
+                    Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +      "\t  As an int/bool:  " + e.ProcessData.ManualTare);
+                    Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType +               "\t  As an int/bool:  " + e.ProcessData.WeightType);
+                    Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange +               "\t  As an int/bool:  " + e.ProcessData.ScaleRange);
+                    Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +    "\t  As an int/bool:  " + e.ProcessData.ZeroRequired);
+                    Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.WeightWithinTheCenterOfZero);
+                    Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() +           "\t  As an int/bool:  " + e.ProcessData.WeightInZeroRange);
+                    Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() +           "\t  As an int/bool:  " + _wtxDevice.ApplicationMode);
+                    Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +         "\t  As an int/bool:  " + e.ProcessData.Decimals);
+                    Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                      "\t  As an int/bool:  " + e.ProcessData.Unit);
+                    Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +        "\t  As an int/bool:  " + e.ProcessData.Handshake);
+                    Console.WriteLine("Status:                        " + statusCommentMethod() +                    "\t  As an int/bool:  " + e.ProcessData.Status);
 
-                    Console.WriteLine("Limit status:                  " + limitCommentMethod() +  "     As an Integer:  " + e.ProcessData.LimitStatus);
-                    Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "          As an Integer:  " + e.ProcessData.WeightMoving);
+                    Console.WriteLine("Limit status:                  " + limitCommentMethod() +  "     As an int/bool:  " + e.ProcessData.LimitStatus);
+                    Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "          As an int/bool:  " + e.ProcessData.WeightMoving);
 
                     if (_showAllInputWords == true)
                     {
 
-                        Console.WriteLine("Digital input  1:              " + ((WtxModbus)_wtxDevice).DataStandard.Input1.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.Input1);
-                        Console.WriteLine("Digital input  2:              " + ((WtxModbus)_wtxDevice).DataStandard.Input2.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.Input2);
-                        Console.WriteLine("Digital input  3:              " + ((WtxModbus)_wtxDevice).DataStandard.Input3.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.Input3);
-                        Console.WriteLine("Digital input  4:              " + ((WtxModbus)_wtxDevice).DataStandard.Input4.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.Input4);
+                        Console.WriteLine("Digital input  1:              " + ((WtxModbus)_wtxDevice).DataStandard.Input1.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Input1);
+                        Console.WriteLine("Digital input  2:              " + ((WtxModbus)_wtxDevice).DataStandard.Input2.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Input2);
+                        Console.WriteLine("Digital input  3:              " + ((WtxModbus)_wtxDevice).DataStandard.Input3.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Input3);
+                        Console.WriteLine("Digital input  4:              " + ((WtxModbus)_wtxDevice).DataStandard.Input4.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Input4);
 
-                        Console.WriteLine("Digital output 1:              " + ((WtxModbus)_wtxDevice).DataStandard.Output1.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.Output1);
-                        Console.WriteLine("Digital output 2:              " + ((WtxModbus)_wtxDevice).DataStandard.Output2.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.Output2);
-                        Console.WriteLine("Digital output 3:              " + ((WtxModbus)_wtxDevice).DataStandard.Output3.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.Output3);
-                        Console.WriteLine("Digital output 4:              " + ((WtxModbus)_wtxDevice).DataStandard.Output4.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.Output4);
+                        Console.WriteLine("Digital output 1:              " + ((WtxModbus)_wtxDevice).DataStandard.Output1.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Output1);
+                        Console.WriteLine("Digital output 2:              " + ((WtxModbus)_wtxDevice).DataStandard.Output2.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Output2);
+                        Console.WriteLine("Digital output 3:              " + ((WtxModbus)_wtxDevice).DataStandard.Output3.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Output3);
+                        Console.WriteLine("Digital output 4:              " + ((WtxModbus)_wtxDevice).DataStandard.Output4.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Output4);
 
-                        Console.WriteLine("Coarse flow:                   " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlow.ToString() +  "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlow);
-                        Console.WriteLine("Fine flow:                     " + ((WtxModbus)_wtxDevice).DataFiller.FineFlow.ToString() +    "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.FineFlow);
-                        Console.WriteLine("Ready:                         " + ((WtxModbus)_wtxDevice).DataFiller.Ready.ToString() +       "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.Ready);
-                        Console.WriteLine("Re-dosing:                     " + ((WtxModbus)_wtxDevice).DataFiller.ReDosing.ToString() +    "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.ReDosing);
+                        Console.WriteLine("Coarse flow:                   " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlow.ToString() +  "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlow);
+                        Console.WriteLine("Fine flow:                     " + ((WtxModbus)_wtxDevice).DataFiller.FineFlow.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.FineFlow);
+                        Console.WriteLine("Ready:                         " + ((WtxModbus)_wtxDevice).DataFiller.Ready.ToString() +       "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.Ready);
+                        Console.WriteLine("Re-dosing:                     " + ((WtxModbus)_wtxDevice).DataFiller.ReDosing.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ReDosing);
 
-                        Console.WriteLine("Emptying:                      " + ((WtxModbus)_wtxDevice).DataFiller.Emptying.ToString() +          "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.Emptying);
-                        Console.WriteLine("Flow error:                    " + ((WtxModbus)_wtxDevice).DataFiller.FlowError.ToString() +         "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.FlowError);
-                        Console.WriteLine("Alarm:                         " + ((WtxModbus)_wtxDevice).DataFiller.Alarm.ToString() +             "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.Alarm);
-                        Console.WriteLine("ADC Overload/Unterload:        " + ((WtxModbus)_wtxDevice).DataFiller.AdcOverUnderload.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.AdcOverUnderload);
+                        Console.WriteLine("Emptying:                      " + ((WtxModbus)_wtxDevice).DataFiller.Emptying.ToString() +          "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.Emptying);
+                        Console.WriteLine("Flow error:                    " + ((WtxModbus)_wtxDevice).DataFiller.FlowError.ToString() +         "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.FlowError);
+                        Console.WriteLine("Alarm:                         " + ((WtxModbus)_wtxDevice).DataFiller.Alarm.ToString() +             "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.Alarm);
+                        Console.WriteLine("ADC Overload/Unterload:        " + ((WtxModbus)_wtxDevice).DataFiller.AdcOverUnderload.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.AdcOverUnderload);
 
-                        Console.WriteLine("Max.Dosing time:               " + ((WtxModbus)_wtxDevice).DataFiller.MaxDosingTime.ToString() +          "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.MaxDosingTime);
-                        Console.WriteLine("Legal-for-trade operation:     " + ((WtxModbus)_wtxDevice).DataFiller.LegalForTradeOperation.ToString() +           "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.LegalForTradeOperation);
-                        Console.WriteLine("Tolerance error+:              " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorPlus.ToString() +     "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorPlus);
-                        Console.WriteLine("Tolerance error-:              " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorMinus.ToString() +    "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorMinus);
+                        Console.WriteLine("Max.Dosing time:               " + ((WtxModbus)_wtxDevice).DataFiller.MaxDosingTime.ToString() +          "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.MaxDosingTime);
+                        Console.WriteLine("Legal-for-trade operation:     " + ((WtxModbus)_wtxDevice).DataFiller.LegalForTradeOperation.ToString() +           "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.LegalForTradeOperation);
+                        Console.WriteLine("Tolerance error+:              " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorPlus.ToString() +     "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorPlus);
+                        Console.WriteLine("Tolerance error-:              " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorMinus.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorMinus);
                                             
-                        Console.WriteLine("Status digital input 1:        " + ((WtxModbus)_wtxDevice).DataFiller.StatusInput1.ToString() +           "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.StatusInput1);
-                        Console.WriteLine("General scale error:           " + ((WtxModbus)_wtxDevice).DataFiller.GeneralScaleError.ToString() +      "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.GeneralScaleError);
-                        Console.WriteLine("Filling process status:        " + ((WtxModbus)_wtxDevice).DataFiller.FillingProcessStatus.ToString() +   "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.FillingProcessStatus);
-                        Console.WriteLine("Number of dosing results:      " + ((WtxModbus)_wtxDevice).DataFiller.NumberDosingResults.ToString() +    "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.NumberDosingResults);
+                        Console.WriteLine("Status digital input 1:        " + ((WtxModbus)_wtxDevice).DataFiller.StatusInput1.ToString() +           "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.StatusInput1);
+                        Console.WriteLine("General scale error:           " + ((WtxModbus)_wtxDevice).DataFiller.GeneralScaleError.ToString() +      "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.GeneralScaleError);
+                        Console.WriteLine("Filling process status:        " + ((WtxModbus)_wtxDevice).DataFiller.FillingProcessStatus.ToString() +   "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.FillingProcessStatus);
+                        Console.WriteLine("Number of dosing results:      " + ((WtxModbus)_wtxDevice).DataFiller.NumberDosingResults.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.NumberDosingResults);
 
-                        Console.WriteLine("Dosing result:                 " + ((WtxModbus)_wtxDevice).DataFiller.DosingResult.ToString() +           "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.DosingResult);
-                        Console.WriteLine("Mean value of dosing results:  " + ((WtxModbus)_wtxDevice).DataFiller.MeanValueDosingResults.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.MeanValueDosingResults);
-                        Console.WriteLine("Standard deviation:            " + ((WtxModbus)_wtxDevice).DataFiller.StandardDeviation.ToString() +      "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.StandardDeviation);
-                        Console.WriteLine("Total weight:                  " + ((WtxModbus)_wtxDevice).DataFiller.TotalWeight.ToString() +            "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.TotalWeight);
+                        Console.WriteLine("Dosing result:                 " + ((WtxModbus)_wtxDevice).DataFiller.DosingResult.ToString() +           "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.DosingResult);
+                        Console.WriteLine("Mean value of dosing results:  " + ((WtxModbus)_wtxDevice).DataFiller.MeanValueDosingResults.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.MeanValueDosingResults);
+                        Console.WriteLine("Standard deviation:            " + ((WtxModbus)_wtxDevice).DataFiller.StandardDeviation.ToString() +      "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.StandardDeviation);
+                        Console.WriteLine("Total weight:                  " + ((WtxModbus)_wtxDevice).DataFiller.TotalWeight.ToString() +            "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.TotalWeight);
 
-                        Console.WriteLine("Fine flow cut-off point:       " + ((WtxModbus)_wtxDevice).DataFiller.FineFlowCutOffPoint.ToString() +    "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.FineFlowCutOffPoint);
-                        Console.WriteLine("Coarse flow cut-off point:     " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlowCutOffPoint.ToString() +  "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlowCutOffPoint);
-                        Console.WriteLine("Current dosing time:           " + ((WtxModbus)_wtxDevice).DataFiller.CurrentDosingTime.ToString() +      "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.CurrentDosingTime);
-                        Console.WriteLine("Current coarse flow time:      " + ((WtxModbus)_wtxDevice).DataFiller.CurrentCoarseFlowTime.ToString() +  "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.CurrentCoarseFlowTime);
-                        Console.WriteLine("Current fine flow time:        " + ((WtxModbus)_wtxDevice).DataFiller.CurrentFineFlowTime.ToString() +    "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.CurrentFineFlowTime);
+                        Console.WriteLine("Fine flow cut-off point:       " + ((WtxModbus)_wtxDevice).DataFiller.FineFlowCutOffPoint.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.FineFlowCutOffPoint);
+                        Console.WriteLine("Coarse flow cut-off point:     " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlowCutOffPoint.ToString() +  "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlowCutOffPoint);
+                        Console.WriteLine("Current dosing time:           " + ((WtxModbus)_wtxDevice).DataFiller.CurrentDosingTime.ToString() +      "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.CurrentDosingTime);
+                        Console.WriteLine("Current coarse flow time:      " + ((WtxModbus)_wtxDevice).DataFiller.CurrentCoarseFlowTime.ToString() +  "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.CurrentCoarseFlowTime);
+                        Console.WriteLine("Current fine flow time:        " + ((WtxModbus)_wtxDevice).DataFiller.CurrentFineFlowTime.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.CurrentFineFlowTime);
 
-                        Console.WriteLine("Parameter set (product):       " + ((WtxModbus)_wtxDevice).DataFiller.ParameterSetProduct.ToString() + "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataFiller.ParameterSetProduct);
-                        Console.WriteLine("Weight memory, Day:            " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemDay.ToString() +        "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemDay);
-                        Console.WriteLine("Weight memory, Month:          " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemMonth.ToString() +      "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemMonth);
-                        Console.WriteLine("Weight memory, Year:           " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemYear.ToString() +       "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemYear);
-                        Console.WriteLine("Weight memory, Seq.Number:     " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemSeqNumber.ToString() +  "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemSeqNumber);
-                        Console.WriteLine("Weight memory, gross:          " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemGross.ToString() +      "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemGross);
-                        Console.WriteLine("Weight memory, net:            " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemNet.ToString() +        "\t  As an Integer:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemNet);
+                        Console.WriteLine("Parameter set (product):       " + ((WtxModbus)_wtxDevice).DataFiller.ParameterSetProduct.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ParameterSetProduct);
+                        Console.WriteLine("Weight memory, Day:            " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemDay.ToString() +        "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemDay);
+                        Console.WriteLine("Weight memory, Month:          " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemMonth.ToString() +      "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemMonth);
+                        Console.WriteLine("Weight memory, Year:           " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemYear.ToString() +       "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemYear);
+                        Console.WriteLine("Weight memory, Seq.Number:     " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemSeqNumber.ToString() +  "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemSeqNumber);
+                        Console.WriteLine("Weight memory, gross:          " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemGross.ToString() +      "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemGross);
+                        Console.WriteLine("Weight memory, net:            " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemNet.ToString() +        "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemNet);
 
                         Console.WriteLine("\nPress 'a' again to hide the input words.");
                     }

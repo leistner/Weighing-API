@@ -592,9 +592,10 @@ namespace HBM.Weighing.API.WTX.Jet
             // GC.SuppressFinalize(this);
         }
 
-        public void WriteArray(string index, ushort[] data)
+        public void WriteArray(string index, int data)
         {
-            throw new NotImplementedException();
+            JValue value = new JValue(data);
+            SetData(index, value);
         }
 
         public Dictionary<string, JToken> getDataBuffer

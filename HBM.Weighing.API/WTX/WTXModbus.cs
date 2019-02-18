@@ -231,12 +231,12 @@ namespace HBM.Weighing.API.WTX
             get { return this._dataFiller; }
         }
 
-        public override void SetOutput(object index, int value)
+        public void SetOutput(object index, int value)
         {
-            _dataWritten[0] = (ushort)((value & 0xffff0000) >> 16);
-            _dataWritten[1] = (ushort)(value & 0x0000ffff);
+            //_dataWritten[0] = (ushort)((value & 0xffff0000) >> 16);
+            //_dataWritten[1] = (ushort)(value & 0x0000ffff);
 
-            this._connection.WriteArray(Convert.ToString(index), _dataWritten);
+            this._connection.WriteArray(Convert.ToString(index), value);
         }
         /*
         private void WriteOutputWordU08(int valueParam, ushort wordNumber)
@@ -334,7 +334,7 @@ namespace HBM.Weighing.API.WTX
         /*
         * This method stops the timer, for example in case for the calibration.
         */
-        public void StopTimer()
+        public override void StopUpdate()
         {
             _aTimer.Elapsed -= OnTimedEvent;
             _aTimer.Enabled = false;
@@ -344,7 +344,7 @@ namespace HBM.Weighing.API.WTX
         /*
          * This method restarts the timer, for example in case for the calibration.
          */
-        public void RestartTimer()
+        public override void RestartUpdate()
         {
             _aTimer.Elapsed += OnTimedEvent;
             _aTimer.Enabled = true;
@@ -498,7 +498,7 @@ namespace HBM.Weighing.API.WTX
         // This methods sets the value of the WTX to zero. 
         public override void MeasureZero()
         {
-            this.StopTimer();
+            this.StopUpdate();
 
             //todo: write reg 48, 0x7FFFFFFF
 
@@ -524,7 +524,7 @@ namespace HBM.Weighing.API.WTX
 
             this.WriteSync(0, 0x100);
 
-            this.RestartTimer();
+            this.RestartUpdate();
 
             this._isCalibrating = true;
 
@@ -564,7 +564,7 @@ namespace HBM.Weighing.API.WTX
             dPreload = preload * multiplierMv2D;
             dNominalLoad = dPreload + (capacity * multiplierMv2D);
                            
-            this.StopTimer();
+            this.StopUpdate();
 
             //write reg 48, DPreload;         
 
@@ -580,7 +580,7 @@ namespace HBM.Weighing.API.WTX
 
             this._isCalibrating = true;
 
-            this.RestartTimer();
+            this.RestartUpdate();
 
         }
 

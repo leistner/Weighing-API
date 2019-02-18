@@ -66,6 +66,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         private ushort _startAdress;
 
         private ushort[] _data;
+        private ushort[] _dataToWrite;
 
         private Dictionary<string, int> _dataIntegerBuffer = new Dictionary<string, int>();
 
@@ -92,6 +93,8 @@ namespace HBM.Weighing.API.WTX.Modbus
             _commands = new ModbusCommands();
 
             this.CreateDictionary();
+
+            _dataToWrite = new ushort[2]{0,0};
 
             _numOfPoints = WTX_DEFAULT_DATAWORD_COUNT;
             _startAdress = WTX_DEFAULT_START_ADDRESS;
@@ -262,9 +265,12 @@ namespace HBM.Weighing.API.WTX.Modbus
             return this.command;
         }
 
-        public void WriteArray(string index, ushort[] data)
+        public void WriteArray(string index, int value)
         {
-            _master.WriteMultipleRegisters((ushort) Convert.ToInt32(index), data);
+            _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+            _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+ 
+            _master.WriteMultipleRegisters((ushort) Convert.ToInt32(index), _dataToWrite);
 
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort array) have been written successfully to multiple registers"));
         }
@@ -374,10 +380,6 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             // Standard data: Missing ID's
             /*
-                _limitStatus1 = (_data[8] & 0x1); ;
-                _limitStatus2 = ((_data[8] & 0x2) >> 1);
-                _limitStatus3 = ((_data[8] & 0x4) >> 2);
-                _limitStatus4 = ((_data[8] & 0x8) >> 3);
                 _weightMemDay = (_data[9]);
                 _weightMemMonth = (_data[10]);
                 _weightMemYear = (_data[11]);

@@ -887,12 +887,12 @@ namespace WTXModbusExamples
          */
         private void calculateCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _wtxDevice.StopTimer();
+            _wtxDevice.StopUpdate();
 
             _adjustmentCalculator = new AdjustmentCalculator(_wtxDevice);
             DialogResult res = _adjustmentCalculator.ShowDialog();
 
-            _wtxDevice.RestartTimer();
+            _wtxDevice.RestartUpdate();
         }
 
         /*
@@ -901,12 +901,12 @@ namespace WTXModbusExamples
          */
         private void calibrationWithWeightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _wtxDevice.StopTimer();
+            _wtxDevice.StopUpdate();
 
             _adjustmentWeigher = new AdjustmentWeigher(_wtxDevice);
             DialogResult res = _adjustmentWeigher.ShowDialog();
 
-            _wtxDevice.RestartTimer();
+            _wtxDevice.RestartUpdate();
         }
 
 
@@ -932,7 +932,7 @@ namespace WTXModbusExamples
         {
             _wtxDevice.Calibrating = true;
 
-            _wtxDevice.StopTimer();
+            _wtxDevice.StopUpdate();
 
             _wtxDevice.Calculate(0, 2);
 
