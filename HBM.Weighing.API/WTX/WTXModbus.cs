@@ -69,6 +69,10 @@ namespace HBM.Weighing.API.WTX
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
         #endregion
 
+        /// <summary>
+        /// Constructor with  
+        /// </summary>
+        /// <param name="connection"></param>
         #region Constructor
         public WtxModbus(INetConnection connection, int paramTimerInterval, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(connection)
         {
@@ -96,6 +100,31 @@ namespace HBM.Weighing.API.WTX
 
             // For the connection and initializing of the timer:            
             this.initialize_timer(paramTimerInterval);
+        }
+
+        /// <summary>
+        /// For a more simple solution : Constructor with no asynchronous callback and no timer interval for continously updating the data. 
+        /// </summary>
+        /// <param name="connection"></param>
+        public WtxModbus(INetConnection connection) : base(connection)
+        {
+            this._connection = connection;
+            
+            this._dataFiller = new DataFiller(connection);
+            this._dataStandard = new DataStandard(connection);
+
+            this._data = new ushort[100];
+            this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
+            this._dataWritten = new ushort[2];
+
+            this._command = 0x00;
+            this._isCalibrating = false;
+
+            this.dPreload = 0;
+            this.dNominalLoad = 0;
+            this.multiplierMv2D = 500000;
+
+            this.ReadBufferLength = 38; // inital setting. 
         }
         #endregion
 
@@ -202,14 +231,12 @@ namespace HBM.Weighing.API.WTX
             get { return this._dataFiller; }
         }
 
-        public override void SetOutput(object index, int value)
+        public void SetOutput(object index, int value)
         {
-            ushort _index = (ushort)(Convert.ToInt32(index));
+            //_dataWritten[0] = (ushort)((value & 0xffff0000) >> 16);
+            //_dataWritten[1] = (ushort)(value & 0x0000ffff);
 
-            _dataWritten[0] = (ushort)((value & 0xffff0000) >> 16);
-            _dataWritten[1] = (ushort)(value & 0x0000ffff);
-
-            this._connection.WriteArray(_index, _dataWritten);
+            this._connection.WriteArray(Convert.ToString(index), value);
         }
         /*
         private void WriteOutputWordU08(int valueParam, ushort wordNumber)
@@ -307,7 +334,7 @@ namespace HBM.Weighing.API.WTX
         /*
         * This method stops the timer, for example in case for the calibration.
         */
-        public void StopTimer()
+        public override void StopUpdate()
         {
             _aTimer.Elapsed -= OnTimedEvent;
             _aTimer.Enabled = false;
@@ -317,7 +344,7 @@ namespace HBM.Weighing.API.WTX
         /*
          * This method restarts the timer, for example in case for the calibration.
          */
-        public void RestartTimer()
+        public override void RestartUpdate()
         {
             _aTimer.Elapsed += OnTimedEvent;
             _aTimer.Enabled = true;
@@ -471,7 +498,7 @@ namespace HBM.Weighing.API.WTX
         // This methods sets the value of the WTX to zero. 
         public override void MeasureZero()
         {
-            this.StopTimer();
+            this.StopUpdate();
 
             //todo: write reg 48, 0x7FFFFFFF
 
@@ -497,7 +524,7 @@ namespace HBM.Weighing.API.WTX
 
             this.WriteSync(0, 0x100);
 
-            this.RestartTimer();
+            this.RestartUpdate();
 
             this._isCalibrating = true;
 
@@ -537,7 +564,7 @@ namespace HBM.Weighing.API.WTX
             dPreload = preload * multiplierMv2D;
             dNominalLoad = dPreload + (capacity * multiplierMv2D);
                            
-            this.StopTimer();
+            this.StopUpdate();
 
             //write reg 48, DPreload;         
 
@@ -553,7 +580,7 @@ namespace HBM.Weighing.API.WTX
 
             this._isCalibrating = true;
 
-            this.RestartTimer();
+            this.RestartUpdate();
 
         }
 

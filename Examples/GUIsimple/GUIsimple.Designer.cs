@@ -210,6 +210,7 @@
             this.Controls.Add(this.grrpSetup);
             this.Name = "GUIsimple";
             this.Text = "GUIsimple";
+            this.Load += new System.EventHandler(this.GUIsimple_Load);
             this.grrpSetup.ResumeLayout(false);
             this.grrpSetup.PerformLayout();
             this.toolStrip1.ResumeLayout(false);

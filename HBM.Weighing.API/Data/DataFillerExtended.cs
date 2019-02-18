@@ -233,7 +233,7 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateFillerExtendedData(object sender, DataEventArgs e)
         {
-            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 2)
+            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 2 ||  e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 3) // If application mode = filler
             {
                 this.UpdateFillerData(this, e);
                 /*

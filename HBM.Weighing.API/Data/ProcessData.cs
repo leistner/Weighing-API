@@ -129,7 +129,7 @@ namespace HBM.Weighing.API
             if (_connection.ConnectionType.Equals("Modbus"))
                 _unit = Convert.ToInt32(e.DataDictionary["5/2/7"]);
             else           
-            _unit = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;
+                _unit = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;
             
             if (_connection.ConnectionType.Equals("Modbus"))
             {

@@ -63,7 +63,7 @@ namespace HBM.Weighing.API
 
         Task<int> WriteAsync(ushort index, ushort commandParam);
 
-        void WriteArray(ushort index, ushort[] data);
+        void WriteArray(string index, int data);
                 
         Dictionary<string, int> AllData { get; }
 

@@ -47,7 +47,6 @@ namespace HBM.Weighing.API
         #region Attributes
 
         protected INetConnection _connection;
-
         private IProcessData _processData;
 
         /// Eventhandler to raise an event and commit the data to the GUI/application from WTXJet and WTXModbus
@@ -131,13 +130,6 @@ namespace HBM.Weighing.API
         public abstract void manualReDosing();
 
         /// <summary>
-        /// Sets the output via Jetbus or Modbus
-        /// </summary>
-        /// <param name="value">value to be written/set via Jet or Modbus</param>
-        /// <param name="index">path, index of the value to be set</param>
-        public abstract void SetOutput(object index, int value);
-
-        /// <summary>
         /// Synchronous call to disconnect
         /// </summary>
         public abstract void Disconnect();
@@ -203,6 +195,18 @@ namespace HBM.Weighing.API
         /// </summary>
         /// <returns></returns>
         public abstract string ScaleRangeStringComment();
+
+        /// <summary>
+        /// Stop the data update - Stop timer update
+        /// </summary>
+        /// <returns></returns>
+        public abstract void StopUpdate();
+
+        /// <summary>
+        /// Restart the data update - Restart timer update
+        /// </summary>
+        /// <returns></returns>
+        public abstract void RestartUpdate();
 
 
     }

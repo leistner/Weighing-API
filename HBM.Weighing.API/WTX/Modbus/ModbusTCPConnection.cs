@@ -66,6 +66,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         private ushort _startAdress;
 
         private ushort[] _data;
+        private ushort[] _dataToWrite;
 
         private Dictionary<string, int> _dataIntegerBuffer = new Dictionary<string, int>();
 
@@ -92,6 +93,8 @@ namespace HBM.Weighing.API.WTX.Modbus
             _commands = new ModbusCommands();
 
             this.CreateDictionary();
+
+            _dataToWrite = new ushort[2]{0,0};
 
             _numOfPoints = WTX_DEFAULT_DATAWORD_COUNT;
             _startAdress = WTX_DEFAULT_START_ADDRESS;
@@ -262,9 +265,12 @@ namespace HBM.Weighing.API.WTX.Modbus
             return this.command;
         }
 
-        public void WriteArray(ushort index, ushort[] data)
+        public void WriteArray(string index, int value)
         {
-            _master.WriteMultipleRegisters(index, data);
+            _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+            _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+ 
+            _master.WriteMultipleRegisters((ushort) Convert.ToInt32(index), _dataToWrite);
 
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort array) have been written successfully to multiple registers"));
         }
@@ -353,7 +359,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _dataIntegerBuffer[IDCommands.APPLICATION_MODE] = _data[5] & 0x1;                      // application mode 
                 _dataIntegerBuffer[IDCommands.DECIMALS] = (_data[5] & 0x70) >> 4;                      // decimals
                 _dataIntegerBuffer[IDCommands.UNIT_PREFIX_FIXED_PARAMETER] = (_data[5] & 0x180) >> 7;  // unit
- 
+            
                 _dataIntegerBuffer[IDCommands.COARSE_FLOW_MONITORING] = _data[8] & 0x1;         //_coarseFlow
                 _dataIntegerBuffer[IDCommands.FINE_FLOW_MONITORING] = ((_data[8] & 0x2) >> 1);  // _fineFlow
 
@@ -372,14 +378,8 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _dataIntegerBuffer[IDCommands.FINE_FLOW_TIME] = _data[26];              // _currentFineFlowTime
                 _dataIntegerBuffer[IDCommands.RANGE_SELECTION_PARAMETER] = _data[27];   // _parameterSetProduct
 
-                _dataIntegerBuffer[IDCommands.LIMIT_VALUE] = _data[8];
-
             // Standard data: Missing ID's
             /*
-                _limitStatus1 = (_data[8] & 0x1); ;
-                _limitStatus2 = ((_data[8] & 0x2) >> 1);
-                _limitStatus3 = ((_data[8] & 0x4) >> 2);
-                _limitStatus4 = ((_data[8] & 0x8) >> 3);
                 _weightMemDay = (_data[9]);
                 _weightMemMonth = (_data[10]);
                 _weightMemYear = (_data[11]);

@@ -375,9 +375,19 @@ namespace HBM.Weighing.API.WTX
             throw new NotImplementedException();
         }
 
-        public override void SetOutput(object index, int value)
+        public void SetOutput(object index, int value)
         {
             _connection.Write(Convert.ToString(index),value);
+        }
+
+        public override void StopUpdate()
+        {
+            _connection.IncomingDataReceived -= this.OnData;   // Subscribe to the event. 
+        }
+
+        public override void RestartUpdate()
+        {
+            _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event. 
         }
         #endregion
     }

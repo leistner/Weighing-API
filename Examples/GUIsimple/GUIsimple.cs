@@ -119,6 +119,7 @@ namespace WTXGUIsimple
                 ModbusTcpConnection _modbusConnection = new ModbusTcpConnection(this._ipAddress);
 
                 _wtxDevice = new WtxModbus(_modbusConnection, this._timerInterval,update);
+
             }
             else
             {
@@ -168,10 +169,7 @@ namespace WTXGUIsimple
                 + "Gross:" + _wtxDevice.CurrentWeight(grossValue, decimals) + _wtxDevice.Unit + Environment.NewLine
                 + "Tara:" + _wtxDevice.CurrentWeight(taraValue, decimals) + _wtxDevice.Unit;
                 txtInfo.TextAlign = HorizontalAlignment.Right;
-            }));
 
-            txtInfo.BeginInvoke(new Action(() =>
-            {
                 if (e.ProcessData.Underload == true)
                 {
                     txtInfo.Text = "Underload : Lower than minimum" + Environment.NewLine;
@@ -259,5 +257,9 @@ namespace WTXGUIsimple
         }
         #endregion
 
+        private void GUIsimple_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
