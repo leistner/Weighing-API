@@ -437,8 +437,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             Assert.AreEqual(dValue.ToString("0.000000"), strValue);
         }
-
-        /*
+        
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "ScaleRangeStringComment_Range1_TestCase_Modbus")]
         //public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
         public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
@@ -487,9 +486,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.ScaleRangeStringComment();
         }
-
-
-
+       
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case0_TestCase_Modbus")]
         public async Task<string> testModbus_LimitStatusStringComment_Case0(Behavior behavior)
         {
@@ -553,7 +550,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.LimitStatusStringComment();
         }   
-
+        
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightMovingStringComment_Case0_TestCase_Modbus")]
         public async Task<string> testModbus_WeightMovingStringComment_Case0(Behavior behavior)
         {
@@ -569,7 +566,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.WeightMovingStringComment();
         }
-
+        
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightMovingStringComment_Case1_TestCase_Modbus")]
         public async Task<string> testModbus_WeightMovingStringComment_Case1(Behavior behavior)
         {
@@ -585,7 +582,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.WeightMovingStringComment();
         }
-
+        
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightTypeStringComment_Case0_TestCase_Modbus")]
         public async Task<string> testModbus_WeightTypeStringComment_Case0(Behavior behavior)
         {
@@ -601,6 +598,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.WeightTypeStringComment();
         }
+        
 
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightTypeStringComment_Case1_TestCase_Modbus")]
         public async Task<string> testModbus_WeightTypeStringComment_Case1(Behavior behavior)
@@ -613,11 +611,12 @@ namespace HBM.Weighing.API.WTX.Modbus
             {
                 ushort[] result = await testConnection.ReadAsync();
                 _wtxObj.OnData(result);
+                //_wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(testConnection.AllData));
             });
 
             return _wtxObj.WeightTypeStringComment();
         }
-        */
+        
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
         }

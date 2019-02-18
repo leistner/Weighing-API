@@ -953,8 +953,7 @@ namespace JetbusTest
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFL"));
         }
-
-        /*
+     
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testLimitValueStatusLVS1(Behavior behavior)
         {
@@ -966,7 +965,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            int limitvalue1 = _wtxObj.LimitValue1Input;
+            int limitvalue1 = _wtxObj.DataStandard.LimitStatus1;
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && limitvalue1 == 0)
                 testVar = true;
@@ -976,7 +975,7 @@ namespace JetbusTest
             Assert.IsTrue(testVar);
         }
 
-
+        /*
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testLimitValueStatusLVS2(Behavior behavior)
         {
@@ -988,7 +987,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
         
-            int limitvalue2 = _wtxObj.LimitValue2Source;
+            int limitvalue2 = _wtxObj.DataStandard.LimitValue2Source;
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && limitvalue2 == 1)
                 testVar = true;
@@ -1009,7 +1008,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            int limitvalue3 = _wtxObj.LimitValue3Source;
+            int limitvalue3 = _wtxObj.DataStandard.LimitValue3Source;
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && limitvalue3 == 0)
                 testVar = true;
@@ -1030,7 +1029,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            int limitvalue4 = _wtxObj.LimitValue4Source;
+            int limitvalue4 = _wtxObj.DataStandard.LimitValue4Source;
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && limitvalue4 == 1)
                 testVar = true;
@@ -1042,7 +1041,6 @@ namespace JetbusTest
         */
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
-            //throw new NotImplementedException();
         }
     }
 }

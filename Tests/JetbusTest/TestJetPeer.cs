@@ -33,6 +33,8 @@ namespace JetbusTest
             path = "";
             Event= "";
             data = 0;
+
+
         }
 
         // Method to simulate the fetching of data from the wtx device : By adding and changing paths to the data buffer(='_databuffer') and by calling an event in TestJetbusConnection with invoke.  
@@ -41,97 +43,102 @@ namespace JetbusTest
             string path = "";
             string Event = "";
             int data = 0;
-         
+
             //if (!_connection._dataBuffer.ContainsKey("6014/01")) // Only if the dictionary does not contain a path(for example "6014/01") the dictionary will be filled: 
-                _connection._dataBuffer.Add("6144/00", simulateJTokenInstance("6144/00", "add", 1)["value"]);   // Read 'gross value'
-                _connection._dataBuffer.Add("601A/01", simulateJTokenInstance("601A/01", "add", 1)["value"]);   // Read 'net value'
-                _connection._dataBuffer.Add("6153/00", simulateJTokenInstance("6153/00", "add", 1)["value"]);   // Read 'weight moving detection'        
-                _connection._dataBuffer.Add("6012/01", simulateJTokenInstance("6012/01", "add", 1)["value"]);   // Read 'Weighing device 1 (scale) weight status'
+            _connection._dataBuffer.Add("6144/00", simulateJTokenInstance("6144/00", "add", 1)["value"]);   // Read 'gross value'
+            _connection._dataBuffer.Add("601A/01", simulateJTokenInstance("601A/01", "add", 1)["value"]);   // Read 'net value'
+            _connection._dataBuffer.Add("6153/00", simulateJTokenInstance("6153/00", "add", 1)["value"]);   // Read 'weight moving detection'        
+            _connection._dataBuffer.Add("6012/01", simulateJTokenInstance("6012/01", "add", 1)["value"]);   // Read 'Weighing device 1 (scale) weight status'
 
-                _connection._dataBuffer.Add("SDO", simulateJTokenInstance("SDO", "add", 1)["value"]);
-                _connection._dataBuffer.Add("FRS1", simulateJTokenInstance("FRS1", "add", 1)["value"]);
-                _connection._dataBuffer.Add("NDS", simulateJTokenInstance("NDS", "add", 1)["value"]);
+            _connection._dataBuffer.Add("SDO", simulateJTokenInstance("SDO", "add", 1)["value"]);
+            _connection._dataBuffer.Add("FRS1", simulateJTokenInstance("FRS1", "add", 1)["value"]);
+            _connection._dataBuffer.Add("NDS", simulateJTokenInstance("NDS", "add", 1)["value"]);
 
-                _connection._dataBuffer.Add("6013/01", simulateJTokenInstance("6013/01", "add", 4)["value"]);   // Read 'Weight decimal point', f.e. = 4.
-                _connection._dataBuffer.Add("IM1", simulateJTokenInstance("IM1", "add", 1)["value"]);
-                _connection._dataBuffer.Add("IM2", simulateJTokenInstance("IM2", "add", 1)["value"]);
-                _connection._dataBuffer.Add("IM3", simulateJTokenInstance("IM3", "add", 1)["value"]);
-                _connection._dataBuffer.Add("IM4", simulateJTokenInstance("IM4", "add", 1)["value"]);
+            _connection._dataBuffer.Add("6013/01", simulateJTokenInstance("6013/01", "add", 4)["value"]);   // Read 'Weight decimal point', f.e. = 4.
+            _connection._dataBuffer.Add("IM1", simulateJTokenInstance("IM1", "add", 1)["value"]);
+            _connection._dataBuffer.Add("IM2", simulateJTokenInstance("IM2", "add", 1)["value"]);
+            _connection._dataBuffer.Add("IM3", simulateJTokenInstance("IM3", "add", 1)["value"]);
+            _connection._dataBuffer.Add("IM4", simulateJTokenInstance("IM4", "add", 1)["value"]);
 
-                _connection._dataBuffer.Add("OM1", simulateJTokenInstance("OM1", "add", 1)["value"]);
-                _connection._dataBuffer.Add("OM2", simulateJTokenInstance("OM2", "add", 1)["value"]);
-                _connection._dataBuffer.Add("OM3", simulateJTokenInstance("OM3", "add", 1)["value"]);
-                _connection._dataBuffer.Add("OM4", simulateJTokenInstance("OM4", "add", 1)["value"]);
+            _connection._dataBuffer.Add("OM1", simulateJTokenInstance("OM1", "add", 1)["value"]);
+            _connection._dataBuffer.Add("OM2", simulateJTokenInstance("OM2", "add", 1)["value"]);
+            _connection._dataBuffer.Add("OM3", simulateJTokenInstance("OM3", "add", 1)["value"]);
+            _connection._dataBuffer.Add("OM4", simulateJTokenInstance("OM4", "add", 1)["value"]);
 
-                _connection._dataBuffer.Add("OS1", simulateJTokenInstance("OS1", "add", 1)["value"]);
-                _connection._dataBuffer.Add("OS2", simulateJTokenInstance("OS2", "add", 1)["value"]);
-                _connection._dataBuffer.Add("OS3", simulateJTokenInstance("OS3", "add", 1)["value"]);
-                _connection._dataBuffer.Add("OS4", simulateJTokenInstance("OS4", "add", 1)["value"]);
+            _connection._dataBuffer.Add("OS1", simulateJTokenInstance("OS1", "add", 1)["value"]);
+            _connection._dataBuffer.Add("OS2", simulateJTokenInstance("OS2", "add", 1)["value"]);
+            _connection._dataBuffer.Add("OS3", simulateJTokenInstance("OS3", "add", 1)["value"]);
+            _connection._dataBuffer.Add("OS4", simulateJTokenInstance("OS4", "add", 1)["value"]);
 
-                _connection._dataBuffer.Add("CFT", simulateJTokenInstance("CFT", "add", 1)["value"]);
-                _connection._dataBuffer.Add("FFT", simulateJTokenInstance("FFT", "add", 1)["value"]);
-                _connection._dataBuffer.Add("TMD", simulateJTokenInstance("TMD", "add", 1)["value"]);
-                _connection._dataBuffer.Add("UTL", simulateJTokenInstance("UTL", "add", 1)["value"]);
-                _connection._dataBuffer.Add("LTL", simulateJTokenInstance("LTL", "add", 1)["value"]);
-                _connection._dataBuffer.Add("MSW", simulateJTokenInstance("MSW", "add", 1)["value"]);
-                _connection._dataBuffer.Add("EWT", simulateJTokenInstance("EWT", "add", 1)["value"]);
-                _connection._dataBuffer.Add("TAD", simulateJTokenInstance("TAD", "add", 1)["value"]);
-                _connection._dataBuffer.Add("CBT", simulateJTokenInstance("CBT", "add", 1)["value"]);
-                _connection._dataBuffer.Add("CBK", simulateJTokenInstance("CBK", "add", 1)["value"]);
-                _connection._dataBuffer.Add("FBK", simulateJTokenInstance("FBK", "add", 1)["value"]);
-                _connection._dataBuffer.Add("FBT", simulateJTokenInstance("FBT", "add", 1)["value"]);
-                _connection._dataBuffer.Add("SYD", simulateJTokenInstance("SYD", "add", 1)["value"]);
-                _connection._dataBuffer.Add("VCT", simulateJTokenInstance("VCT", "add", 1)["value"]);
-                _connection._dataBuffer.Add("EMD", simulateJTokenInstance("EMD", "add", 1)["value"]);
-                _connection._dataBuffer.Add("CFD", simulateJTokenInstance("CFD", "add", 1)["value"]);
-                _connection._dataBuffer.Add("FFD", simulateJTokenInstance("FFD", "add", 1)["value"]);
-                _connection._dataBuffer.Add("SDM", simulateJTokenInstance("SDM", "add", 1)["value"]);
-                _connection._dataBuffer.Add("SDS", simulateJTokenInstance("SDS", "add", 1)["value"]);
-                _connection._dataBuffer.Add("RFT", simulateJTokenInstance("RFT", "add", 1)["value"]);
+            _connection._dataBuffer.Add("CFT", simulateJTokenInstance("CFT", "add", 1)["value"]);
+            _connection._dataBuffer.Add("FFT", simulateJTokenInstance("FFT", "add", 1)["value"]);
+            _connection._dataBuffer.Add("TMD", simulateJTokenInstance("TMD", "add", 1)["value"]);
+            _connection._dataBuffer.Add("UTL", simulateJTokenInstance("UTL", "add", 1)["value"]);
+            _connection._dataBuffer.Add("LTL", simulateJTokenInstance("LTL", "add", 1)["value"]);
+            _connection._dataBuffer.Add("MSW", simulateJTokenInstance("MSW", "add", 1)["value"]);
+            _connection._dataBuffer.Add("EWT", simulateJTokenInstance("EWT", "add", 1)["value"]);
+            _connection._dataBuffer.Add("TAD", simulateJTokenInstance("TAD", "add", 1)["value"]);
+            _connection._dataBuffer.Add("CBT", simulateJTokenInstance("CBT", "add", 1)["value"]);
+            _connection._dataBuffer.Add("CBK", simulateJTokenInstance("CBK", "add", 1)["value"]);
+            _connection._dataBuffer.Add("FBK", simulateJTokenInstance("FBK", "add", 1)["value"]);
+            _connection._dataBuffer.Add("FBT", simulateJTokenInstance("FBT", "add", 1)["value"]);
+            _connection._dataBuffer.Add("SYD", simulateJTokenInstance("SYD", "add", 1)["value"]);
+            _connection._dataBuffer.Add("VCT", simulateJTokenInstance("VCT", "add", 1)["value"]);
+            _connection._dataBuffer.Add("EMD", simulateJTokenInstance("EMD", "add", 1)["value"]);
+            _connection._dataBuffer.Add("CFD", simulateJTokenInstance("CFD", "add", 1)["value"]);
+            _connection._dataBuffer.Add("FFD", simulateJTokenInstance("FFD", "add", 1)["value"]);
+            _connection._dataBuffer.Add("SDM", simulateJTokenInstance("SDM", "add", 1)["value"]);
+            _connection._dataBuffer.Add("SDS", simulateJTokenInstance("SDS", "add", 1)["value"]);
+            _connection._dataBuffer.Add("RFT", simulateJTokenInstance("RFT", "add", 1)["value"]);
 
-                _connection._dataBuffer.Add("MDT", simulateJTokenInstance("MDT", "add", 1)["value"]);
-                _connection._dataBuffer.Add("FFM", simulateJTokenInstance("FFM", "add", 1)["value"]);
-                _connection._dataBuffer.Add("OSN", simulateJTokenInstance("OSN", "add", 1)["value"]);
-                _connection._dataBuffer.Add("FFL", simulateJTokenInstance("FFL", "add", 1)["value"]);
-                _connection._dataBuffer.Add("DL1", simulateJTokenInstance("DL1", "add", 1)["value"]);
-                _connection._dataBuffer.Add("6002/02", simulateJTokenInstance("6002/02", "add", 1801543519)["value"]); // = Status
-                _connection._dataBuffer.Add("2020/25", simulateJTokenInstance("2020/25", "add", 0xA)["value"]);   // = Limit value status
+            _connection._dataBuffer.Add("MDT", simulateJTokenInstance("MDT", "add", 1)["value"]);
+            _connection._dataBuffer.Add("FFM", simulateJTokenInstance("FFM", "add", 1)["value"]);
+            _connection._dataBuffer.Add("OSN", simulateJTokenInstance("OSN", "add", 1)["value"]);
+            _connection._dataBuffer.Add("FFL", simulateJTokenInstance("FFL", "add", 1)["value"]);
+            _connection._dataBuffer.Add("DL1", simulateJTokenInstance("DL1", "add", 1)["value"]);
+            _connection._dataBuffer.Add("6002/02", simulateJTokenInstance("6002/02", "add", 1801543519)["value"]); // = Status
+            _connection._dataBuffer.Add("2020/25", simulateJTokenInstance("2020/25", "add", 0xA)["value"]);   // = Limit value status
 
-                _connection._dataBuffer.Add("2010/07", simulateJTokenInstance("2010/07", "add", 1)["value"]);
+            _connection._dataBuffer.Add("2010/07", simulateJTokenInstance("2010/07", "add", 1)["value"]);
 
-                _connection._dataBuffer.Add("2020/18", simulateJTokenInstance("2020/18", "add", 0)["value"]);   // = Status digital input 1
-                _connection._dataBuffer.Add("2020/19", simulateJTokenInstance("2020/19", "add", 0)["value"]);   // = Status digital input 2
-                _connection._dataBuffer.Add("2020/1A", simulateJTokenInstance("2020/1A", "add", 0)["value"]);   // = Status digital input 3
-                _connection._dataBuffer.Add("2020/1B", simulateJTokenInstance("2020/1B", "add", 0)["value"]);   // = Status digital input 4
+            _connection._dataBuffer.Add("2020/18", simulateJTokenInstance("2020/18", "add", 0)["value"]);   // = Status digital input 1
+            _connection._dataBuffer.Add("2020/19", simulateJTokenInstance("2020/19", "add", 0)["value"]);   // = Status digital input 2
+            _connection._dataBuffer.Add("2020/1A", simulateJTokenInstance("2020/1A", "add", 0)["value"]);   // = Status digital input 3
+            _connection._dataBuffer.Add("2020/1B", simulateJTokenInstance("2020/1B", "add", 0)["value"]);   // = Status digital input 4
 
-                _connection._dataBuffer.Add("2020/1E", simulateJTokenInstance("2020/1E", "add", 0)["value"]);   // = Status digital output 1
-                _connection._dataBuffer.Add("2020/1F", simulateJTokenInstance("2020/1F", "add", 0)["value"]);   // = Status digital output 2
-                _connection._dataBuffer.Add("2020/20", simulateJTokenInstance("2020/20", "add", 0)["value"]);   // = Status digital output 3
-                _connection._dataBuffer.Add("2020/21", simulateJTokenInstance("2020/21", "add", 0)["value"]);   // = Status digital output 4
+            _connection._dataBuffer.Add("2020/1E", simulateJTokenInstance("2020/1E", "add", 0)["value"]);   // = Status digital output 1
+            _connection._dataBuffer.Add("2020/1F", simulateJTokenInstance("2020/1F", "add", 0)["value"]);   // = Status digital output 2
+            _connection._dataBuffer.Add("2020/20", simulateJTokenInstance("2020/20", "add", 0)["value"]);   // = Status digital output 3
+            _connection._dataBuffer.Add("2020/21", simulateJTokenInstance("2020/21", "add", 0)["value"]);   // = Status digital output 4
 
-                 _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4C0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+            _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4C0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
 
             // For the different unit cases : lb, g, kg, t
-            /*
+
             switch (this.behavior)
             {
                 case Behavior.t_UnitValue_Success:
-                    _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4C0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+                    //_connection._dataBuffer["6014/01"] = simulateJTokenInstance("6014/01", "add", 0x4C0000);//0x4C0000;
+                    //_connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4C0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
                     break;
                 case Behavior.kg_UnitValue_Success:
-                    _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x020000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+                    _connection._dataBuffer["6014/01"] = simulateJTokenInstance("6014/01", "change", 0x020000);//0x020000;
+                    //_connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x020000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
                     break;
                 case Behavior.g_UnitValue_Success:
-                    _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4B0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+                    _connection._dataBuffer["6014/01"] = simulateJTokenInstance("6014/01", "change", 0x4B0000);// 0x4B0000;
+                    //_connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4B0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
                     break;
                 case Behavior.lb_UnitValue_Success:
-                    _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0xA60000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+                    _connection._dataBuffer["6014/01"] = simulateJTokenInstance("6014/01", "change", 0xA60000);// 0xA60000; 
+                    //_connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0xA60000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
                     break;
                 default:
-                    _connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4C0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
+                    //_connection._dataBuffer["6014/01"] = simulateJTokenInstance("6014/01", "change", 0x4C0000);// 0x4C0000; 
+                    //_connection._dataBuffer.Add("6014/01", simulateJTokenInstance("6014/01", "add", 0x4C0000)["value"]);    // Read Unit, prefix or fixed parameters - for t.
                     break;        
             }
-            */
+            
             JToken JTokenobj = simulateJTokenInstance(path,Event,data);
 
             id = null;
