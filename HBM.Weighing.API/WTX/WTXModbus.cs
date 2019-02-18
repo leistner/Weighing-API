@@ -69,6 +69,10 @@ namespace HBM.Weighing.API.WTX
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
         #endregion
 
+        /// <summary>
+        /// Constructor with  
+        /// </summary>
+        /// <param name="connection"></param>
         #region Constructor
         public WtxModbus(INetConnection connection, int paramTimerInterval, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(connection)
         {
@@ -96,6 +100,31 @@ namespace HBM.Weighing.API.WTX
 
             // For the connection and initializing of the timer:            
             this.initialize_timer(paramTimerInterval);
+        }
+
+        /// <summary>
+        /// For a more simple solution : Constructor with no asynchronous callback and no timer interval for continously updating the data. 
+        /// </summary>
+        /// <param name="connection"></param>
+        public WtxModbus(INetConnection connection) : base(connection)
+        {
+            this._connection = connection;
+            
+            this._dataFiller = new DataFiller(connection);
+            this._dataStandard = new DataStandard(connection);
+
+            this._data = new ushort[100];
+            this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
+            this._dataWritten = new ushort[2];
+
+            this._command = 0x00;
+            this._isCalibrating = false;
+
+            this.dPreload = 0;
+            this.dNominalLoad = 0;
+            this.multiplierMv2D = 500000;
+
+            this.ReadBufferLength = 38; // inital setting. 
         }
         #endregion
 
@@ -204,12 +233,10 @@ namespace HBM.Weighing.API.WTX
 
         public override void SetOutput(object index, int value)
         {
-            ushort _index = (ushort)(Convert.ToInt32(index));
-
             _dataWritten[0] = (ushort)((value & 0xffff0000) >> 16);
             _dataWritten[1] = (ushort)(value & 0x0000ffff);
 
-            this._connection.WriteArray(_index, _dataWritten);
+            this._connection.WriteArray(Convert.ToString(index), _dataWritten);
         }
         /*
         private void WriteOutputWordU08(int valueParam, ushort wordNumber)

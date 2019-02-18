@@ -592,7 +592,7 @@ namespace HBM.Weighing.API.WTX.Jet
             // GC.SuppressFinalize(this);
         }
 
-        public void WriteArray(ushort index, ushort[] data)
+        public void WriteArray(string index, ushort[] data)
         {
             throw new NotImplementedException();
         }

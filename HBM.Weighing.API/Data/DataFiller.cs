@@ -207,7 +207,7 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateFillerData(object sender, DataEventArgs e)
         {
-            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 2)
+            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 2 || e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 3)  // If application mode = filler
             {
                 _maxDosingTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MAXIMAL_DOSING_TIME)]);
                 _meanValueDosingResults = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MEAN_VALUE_DOSING_RESULTS)]);

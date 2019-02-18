@@ -117,18 +117,18 @@ namespace HBM.Weighing.API.Data
 
         private INetConnection _connection;
 
-        private string _index;
+        private ushort[] _dataToWrite;
         #endregion
 
         #region constructor
-        
+
         public DataStandard(INetConnection Connection)
         {
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateStandardData;
 
-            _index = "";
+            _dataToWrite = new ushort[2];
 
             _input1 = 0;
             _input2=0;
@@ -203,7 +203,6 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardData(object sender, DataEventArgs e)
         {
-            
             if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/1") _input1 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1] & 0x1);
             else _input1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1];
 
@@ -227,19 +226,19 @@ namespace HBM.Weighing.API.Data
 
             if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "7/4") _output4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4] & 0x8) >> 3;
             else _output4 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4];
-            
+
             _limitStatus1 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x1);
             _limitStatus2 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x2) >> 1;
             _limitStatus3 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x4) >> 2;
             _limitStatus4 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x8) >> 3;
 
-            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 0)
+            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 0 || e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 1)  // If application mode = standard
             {
                 _limitValueMonitoringLIV11 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11];
                 _signalSourceLIV12 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
                 _switchOnLevelLIV13 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV13];
                 _switchOffLevelLIV14 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14];
-                
+
                 _limitValueMonitoringLIV21 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21];
                 _signalSourceLIV22 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV22];
                 _switchOnLevelLIV23 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV23];
@@ -253,20 +252,18 @@ namespace HBM.Weighing.API.Data
                 _limitValueMonitoringLIV41 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41];
                 _signalSourceLIV42 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
                 _switchOnLevelLIV43 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
-                _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];            
+                _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];
             }
-                
+            // Missing input data words via modbus
+            /*
+                    _weightMemDay = (e.Data[9]);
+                    _weightMemMonth = (e.Data[10]);
+                    _weightMemYear = (e.Data[11]);
+                    _weightMemSeqNumber = (e.Data[12]);
+                    _weightMemGross = (e.Data[13]);
+                    _weightMemNet = (e.Data[14]);
+            */
         }
-
-        // Missing input data words via modbus
-        /*
-                _weightMemDay = (e.Data[9]);
-                _weightMemMonth = (e.Data[10]);
-                _weightMemYear = (e.Data[11]);
-                _weightMemSeqNumber = (e.Data[12]);
-                _weightMemGross = (e.Data[13]);
-                _weightMemNet = (e.Data[14]);
-        */
         #endregion
 
         #region Get-properties for standard mode
@@ -387,7 +384,10 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue1ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+               this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), _dataToWrite);
                 _limitValue1ActivationLevelLowerBandLimit = value;
             }
         }
@@ -396,7 +396,10 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue1HysteresisBandHeight; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), _dataToWrite);
                 _limitValue1HysteresisBandHeight = value;
             }
         }
@@ -423,7 +426,10 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue2ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV23), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV23), _dataToWrite);
                 _limitValue2ActivationLevelLowerBandLimit = value;
             }
         }
@@ -432,7 +438,10 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue2HysteresisBandHeight; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.TARE_VALUE), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.TARE_VALUE), _dataToWrite);
                 _limitValue2HysteresisBandHeight = value;
             }
         }
@@ -459,7 +468,10 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue3ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV33), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV33), _dataToWrite);
                 _limitValue3ActivationLevelLowerBandLimit = value;
             }
         }
@@ -468,7 +480,10 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue3HysteresisBandHeight; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34), _dataToWrite);
                 _limitValue3HysteresisBandHeight = value;
             }
         }
@@ -495,7 +510,10 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue4ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV43), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV43), _dataToWrite);
                 _limitValue4ActivationLevelLowerBandLimit = value;
             }
         }
@@ -504,7 +522,10 @@ namespace HBM.Weighing.API.Data
             get { return _limitValue4HysteresisBandHeight; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44), _dataToWrite);
                 _limitValue4HysteresisBandHeight = value;
             }
         }
@@ -513,7 +534,10 @@ namespace HBM.Weighing.API.Data
             get { return _calibrationWeight; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), _dataToWrite);
                 _calibrationWeight = value;
             }
         }
@@ -522,7 +546,10 @@ namespace HBM.Weighing.API.Data
             get { return _zeroLoad; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.LDW_DEAD_WEIGHT), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.LDW_DEAD_WEIGHT), _dataToWrite);
                 _zeroLoad = value;
             }
         }
@@ -531,7 +558,10 @@ namespace HBM.Weighing.API.Data
             get { return _nominalLoad; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.LWT_NOMINAL_VALUE), value);
+                _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
+                _dataToWrite[1] = (ushort)(value & 0x0000ffff);
+
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.LWT_NOMINAL_VALUE), _dataToWrite);
                 _nominalLoad = value;
             }
         }
@@ -540,6 +570,7 @@ namespace HBM.Weighing.API.Data
         
         private string getIndex(string IDCommandParam)
         {
+            string test = IDCommandParam.Split('/')[0];
             return IDCommandParam.Split('/')[0];
         }
        

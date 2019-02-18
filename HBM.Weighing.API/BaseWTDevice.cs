@@ -47,7 +47,6 @@ namespace HBM.Weighing.API
         #region Attributes
 
         protected INetConnection _connection;
-
         private IProcessData _processData;
 
         /// Eventhandler to raise an event and commit the data to the GUI/application from WTXJet and WTXModbus

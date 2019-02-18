@@ -786,8 +786,9 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         }
 
-        public void WriteArray(ushort index, ushort[] data)
+        public void WriteArray(string index, ushort[] data)
         {
+            int _index = Convert.ToInt16(index);
 
             switch (this.behavior)
             {
@@ -802,7 +803,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
 
                 case Behavior.WriteS32ArrayTestSuccess:
-                        this.wordNumberIndex = index;
+                        this.wordNumberIndex = _index;
                         this.arrayElement1 = data[0];
                         this.arrayElement2 = data[1];
                     break;
@@ -820,13 +821,13 @@ namespace HBM.Weighing.API.WTX.Modbus
 
                 case Behavior.CalibrationSuccess:
 
-                    if ((int)index == 48 || (int) index== 46)       // According to the index 48 (=wordnumber) the preload is written. 
+                    if ((int)_index == 48 || (int)_index == 46)       // According to the index 48 (=wordnumber) the preload is written. 
                     {
                         this.arrayElement1 = data[0];
                         this.arrayElement2 = data[1];
                     }
                     else
-                    if ((int)index == 50)       // According to the index 50 (=wordnumber) the nominal load is written. 
+                    if ((int)_index == 50)       // According to the index 50 (=wordnumber) the nominal load is written. 
                     {
                         this.arrayElement3 = data[0];
                         this.arrayElement4 = data[1];

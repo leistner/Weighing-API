@@ -262,9 +262,9 @@ namespace HBM.Weighing.API.WTX.Modbus
             return this.command;
         }
 
-        public void WriteArray(ushort index, ushort[] data)
+        public void WriteArray(string index, ushort[] data)
         {
-            _master.WriteMultipleRegisters(index, data);
+            _master.WriteMultipleRegisters((ushort) Convert.ToInt32(index), data);
 
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort array) have been written successfully to multiple registers"));
         }
@@ -353,7 +353,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _dataIntegerBuffer[IDCommands.APPLICATION_MODE] = _data[5] & 0x1;                      // application mode 
                 _dataIntegerBuffer[IDCommands.DECIMALS] = (_data[5] & 0x70) >> 4;                      // decimals
                 _dataIntegerBuffer[IDCommands.UNIT_PREFIX_FIXED_PARAMETER] = (_data[5] & 0x180) >> 7;  // unit
- 
+            
                 _dataIntegerBuffer[IDCommands.COARSE_FLOW_MONITORING] = _data[8] & 0x1;         //_coarseFlow
                 _dataIntegerBuffer[IDCommands.FINE_FLOW_MONITORING] = ((_data[8] & 0x2) >> 1);  // _fineFlow
 
@@ -371,8 +371,6 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _dataIntegerBuffer[IDCommands.COARSE_FLOW_TIME] = _data[25];            // _currentCoarseFlowTime
                 _dataIntegerBuffer[IDCommands.FINE_FLOW_TIME] = _data[26];              // _currentFineFlowTime
                 _dataIntegerBuffer[IDCommands.RANGE_SELECTION_PARAMETER] = _data[27];   // _parameterSetProduct
-
-                _dataIntegerBuffer[IDCommands.LIMIT_VALUE] = _data[8];
 
             // Standard data: Missing ID's
             /*
