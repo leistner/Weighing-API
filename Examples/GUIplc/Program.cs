@@ -12,7 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WTXModbusExamples
+namespace GUIplc
 {
     /// <summary>
     /// This is the class, which contains the static main method as an entry point into the application. 
@@ -28,7 +28,7 @@ namespace WTXModbusExamples
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Gui(args));            
+            Application.Run(new GUIplcForm(args));            
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace WTXModbusExamples
+﻿namespace GUIplc
 {
     partial class SettingsForm
     {

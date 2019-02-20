@@ -11,9 +11,9 @@ using System.IO;
 using HBM.Weighing.API.WTX;
 using HBM.Weighing.API;
 using HBM.Weighing.API.WTX.Modbus;
-using WTXModbusGUIsimple;
+using GUIsimple;
 
-namespace WTXModbusExamples
+namespace GUIplc
 {
     /// <summary>
     /// First, objects of class 'ModbusTcpConnection' and 'WTXModbus' are created to establish a connection and data transfer to the device (WTXModbus, its object is '_wtxDevice'). 
@@ -38,7 +38,7 @@ namespace WTXModbusExamples
     /// The latter is implemented by an additional form and changes the IP address, number of inputs read out by the register, sending/timer interval. 
     /// A status bar on the bottom shows the actually updated status of the connection ("Connected", "IP address", "Mode", "TCP/Modbus", "NumInputs").
     /// </summary>
-    partial class Gui : Form
+    partial class GUIplcForm : Form
     {
         #region Locales
 
@@ -61,7 +61,7 @@ namespace WTXModbusExamples
         #endregion
 
         // Constructor of class GUI for the initialisation: 
-        public Gui(string[] argsParam)
+        public GUIplcForm(string[] argsParam)
         {
             string[] _args;
 

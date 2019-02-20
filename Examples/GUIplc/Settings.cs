@@ -16,7 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WTXModbusExamples
+namespace GUIplc
 {
     // This class implements a windows form to change the specific values of the connection, like
     // IP Adress, number of inputs read out in the register and the sending interval, which
@@ -30,10 +30,10 @@ namespace WTXModbusExamples
         private int _sendingInterval;
         private ushort _numberInputs;
 
-        private Gui _guiInfo;
+        private GUIplcForm _guiInfo;
 
         // Constructor of class 'SettingForm': 
-        public SettingsForm(string ipAddressParam, int sendingIntervalParam, ushort numberInputsParam, Gui guiObjParam)
+        public SettingsForm(string ipAddressParam, int sendingIntervalParam, ushort numberInputsParam, GUIplcForm guiObjParam)
         {
             InitializeComponent();
 

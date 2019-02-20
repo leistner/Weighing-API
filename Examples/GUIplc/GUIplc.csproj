@@ -66,11 +66,11 @@
       <Link>AdjustmentWeigher.designer.cs</Link>
       <DependentUpon>AdjustmentWeigher.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUIplc.cs">
+    <Compile Include="GUIplcForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUIplc.Designer.cs">
-      <DependentUpon>GUIplc.cs</DependentUpon>
+    <Compile Include="GUIplcForm.Designer.cs">
+      <DependentUpon>GUIplcForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
