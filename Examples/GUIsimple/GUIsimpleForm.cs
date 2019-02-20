@@ -36,15 +36,13 @@ using HBM.Weighing.API.WTX.Modbus;
 using System;
 using System.Threading;
 using System.Windows.Forms;
-using WTXModbusGUIsimple;
-
 /*
  * This application example enables communication and a connection to the WTX120 device via 
  * Modbus and Jetbus.
  */
-namespace WTXGUIsimple
+namespace GUIsimple
 {
-    public partial class GUIsimple : Form
+    public partial class GUIsimpleForm : Form
     {
         #region Locales
 
@@ -67,7 +65,7 @@ namespace WTXGUIsimple
 
         
         #region Constructor
-        public GUIsimple(string[] args)
+        public GUIsimpleForm(string[] args)
         {
             InitializeComponent();
 
@@ -77,7 +75,7 @@ namespace WTXGUIsimple
 
             txtIPAddress.Text = _ipAddress;
 
-            picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;
+            picNE107.Image = Properties.Resources.NE107_DiagnosisPassive;
         }
         #endregion
 
@@ -144,11 +142,11 @@ namespace WTXGUIsimple
 
             if (_wtxDevice.isConnected == true)
             {
-                picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisActive;
+                picNE107.Image = Properties.Resources.NE107_DiagnosisActive;
             }
             else
             {
-                picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisPassive;
+                picNE107.Image = Properties.Resources.NE107_DiagnosisPassive;
                 txtInfo.Text = MESSAGE_CONNECTION_FAILED;
             }
 
@@ -174,24 +172,24 @@ namespace WTXGUIsimple
                 {
                     txtInfo.Text = "Underload : Lower than minimum" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
-                    picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_OutOfSpecification;
+                    picNE107.Image = Properties.Resources.NE107_OutOfSpecification;
 
                 }
                 else if (e.ProcessData.Overload == true)
                 {
                     txtInfo.Text = "Overload : Higher than maximum capacity" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
-                    picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_OutOfSpecification;
+                    picNE107.Image = Properties.Resources.NE107_OutOfSpecification;
 
                 }
                 else if (e.ProcessData.higherSafeLoadLimit == true)
                 {
                     txtInfo.Text = "Higher than safe load limit" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;
-                    picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_OutOfSpecification;
+                    picNE107.Image = Properties.Resources.NE107_OutOfSpecification;
                 }
                 else
-                    picNE107.Image = WTXGUIsimple.Properties.Resources.NE107_DiagnosisActive;
+                    picNE107.Image = Properties.Resources.NE107_DiagnosisActive;
 
             }));
         }

@@ -6,10 +6,25 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BD4E877B-0A77-4976-8FE6-53D9450B9CA0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>WTXGUIsimple</RootNamespace>
-    <AssemblyName>WTXGUIsimple</AssemblyName>
+    <RootNamespace>GUIsimple</RootNamespace>
+    <AssemblyName>GUIsimple</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -50,11 +65,11 @@
     <Compile Include="AdjustmentCalculator.Designer.cs">
       <DependentUpon>AdjustmentCalculator.cs</DependentUpon>
     </Compile>
-    <Compile Include="GUIsimple.cs">
+    <Compile Include="GUIsimpleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="GUIsimple.Designer.cs">
-      <DependentUpon>GUIsimple.cs</DependentUpon>
+    <Compile Include="GUIsimpleForm.Designer.cs">
+      <DependentUpon>GUIsimpleForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -67,8 +82,8 @@
     <EmbeddedResource Include="AdjustmentCalculator.resx">
       <DependentUpon>AdjustmentCalculator.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="GUIsimple.resx">
-      <DependentUpon>GUIsimple.cs</DependentUpon>
+    <EmbeddedResource Include="GUIsimpleForm.resx">
+      <DependentUpon>GUIsimpleForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -83,7 +98,6 @@
     <EmbeddedResource Include="AdjustmentWeigher.resx">
       <DependentUpon>AdjustmentWeigher.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -109,6 +123,13 @@
     <None Include="Resources\NE107_OutOfSpecification.png" />
     <None Include="Resources\NE107_DiagnosisPassive.png" />
     <None Include="Resources\NE107_DiagnosisActive.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

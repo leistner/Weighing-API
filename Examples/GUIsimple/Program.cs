@@ -30,7 +30,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace WTXGUIsimple
+namespace GUIsimple
 {
     static class Program
     {
@@ -42,7 +42,7 @@ namespace WTXGUIsimple
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GUIsimple(args));
+            Application.Run(new GUIsimpleForm(args));
         }
     }
 }

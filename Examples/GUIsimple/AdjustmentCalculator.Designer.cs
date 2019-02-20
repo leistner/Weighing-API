@@ -1,4 +1,4 @@
-﻿namespace WTXModbusGUIsimple
+﻿namespace GUIsimple
 {
     partial class AdjustmentCalculator
     {

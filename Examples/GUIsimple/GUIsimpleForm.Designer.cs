@@ -1,6 +1,6 @@
-﻿namespace WTXGUIsimple
+﻿namespace GUIsimple
 {
-    partial class GUIsimple
+    partial class GUIsimpleForm
     {
         /// <summary>
         /// Erforderliche Designervariable.
@@ -188,7 +188,7 @@
             // 
             // picNE107
             // 
-            this.picNE107.Image = global::WTXGUIsimple.Properties.Resources.NE107_OutOfSpecification;
+            this.picNE107.Image = global::GUIsimple.Properties.Resources.NE107_OutOfSpecification;
             this.picNE107.Location = new System.Drawing.Point(290, 118);
             this.picNE107.Name = "picNE107";
             this.picNE107.Size = new System.Drawing.Size(84, 72);

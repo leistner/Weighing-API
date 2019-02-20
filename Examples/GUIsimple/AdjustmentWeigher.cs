@@ -34,7 +34,7 @@ using System.Threading;
 using System.Windows.Forms;
 
 
-namespace WTXModbusGUIsimple
+namespace GUIsimple
 {
     // This class provides a window to calibrate the WTX with a calibration weight.
     // First ´the dead load is measured and after that the calibration weight is measured.

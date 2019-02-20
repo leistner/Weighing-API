@@ -22,7 +22,7 @@ using HBM.Weighing.API.WTX.Modbus;
 using HBM.Weighing.API.WTX;
 using HBM.Weighing.API;
 
-namespace WTXModbusGUIsimple
+namespace GUIsimple
 {
     // This class provides a window to perform a calibration without a calibration weight,
     // based on know values for dead load and nominal load in mV/V
