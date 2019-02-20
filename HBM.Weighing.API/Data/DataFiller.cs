@@ -206,65 +206,69 @@ namespace HBM.Weighing.API.Data
         {
             if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 2 || e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 3)  // If application mode = filler
             {
-                _maxDosingTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MAXIMAL_DOSING_TIME)]);
-                _meanValueDosingResults = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MEAN_VALUE_DOSING_RESULTS)]);
-                _standardDeviation = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.STANDARD_DEVIATION)]);
-                _fineFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_CUT_OFF_POINT)]);
-                _coarseFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_CUT_OFF_POINT)]);
+                try
+                {
+                    _maxDosingTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MAXIMAL_DOSING_TIME)]);
+                    _meanValueDosingResults = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MEAN_VALUE_DOSING_RESULTS)]);
+                    _standardDeviation = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.STANDARD_DEVIATION)]);
+                    _fineFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_CUT_OFF_POINT)]);
+                    _coarseFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_CUT_OFF_POINT)]);
 
-                _residualFlowTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.RESIDUAL_FLOW_TIME)]);
-                _minimumFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MINIMUM_FINE_FLOW)]);
-                _optimizationOfCutOffPoints = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.OPTIMIZATION)]);
-                _maximumDosingTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3)]);
-                _coarseLockoutTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_TIME)]);
-                _fineLockoutTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_TIME)]);
-                _tareMode = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.TARE_MODE)]);
+                    _residualFlowTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.RESIDUAL_FLOW_TIME)]);
+                    _minimumFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MINIMUM_FINE_FLOW)]);
+                    _optimizationOfCutOffPoints = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.OPTIMIZATION)]);
+                    _maximumDosingTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3)]);
+                    _coarseLockoutTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_TIME)]);
+                    _fineLockoutTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_TIME)]);
+                    _tareMode = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.TARE_MODE)]);
 
-                _upperToleranceLimit = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.UPPER_TOLERANCE_LIMIT)]);
-                _lowerToleranceLimit = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.LOWER_TOLERANCE_LIMIT)]);
-                _minimumStartWeight = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MINIMUM_START_WEIGHT)]);
-                //_emptyWeight = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.EMPTY_WEIGHT_TOLERANCE]);
-                _tareDelay = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.TARE_DELAY)]);
+                    _upperToleranceLimit = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.UPPER_TOLERANCE_LIMIT)]);
+                    _lowerToleranceLimit = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.LOWER_TOLERANCE_LIMIT)]);
+                    _minimumStartWeight = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MINIMUM_START_WEIGHT)]);
+                    //_emptyWeight = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.EMPTY_WEIGHT_TOLERANCE]);
+                    _tareDelay = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.TARE_DELAY)]);
 
-                _coarseFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_MONITORING_TIME)]);
-                _coarseFlowMonitoring = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_MONITORING)]);
-                _fineFlowMonitoring = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_MONITORING)]);
-                _fineFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_MONITORING_TIME)]); ;
+                    _coarseFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_MONITORING_TIME)]);
+                    _coarseFlowMonitoring = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_MONITORING)]);
+                    _fineFlowMonitoring = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_MONITORING)]);
+                    _fineFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_MONITORING_TIME)]); ;
 
-                _systematicDifference = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.SYSTEMATIC_DIFFERENCE)]);
-                _valveControl = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.VALVE_CONTROL)]);
-                _emptyingMode = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.EMPTYING_MODE)]);
-                //_delayTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.DELAY1_DOSING)]);
-                //_activationTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW)]);
+                    _systematicDifference = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.SYSTEMATIC_DIFFERENCE)]);
+                    _valveControl = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.VALVE_CONTROL)]);
+                    _emptyingMode = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.EMPTYING_MODE)]);
+                    //_delayTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.DELAY1_DOSING)]);
+                    //_activationTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW)]);
 
-                // Undefined ID's: 
+                    // Undefined ID's: 
 
-                _adcOverUnderload = 0;
-                _legalForTradeOperation = 0;
-                _statusInput1 = 0;
-                _generalScaleError = 0;
-                _coarseFlow = 0;
-                _fineFlow = 0;
-                _ready = 0;
-                _reDosing = 0;
-                _emptying = 0;
-                _flowError = 0;
-                _alarm = 0;
-                _toleranceErrorPlus = 0;
-                _toleranceErrorMinus = 0;
-                _currentDosingTime = 0;
-                _currentCoarseFlowTime = 0;
-                _currentFineFlowTime = 0;
+                    _adcOverUnderload = 0;
+                    _legalForTradeOperation = 0;
+                    _statusInput1 = 0;
+                    _generalScaleError = 0;
+                    _coarseFlow = 0;
+                    _fineFlow = 0;
+                    _ready = 0;
+                    _reDosing = 0;
+                    _emptying = 0;
+                    _flowError = 0;
+                    _alarm = 0;
+                    _toleranceErrorPlus = 0;
+                    _toleranceErrorMinus = 0;
+                    _currentDosingTime = 0;
+                    _currentCoarseFlowTime = 0;
+                    _currentFineFlowTime = 0;
 
-                _parameterSetProduct = 0;
-                _downwardsDosing = 0;
-                _legalForTradeOperation = 0;
+                    _parameterSetProduct = 0;
+                    _downwardsDosing = 0;
+                    _legalForTradeOperation = 0;
 
-                _totalWeight = 0;
-                _targetFillingWeight = 0;
-                _coarseFlowCutOffPointSet = 0;
-                _fineFlowCutOffPointSet = 0;
-                _startWithFineFlow = 0;
+                    _totalWeight = 0;
+                    _targetFillingWeight = 0;
+                    _coarseFlowCutOffPointSet = 0;
+                    _fineFlowCutOffPointSet = 0;
+                    _startWithFineFlow = 0;
+                }
+                catch { }
             }
         }
 
