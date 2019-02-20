@@ -186,8 +186,8 @@ namespace WTXModbus
 
                 Console.WriteLine("\nThe connection has been established successfully.\nThe values of the WTX device are printed on the console ... :");
 
-                WTXModbusExamples.Properties.Settings.Default.IPaddress = _ipAddress;
-                WTXModbusExamples.Properties.Settings.Default.Save();
+                CommandLine.Properties.Settings.Default.IPaddress = _ipAddress;
+                CommandLine.Properties.Settings.Default.Save();
             }
             else
             {

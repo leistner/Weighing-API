@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WTXModbusExamples.Properties {
+namespace CommandLine.Properties {
     using System;
     
     
