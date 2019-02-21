@@ -27,7 +27,7 @@
 // SOFTWARE.
 //
 // </copyright>
-using Modbus.Device;
+using NModbus.Device;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -35,6 +35,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
+using NModbus;
 
 namespace HBM.Weighing.API.WTX.Modbus
 {
@@ -56,7 +57,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         #region privates
 
-        private ModbusIpMaster _master;
+        private IModbusMaster _master;
         private TcpClient _client;
 
         private bool _connected;     
@@ -171,7 +172,10 @@ namespace HBM.Weighing.API.WTX.Modbus
             try
             {
                 _client = new TcpClient(ipAddress, _port);
-                _master = ModbusIpMaster.CreateIp(_client);
+
+                 var factory = new ModbusFactory();
+                _master = factory.CreateMaster(_client);
+
                 _connected = true;
 
                 BusActivityDetection?.Invoke(this, new LogEvent("Connection has been established successfully"));
@@ -211,7 +215,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             try
             {
-                _data = _master.ReadHoldingRegisters(_startAdress, _numOfPoints);
+                _data = _master.ReadHoldingRegisters(0, _startAdress, _numOfPoints);
 
                 BusActivityDetection?.Invoke(this, new LogEvent("Read successful: Registers have been read"));
 
@@ -231,7 +235,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public async Task<ushort[]> ReadAsync()
         {
-            _data = await _master.ReadHoldingRegistersAsync(_startAdress, _numOfPoints);
+            _data = await _master.ReadHoldingRegistersAsync(0, _startAdress, _numOfPoints);
 
             this.UpdateDictionary();
 
@@ -249,7 +253,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             this.command = data;
 
-            _master.WriteSingleRegister((ushort)Convert.ToInt32(index), (ushort)data);
+            _master.WriteSingleRegister(0, (ushort)Convert.ToInt32(index), (ushort)data);
 
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort) have been written successfully to the register"));
         }
@@ -258,7 +262,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             this.command = commandParam;
 
-            await _master.WriteSingleRegisterAsync(index, (ushort)command);
+            await _master.WriteSingleRegisterAsync(0, index, (ushort)command);
 
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort) have been written successfully to the register"));
 
@@ -270,7 +274,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
             _dataToWrite[1] = (ushort)(value & 0x0000ffff);
  
-            _master.WriteMultipleRegisters((ushort) Convert.ToInt32(index), _dataToWrite);
+            _master.WriteMultipleRegisters(0, (ushort) Convert.ToInt32(index), _dataToWrite);
 
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort array) have been written successfully to multiple registers"));
         }
