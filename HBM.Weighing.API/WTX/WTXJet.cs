@@ -36,7 +36,7 @@ using HBM.Weighing.API.WTX.Jet;
 
 namespace HBM.Weighing.API.WTX
 {
-    public class WtxJet : BaseWtDevice
+    public class WTXJet : BaseWtDevice
     {
         private ApplicationMode _applicationMode;
 
@@ -66,7 +66,7 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Constructors
-        public WtxJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)
+        public WTXJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)
         {
             _connection = Connection;
             

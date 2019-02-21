@@ -162,7 +162,7 @@ namespace WTXModbus
                     // Creating objects of JetBusConnection and WTXJet: 
                     JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
 
-                    _wtxDevice = new WtxJet(_jetConnection,Update);
+                    _wtxDevice = new WTXJet(_jetConnection,Update);
                 }
             }
 

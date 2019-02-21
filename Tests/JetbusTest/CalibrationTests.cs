@@ -16,7 +16,7 @@ namespace JetbusTest
     public class CalibrationTests
     {
         private TestJetbusConnection _jetTestConnection;
-        private WtxJet _wtxObj;
+        private WTXJet _wtxObj;
         private int testGrossValue;
 
 
@@ -63,7 +63,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
            
@@ -91,7 +91,7 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -122,7 +122,7 @@ namespace JetbusTest
 
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 

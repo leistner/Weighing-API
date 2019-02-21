@@ -126,7 +126,7 @@ namespace GUIsimple
                     // Creating objects of JetBusConnection and WTXJet: 
                     JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
 
-                    _wtxDevice = new WtxJet(_jetConnection,update);
+                    _wtxDevice = new WTXJet(_jetConnection,update);
                 }
             }
 
