@@ -15,18 +15,7 @@
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="NUnit" Version="3.11.0" />
     <PackageReference Include="SharpJet" Version="1.2.0" />
+    <PackageReference Include="NModbus" Version="3.0.58" />
   </ItemGroup>
-  
-  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
-    <PackageReference Include="NModbus">
-      <Version>3.0.58</Version>
-    </PackageReference>
-  </ItemGroup>
-  
-  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
-    <PackageReference Include="NModbus">
-      <Version>3.0.58</Version>
-    </PackageReference>
-  </ItemGroup>
-  
+
 </Project>
