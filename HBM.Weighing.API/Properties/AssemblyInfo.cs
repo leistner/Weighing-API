@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("WTXInterface")]
+[assembly: AssemblyTitle("HBM.Weighing.API")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("WTXInterface")]
+[assembly: AssemblyProduct("HBM.Weighing.API")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -32,5 +32,13 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion(ThisAssembly.Git.BaseVersion.Major + "." + ThisAssembly.Git.BaseVersion.Minor + "." + ThisAssembly.Git.BaseVersion.Patch)]
+[assembly: AssemblyFileVersion(ThisAssembly.Git.BaseVersion.Major + "." + ThisAssembly.Git.BaseVersion.Minor + "." + ThisAssembly.Git.BaseVersion.Patch)]
+[assembly: AssemblyInformationalVersion(
+    ThisAssembly.Git.BaseVersion.Major + "." +
+    ThisAssembly.Git.BaseVersion.Minor + "." +
+    ThisAssembly.Git.BaseVersion.Patch + "." +
+    ThisAssembly.Git.Commits + "+" +
+    ThisAssembly.Git.Commit +
+    (ThisAssembly.Git.IsDirty ? ".dirty" : ""))]
+//e.g.: 1.0.2-master+c218617
