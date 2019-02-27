@@ -17,5 +17,11 @@
     <PackageReference Include="SharpJet" Version="1.2.0" />
     <PackageReference Include="NModbus" Version="3.0.58" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="HBM.Weighing.API.nuspec">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
 </Project>
