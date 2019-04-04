@@ -31,6 +31,9 @@ using System;
 
 namespace HBM.Weighing.API
 {
+    /// <summary>
+    /// Event to describe if a data transfer have been successful
+    /// </summary>
     public class LogEvent : EventArgs
     {
         private string _mArgs;

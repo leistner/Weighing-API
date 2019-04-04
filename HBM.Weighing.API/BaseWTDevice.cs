@@ -35,6 +35,7 @@ using System;
 
 namespace HBM.Weighing.API
 {
+    #region Enumerations application mode, limit switches for standard application
     public enum ApplicationMode
     {
         Standard = 0,
@@ -42,6 +43,29 @@ namespace HBM.Weighing.API
         Filler = 2
     };
 
+    public enum LimitSwitchesSourceStandard
+    {
+        AboveLevel = 0,
+        BelowLevel = 1,
+        OutsideBand = 2,
+        InsideBand = 3
+    };
+
+    public enum LimitSwitchesModeStandard
+    {
+        Net = 1,
+        Gross = 2
+    };
+
+    #endregion
+
+    /// <summary>
+    /// Abstract class to declare methods and properties/attributes for its subclasses WtxJet and WtxModbus implementing  BaseWtDevice.
+    /// 
+    /// By implementing the subclasses of BaseWtDevice (WtxModbus or WtxJet), you can implement your communication to the WTX device either via Jetbus or via Modbus.
+    /// The connection establishment and read/write functions via Jet-/or Modbus are given by interface INetConnection (_connection).
+    /// Real-Time data is given by the interface IProcessData (_processData).
+    /// By function calls in your application you can use all the methods like Tare(), Zero(), Calibrate( PotencyCalibrationWeight, calibrationWeight) via Jetbus or Modbus.
     public abstract class BaseWtDevice
     {
         #region Attributes
@@ -85,6 +109,23 @@ namespace HBM.Weighing.API
                 return _processData;
             }
         }
+
+        /// <summary>
+        /// Sets the application mode according to the integer value in ProcessData : Standard or filler mode
+        /// </summary>
+        /// <returns></returns>
+        public abstract ApplicationMode ApplicationMode { get; }
+
+        /// <summary>
+        /// Returns the enumeration of the limit switches for the standard application : Source
+        /// </summary>
+        public abstract LimitSwitchesSourceStandard LimitSwitchesSourceStandard { get; }
+
+        /// <summary>
+        /// Returns the enumeration of the limit switches for the filler application : Mode 
+        /// </summary>
+        public abstract LimitSwitchesModeStandard LimitSwitchesModeStandard { get; }
+
 
         #endregion
 
@@ -172,18 +213,11 @@ namespace HBM.Weighing.API
         public abstract string ConnectionType { get; }
 
         /// <summary>
-        /// Sets the unit according to an integer value : g, kg, lb, t 
+        /// Gets the unit according to an integer value : g, kg, lb, t 
         /// </summary>
         /// <returns></returns>
         public abstract string Unit { get; }
-        #endregion
         
-        /// <summary>
-        /// Sets the application mode according to the integer value in ProcessData : Standard or filler mode
-        /// </summary>
-        /// <returns></returns>
-        public abstract ApplicationMode ApplicationMode { get; }
-
         /// <summary>
         /// Sets the weight type according to the integer value in ProcessData: gross or net
         /// </summary>
@@ -208,6 +242,7 @@ namespace HBM.Weighing.API
         /// <returns></returns>
         public abstract void RestartUpdate();
 
+        #endregion
 
     }
 }

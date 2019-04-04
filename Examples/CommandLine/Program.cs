@@ -106,8 +106,6 @@ namespace WTXModbus
             {
                 InitializeConnection();
 
-                //_wtxDevice.ProcessDataReceived += Update;   // To get updated values from the WTX, use method Update(..). 
-
             } while (_wtxDevice.Connection.IsConnected==false);
 
 
@@ -145,7 +143,6 @@ namespace WTXModbus
         // This method connects to the given IP address
         private static void InitializeConnection()
         {
-
             if (mode == "Modbus" || mode == "modbus")    // If 'Modbus/Tcp' is selected: 
             {
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
@@ -179,10 +176,7 @@ namespace WTXModbus
 
             if (_wtxDevice.Connection.IsConnected == true)
             {
-                // Coupling the data via an event-based call - If the event in class WTX120_Modbus is triggered, the values are updated on the console: Already done in main for presentation. 
-                //_wtxDevice.DataUpdateEvent += Update;
-
-                Update(null, null);
+                Update(null, null);  // call of callback method to print values on console, even though the measured values did not change. 
 
                 Console.WriteLine("\nThe connection has been established successfully.\nThe values of the WTX device are printed on the console ... :");
 

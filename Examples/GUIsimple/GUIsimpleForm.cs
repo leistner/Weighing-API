@@ -182,7 +182,7 @@ namespace GUIsimple
                     picNE107.Image = Properties.Resources.NE107_OutOfSpecification;
 
                 }
-                else if (e.ProcessData.higherSafeLoadLimit == true)
+                else if (e.ProcessData.HigherSafeLoadLimit == true)
                 {
                     txtInfo.Text = "Higher than safe load limit" + Environment.NewLine;
                     txtInfo.TextAlign = HorizontalAlignment.Right;

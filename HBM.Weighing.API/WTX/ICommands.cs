@@ -36,6 +36,11 @@ using System.Threading.Tasks;
 
 namespace HBM.Weighing.API.WTX
 {
+    /// <summary>
+    /// Interface for using commands, respectively indexes/paths, to read/write the registers of the WTX device via Modbus
+    /// or to the paths via Jetbus to get the data.
+    /// Its subclasses are : ModbusCommands, JetBusCommands. 
+    /// </summary>
     public interface ICommands
     {
         #region ID Commands : Maintenance - Calibration

@@ -39,11 +39,15 @@ using NModbus;
 
 namespace HBM.Weighing.API.WTX.Modbus
 {
-
     /// <summary>
     /// Use this class to handle a connection via Ethernet.
     /// This class establishs the communication to your WTX device, starts/ends the connection,
     /// read and write the register and shows the status of the connection and closes the connection to the device.
+    /// 
+    /// It works by reading registers via Modbus to get the data of the WTX device. By referencing the index in the method Read(index)
+    /// it returns a ushort array containing all information about the index.
+    /// Once the read method is called, the data is read from the WTX device, put into registers and loaded into a Dictionary containing
+    /// pairs of values and keys. The values are shifted and masked. The keys are the indexes(data word number) given by ModbusCommands.
     /// </summary>
     public class ModbusTcpConnection : INetConnection 
     {

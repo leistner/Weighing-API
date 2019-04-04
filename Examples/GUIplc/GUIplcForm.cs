@@ -20,15 +20,15 @@ namespace GUIplc
     /// Class 'ModbusTcpConnection' has the purpose to establish a connection, to read from the device (its register)
     /// and to write to the device. Class 'WTXModbus' creates a timer to read and update periodically the values of the WTX in a certain timer
     /// interval given in the constructor of class 'WTXModbus' while generating an object of it. Class 'WTXModbus' has all the values, 
-    /// which will be interpreted from the read bytes and class 'WTXModbus' manages the asynchronous data transfer to GUI and the eventbased data transfer 
+    /// which will be interpreted and class 'WTXModbus' manages the asynchronous data transfer to the GUI and the eventbased data transfer 
     /// to class ModbusTcpConnection. 
     ///  
     /// This class 'GUI' represents a window or a dialog box that makes up the application's user interface for the values and their description of the device.
     /// It uses a datagrid to put the description and the periodically updated values together. The description shown in the form and initialized in
-    /// the datagrid is based on the manual (see page manual PCLC link on page 154-161). 
+    /// the datagrid is based on the manual (see page manual PLC link on page 154-161). 
     /// Futhermore the data is only displayed, if the values have changed to save reconstruction time on the GUI Form. 
     /// 
-    /// Beside a form the GUI could also be a console application by applying that in program.cs instead of a windows form (see on Git).
+    /// Beside a form the GUI could also be a console application by applying the API in program.cs instead of a windows form (see on Git "CommandLine").
     /// Therefore the design of the classes and its relations are seperated in 
     /// connection specific classes and interfaces (class ModbusTcpConnection, interface "IProcessData")
     /// and in a device specific class and in a device specific interface (class "WTXModbus", interface "ProcessData").
@@ -368,8 +368,7 @@ namespace GUIplc
         // ... 'Output:value' from word 2 to 26 (standard mode) and from word 9 to 44 are written into the WTX device. 
         private void button8_Click(object sender, EventArgs e)
         {
-            // Activate data
-                     
+            // Activate data :
             int maximumIndex = 0;
 
             if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)     // if in standard mode: 
@@ -400,16 +399,6 @@ namespace GUIplc
                 if (inputStr != "0")
                 {
                     valueArr[_i] = (ushort)Convert.ToInt32(dataGridView1.Rows[index].Cells[6].Value);
-                    /* Ändern in direkte Zugriffe auf die Properties!
-                    if (dataGridView1.Rows[index].Cells[9].Value.ToString()=="S32")
-                        _wtxDevice.WriteOutputWordS32(valueArr[_i], (ushort)Convert.ToInt32(dataGridView1.Rows[index].Cells[6].Value));
-                    else
-                        if(dataGridView1.Rows[index].Cells[9].Value.ToString() == "U08")
-                            _wtxDevice.WriteOutputWordU08(valueArr[_i], (ushort)Convert.ToUInt16(dataGridView1.Rows[index].Cells[6].Value));           
-                    else if (dataGridView1.Rows[index].Cells[9].Value.ToString() == "U16")
-                              _wtxDevice.WriteOutputWordU16(valueArr[_i], (ushort)Convert.ToUInt16(dataGridView1.Rows[index].Cells[6].Value));
-                    */
-                    
                 }
             }
             //_wtxDevice.UpdateOutputWords(valueArr);
@@ -496,171 +485,197 @@ namespace GUIplc
 
         }
 
-        // This method is set if the output value in column 13 has changed - For writing some of the first output words of the standard application. 
+        private LimitSwitchesSourceStandard _limitSource;
+        private LimitSwitchesModeStandard _limitMode;
+
+        // This method is set if the output value in column 13 has changed - For writing output words the standard and filler mode: 
         private void GridValueChangedMethod(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 12)
             {
                 ushort value = 0;
                 ushort index = 0;
-                bool inputFormatIsRight = false;
 
+                string valueStr = "";
+
+                // For standard mode : 
                 if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)
                 {
                     if (e.RowIndex >= 8 && e.RowIndex <= 24)
                     {
-                        try
+                        valueStr = dataGridView1[e.ColumnIndex, e.RowIndex].Value.ToString();
+
+                        switch (valueStr)
                         {
-                            value = (ushort)Convert.ToInt16(dataGridView1[e.ColumnIndex, e.RowIndex].Value); // For the value which should be written to the WTX device 
-                            inputFormatIsRight = true;
+                            case "Above Level":
+                                _limitSource = LimitSwitchesSourceStandard.AboveLevel;
+                                value = 0; break;
+                            case "Below Level":
+                                _limitSource = LimitSwitchesSourceStandard.BelowLevel;
+                                value = 1; break;
+                            case "Outside Band":
+                                _limitSource = LimitSwitchesSourceStandard.OutsideBand;
+                                value = 2; break;
+                            case "Inside Band":
+                                _limitSource = LimitSwitchesSourceStandard.InsideBand;
+                                value = 3; break;
+                            case "Net=1":
+                                _limitMode = LimitSwitchesModeStandard.Net;
+                                value = 1;
+                                break;
+                            case "Gross=2":
+                                _limitMode = LimitSwitchesModeStandard.Gross;
+                                value = 2;
+                                break;
+                            default:
+                                if (valueStr.Contains("."))
+                                    value = (ushort)Convert.ToInt32(valueStr.Replace(".", ""));
+                                else
+                                    value = (ushort)Convert.ToInt32(valueStr);
+                                break;
                         }
-                        catch (Exception)
+
+                        // For source 1,2,3,4 :
+                        if (e.RowIndex == 9 || e.RowIndex == 13 || e.RowIndex == 17 || e.RowIndex == 21)
                         {
-                            MessageBox.Show("Die Eingabe hat das falsche Format. Bitte geben Sie eine Zahl ein.");
-                            inputFormatIsRight = false;
+                            switch (value)
+                            {
+                                case 0:
+                                    _limitSource = LimitSwitchesSourceStandard.AboveLevel; break;
+                                case 1:
+                                    _limitSource = LimitSwitchesSourceStandard.BelowLevel; break;
+                                case 2:
+                                    _limitSource = LimitSwitchesSourceStandard.OutsideBand; break;
+                                case 3:
+                                    _limitSource = LimitSwitchesSourceStandard.InsideBand; break;
+
+                                default: break;
+                            }
+
+                            switch (_limitSource)
+                            {
+                                case LimitSwitchesSourceStandard.AboveLevel:  dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Above Level"; break;
+                                case LimitSwitchesSourceStandard.BelowLevel:  dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Below Level"; break;
+                                case LimitSwitchesSourceStandard.OutsideBand: dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Outside Band"; break;
+                                case LimitSwitchesSourceStandard.InsideBand:  dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Inside Band"; break;
+
+                                default: dataGridView1[e.ColumnIndex, e.RowIndex].Value = "default"; break;
+                            }
+                        }
+
+                        // For mode 1, 2 : 
+                        if (e.RowIndex == 10 || e.RowIndex == 14 || e.RowIndex == 18 || e.RowIndex == 22)
+                        {
+                            if (value == 1)
+                                _limitMode = LimitSwitchesModeStandard.Net;
+                            else 
+                                if(value == 2)
+                                    _limitMode = LimitSwitchesModeStandard.Gross;
+
+                            if (_limitMode == LimitSwitchesModeStandard.Net)
+                                dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Net=1";
+                            else
+                                if (_limitMode == LimitSwitchesModeStandard.Gross)
+                                    dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Gross=2";
                         }
                     }
                     else
                         MessageBox.Show("Bitte in den vorgegebenen Feldern eingeben für standard application.");
-                }
-                else
+                }              
+                else // if application mode = filler
                 {
                     if (e.RowIndex >= 11 && e.RowIndex <= 36)
                     {
-                        try
+                        if (valueStr.Contains("."))
                         {
-                            value = (ushort)Convert.ToInt16(dataGridView1[e.ColumnIndex, e.RowIndex].Value); // For the value which should be written to the WTX device 
-                            inputFormatIsRight = true;
+                            value = (ushort)Convert.ToInt32(valueStr.Replace(".", ""));
                         }
-                        catch (Exception)
-                        {
-                            MessageBox.Show("Die Eingabe hat das falsche Format. Bitte geben Sie eine Zahl ein.");
-                            inputFormatIsRight = false;
-                        }
+                        else
+                            value = (ushort)Convert.ToInt32(valueStr);
                     }
                     else
                         MessageBox.Show("Bitte in den vorgegebenen Feldern eingeben für filler application.");
                 }
+                
+                index = (ushort)Convert.ToInt16(dataGridView1[7, e.RowIndex].Value); // For the index, the word number which should be written to the WTX device 
 
-                if (inputFormatIsRight == true)
+                // For the standard application: 
+                if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)
                 {
-                    index = (ushort)Convert.ToInt16(dataGridView1[7, e.RowIndex].Value); // For the index, the word number which should be written to the WTX device 
-
-                    /*
-                    _wtxDevice.Connection.Write(index, value);
-                    _wtxDevice.activateData();
-                    */ 
-
-                    // For the standard application: 
-                    if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)
+                    if (e.RowIndex >= 8 && e.RowIndex <= 24)
                     {
-                        if (e.RowIndex >= 8 && e.RowIndex <= 24)
+                        // If the specific cell of the row 8,9,10 till row 24 has changed, write the value to the specific properties. 
+
+                        switch (e.RowIndex)
                         {
-                            MessageBox.Show("Write : " + value.ToString());  // for test purpose only.
+                            case 8: _wtxDevice.DataStandard.ManualTareValue = value; break;
 
-                            //_wtxDevice.Connection.WriteArray(index,)
-                            //_wtxDevice.activateData();    // Bit .11 - Activate Data
+                            case 9: _wtxDevice.DataStandard.LimitValue1Input = value; break;
+                            case 10: _wtxDevice.DataStandard.LimitValue1Mode = value; break;
+                            case 11: _wtxDevice.DataStandard.LimitValue1ActivationLevelLowerBandLimit = value; break;
+                            case 12: _wtxDevice.DataStandard.LimitValue1HysteresisBandHeight = value; break;
 
-                            // If the specific cell of the row 8,9,10 till row 24 has changed, write the value to the specific properties. 
+                            case 13: _wtxDevice.DataStandard.LimitValue2Source = value; break;
+                            case 14: _wtxDevice.DataStandard.LimitValue2Mode = value; break;
+                            case 15: _wtxDevice.DataStandard.LimitValue2ActivationLevelLowerBandLimit = value; break;
+                            case 16: _wtxDevice.DataStandard.LimitValue2HysteresisBandHeight = value; break;
 
-                            switch (e.RowIndex)
-                            {
-                                case  8: _wtxDevice.DataStandard.ManualTareValue = value; break;
-                                case  9: _wtxDevice.DataStandard.LimitValue1Input = value; break;
-                                case 10: _wtxDevice.DataStandard.LimitValue1Mode = value; break;
-                                case 11: _wtxDevice.DataStandard.LimitValue1ActivationLevelLowerBandLimit = value; break;
-                                case 12: _wtxDevice.DataStandard.LimitValue1HysteresisBandHeight = value; break;
-                                case 13: _wtxDevice.DataStandard.LimitValue2Source = value; break;
-                                case 14: _wtxDevice.DataStandard.LimitValue2Mode = value; break;
-                                case 15: _wtxDevice.DataStandard.LimitValue2ActivationLevelLowerBandLimit = value; break;
-                                case 16: _wtxDevice.DataStandard.LimitValue2HysteresisBandHeight = value; break;
+                            case 17: _wtxDevice.DataStandard.LimitValue3Source = value; break;
+                            case 18: _wtxDevice.DataStandard.LimitValue3Mode = value; break;
+                            case 19: _wtxDevice.DataStandard.LimitValue3ActivationLevelLowerBandLimit = value; break;
+                            case 20: _wtxDevice.DataStandard.LimitValue3HysteresisBandHeight = value; break;
 
-                                case 17: _wtxDevice.DataStandard.LimitValue3Source = value; break;
-                                case 18: _wtxDevice.DataStandard.LimitValue3Mode = value; break;
-                                case 19: _wtxDevice.DataStandard.LimitValue3ActivationLevelLowerBandLimit = value; break;
-                                case 20: _wtxDevice.DataStandard.LimitValue3HysteresisBandHeight = value; break;
-                                case 21: _wtxDevice.DataStandard.LimitValue4Source = value; break;
-                                case 22: _wtxDevice.DataStandard.LimitValue4Mode = value; break;
-                                case 23: _wtxDevice.DataStandard.LimitValue4ActivationLevelLowerBandLimit = value; break;
-                                case 24: _wtxDevice.DataStandard.LimitValue4HysteresisBandHeight = value; break;
+                            case 21: _wtxDevice.DataStandard.LimitValue4Source = value; break;
+                            case 22: _wtxDevice.DataStandard.LimitValue4Mode = value; break;
+                            case 23: _wtxDevice.DataStandard.LimitValue4ActivationLevelLowerBandLimit = value; break;
+                            case 24: _wtxDevice.DataStandard.LimitValue4HysteresisBandHeight = value; break;
 
-                                default: break;
-                            }
+                            default: break;
                         }
                     }
-                    else
+                }
+
+                else
+                {
+                    if (e.RowIndex >= 11 && e.RowIndex <= 36)
                     {
-                        if (e.RowIndex >= 11 && e.RowIndex <= 36)
+                        switch (e.RowIndex)
                         {
-                            MessageBox.Show(value.ToString());  // for test purpose only.
-                            switch (e.RowIndex)
-                            {
-                                case 11: _wtxDevice.DataFiller.ResidualFlowTime = value; break;
-                                case 12: _wtxDevice.DataFiller.TargetFillingWeight = value; break;
-                                case 13: _wtxDevice.DataFiller.CoarseFlowCutOffPointSet = value; break;
-                                case 14: _wtxDevice.DataFiller.FineFlowCutOffPointSet = value; break;
-                                case 15: _wtxDevice.DataFiller.MinimumFineFlow = value; break;
-                                case 16: _wtxDevice.DataFiller.OptimizationOfCutOffPoints = value; break;
+                            case 11: _wtxDevice.DataFiller.ResidualFlowTime = value;           break;
+                            case 12: _wtxDevice.DataFiller.TargetFillingWeight = value;        break;
+                            case 13: _wtxDevice.DataFiller.CoarseFlowCutOffPointSet = value;   break;
+                            case 14: _wtxDevice.DataFiller.FineFlowCutOffPointSet = value;     break;
+                            case 15: _wtxDevice.DataFiller.MinimumFineFlow = value;            break;
+                            case 16: _wtxDevice.DataFiller.OptimizationOfCutOffPoints = value; break;
 
-                                case 17: _wtxDevice.DataFiller.MaximumDosingTime = value; break;
-                                case 18: _wtxDevice.DataFiller.StartWithFineFlow = value; break;
-                                case 19: _wtxDevice.DataFiller.CoarseLockoutTime = value; break;
-                                case 20: _wtxDevice.DataFiller.FineLockoutTime = value; break;
-                                case 21: _wtxDevice.DataFiller.TareMode = value; break;
-                                case 22: _wtxDevice.DataFiller.UpperToleranceLimit = value; break;
-                                case 23: _wtxDevice.DataFiller.LowerToleranceLimit = value; break;
-                                case 24: _wtxDevice.DataFiller.MinimumStartWeight = value; break;
+                            case 17: _wtxDevice.DataFiller.MaximumDosingTime = value;   break;
+                            case 18: _wtxDevice.DataFiller.StartWithFineFlow = value;   break;
+                            case 19: _wtxDevice.DataFiller.CoarseLockoutTime = value;   break;
+                            case 20: _wtxDevice.DataFiller.FineLockoutTime = value;     break;
+                            case 21: _wtxDevice.DataFiller.TareMode = value;            break;
+                            case 22: _wtxDevice.DataFiller.UpperToleranceLimit = value; break;
+                            case 23: _wtxDevice.DataFiller.LowerToleranceLimit = value; break;
+                            case 24: _wtxDevice.DataFiller.MinimumStartWeight = value;  break;
 
-                                case 25: _wtxDevice.DataFiller.EmptyWeight = value; break;
-                                case 26: _wtxDevice.DataFiller.TareDelay = value; break;
-                                case 27: _wtxDevice.DataFiller.CoarseFlowMonitoringTime = value; break;
-                                case 28: _wtxDevice.DataFiller.CoarseFlowMonitoring = value; break;
-                                case 29: _wtxDevice.DataFiller.FineFlowMonitoring = value; break;
-                                case 30: _wtxDevice.DataFiller.FineFlowMonitoringTime = value; break;
+                            case 25: _wtxDevice.DataFiller.EmptyWeight = value; break;
+                            case 26: _wtxDevice.DataFiller.TareDelay = value;   break;
+                            case 27: _wtxDevice.DataFiller.CoarseFlowMonitoringTime = value; break;
+                            case 28: _wtxDevice.DataFiller.CoarseFlowMonitoring = value;     break;
+                            case 29: _wtxDevice.DataFiller.FineFlowMonitoring = value;       break;
+                            case 30: _wtxDevice.DataFiller.FineFlowMonitoringTime = value;   break;
 
-                                case 31: _wtxDevice.DataFiller.DelayTimeAfterFineFlow = value; break;
-                                case 32: _wtxDevice.DataFiller.ActivationTimeAfterFineFlow = value; break;
-                                case 33: _wtxDevice.DataFiller.SystematicDifference = value; break;
-                                case 34: _wtxDevice.DataFiller.DownwardsDosing = value; break;
-                                case 35: _wtxDevice.DataFiller.ValveControl = value; break;
-                                case 36: _wtxDevice.DataFiller.EmptyingMode = value; break;
-
-                            }
+                            case 31: _wtxDevice.DataFiller.DelayTimeAfterFineFlow = value;      break;
+                            case 32: _wtxDevice.DataFiller.ActivationTimeAfterFineFlow = value; break;
+                            case 33: _wtxDevice.DataFiller.SystematicDifference = value;        break;
+                            case 34: _wtxDevice.DataFiller.DownwardsDosing = value; break;
+                            case 35: _wtxDevice.DataFiller.ValveControl = value;    break;
+                            case 36: _wtxDevice.DataFiller.EmptyingMode = value;    break;
                         }
                     }
-
-                    _wtxDevice.activateData();
-
-                    // For the filler application: 
-
-                    // According to the data type (given in the data grid) the words are written as type 'S32', 'U08' or 'U16' to the WTX. 
-
-                    // Only for testing : 
-                    /*
-                    if (dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString() == "S32")
-                        WTXObj.writeOutputWordS32(value, index, Write_DataReceived);
-                    else
-                     if (dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString() == "U08")
-                        WTXObj.writeOutputWordU08(value, index, Write_DataReceived);
-                    else
-                    if (dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString() == "U16")
-                        WTXObj.writeOutputWordU16(value, index, Write_DataReceived);
-                    */
-                } // end - if (inputFormatIsRight == true)
-
-                /* Ändern in direkte Zugriffe auf die Properties
-                if (dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString() == "S32")
-                    _wtxDevice.WriteOutputWordS32(value, index);
-
-                if (dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString() == "U08")
-                    _wtxDevice.WriteOutputWordU08(value, index);
-
-                if (dataGridView1.Rows[e.RowIndex].Cells[9].Value.ToString() == "U16")
-                    _wtxDevice.WriteOutputWordU16(value, index);
-                */
+                }
+                _wtxDevice.activateData();
             }
-
-        }
+        }     
 
         /// <summary>
         /// This method actualizes and resets the data grid with newly calculated values of the previous iteration. 

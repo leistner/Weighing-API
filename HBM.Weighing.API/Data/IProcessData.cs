@@ -67,8 +67,8 @@ namespace HBM.Weighing.API
         bool Underload{ get; set; } // = Underload (OPC-UA Standard)
         bool Overload { get; set; } // = Overload (OPC-UA Standard)
 
-        bool weightWithinLimits { get; set; }
-        bool higherSafeLoadLimit{ get; set; }
+        bool WeightWithinLimits { get; set; }
+        bool HigherSafeLoadLimit{ get; set; }
 
         #endregion
 

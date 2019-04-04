@@ -44,6 +44,7 @@ namespace HBM.Weighing.API.Data
     {
         #region privates
 
+        private int _errorRegister;
         private int _saveAllParameters;
         private int _restoreAllDefaultParameters;
         private int _vendorID;
@@ -140,6 +141,7 @@ namespace HBM.Weighing.API.Data
 
             _connection.UpdateDataClasses += UpdateFillerExtendedData;
 
+            _errorRegister =0;
             _saveAllParameters =0;
             _restoreAllDefaultParameters=0;
             _vendorID=0;
@@ -236,18 +238,18 @@ namespace HBM.Weighing.API.Data
             if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 2 ||  e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 3) // If application mode = filler
             {
                 this.UpdateFillerData(this, e);
-                /*
-                _errorRegister = _data[_connection.IDCommands.ERROR_REGISTER];
-                _saveAllParameters = _data[_connection.IDCommands.SAVE_ALL_PARAMETERS];
-                _restoreAllDefaultParameters = _data[_connection.IDCommands.RESTORE_ALL_DEFAULT_PARAMETERS];
-                _vendorID = _data[_connection.IDCommands.VENDOR_ID];
+                
+                //_errorRegister = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.ERROR_REGISTER]);
+                _saveAllParameters = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SAVE_ALL_PARAMETERS]);
+                _restoreAllDefaultParameters = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.RESTORE_ALL_DEFAULT_PARAMETERS]);
+                _vendorID = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.VENDOR_ID]);
 
-                _productCode = _data[_connection.IDCommands.PRODUCT_CODE];
-                _serialNumber = _data[_connection.IDCommands.SERIAL_NUMBER];
-                _implementedProfileSpecification = _data[_connection.IDCommands.IMPLEMENTED_PROFILE_SPECIFICATION];
-                _lcCapability = _data[_connection.IDCommands.LC_CAPABILITY];
-                _weighingDevice1UnitPrefixOutputParameter = _data[_connection.IDCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER];
-                */
+                _productCode = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.PRODUCT_CODE]);
+                _serialNumber = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SERIAL_NUMBER]);
+                _implementedProfileSpecification = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.IMPLEMENTED_PROFILE_SPECIFICATION]);
+                _lcCapability = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.LC_CAPABILITY]);
+                _weighingDevice1UnitPrefixOutputParameter = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER]);             
+
                 _weighingDevice1WeightStep = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STEP]);
                 _alarms = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.ALARMS]);
                 _weighingDevice1OutputWeight = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_OUTPUT_WEIGHT]);
@@ -322,6 +324,13 @@ namespace HBM.Weighing.API.Data
 
         #region Properties for the filler extended data
 
+        public int ErrorRegister
+        {
+            get { return _errorRegister; }
+            set {_connection.Write(_connection.IDCommands.ERROR_REGISTER, value);
+                this._errorRegister = value;
+            }
+        }
         public int SaveAllParameters
         {
             get { return _saveAllParameters; }

@@ -36,9 +36,16 @@ using HBM.Weighing.API.WTX.Jet;
 
 namespace HBM.Weighing.API.WTX
 {
+    /// <summary>
+    /// This class handles the data from JetBusConnection for IProcessData. 
+    /// WtxJet fetches, interprets the data( method OnData(sender, DataEventArgs) ) and 
+    /// send it to the GUI or application class by an eventhandler (=ProcessDataReceived). 
+    /// </summary>
     public class WTXJet : BaseWtDevice
     {
         private ApplicationMode _applicationMode;
+        private LimitSwitchesSourceStandard _limitSwitchesSourceStandard;
+        private LimitSwitchesModeStandard _limitSwitchesModeStandard;
 
         public IDataStandard DataStandard { get; set; }
         public IDataFillerExtended DataFillerExtended { get; set; }
@@ -202,6 +209,23 @@ namespace HBM.Weighing.API.WTX
             }
             */
         }
+
+        public override LimitSwitchesSourceStandard LimitSwitchesSourceStandard
+        {
+            get
+            {
+                return _limitSwitchesSourceStandard;
+            }
+        }
+
+        public override LimitSwitchesModeStandard LimitSwitchesModeStandard
+        {
+            get
+            {
+                return _limitSwitchesModeStandard;
+            }
+        }
+
         public void UpdateApplicationMode(ushort[] Data)
         {
             if ((Data[5] & 0x03) == 0)
@@ -336,12 +360,11 @@ namespace HBM.Weighing.API.WTX
         public override void MeasureZero()
         {
             //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
-
             _connection.Write(_connection.IDCommands.SCALE_COMMAND, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution = 
             while (_connection.Read(_connection.IDCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_ONGOING);
-            
+
             // check : command "ok" = command is done = 
             while (_connection.Read(_connection.IDCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_OK);
             
