@@ -44,6 +44,13 @@ namespace HBM.Weighing.API.WTX.Jet
 {
     /// <summary>
     /// Use this class to handle a connection via Ethernet.
+    /// This class establishs the communication to your WTX device, starts/ends the connection,
+    /// read and write the register and shows the status of the connection and closes the connection to the device.
+    /// 
+    /// It works by subscribing a path for the data of the WTX device. By referencing the path/index in the method Read(index)
+    /// it returns a JToken object containing all information about the index.
+    /// Once a value changes an event is triggered and the data is send via WtxJet to the data classes(ProcessData or 
+    /// DataStandard/DataFiller/DataFillerExtended), thus it can be called by the application. 
     /// </summary>
     public class JetBusConnection : INetConnection, IDisposable
     {

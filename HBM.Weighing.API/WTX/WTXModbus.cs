@@ -40,7 +40,8 @@ namespace HBM.Weighing.API.WTX
 {
     /// <summary>
     /// This class handles the data from ModbusTcpConnection for IProcessData. 
-    /// WtxModbus fetches, interprets the data and send it to the GUI or application by an eventhandler. 
+    /// WtxModbus fetches, interprets the data( method OnData(data) ) and 
+    /// send it to the GUI or application class by an eventhandler (=ProcessDataReceived). 
     /// </summary>
     public class WtxModbus : BaseWtDevice
     {
@@ -57,6 +58,8 @@ namespace HBM.Weighing.API.WTX
         private int _timerInterval;
         private int _previousNetValue;
         private ApplicationMode _applicationMode;
+        private LimitSwitchesSourceStandard _limitSwitchesSourceStandard;
+        private LimitSwitchesModeStandard _limitSwitchesModeStandard;
 
         private ushort _command;
         private double dPreload, dNominalLoad, multiplierMv2D;      
@@ -212,8 +215,7 @@ namespace HBM.Weighing.API.WTX
                     dataWord = this._connection.Read(5);
                     handshakeBit = ((dataWord & 0x4000) >> 14);
                 }
-                
-            
+
         }
 
         public int getCommand
@@ -457,7 +459,21 @@ namespace HBM.Weighing.API.WTX
                 return _applicationMode;
             }
         }
+        public override LimitSwitchesSourceStandard LimitSwitchesSourceStandard
+        {
+            get
+            {
+                return _limitSwitchesSourceStandard;
+            }
+        }
 
+        public override LimitSwitchesModeStandard LimitSwitchesModeStandard
+        {
+            get
+            {
+                return _limitSwitchesModeStandard;
+            }
+        }
 
         public override string Unit
         {

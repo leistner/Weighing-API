@@ -37,6 +37,11 @@ using System.Threading.Tasks;
 
 namespace HBM.Weighing.API
 {
+    /// <summary>
+    /// Event to extend the eventbased call with a dictionary containing pairs of keys,values (=path/index, data)
+    /// Called by the read method of class ModbusTcpConnection and by the fetch/read method of class JetBusConnection
+    /// to update the data classes (DataStandard/DataFiller/DataFillerExtended)
+    /// </summary>
     public class DataEventArgs
     {
         private Dictionary<string, int> _dataDict;

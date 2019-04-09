@@ -32,6 +32,11 @@ using System;
 
 namespace HBM.Weighing.API
 {
+    /// <summary>
+    /// Event to extend the eventbased call with an interface containing real-time process data.
+    /// Called by the update method ("OnData()") of the classes WtxJet and WtxModbus to send the
+    /// process data to the application class.
+    /// </summary>
     public class ProcessDataReceivedEventArgs : EventArgs
     {
         IProcessData _processData;

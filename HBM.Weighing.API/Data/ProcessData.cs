@@ -302,13 +302,13 @@ namespace HBM.Weighing.API
             set { this._overload = value; }
         }
 
-        public bool weightWithinLimits
+        public bool WeightWithinLimits
         {
             get { return _weightWithinLimits; }
             set { this._weightWithinLimits = value; }
         }
 
-        public bool higherSafeLoadLimit
+        public bool HigherSafeLoadLimit
         {
             get { return _higherSafeLoadLimit; }
             set { this._higherSafeLoadLimit = value; }
