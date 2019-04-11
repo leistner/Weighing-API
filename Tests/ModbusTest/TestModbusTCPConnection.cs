@@ -281,133 +281,173 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void CreateDictionary()
         {
-            _dataIntegerBuffer.Add(_commands.NET_VALUE, 0);
-            _dataIntegerBuffer.Add(_commands.GROSS_VALUE, 0);
+            _dataIntegerBuffer.Add(IDCommands.NET_VALUE, 0);
+            _dataIntegerBuffer.Add(IDCommands.GROSS_VALUE, 0);
 
-            _dataIntegerBuffer.Add(_commands.WEIGHING_DEVICE_1_WEIGHT_STATUS, 0);
-            _dataIntegerBuffer.Add(_commands.UNIT_PREFIX_FIXED_PARAMETER, 0);
+            _dataIntegerBuffer.Add(IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS, 0);
+            _dataIntegerBuffer.Add(IDCommands.UNIT_PREFIX_FIXED_PARAMETER, 0);
 
-            _dataIntegerBuffer.Add(_commands.FINE_FLOW_CUT_OFF_POINT, 0);
-            _dataIntegerBuffer.Add(_commands.COARSE_FLOW_CUT_OFF_POINT, 0);
-            _dataIntegerBuffer.Add(_commands.DECIMALS, 0);
-            _dataIntegerBuffer.Add(_commands.APPLICATION_MODE, 0);
-            _dataIntegerBuffer.Add(_commands.SCALE_COMMAND_STATUS, 0);
+            _dataIntegerBuffer.Add(IDCommands.FINE_FLOW_CUT_OFF_POINT, 0);
+            _dataIntegerBuffer.Add(IDCommands.COARSE_FLOW_CUT_OFF_POINT, 0);
+            _dataIntegerBuffer.Add(IDCommands.DECIMALS, 0);
+            _dataIntegerBuffer.Add(IDCommands.APPLICATION_MODE, 0);
+            _dataIntegerBuffer.Add(IDCommands.SCALE_COMMAND_STATUS, 0);
 
-            _dataIntegerBuffer.Add(_commands.COARSE_FLOW_MONITORING, 0);
-            _dataIntegerBuffer.Add(_commands.FINE_FLOW_MONITORING, 0);
-            _dataIntegerBuffer.Add(_commands.EMPTYING_MODE, 0);
-            _dataIntegerBuffer.Add(_commands.MAXIMAL_DOSING_TIME, 0);
+            _dataIntegerBuffer.Add(IDCommands.COARSE_FLOW_MONITORING, 0);
+            _dataIntegerBuffer.Add(IDCommands.FINE_FLOW_MONITORING, 0);
+            _dataIntegerBuffer.Add(IDCommands.EMPTYING_MODE, 0);
+            _dataIntegerBuffer.Add(IDCommands.MAXIMAL_DOSING_TIME, 0);
 
-            _dataIntegerBuffer.Add(_commands.UPPER_TOLERANCE_LIMIT, 0);
-            _dataIntegerBuffer.Add(_commands.LOWER_TOLERANCE_LIMIT, 0);
+            _dataIntegerBuffer.Add(IDCommands.UPPER_TOLERANCE_LIMIT, 0);
+            _dataIntegerBuffer.Add(IDCommands.LOWER_TOLERANCE_LIMIT, 0);
 
-            //_dataIntegerBuffer.Add(_commands.DOSING_STATE, 0);
-            //_dataIntegerBuffer.Add(_commands.DOSING_RESULT, 0);
+            _dataIntegerBuffer.Add(IDCommands.RANGE_SELECTION_PARAMETER, 0);
 
-            _dataIntegerBuffer.Add(_commands.DOSING_TIME, 0);
-            _dataIntegerBuffer.Add(_commands.COARSE_FLOW_TIME, 0);
-            _dataIntegerBuffer.Add(_commands.FINE_FLOW_TIME, 0);
-            _dataIntegerBuffer.Add(_commands.RANGE_SELECTION_PARAMETER, 0);
+            _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_INPUT_1, 0);
+            _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_INPUT_2, 0);
+            _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_INPUT_3, 0);
+            _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_INPUT_4, 0);
+            _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_OUTPUT_1, 0);
+            _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_OUTPUT_2, 0);
+            _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_OUTPUT_3, 0);
+            _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_OUTPUT_4, 0);
 
-            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_INPUT_1, 0);
-            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_INPUT_2, 0);
-            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_INPUT_3, 0);
-            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_INPUT_4, 0);
-            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_OUTPUT_1, 0);
-            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_OUTPUT_2, 0);
-            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_OUTPUT_3, 0);
-            _dataIntegerBuffer.Add(_commands.STATUS_DIGITAL_OUTPUT_4, 0);
+            _dataIntegerBuffer.Add(IDCommands.LIMIT_VALUE, 0);
 
-            _dataIntegerBuffer.Add(_commands.LIMIT_VALUE, 0);
+            _dataIntegerBuffer.Add(IDCommands.LIMIT_VALUE_MONITORING_LIV11, 0); ;
+            _dataIntegerBuffer.Add(IDCommands.SIGNAL_SOURCE_LIV12, 0);
+            _dataIntegerBuffer.Add(IDCommands.SWITCH_ON_LEVEL_LIV13, 0);
+            _dataIntegerBuffer.Add(IDCommands.SWITCH_OFF_LEVEL_LIV14, 0);
 
-            _dataIntegerBuffer.Add(_commands.LIMIT_VALUE_MONITORING_LIV11, 0); ;
-            _dataIntegerBuffer.Add(_commands.SIGNAL_SOURCE_LIV12, 0);
-            _dataIntegerBuffer.Add(_commands.SWITCH_ON_LEVEL_LIV13, 0);
-            _dataIntegerBuffer.Add(_commands.SWITCH_OFF_LEVEL_LIV14, 0);
+            _dataIntegerBuffer.Add(IDCommands.LIMIT_VALUE_MONITORING_LIV21, 0);
+            _dataIntegerBuffer.Add(IDCommands.SIGNAL_SOURCE_LIV22, 0);
+            _dataIntegerBuffer.Add(IDCommands.SWITCH_ON_LEVEL_LIV23, 0);
+            _dataIntegerBuffer.Add(IDCommands.SWITCH_OFF_LEVEL_LIV24, 0); ;
 
-            _dataIntegerBuffer.Add(_commands.LIMIT_VALUE_MONITORING_LIV21, 0);
-            _dataIntegerBuffer.Add(_commands.SIGNAL_SOURCE_LIV22, 0);
-            _dataIntegerBuffer.Add(_commands.SWITCH_ON_LEVEL_LIV23, 0);
-            _dataIntegerBuffer.Add(_commands.SWITCH_OFF_LEVEL_LIV24, 0); ;
+            _dataIntegerBuffer.Add(IDCommands.LIMIT_VALUE_MONITORING_LIV31, 0);
+            _dataIntegerBuffer.Add(IDCommands.SIGNAL_SOURCE_LIV32, 0);
+            _dataIntegerBuffer.Add(IDCommands.SWITCH_ON_LEVEL_LIV33, 0);
+            _dataIntegerBuffer.Add(IDCommands.SWITCH_OFF_LEVEL_LIV34, 0);
 
-            _dataIntegerBuffer.Add(_commands.LIMIT_VALUE_MONITORING_LIV31, 0);
-            _dataIntegerBuffer.Add(_commands.SIGNAL_SOURCE_LIV32, 0);
-            _dataIntegerBuffer.Add(_commands.SWITCH_ON_LEVEL_LIV33, 0);
-            _dataIntegerBuffer.Add(_commands.SWITCH_OFF_LEVEL_LIV34, 0);
+            _dataIntegerBuffer.Add(IDCommands.LIMIT_VALUE_MONITORING_LIV41, 0);
+            _dataIntegerBuffer.Add(IDCommands.SIGNAL_SOURCE_LIV42, 0);
+            _dataIntegerBuffer.Add(IDCommands.SWITCH_ON_LEVEL_LIV43, 0);
+            _dataIntegerBuffer.Add(IDCommands.SWITCH_OFF_LEVEL_LIV44, 0);
 
-            _dataIntegerBuffer.Add(_commands.LIMIT_VALUE_MONITORING_LIV41, 0);
-            _dataIntegerBuffer.Add(_commands.SIGNAL_SOURCE_LIV42, 0);
-            _dataIntegerBuffer.Add(_commands.SWITCH_ON_LEVEL_LIV43, 0); ;
-            _dataIntegerBuffer.Add(_commands.SWITCH_OFF_LEVEL_LIV44, 0);
+            _dataIntegerBuffer.Add(IDCommands.WEIGHT_MEMORY_STANDARD[0], 0);   // WEIGHT_MEMORY_STANDARD[0] = _readWeightMemDay_ID       = "9";
+            _dataIntegerBuffer.Add(IDCommands.WEIGHT_MEMORY_STANDARD[1], 0);   // WEIGHT_MEMORY_STANDARD[1] = _readWeightMemMonth_ID     = "10";
+            _dataIntegerBuffer.Add(IDCommands.WEIGHT_MEMORY_STANDARD[2], 0);   // WEIGHT_MEMORY_STANDARD[2] = _readWeightMemYear_ID      = "11";
+            _dataIntegerBuffer.Add(IDCommands.WEIGHT_MEMORY_STANDARD[3], 0);   // WEIGHT_MEMORY_STANDARD[3] = _readWeightMemSeqNumber_ID = "12";
+            _dataIntegerBuffer.Add(IDCommands.WEIGHT_MEMORY_STANDARD[4], 0);   // WEIGHT_MEMORY_STANDARD[4] = _readWeightMemGross_ID     = "13";
+            _dataIntegerBuffer.Add(IDCommands.WEIGHT_MEMORY_STANDARD[5], 0);   // WEIGHT_MEMORY_STANDARD[5] = _readWeightMemNet_ID       = "14";
+
+            _dataIntegerBuffer.Add(IDCommands.RESIDUAL_FLOW_TIME, 0);
+            _dataIntegerBuffer.Add(IDCommands.MINIMUM_FINE_FLOW, 0);
+            _dataIntegerBuffer.Add(IDCommands.OPTIMIZATION, 0);
+            _dataIntegerBuffer.Add(IDCommands.TARE_MODE, 0);
+            _dataIntegerBuffer.Add(IDCommands.MINIMUM_START_WEIGHT, 0);
+            _dataIntegerBuffer.Add(IDCommands.TARE_DELAY, 0);
+            _dataIntegerBuffer.Add(IDCommands.COARSE_FLOW_MONITORING_TIME, 0);
+            _dataIntegerBuffer.Add(IDCommands.FINE_FLOW_MONITORING_TIME, 0);
+            _dataIntegerBuffer.Add(IDCommands.SYSTEMATIC_DIFFERENCE, 0);
+            _dataIntegerBuffer.Add(IDCommands.VALVE_CONTROL, 0);
+            _dataIntegerBuffer.Add(IDCommands.ADC_OVER_UNDERLOAD, 0);
+            _dataIntegerBuffer.Add(IDCommands.LEGAL_FOR_TRADE_OPERATION, 0);
+
+            _dataIntegerBuffer.Add(IDCommands.STATUS_INPUT_1, 0);
+            _dataIntegerBuffer.Add(IDCommands.GENERAL_SCALE_ERROR, 0);
+            _dataIntegerBuffer.Add(IDCommands.COARSE_FLOW, 0);
+            _dataIntegerBuffer.Add(IDCommands.FINE_FLOW, 0);
+            _dataIntegerBuffer.Add(IDCommands.READY, 0);
+            _dataIntegerBuffer.Add(IDCommands.REDOSING, 0);
+            _dataIntegerBuffer.Add(IDCommands.EMPTYING, 0);
+            _dataIntegerBuffer.Add(IDCommands.FLOW_ERROR, 0);
+
+            _dataIntegerBuffer.Add(IDCommands.ALARM, 0);
+            _dataIntegerBuffer.Add(IDCommands.TOLERANCE_ERROR_PLUS, 0);
+            _dataIntegerBuffer.Add(IDCommands.TOLERANCE_ERROR_MINUS, 0);
+            _dataIntegerBuffer.Add(IDCommands.CURRENT_DOSING_TIME, 0);
+            _dataIntegerBuffer.Add(IDCommands.CURRENT_COARSE_FLOW_TIME, 0);
+            _dataIntegerBuffer.Add(IDCommands.CURRENT_FINE_FLOW_TIME, 0);
+            _dataIntegerBuffer.Add(IDCommands.PARAMETER_SET_PRODUCT, 0);
+            _dataIntegerBuffer.Add(IDCommands.DOWNWARDS_DOSING, 0);
+
+            _dataIntegerBuffer.Add(IDCommands.TOTAL_WEIGHT, 0);
+            _dataIntegerBuffer.Add(IDCommands.TARGET_FILLING_WEIGHT, 0);
+            _dataIntegerBuffer.Add(IDCommands.START_WITH_FINE_FLOW, 0);
+
+            _dataIntegerBuffer.Add(IDCommands.DELAY_TIME_AFTER_FINE_FLOW, 0);
+            _dataIntegerBuffer.Add(IDCommands.ACTIVATION_TIME_AFTER_FINE_FLOW, 0);
+
+            // Undefined IDs : 
+            /*
+            _dataIntegerBuffer.Add(_commands.DOSING_STATE, 0);
+            _dataIntegerBuffer.Add(_commands.DOSING_RESULT, 0);
+            _dataIntegerBuffer.Add(IDCommands.DELAY1_DOSING, 0);
+            _dataIntegerBuffer.Add(IDCommands.STANDARD_DEVIATION, 0);
+            _dataIntegerBuffer.Add(IDCommands.EMPTY_WEIGHT_TOLERANCE, 0);
+            _dataIntegerBuffer.Add(IDCommands.MEAN_VALUE_DOSING_RESULTS, 0);
+            _dataIntegerBuffer.Add(IDCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW, 0);
+            */
         }
-
 
         private void UpdateDictionary()
         {
-            // Process data : 
+            _dataIntegerBuffer[IDCommands.NET_VALUE] = _dataWTX[1] + (_dataWTX[0] << 16);
+            _dataIntegerBuffer[IDCommands.GROSS_VALUE] = _dataWTX[3] + (_dataWTX[2] << 16);
+            _dataIntegerBuffer[IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS] = _dataWTX[4];
+            _dataIntegerBuffer[IDCommands.SCALE_COMMAND_STATUS] = _dataWTX[5];                  // status -> Measured value status
+            _dataIntegerBuffer[IDCommands.STATUS_DIGITAL_INPUT_1] = _dataWTX[6];
+            _dataIntegerBuffer[IDCommands.STATUS_DIGITAL_OUTPUT_1] = _dataWTX[7];
+            _dataIntegerBuffer[IDCommands.LIMIT_VALUE] = _dataWTX[8];
+            _dataIntegerBuffer[IDCommands.FINE_FLOW_CUT_OFF_POINT] = _dataWTX[20];
+            _dataIntegerBuffer[IDCommands.COARSE_FLOW_CUT_OFF_POINT] = _dataWTX[22];
 
-            _dataIntegerBuffer[_commands.NET_VALUE] = _dataWTX[1] + (_dataWTX[0] << 16);
-            _dataIntegerBuffer[_commands.GROSS_VALUE] = _dataWTX[3] + (_dataWTX[2] << 16);
-            _dataIntegerBuffer[_commands.WEIGHING_DEVICE_1_WEIGHT_STATUS] = _dataWTX[4];
-            _dataIntegerBuffer[_commands.SCALE_COMMAND_STATUS] = _dataWTX[5];                       // status -> Measured value status
-            _dataIntegerBuffer[_commands.STATUS_DIGITAL_INPUT_1] = _dataWTX[6];
-            _dataIntegerBuffer[_commands.STATUS_DIGITAL_OUTPUT_1] = _dataWTX[7];
-            _dataIntegerBuffer[_commands.LIMIT_VALUE] = _dataWTX[8];
-            _dataIntegerBuffer[_commands.FINE_FLOW_CUT_OFF_POINT] = _dataWTX[20];
-            _dataIntegerBuffer[_commands.COARSE_FLOW_CUT_OFF_POINT] = _dataWTX[22];
+            _dataIntegerBuffer[IDCommands.APPLICATION_MODE] = _dataWTX[5] & 0x1;             // application mode 
+            _dataIntegerBuffer[IDCommands.DECIMALS] = (_dataWTX[5] & 0x70) >> 4;     // decimals
+            _dataIntegerBuffer[IDCommands.UNIT_PREFIX_FIXED_PARAMETER] = (_dataWTX[5] & 0x180) >> 7;    // unit
 
-            _dataIntegerBuffer[_commands.APPLICATION_MODE] = _dataWTX[5] & 0x1;                      // application mode 
-            _dataIntegerBuffer[_commands.DECIMALS] = (_dataWTX[5] & 0x70) >> 4;                      // decimals
-            _dataIntegerBuffer[_commands.UNIT_PREFIX_FIXED_PARAMETER] = (_dataWTX[5] & 0x180) >> 7;  // unit
+            _dataIntegerBuffer[IDCommands.COARSE_FLOW_MONITORING] = _dataWTX[8] & 0x1;           //_coarseFlow
+            _dataIntegerBuffer[IDCommands.FINE_FLOW_MONITORING] = ((_dataWTX[8] & 0x2) >> 1);  // _fineFlow
 
-            _dataIntegerBuffer[_commands.COARSE_FLOW_MONITORING] = _dataWTX[8] & 0x1;         //_coarseFlow
-            _dataIntegerBuffer[_commands.FINE_FLOW_MONITORING] = ((_dataWTX[8] & 0x2) >> 1);  // _fineFlow
+            _dataIntegerBuffer[IDCommands.READY] = ((_dataWTX[8] & 0x4) >> 2);
+            _dataIntegerBuffer[IDCommands.REDOSING] = ((_dataWTX[8] & 0x8) >> 3);
+            _dataIntegerBuffer[IDCommands.EMPTYING_MODE] = ((_dataWTX[8] & 0x10) >> 4);
+            _dataIntegerBuffer[IDCommands.MAXIMAL_DOSING_TIME] = ((_dataWTX[8] & 0x100) >> 8);
+            _dataIntegerBuffer[IDCommands.UPPER_TOLERANCE_LIMIT] = ((_dataWTX[8] & 0x400) >> 10);
+            _dataIntegerBuffer[IDCommands.LOWER_TOLERANCE_LIMIT] = ((_dataWTX[8] & 0x800) >> 11);
+            _dataIntegerBuffer[IDCommands.STATUS_DIGITAL_INPUT_1] = ((_dataWTX[8] & 0x4000) >> 14);
+            _dataIntegerBuffer[IDCommands.LEGAL_FOR_TRADE_OPERATION] = ((_dataWTX[8] & 0x200) >> 9);
 
-            _dataIntegerBuffer[_commands.EMPTYING_MODE] = ((_dataWTX[8] & 0x10) >> 4);
-            _dataIntegerBuffer[_commands.MAXIMAL_DOSING_TIME] = ((_dataWTX[8] & 0x100) >> 8);
-            _dataIntegerBuffer[_commands.UPPER_TOLERANCE_LIMIT] = ((_dataWTX[8] & 0x400) >> 10);
-            _dataIntegerBuffer[_commands.LOWER_TOLERANCE_LIMIT] = ((_dataWTX[8] & 0x800) >> 11);
-            _dataIntegerBuffer[_commands.STATUS_DIGITAL_INPUT_1] = ((_dataWTX[8] & 0x4000) >> 14);
+            _dataIntegerBuffer[IDCommands.DOSING_RESULT] = _dataWTX[12];
+            _dataIntegerBuffer[IDCommands.MEAN_VALUE_DOSING_RESULTS] = _dataWTX[14];
+            _dataIntegerBuffer[IDCommands.STANDARD_DEVIATION] = _dataWTX[16];
+            _dataIntegerBuffer[IDCommands.CURRENT_DOSING_TIME] = _dataWTX[24];    // _currentDosingTime = _dataWTX[24];
 
-            _dataIntegerBuffer[_commands.DOSING_RESULT] = _dataWTX[12];
-            _dataIntegerBuffer[_commands.MEAN_VALUE_DOSING_RESULTS] = _dataWTX[14];
-            _dataIntegerBuffer[_commands.STANDARD_DEVIATION] = _dataWTX[16];
-            _dataIntegerBuffer[_commands.DOSING_TIME] = _dataWTX[24];                 // _currentDosingTime = _dataWTX[24];
+            _dataIntegerBuffer[IDCommands.CURRENT_COARSE_FLOW_TIME] = _dataWTX[25];      // _currentCoarseFlowTime
+            _dataIntegerBuffer[IDCommands.CURRENT_FINE_FLOW_TIME] = _dataWTX[26];      // _currentFineFlowTime
+            _dataIntegerBuffer[IDCommands.RANGE_SELECTION_PARAMETER] = _dataWTX[27];     // _parameterSetProduct
 
-            _dataIntegerBuffer[_commands.COARSE_FLOW_TIME] = _dataWTX[25];            // _currentCoarseFlowTime
-            _dataIntegerBuffer[_commands.FINE_FLOW_TIME] = _dataWTX[26];              // _currentFineFlowTime
-            _dataIntegerBuffer[_commands.RANGE_SELECTION_PARAMETER] = _dataWTX[27];   // _parameterSetProduct
+            _dataIntegerBuffer[IDCommands.WEIGHT_MEMORY_STANDARD[0]] = (_dataWTX[9]);   // = weightMemDay
+            _dataIntegerBuffer[IDCommands.WEIGHT_MEMORY_STANDARD[1]] = (_dataWTX[10]);  // = weightMemMonth
+            _dataIntegerBuffer[IDCommands.WEIGHT_MEMORY_STANDARD[2]] = (_dataWTX[11]);  // = weightMemYear
+            _dataIntegerBuffer[IDCommands.WEIGHT_MEMORY_STANDARD[3]] = (_dataWTX[12]);  // = weightMemSeqNumber
+            _dataIntegerBuffer[IDCommands.WEIGHT_MEMORY_STANDARD[4]] = (_dataWTX[13]);  // = weightMemGross
+            _dataIntegerBuffer[IDCommands.WEIGHT_MEMORY_STANDARD[5]] = (_dataWTX[14]);  // = weightMemNet
 
-            _dataIntegerBuffer[_commands.LIMIT_VALUE] = _dataWTX[8];
+            _dataIntegerBuffer[IDCommands.EMPTYING] = ((_dataWTX[8] & 0x10) >> 4);
+            _dataIntegerBuffer[IDCommands.FLOW_ERROR] = ((_dataWTX[8] & 0x20) >> 5);
+            _dataIntegerBuffer[IDCommands.ALARM] = ((_dataWTX[8] & 0x40) >> 6);
+            _dataIntegerBuffer[IDCommands.ADC_OVER_UNDERLOAD] = ((_dataWTX[8] & 0x80) >> 7);
 
-            // Standard data: Missing ID's
-            /*
-                _limitStatus1 = (_dataWTX[8] & 0x1); ;
-                _limitStatus2 = ((_dataWTX[8] & 0x2) >> 1);
-                _limitStatus3 = ((_dataWTX[8] & 0x4) >> 2);
-                _limitStatus4 = ((_dataWTX[8] & 0x8) >> 3);
-                _weightMemDay = (_dataWTX[9]);
-                _weightMemMonth = (_dataWTX[10]);
-                _weightMemYear = (_dataWTX[11]);
-                _weightMemSeqNumber = (_dataWTX[12]);
-                _weightMemGross = (_dataWTX[13]);
-                _weightMemNet = (_dataWTX[14]);
-           */
+            _dataIntegerBuffer[IDCommands.STATUS_INPUT_1] = ((_dataWTX[8] & 0x4000) >> 14);
+            _dataIntegerBuffer[IDCommands.GENERAL_SCALE_ERROR] = ((_dataWTX[8] & 0x8000) >> 15);
+            _dataIntegerBuffer[IDCommands.TOTAL_WEIGHT] = _dataWTX[18];
 
             // Filler data: Missing ID's
             /*
-                _ready = ((_dataWTX[8] & 0x4) >> 2);
-                _reDosing = ((_dataWTX[8] & 0x8) >> 3)
-                _emptying = ((_dataWTX[8] & 0x10) >> 4);
-                _flowError = ((_dataWTX[8] & 0x20) >> 5);
-                _alarm = ((_dataWTX[8] & 0x40) >> 6);
-                _adcOverUnderload = ((_dataWTX[8] & 0x80) >> 7);           
-                _legalForTradeOperation = ((_dataWTX[8] & 0x200) >> 9);
-                _statusInput1 = ((_dataWTX[8] & 0x4000) >> 14);
-                _generalScaleError = ((_dataWTX[8] & 0x8000) >> 15);
-                _fillingProcessStatus = _dataWTX[9];
-                _numberDosingResults = _dataWTX[11];          
-                _totalWeight = _dataWTX[18];
+            _dataIntegerBuffer[IDCommands.] = _fillingProcessStatus = _dataWTX[9];  // Undefined
+            _dataIntegerBuffer[IDCommands.] = _numberDosingResults = _dataWTX[11];          
             */
 
         }
@@ -1204,12 +1244,10 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
 
         }
-
-        public string ConnectionType
+        public ConnectionType ConnType
         {
-            get { return "Modbus"; }
+            get { return ConnectionType.Modbus; }
         }
-
         public ICommands IDCommands
         {
             get

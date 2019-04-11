@@ -37,7 +37,9 @@ using System.Threading.Tasks;
 namespace HBM.Weighing.API
 {
     /// <summary>
-    /// Interface containing the data for the standard mode of your WTX device
+    /// Interface containing the data for the standard mode of your WTX device.
+    /// A class inheriting from interface IDataStandard contains the input word 
+    /// and output words for the standard mode of WTX device 120 and 110.
     /// </summary>
     public interface IDataStandard 
     {
@@ -58,12 +60,12 @@ namespace HBM.Weighing.API
         int LimitStatus3 { get; }
         int LimitStatus4 { get; }
 
-        int WeightMemDay      { get; set; }
-        int WeightMemMonth    { get; set; }
-        int WeightMemYear     { get; set; }
-        int WeightMemSeqNumber{ get; set; }
-        int WeightMemGross    { get; set; }
-        int WeightMemNet      { get; set; }
+        int WeightMemDay      { get; }
+        int WeightMemMonth    { get; }
+        int WeightMemYear     { get; }
+        int WeightMemSeqNumber{ get; }
+        int WeightMemGross    { get; }
+        int WeightMemNet      { get; }
 
         #endregion
 

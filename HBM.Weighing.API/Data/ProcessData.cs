@@ -36,6 +36,8 @@ namespace HBM.Weighing.API
 {
     /// <summary>
     /// Implementation of the interface IProcessData for the process data
+    /// The class ProcessData contains the input word concerning real-time data 
+    /// of WTX device 120 and 110.
     /// </summary>
     public class ProcessData : IProcessData
     {
@@ -125,21 +127,20 @@ namespace HBM.Weighing.API
             _weightInZeroRange = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1000) >> 12);
 
             _decimals = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DECIMALS]);
-            
-            if (_connection.ConnectionType.Equals("Modbus"))
-                _unit = Convert.ToInt32(e.DataDictionary["5/2/7"]);
-            else           
-                _unit = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;
-            
-            if (_connection.ConnectionType.Equals("Modbus"))
+
+            if (_connection.ConnType == ConnectionType.Modbus)
             {
                 _status = (Convert.ToInt32(e.DataDictionary["5/1/15"]) & 0x8000) >> 15;
                 _handshake = Convert.ToBoolean(((Convert.ToInt32(e.DataDictionary["5/1/15"]) & 0x4000) >> 14));
+                _unit = Convert.ToInt32(e.DataDictionary["5/2/7"]);
             }
             else
+            {
                 _status = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]);
-            
-             this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
+                _unit = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;
+            }
+
+            this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
              
         }
         public bool UpdateHandshake(int _handshakeValue)

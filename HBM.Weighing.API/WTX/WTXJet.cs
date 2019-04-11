@@ -362,10 +362,10 @@ namespace HBM.Weighing.API.WTX
             //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
             _connection.Write(_connection.IDCommands.SCALE_COMMAND, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
-            // check : command "on go" = command is in execution = 
+            // check : command "on go" = command is in execution
             while (_connection.Read(_connection.IDCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_ONGOING);
 
-            // check : command "ok" = command is done = 
+            // check : command "ok" = command is done
             while (_connection.Read(_connection.IDCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_OK);
             
         }
@@ -378,10 +378,10 @@ namespace HBM.Weighing.API.WTX
 
             _connection.Write(_connection.IDCommands.SCALE_COMMAND, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
 
-            // check : command "on go" = command is in execution = 
+            // check : command "on go" = command is in execution
             while (_connection.Read(_connection.IDCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
 
-            // check : command "ok" = command is done = 
+            // check : command "ok" = command is done
             while (_connection.Read(_connection.IDCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_OK) ;     
 
             //this._isCalibrating = true;

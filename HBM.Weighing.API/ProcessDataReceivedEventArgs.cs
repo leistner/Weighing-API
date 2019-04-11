@@ -57,6 +57,5 @@ namespace HBM.Weighing.API
                 _processData = value;
             }
         }
-
         }
 }

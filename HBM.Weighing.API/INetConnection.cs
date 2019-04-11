@@ -51,9 +51,11 @@ namespace HBM.Weighing.API
 
         void Connect();
 
-        string ConnectionType { get; }
+        ConnectionType ConnType { get; }
              
         void Disconnect();
+
+        ICommands IDCommands { get; }
 
         int Read(object index);       
 
@@ -66,8 +68,6 @@ namespace HBM.Weighing.API
         void WriteArray(string index, int data);
                 
         Dictionary<string, int> AllData { get; }
-
-        ICommands IDCommands { get; }
         }
 
 }

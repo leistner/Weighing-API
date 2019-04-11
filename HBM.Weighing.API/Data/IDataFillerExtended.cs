@@ -37,7 +37,11 @@ using System.Threading.Tasks;
 namespace HBM.Weighing.API
 {
     /// <summary>
-    /// Interface containing the data for the filler extended mode of your WTX device
+    /// Interface containing the data for the filler extended mode of your WTX device.
+    /// A class inheriting from interface IDataFillerExtended contains the input word 
+    /// and output words for the extended filler mode of WTX device 120 and 110.
+    /// 
+    /// This is only available via a JetBus Ethernet connection, not via Modbus. 
     /// </summary>
     public interface IDataFillerExtended : IDataFiller
     {

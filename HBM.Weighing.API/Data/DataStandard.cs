@@ -41,6 +41,8 @@ namespace HBM.Weighing.API.Data
 {
     /// <summary>
     /// Implementation of the interface IDataStandard for the standard mode.
+    /// The class DataStandard contains the data input word and data output words for the filler mode
+    /// of WTX device 120 and 110.
     /// </summary>
     public class DataStandard : IDataStandard
     {
@@ -63,6 +65,8 @@ namespace HBM.Weighing.API.Data
         private int _limitStatus3;
         private int _limitStatus4;
 
+        // Modbus only:
+
         private int _weightMemDay;
         private int _weightMemMonth;
         private int _weightMemYear;
@@ -70,7 +74,12 @@ namespace HBM.Weighing.API.Data
         private int _weightMemGross;
         private int _weightMemNet;
 
-        // Output words : 
+        // Jetbus only:
+
+        private int _weight_storage;
+        private int _mode_weight_storage;
+
+        // Output words: 
 
         private int _manualTareValue;
         private int _limitValue1Input;
@@ -147,6 +156,9 @@ namespace HBM.Weighing.API.Data
             _weightMemSeqNumber=0;
             _weightMemGross=0;
             _weightMemNet=0;
+
+            _weight_storage=0;
+            _mode_weight_storage=0;
 
             _manualTareValue=0;
             _limitValue1Input=0;
@@ -231,34 +243,42 @@ namespace HBM.Weighing.API.Data
             if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 0 || e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 1)  // If application mode = standard
             {
                 _limitValueMonitoringLIV11 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11];
-                _signalSourceLIV12 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
-                _switchOnLevelLIV13 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV13];
+                _signalSourceLIV12   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
+                _switchOnLevelLIV13  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV13];
                 _switchOffLevelLIV14 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14];
 
                 _limitValueMonitoringLIV21 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21];
-                _signalSourceLIV22 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV22];
-                _switchOnLevelLIV23 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV23];
+                _signalSourceLIV22   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV22];
+                _switchOnLevelLIV23  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV23];
                 _switchOffLevelLIV24 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24];
 
                 _limitValueMonitoringLIV31 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31];
-                _signalSourceLIV32 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV32];
-                _switchOnLevelLIV33 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV33];
+                _signalSourceLIV32   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV32];
+                _switchOnLevelLIV33  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV33];
                 _switchOffLevelLIV34 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34];
 
                 _limitValueMonitoringLIV41 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41];
-                _signalSourceLIV42 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
-                _switchOnLevelLIV43 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
+                _signalSourceLIV42   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
+                _switchOnLevelLIV43  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
                 _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];
             }
-            // Missing input data words via modbus
-            /*
-                    _weightMemDay = (e.Data[9]);
-                    _weightMemMonth = (e.Data[10]);
-                    _weightMemYear = (e.Data[11]);
-                    _weightMemSeqNumber = (e.Data[12]);
-                    _weightMemGross = (e.Data[13]);
-                    _weightMemNet = (e.Data[14]);
-            */
+            if (_connection.ConnType == ConnectionType.Modbus)
+            {
+                /*
+                _weightMemDay   = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[0]]);
+                _weightMemMonth = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[1]]);
+                _weightMemYear  = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[2]]);
+                _weightMemSeqNumber = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[3]]);
+                _weightMemGross = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[4]]);
+                _weightMemNet   = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[5]]);
+                */
+            }
+            if (_connection.ConnType == ConnectionType.Jetbus)
+            {
+                _weight_storage      = Convert.ToInt16(e.DataDictionary[(_connection.IDCommands.WEIGHT_MEMORY_STANDARD[0])]);
+                _mode_weight_storage = Convert.ToInt16(e.DataDictionary[(_connection.IDCommands.WEIGHT_MEMORY_STANDARD[1])]);
+            }
+            
         }
         #endregion
 
@@ -315,34 +335,43 @@ namespace HBM.Weighing.API.Data
         public int WeightMemDay
         {
             get{ return _weightMemDay; }
-            set{ this._weightMemDay = value; }
+            //set{ this._weightMemDay = value; }
         }
         public int WeightMemMonth
         {
             get{ return _weightMemMonth; }
-            set{ this._weightMemMonth = value; }
+            //set{ this._weightMemMonth = value; }
         }
         public int WeightMemYear
         {
             get{ return _weightMemYear;}
-            set{ this._weightMemYear = value; }
+            //set{ this._weightMemYear = value; }
         }
         public int WeightMemSeqNumber
         {
             get{ return _weightMemSeqNumber; }
-            set{ this._weightMemSeqNumber = value; }
+            //set{ this._weightMemSeqNumber = value; }
         }
         public int WeightMemGross
         {
             get{ return _weightMemGross; }
-            set{ this._weightMemGross = value; }
+            //set{ this._weightMemGross = value; }
         }
         public int WeightMemNet
         {
             get{ return _weightMemNet; }
-            set{ this._weightMemNet = value; }
+            //set{ this._weightMemNet = value; }
         }
-
+        public int WeightStorage
+        {
+            get { return _weight_storage; }
+            set { this._weight_storage = value; }
+        }
+        public int ModeWeightStorage
+        {
+            get { return _mode_weight_storage; }
+            set { this._mode_weight_storage = value; }
+        }
         #endregion
 
         #region Get-/Set-properties for standard mode 
@@ -532,7 +561,6 @@ namespace HBM.Weighing.API.Data
         
         private string getIndex(string IDCommandParam)
         {
-            string test = IDCommandParam.Split('/')[0];
             return IDCommandParam.Split('/')[0];
         }
        

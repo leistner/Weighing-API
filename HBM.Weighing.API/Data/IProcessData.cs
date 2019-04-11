@@ -35,7 +35,9 @@ namespace HBM.Weighing.API
 {
 
     /// <summary>
-    /// Interface containing the process data of your WTX device
+    /// Interface containing the process data of your WTX device.
+    /// A class inheriting from interface IProcessData contains the 
+    /// input word concerning real-time data of WTX device 120 and 110.
     /// </summary>
     public interface IProcessData
     {
