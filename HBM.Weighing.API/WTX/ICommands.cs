@@ -37,17 +37,17 @@ using System.Threading.Tasks;
 namespace HBM.Weighing.API.WTX
 {
     /// <summary>
-    /// Interface for using commands, respectively indexes/paths, to read/write the registers of the WTX device via Modbus
-    /// or to the paths via Jetbus to get the data.
-    /// Its subclasses are : ModbusCommands, JetBusCommands. 
+    /// Interface for using commands, respectively indexes/paths, to read/write the 
+    /// registers of the WTX device via Modbus or to the paths via Jetbus to get the data.
+    /// Its subclasses iheriting from ICommands : ModbusCommands, JetBusCommands. 
     /// </summary>
     public interface ICommands
     {
         #region ID Commands : Maintenance - Calibration
 
-        string LDW_DEAD_WEIGHT{ get; }                // LDW = Nullpunkt
-        string LWT_NOMINAL_VALUE{ get; }              // LWT = Nennwert
-        string LFT_SCALE_CALIBRATION_WEIGHT{ get; }   // LFT = LFT scale calibration weight
+        string LDW_DEAD_WEIGHT { get; }                // LDW = Nullpunkt
+        string LWT_NOMINAL_VALUE { get; }              // LWT = Nennwert
+        string LFT_SCALE_CALIBRATION_WEIGHT { get; }   // LFT = LFT scale calibration weight
 
         #endregion
 
@@ -81,7 +81,7 @@ namespace HBM.Weighing.API.WTX
         string LIMIT_VALUE { get; }   // LVS
 
         #endregion
-        
+
         #region ID commands for filler data
 
         string COARSE_FLOW_MONITORING { get; }      // CBK = Füllstromüberwachung Grobstrom
@@ -110,7 +110,8 @@ namespace HBM.Weighing.API.WTX
         string DOSING_COUNTER { get; }              // NDS = Dosierzähler
         string OPTIMIZATION { get; }                // OSN = Optimierung
         string RANGE_SELECTION_PARAMETER { get; }   // RDP = Auswahl Dosierparameter
-
+        string DELAY_TIME_AFTER_FINE_FLOW { get; }
+        string ACTIVATION_TIME_AFTER_FINE_FLOW { get; }
         string REDOSING { get; }                    // RDS = Nachdosieren
         string RESIDUAL_FLOW_TIME { get; }          // RFT = Nachstromzeit
         string RUN_START_DOSING { get; }            // RUN = Start Dosieren
@@ -134,7 +135,7 @@ namespace HBM.Weighing.API.WTX
         #region ID commands for filler extended data
 
         #endregion
-        
+
         #region All other ID commands for Operator, Administrator and Maintenance : 
 
         string ERROR_REGISTER { get; }
@@ -177,7 +178,7 @@ namespace HBM.Weighing.API.WTX
         string MULTI_LIMIT_1 { get; }
         string MULTI_LIMIT_2 { get; }
 
-        
+
         string OIML_CERTIFICAITON_INFORMATION { get; }
         string NTEP_CERTIFICAITON_INFORMATION { get; }
         string MAXIMUM_ZEROING_TIME { get; }
@@ -187,7 +188,7 @@ namespace HBM.Weighing.API.WTX
         string MINIMUM_PEAK_VALUE { get; }
         string WEIGHT_MOVING_DETECTION { get; }
         string DEVICE_ADDRESS { get; }
-        
+
         string HARDWARE_VERSION { get; } // = Hardware Variante
         string IDENTIFICATION { get; }
         string LIMIT_VALUE_MONITORING_LIV11 { get; } // = Grenzwertüberwachung
@@ -200,7 +201,7 @@ namespace HBM.Weighing.API.WTX
         string SWITCH_OFF_LEVEL_LIV24 { get; }
         string LIMIT_VALUE_MONITORING_LIV31 { get; }
         string SIGNAL_SOURCE_LIV32 { get; }
-        
+
         string SWITCH_ON_LEVEL_LIV33 { get; }
         string SWITCH_OFF_LEVEL_LIV34 { get; }
         string LIMIT_VALUE_MONITORING_LIV41 { get; }
@@ -214,7 +215,7 @@ namespace HBM.Weighing.API.WTX
         string SOFTWARE_IDENTIFICATION { get; }
         string SOFTWARE_VERSION { get; }
         string DATE_TIME { get; }
-        
+
         string BREAK_DOSING { get; }                // BRK = Abbruch Dosierung
         string DELETE_DOSING_RESULT { get; }        // CSN = Löschen Dosierergebniss
         string MATERIAL_STREAM_LAST_DOSING { get; } // MFO = Materialstrom des letzten Dosierzyklus
@@ -226,8 +227,39 @@ namespace HBM.Weighing.API.WTX
         string DELAY2_DOSING { get; }               // DL2 = Delay 2 für Dosieren
         string EMPTY_WEIGHT_TOLERANCE { get; }      // EWT = Entleertoleranz
         string RESIDUAL_FLOW_DOSING_CYCLE { get; }  // RFO = Nachstrom des letzten Dosierzyklus
-        
+
         #endregion
-    
+
+        string[] WEIGHT_MEMORY_STANDARD { get; }
+
+        string[] WEIGHT_MEMORY_FILLER { get; }
+
+        #region IDs for Modbus only
+        // For Modbus only: 
+        string ADC_OVER_UNDERLOAD { get; }
+        string LEGAL_FOR_TRADE_OPERATION { get; }
+        string STATUS_INPUT_1 { get; }
+        string GENERAL_SCALE_ERROR { get; }
+        string COARSE_FLOW { get; }
+        string FINE_FLOW { get; }
+        string READY { get; }
+        string EMPTYING { get; }
+        string FLOW_ERROR { get; }
+        string ALARM { get; }
+        string TOLERANCE_ERROR_PLUS { get; }
+        string TOLERANCE_ERROR_MINUS { get; }
+        string CURRENT_DOSING_TIME { get; }
+        string CURRENT_COARSE_FLOW_TIME { get; }
+        string CURRENT_FINE_FLOW_TIME { get; }
+        string PARAMETER_SET_PRODUCT { get; }
+        string DOWNWARDS_DOSING { get; }
+        string TOTAL_WEIGHT { get; }
+        string TARGET_FILLING_WEIGHT { get; }
+        string COARSE_FLOW_CUT_OFF_POINT_SET { get; }
+        string FINE_FLOW_CUT_OFF_POINT_SET { get; }
+        string START_WITH_FINE_FLOW { get; }
+
+        #endregion
+
     }
 }

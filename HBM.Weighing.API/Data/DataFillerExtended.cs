@@ -39,6 +39,10 @@ namespace HBM.Weighing.API.Data
 {
     /// <summary>
     /// Implementation of the interface IDataFillerExtended for the filler extended mode.
+    /// The class DataFillerExtended contains the data input word and data output words for the filler extended mode
+    /// of WTX device 120 and 110. 
+    /// 
+    /// This is only available via a JetBus Ethernet connection, not via Modbus. 
     /// </summary>
     public class DataFillerExtended : DataFiller, IDataFillerExtended
     {
@@ -247,7 +251,7 @@ namespace HBM.Weighing.API.Data
                 _productCode = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.PRODUCT_CODE]);
                 _serialNumber = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SERIAL_NUMBER]);
                 _implementedProfileSpecification = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.IMPLEMENTED_PROFILE_SPECIFICATION]);
-                _lcCapability = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.LC_CAPABILITY]);
+                //_lcCapability = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.LC_CAPABILITY]);
                 _weighingDevice1UnitPrefixOutputParameter = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER]);             
 
                 _weighingDevice1WeightStep = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STEP]);
@@ -293,17 +297,17 @@ namespace HBM.Weighing.API.Data
                 _maximumPeakValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.MAXIMUM_PEAK_VALUE]);
                 _minimumPeakValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.MINIMUM_PEAK_VALUE]);
                 _weightMovingDetection = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHT_MOVING_DETECTION]);
-                //_deviceAddress = e.DataDictionary[_connection.IDCommands.DEVICE_ADDRESS]);
-                //_hardwareVersion = e.DataDictionary[_connection.IDCommands.HAREWARE_VERSION]);
-                //_identification = e.DataDictionary[_connection.IDCommands.IDENTIFICATION]);
-
+                //_deviceAddress = e.DataDictionary[_connection.IDCommands.DEVICE_ADDRESS];
+                //_hardwareVersion = e.DataDictionary[_connection.IDCommands.HARDWARE_VERSION];
+                //_identification = e.DataDictionary[_connection.IDCommands.IDENTIFICATION];
+                
                 _outputScale = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.OUTPUT_SCALE]);
-                //_firmwareDate = e.DataDictionary[_connection.IDCommands.FIRMWARE_DATE]);
+                //_firmwareDate = e.DataDictionary[_connection.IDCommands.FIRMWARE_DATE];
                 _resetTrigger = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.RESET_TRIGGER]);
                 _stateDigital_IO_Extended = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.STATE_DIGITAL_IO_EXTENDED]);
 
-                //_softwareIdentification = e.DataDictionary[_connection.IDCommands.SOFTWARE_IDENTIFICATION]);
-                //_softwareVersion = e.DataDictionary[_connection.IDCommands.SOFTWARE_VERSION]);
+                //_softwareIdentification = e.DataDictionary[_connection.IDCommands.SOFTWARE_IDENTIFICATION];
+                //_softwareVersion = e.DataDictionary[_connection.IDCommands.SOFTWARE_VERSION];
                 _dateTime = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DATE_TIME]);
 
                 _breakDosing = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.BREAK_DOSING]);
@@ -319,7 +323,6 @@ namespace HBM.Weighing.API.Data
                 _residualFlowDosingCycle = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.RESIDUAL_FLOW_DOSING_CYCLE]);
             }
         }
-
         #endregion
 
         #region Properties for the filler extended data

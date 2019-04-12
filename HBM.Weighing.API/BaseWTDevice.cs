@@ -35,7 +35,14 @@ using System;
 
 namespace HBM.Weighing.API
 {
-    #region Enumerations application mode, limit switches for standard application
+    #region Enumerations ethernet connection type application mode, limit switches for standard application
+
+    public enum ConnectionType
+    {
+        Modbus = 0,
+        Jetbus = 1
+    };
+
     public enum ApplicationMode
     {
         Standard = 0,
@@ -45,10 +52,10 @@ namespace HBM.Weighing.API
 
     public enum LimitSwitchesSourceStandard
     {
-        AboveLevel = 0,
-        BelowLevel = 1,
+        AboveLevel  = 0,
+        BelowLevel  = 1,
         OutsideBand = 2,
-        InsideBand = 3
+        InsideBand  = 3
     };
 
     public enum LimitSwitchesModeStandard

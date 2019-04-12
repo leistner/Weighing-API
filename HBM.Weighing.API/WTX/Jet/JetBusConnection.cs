@@ -139,9 +139,9 @@ namespace HBM.Weighing.API.WTX.Jet
             WaitOne(2);
         }
 
-        public string ConnectionType
+        public ConnectionType ConnType
         {
-            get { return "Jet"; }
+            get { return ConnectionType.Jetbus; }
         }
 
         public bool IsConnected

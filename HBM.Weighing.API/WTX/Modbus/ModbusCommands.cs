@@ -36,25 +36,53 @@ using System.Threading.Tasks;
 
 namespace HBM.Weighing.API.WTX.Modbus
 {
+    /// <summary>
+    /// Class for using commands, respectively indexes/paths, to read/write the 
+    /// registers of the WTX device via Modbus to get the data.
+    /// ID's/Commands for subscribing values of the WTX device. 
+    /// The ID's are commited as a parameter for the read and/or write method call.  
+    /// This class inherits from interface ICommands. 
+    /// </summary>
     public class ModbusCommands : ICommands
     {
         public ModbusCommands()
-        {
-
+        {          
         }
+
+        #region ID Commands : Memory - day, month, year, seqNumber, gross, net
+
+        // For standard mode: 
+        private const string _readWeightMemDay_ID       = "9";  
+        private const string _readWeightMemMonth_ID     = "10";
+        private const string _readWeightMemYear_ID      = "11";
+        private const string _readWeightMemSeqNumber_ID = "12";
+        private const string _readWeightMemGross_ID     = "13";
+        private const string _readWeightMemNet_ID       = "14";
+
+        // For filler mode: 
+        private const string _writeWeightMemDay_ID       = "32";
+        private const string _writeWeightMemMonth_ID     = "33";
+        private const string _writeWeightMemYear_ID      = "34";
+        private const string _writeWeightMemSeqNumber_ID = "35";
+        private const string _writeWeightMemGross_ID     = "36";
+        private const string _writeWeightMemNet_ID       = "37";
+
+        private string[] _readWeightMemArray  = new string[6] { _readWeightMemDay_ID, _readWeightMemMonth_ID, _readWeightMemYear_ID, _readWeightMemSeqNumber_ID, _readWeightMemGross_ID, _readWeightMemNet_ID };
+        private string[] _writeWeightMemArray = new string[6]{ _writeWeightMemDay_ID, _writeWeightMemMonth_ID, _writeWeightMemYear_ID, _writeWeightMemSeqNumber_ID, _writeWeightMemGross_ID, _writeWeightMemNet_ID };
+        #endregion
 
         #region ID Commands : Maintenance - Calibration
 
-        private const string _ldw_dead_weight = "48";                // LDW = Nullpunkt
+        private const string _ldw_dead_weight   = "48";              // LDW = Nullpunkt
         private const string _lwt_nominal_value = "50";              // LWT = Nennwert
         private const string _lft_scale_calibration_weight = "46";   // LFT = LFT scale calibration weight
 
         #endregion
 
         #region ID commands for process data
-        private const string _net_value = "0";
+        private const string _net_value   = "0";
         private const string _gross_value = "2";
-        private const string _zero_value = "";
+        private const string _zero_value  = "";
 
         private const string _weighing_device_1_weight_status = "4";
 
@@ -83,59 +111,11 @@ namespace HBM.Weighing.API.WTX.Modbus
         private const string _limit_value = "8/standard/input";   // LVS
 
         private const string _tare_value = "2";  // manual tare value
-        #endregion
-
-        #region ID commands for filler data
-
-        private const string _coarse_flow_monitoring = "34/filler/output";      // CBK = Füllstromüberwachung Grobstrom
-        private const string _coarse_flow_monitoring_time = "33/filler/output"; // CBT = Überwachungszeit Grobstrom
-        private const string _coarse_flow_cut_off_point = "12/filler/output";   // CFD = Grobstromabschaltpunkt
-        private const string _coarse_flow_time = "25/filler/input";            // CFT = Grobstromzeit
-        private const string _dosing_mode = "";                   // DMD = Dosiermodus
-        private const string _dosing_time = "24/filler/input";                 // DST = Dosieristzeit
-        private const string _emptying_mode = "44/filler/output";               // EMD = Entleermodus
-
-        private const string _fine_flow_monitoring = "36/filler/output";        // FBK = Füllstromüberwachung Feinstrom
-        private const string _fine_flow_monitoring_time = "38/filler/output";   // FBT = Überwachungszeit Feinstrom
-        private const string _fine_flow_cut_off_point = "14/filler/output";     // FFD = Feinstromabschaltpunkt
-        private const string _fine_flow_phase_before_coarse_flow = ""; // FFL = Feinstromphase vor Grobstrom
-        private const string _minimum_fine_flow = "16/filler/output";           // FFM = Minimaler Feinstromanteil
-
-        private const string _fine_flow_time = "26/filler/input";              // FFT = Feinstromzeit
-        private const string _dosing_result = "";                 // FRS1 = Dosierergebnis
-        private const string _dosing_state = "";                  // FRS2 = Dosierstatus
-        private const string _reference_value_dosing = "10/filler/output";      // FWT = Sollwert dosieren = Target filling weight
-        private const string _lockout_time_coarse_flow = "21/filler/output";    // LTC = Sperrzeit Grobstrom
-        private const string _lockout_time_fine_flow = "22/filler/output";      // LTF = Sperrzeit Feinstrom
-        private const string _lower_tolerance_lomit = "26/filler/output";       // LTL = Untere Toleranz
-        private const string _maximal_dosing_time = "19/filler/output";         // MDT = Maximale Dosierzeit
-        private const string _minimum_start_weight = "28/filler/output";        // MSW = Minimum Startgewicht
-        private const string _dosing_counter = "";                // NDS = Dosierzähler
-        private const string _optimization = "18/filler/output";                // OSN = Optimierung
-        private const string _range_selection_parameter = "27/filler/output";   // RDP = Auswahl Dosierparameter
-
-        private const string _redosing = "";                      // RDS = Nachdosieren
-        private const string _residual_flow_time = "9/filler/output";           // RFT = Nachstromzeit
-        private const string _run_start_dosing = "20/filler/output";            // RUN = Start Dosieren
-
-        private const string _mean_value_dosing_results = "";         // SDM = Mittelwert Dosieren
-        private const string _dosing_state_filler = "";               // SDO = Dosierstatus
-        private const string _standard_deviation = "";                // SDS = Standardabweichung
-        private const string _settling_time_transient_response = "";  // STT = Beruhigungszeit
-        private const string _systematic_difference = "41/filler/output";           // SYD = Systematische Differenz
-        private const string _tare_delay = "32/filler/output";                      // TAD = Tarierverzögerung
-        private const string _tare_mode = "23/filler/output";                       // TMD = Tariermodus
-        private const string _upper_tolerance_limit = "24/filler/output";           // UTL = Obere Toleranz
-
-        private const string _valve_control = "43/filler/output";               // VCT = Ventilsteuerung
-        private const string _write_dosing_parameter_set = "";    // WDP = Dosierparametersatz schreiben
-        private const string _storage_weight = "";                // STO = Gewichtsspeicherung
-        private const string _storage_weight_mode = "";           // SMD = Modus Gewichtsspeicherung
 
         private const string _limit_value_monitoring_liv11 = "4/standard/output"; // = Grenzwertüberwachung 
         private const string _signal_source_liv12 = "5/standard/output";
-        private const string _switch_on_level_liv13 = "6/standard/output";   // = Einschaltpegel
-        private const string _switch_off_level_liv14 = "8/standard/output";  // = Ausschaltpegel
+        private const string _switch_on_level_liv13 = "6/standard/output";        // = Einschaltpegel
+        private const string _switch_off_level_liv14 = "8/standard/output";       // = Ausschaltpegel
 
         private const string _limit_value_monitoring_liv21 = "10/standard/output";
         private const string _signal_source_liv22 = "11/standard/output";
@@ -151,7 +131,83 @@ namespace HBM.Weighing.API.WTX.Modbus
         private const string _signal_source_liv42 = "23/standard/output";
         private const string _switch_on_level_liv43 = "24/standard/output";
         private const string _switch_off_level_liv44 = "26/standard/output";
+        #endregion
 
+        #region ID commands for filler data
+
+        private const string _coarseFlow = "8/0/filler/input";                // data input word 8, bit .0, application mode=filler
+        private const string _fineFlow   = "8/1/filler/input";                // data input word 8, bit .1, application mode=filler
+        private const string _ready      = "8/2/filler/input";                // data input word 8, bit .2, application mode=filler
+        private const string _reDosing   = "8/3/filler/input";                // data input word 8, bit .3, application mode=filler; RDS = Nachdosieren
+        private const string _emptying   = "8/4/filler/input";                // data input word 8, bit .4, application mode=filler
+        private const string _flowError  = "8/5/filler/input";                // data input word 8, bit .5, application mode=filler
+        private const string _alarm      = "8/6/filler/input";                // data input word 8, bit .6, application mode=filler
+        private const string _adcOverUnderload       = "8/7/filler/input";    // data input word 8, bit .7, application mode=filler
+        private const string _maximalDosingTimeInput = "8/8/filler/input";    // data input word 8, bit .8, application mode=filler
+        private const string _legalForTradeOperation = "8/9/filler/input";    // data input word 8, bit .9, application mode=filler
+        private const string _toleranceErrorPlus     = "8/10/filler/input";   // data input word 8, bit .10, application mode=filler
+        private const string _toleranceErrorMinus    = "8/11/filler/input";   // data input word 8, bit .11, application mode=filler
+        private const string _statusInput1      = "8/14/filler/input";        // data input word 8, bit .14, application mode=filler
+        private const string _generalScaleError = "8/15/filler/input";        // data input word 8, bit .15, application mode=filler
+
+        private const string _totalWeight         = "18/filler/input";          // data input word 18, application mode=filler
+        private const string _dosing_time         = "24/filler/input";        // DST = Dosieristzeit
+        private const string _coarse_flow_time    = "25/filler/input";        // CFT = Grobstromzeit
+        private const string _currentFineFlowTime = "26/filler/input";        // data input word 26, application mode=filler; FFT = Feinstromzeit
+        private const string _parameterSetProduct = "27/filler/input";        // data input word 27, application mode=filler
+        private const string _targetFillingWeight = "10/filler/output";   // data output word 10, application mode=filler
+
+        private const string _residual_flow_time        = "9/filler/output";    // RFT = Nachstromzeit
+        private const string _reference_value_dosing    = "10/filler/output";   // FWT = Sollwert dosieren = Target filling weight
+        private const string _coarse_flow_cut_off_point = "12/filler/output";   // CFD = Grobstromabschaltpunkt
+        private const string _fine_flow_cut_off_point   = "14/filler/output";   // FFD = Feinstromabschaltpunkt
+
+        private const string _minimum_fine_flow   = "16/filler/output";         // FFM = Minimaler Feinstromanteil
+        private const string _optimization        = "18/filler/output";         // OSN = Optimierung
+        private const string _maximal_dosing_time = "19/filler/output";         // MDT = Maximale Dosierzeit
+        private const string _run_start_dosing    = "20/filler/output";         // RUN = Start Dosieren
+
+        private const string _lockout_time_coarse_flow = "21/filler/output";    // LTC = Sperrzeit Grobstrom
+        private const string _lockout_time_fine_flow   = "22/filler/output";    // LTF = Sperrzeit Feinstrom
+        private const string _tare_mode                = "23/filler/output";    // TMD = Tariermodus
+        private const string _upper_tolerance_limit    = "24/filler/output";    // UTL = Obere Toleranz
+
+        private const string _lower_tolerance_lomit     = "26/filler/output";   // LTL = Untere Toleranz
+        private const string _minimum_start_weight      = "28/filler/output";   // MSW = Minimum Startgewicht
+        private const string _empty_weight              = "30/filler/output"; 
+        private const string _tare_delay                = "32/filler/output";   // TAD = Tarierverzögerung
+
+        private const string _coarse_flow_monitoring_time = "33/filler/output"; // CBT = Überwachungszeit Grobstrom
+        private const string _coarse_flow_monitoring      = "34/filler/output"; // CBK = Füllstromüberwachung Grobstrom
+        private const string _fine_flow_monitoring        = "36/filler/output"; // FBK = Füllstromüberwachung Feinstrom
+        private const string _fine_flow_monitoring_time   = "38/filler/output"; // FBT = Überwachungszeit Feinstrom
+
+        private const string _delay_time_after_fine_flow = "39/filler/output";
+        private const string _activation_time_after_fine_flow = "40/filler/output"; 
+
+        private const string _systematic_difference = "41/filler/output";       // SYD = Systematische Differenz
+        private const string _downwardsDosing       = "42/filler/output";       // data output word 42, application mode=filler
+        private const string _valve_control         = "43/filler/output";       // VCT = Ventilsteuerung
+        private const string _emptying_mode         = "44/filler/output";       // EMD = Entleermodus
+
+        // Undefined ID's : Jetus only
+
+        private const string _range_selection_parameter  = "";    // Undefined RDP = Auswahl Dosierparameter 
+        private const string _write_dosing_parameter_set = "";    // WDP = Dosierparametersatz schreiben 
+        private const string _storage_weight = "";                // STO = Gewichtsspeicherung
+        private const string _storage_weight_mode = "";           // SMD = Modus Gewichtsspeicherung
+
+        private const string _dosing_mode = "";                        // DMD = Dosiermodus  
+        private const string _fine_flow_phase_before_coarse_flow = ""; // FFL = Feinstromphase vor Grobstrom
+
+        private const string _dosing_result = "";     // FRS1 = Dosierergebnis
+        private const string _dosing_state = "";     // FRS2 = Dosierstatus
+        private const string _dosing_counter = "";    // NDS = Dosierzähler
+
+        private const string _mean_value_dosing_results = "";         // SDM = Mittelwert Dosieren
+        private const string _dosing_state_filler = "";               // SDO = Dosierstatus
+        private const string _standard_deviation = "";                // SDS = Standardabweichung
+        private const string _settling_time_transient_response = "";  // STT = Beruhigungszeit
 
         #endregion
 
@@ -405,7 +461,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public string FINE_FLOW_TIME
         {
-            get { return _fine_flow_time; }
+            get { return _currentFineFlowTime; } // same like CURRENT_FINE_FLOW_TIME
         }
 
         public string DOSING_RESULT
@@ -463,9 +519,18 @@ namespace HBM.Weighing.API.WTX.Modbus
             get { return _range_selection_parameter; }
         }
 
+        public string DELAY_TIME_AFTER_FINE_FLOW
+        {
+            get { return _delay_time_after_fine_flow; }
+        }
+        public string ACTIVATION_TIME_AFTER_FINE_FLOW
+        {
+            get { return _activation_time_after_fine_flow; }
+        }
+
         public string REDOSING
         {
-            get { return _redosing; }
+            get { return _reDosing; }
         }
 
         public string RESIDUAL_FLOW_TIME
@@ -953,8 +1018,197 @@ namespace HBM.Weighing.API.WTX.Modbus
             get { return _residual_flow_dosing_cycle; }
         }
 
+        public string[] WEIGHT_MEMORY_STANDARD
+        {
+            get
+            {
+                return _readWeightMemArray;
+            }
+        }
+
+        public string[] WEIGHT_MEMORY_FILLER
+        {
+            get
+            {
+                return _writeWeightMemArray;
+            }
+        }
+
+        public string ADC_OVER_UNDERLOAD
+        {
+            get
+            {
+                return _adcOverUnderload;
+            }
+        }
+
+        public string LEGAL_FOR_TRADE_OPERATION
+        {
+            get
+            {
+                return _legalForTradeOperation;
+            }
+        }
+
+        public string STATUS_INPUT_1
+        {
+            get
+            {
+                return _statusInput1;
+            }
+        }
+
+        public string GENERAL_SCALE_ERROR
+        {
+            get
+            {
+                return _generalScaleError;
+            }
+        }
+
+        public string COARSE_FLOW
+        {
+            get
+            {
+                return _coarseFlow;
+            }
+        }
+
+        public string FINE_FLOW
+        {
+            get
+            {
+                return _fineFlow;
+            }
+        }
+
+        public string READY
+        {
+            get
+            {
+                return _ready;
+            }
+        }
+
+        public string EMPTYING
+        {
+            get
+            {
+                return _emptying;
+            }
+        }
+
+        public string FLOW_ERROR
+        {
+            get
+            {
+                return _flowError;
+            }
+        }
+
+        public string ALARM
+        {
+            get
+            {
+                return _alarm;
+            }
+        }
+
+        public string TOLERANCE_ERROR_PLUS
+        {
+            get
+            {
+                return _toleranceErrorPlus;
+            }
+        }
+
+        public string TOLERANCE_ERROR_MINUS
+        {
+            get
+            {
+                return _toleranceErrorMinus;
+            }
+        }
+
+        public string CURRENT_DOSING_TIME
+        {
+            get
+            {
+                return _dosing_time;
+            }
+        }
+
+        public string CURRENT_COARSE_FLOW_TIME
+        {
+            get
+            {
+                return _coarse_flow_time;
+            }
+        }
+
+        public string CURRENT_FINE_FLOW_TIME
+        {
+            get
+            {
+                return _currentFineFlowTime;
+            }
+        }
+
+        public string PARAMETER_SET_PRODUCT
+        {
+            get
+            {
+                return _parameterSetProduct;
+            }
+        }
+
+        public string DOWNWARDS_DOSING
+        {
+            get
+            {
+                return _downwardsDosing;
+            }
+        }
+
+        public string TOTAL_WEIGHT
+        {
+            get
+            {
+                return _totalWeight;
+            }
+        }
+
+        public string TARGET_FILLING_WEIGHT
+        {
+            get
+            {
+                return _targetFillingWeight;
+            }
+        }
+
+        public string COARSE_FLOW_CUT_OFF_POINT_SET
+        {
+            get
+            {
+                return _coarse_flow_cut_off_point;
+            }
+        }
+
+        public string FINE_FLOW_CUT_OFF_POINT_SET
+        {
+            get
+            {
+                return _fine_flow_cut_off_point;
+            }
+        }
+
+        public string START_WITH_FINE_FLOW
+        {
+            get
+            {
+                return _run_start_dosing;
+            }
+        }
         #endregion
-
-
     }
 }

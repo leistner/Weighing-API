@@ -37,14 +37,17 @@ using System.Threading.Tasks;
 namespace HBM.Weighing.API.WTX.Jet
 {
     /// <summary>
+    /// Class for using commands, respectively indexes/paths, to read/write the 
+    /// registers of the WTX device via Jetbus to get the data.
     /// ID's/Commands for subscribing values of the WTX device. 
     /// The ID's are commited as a parameter for the read and/or write method call.  
+    /// This class inherits from interface ICommands. 
+    /// </summary>
     /// </summary>
     public class JetBusCommands : ICommands
     {
         public JetBusCommands()
         {
-
         }
 
         #region ID Commands : Maintenance - Calibration
@@ -83,6 +86,8 @@ namespace HBM.Weighing.API.WTX.Jet
         private const string _status_digital_output_4 = "2020/21";   // OS4
 
         private const string _limit_value = "2020/25";   // LVS
+
+        private string[] _weightMemArray = new string[2] { _storage_weight, _storage_weight_mode };
 
         #endregion
 
@@ -130,6 +135,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
         private const string _valve_control = "2200/0C";               // VCT = Ventilsteuerung
         private const string _write_dosing_parameter_set = "2200/01";  // WDP = Dosierparametersatz schreiben
+
         private const string _storage_weight = "2040/05";              // STO = Gewichtsspeicherung
         private const string _storage_weight_mode = "2300/08";         // SMD = Modus Gewichtsspeicherung
 
@@ -227,6 +233,26 @@ namespace HBM.Weighing.API.WTX.Jet
         private const string _delay2_dosing = "2220/0C";               // DL2 = Delay 2 für Dosieren
         private const string _empty_weight_tolerance = "2210/03";      // EWT = Entleertoleranz
         private const string _residual_flow_dosing_cycle = "2000/0F";  // RFO = Nachstrom des letzten Dosierzyklus
+
+        #endregion
+
+        #region Get properties of all ID commands
+
+        public string[] WEIGHT_MEMORY_STANDARD
+        {
+            get
+            {
+                return _weightMemArray;
+            }
+        }
+
+        public string[] WEIGHT_MEMORY_FILLER
+        {
+            get
+            {
+                return _weightMemArray;
+            }
+        }
 
         string ICommands.LDW_DEAD_WEIGHT
         {
@@ -947,6 +973,32 @@ namespace HBM.Weighing.API.WTX.Jet
         {
             get { return _residual_flow_dosing_cycle; }
         }
+
+        // Missing IDs (so far : Modbus only - look at ModbusCommands)
+        public string ADC_OVER_UNDERLOAD { get { return ""; }}
+        public string LEGAL_FOR_TRADE_OPERATION { get { return ""; }}
+        public string STATUS_INPUT_1 { get { return ""; }}
+        public string GENERAL_SCALE_ERROR { get { return ""; }}
+        public string COARSE_FLOW { get { return ""; }}
+        public string FINE_FLOW { get { return ""; }}
+        public string READY { get { return ""; }}
+        public string EMPTYING { get { return ""; }}
+        public string FLOW_ERROR { get { return ""; }}
+        public string ALARM { get { return ""; }}
+        public string TOLERANCE_ERROR_PLUS { get { return ""; }}
+        public string TOLERANCE_ERROR_MINUS { get { return ""; }}
+        public string CURRENT_DOSING_TIME { get { return ""; }}
+        public string CURRENT_COARSE_FLOW_TIME { get { return ""; }}
+        public string CURRENT_FINE_FLOW_TIME { get { return ""; }}
+        public string PARAMETER_SET_PRODUCT { get { return ""; }}
+        public string DELAY_TIME_AFTER_FINE_FLOW { get { return ""; } }
+        public string ACTIVATION_TIME_AFTER_FINE_FLOW { get { return ""; } }
+        public string DOWNWARDS_DOSING { get { return ""; }}
+        public string TOTAL_WEIGHT { get { return ""; }}
+        public string TARGET_FILLING_WEIGHT { get { return ""; }}
+        public string COARSE_FLOW_CUT_OFF_POINT_SET { get { return ""; }}
+        public string FINE_FLOW_CUT_OFF_POINT_SET { get { return ""; }}
+        public string START_WITH_FINE_FLOW { get { return ""; }}
 
         #endregion
     }

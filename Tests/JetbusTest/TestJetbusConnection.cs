@@ -324,12 +324,10 @@ namespace HBM.Weighing.API.WTX.Jet
                 this.IP = value;
             }
         }
-
-        public string ConnectionType
+        public ConnectionType ConnType
         {
-            get { return "Jetbus"; }
+            get { return ConnectionType.Jetbus; }
         }
-
         public ICommands IDCommands
         {
             get

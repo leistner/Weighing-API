@@ -40,6 +40,8 @@ namespace HBM.Weighing.API.Data
 {
     /// <summary>
     /// Implementation of the interface IDataFiller for the filler mode.
+    /// The class DataFiller contains the data input word and data output words for the filler mode
+    /// of WTX device 120 and 110.
     /// </summary>
     public class DataFiller : IDataFiller
     {
@@ -207,71 +209,84 @@ namespace HBM.Weighing.API.Data
             if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 2 || e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 3)  // If application mode = filler
             {
                 try
-                {
-                    _maxDosingTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MAXIMAL_DOSING_TIME)]);
-                    _meanValueDosingResults = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MEAN_VALUE_DOSING_RESULTS)]);
-                    _standardDeviation = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.STANDARD_DEVIATION)]);
-                    _fineFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_CUT_OFF_POINT)]);
-                    _coarseFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_CUT_OFF_POINT)]);
+                {                
+                    // Via Modbus and Jetbus IDs: 
+                    _maxDosingTime = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.MAXIMAL_DOSING_TIME)]);
+                    _meanValueDosingResults = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.MEAN_VALUE_DOSING_RESULTS)]);
+                    _standardDeviation = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.STANDARD_DEVIATION)]);
+                    _fineFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.FINE_FLOW_CUT_OFF_POINT)]);
+                    _coarseFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.COARSE_FLOW_CUT_OFF_POINT)]);
 
-                    _residualFlowTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.RESIDUAL_FLOW_TIME)]);
-                    _minimumFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MINIMUM_FINE_FLOW)]);
-                    _optimizationOfCutOffPoints = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.OPTIMIZATION)]);
-                    _maximumDosingTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3)]);
-                    _coarseLockoutTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_TIME)]);
-                    _fineLockoutTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_TIME)]);
-                    _tareMode = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.TARE_MODE)]);
+                    _residualFlowTime = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.RESIDUAL_FLOW_TIME)]);
+                    _minimumFineFlow = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.MINIMUM_FINE_FLOW)]);
+                    _optimizationOfCutOffPoints = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.OPTIMIZATION)]);
+                    _maximumDosingTime = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.MAXIMAL_DOSING_TIME)]);
+                    _coarseLockoutTime = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.COARSE_FLOW_TIME)]);
+                    _fineLockoutTime = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.FINE_FLOW_TIME)]);
+                    _tareMode = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.TARE_MODE)]);
 
-                    _upperToleranceLimit = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.UPPER_TOLERANCE_LIMIT)]);
-                    _lowerToleranceLimit = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.LOWER_TOLERANCE_LIMIT)]);
-                    _minimumStartWeight = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.MINIMUM_START_WEIGHT)]);
-                    //_emptyWeight = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.EMPTY_WEIGHT_TOLERANCE]);
-                    _tareDelay = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.TARE_DELAY)]);
+                    _upperToleranceLimit = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.UPPER_TOLERANCE_LIMIT)]);
+                    _lowerToleranceLimit = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.LOWER_TOLERANCE_LIMIT)]);
+                    _minimumStartWeight = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.MINIMUM_START_WEIGHT)]);
+                    _emptyWeight = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.EMPTY_WEIGHT_TOLERANCE)]);
+                    _tareDelay = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.TARE_DELAY)]);
 
-                    _coarseFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_MONITORING_TIME)]);
-                    _coarseFlowMonitoring = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.COARSE_FLOW_MONITORING)]);
-                    _fineFlowMonitoring = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_MONITORING)]);
-                    _fineFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_MONITORING_TIME)]); ;
+                    _coarseFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.COARSE_FLOW_MONITORING_TIME)]);
+                    _coarseFlowMonitoring = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.COARSE_FLOW_MONITORING)]);
+                    _fineFlowMonitoring = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.FINE_FLOW_MONITORING)]);
+                    _fineFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.FINE_FLOW_MONITORING_TIME)]); ;
 
-                    _systematicDifference = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.SYSTEMATIC_DIFFERENCE)]);
-                    _valveControl = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.VALVE_CONTROL)]);
-                    _emptyingMode = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.EMPTYING_MODE)]);
-                    //_delayTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.DELAY1_DOSING)]);
-                    //_activationTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[this.getIndex(_connection.IDCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW)]);
+                    _systematicDifference = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.SYSTEMATIC_DIFFERENCE)]);
+                    _valveControl = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.VALVE_CONTROL)]);
+                    _emptyingMode = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.EMPTYING_MODE)]);
+                    _delayTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.DELAY1_DOSING)]);
+                    _activationTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[(_connection.IDCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW)]);
+                   
+                    // Jetbus only defined IDs: (Undefined IDs for Modbus)
+                    if (_connection.ConnType == ConnectionType.Jetbus)
+                    {
+                        int _weight_storage = Convert.ToInt16(e.DataDictionary[(_connection.IDCommands.WEIGHT_MEMORY_FILLER[0])]); 
+                        int _mode_weight_storage = Convert.ToInt16(e.DataDictionary[(_connection.IDCommands.WEIGHT_MEMORY_FILLER[1])]);
+                    }
 
-                    // Undefined ID's: 
+                    // Modbus only defined IDs: (Undefined IDs for Jetbus)
+                    if (_connection.ConnType == ConnectionType.Modbus)
+                    {
+                        _adcOverUnderload = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.ADC_OVER_UNDERLOAD]);
+                        _legalForTradeOperation = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.LEGAL_FOR_TRADE_OPERATION]);
+                        _statusInput1 = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.STATUS_INPUT_1]);
+                        _generalScaleError = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.GENERAL_SCALE_ERROR]);
 
-                    _adcOverUnderload = 0;
-                    _legalForTradeOperation = 0;
-                    _statusInput1 = 0;
-                    _generalScaleError = 0;
-                    _coarseFlow = 0;
-                    _fineFlow = 0;
-                    _ready = 0;
-                    _reDosing = 0;
-                    _emptying = 0;
-                    _flowError = 0;
-                    _alarm = 0;
-                    _toleranceErrorPlus = 0;
-                    _toleranceErrorMinus = 0;
-                    _currentDosingTime = 0;
-                    _currentCoarseFlowTime = 0;
-                    _currentFineFlowTime = 0;
+                        _coarseFlow = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.COARSE_FLOW]);
+                        _fineFlow = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.FINE_FLOW]);
+                        _ready = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READY]);
+                        _reDosing = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.REDOSING]);
 
-                    _parameterSetProduct = 0;
-                    _downwardsDosing = 0;
-                    _legalForTradeOperation = 0;
+                        _emptying = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.EMPTYING]);
+                        _flowError = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.FLOW_ERROR]);
+                        _alarm = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.ALARM]);
+                        _toleranceErrorPlus = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.TOLERANCE_ERROR_PLUS]);
 
-                    _totalWeight = 0;
-                    _targetFillingWeight = 0;
-                    _coarseFlowCutOffPointSet = 0;
-                    _fineFlowCutOffPointSet = 0;
-                    _startWithFineFlow = 0;
+                        _toleranceErrorMinus = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.TOLERANCE_ERROR_MINUS]);
+                        _currentDosingTime = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.CURRENT_DOSING_TIME]);
+                        _currentCoarseFlowTime = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.CURRENT_COARSE_FLOW_TIME]);
+                        _currentFineFlowTime = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.CURRENT_FINE_FLOW_TIME]);
+
+                        _parameterSetProduct = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.PARAMETER_SET_PRODUCT]);
+                        _downwardsDosing = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.DOWNWARDS_DOSING]);
+                        _legalForTradeOperation = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.LEGAL_FOR_TRADE_OPERATION]);
+                        _totalWeight = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.TOTAL_WEIGHT]);
+
+                        _targetFillingWeight = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.TARGET_FILLING_WEIGHT]);
+                        _coarseFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.COARSE_FLOW_CUT_OFF_POINT_SET]);
+                        _fineFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.FINE_FLOW_CUT_OFF_POINT_SET]);
+                        _startWithFineFlow = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.START_WITH_FINE_FLOW]);
+                    }
                 }
                 catch { }
             }
         }
-
+       
         #endregion
 
         #region Get-properties for input words of filler mode
@@ -572,7 +587,25 @@ namespace HBM.Weighing.API.Data
 
         private string getIndex(string IDCommandParam)
         {
-            return IDCommandParam.Split('\\')[0];
+            string index = "";
+
+            if (_connection.ConnType == ConnectionType.Jetbus)
+            {
+                index = _connection.IDCommands.APPLICATION_MODE;
+
+                return index;
+            }
+            else // if (_connection.ConnType == ConnectionType.Modbus)
+            {
+                if (IDCommandParam.Contains('/')) 
+                {
+                    index = IDCommandParam.Split('/')[0];
+                    return index;
+                }
+                else
+                    return IDCommandParam;
+            }
+
         }
         #endregion
 
