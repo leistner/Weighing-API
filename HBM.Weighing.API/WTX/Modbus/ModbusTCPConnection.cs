@@ -384,6 +384,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
                 _dataIntegerBuffer.Add(IDCommands.DELAY_TIME_AFTER_FINE_FLOW, 0);
                 _dataIntegerBuffer.Add(IDCommands.ACTIVATION_TIME_AFTER_FINE_FLOW, 0);
+
             // Undefined IDs : 
             /*
             _dataIntegerBuffer.Add(_commands.DOSING_STATE, 0);

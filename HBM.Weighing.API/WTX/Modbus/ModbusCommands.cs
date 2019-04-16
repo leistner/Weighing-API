@@ -217,6 +217,17 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         #region All other ID commands for Operator, Administrator and Maintenance : 
 
+        // Paths/Commands : Digital input in the extended filler mode, only via Jetbus, therefore it is empty for Modbus
+        private const string _function_digital_input_1 = "";
+        private const string _function_digital_input_2 = "";
+        private const string _function_digital_input_3 = "";
+        private const string _function_digital_input_4 = "";
+        // Paths/Commands : Digital output in the extended filler mode, only via Jetbus, therefore it is empty for Modbus
+        private const string _function_digital_output_1 = "";
+        private const string _function_digital_output_2 = "";
+        private const string _function_digital_output_3 = "";
+        private const string _function_digital_output_4 = "";
+
         private const string _error_register = "";
         private const string _save_all_parameters = "";
         private const string _restore_all_default_parameters = "";
@@ -602,7 +613,45 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get { return _storage_weight_mode; }
         }
+        string ICommands.FUNCTION_DIGITAL_INPUT_1
+        {
+            get { return _function_digital_input_1; }
+        }
 
+        string ICommands.FUNCTION_DIGITAL_INPUT_2
+        {
+            get { return _function_digital_input_2; }
+        }
+
+        string ICommands.FUNCTION_DIGITAL_INPUT_3
+        {
+            get { return _function_digital_input_3; }
+        }
+
+        string ICommands.FUNCTION_DIGITAL_INPUT_4
+        {
+            get { return _function_digital_input_4; }
+        }
+
+        string ICommands.FUNCTION_DIGITAL_OUTPUT_1
+        {
+            get { return _function_digital_output_1; }
+        }
+
+        string ICommands.FUNCTION_DIGITAL_OUTPUT_2
+        {
+            get { return _function_digital_output_2; }
+        }
+
+        string ICommands.FUNCTION_DIGITAL_OUTPUT_3
+        {
+            get { return _function_digital_output_3; }
+        }
+
+        string ICommands.FUNCTION_DIGITAL_OUTPUT_4
+        {
+            get { return _function_digital_output_4; }
+        }
         public string ERROR_REGISTER
         {
             get { return _error_register; }

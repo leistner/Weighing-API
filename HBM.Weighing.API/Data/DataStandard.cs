@@ -67,12 +67,12 @@ namespace HBM.Weighing.API.Data
 
         // Modbus only:
 
-        private int _weightMemDay;
-        private int _weightMemMonth;
-        private int _weightMemYear;
-        private int _weightMemSeqNumber;
-        private int _weightMemGross;
-        private int _weightMemNet;
+        private int _weightMemoryDay;
+        private int _weightMemoryMonth;
+        private int _weightMemoryYear;
+        private int _weightMemorySeqNumber;
+        private int _weightMemoryGross;
+        private int _weightMemoryNet;
 
         // Jetbus only:
 
@@ -150,12 +150,12 @@ namespace HBM.Weighing.API.Data
             _limitStatus3 = 0;
             _limitStatus4 = 0;
 
-            _weightMemDay=0;
-            _weightMemMonth=0;
-            _weightMemYear=0;
-            _weightMemSeqNumber=0;
-            _weightMemGross=0;
-            _weightMemNet=0;
+            _weightMemoryDay=0;
+            _weightMemoryMonth=0;
+            _weightMemoryYear=0;
+            _weightMemorySeqNumber=0;
+            _weightMemoryGross=0;
+            _weightMemoryNet=0;
 
             _weight_storage=0;
             _mode_weight_storage=0;
@@ -263,15 +263,13 @@ namespace HBM.Weighing.API.Data
                 _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];
             }
             if (_connection.ConnType == ConnectionType.Modbus)
-            {
-                /*
-                _weightMemDay   = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[0]]);
-                _weightMemMonth = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[1]]);
-                _weightMemYear  = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[2]]);
-                _weightMemSeqNumber = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[3]]);
-                _weightMemGross = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[4]]);
-                _weightMemNet   = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.READ_WEIGHT_MEMORY[5]]);
-                */
+            {           
+                _weightMemoryDay   = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[0]]);
+                _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[1]]);
+                _weightMemoryYear  = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[2]]);
+                _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[3]]);
+                _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[4]]);
+                _weightMemoryNet   = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[5]]);
             }
             if (_connection.ConnType == ConnectionType.Jetbus)
             {
@@ -334,33 +332,27 @@ namespace HBM.Weighing.API.Data
         }
         public int WeightMemDay
         {
-            get{ return _weightMemDay; }
-            //set{ this._weightMemDay = value; }
+            get{ return _weightMemoryDay; }
         }
         public int WeightMemMonth
         {
-            get{ return _weightMemMonth; }
-            //set{ this._weightMemMonth = value; }
+            get{ return _weightMemoryMonth; }
         }
         public int WeightMemYear
         {
-            get{ return _weightMemYear;}
-            //set{ this._weightMemYear = value; }
+            get{ return _weightMemoryYear;}
         }
         public int WeightMemSeqNumber
         {
-            get{ return _weightMemSeqNumber; }
-            //set{ this._weightMemSeqNumber = value; }
+            get{ return _weightMemorySeqNumber; }
         }
         public int WeightMemGross
         {
-            get{ return _weightMemGross; }
-            //set{ this._weightMemGross = value; }
+            get{ return _weightMemoryGross; }
         }
         public int WeightMemNet
         {
-            get{ return _weightMemNet; }
-            //set{ this._weightMemNet = value; }
+            get{ return _weightMemoryNet; }
         }
         public int WeightStorage
         {

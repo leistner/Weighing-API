@@ -234,7 +234,6 @@ namespace HBM.Weighing.API.WTX
                 _applicationMode = ApplicationMode.Filler;
         }
 
-
         public override string Unit
         {
             get
@@ -328,6 +327,73 @@ namespace HBM.Weighing.API.WTX
             throw new NotImplementedException();
         }
         #endregion
+        
+        // Set/Write the digital input in the extended filler mode via Jetbus: 
+        public override void SetDigitalInputIO(int inputPort, FillerInputFunction InputIO)
+        {
+            switch(inputPort)
+            {
+                case 1: _connection.Write(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_1, this.getInputValueIO(InputIO)); break;
+                case 2: _connection.Write(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_2, this.getInputValueIO(InputIO)); break;
+                case 3: _connection.Write(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_3, this.getInputValueIO(InputIO)); break;
+                case 4: _connection.Write(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_4, this.getInputValueIO(InputIO)); break;
+            }
+        }
+        // Set/Write the digital output in the extended filler mode via Jetbus: 
+        public override void SetDigitalOutputIO(int outputPort, FillerOutputFunction OutputIO)
+        {
+            switch(outputPort)
+            {
+                case 1: _connection.Write(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_1, this.getOutputValue(OutputIO)); break;
+                case 2: _connection.Write(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_2, this.getOutputValue(OutputIO)); break;
+                case 3: _connection.Write(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_3, this.getOutputValue(OutputIO)); break;
+                case 4: _connection.Write(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_4, this.getOutputValue(OutputIO)); break;
+            }
+        }
+        private int getOutputValue(FillerOutputFunction OutputIO)
+        {
+            switch(OutputIO)
+            {
+                case FillerOutputFunction.Off: return 0;
+                case FillerOutputFunction.Manually: return 1;
+                case FillerOutputFunction.LimitSwitch1: return 2;
+                case FillerOutputFunction.LimitSwitch2: return 3;
+                case FillerOutputFunction.LimitSwitch3: return 4;
+                case FillerOutputFunction.LimitSwitch4: return 5;
+                case FillerOutputFunction.reserved: return 6;
+                case FillerOutputFunction.CoarseFlow : return 7;
+                case FillerOutputFunction.FineFlow: return 8;
+                case FillerOutputFunction.Ready: return 9;
+                case FillerOutputFunction.ToleranceExceeded: return 10;
+                case FillerOutputFunction.ToleranceUnderrun: return 11;
+                case FillerOutputFunction.ToleranceExceededUnderrun: return 12;
+                case FillerOutputFunction.Alert: return 13;
+                case FillerOutputFunction.DL1DL2: return 14;
+                case FillerOutputFunction.LS1Blinking: return 0; // Undefined
+                case FillerOutputFunction.LS2Blinking: return 0; // Undefined
+                case FillerOutputFunction.LS3Blinking: return 0; // Undefined
+                case FillerOutputFunction.LS4Blinking: return 0; // Undefined
+
+                default: return 0;
+            }
+        }
+        private int getInputValueIO(FillerInputFunction InputIO)
+        {
+            switch(InputIO)
+            {
+                case FillerInputFunction.Off: return 0;
+                case FillerInputFunction.Tare: return 1;
+                case FillerInputFunction.Trigger: return 2;
+                case FillerInputFunction.reserved: return 3;
+                case FillerInputFunction.BreakFilling: return 4;
+                case FillerInputFunction.RunFilling: return 5;
+                case FillerInputFunction.Redosing: return 6;
+                case FillerInputFunction.WeightDetection: return 7;
+                case FillerInputFunction.Sum: return 8;
+
+                default: return 0;
+            }
+        }
 
         #region Adjustment methods
 
