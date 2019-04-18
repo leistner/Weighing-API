@@ -138,6 +138,16 @@ namespace HBM.Weighing.API.WTX
 
         #region All other ID commands for Operator, Administrator and Maintenance : 
 
+        string FUNCTION_DIGITAL_INPUT_1 { get; }    // IM1
+        string FUNCTION_DIGITAL_INPUT_2 { get; }    // IM2
+        string FUNCTION_DIGITAL_INPUT_3 { get; }    // IM3
+        string FUNCTION_DIGITAL_INPUT_4 { get; }    // IM4
+
+        string FUNCTION_DIGITAL_OUTPUT_1 { get; }   // OM1
+        string FUNCTION_DIGITAL_OUTPUT_2 { get; }   // OM2
+        string FUNCTION_DIGITAL_OUTPUT_3 { get; }   // OM3
+        string FUNCTION_DIGITAL_OUTPUT_4 { get; }   // OM4
+
         string ERROR_REGISTER { get; }
         string SAVE_ALL_PARAMETERS { get; }
         string RESTORE_ALL_DEFAULT_PARAMETERS { get; }

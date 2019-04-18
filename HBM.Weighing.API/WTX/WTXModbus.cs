@@ -137,16 +137,11 @@ namespace HBM.Weighing.API.WTX
         {
             this._connection.Connect();
         }
-
-
         // To establish a connection to the WTX device via class WTX120_Modbus.
         public override void Connect(Action<bool> ConnectCompleted, double timeoutMs)
         {
             this._connection.Connect();
         }
-
-
-
         public override bool isConnected
         {
             get
@@ -235,8 +230,8 @@ namespace HBM.Weighing.API.WTX
 
         public void SetOutput(object index, int value)
         {
-            //_dataWritten[0] = (ushort)((value & 0xffff0000) >> 16);
-            //_dataWritten[1] = (ushort)(value & 0x0000ffff);
+            _dataWritten[0] = (ushort)((value & 0xffff0000) >> 16);
+            _dataWritten[1] = (ushort)(value & 0x0000ffff);
 
             this._connection.WriteArray(Convert.ToString(index), value);
         }
@@ -668,6 +663,15 @@ namespace HBM.Weighing.API.WTX
         public async override void manualReDosing()
         {
             _command = (ushort)await AsyncWrite(0, 0x8000);
+        }
+
+        // Set/Write the digital input in filler mode: 
+        public override void SetDigitalInputIO(int inputPort, FillerInputFunction InputIO)
+        {
+        }
+        // Set/Write the digital output in filler mode: 
+        public override void SetDigitalOutputIO(int outputPort, FillerOutputFunction OutputIO)
+        {
         }
 
         // In the following methods the different options for the single integer values are used to define and

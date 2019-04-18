@@ -147,6 +147,17 @@ namespace HBM.Weighing.API.WTX.Jet
 
         #region All other ID commands for Operator, Administrator and Maintenance : 
 
+        // Paths/Commands : Digital input in the extended filler mode, only via Jetbus
+        private const string _function_digital_input_1 = "2022/01";
+        private const string _function_digital_input_2 = "2022/02";
+        private const string _function_digital_input_3 = "2022/03";
+        private const string _function_digital_input_4 = "2022/04";
+        // Paths/Commands : Digital output in the extended filler mode, only via Jetbus
+        private const string _function_digital_output_1 = "2021/01";
+        private const string _function_digital_output_2 = "2021/02";
+        private const string _function_digital_output_3 = "2021/03";
+        private const string _function_digital_output_4 = "2021/04";
+
         private const string _error_register = "1001/00";
         private const string _save_all_parameters = "1010/01";
         private const string _restore_all_default_parameters ="1011/01";
@@ -557,6 +568,40 @@ namespace HBM.Weighing.API.WTX.Jet
         public string STORAGE_WEIGHT_MODE
         {
             get { return _storage_weight_mode; }
+        }
+
+
+        public string FUNCTION_DIGITAL_INPUT_1
+        {
+            get { return _function_digital_input_1; }
+        }
+        public string FUNCTION_DIGITAL_INPUT_2
+        {
+            get { return _function_digital_input_2; }
+        }
+        public string FUNCTION_DIGITAL_INPUT_3
+        {
+            get { return _function_digital_input_3; }
+        }
+        public string FUNCTION_DIGITAL_INPUT_4
+        {
+            get { return _function_digital_input_4; }
+        }
+        public string FUNCTION_DIGITAL_OUTPUT_1
+        {
+            get { return _function_digital_output_1; }
+        }
+        public string FUNCTION_DIGITAL_OUTPUT_2
+        {
+            get { return _function_digital_output_2; }
+        }
+        public string FUNCTION_DIGITAL_OUTPUT_3
+        {
+            get { return _function_digital_output_3; }
+        }
+        public string FUNCTION_DIGITAL_OUTPUT_4
+        {
+            get { return _function_digital_output_4; }
         }
 
         public string ERROR_REGISTER

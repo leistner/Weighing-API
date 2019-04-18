@@ -281,6 +281,13 @@ namespace HBM.Weighing.API.Data
                         _coarseFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.COARSE_FLOW_CUT_OFF_POINT_SET]);
                         _fineFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.FINE_FLOW_CUT_OFF_POINT_SET]);
                         _startWithFineFlow = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.START_WITH_FINE_FLOW]);
+
+                        _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[0]]);
+                        _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[1]]);
+                        _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[2]]);
+                        _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[3]]);
+                        _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[4]]);
+                        _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[5]]);
                     }
                 }
                 catch { }
@@ -584,7 +591,6 @@ namespace HBM.Weighing.API.Data
             set { _connection.Write(this.getIndex(_connection.IDCommands.EMPTYING_MODE), value);
                 this._emptyingMode = value; }
         }
-
         private string getIndex(string IDCommandParam)
         {
             string index = "";
