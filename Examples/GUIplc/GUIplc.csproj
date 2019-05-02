@@ -66,12 +66,19 @@
       <Link>AdjustmentWeigher.designer.cs</Link>
       <DependentUpon>AdjustmentWeigher.cs</DependentUpon>
     </Compile>
+    <Compile Include="FunctionIO.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FunctionIO.Designer.cs">
+      <DependentUpon>FunctionIO.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUIplcForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUIplcForm.Designer.cs">
       <DependentUpon>GUIplcForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="IOFunctionEventArgs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs">
@@ -80,6 +87,7 @@
     <Compile Include="Settings.Designer.cs">
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
+    <Compile Include="SettingsEventArgs.cs" />
     <EmbeddedResource Include="..\GUIsimple\AdjustmentCalculator.resx">
       <Link>AdjustmentCalculator.resx</Link>
       <DependentUpon>AdjustmentCalculator.cs</DependentUpon>
@@ -87,6 +95,12 @@
     <EmbeddedResource Include="..\GUIsimple\AdjustmentWeigher.resx">
       <Link>AdjustmentWeigher.resx</Link>
       <DependentUpon>AdjustmentWeigher.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FunctionIO.resx">
+      <DependentUpon>FunctionIO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUIplcForm.resx">
+      <DependentUpon>GUIplcForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

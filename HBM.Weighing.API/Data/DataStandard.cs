@@ -211,36 +211,38 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardData(object sender, DataEventArgs e)
         {
-            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/1") _input1 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1] & 0x1);
-            else _input1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1];
+            if(_connection.ConnType == ConnectionType.Modbus)
+            {
+                _input1 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1] & 0x1);
+                _input2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2] & 0x2) >> 1;
+                _input3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_3] & 0x4) >> 2;
+                _input4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_4] & 0x8) >> 3;
 
-            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/2") _input2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2] & 0x2) >> 1;
-            else _input2 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2];
+                _output1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_1] & 0x1;
+                _output2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_2] & 0x2) >> 1;
+                _output3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3] & 0x4) >> 2;
+                _output4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4] & 0x8) >> 3;
+            }
+            else
+            if(_connection.ConnType == ConnectionType.Jetbus)
+            {
+                _input1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1];
+                _input2 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2];
+                _input3 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_3];
+                _input4 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_4];
 
-            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/3") _input3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_3] & 0x4) >> 2;
-            else _input3 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_3];
-
-            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "6/4") _input4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_4] & 0x8) >> 3;
-            else _input4 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_4];
-
-            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "7/1") _output1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_1] & 0x1;
-            else _output1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_1];
-
-            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "7/2") _output2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_2] & 0x2) >> 1;
-            else _output2 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_2];
-
-            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "7/3") _output3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3] & 0x4) >> 2;
-            else _output3 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3];
-
-            if (_connection.IDCommands.STATUS_DIGITAL_INPUT_1 == "7/4") _output4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4] & 0x8) >> 3;
-            else _output4 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4];
+                _output1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_1];
+                _output2 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_2];
+                _output3 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3];
+                _output4 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4];
+            }
 
             _limitStatus1 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x1);
             _limitStatus2 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x2) >> 1;
             _limitStatus3 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x4) >> 2;
             _limitStatus4 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x8) >> 3;
 
-            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 0 || e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 1)  // If application mode = standard
+            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 0 || e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 1)  // If application mode is in standard mode
             {
                 _limitValueMonitoringLIV11 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11];
                 _signalSourceLIV12   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
@@ -273,10 +275,9 @@ namespace HBM.Weighing.API.Data
             }
             if (_connection.ConnType == ConnectionType.Jetbus)
             {
-                _weight_storage      = Convert.ToInt16(e.DataDictionary[(_connection.IDCommands.WEIGHT_MEMORY_STANDARD[0])]);
-                _mode_weight_storage = Convert.ToInt16(e.DataDictionary[(_connection.IDCommands.WEIGHT_MEMORY_STANDARD[1])]);
+                _weight_storage = Convert.ToInt16(e.DataDictionary[(_connection.IDCommands.WEIGHT_MEMORY_STANDARD[0])]);
             }
-            
+
         }
         #endregion
 
@@ -285,34 +286,98 @@ namespace HBM.Weighing.API.Data
         public int Input1
         {
             get{ return _input1; }
+            set
+            {
+                if (_connection.ConnType == ConnectionType.Jetbus)
+                {
+                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_1), value);
+                    _input1 = value;
+                }
+            }
         }
         public int Input2
         {
             get{ return _input2; }
+            set
+            {
+                if (_connection.ConnType == ConnectionType.Jetbus)
+                {
+                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_2), value);
+                    _input2 = value;
+                }
+            }
         }
         public int Input3
         {
             get{ return _input3; }
+            set
+            {
+                if (_connection.ConnType == ConnectionType.Jetbus)
+                {
+                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_3), value);
+                    _input3 = value;
+                }
+            }
         }
         public int Input4
         {
             get{ return _input4; }
+            set
+            {
+                if (_connection.ConnType == ConnectionType.Jetbus)
+                {
+                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_4), value);
+                    _input4 = value;
+                }
+            }
         }
         public int Output1
         {
             get{ return _output1; }
+            set
+            {
+                if (_connection.ConnType == ConnectionType.Jetbus)
+                {
+                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_1), value);
+                    _output1 = value;
+                }
+            }
         }
         public int Output2
         {
             get{ return _output2; }
+            set
+            {
+                if (_connection.ConnType == ConnectionType.Jetbus)
+                {
+                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_2), value);
+                    _output2 = value;
+                }
+            }
         }
         public int Output3
         {
             get{ return _output3; }
+            set
+            {
+                if (_connection.ConnType == ConnectionType.Jetbus)
+                {
+                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_3), value);
+                    _output3 = value;
+                }
+            }
         }
         public int Output4
         {
             get{ return _output4; }
+            set
+            {
+                if (_connection.ConnType == ConnectionType.Jetbus)
+                {
+                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_4), value);
+                    _output4 = value;
+                }
+            }
         }
         public int LimitStatus1
         {
@@ -358,11 +423,6 @@ namespace HBM.Weighing.API.Data
         {
             get { return _weight_storage; }
             set { this._weight_storage = value; }
-        }
-        public int ModeWeightStorage
-        {
-            get { return _mode_weight_storage; }
-            set { this._mode_weight_storage = value; }
         }
         #endregion
 

@@ -45,15 +45,15 @@ namespace HBM.Weighing.API
     {
         #region Input words for standard mode
 
-        int Input1 { get; }
-        int Input2 { get; }
-        int Input3 { get; }
-        int Input4 { get; }
+        int Input1 { get; set; } // set : Jetbus only ; get : Modbus and Jetbus
+        int Input2 { get; set; } // set : Jetbus only ; get : Modbus and Jetbus
+        int Input3 { get; set; } // set : Jetbus only ; get : Modbus and Jetbus
+        int Input4 { get; set; } // set : Jetbus only ; get : Modbus and Jetbus
 
-        int Output1 { get; }
-        int Output2 { get; }
-        int Output3 { get; }
-        int Output4 { get; }
+        int Output1 { get; set; } // set : Jetbus only ; get : Modbus and Jetbus
+        int Output2 { get; set; } // set : Jetbus only ; get : Modbus and Jetbus
+        int Output3 { get; set; } // set : Jetbus only ; get : Modbus and Jetbus
+        int Output4 { get; set; } // set : Jetbus only ; get : Modbus and Jetbus
 
         int LimitStatus1 { get; }
         int LimitStatus2 { get; }
@@ -66,6 +66,7 @@ namespace HBM.Weighing.API
         int WeightMemSeqNumber{ get; }
         int WeightMemGross    { get; }
         int WeightMemNet      { get; }
+        int WeightStorage { get; set; }
 
         #endregion
 

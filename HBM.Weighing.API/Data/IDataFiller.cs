@@ -124,6 +124,8 @@ namespace HBM.Weighing.API
 
         int FineFlowCutOffPoint { get; set; }
         int CoarseFlowCutOffPoint { get; set; }
+        int WeightStorage { get; set; }
+        int ModeWeightStorage { get; set; }
 
         #endregion
 

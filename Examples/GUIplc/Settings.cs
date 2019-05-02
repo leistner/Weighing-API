@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WTXModbus;
 
 namespace GUIplc
 {
@@ -24,35 +25,46 @@ namespace GUIplc
 
     partial class SettingsForm : Form
     {
+        public EventHandler<SettingsEventArgs> ValuesChanged;
+
         private string _ipAddressBefore;
         private string _ipAddress;
 
         private int _sendingInterval;
-        private ushort _numberInputs;
 
         private GUIplcForm _guiInfo;
 
         // Constructor of class 'SettingForm': 
-        public SettingsForm(string ipAddressParam, int sendingIntervalParam, ushort numberInputsParam, GUIplcForm guiObjParam)
+        public SettingsForm(string ipAddressParam, int sendingIntervalParam)
         {
             InitializeComponent();
-
-            this._guiInfo = guiObjParam;
            
             this._ipAddressBefore = ipAddressParam;    // IP_address_before is used to change the IP adress. 
             this._ipAddress = ipAddressParam;
             this._sendingInterval = sendingIntervalParam;
-            this._numberInputs = numberInputsParam;
-                      
+
             textBox1.Text = this._ipAddress;
             textBox2.Text = this._sendingInterval.ToString();
-            textBox3.Text = this._numberInputs.ToString();
             
             label2.Text = "IP address";
-            label3.Text = "Read interval";
-            label4.Text = "Read buffer length";
+            label3.Text = "Read timer interval";
         }
+        // This method sets and actualize the attributes of the connection
+        // (IP adress, sending/timer interval, number of inputs), if they have changed. 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this._ipAddress = textBox1.Text;
 
+            this._sendingInterval = Convert.ToInt32(textBox2.Text);
+
+            ValuesChanged.Invoke(this, new SettingsEventArgs(this._ipAddress, this._sendingInterval));
+
+            //Store IPAddress in Settings .settings
+            WTXModbus.Properties.Settings.Default.IPAddress = this._ipAddress;
+            WTXModbus.Properties.Settings.Default.Save();
+
+            this.Close();
+        }
         public string GetIpAddress
         {
             get
@@ -67,42 +79,6 @@ namespace GUIplc
                 return this._sendingInterval;
             }
         }
-        public ushort GetNumberInputs
-        {
-            get
-            {
-                return this._numberInputs;
-            }
-        }
-
-        // This method sets and actualize the attributes of the connection
-        // (IP adress, sending/timer interval, number of inputs), if they have changed. 
-        private void button2_Click(object sender, EventArgs e)
-        {
-            this._ipAddress = textBox1.Text;
-
-            this._sendingInterval = Convert.ToInt32(textBox2.Text);
-
-            this._numberInputs = Convert.ToUInt16(textBox3.Text);
-
-            _guiInfo.Setting();
-
-            if (this._ipAddress != this._ipAddressBefore)
-            {
-                _guiInfo.GetDataviewer.Connection.Connect();
-            }
-            
-            //GUI_info.timer1_start();
-            
-            _guiInfo.setTimerInterval(this._sendingInterval);
-
-            //Store IPAddress in Settings .settings
-            WTXModbus.Properties.Settings.Default.IPAddress = this._ipAddress;
-            WTXModbus.Properties.Settings.Default.Save();
-
-            this.Close();
-        }
-
         private void Settings_Form_Load(object sender, EventArgs e)
         {
 

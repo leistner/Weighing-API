@@ -12,6 +12,8 @@ using HBM.Weighing.API.WTX;
 using HBM.Weighing.API;
 using HBM.Weighing.API.WTX.Modbus;
 using GUIsimple;
+using HBM.Weighing.API.WTX.Jet;
+using WTXModbus;
 
 namespace GUIplc
 {
@@ -42,12 +44,13 @@ namespace GUIplc
     {
         #region Locales
 
-        private static WtxModbus _wtxDevice;
+        private static BaseWtDevice _wtxDevice;
         
         private SettingsForm _settings;
 
         private AdjustmentCalculator _adjustmentCalculator;
         private AdjustmentWeigher _adjustmentWeigher;
+        private FunctionIO _functionIOForm;
 
         private string _ApplicationModeStr;
         
@@ -109,7 +112,8 @@ namespace GUIplc
 
         public void setTimerInterval(int timerIntervalParam)
         {
-            _wtxDevice.ResetTimer(timerIntervalParam);
+            _wtxDevice.RestartUpdate();
+            //_wtxDevice.ResetTimer(timerIntervalParam);
         }
 
         // This method could also load the datagrid at the beginning of the application: For printing the datagrid on the beginning.
@@ -121,7 +125,7 @@ namespace GUIplc
                 */
 
                 ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
-                _wtxDevice = new WtxModbus(_connection, this._timerInterval, Update);
+                _wtxDevice = new WtxModbus(_connection, this._timerInterval, update);
             
                 _ApplicationModeStr = "Standard";
 
@@ -291,7 +295,7 @@ namespace GUIplc
         }
 
         // This automatic property returns an instance of this class. It has usage in the class "Settings_Form".
-        public WtxModbus GetDataviewer
+        public BaseWtDevice GetDataviewer
         {
             get
             {
@@ -310,7 +314,6 @@ namespace GUIplc
 
             toolStripStatusLabel2.Text = "IP address: " + _wtxDevice.Connection.IpAddress;
             toolStripStatusLabel3.Text = "Mode : " + this._ApplicationModeStr; // index 14 refers to application mode of the Device
-            toolStripStatusLabel5.Text = "Number of Inputs : " + _wtxDevice.ReadBufferLength; 
         }
 
         // Button-Click event to close the application: 
@@ -684,7 +687,7 @@ namespace GUIplc
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Update(object sender, ProcessDataReceivedEventArgs e)
+        private void update(object sender, ProcessDataReceivedEventArgs e)
         {
             if (_wtxDevice.ApplicationMode == ApplicationMode.Filler)
                 _ApplicationModeStr = "Filler";
@@ -854,24 +857,32 @@ namespace GUIplc
             timer1.Enabled = false;     // Stop the timer (Restart is in Class "Settings_Form").
             timer1.Stop();
                   
-            _settings = new SettingsForm(_wtxDevice.Connection.IpAddress, this.timer1.Interval, (ushort)_wtxDevice.ReadBufferLength, this);
+            _settings = new SettingsForm(_wtxDevice.Connection.IpAddress, this.timer1.Interval);
+            _settings.ValuesChanged += UpdateSettings;
             _settings.Show();
         }
 
         // This method updates the values of the connection(IP address, timer/sending interval, number of inputs), set in class "Settings_Form".
         // See class "Setting_Form" in method button2_Click(sender,e).
         // After updating the values the tool bar labels on the bottom (f.e. "toolStripStatusLabel2") is rewritten with the new values. 
-        public void Setting()
+        public void UpdateSettings(object sender, SettingsEventArgs e)
         {
-            toolStripStatusLabel2.Text = "IP address: " + _settings.GetIpAddress;
+            toolStripStatusLabel2.Text = "IP address: " + e.IPAdress;
 
-            this._ipAddress = _settings.GetIpAddress;
-            _wtxDevice.Connection.IpAddress = _settings.GetIpAddress;
- 
-            this.timer1.Interval = _settings.GetSendingInterval;
+            if (this._ipAddress != e.IPAdress)
+            {
+                this._ipAddress = e.IPAdress;
+                _wtxDevice.Connection.IpAddress = e.IPAdress; // Alternative : _wtxDevice.Connection.IpAddress=_settings.GetIpAddress;
+                _wtxDevice.Connect(5000);
+            }
 
-            _wtxDevice.ReadBufferLength = _settings.GetNumberInputs;
-            toolStripStatusLabel5.Text = "Number of Inputs : " + _wtxDevice.ReadBufferLength;
+            if (this.timer1.Interval != e.TimerInterval)
+            {
+                this.timer1.Interval = e.TimerInterval;
+                _wtxDevice.RestartUpdate();
+                //_wtxDevice.ResetTimer(timerIntervalParam);
+            }
+            // timer update missing
         }
 
         // This method changes the GUI concerning the application mode.
@@ -923,7 +934,98 @@ namespace GUIplc
 
             _wtxDevice.RestartUpdate();
         }
+        // This button event resets the calibration to the following default setting : 
+        // Dead load = 0 mv/V
+        // Span (Nominal load) = 2 mV/V
+        private void button3_Click(object sender, EventArgs e)
+        {
+            _wtxDevice.StopUpdate();
 
+            _wtxDevice.Calculate(0, 2);
+
+            _wtxDevice.RestartUpdate();
+        }
+
+        // Refresh the GUI if the change between standard and filler have been made: 
+        private void button10_Click_1(object sender, EventArgs e)
+        {
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
+            // For the application mode(standard or filler) and the printing on the GUI the WTX registers are read out first.      
+            this.set_GUI_rows();            
+        }
+
+        // Toolstrip Click Event for Digital IO : Input & Output
+        private void toolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            _wtxDevice.StopUpdate();
+
+            if (_wtxDevice.Connection.ConnType == ConnectionType.Modbus)
+            {
+                _wtxDevice.Disconnect();
+
+                JetBusConnection _connection = new JetBusConnection(_ipAddress);
+                _wtxDevice = new WTXJet(_connection, update);
+
+                _wtxDevice.Connect(5000);
+
+                _functionIOForm = new WTXModbus.FunctionIO();
+
+                _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
+                _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
+
+                DialogResult res = _functionIOForm.ShowDialog();
+            }
+            else
+                if (_wtxDevice.Connection.ConnType == ConnectionType.Jetbus)
+                {
+                    _functionIOForm = new WTXModbus.FunctionIO();
+
+                    _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
+                    _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
+
+                    DialogResult res = _functionIOForm.ShowDialog();
+                }
+            _wtxDevice.RestartUpdate();
+        }
+
+        public void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
+        {
+            int out1 = _wtxDevice.DataStandard.Output1;
+            int out2 = _wtxDevice.DataStandard.Output2;
+            int out3 = _wtxDevice.DataStandard.Output3;
+            int out4 = _wtxDevice.DataStandard.Output4;
+
+            int in1 = _wtxDevice.DataStandard.Input1;
+            int in2 = _wtxDevice.DataStandard.Input2;
+
+            _wtxDevice.Disconnect();
+
+            ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
+            _wtxDevice = new WtxModbus(_connection, this._timerInterval, update);
+        }
+        public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
+        {
+            if((int)e.FunctionOutputIO1!=(-1))
+                _wtxDevice.DataStandard.Output1 = (int)e.FunctionOutputIO1;
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Output2 = (int)e.FunctionOutputIO2;
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Output3 = (int)e.FunctionOutputIO3;
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Output4 = (int)e.FunctionOutputIO4;
+
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Input1 = (int)e.FunctionInputIO1;
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Input2 = (int)e.FunctionInputIO2;
+
+            _wtxDevice.Disconnect();
+
+            ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
+            _wtxDevice = new WtxModbus(_connection, this._timerInterval, update);
+        }
 
         private void jetbusToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -938,32 +1040,6 @@ namespace GUIplc
         private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
 
-        }
-
-        // This button event resets the calibration to the following default setting : 
-        // Dead load = 0 mv/V
-        // Span (Nominal load) = 2 mV/V
-        private void button3_Click(object sender, EventArgs e)
-        {
-            _wtxDevice.Calibrating = true;
-
-            _wtxDevice.StopUpdate();
-
-            _wtxDevice.Calculate(0, 2);
-
-            _wtxDevice.Calibrating = false;
-
-            //WTX_obj.restartTimer();   // The timer is restarted in the method 'Calculate(..)'.
-        }
-
-        // Refresh the GUI if the change between standard and filler have been made: 
-        private void button10_Click_1(object sender, EventArgs e)
-        {
-            dataGridView1.Rows.Clear();
-            dataGridView1.Columns.Clear();
-
-            // For the application mode(standard or filler) and the printing on the GUI the WTX registers are read out first.      
-            this.set_GUI_rows();            
         }
     }
 }

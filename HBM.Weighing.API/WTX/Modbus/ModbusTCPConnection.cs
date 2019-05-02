@@ -170,7 +170,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         #region Connect/Disconnect methods
 
         // This method establishs a connection to the device. Therefore an IP address and the port number
-        // for the TcpClient is need. The client itself is used for the implementation of the ModbusIpMaster. 
+        // for the TcpClient is needed. The client itself is used for the implementation of the ModbusIpMaster. 
         public void Connect()
         {
             try
@@ -199,11 +199,9 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void Disconnect()
         {
             _client.Close();
-
             _connected = false;
             IncomingDataReceived = null;
         }
-
         #endregion
 
         #region Read methods
@@ -275,9 +273,9 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
             _dataToWrite[1] = (ushort)(value & 0x0000ffff);
- 
-            _master.WriteMultipleRegisters(0, (ushort) Convert.ToInt32(index), _dataToWrite);
 
+            _master.WriteMultipleRegisters(0, (ushort) Convert.ToInt32(index), _dataToWrite);
+          
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort array) have been written successfully to multiple registers"));
         }
 
@@ -303,6 +301,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_INPUT_2, 0);
                 _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_INPUT_3, 0);
                 _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_INPUT_4, 0);
+
                 _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_OUTPUT_1, 0);
                 _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_OUTPUT_2, 0);
                 _dataIntegerBuffer.Add(IDCommands.STATUS_DIGITAL_OUTPUT_3, 0);
