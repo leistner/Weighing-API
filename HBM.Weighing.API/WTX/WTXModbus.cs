@@ -54,7 +54,6 @@ namespace HBM.Weighing.API.WTX
         private ushort[] _outputData;
         private ushort[] _dataWritten;
         
-        private bool _isCalibrating;
         private int _timerInterval;
         private int _previousNetValue;
         private ApplicationMode _applicationMode;
@@ -91,7 +90,6 @@ namespace HBM.Weighing.API.WTX
             this._dataWritten = new ushort[2];
 
             this._command = 0x00; 
-            this._isCalibrating = false;
             this._timerInterval = 0;
             this._previousNetValue = 0;
 
@@ -121,7 +119,6 @@ namespace HBM.Weighing.API.WTX
             this._dataWritten = new ushort[2];
 
             this._command = 0x00;
-            this._isCalibrating = false;
 
             this.dPreload = 0;
             this.dNominalLoad = 0;
@@ -226,14 +223,6 @@ namespace HBM.Weighing.API.WTX
         public DataFiller DataFiller
         {
             get { return this._dataFiller; }
-        }
-
-        public void SetOutput(object index, int value)
-        {
-            _dataWritten[0] = (ushort)((value & 0xffff0000) >> 16);
-            _dataWritten[1] = (ushort)(value & 0x0000ffff);
-
-            this._connection.WriteArray(Convert.ToString(index), value);
         }
         /*
         private void WriteOutputWordU08(int valueParam, ushort wordNumber)
@@ -512,8 +501,8 @@ namespace HBM.Weighing.API.WTX
             this.StopUpdate();
 
             //todo: write reg 48, 0x7FFFFFFF
-
-            this.SetOutput(48, 0x7FFFFFFF);
+            
+            _connection.WriteArray("48", 0x7FFFFFFF);
 
             Console.Write(".");
 
@@ -525,20 +514,18 @@ namespace HBM.Weighing.API.WTX
         {
             //write reg 46, CalibrationWeight     
 
-            this.SetOutput(46, calibrationValue);
+            _connection.WriteArray("46", calibrationValue);
 
             //write reg 50, 0x7FFFFFFF
-
-            this.SetOutput(50, 0x7FFFFFFF);
+                  
+            _connection.WriteArray("50", 0x7FFFFFFF);
 
             Console.Write(".");
 
             this.WriteSync(0, 0x100);
 
             this.RestartUpdate();
-
-            this._isCalibrating = true;
-
+            
             // Check if the values of the WTX device are equal to the calibration value. It is also checked within a certain interval if the measurement is noisy.
             if ((ProcessData.NetValue != calibrationValue || ProcessData.GrossValue != calibrationValue))
             {
@@ -578,27 +565,17 @@ namespace HBM.Weighing.API.WTX
             this.StopUpdate();
 
             //write reg 48, DPreload;         
-
-            this.SetOutput(48, Convert.ToInt32(dPreload));
+            _connection.WriteArray("48", Convert.ToInt32(dPreload));
 
             this.WriteSync(0, 0x80);
 
             //write reg 50, DNominalLoad;          
-
-            this.SetOutput(50, Convert.ToInt32(dNominalLoad));
+            _connection.WriteArray("50", Convert.ToInt32(dNominalLoad));
 
             this.WriteSync(0, 0x100);
-
-            this._isCalibrating = true;
-
+            
             this.RestartUpdate();
 
-        }
-
-        public bool Calibrating
-        {
-            get { return this._isCalibrating; }
-            set { this._isCalibrating = value; }
         }
         #endregion
 
@@ -664,16 +641,6 @@ namespace HBM.Weighing.API.WTX
         {
             _command = (ushort)await AsyncWrite(0, 0x8000);
         }
-
-        // Set/Write the digital input in filler mode: 
-        public override void SetDigitalInputIO(int inputPort, FillerInputFunction InputIO)
-        {
-        }
-        // Set/Write the digital output in filler mode: 
-        public override void SetDigitalOutputIO(int outputPort, FillerOutputFunction OutputIO)
-        {
-        }
-
         // In the following methods the different options for the single integer values are used to define and
         // interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
         public override string CurrentWeight(int value, int decimals)

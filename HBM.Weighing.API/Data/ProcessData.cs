@@ -106,23 +106,24 @@ namespace HBM.Weighing.API
 
         public void UpdateProcessData(object sender, DataEventArgs e)
         {
-            _netValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.NET_VALUE]);
+            _netValue   = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.NET_VALUE]);
             _grossValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.GROSS_VALUE]);
 
             _tareValue = _netValue - _grossValue;
 
-            _generalWeightError = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1);
+            _generalWeightError  = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1);
             _scaleAlarmTriggered = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x2) >> 1);
-            _limitStatus = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0xC) >> 2;
+            _limitStatus         = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0xC) >> 2;
 
-            _weightMoving = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x10) >> 4);
+            _weightMoving    = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x10) >> 4);
             _scaleSealIsOpen = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x20) >> 5);
+
             _manualTare = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x40) >> 6);
             _weightType = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x80) >> 7);
             _scaleRange = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x300) >> 8;
 
             _applicationMode = e.DataDictionary[_connection.IDCommands.APPLICATION_MODE];
-            _zeroRequired = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x400) >> 10);
+            _zeroRequired    = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x400) >> 10);
             _weightWithinTheCenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x800) >> 11);
             _weightInZeroRange = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1000) >> 12);
 
@@ -130,25 +131,19 @@ namespace HBM.Weighing.API
 
             if (_connection.ConnType == ConnectionType.Modbus)
             {
-                _status = (Convert.ToInt32(e.DataDictionary["5/1/15"]) & 0x8000) >> 15;
-                _handshake = Convert.ToBoolean(((Convert.ToInt32(e.DataDictionary["5/1/15"]) & 0x4000) >> 14));
-                _unit = Convert.ToInt32(e.DataDictionary["5/2/7"]);
+                _status    = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]) & 0x8000) >> 15;
+                _handshake =  Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]) & 0x4000) >> 14);
+                _unit      =  Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]);
             }
             else
-            {
-                _status = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]);
-                _unit = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;
-            }
+                if(_connection.ConnType == ConnectionType.Jetbus)
+                {
+                    _status = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]);
+                    _unit = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;
+                }
 
             this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
              
-        }
-        public bool UpdateHandshake(int _handshakeValue)
-        {
-            if (_handshakeValue == 1801543519)
-                return true;
-            else
-                return false;
         }
 
         private void limitStatusBool()

@@ -39,35 +39,53 @@ namespace HBM.Weighing.API
     /// </summary>
     public interface INetConnection
     {
+
+        #region Eventhandlers for Log status, data received and update data
+
         event EventHandler BusActivityDetection;
 
         event EventHandler<DataEventArgs> IncomingDataReceived;
 
         event EventHandler<DataEventArgs> UpdateDataClasses;
 
-        string IpAddress    { get; set; }       
+        #endregion
 
-        bool IsConnected    { get; }
+        #region Attributes for data, commands, ip address, connection, connection type
+
+        Dictionary<string, int> AllData { get; }            // dictionary list containing pairs of paths-values
+
+        ICommands IDCommands { get; }                       // interface for creating objects for Jet-&Modbus commands(=index=paths)
+
+        string IpAddress    { get; set; }                   // ip address establishing a connection to the device
+
+        bool IsConnected    { get; }                        // boolean stating the connection status
+
+        ConnectionType ConnType { get; }                    // enumeration containg Jetbus,Modbus
+
+        #endregion
+
+        #region Connect & Disconnect method
 
         void Connect();
-
-        ConnectionType ConnType { get; }
-             
+        
         void Disconnect();
 
-        ICommands IDCommands { get; }
+        #endregion
+
+        #region Read/Write methods
 
         int Read(object index);       
 
         void Write(string index, int data);
 
-        Task<ushort[]> ReadAsync();
+        Task<ushort[]> ReadAsync();                              // For reading asynchronously
 
-        Task<int> WriteAsync(ushort index, ushort commandParam);
+        Task<int> WriteAsync(ushort index, ushort commandParam); // For writing asynchronously
 
-        void WriteArray(string index, int data);
-                
-        Dictionary<string, int> AllData { get; }
-        }
+        void WriteArray(string index, int data);    // For writing several registers
+
+        #endregion
+
+    }
 
 }

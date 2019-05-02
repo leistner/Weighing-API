@@ -36,10 +36,11 @@ using HBM.Weighing.API.WTX.Modbus;
 using System;
 using System.Threading;
 using System.Windows.Forms;
+using WTXModbus;
 /*
- * This application example enables communication and a connection to the WTX120 device via 
- * Modbus and Jetbus.
- */
+* This application example enables communication and a connection to the WTX120 device via 
+* Modbus and Jetbus.
+*/
 namespace GUIsimple
 {
     public partial class GUIsimpleForm : Form
@@ -50,6 +51,7 @@ namespace GUIsimple
 
         private AdjustmentCalculator _adjustmentCalculator;
         private AdjustmentWeigher _adjustmentWeigher;
+        private FunctionIO _functionIOForm;
 
         private const string DEFAULT_IP_ADDRESS = "192.168.100.88";
 
@@ -197,7 +199,7 @@ namespace GUIsimple
         #endregion
 
 
-        #region Button clicks
+        #region Button & tool strips clicks
         //Connect device
         private void cmdConnect_Click(object sender, EventArgs e)
         {
@@ -253,8 +255,81 @@ namespace GUIsimple
             _adjustmentWeigher = new AdjustmentWeigher(_wtxDevice);
             DialogResult res = _adjustmentWeigher.ShowDialog();
         }
-        #endregion
+        // Toolstrip Click Event for Digital IO : Input & Output
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            _wtxDevice.StopUpdate();
 
+            if (_wtxDevice.Connection.ConnType == ConnectionType.Modbus)
+            {
+                _wtxDevice.Disconnect();
+
+                JetBusConnection _connection = new JetBusConnection(_ipAddress);
+                _wtxDevice = new WTXJet(_connection, update);
+
+                _wtxDevice.Connect(5000);
+
+                _functionIOForm = new WTXModbus.FunctionIO();
+
+                _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
+                _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
+
+                DialogResult res = _functionIOForm.ShowDialog();
+            }
+            else
+                if (_wtxDevice.Connection.ConnType == ConnectionType.Jetbus)
+            {
+                _functionIOForm = new WTXModbus.FunctionIO();
+
+                _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
+                _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
+
+                DialogResult res = _functionIOForm.ShowDialog();
+            }
+            _wtxDevice.RestartUpdate();
+        }
+
+        public void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
+        {
+            int out1 = _wtxDevice.DataStandard.Output1;
+            int out2 = _wtxDevice.DataStandard.Output2;
+            int out3 = _wtxDevice.DataStandard.Output3;
+            int out4 = _wtxDevice.DataStandard.Output4;
+
+            int in1 = _wtxDevice.DataStandard.Input1;
+            int in2 = _wtxDevice.DataStandard.Input2;
+
+            if (this.rbtConnectionModbus.Checked)    // If 'Modbus/Tcp' is selected, disconnect and reconnect from Jetbus to Modbus
+            {
+                _wtxDevice.Disconnect();
+                ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
+                _wtxDevice = new WtxModbus(_connection, this._timerInterval, update);
+            }
+        }
+        public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
+        {
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Output1 = (int)e.FunctionOutputIO1;
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Output2 = (int)e.FunctionOutputIO2;
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Output3 = (int)e.FunctionOutputIO3;
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Output4 = (int)e.FunctionOutputIO4;
+
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Input1 = (int)e.FunctionInputIO1;
+            if ((int)e.FunctionOutputIO1 != (-1))
+                _wtxDevice.DataStandard.Input2 = (int)e.FunctionInputIO2;
+
+            if (this.rbtConnectionModbus.Checked)    // If 'Modbus/Tcp' is selected, disconnect and reconnect from Jetbus to Modbus
+            {
+                _wtxDevice.Disconnect();
+                ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
+                _wtxDevice = new WtxModbus(_connection, this._timerInterval, update);
+            }
+        }
+        #endregion
         private void GUIsimple_Load(object sender, EventArgs e)
         {
 

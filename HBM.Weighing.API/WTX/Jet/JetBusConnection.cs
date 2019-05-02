@@ -152,7 +152,6 @@ namespace HBM.Weighing.API.WTX.Jet
             } 
         }
                      
-
         private void OnConnectAuthenticate(bool connected)
         {
             if (connected)

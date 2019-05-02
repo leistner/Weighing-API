@@ -43,41 +43,41 @@ namespace HBM.Weighing.API
         Jetbus = 1
     };
 
-    public enum FillerInputFunction
+    public enum InputFunction
     {
-        Off=0,
-        Tare=1,
-        Trigger=2,      // Only for IMD1
-        reserved=3,
-        BreakFilling=4, // = BRK ; Stop dosing ; Only for IMD2
-        RunFilling=5,   // = RUN ; Start dosing; Only for IMD2
-        Redosing=6,
-        WeightDetection=7,
-        Sum=8
+        Off,
+        Tare,
+        Trigger,      // Only for IMD1
+        reserved,
+        BreakFilling, // = BRK ; Stop dosing ; Only for IMD2
+        RunFilling,   // = RUN ; Start dosing; Only for IMD2
+        Redosing,
+        WeightDetection,
+        Sum
     }
 
-    public enum FillerOutputFunction
+    public enum OutputFunction
     {
-        Off=0,
-        Manually=1,     // manual with instruction OSx
-        LimitSwitch1=2, // Only for IMD0
-        LimitSwitch2=3, // Only for IMD0
-        LimitSwitch3=4, // Only for IMD0
-        LimitSwitch4=5, // Only for IMD0
-        reserved=6,
-        StopMaterial,//Undefined
-        CoarseFlow=7,   // Only for IMD2
-        FineFlow=8,     // Only for IMD2
-        Ready=9,        // Only for IMD2
-        ToleranceExceeded=10,  // Only for IMD2
-        ToleranceUnderrun=11, // Only for IMD2
-        ToleranceExceededUnderrun=12, // Only for IMD2
-        Alert=13,    // Only for IMD2
-        DL1DL2=14,
-        LS1Blinking, //Undefined
-        LS2Blinking, //Undefined
-        LS3Blinking, //Undefined
-        LS4Blinking  //Undefined
+        Off,
+        Manually,     // manual with instruction OSx
+        LimitSwitch1, // Only for IMD0
+        LimitSwitch2, // Only for IMD0
+        LimitSwitch3, // Only for IMD0
+        LimitSwitch4, // Only for IMD0
+        reserved,
+        StopMaterial,   //Undefined
+        CoarseFlow,   // Only for IMD2
+        FineFlow,     // Only for IMD2
+        Ready,        // Only for IMD2
+        ToleranceExceeded,  // Only for IMD2
+        ToleranceUnderrun, // Only for IMD2
+        ToleranceExceededUnderrun, // Only for IMD2
+        Alert,    // Only for IMD2
+        DL1DL2,
+        LS1Blinking, 
+        LS2Blinking,
+        LS3Blinking, 
+        LS4Blinking
     }
 
     public enum ApplicationMode
@@ -116,6 +116,9 @@ namespace HBM.Weighing.API
 
         protected INetConnection _connection;
         private IProcessData _processData;
+        private IDataStandard _dataStandard;
+        private IDataFiller _dataFiller;
+        private IDataFillerExtended _dataFillerExtended;
 
         /// Eventhandler to raise an event and commit the data to the GUI/application from WTXJet and WTXModbus
         public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
@@ -127,6 +130,10 @@ namespace HBM.Weighing.API
         public BaseWtDevice(INetConnection connection) : base()
         {
             _processData = new ProcessData(connection);
+
+            _dataStandard = new DataStandard(connection);
+            _dataFiller = new DataFiller(connection);
+            _dataFillerExtended = new DataFillerExtended(connection);
 
             this._connection = connection;
         }
@@ -151,6 +158,30 @@ namespace HBM.Weighing.API
             get
             {
                 return _processData;
+            }
+        }
+
+        public IDataStandard DataStandard
+        {
+            get
+            {
+                return _dataStandard;
+            }
+        }
+
+        public IDataFiller DataFiller
+        {
+            get
+            {
+                return _dataFiller;
+            }
+        }
+
+        public IDataFillerExtended DataFillerExtended
+        {
+            get
+            {
+                return _dataFillerExtended;
             }
         }
 
@@ -212,14 +243,6 @@ namespace HBM.Weighing.API
         public abstract void abortDosing();
         public abstract void startDosing();
         public abstract void manualReDosing();
-        /// <summary>
-        /// Set the function of the digital input while application is in the extended filler mode
-        /// </summary>
-        public abstract void SetDigitalInputIO(int inputPort, FillerInputFunction InputIO);
-        /// <summary>
-        /// Set the function of the digital output while application is in the extended filler mode
-        /// </summary>
-        public abstract void SetDigitalOutputIO(int outputPort, FillerOutputFunction OutputIO); 
         /// <summary>
         /// Synchronous call to disconnect
         /// </summary>

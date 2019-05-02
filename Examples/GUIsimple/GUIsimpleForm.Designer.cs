@@ -42,6 +42,8 @@
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.calibrationWithWeightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.picNE107 = new System.Windows.Forms.PictureBox();
             this.grrpSetup.SuspendLayout();
             this.toolStrip1.SuspendLayout();
@@ -154,7 +156,8 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1});
+            this.toolStripDropDownButton1,
+            this.toolStripDropDownButton2});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(390, 25);
@@ -186,6 +189,22 @@
             this.calibrationToolStripMenuItem.Text = "Calibration with weight";
             this.calibrationToolStripMenuItem.Click += new System.EventHandler(this.calibrationToolStripMenuItem_Click_1);
             // 
+            // toolStripDropDownButton2
+            // 
+            this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
+            this.toolStripDropDownButton2.Size = new System.Drawing.Size(82, 22);
+            this.toolStripDropDownButton2.Text = "Function IO";
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(203, 22);
+            this.toolStripMenuItem1.Text = "Read/Write IO Functions";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
             // picNE107
             // 
             this.picNE107.Image = global::GUIsimple.Properties.Resources.NE107_OutOfSpecification;
@@ -196,7 +215,7 @@
             this.picNE107.TabIndex = 27;
             this.picNE107.TabStop = false;
             // 
-            // GUIsimple
+            // GUIsimpleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -208,7 +227,7 @@
             this.Controls.Add(this.cmdTare);
             this.Controls.Add(this.cmdZero);
             this.Controls.Add(this.grrpSetup);
-            this.Name = "GUIsimple";
+            this.Name = "GUIsimpleForm";
             this.Text = "GUIsimple";
             this.Load += new System.EventHandler(this.GUIsimple_Load);
             this.grrpSetup.ResumeLayout(false);
@@ -238,6 +257,8 @@
         private System.Windows.Forms.ToolStripMenuItem calibrationToolStripMenuItem;
         private System.Windows.Forms.RadioButton rbtConnectionModbus;
         private System.Windows.Forms.RadioButton rbtConnectionJet;
+        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 
