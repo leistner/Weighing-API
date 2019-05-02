@@ -115,6 +115,7 @@ namespace HBM.Weighing.API
         #region Attributes
 
         protected INetConnection _connection;
+
         private IProcessData _processData;
         private IDataStandard _dataStandard;
         private IDataFiller _dataFiller;
@@ -129,12 +130,6 @@ namespace HBM.Weighing.API
         #region constructor of BaseWtDevice
         public BaseWtDevice(INetConnection connection) : base()
         {
-            _processData = new ProcessData(connection);
-
-            _dataStandard = new DataStandard(connection);
-            _dataFiller = new DataFiller(connection);
-            _dataFillerExtended = new DataFillerExtended(connection);
-
             this._connection = connection;
         }
         #endregion
@@ -155,34 +150,26 @@ namespace HBM.Weighing.API
         /// </summary>
         public IProcessData ProcessData
         {
-            get
-            {
-                return _processData;
-            }
+            get { return _processData;  }
+            set { _processData = value; }
         }
 
         public IDataStandard DataStandard
         {
-            get
-            {
-                return _dataStandard;
-            }
+            get { return _dataStandard;  }
+            set { _dataStandard = value; }
         }
 
         public IDataFiller DataFiller
         {
-            get
-            {
-                return _dataFiller;
-            }
+            get { return _dataFiller;  }
+            set { _dataFiller = value; }
         }
 
         public IDataFillerExtended DataFillerExtended
         {
-            get
-            {
-                return _dataFillerExtended;
-            }
+            get { return _dataFillerExtended;  }
+            set { _dataFillerExtended = value; }
         }
 
         /// <summary>

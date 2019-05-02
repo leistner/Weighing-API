@@ -44,7 +44,7 @@ namespace HBM.Weighing.API.Data
     /// The class DataStandard contains the data input word and data output words for the filler mode
     /// of WTX device 120 and 110.
     /// </summary>
-    public class DataStandard : IDataStandard
+    public class DataStandardModbus : IDataStandard
     {
         #region privates for standard mode
 
@@ -124,67 +124,67 @@ namespace HBM.Weighing.API.Data
         private int _switchOnLevelLIV43;
         private int _switchOffLevelLIV44;
 
-        private INetConnection _connection;        
+        private INetConnection _connection;
         #endregion
 
         #region constructor
 
-        public DataStandard(INetConnection Connection)
+        public DataStandardModbus(INetConnection Connection)
         {
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateStandardData;
-            
-            _input1 = 0;
-            _input2=0;
-            _input3=0;
-            _input4=0;
 
-            _output1=0;
-            _output2=0;
-            _output3=0;
-            _output4=0;
+            _input1 = 0;
+            _input2 = 0;
+            _input3 = 0;
+            _input4 = 0;
+
+            _output1 = 0;
+            _output2 = 0;
+            _output3 = 0;
+            _output4 = 0;
 
             _limitStatus1 = 0;
             _limitStatus2 = 0;
             _limitStatus3 = 0;
             _limitStatus4 = 0;
 
-            _weightMemoryDay=0;
-            _weightMemoryMonth=0;
-            _weightMemoryYear=0;
-            _weightMemorySeqNumber=0;
-            _weightMemoryGross=0;
-            _weightMemoryNet=0;
+            _weightMemoryDay = 0;
+            _weightMemoryMonth = 0;
+            _weightMemoryYear = 0;
+            _weightMemorySeqNumber = 0;
+            _weightMemoryGross = 0;
+            _weightMemoryNet = 0;
 
-            _weight_storage=0;
-            _mode_weight_storage=0;
+            _weight_storage = 0;
+            _mode_weight_storage = 0;
 
-            _manualTareValue=0;
-            _limitValue1Input=0;
-            _limitValue1Mode=0;
+            _manualTareValue = 0;
+            _limitValue1Input = 0;
+            _limitValue1Mode = 0;
 
-            _limitValue1ActivationLevelLowerBandLimit=0;
-            _limitValue1HysteresisBandHeight=0;
-            _limitValue2Source=0;
-            _limitValue2Mode=0;
+            _limitValue1ActivationLevelLowerBandLimit = 0;
+            _limitValue1HysteresisBandHeight = 0;
+            _limitValue2Source = 0;
+            _limitValue2Mode = 0;
 
-            _limitValue2ActivationLevelLowerBandLimit=0;
-            _limitValue2HysteresisBandHeight=0;
-            _limitValue3Source=0;
-            _limitValue3Mode=0;
+            _limitValue2ActivationLevelLowerBandLimit = 0;
+            _limitValue2HysteresisBandHeight = 0;
+            _limitValue3Source = 0;
+            _limitValue3Mode = 0;
 
-            _limitValue3ActivationLevelLowerBandLimit=0;
-            _limitValue3HysteresisBandHeight=0;
-            _limitValue4Source=0;
+            _limitValue3ActivationLevelLowerBandLimit = 0;
+            _limitValue3HysteresisBandHeight = 0;
+            _limitValue4Source = 0;
 
-            _limitValue4Mode=0;
-            _limitValue4ActivationLevelLowerBandLimit=0;
-            _limitValue4HysteresisBandHeight=0;
+            _limitValue4Mode = 0;
+            _limitValue4ActivationLevelLowerBandLimit = 0;
+            _limitValue4HysteresisBandHeight = 0;
 
-            _calibrationWeight=0;
-            _zeroLoad=0;
-            _nominalLoad=0;
+            _calibrationWeight = 0;
+            _zeroLoad = 0;
+            _nominalLoad = 0;
 
             _limitValueMonitoringLIV11 = 0;
             _signalSourceLIV12 = 0;
@@ -211,73 +211,50 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardData(object sender, DataEventArgs e)
         {
-            if(_connection.ConnType == ConnectionType.Modbus)
-            {
-                _input1 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1] & 0x1);
-                _input2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2] & 0x2) >> 1;
-                _input3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_3] & 0x4) >> 2;
-                _input4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_4] & 0x8) >> 3;
+            _input1 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1] & 0x1);
+            _input2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2] & 0x2) >> 1;
+            _input3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_3] & 0x4) >> 2;
+            _input4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_4] & 0x8) >> 3;
 
-                _output1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_1] & 0x1;
-                _output2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_2] & 0x2) >> 1;
-                _output3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3] & 0x4) >> 2;
-                _output4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4] & 0x8) >> 3;
-            }
-            else
-            if(_connection.ConnType == ConnectionType.Jetbus)
-            {
-                _input1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1];
-                _input2 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2];
-                _input3 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_3];
-                _input4 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_4];
-
-                _output1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_1];
-                _output2 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_2];
-                _output3 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3];
-                _output4 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4];
-            }
+            _output1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_1] & 0x1;
+            _output2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_2] & 0x2) >> 1;
+            _output3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3] & 0x4) >> 2;
+            _output4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4] & 0x8) >> 3;
 
             _limitStatus1 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x1);
             _limitStatus2 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x2) >> 1;
             _limitStatus3 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x4) >> 2;
             _limitStatus4 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x8) >> 3;
 
+            _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[0]]);
+            _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[1]]);
+            _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[2]]);
+            _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[3]]);
+            _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[4]]);
+            _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[5]]);
+
             if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 0 || e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 1)  // If application mode is in standard mode
             {
                 _limitValueMonitoringLIV11 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11];
-                _signalSourceLIV12   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
-                _switchOnLevelLIV13  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV13];
+                _signalSourceLIV12 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
+                _switchOnLevelLIV13 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV13];
                 _switchOffLevelLIV14 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14];
 
                 _limitValueMonitoringLIV21 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21];
-                _signalSourceLIV22   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV22];
-                _switchOnLevelLIV23  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV23];
+                _signalSourceLIV22 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV22];
+                _switchOnLevelLIV23 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV23];
                 _switchOffLevelLIV24 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24];
 
                 _limitValueMonitoringLIV31 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31];
-                _signalSourceLIV32   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV32];
-                _switchOnLevelLIV33  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV33];
+                _signalSourceLIV32 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV32];
+                _switchOnLevelLIV33 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV33];
                 _switchOffLevelLIV34 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34];
 
                 _limitValueMonitoringLIV41 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41];
-                _signalSourceLIV42   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
-                _switchOnLevelLIV43  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
+                _signalSourceLIV42 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
+                _switchOnLevelLIV43 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
                 _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];
             }
-            if (_connection.ConnType == ConnectionType.Modbus)
-            {           
-                _weightMemoryDay   = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[0]]);
-                _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[1]]);
-                _weightMemoryYear  = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[2]]);
-                _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[3]]);
-                _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[4]]);
-                _weightMemoryNet   = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[5]]);
-            }
-            if (_connection.ConnType == ConnectionType.Jetbus)
-            {
-                _weight_storage = Convert.ToInt16(e.DataDictionary[(_connection.IDCommands.WEIGHT_MEMORY_STANDARD[0])]);
-            }
-
         }
         #endregion
 
@@ -285,139 +262,115 @@ namespace HBM.Weighing.API.Data
 
         public int Input1
         {
-            get{ return _input1; }
+            get { return _input1; }
             set
             {
-                if (_connection.ConnType == ConnectionType.Jetbus)
-                {
-                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_1), value);
-                    _input1 = value;
-                }
+                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_1), value);
+                _input1 = value;
             }
         }
         public int Input2
         {
-            get{ return _input2; }
+            get { return _input2; }
             set
             {
-                if (_connection.ConnType == ConnectionType.Jetbus)
-                {
-                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_2), value);
-                    _input2 = value;
-                }
+                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_2), value);
+                _input2 = value;
             }
         }
         public int Input3
         {
-            get{ return _input3; }
+            get { return _input3; }
             set
             {
-                if (_connection.ConnType == ConnectionType.Jetbus)
-                {
-                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_3), value);
-                    _input3 = value;
-                }
+                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_3), value);
+                _input3 = value;
             }
         }
         public int Input4
         {
-            get{ return _input4; }
+            get { return _input4; }
             set
             {
-                if (_connection.ConnType == ConnectionType.Jetbus)
-                {
-                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_4), value);
-                    _input4 = value;
-                }
+                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_4), value);
+                _input4 = value;
             }
         }
         public int Output1
         {
-            get{ return _output1; }
+            get { return _output1; }
             set
             {
-                if (_connection.ConnType == ConnectionType.Jetbus)
-                {
-                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_1), value);
-                    _output1 = value;
-                }
+                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_1), value);
+                _output1 = value;
             }
         }
         public int Output2
         {
-            get{ return _output2; }
+            get { return _output2; }
             set
             {
-                if (_connection.ConnType == ConnectionType.Jetbus)
-                {
-                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_2), value);
-                    _output2 = value;
-                }
+                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_2), value);
+                _output2 = value;
             }
         }
         public int Output3
         {
-            get{ return _output3; }
+            get { return _output3; }
             set
             {
-                if (_connection.ConnType == ConnectionType.Jetbus)
-                {
-                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_3), value);
-                    _output3 = value;
-                }
+                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_3), value);
+                _output3 = value;
             }
         }
         public int Output4
         {
-            get{ return _output4; }
+            get { return _output4; }
             set
             {
-                if (_connection.ConnType == ConnectionType.Jetbus)
-                {
-                    _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_4), value);
-                    _output4 = value;
-                }
+                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_4), value);
+                _output4 = value;
             }
         }
         public int LimitStatus1
         {
-            get{ return _limitStatus1; }
+            get { return _limitStatus1; }
         }
         public int LimitStatus2
         {
-            get{ return _limitStatus2; }
+            get { return _limitStatus2; }
         }
         public int LimitStatus3
         {
-            get{ return _limitStatus3; }
+            get { return _limitStatus3; }
         }
         public int LimitStatus4
         {
-            get{ return _limitStatus4; }
+            get { return _limitStatus4; }
         }
         public int WeightMemDay
         {
-            get{ return _weightMemoryDay; }
+            get { return _weightMemoryDay; }
         }
         public int WeightMemMonth
         {
-            get{ return _weightMemoryMonth; }
+            get { return _weightMemoryMonth; }
         }
         public int WeightMemYear
         {
-            get{ return _weightMemoryYear;}
+            get { return _weightMemoryYear; }
         }
         public int WeightMemSeqNumber
         {
-            get{ return _weightMemorySeqNumber; }
+            get { return _weightMemorySeqNumber; }
         }
         public int WeightMemGross
         {
-            get{ return _weightMemoryGross; }
+            get { return _weightMemoryGross; }
         }
         public int WeightMemNet
         {
-            get{ return _weightMemoryNet; }
+            get { return _weightMemoryNet; }
         }
         public int WeightStorage
         {
@@ -433,8 +386,8 @@ namespace HBM.Weighing.API.Data
             get { return _manualTareValue; }
             set
             {
-                  _connection.Write(this.getIndex(_connection.IDCommands.TARE_VALUE), value);
-                  _manualTareValue = value;
+                _connection.Write(this.getIndex(_connection.IDCommands.TARE_VALUE), value);
+                _manualTareValue = value;
             }
         }
         public int LimitValue1Input // Type : unsigned integer 8 Bit
@@ -610,12 +563,12 @@ namespace HBM.Weighing.API.Data
         }
 
         #endregion
-        
+
         private string getIndex(string IDCommandParam)
         {
             return IDCommandParam.Split('/')[0];
         }
-       
+
 
     }
 }

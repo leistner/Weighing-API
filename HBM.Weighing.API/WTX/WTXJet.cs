@@ -46,8 +46,6 @@ namespace HBM.Weighing.API.WTX
         private ApplicationMode _applicationMode;
         private LimitSwitchesSourceStandard _limitSwitchesSourceStandard;
         private LimitSwitchesModeStandard _limitSwitchesModeStandard;
-        public IDataStandard DataStandard { get; set; }
-        public IDataFillerExtended DataFillerExtended { get; set; }
         
         #region Constants
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)   
@@ -75,13 +73,14 @@ namespace HBM.Weighing.API.WTX
         public WTXJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)
         {
             _connection = Connection;
-            
+
+            ProcessData = new ProcessDataJet(_connection);
+            DataStandard = new DataStandardJet(_connection);
+            DataFillerExtended = new DataFillerExtendedJet(_connection);
+
             this.ProcessDataReceived += OnProcessData;
 
-            _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.   
-
-            DataStandard = new DataStandard(_connection);
-            DataFillerExtended = new DataFillerExtended(_connection);
+            _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.              
         }
         #endregion
 
