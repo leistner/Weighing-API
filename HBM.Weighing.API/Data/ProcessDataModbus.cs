@@ -136,16 +136,6 @@ namespace HBM.Weighing.API.Data
                     break;
             }
         }
-
-        public string WeightMovingStringComment()
-        {
-            if (_weightMoving == false)
-                return "0=Weight is not moving.";
-            else
-                return "1=Weight is moving";
-        }
-
-
         #endregion
 
         #region Get-properties of process data
