@@ -44,7 +44,7 @@ namespace HBM.Weighing.API.Data
     /// 
     /// This is only available via a JetBus Ethernet connection, not via Modbus. 
     /// </summary>
-    public class DataFillerExtended : DataFiller, IDataFillerExtended
+    public class DataFillerExtendedJet : DataFillerJet, IDataFillerExtended
     {
         #region privates
 
@@ -139,7 +139,7 @@ namespace HBM.Weighing.API.Data
 
         #region constructor
 
-        public DataFillerExtended(INetConnection Connection):base(Connection)          
+        public DataFillerExtendedJet(INetConnection Connection):base(Connection)          
         {
             _connection = Connection;
 

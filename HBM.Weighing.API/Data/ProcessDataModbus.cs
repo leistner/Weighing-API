@@ -1,45 +1,10 @@
-﻿// <copyright file="ProcessData.cs" company="Hottinger Baldwin Messtechnik GmbH">
-//
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
-//
-// The MIT License (MIT)
-//
-// Copyright (C) Hottinger Baldwin Messtechnik GmbH
-//
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-//
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
-// BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
-// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-//
-// </copyright>
-
-using HBM.Weighing.API.WTX.Jet;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace HBM.Weighing.API
+namespace HBM.Weighing.API.Data
 {
-    /// <summary>
-    /// Implementation of the interface IProcessData for the process data
-    /// The class ProcessData contains the input word concerning real-time data 
-    /// of WTX device 120 and 110.
-    /// </summary>
-    public class ProcessData : IProcessData
+    public class ProcessDataModbus : IProcessData
     {
         private int _netValue;      // data type = double according to OPC-UA standard
         private int _grossValue;    // data type = double according to OPC-UA standard
@@ -67,37 +32,37 @@ namespace HBM.Weighing.API
 
         private INetConnection _connection;
 
-        #region constructor of ProcessData
+        #region constructor of ProcessDataModbus
 
-        public ProcessData(INetConnection Connection)
+        public ProcessDataModbus(INetConnection Connection)
         {
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateProcessData;
 
-             _netValue = 0;     
-             _grossValue = 0;    
-             _tareValue = 0;       
-             _generalWeightError = false;
-             _scaleAlarmTriggered = false;
-             _limitStatus = 0;
-             _weightMoving = false;
-             _scaleSealIsOpen = false;
-             _manualTare = false;
-             _weightType = false;
-             _scaleRange = 0;
-             _zeroRequired = false;
-             _weightWithinTheCenterOfZero = false;
-             _weightInZeroRange = false;
-             _applicationMode = 0;
-             _decimals = 0;
-             _unit = 0;
-             _handshake = false;
-             _status = 0;
-             _underload = false;
-             _overload = false;
-             _weightWithinLimits = false;
-             _higherSafeLoadLimit = false;
+            _netValue = 0;
+            _grossValue = 0;
+            _tareValue = 0;
+            _generalWeightError = false;
+            _scaleAlarmTriggered = false;
+            _limitStatus = 0;
+            _weightMoving = false;
+            _scaleSealIsOpen = false;
+            _manualTare = false;
+            _weightType = false;
+            _scaleRange = 0;
+            _zeroRequired = false;
+            _weightWithinTheCenterOfZero = false;
+            _weightInZeroRange = false;
+            _applicationMode = 0;
+            _decimals = 0;
+            _unit = 0;
+            _handshake = false;
+            _status = 0;
+            _underload = false;
+            _overload = false;
+            _weightWithinLimits = false;
+            _higherSafeLoadLimit = false;
         }
 
         #endregion
@@ -106,16 +71,16 @@ namespace HBM.Weighing.API
 
         public void UpdateProcessData(object sender, DataEventArgs e)
         {
-            _netValue   = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.NET_VALUE]);
+            _netValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.NET_VALUE]);
             _grossValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.GROSS_VALUE]);
 
             _tareValue = _netValue - _grossValue;
 
-            _generalWeightError  = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1);
+            _generalWeightError = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1);
             _scaleAlarmTriggered = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x2) >> 1);
-            _limitStatus         = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0xC) >> 2;
+            _limitStatus = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0xC) >> 2;
 
-            _weightMoving    = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x10) >> 4);
+            _weightMoving = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x10) >> 4);
             _scaleSealIsOpen = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x20) >> 5);
 
             _manualTare = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x40) >> 6);
@@ -123,27 +88,16 @@ namespace HBM.Weighing.API
             _scaleRange = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x300) >> 8;
 
             _applicationMode = e.DataDictionary[_connection.IDCommands.APPLICATION_MODE];
-            _zeroRequired    = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x400) >> 10);
+            _zeroRequired = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x400) >> 10);
             _weightWithinTheCenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x800) >> 11);
             _weightInZeroRange = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1000) >> 12);
 
-            _decimals = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DECIMALS]);
-
-            if (_connection.ConnType == ConnectionType.Modbus)
-            {
-                _status    = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]) & 0x8000) >> 15;
-                _handshake =  Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]) & 0x4000) >> 14);
-                _unit      =  Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]);
-            }
-            else
-                if(_connection.ConnType == ConnectionType.Jetbus)
-                {
-                    _status = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]);
-                    _unit = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;
-                }
+            _decimals  = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DECIMALS]);
+            _status    = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]) & 0x8000) >> 15;
+            _handshake = Convert.ToBoolean(((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.SCALE_COMMAND_STATUS]) & 0x4000) >> 14));
+            _unit      = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]);
 
             this.limitStatusBool();  // update the booleans 'Underload', 'Overload', 'weightWithinLimits', 'higherSafeLoadLimit'. 
-             
         }
 
         private void limitStatusBool()

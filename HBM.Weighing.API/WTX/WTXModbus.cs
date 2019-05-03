@@ -47,8 +47,6 @@ namespace HBM.Weighing.API.WTX
     {
 
         #region privates
-        DataStandard _dataStandard;
-        DataFiller _dataFiller;
 
         private ushort[] _data;
         private ushort[] _outputData;
@@ -56,6 +54,7 @@ namespace HBM.Weighing.API.WTX
         
         private int _timerInterval;
         private int _previousNetValue;
+
         private ApplicationMode _applicationMode;
         private LimitSwitchesSourceStandard _limitSwitchesSourceStandard;
         private LimitSwitchesModeStandard _limitSwitchesModeStandard;
@@ -82,8 +81,9 @@ namespace HBM.Weighing.API.WTX
 
             this.ProcessDataReceived += OnProcessData;
 
-            this._dataFiller = new DataFiller(connection);
-            this._dataStandard = new DataStandard(connection);
+            ProcessData = new ProcessDataModbus(_connection);
+            DataStandard = new DataStandardModbus(_connection);
+            DataFiller = new DataFillerModbus(_connection);
 
             this._data = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
@@ -110,9 +110,10 @@ namespace HBM.Weighing.API.WTX
         public WtxModbus(INetConnection connection) : base(connection)
         {
             this._connection = connection;
-            
-            this._dataFiller = new DataFiller(connection);
-            this._dataStandard = new DataStandard(connection);
+
+            ProcessData = new ProcessDataModbus(_connection);
+            DataStandard = new DataStandardModbus(_connection);
+            DataFiller = new DataFillerModbus(_connection);
 
             this._data = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
@@ -215,30 +216,6 @@ namespace HBM.Weighing.API.WTX
             get { return this._command; }
         }
 
-        public DataStandard DataStandard
-        {
-            get { return this._dataStandard; }
-        }
-
-        public DataFiller DataFiller
-        {
-            get { return this._dataFiller; }
-        }
-        /*
-        private void WriteOutputWordU08(int valueParam, ushort wordNumber)
-        {
-            _dataWritten[0] = (ushort)((valueParam & 0x000000ff));
-            this._connection.Write(wordNumber, _dataWritten[0]);
-        }
-        */
-        /*
-        public void WriteOutputWordU16(int valueParam, ushort wordNumber)
-        {
-            _dataWritten[0] = (ushort)((valueParam & 0xffff0000) >> 16);
-
-            this._connection.Write(wordNumber, _dataWritten[0]);
-        }
-        */
         public async Task<int> AsyncWrite(ushort index, ushort commandParam)
         {
             if (isConnected)
@@ -525,12 +502,6 @@ namespace HBM.Weighing.API.WTX
             this.WriteSync(0, 0x100);
 
             this.RestartUpdate();
-            
-            // Check if the values of the WTX device are equal to the calibration value. It is also checked within a certain interval if the measurement is noisy.
-            if ((ProcessData.NetValue != calibrationValue || ProcessData.GrossValue != calibrationValue))
-            {
-                //Read method
-            }
         }
         
         public double getDPreload
