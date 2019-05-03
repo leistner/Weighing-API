@@ -28,12 +28,8 @@
 //
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-
 namespace HBM.Weighing.API
 {
-
     /// <summary>
     /// Interface containing the process data of your WTX device.
     /// A class inheriting from interface IProcessData contains the 
@@ -42,43 +38,52 @@ namespace HBM.Weighing.API
     public interface IProcessData
     {
         #region Process device data 
+        ApplicationMode ApplicationMode { get; }
 
-        int NetValue { get; }   // Net value of weight 
-        int GrossValue { get; } // Gross value of weight
+        int NetValue { get; }  
+        
+        int GrossValue { get; } 
 
-        int TareValue { get; }  // Tare value of weight
+        int TareValue { get; } 
+
         bool GeneralWeightError { get; }
+
         bool ScaleAlarmTriggered { get; }
+
         int LimitStatus { get; }
 
-        bool WeightMoving { get; } // = WeightStable (OPC-UA Standard)
+        bool WeightMoving { get; }
+
         bool ScaleSealIsOpen { get; }
+
         bool ManualTare { get; }
+
         bool WeightType { get; }
 
-        int ScaleRange { get; } // = CurrentRangeId (OPC-UA Standard)
+        int ScaleRange { get; }
+
         bool ZeroRequired { get; }
-        bool WeightWithinTheCenterOfZero { get; } // = CenterOfZero (OPC-UA Standard)
-        bool WeightInZeroRange { get; }// = Inside zero (OPC-UA Standard)
+
+        bool WeightWithinTheCenterOfZero { get; }
+
+        bool WeightInZeroRange { get; }
         
         int Decimals { get; }
+
         int Unit { get; }
 
-        bool Handshake { get; }
-        int Status { get; }
-        bool Underload{ get; set; } // = Underload (OPC-UA Standard)
-        bool Overload { get; set; } // = Overload (OPC-UA Standard)
+        bool Underload { get; }
 
-        bool WeightWithinLimits { get; set; }
-        bool HigherSafeLoadLimit{ get; set; }
+        bool Overload { get; }
 
+        bool WeightWithinLimits { get; }
+
+        bool HigherSafeLoadLimit{ get; }
         #endregion
 
-        #region Update methods for the process data
 
+        #region Update method
         void UpdateProcessData(object sender, DataEventArgs e);
-
-
         #endregion
     }
 }
