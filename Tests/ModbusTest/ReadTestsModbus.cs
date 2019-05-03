@@ -115,6 +115,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             _testValue = (ushort) e.ProcessData.NetValue;
         }
 
+        /*
         // Test for checking the handshake bit 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "HandshakeTestCases")]
         public bool testHandshake(Behavior behavior)
@@ -128,6 +129,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxDevice.ProcessData.Handshake;
         }
+        */
 
         private void UpdateTestHandshake(object sender, ProcessDataReceivedEventArgs e)
         {

@@ -499,8 +499,8 @@ namespace WTXModbus
                         Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() + "\t  As an int/bool:  " + _wtxDevice.ApplicationMode.ToString());
                         Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +          "\t  As an int/bool:  " + e.ProcessData.Decimals);
                         Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                       "\t  As an int/bool:  " + e.ProcessData.Unit);
-                        Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +         "\t  As an int/bool:  " + e.ProcessData.Handshake);
-                        Console.WriteLine("Status:                        " + statusCommentMethod() + "\t  As an int/bool:  " + e.ProcessData.Status);
+                        //Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +         "\t  As an int/bool:  " + e.ProcessData.Handshake);
+                        //Console.WriteLine("Status:                        " + statusCommentMethod() + "\t  As an int/bool:  " + e.ProcessData.Status);
 
                         Console.WriteLine("Limit status:                  " + limitCommentMethod() + "       As an int/bool:  " + e.ProcessData.LimitStatus);
                         Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "         As an int/bool: " + e.ProcessData.WeightMoving);
@@ -525,8 +525,8 @@ namespace WTXModbus
                     Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() +           "\t  As an int/bool:  " + _wtxDevice.ApplicationMode);
                     Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +         "\t  As an int/bool:  " + e.ProcessData.Decimals);
                     Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                      "\t  As an int/bool:  " + e.ProcessData.Unit);
-                    Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +        "\t  As an int/bool:  " + e.ProcessData.Handshake);
-                    Console.WriteLine("Status:                        " + statusCommentMethod() +                    "\t  As an int/bool:  " + e.ProcessData.Status);
+                    //Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +        "\t  As an int/bool:  " + e.ProcessData.Handshake);
+                    //Console.WriteLine("Status:                        " + statusCommentMethod() +                    "\t  As an int/bool:  " + e.ProcessData.Status);
 
                     Console.WriteLine("Limit status:                  " + limitCommentMethod() +  "     As an int/bool:  " + e.ProcessData.LimitStatus);
                     Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "          As an int/bool:  " + e.ProcessData.WeightMoving);
@@ -633,7 +633,7 @@ namespace WTXModbus
         #region comment methods
         private static string statusCommentMethod()
         {
-
+            /*
             if (mode == "Jetbus" || mode == "Jet" || mode == "jet" || mode == "jetbus")
             {
                 if (_wtxDevice.ProcessData.Status == 0) // 1634168417 = false
@@ -651,6 +651,7 @@ namespace WTXModbus
                     if (_wtxDevice.ProcessData.Status == 1)
                         return "Command ok";
                  }
+            */
             return "Command on go";
         }
 
