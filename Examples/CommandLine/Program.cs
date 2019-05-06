@@ -473,11 +473,11 @@ namespace WTXModbus
                         Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +        "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
                         Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +    "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
                         Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +         "\t  As an int/bool:  " + e.ProcessData.ManualTare);
-                        Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType + "\t  As an int/bool:  " + e.ProcessData.WeightType);
+                        Console.WriteLine("Weight type:                   " + e.ProcessData.TareMode + "\t  As an int/bool:  " + e.ProcessData.TareMode);
                         Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange + "\t  As an int/bool:  " + e.ProcessData.ScaleRange);
                         Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +       "\t  As an int/bool:  " + e.ProcessData.ZeroRequired);
-                        Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.WeightWithinTheCenterOfZero);
-                        Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() +  "\t  As an int/bool:  " + e.ProcessData.WeightInZeroRange);
+                        Console.WriteLine("Weight within center of zero:  " + e.ProcessData.CenterOfZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.CenterOfZero);
+                        Console.WriteLine("Weight in zero range:          " + e.ProcessData.InsideZero.ToString() +  "\t  As an int/bool:  " + e.ProcessData.InsideZero);
 
                         Console.WriteLine("Limit status:                  " + e.ProcessData.LimitStatus.ToString() + "        As an int/bool:  " + e.ProcessData.LimitStatus);
                         Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "          As an int/bool: " + e.ProcessData.WeightMoving);
@@ -491,11 +491,11 @@ namespace WTXModbus
                         Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +                         "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
                         Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +                     "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
                         Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +        "\t  As an int/bool:  " + e.ProcessData.ManualTare);
-                        Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType + "\t  As an int/bool:  " + e.ProcessData.WeightType);
+                        Console.WriteLine("Weight type:                   " + e.ProcessData.TareMode + "\t  As an int/bool:  " + e.ProcessData.TareMode);
                         Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange + "\t  As an int/bool:  " + e.ProcessData.ScaleRange);
                         Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +      "\t  As an int/bool:  " + e.ProcessData.ZeroRequired);
-                        Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.WeightWithinTheCenterOfZero);
-                        Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() + "\t  As an int/bool:  " + e.ProcessData.WeightInZeroRange);
+                        Console.WriteLine("Weight within center of zero:  " + e.ProcessData.CenterOfZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.CenterOfZero);
+                        Console.WriteLine("Weight in zero range:          " + e.ProcessData.InsideZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.InsideZero);
                         Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() + "\t  As an int/bool:  " + _wtxDevice.ApplicationMode.ToString());
                         Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +          "\t  As an int/bool:  " + e.ProcessData.Decimals);
                         Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                       "\t  As an int/bool:  " + e.ProcessData.Unit);
@@ -517,11 +517,11 @@ namespace WTXModbus
                     Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +     "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
                     Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() + "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
                     Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +      "\t  As an int/bool:  " + e.ProcessData.ManualTare);
-                    Console.WriteLine("Weight type:                   " + e.ProcessData.WeightType +               "\t  As an int/bool:  " + e.ProcessData.WeightType);
+                    Console.WriteLine("Weight type:                   " + e.ProcessData.TareMode +               "\t  As an int/bool:  " + e.ProcessData.TareMode);
                     Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange +               "\t  As an int/bool:  " + e.ProcessData.ScaleRange);
                     Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +    "\t  As an int/bool:  " + e.ProcessData.ZeroRequired);
-                    Console.WriteLine("Weight within center of zero:  " + e.ProcessData.WeightWithinTheCenterOfZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.WeightWithinTheCenterOfZero);
-                    Console.WriteLine("Weight in zero range:          " + e.ProcessData.WeightInZeroRange.ToString() +           "\t  As an int/bool:  " + e.ProcessData.WeightInZeroRange);
+                    Console.WriteLine("Weight within center of zero:  " + e.ProcessData.CenterOfZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.CenterOfZero);
+                    Console.WriteLine("Weight in zero range:          " + e.ProcessData.InsideZero.ToString() +           "\t  As an int/bool:  " + e.ProcessData.InsideZero);
                     Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() +           "\t  As an int/bool:  " + _wtxDevice.ApplicationMode);
                     Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +         "\t  As an int/bool:  " + e.ProcessData.Decimals);
                     Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                      "\t  As an int/bool:  " + e.ProcessData.Unit);

@@ -386,7 +386,7 @@ namespace HBM.Weighing.API.WTX
 
         public override string WeightTypeStringComment()
         {
-            if (ProcessData.WeightType == false)
+            if (ProcessData.TareMode == false)
             {
                 return "gross";
             }

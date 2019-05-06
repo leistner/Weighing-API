@@ -49,16 +49,16 @@ namespace HBM.Weighing.API.Data
             GrossValue = 0;
             TareValue = 0;
             GeneralWeightError = false;
-            ScaleAlarmTriggered = false;
+            ScaleAlarm = false;
             LimitStatus = 0;
             WeightMoving = false;
             ScaleSealIsOpen = false;
             ManualTare = false;
-            WeightType = false;
+            TareMode = false;
             ScaleRange = 0;
             ZeroRequired = false;
-            WeightWithinTheCenterOfZero = false;
-            WeightInZeroRange = false;
+            CenterOfZero = false;
+            InsideZero = false;
             Decimals = 0;
             Unit = 0;
             Handshake = false;
@@ -79,7 +79,7 @@ namespace HBM.Weighing.API.Data
             GrossValue = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.GROSS_VALUE]);
             TareValue = NetValue - GrossValue;
             GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1);
-            ScaleAlarmTriggered = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x2) >> 1);
+            ScaleAlarm = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x2) >> 1);
             LimitStatus = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0xC) >> 2;
             WeightWithinLimits = (LimitStatus == 0);
             Underload = (LimitStatus == 1);
@@ -88,11 +88,11 @@ namespace HBM.Weighing.API.Data
             WeightMoving = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x10) >> 4);
             ScaleSealIsOpen = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x20) >> 5);
             ManualTare = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x40) >> 6);
-            WeightType = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x80) >> 7);
+            TareMode = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x80) >> 7);
             ScaleRange = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x300) >> 8;
             ZeroRequired = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x400) >> 10);
-            WeightWithinTheCenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x800) >> 11);
-            WeightInZeroRange = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1000) >> 12);
+            CenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x800) >> 11);
+            InsideZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_connection.IDCommands.WEIGHING_DEVICE_1_WEIGHT_STATUS]) & 0x1000) >> 12);
             Decimals = Convert.ToInt32(e.DataDictionary[_connection.IDCommands.DECIMALS]);
             Unit = (Convert.ToInt32(e.DataDictionary[_connection.IDCommands.UNIT_PREFIX_FIXED_PARAMETER]) & 0xFF0000) >> 16;                    
         }
@@ -110,7 +110,7 @@ namespace HBM.Weighing.API.Data
 
         public bool GeneralWeightError { get; private set; }
 
-        public bool ScaleAlarmTriggered { get; private set; }
+        public bool ScaleAlarm { get; private set; }
 
         public int LimitStatus { get; private set; }
 
@@ -120,15 +120,15 @@ namespace HBM.Weighing.API.Data
 
         public bool ManualTare { get; private set; }
 
-        public bool WeightType { get; private set; }
+        public bool TareMode { get; private set; }
 
         public int ScaleRange { get; private set; }
 
         public bool ZeroRequired { get; private set; }
 
-        public bool WeightWithinTheCenterOfZero { get; private set; }
+        public bool CenterOfZero { get; private set; }
 
-        public bool WeightInZeroRange { get; private set; }
+        public bool InsideZero { get; private set; }
 
         public int Decimals { get; private set; }
 

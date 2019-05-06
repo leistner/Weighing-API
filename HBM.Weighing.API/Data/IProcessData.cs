@@ -48,7 +48,7 @@ namespace HBM.Weighing.API
 
         bool GeneralWeightError { get; }
 
-        bool ScaleAlarmTriggered { get; }
+        bool ScaleAlarm { get; }
 
         int LimitStatus { get; }
 
@@ -58,15 +58,15 @@ namespace HBM.Weighing.API
 
         bool ManualTare { get; }
 
-        bool WeightType { get; }
+        bool TareMode { get; }
 
         int ScaleRange { get; }
 
         bool ZeroRequired { get; }
 
-        bool WeightWithinTheCenterOfZero { get; }
+        bool CenterOfZero { get; }
 
-        bool WeightInZeroRange { get; }
+        bool InsideZero { get; }
         
         int Decimals { get; }
 

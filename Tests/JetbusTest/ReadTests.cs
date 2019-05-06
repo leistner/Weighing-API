@@ -231,7 +231,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.ScaleAlarmTriggered;
+            _testBoolean = _wtxObj.ProcessData.ScaleAlarm;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -287,7 +287,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.WeightType;
+            _testBoolean = _wtxObj.ProcessData.TareMode;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -329,7 +329,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.WeightWithinTheCenterOfZero;
+            _testBoolean = _wtxObj.ProcessData.CenterOfZero;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -343,7 +343,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.WeightInZeroRange;
+            _testBoolean = _wtxObj.ProcessData.InsideZero;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
