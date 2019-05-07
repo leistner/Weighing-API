@@ -98,23 +98,6 @@ namespace HBM.Weighing.API.Data
         private int _hardwareVersion;
         private int _identification;
 
-        private int _limitValueMonitoringLIV11;
-        private int _signalSourceLIV12;
-        private int _switchOnLevelLIV13;
-        private int _switchOffLevelLIV14;
-        private int _limitValueMonitoringLIV21;
-        private int _signalSourceLIV22;
-        private int _switchOnLevelLIV23;
-        private int _switchOffLevelLIV24;
-        private int _limitValueMonitoringLIV31;
-        private int _signalSourceLIV32;
-        private int _switchOnLevelLIV33;
-        private int _switchOffLevelLIV34;
-        private int _limitValueMonitoringLIV41;
-        private int _signalSourceLIV42;
-        private int _switchOnLevelLIV43;
-        private int _switchOffLevelLIV44;
-
         private int _outputScale;
         private int _firmwareDate;
         private int _resetTrigger;
@@ -197,23 +180,6 @@ namespace HBM.Weighing.API.Data
             _deviceAddress=0;
             _hardwareVersion=0;
             _identification=0;
-
-            _limitValueMonitoringLIV11=0;
-            _signalSourceLIV12=0;
-            _switchOnLevelLIV13=0;
-            _switchOffLevelLIV14=0;
-            _limitValueMonitoringLIV21=0;
-            _signalSourceLIV22=0;
-            _switchOnLevelLIV23=0;
-            _switchOffLevelLIV24=0;
-            _limitValueMonitoringLIV31=0;
-            _signalSourceLIV32=0;
-            _switchOnLevelLIV33=0;
-            _switchOffLevelLIV34=0;
-            _limitValueMonitoringLIV41=0;
-            _signalSourceLIV42=0;
-            _switchOnLevelLIV43=0;
-            _switchOffLevelLIV44=0;
 
             _outputScale=0;
             _firmwareDate=0;
@@ -625,6 +591,7 @@ namespace HBM.Weighing.API.Data
             set { _connection.Write(_commands.Identification.PathIndex, value);
                 this._identification = value; }
         }
+        
         public int LimitValueMonitoringLIV11
         {
             get { return _limitValueMonitoringLIV11; }
@@ -721,6 +688,7 @@ namespace HBM.Weighing.API.Data
             set { _connection.Write(_commands.Switch_off_level_liv44.PathIndex, value);
                 this._switchOffLevelLIV44 = value; }
         }
+
         public int OutputScale
         {
             get { return _outputScale; }

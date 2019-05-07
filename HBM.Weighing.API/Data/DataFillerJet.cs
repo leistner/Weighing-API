@@ -58,7 +58,6 @@ namespace HBM.Weighing.API.Data
         private int _adcOverUnderload;
 
         private int _maxDosingTime;
-        private int _legalForTradeOperation;
         private int _toleranceErrorPlus;
         private int _toleranceErrorMinus;
 
@@ -358,10 +357,6 @@ namespace HBM.Weighing.API.Data
         public int MaxDosingTime
         {
             get { return _maxDosingTime; }
-        }
-        public int LegalForTradeOperation
-        {
-            get { return _legalForTradeOperation; }
         }
         public int WeightMemDay
         {

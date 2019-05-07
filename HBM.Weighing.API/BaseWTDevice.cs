@@ -104,8 +104,7 @@ namespace HBM.Weighing.API
         /// Sets the application mode according to the integer value in ProcessData : Standard or filler mode
         /// </summary>
         /// <returns></returns>
-        public abstract ApplicationMode ApplicationMode { get; }
-
+        public abstract ApplicationMode ApplicationMode { get; set; }
         #endregion
 
         #region Abstract methods for the wtx class(WTXJet or WTXModbus) to get, to send and to analyse data
@@ -164,12 +163,17 @@ namespace HBM.Weighing.API
         /// </summary>
         /// <returns>Current weight of device</returns>
         public abstract string CurrentWeight(int weightNoDecimals, int decimals);
-
-
+               
         /// <summary>
         /// Zeroing the wtx device. 
         /// </summary>
         public abstract void MeasureZero();
+
+        public abstract int ManualTareValue { get; set; }
+
+        public abstract int CalibrationWeight { get; set; }
+        public abstract int ZeroLoad { get; set; }
+        public abstract int NominalLoad { get; set; }
 
         /// <summary>
         /// Calibration with an individual calibration weight. 

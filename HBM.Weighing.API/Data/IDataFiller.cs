@@ -73,7 +73,6 @@ namespace HBM.Weighing.API
         int GeneralScaleError { get; }
         int ParameterSetProduct { get; }
         int MaxDosingTime { get; }
-        int LegalForTradeOperation { get; }
 
         int WeightMemDay { get; }
         int WeightMemMonth { get; }

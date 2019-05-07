@@ -555,8 +555,7 @@ namespace WTXModbus
                         Console.WriteLine("ADC Overload/Unterload:        " + ((WtxModbus)_wtxDevice).DataFiller.AdcOverUnderload.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.AdcOverUnderload);
 
                         Console.WriteLine("Max.Dosing time:               " + ((WtxModbus)_wtxDevice).DataFiller.MaxDosingTime.ToString() +          "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.MaxDosingTime);
-                        Console.WriteLine("Legal-for-trade operation:     " + ((WtxModbus)_wtxDevice).DataFiller.LegalForTradeOperation.ToString() +           "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.LegalForTradeOperation);
-                        Console.WriteLine("Tolerance error+:              " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorPlus.ToString() +     "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorPlus);
+                         Console.WriteLine("Tolerance error+:              " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorPlus.ToString() +     "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorPlus);
                         Console.WriteLine("Tolerance error-:              " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorMinus.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorMinus);
                                             
                         Console.WriteLine("Status digital input 1:        " + ((WtxModbus)_wtxDevice).DataFiller.StatusInput1.ToString() +           "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.StatusInput1);

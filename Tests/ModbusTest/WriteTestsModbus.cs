@@ -232,37 +232,37 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
-        public static IEnumerable WriteLimitValue1ModeTestCases
+        public static IEnumerable WriteLimitSwitch1ModeTestCases
         {
             get
             {
-                yield return new TestCaseData(Behavior.WriteLimitValue1ModeTestSuccess).Returns(true);
-                yield return new TestCaseData(Behavior.WriteLimitValue1ModeTestFail).Returns(false);
+                yield return new TestCaseData(Behavior.WriteLimitSwitch1ModeTestSuccess).Returns(true);
+                yield return new TestCaseData(Behavior.WriteLimitSwitch1ModeTestFail).Returns(false);
             }
         }
 
-        public static IEnumerable WriteLimitValue2ModeTestCases
+        public static IEnumerable WriteLimitSwitch2ModeTestCases
         {
             get
             {
-                yield return new TestCaseData(Behavior.WriteLimitValue2ModeTestSuccess).Returns(true);
-                yield return new TestCaseData(Behavior.WriteLimitValue2ModeTestFail).Returns(false);
+                yield return new TestCaseData(Behavior.WriteLimitSwitch2ModeTestSuccess).Returns(true);
+                yield return new TestCaseData(Behavior.WriteLimitSwitch2ModeTestFail).Returns(false);
             }
         }
-        public static IEnumerable WriteLimitValue3ModeTestCases
+        public static IEnumerable WriteLimitSwitch3ModeTestCases
         {
             get
             {
-                yield return new TestCaseData(Behavior.WriteLimitValue3ModeTestSuccess).Returns(true);
-                yield return new TestCaseData(Behavior.WriteLimitValue3ModeTestFail).Returns(false);
+                yield return new TestCaseData(Behavior.WriteLimitSwitch3ModeTestSuccess).Returns(true);
+                yield return new TestCaseData(Behavior.WriteLimitSwitch3ModeTestFail).Returns(false);
             }
         }
-        public static IEnumerable WriteLimitValue4ModeTestCases
+        public static IEnumerable WriteLimitSwitch4ModeTestCases
         {
             get
             {
-                yield return new TestCaseData(Behavior.WriteLimitValue4ModeTestSuccess).Returns(true);
-                yield return new TestCaseData(Behavior.WriteLimitValue4ModeTestFail).Returns(false);
+                yield return new TestCaseData(Behavior.WriteLimitSwitch4ModeTestSuccess).Returns(true);
+                yield return new TestCaseData(Behavior.WriteLimitSwitch4ModeTestFail).Returns(false);
             }
         }
 
@@ -276,17 +276,17 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         // Tests for writing limit values : 
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitValue1ModeTestCases")]
-        public bool LimitValue1ModeWriteTestModbus(Behavior behavior)
+        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitSwitch1ModeTestCases")]
+        public bool LimitSwitch1ModeWriteTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             _wtxObj = new WtxModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.DataStandard.LimitValue1Mode = 1;
+            _wtxObj.DataStandard.LimitSwitch1Mode = 1;
 
-            if (testConnection.getCommand == 4 && _wtxObj.DataStandard.LimitValue1Mode == 1)
+            if (testConnection.getCommand == 4 && _wtxObj.DataStandard.LimitSwitch1Mode == 1)
                 return true;
 
             else
@@ -294,16 +294,16 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         // Tests for writing limit values : 
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitValue2ModeTestCases")]
-        public bool LimitValue2ModeWriteTestModbus(Behavior behavior)
+        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitSwitch2ModeTestCases")]
+        public bool LimitSwitch2ModeWriteTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             _wtxObj = new WtxModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.DataStandard.LimitValue2Mode = 2;
+            _wtxObj.DataStandard.LimitSwitch2Mode = 2;
 
-            if (testConnection.getCommand == 11 && _wtxObj.DataStandard.LimitValue2Mode == 2)
+            if (testConnection.getCommand == 11 && _wtxObj.DataStandard.LimitSwitch2Mode == 2)
                 return true;
 
             else
@@ -311,16 +311,16 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         // Tests for writing limit values : 
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitValue3ModeTestCases")]
-        public bool LimitValue3ModeWriteTestModbus(Behavior behavior)
+        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitSwitch3ModeTestCases")]
+        public bool LimitSwitch3ModeWriteTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             _wtxObj = new WtxModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.DataStandard.LimitValue3Mode = 3;
+            _wtxObj.DataStandard.LimitSwitch3Mode = 3;
 
-            if (testConnection.getCommand == 17 && _wtxObj.DataStandard.LimitValue3Mode == 3)
+            if (testConnection.getCommand == 17 && _wtxObj.DataStandard.LimitSwitch3Mode == 3)
                 return true;
 
             else
@@ -328,16 +328,16 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         // Tests for writing limit values : 
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitValue4ModeTestCases")]
-        public bool LimitValue4ModeWriteTestModbus(Behavior behavior)
+        [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitSwitch4ModeTestCases")]
+        public bool LimitSwitch4ModeWriteTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             _wtxObj = new WtxModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.DataStandard.LimitValue4Mode = 4;
+            _wtxObj.DataStandard.LimitSwitch4Mode = 4;
 
-            if (testConnection.getCommand == 23 && _wtxObj.DataStandard.LimitValue4Mode == 4)
+            if (testConnection.getCommand == 23 && _wtxObj.DataStandard.LimitSwitch4Mode == 4)
                 return true;
             else
                 return false;
@@ -837,10 +837,10 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
         {
             if
              (
-            _wtxObj.DataStandard.ManualTareValue == 1 && _wtxObj.DataStandard.LimitValue1Input == 1 && _wtxObj.DataStandard.LimitValue1Mode == 1 && _wtxObj.DataStandard.LimitValue1ActivationLevelLowerBandLimit == 1 && _wtxObj.DataStandard.LimitValue1HysteresisBandHeight == 1 &&
-            _wtxObj.DataStandard.LimitValue2Source == 1 && _wtxObj.DataStandard.LimitValue2Mode == 1 && _wtxObj.DataStandard.LimitValue2ActivationLevelLowerBandLimit == 1 && _wtxObj.DataStandard.LimitValue2HysteresisBandHeight == 1 && _wtxObj.DataStandard.LimitValue3Source == 1 &&
-            _wtxObj.DataStandard.LimitValue3Mode == 1 && _wtxObj.DataStandard.LimitValue3ActivationLevelLowerBandLimit == 1 && _wtxObj.DataStandard.LimitValue3HysteresisBandHeight == 1 && _wtxObj.DataStandard.LimitValue4Source == 1 && _wtxObj.DataStandard.LimitValue4Mode == 1 &&
-            _wtxObj.DataStandard.LimitValue4ActivationLevelLowerBandLimit == 1 && _wtxObj.DataStandard.LimitValue4HysteresisBandHeight == 1 && _wtxObj.DataFiller.ResidualFlowTime == 1 && _wtxObj.DataFiller.TargetFillingWeight == 1 && _wtxObj.DataFiller.EmptyingMode == 1 &&
+            _wtxObj.ManualTareValue == 1 && _wtxObj.DataStandard.LimitSwitch1Source == 1 && _wtxObj.DataStandard.LimitSwitch1Mode == 1 && _wtxObj.DataStandard.LimitSwitch1Level == 1 && _wtxObj.DataStandard.LimitSwitch1Hysteresis == 1 &&
+            _wtxObj.DataStandard.LimitSwitch2Source == 1 && _wtxObj.DataStandard.LimitSwitch2Mode == 1 && _wtxObj.DataStandard.LimitSwitch2Level == 1 && _wtxObj.DataStandard.LimitSwitch2Hysteresis == 1 && _wtxObj.DataStandard.LimitSwitch3Source == 1 &&
+            _wtxObj.DataStandard.LimitSwitch3Mode == 1 && _wtxObj.DataStandard.LimitSwitch3ActivationLevelLowerBandLimit == 1 && _wtxObj.DataStandard.LimitSwitch3Hysteresis == 1 && _wtxObj.DataStandard.LimitSwitch4Source == 1 && _wtxObj.DataStandard.LimitSwitch4Mode == 1 &&
+            _wtxObj.DataStandard.LimitSwitch4Level == 1 && _wtxObj.DataStandard.LimitSwitch4Hysteresis == 1 && _wtxObj.DataFiller.ResidualFlowTime == 1 && _wtxObj.DataFiller.TargetFillingWeight == 1 && _wtxObj.DataFiller.EmptyingMode == 1 &&
             _wtxObj.DataFiller.CoarseFlowCutOffPointSet == 1 && _wtxObj.DataFiller.FineFlowCutOffPointSet == 1 && _wtxObj.DataFiller.MinimumFineFlow == 1 && _wtxObj.DataFiller.OptimizationOfCutOffPoints == 1 && _wtxObj.DataFiller.MaximumDosingTime == 1 && _wtxObj.DataFiller.ValveControl == 1 &&
             _wtxObj.DataFiller.StartWithFineFlow == 1 && _wtxObj.DataFiller.CoarseLockoutTime == 1 && _wtxObj.DataFiller.FineLockoutTime == 1 && _wtxObj.DataFiller.TareMode == 1 && _wtxObj.DataFiller.UpperToleranceLimit == 1 && _wtxObj.DataFiller.LowerToleranceLimit == 1 &&
             _wtxObj.DataFiller.MinimumStartWeight == 1 && _wtxObj.DataFiller.TareDelay == 1 && _wtxObj.DataFiller.CoarseFlowMonitoringTime == 1 && _wtxObj.DataFiller.CoarseFlowMonitoring == 1 && _wtxObj.DataFiller.FineFlowMonitoring == 1 && _wtxObj.DataFiller.EmptyWeight == 1 &&

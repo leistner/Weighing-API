@@ -955,7 +955,7 @@ namespace JetbusTest
         }
      
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
-        public void testLimitValueStatusLVS1(Behavior behavior)
+        public void testLimitSwitchStatusLVS1(Behavior behavior)
         {
             bool testVar = false;
 
@@ -965,9 +965,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            int limitvalue1 = _wtxObj.DataStandard.LimitStatus1;
+            int LimitSwitch1 = _wtxObj.DataStandard.LimitStatus1;
 
-            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && limitvalue1 == 0)
+            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && LimitSwitch1 == 0)
                 testVar = true;
             else
                 testVar = false;
@@ -977,7 +977,7 @@ namespace JetbusTest
 
         /*
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
-        public void testLimitValueStatusLVS2(Behavior behavior)
+        public void testLimitSwitchStatusLVS2(Behavior behavior)
         {
             bool testVar = false;
 
@@ -987,9 +987,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
         
-            int limitvalue2 = _wtxObj.DataStandard.LimitValue2Source;
+            int LimitSwitch2 = _wtxObj.DataStandard.LimitSwitch2Source;
 
-            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && limitvalue2 == 1)
+            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && LimitSwitch2 == 1)
                 testVar = true;
             else
                 testVar = false;
@@ -998,7 +998,7 @@ namespace JetbusTest
         }
 
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
-        public void testLimitValueStatusLVS3(Behavior behavior)
+        public void testLimitSwitchStatusLVS3(Behavior behavior)
         {
             bool testVar = false;
 
@@ -1008,9 +1008,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            int limitvalue3 = _wtxObj.DataStandard.LimitValue3Source;
+            int LimitSwitch3 = _wtxObj.DataStandard.LimitSwitch3Source;
 
-            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && limitvalue3 == 0)
+            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && LimitSwitch3 == 0)
                 testVar = true;
             else
                 testVar = false;
@@ -1019,7 +1019,7 @@ namespace JetbusTest
         }
 
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
-        public void testLimitValueStatusLVS4(Behavior behavior)
+        public void testLimitSwitchStatusLVS4(Behavior behavior)
         {
             bool testVar = false;
 
@@ -1029,9 +1029,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            int limitvalue4 = _wtxObj.DataStandard.LimitValue4Source;
+            int LimitSwitch4 = _wtxObj.DataStandard.LimitSwitch4Source;
 
-            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && limitvalue4 == 1)
+            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && LimitSwitch4 == 1)
                 testVar = true;
             else
                 testVar = false;

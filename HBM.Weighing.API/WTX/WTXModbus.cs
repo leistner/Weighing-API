@@ -58,6 +58,11 @@ namespace HBM.Weighing.API.WTX
 
         private ApplicationMode _applicationMode;
 
+        private int _manualTareValue;
+        private int _calibrationWeight;
+        private int _zeroLoad;
+        private int _nominalLoad;
+
         private ushort _command;
         private double dPreload, dNominalLoad, multiplierMv2D;      
         public System.Timers.Timer _aTimer;
@@ -351,9 +356,9 @@ namespace HBM.Weighing.API.WTX
         public void UpdateApplicationMode(ushort[] Data)
         {
             if ((_data[5] & 0x03) == 0)
-                _applicationMode = ApplicationMode.Standard;
+                ApplicationMode = ApplicationMode.Standard;
             else
-                _applicationMode = ApplicationMode.Filler;        
+                ApplicationMode = ApplicationMode.Filler;        
         }
         #endregion
 
@@ -367,6 +372,15 @@ namespace HBM.Weighing.API.WTX
                 return "1=Weight is moving";
         }
 
+        public override int ManualTareValue 
+        {
+            get { return _manualTareValue; }
+            set
+            {
+                //_connection.Write(this.getIndex(_connection.IDCommands.TARE_VALUE), value);
+                _manualTareValue = value;
+            }
+        }
 
         public string LimitStatusStringComment()
         {
@@ -412,16 +426,7 @@ namespace HBM.Weighing.API.WTX
                     return "error";
             }
         }
-
-
-        public override ApplicationMode ApplicationMode
-        {
-            get
-            {
-                return _applicationMode;
-            }
-        }
-
+        public override ApplicationMode ApplicationMode { get; set; }
 
         public override string Unit
         {
@@ -442,22 +447,37 @@ namespace HBM.Weighing.API.WTX
                 }
             }
         }
-        /*
-        public override string StatusStringComment()
-        {
-            if (ProcessData.Status == 1)
-                return "Execution OK!";
-            else
-                if (ProcessData.Status != 1)
-                return "Execution not OK!";
-            else
-                return "error.";
-
-        }
-        */
+        
         #endregion
 
         #region Adjustment methods 
+        public override int CalibrationWeight // Type : signed integer 32 Bit
+        {
+            get { return _calibrationWeight; }
+            set
+            {
+                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), value);
+                _calibrationWeight = value;
+            }
+        }
+        public override int ZeroLoad // Type : signed integer 32 Bit
+        {
+            get { return _zeroLoad; }
+            set
+            {
+                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LDW_DEAD_WEIGHT), value);
+                _zeroLoad = value;
+            }
+        }
+        public override int NominalLoad // Type : signed integer 32 Bit
+        {
+            get { return _nominalLoad; }
+            set
+            {
+                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LWT_NOMINAL_VALUE), value);
+                _nominalLoad = value;
+            }
+        }
 
         // This methods sets the value of the WTX to zero. 
         public override void MeasureZero()
