@@ -81,48 +81,25 @@ namespace HBM.Weighing.API.Data
 
         // Output words: 
 
-        private int _manualTareValue;
-        private int _limitValue1Input;
-        private int _limitValue1Mode;
+        private int _limitSwitch1Source;
+        private int _limitSwitch1Mode;
+        private int _limitSwitch1ActivationLevelLowerBandLimit;
+        private int _limitSwitch1HysteresisBandHeight;
 
-        private int _limitValue1ActivationLevelLowerBandLimit;
-        private int _limitValue1HysteresisBandHeight;
-        private int _limitValue2Source;
-        private int _limitValue2Mode;
+        private int _limitSwitch2Source;
+        private int _limitSwitch2Mode;
+        private int _limitSwitch2ActivationLevelLowerBandLimit;
+        private int _limitSwitch2HysteresisBandHeight;
 
-        private int _limitValue2ActivationLevelLowerBandLimit;
-        private int _limitValue2HysteresisBandHeight;
-        private int _limitValue3Source;
-        private int _limitValue3Mode;
+        private int _limitSwitch3Source;
+        private int _limitSwitch3Mode;
+        private int _limitSwitch3ActivationLevelLowerBandLimit;
+        private int _limitSwitch3HysteresisBandHeight;
 
-        private int _limitValue3ActivationLevelLowerBandLimit;
-        private int _limitValue3HysteresisBandHeight;
-        private int _limitValue4Source;
-
-        private int _limitValue4Mode;
-        private int _limitValue4ActivationLevelLowerBandLimit;
-        private int _limitValue4HysteresisBandHeight;
-
-        private int _calibrationWeight;
-        private int _zeroLoad;
-        private int _nominalLoad;
-
-        private int _limitValueMonitoringLIV11;
-        private int _signalSourceLIV12;
-        private int _switchOnLevelLIV13;
-        private int _switchOffLevelLIV14;
-        private int _limitValueMonitoringLIV21;
-        private int _signalSourceLIV22;
-        private int _switchOnLevelLIV23;
-        private int _switchOffLevelLIV24;
-        private int _limitValueMonitoringLIV31;
-        private int _signalSourceLIV32;
-        private int _switchOnLevelLIV33;
-        private int _switchOffLevelLIV34;
-        private int _limitValueMonitoringLIV41;
-        private int _signalSourceLIV42;
-        private int _switchOnLevelLIV43;
-        private int _switchOffLevelLIV44;
+        private int _limitSwitch4Source;
+        private int _limitSwitch4Mode;
+        private int _limitSwitch4ActivationLevelLowerBandLimit;
+        private int _limitSwitch4HysteresisBandHeight;
 
         private INetConnection _connection;        
         #endregion
@@ -160,49 +137,25 @@ namespace HBM.Weighing.API.Data
             _weight_storage=0;
             _mode_weight_storage=0;
 
-            _manualTareValue=0;
-            _limitValue1Input=0;
-            _limitValue1Mode=0;
+            _limitSwitch1Source=0;
+            _limitSwitch1Mode=0;
+            _limitSwitch1ActivationLevelLowerBandLimit=0;
+            _limitSwitch1HysteresisBandHeight=0;
 
-            _limitValue1ActivationLevelLowerBandLimit=0;
-            _limitValue1HysteresisBandHeight=0;
-            _limitValue2Source=0;
-            _limitValue2Mode=0;
+            _limitSwitch2Source=0;
+            _limitSwitch2Mode=0;
+            _limitSwitch2ActivationLevelLowerBandLimit=0;
+            _limitSwitch2HysteresisBandHeight=0;
 
-            _limitValue2ActivationLevelLowerBandLimit=0;
-            _limitValue2HysteresisBandHeight=0;
-            _limitValue3Source=0;
-            _limitValue3Mode=0;
+            _limitSwitch3Source=0;
+            _limitSwitch3Mode=0;
+            _limitSwitch3ActivationLevelLowerBandLimit=0;
+            _limitSwitch3HysteresisBandHeight=0;
 
-            _limitValue3ActivationLevelLowerBandLimit=0;
-            _limitValue3HysteresisBandHeight=0;
-            _limitValue4Source=0;
-
-            _limitValue4Mode=0;
-            _limitValue4ActivationLevelLowerBandLimit=0;
-            _limitValue4HysteresisBandHeight=0;
-
-            _calibrationWeight=0;
-            _zeroLoad=0;
-            _nominalLoad=0;
-
-            _limitValueMonitoringLIV11 = 0;
-            _signalSourceLIV12 = 0;
-            _switchOnLevelLIV13 = 0;
-            _switchOffLevelLIV14 = 0;
-            _limitValueMonitoringLIV21 = 0;
-            _signalSourceLIV22 = 0;
-            _switchOnLevelLIV23 = 0;
-            _switchOffLevelLIV24 = 0;
-            _limitValueMonitoringLIV31 = 0;
-            _signalSourceLIV32 = 0;
-            _switchOnLevelLIV33 = 0;
-            _switchOffLevelLIV34 = 0;
-            _limitValueMonitoringLIV41 = 0;
-            _signalSourceLIV42 = 0;
-            _switchOnLevelLIV43 = 0;
-            _switchOffLevelLIV44 = 0;
-
+            _limitSwitch4Source=0;
+            _limitSwitch4Mode=0;
+            _limitSwitch4ActivationLevelLowerBandLimit=0;
+            _limitSwitch4HysteresisBandHeight=0;  
         }
 
         #endregion
@@ -230,25 +183,25 @@ namespace HBM.Weighing.API.Data
 
             if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 0 || e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 1)  // If application mode is in standard mode
             {
-                _limitValueMonitoringLIV11 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11];
-                _signalSourceLIV12   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
-                _switchOnLevelLIV13  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV13];
-                _switchOffLevelLIV14 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14];
+                _limitSwitch1Mode = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11];
+                _limitSwitch1Source = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
+                _limitSwitch1ActivationLevelLowerBandLimit  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV13];
+                _limitSwitch1HysteresisBandHeight = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14];
 
-                _limitValueMonitoringLIV21 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21];
-                _signalSourceLIV22   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV22];
-                _switchOnLevelLIV23  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV23];
-                _switchOffLevelLIV24 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24];
+                _limitSwitch2Mode = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21];
+                _limitSwitch2Source = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV22];
+                _limitSwitch2ActivationLevelLowerBandLimit = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV23];
+                _limitSwitch2HysteresisBandHeight = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24];
 
-                _limitValueMonitoringLIV31 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31];
-                _signalSourceLIV32   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV32];
-                _switchOnLevelLIV33  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV33];
-                _switchOffLevelLIV34 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34];
+                _limitSwitch3Mode = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31];
+                _limitSwitch3Source = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV32];
+                _limitSwitch3ActivationLevelLowerBandLimit = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV33];
+                _limitSwitch3HysteresisBandHeight = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34];
 
-                _limitValueMonitoringLIV41 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41];
-                _signalSourceLIV42   = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
-                _switchOnLevelLIV43  = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
-                _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];
+                _limitSwitch4Mode = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41];
+                _limitSwitch4Source = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
+                _limitSwitch4ActivationLevelLowerBandLimit = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
+                _limitSwitch4HysteresisBandHeight = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];
             }
         }
         #endregion
@@ -375,188 +328,223 @@ namespace HBM.Weighing.API.Data
         #endregion
 
         #region Get-/Set-properties for standard mode 
-
-        public int ManualTareValue // Type : signed integer 32 Bit
+        
+        public int LimitSwitch1Source // Type : unsigned integer 8 Bit
         {
-            get { return _manualTareValue; }
-            set
-            {
-                  _connection.Write(this.getIndex(_connection.IDCommands.TARE_VALUE), value);
-                  _manualTareValue = value;
-            }
-        }
-        public int LimitValue1Input // Type : unsigned integer 8 Bit
-        {
-            get { return _limitValue1Input; }
+            get { return _limitSwitch1Source; }
             set
             {
                 _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV12), value);
-                _limitValue1Input = value;
+                _limitSwitch1Source = value;
             }
         }
-        public int LimitValue1Mode // Type : unsigned integer 8 Bit
+        public int LimitSwitch1Mode // Type : unsigned integer 8 Bit
         {
-            get { return _limitValue1Mode; }
+            get { return _limitSwitch1Mode; }
             set
             {
                 _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11), value);
-                _limitValue1Mode = value;
+                _limitSwitch1Mode = value;
             }
         }
-        public int LimitValue1ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
+        public int LimitSwitch1Level // Type : signed integer 32 Bit
         {
-            get { return _limitValue1ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
                 this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
-                _limitValue1ActivationLevelLowerBandLimit = value;
+                _limitSwitch1ActivationLevelLowerBandLimit = value;
             }
         }
-        public int LimitValue1HysteresisBandHeight // Type : signed integer 32 Bit
+        public int LimitSwitch1Hysteresis // Type : signed integer 32 Bit
         {
-            get { return _limitValue1HysteresisBandHeight; }
+            get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
                 _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
-                _limitValue1HysteresisBandHeight = value;
+                _limitSwitch1HysteresisBandHeight = value;
             }
         }
-        public int LimitValue2Source // Type : unsigned integer 8 Bit
+        public int LimitSwitch1LowerBandValue // Type : signed integer 32 Bit
         {
-            get { return _limitValue2Source; }
+            get { return _limitSwitch1ActivationLevelLowerBandLimit; }
+            set
+            {
+                this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
+                _limitSwitch1ActivationLevelLowerBandLimit = value;
+            }
+        }
+        public int LimitSwitch1BandHeight // Type : signed integer 32 Bit
+        {
+            get { return _limitSwitch1HysteresisBandHeight; }
+            set
+            {
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
+                _limitSwitch1HysteresisBandHeight = value;
+            }
+        }
+        public int LimitSwitch2Source // Type : unsigned integer 8 Bit
+        {
+            get { return _limitSwitch2Source; }
             set
             {
                 _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV22), value);
-                _limitValue2Source = value;
+                _limitSwitch2Source = value;
             }
         }
-        public int LimitValue2Mode // Type : unsigned integer 8 Bit
+        public int LimitSwitch2Mode // Type : unsigned integer 8 Bit
         {
-            get { return _limitValue2Mode; }
+            get { return _limitSwitch2Mode; }
             set
             {
                 _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21), value);
-                _limitValue2Mode = value;
+                _limitSwitch2Mode = value;
             }
         }
-        public int LimitValue2ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
+        public int LimitSwitch2Level // Type : signed integer 32 Bit
         {
-            get { return _limitValue2ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch2ActivationLevelLowerBandLimit; }
             set
             {
                 _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV23), value);
-                _limitValue2ActivationLevelLowerBandLimit = value;
+                _limitSwitch2ActivationLevelLowerBandLimit = value;
             }
         }
-        public int LimitValue2HysteresisBandHeight // Type : signed integer 32 Bit
+        public int LimitSwitch2Hysteresis // Type : signed integer 32 Bit
         {
-            get { return _limitValue2HysteresisBandHeight; }
+            get { return _limitSwitch2HysteresisBandHeight; }
             set
             {
                 _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24), value);
-                _limitValue2HysteresisBandHeight = value;
+                _limitSwitch2HysteresisBandHeight = value;
             }
         }
-        public int LimitValue3Source // Type : unsigned integer 8 Bit
+        public int LimitSwitch2LowerBandValue // Type : signed integer 32 Bit
         {
-            get { return _limitValue3Source; }
+            get { return _limitSwitch1ActivationLevelLowerBandLimit; }
+            set
+            {
+                this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
+                _limitSwitch1ActivationLevelLowerBandLimit = value;
+            }
+        }
+        public int LimitSwitch2BandHeight // Type : signed integer 32 Bit
+        {
+            get { return _limitSwitch1HysteresisBandHeight; }
+            set
+            {
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
+                _limitSwitch1HysteresisBandHeight = value;
+            }
+        }
+        public int LimitSwitch3Source // Type : unsigned integer 8 Bit
+        {
+            get { return _limitSwitch3Source; }
             set
             {
                 _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV32), value);
-                _limitValue3Source = value;
+                _limitSwitch3Source = value;
             }
         }
-        public int LimitValue3Mode // Type : unsigned integer 8 Bit
+        public int LimitSwitch3Mode // Type : unsigned integer 8 Bit
         {
-            get { return _limitValue3Mode; }
+            get { return _limitSwitch3Mode; }
             set
             {
                 _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31), value);
-                _limitValue3Mode = value;
+                _limitSwitch3Mode = value;
             }
         }
-        public int LimitValue3ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
+        public int LimitSwitch3ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
         {
-            get { return _limitValue3ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch3ActivationLevelLowerBandLimit; }
             set
             {
                 _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV33), value);
-                _limitValue3ActivationLevelLowerBandLimit = value;
+                _limitSwitch3ActivationLevelLowerBandLimit = value;
             }
         }
-        public int LimitValue3HysteresisBandHeight // Type : signed integer 32 Bit
+        public int LimitSwitch3Hysteresis // Type : signed integer 32 Bit
         {
-            get { return _limitValue3HysteresisBandHeight; }
+            get { return _limitSwitch3HysteresisBandHeight; }
             set
             {
                 _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34), value);
-                _limitValue3HysteresisBandHeight = value;
+                _limitSwitch3HysteresisBandHeight = value;
             }
         }
-        public int LimitValue4Source // Type : unsigned integer 8 Bit
+        public int LimitSwitch3LowerBandValue // Type : signed integer 32 Bit
         {
-            get { return _limitValue4Source; }
+            get { return _limitSwitch1ActivationLevelLowerBandLimit; }
+            set
+            {
+                this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
+                _limitSwitch1ActivationLevelLowerBandLimit = value;
+            }
+        }
+        public int LimitSwitch3BandHeight // Type : signed integer 32 Bit
+        {
+            get { return _limitSwitch1HysteresisBandHeight; }
+            set
+            {
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
+                _limitSwitch1HysteresisBandHeight = value;
+            }
+        }
+        public int LimitSwitch4Source // Type : unsigned integer 8 Bit
+        {
+            get { return _limitSwitch4Source; }
             set
             {
                 _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV42), value);
-                _limitValue4Source = value;
+                _limitSwitch4Source = value;
             }
         }
-        public int LimitValue4Mode // Type : unsigned integer 8 Bit
+        public int LimitSwitch4Mode // Type : unsigned integer 8 Bit
         {
-            get { return _limitValue4Mode; }
+            get { return _limitSwitch4Mode; }
             set
             {
                 _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41), value);
-                _limitValue4Mode = value;
+                _limitSwitch4Mode = value;
             }
         }
-        public int LimitValue4ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
+        public int LimitSwitch4Level // Type : signed integer 32 Bit
         {
-            get { return _limitValue4ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch4ActivationLevelLowerBandLimit; }
             set
             {
                 _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV43), value);
-                _limitValue4ActivationLevelLowerBandLimit = value;
+                _limitSwitch4ActivationLevelLowerBandLimit = value;
             }
         }
-        public int LimitValue4HysteresisBandHeight // Type : signed integer 32 Bit
+        public int LimitSwitch4Hysteresis // Type : signed integer 32 Bit
         {
-            get { return _limitValue4HysteresisBandHeight; }
+            get { return _limitSwitch4HysteresisBandHeight; }
             set
             {
                 _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44), value);
-                _limitValue4HysteresisBandHeight = value;
+                _limitSwitch4HysteresisBandHeight = value;
             }
         }
-        public int CalibrationWeight // Type : signed integer 32 Bit
+        public int LimitSwitch4LowerBandValue // Type : signed integer 32 Bit
         {
-            get { return _calibrationWeight; }
+            get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), value);
-                _calibrationWeight = value;
+                this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
+                _limitSwitch1ActivationLevelLowerBandLimit = value;
             }
         }
-        public int ZeroLoad // Type : signed integer 32 Bit
+        public int LimitSwitch4BandHeight // Type : signed integer 32 Bit
         {
-            get { return _zeroLoad; }
+            get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.LDW_DEAD_WEIGHT), value);
-                _zeroLoad = value;
+                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
+                _limitSwitch1HysteresisBandHeight = value;
             }
         }
-        public int NominalLoad // Type : signed integer 32 Bit
-        {
-            get { return _nominalLoad; }
-            set
-            {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.LWT_NOMINAL_VALUE), value);
-                _nominalLoad = value;
-            }
-        }
-
         #endregion
         
         private string getIndex(string IDCommandParam)

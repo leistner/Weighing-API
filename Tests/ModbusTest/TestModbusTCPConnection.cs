@@ -154,14 +154,14 @@ namespace HBM.Weighing.API.WTX.Modbus
          UpdateOutputTestSuccess,
          UpdateOutputTestFail,
 
-         WriteLimitValue1ModeTestSuccess,
-         WriteLimitValue1ModeTestFail,
-         WriteLimitValue2ModeTestSuccess,
-         WriteLimitValue2ModeTestFail,
-         WriteLimitValue3ModeTestSuccess,
-         WriteLimitValue3ModeTestFail,
-         WriteLimitValue4ModeTestSuccess,
-         WriteLimitValue4ModeTestFail,
+         WriteLimitSwitch1ModeTestSuccess,
+         WriteLimitSwitch1ModeTestFail,
+         WriteLimitSwitch2ModeTestSuccess,
+         WriteLimitSwitch2ModeTestFail,
+         WriteLimitSwitch3ModeTestSuccess,
+         WriteLimitSwitch3ModeTestFail,
+         WriteLimitSwitch4ModeTestSuccess,
+         WriteLimitSwitch4ModeTestFail,
     }
 
     public class TestModbusTCPConnection : INetConnection, IDisposable
@@ -804,28 +804,28 @@ namespace HBM.Weighing.API.WTX.Modbus
                         _dataWTX[5] = 0x0000;
                     break;
 
-                case Behavior.WriteLimitValue1ModeTestSuccess:
+                case Behavior.WriteLimitSwitch1ModeTestSuccess:
                     this.command = 4; 
                     break;
-                case Behavior.WriteLimitValue1ModeTestFail:
+                case Behavior.WriteLimitSwitch1ModeTestFail:
                     this.command = 0;
                     break;
-                case Behavior.WriteLimitValue2ModeTestSuccess:
+                case Behavior.WriteLimitSwitch2ModeTestSuccess:
                     this.command = 11;
                     break;
-                case Behavior.WriteLimitValue2ModeTestFail:
+                case Behavior.WriteLimitSwitch2ModeTestFail:
                     this.command = 0;
                     break;
-                case Behavior.WriteLimitValue3ModeTestSuccess:
+                case Behavior.WriteLimitSwitch3ModeTestSuccess:
                     this.command = 17;
                     break;
-                case Behavior.WriteLimitValue3ModeTestFail:
+                case Behavior.WriteLimitSwitch3ModeTestFail:
                     this.command = 0;
                     break;
-                case Behavior.WriteLimitValue4ModeTestSuccess:
+                case Behavior.WriteLimitSwitch4ModeTestSuccess:
                     this.command = 23;
                     break;
-                case Behavior.WriteLimitValue4ModeTestFail:
+                case Behavior.WriteLimitSwitch4ModeTestFail:
                     this.command = 0;
                     break;
             }

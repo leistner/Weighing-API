@@ -54,6 +54,10 @@ namespace HBM.Weighing.API.WTX
         
         private int _timerInterval;
         private int _previousNetValue;
+        private int _manualTareValue;
+        private int _calibrationWeight;
+        private int _zeroLoad;
+        private int _nominalLoad;
 
         private ushort _command;
         private double dPreload, dNominalLoad, multiplierMv2D;      
@@ -362,6 +366,15 @@ namespace HBM.Weighing.API.WTX
                 return "1=Weight is moving";
         }
 
+        public override int ManualTareValue 
+        {
+            get { return _manualTareValue; }
+            set
+            {
+                //_connection.Write(this.getIndex(_connection.IDCommands.TARE_VALUE), value);
+                _manualTareValue = value;
+            }
+        }
 
         public string LimitStatusStringComment()
         {
@@ -447,6 +460,33 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Adjustment methods 
+        public override int CalibrationWeight // Type : signed integer 32 Bit
+        {
+            get { return _calibrationWeight; }
+            set
+            {
+                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), value);
+                _calibrationWeight = value;
+            }
+        }
+        public override int ZeroLoad // Type : signed integer 32 Bit
+        {
+            get { return _zeroLoad; }
+            set
+            {
+                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LDW_DEAD_WEIGHT), value);
+                _zeroLoad = value;
+            }
+        }
+        public override int NominalLoad // Type : signed integer 32 Bit
+        {
+            get { return _nominalLoad; }
+            set
+            {
+                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LWT_NOMINAL_VALUE), value);
+                _nominalLoad = value;
+            }
+        }
 
         // This methods sets the value of the WTX to zero. 
         public override void MeasureZero()

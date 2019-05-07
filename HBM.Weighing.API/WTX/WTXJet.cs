@@ -61,6 +61,11 @@ namespace HBM.Weighing.API.WTX
         private const int SCALE_COMMAND_STATUS_ERROR_E3 = 860184415;
         #endregion
 
+        private int _manualTareValue;
+        private int _calibrationWeight;
+        private int _zeroLoad;
+        private int _nominalLoad;
+
         #region Events
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
         #endregion
@@ -245,6 +250,16 @@ namespace HBM.Weighing.API.WTX
                     return "error";
             }
         }
+
+        public override int ManualTareValue 
+        {
+            get { return _manualTareValue; }
+            set
+            {
+                // _connection.Write(this.getIndex(_connection.IDCommands.TARE_VALUE), value); DDD Change to new command!!!
+                _manualTareValue = value;
+            }
+        }
         #endregion
 
         #region Process data methods - Filling
@@ -270,6 +285,33 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Adjustment methods
+        public override int CalibrationWeight // Type : signed integer 32 Bit
+        {
+            get { return _calibrationWeight; }
+            set
+            {
+                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), value);
+                _calibrationWeight = value;
+            }
+        }
+        public override int ZeroLoad // Type : signed integer 32 Bit
+        {
+            get { return _zeroLoad; }
+            set
+            {
+                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LDW_DEAD_WEIGHT), value);
+                _zeroLoad = value;
+            }
+        }
+        public override int NominalLoad // Type : signed integer 32 Bit
+        {
+            get { return _nominalLoad; }
+            set
+            {
+                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LWT_NOMINAL_VALUE), value);
+                _nominalLoad = value;
+            }
+        }
 
         /// <summary>
         /// Calculates the values for deadload and nominal load in d from the inputs in mV/V and writes the into the WTX registers.

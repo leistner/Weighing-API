@@ -46,10 +46,10 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.DataStandard.LimitValue1Input = 10000;
-            _wtxObj.DataStandard.LimitValue2Source = 10001;
-            _wtxObj.DataStandard.LimitValue3Source = 10010;
-            _wtxObj.DataStandard.LimitValue4Source = 10100;
+            _wtxObj.DataStandard.LimitSwitch1Source = 10000;
+            _wtxObj.DataStandard.LimitSwitch2Source = 10001;
+            _wtxObj.DataStandard.LimitSwitch3Source = 10010;
+            _wtxObj.DataStandard.LimitSwitch4Source = 10100;
 
             _wtxObj.DataFillerExtended.ActivationTimeAfterFineFlow = 1;
             _wtxObj.DataFillerExtended.CoarseFlowMonitoring = 10;

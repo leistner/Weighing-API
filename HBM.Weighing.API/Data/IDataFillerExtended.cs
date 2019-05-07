@@ -100,23 +100,7 @@ namespace HBM.Weighing.API
 
         int HardwareVersion { get; set; }           // = Hardware Variante
         int Identification { get; set; }
-        int LimitValueMonitoringLIV11 { get; set; } // = Grenzwertüberwachung
-        int SignalSourceLIV12 { get; set; }
-        int SwitchOnLevelLIV13 { get; set; }        // = Einschaltpegel
-        int SwitchOffLevelLIV14 { get; set; }       // = Ausschaltpegel
-        int LimitValueMonitoringLIV21 { get; set; }
-        int SignalSourceLIV22 { get; set; }
-        int SwitchOnLevelLIV23 { get; set; } 
-        int SwitchOffLevelLIV24 { get; set; }
-        
-        int LimitValueMonitoringLIV31 { get; set; } 
-        int SignalSourceLIV32 { get; set; }
-        int SwitchOnLevelLIV33 { get; set; }
-        int SwitchOffLevelLIV34 { get; set; } 
-        int LimitValueMonitoringLIV41 { get; set; }
-        int SignalSourceLIV42 { get; set; }
-        int SwitchOnLevelLIV43 { get; set; } 
-        int SwitchOffLevelLIV44 { get; set; } 
+
         int OutputScale { get; set; }
         int FirmwareDate { get; set; }
         int ResetTrigger { get; set; }

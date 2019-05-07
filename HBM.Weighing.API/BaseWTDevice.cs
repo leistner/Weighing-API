@@ -165,12 +165,17 @@ namespace HBM.Weighing.API
         /// </summary>
         /// <returns>Current weight of device</returns>
         public abstract string CurrentWeight(int weightNoDecimals, int decimals);
-
-
+               
         /// <summary>
         /// Zeroing the wtx device. 
         /// </summary>
         public abstract void MeasureZero();
+
+        public abstract int ManualTareValue { get; set; }
+
+        public abstract int CalibrationWeight { get; set; }
+        public abstract int ZeroLoad { get; set; }
+        public abstract int NominalLoad { get; set; }
 
         /// <summary>
         /// Calibration with an individual calibration weight. 

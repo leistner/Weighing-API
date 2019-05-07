@@ -190,11 +190,11 @@ namespace GUIplc
                 dataGridView1.Rows.Add("7", "Digital outputs", "Bit", ".1", "_wtxDevice.output2", "Output 2", "0", "24", "Limit value 4", "S32", ".0-31", "Activation level/Lower band limit 4", "0");      // row 24 ; dataStr[24]
                 dataGridView1.Rows.Add("7", "Digital outputs", "Bit", ".2", "_wtxDevice.output3", "Output 3", "0", "26", "Limit value 4", "S32", ".0-31", "Hysteresis/Band height 4", "0");                 // row 25 ; dataStr[25]
                 dataGridView1.Rows.Add("7", "Digital outputs", "Bit", ".3", "_wtxDevice.output4", "Output 4", "0", "46", "Calibration weight", "S32", ".0-31", "Calibration weight", "Tools Calibration");  // row 26 ; dataStr[26]
-                dataGridView1.Rows.Add("8", "Limit value 1", "Bit", ".0", "_wtxDevice.limitValue1", "Limit value 1", "0", "48", "Zero load", "S32", ".0-31", "Zero load", "Tools Calibration");           // row 27 ; dataStr[27]
+                dataGridView1.Rows.Add("8", "Limit value 1", "Bit", ".0", "_wtxDevice.LimitSwitch1", "Limit value 1", "0", "48", "Zero load", "S32", ".0-31", "Zero load", "Tools Calibration");           // row 27 ; dataStr[27]
 
-                dataGridView1.Rows.Add("8", "Limit value 2", "Bit", ".1", "_wtxDevice.limitValue2", "Limit value 2", "0", "50", "Nominal load", "S32", ".0-31", "Nominal load", "Tools Calibration");      // row 28 ; dataStr[28]              
-                dataGridView1.Rows.Add("8", "Limit value 3", "Bit", ".2", "_wtxDevice.limitValue3", "Limit value 3", "0", "-", "-", "-", "-", "-", "-", "-", "-", "-");                                     // row 30 ; dataStr[29]
-                dataGridView1.Rows.Add("8", "Limit value 4", "Bit", ".3", "_wtxDevice.limitValue4", "Limit value 4", "0", "-", "-", "-", "-", "-", "-", "-", "-");                                          // row 31 ; dataStr[30]
+                dataGridView1.Rows.Add("8", "Limit value 2", "Bit", ".1", "_wtxDevice.LimitSwitch2", "Limit value 2", "0", "50", "Nominal load", "S32", ".0-31", "Nominal load", "Tools Calibration");      // row 28 ; dataStr[28]              
+                dataGridView1.Rows.Add("8", "Limit value 3", "Bit", ".2", "_wtxDevice.LimitSwitch3", "Limit value 3", "0", "-", "-", "-", "-", "-", "-", "-", "-", "-");                                     // row 30 ; dataStr[29]
+                dataGridView1.Rows.Add("8", "Limit value 4", "Bit", ".3", "_wtxDevice.LimitSwitch4", "Limit value 4", "0", "-", "-", "-", "-", "-", "-", "-", "-");                                          // row 31 ; dataStr[30]
                 dataGridView1.Rows.Add("9", "Weight memory, Day", "Int16", ".0-15", "_wtxDevice.weightMemDay", "Stored value for day", "0", "-", "-", "-", "-", "-", "-", "-", "-");                        // row 32 ; dataStr[31]
 
                 dataGridView1.Rows.Add("10", "Weight memory, Month", "Int16", ".0-15", "_wtxDevice.weightMemMonth", "Stored value for month", "0", "-", "-", "-", "-", "-", "-", "-", "-");   // row 33 ; dataStr[32]
@@ -611,27 +611,27 @@ namespace GUIplc
 
                         switch (e.RowIndex)
                         {
-                            case 8: _wtxDevice.DataStandard.ManualTareValue = value; break;
+                            case 8: _wtxDevice.ManualTareValue = value; break;
 
-                            case 9: _wtxDevice.DataStandard.LimitValue1Input = value; break;
-                            case 10: _wtxDevice.DataStandard.LimitValue1Mode = value; break;
-                            case 11: _wtxDevice.DataStandard.LimitValue1ActivationLevelLowerBandLimit = value; break;
-                            case 12: _wtxDevice.DataStandard.LimitValue1HysteresisBandHeight = value; break;
+                            case 9: _wtxDevice.DataStandard.LimitSwitch1Source = value; break;
+                            case 10: _wtxDevice.DataStandard.LimitSwitch1Mode = value; break;
+                            case 11: _wtxDevice.DataStandard.LimitSwitch1Level = value; break;
+                            case 12: _wtxDevice.DataStandard.LimitSwitch1Hysteresis = value; break;
 
-                            case 13: _wtxDevice.DataStandard.LimitValue2Source = value; break;
-                            case 14: _wtxDevice.DataStandard.LimitValue2Mode = value; break;
-                            case 15: _wtxDevice.DataStandard.LimitValue2ActivationLevelLowerBandLimit = value; break;
-                            case 16: _wtxDevice.DataStandard.LimitValue2HysteresisBandHeight = value; break;
+                            case 13: _wtxDevice.DataStandard.LimitSwitch2Source = value; break;
+                            case 14: _wtxDevice.DataStandard.LimitSwitch2Mode = value; break;
+                            case 15: _wtxDevice.DataStandard.LimitSwitch2Level = value; break;
+                            case 16: _wtxDevice.DataStandard.LimitSwitch2Hysteresis = value; break;
 
-                            case 17: _wtxDevice.DataStandard.LimitValue3Source = value; break;
-                            case 18: _wtxDevice.DataStandard.LimitValue3Mode = value; break;
-                            case 19: _wtxDevice.DataStandard.LimitValue3ActivationLevelLowerBandLimit = value; break;
-                            case 20: _wtxDevice.DataStandard.LimitValue3HysteresisBandHeight = value; break;
+                            case 17: _wtxDevice.DataStandard.LimitSwitch3Source = value; break;
+                            case 18: _wtxDevice.DataStandard.LimitSwitch3Mode = value; break;
+                            case 19: _wtxDevice.DataStandard.LimitSwitch3ActivationLevelLowerBandLimit = value; break;
+                            case 20: _wtxDevice.DataStandard.LimitSwitch3Hysteresis = value; break;
 
-                            case 21: _wtxDevice.DataStandard.LimitValue4Source = value; break;
-                            case 22: _wtxDevice.DataStandard.LimitValue4Mode = value; break;
-                            case 23: _wtxDevice.DataStandard.LimitValue4ActivationLevelLowerBandLimit = value; break;
-                            case 24: _wtxDevice.DataStandard.LimitValue4HysteresisBandHeight = value; break;
+                            case 21: _wtxDevice.DataStandard.LimitSwitch4Source = value; break;
+                            case 22: _wtxDevice.DataStandard.LimitSwitch4Mode = value; break;
+                            case 23: _wtxDevice.DataStandard.LimitSwitch4Level = value; break;
+                            case 24: _wtxDevice.DataStandard.LimitSwitch4Hysteresis = value; break;
 
                             default: break;
                         }

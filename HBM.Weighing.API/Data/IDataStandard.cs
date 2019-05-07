@@ -70,40 +70,41 @@ namespace HBM.Weighing.API
 
         #endregion
 
-        #region Output words for standard mode 
+        #region Limit switches
 
-        int ManualTareValue { get;  set; }
-        int LimitValue1Input { get;  set; }
-        int LimitValue1Mode { get;  set; }
+        int LimitSwitch1Source { get;  set; }
+        int LimitSwitch1Mode { get;  set; }
+        int LimitSwitch1Level { get;  set; }
+        int LimitSwitch1LowerBandValue { get; set; }
+        int LimitSwitch1Hysteresis { get;  set; }
+        int LimitSwitch1BandHeight { get; set; }
 
-        int LimitValue1ActivationLevelLowerBandLimit { get;  set; }
-        int LimitValue1HysteresisBandHeight { get;  set; }
-        int LimitValue2Source { get;  set; }
-        int LimitValue2Mode { get;  set; }
+        int LimitSwitch2Source { get;  set; }
+        int LimitSwitch2Mode { get;  set; }
+        int LimitSwitch2Level { get;  set; }
+        int LimitSwitch2LowerBandValue { get; set; }
+        int LimitSwitch2Hysteresis { get;  set; }
+        int LimitSwitch2BandHeight { get; set; }
 
-        int LimitValue2ActivationLevelLowerBandLimit { get;  set; }
-        int LimitValue2HysteresisBandHeight { get;  set; }
-        int LimitValue3Source { get;  set; }
-        int LimitValue3Mode { get;  set; }
+        int LimitSwitch3Source { get;  set; }
+        int LimitSwitch3Mode { get;  set; }
+        int LimitSwitch3ActivationLevelLowerBandLimit { get;  set; }
+        int LimitSwitch3LowerBandValue { get; set; }
+        int LimitSwitch3Hysteresis { get;  set; }
+        int LimitSwitch3BandHeight { get; set; }
 
-        int LimitValue3ActivationLevelLowerBandLimit { get;  set; }
-        int LimitValue3HysteresisBandHeight { get;  set; }
-        int LimitValue4Source { get;  set; }
-
-        int LimitValue4Mode { get;  set; }
-        int LimitValue4ActivationLevelLowerBandLimit { get;  set; }
-        int LimitValue4HysteresisBandHeight { get;  set; }
-
-        int CalibrationWeight { get;  set; }
-        int ZeroLoad { get;  set; }
-        int NominalLoad { get;  set; }
+        int LimitSwitch4Source { get;  set; }
+        int LimitSwitch4Mode { get;  set; }
+        int LimitSwitch4Level { get;  set; }
+        int LimitSwitch4LowerBandValue { get; set; }
+        int LimitSwitch4Hysteresis { get;  set; }
+        int LimitSwitch4BandHeight { get; set; }
 
         #endregion
 
+
         #region Update methods for the data of standard mode
-
         void UpdateStandardData(object sender, DataEventArgs e);
-
         #endregion
     }
 }

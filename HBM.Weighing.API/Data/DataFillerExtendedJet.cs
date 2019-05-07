@@ -98,23 +98,6 @@ namespace HBM.Weighing.API.Data
         private int _hardwareVersion;
         private int _identification;
 
-        private int _limitValueMonitoringLIV11;
-        private int _signalSourceLIV12;
-        private int _switchOnLevelLIV13;
-        private int _switchOffLevelLIV14;
-        private int _limitValueMonitoringLIV21;
-        private int _signalSourceLIV22;
-        private int _switchOnLevelLIV23;
-        private int _switchOffLevelLIV24;
-        private int _limitValueMonitoringLIV31;
-        private int _signalSourceLIV32;
-        private int _switchOnLevelLIV33;
-        private int _switchOffLevelLIV34;
-        private int _limitValueMonitoringLIV41;
-        private int _signalSourceLIV42;
-        private int _switchOnLevelLIV43;
-        private int _switchOffLevelLIV44;
-
         private int _outputScale;
         private int _firmwareDate;
         private int _resetTrigger;
@@ -194,23 +177,6 @@ namespace HBM.Weighing.API.Data
             _deviceAddress=0;
             _hardwareVersion=0;
             _identification=0;
-
-            _limitValueMonitoringLIV11=0;
-            _signalSourceLIV12=0;
-            _switchOnLevelLIV13=0;
-            _switchOffLevelLIV14=0;
-            _limitValueMonitoringLIV21=0;
-            _signalSourceLIV22=0;
-            _switchOnLevelLIV23=0;
-            _switchOffLevelLIV24=0;
-            _limitValueMonitoringLIV31=0;
-            _signalSourceLIV32=0;
-            _switchOnLevelLIV33=0;
-            _switchOffLevelLIV34=0;
-            _limitValueMonitoringLIV41=0;
-            _signalSourceLIV42=0;
-            _switchOnLevelLIV43=0;
-            _switchOffLevelLIV44=0;
 
             _outputScale=0;
             _firmwareDate=0;
@@ -621,102 +587,6 @@ namespace HBM.Weighing.API.Data
             get { return _identification; }
             set { _connection.Write(_connection.IDCommands.IDENTIFICATION, value);
                 this._identification = value; }
-        }
-        public int LimitValueMonitoringLIV11
-        {
-            get { return _limitValueMonitoringLIV11; }
-            set { _connection.Write(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11, value);
-                this._limitValueMonitoringLIV11 = value; }
-        }
-        public int SignalSourceLIV12
-        {
-            get { return _signalSourceLIV12; }
-            set { _connection.Write(_connection.IDCommands.SIGNAL_SOURCE_LIV12, value);
-                this._signalSourceLIV12 = value; }
-        }
-        public int SwitchOnLevelLIV13
-        {
-            get { return _switchOnLevelLIV13; }
-            set { _connection.Write(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13, value);
-                this._switchOnLevelLIV13 = value; }
-        }
-        public int SwitchOffLevelLIV14
-        {
-            get { return _switchOffLevelLIV14; }
-            set { _connection.Write(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14, value);
-                this._switchOffLevelLIV14 = value; }
-        }
-        public int LimitValueMonitoringLIV21
-        {
-            get { return _limitValueMonitoringLIV21; }
-            set { _connection.Write(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21, value);
-                this._limitValueMonitoringLIV21 = value; }
-        }
-        public int SignalSourceLIV22
-        {
-            get { return _signalSourceLIV22; }
-            set { _connection.Write(_connection.IDCommands.SIGNAL_SOURCE_LIV22, value);
-                this._signalSourceLIV22 = value; }
-        }
-        public int SwitchOnLevelLIV23
-        {
-            get { return _switchOnLevelLIV23; }
-            set { _connection.Write(_connection.IDCommands.SWITCH_ON_LEVEL_LIV23, value);
-                this._switchOnLevelLIV23 = value; }
-        }
-        public int SwitchOffLevelLIV24
-        {
-            get { return _switchOffLevelLIV24; }
-            set { _connection.Write(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24, value);
-                this._switchOffLevelLIV24 = value; }
-        }
-        public int LimitValueMonitoringLIV31
-        {
-            get { return _limitValueMonitoringLIV31; }
-            set { _connection.Write(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31, value);
-                this._limitValueMonitoringLIV31 = value; }
-        }
-        public int SignalSourceLIV32
-        {
-            get { return _signalSourceLIV32; }
-            set { _connection.Write(_connection.IDCommands.SIGNAL_SOURCE_LIV32, value);
-                this._signalSourceLIV32 = value; }
-        }
-        public int SwitchOnLevelLIV33
-        {
-            get { return _switchOnLevelLIV33; }
-            set { _connection.Write(_connection.IDCommands.SWITCH_ON_LEVEL_LIV33, value);
-                this._switchOnLevelLIV33 = value; }
-        }
-        public int SwitchOffLevelLIV34
-        {
-            get { return _switchOffLevelLIV34; }
-            set { _connection.Write(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34, value);
-                this._switchOffLevelLIV34 = value; }
-        }
-        public int LimitValueMonitoringLIV41
-        {
-            get { return _limitValueMonitoringLIV41; }
-            set { _connection.Write(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41, value);
-                this._limitValueMonitoringLIV41 = value; }
-        }
-        public int SignalSourceLIV42
-        {
-            get { return _signalSourceLIV42; }
-            set { _connection.Write(_connection.IDCommands.SIGNAL_SOURCE_LIV42, value);
-                this._signalSourceLIV42 = value; }
-        }
-        public int SwitchOnLevelLIV43
-        {
-            get { return _switchOnLevelLIV43; }
-            set { _connection.Write(_connection.IDCommands.SWITCH_ON_LEVEL_LIV43, value);
-                this._switchOnLevelLIV43 = value; }
-        }
-        public int SwitchOffLevelLIV44
-        {
-            get { return _switchOffLevelLIV44; }
-            set { _connection.Write(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44, value);
-                this._switchOffLevelLIV44 = value; }
         }
         public int OutputScale
         {
