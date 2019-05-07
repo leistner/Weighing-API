@@ -113,8 +113,6 @@ namespace HBM.Weighing.API.WTX.Jet
 
         private int _mTimeoutMs;
 
-        private ICommands _commands;
-
         public Dictionary<string, JToken> _dataBuffer;
 
         private AutoResetEvent _mSuccessEvent = new AutoResetEvent(false);
@@ -129,6 +127,8 @@ namespace HBM.Weighing.API.WTX.Jet
         private string[] DataStrArray;
 
         private TestJetPeer _peer;
+
+        private JetBusCommands _commands;
 
         // Constructor with all parameters possible from class 'JetbusConnection' - Without ssh certification.
         //public TestJetbusConnection(Behavior behavior, string ipAddr, string user, string passwd, RemoteCertificateValidationCallback certificationCallback, int timeoutMs = 5000) : base(ipAddr, user, passwd, certificationCallback, timeoutMs = 5000)
@@ -327,13 +327,6 @@ namespace HBM.Weighing.API.WTX.Jet
         public ConnectionType ConnType
         {
             get { return ConnectionType.Jetbus; }
-        }
-        public ICommands IDCommands
-        {
-            get
-            {
-                return this._commands;
-            }
         }
 
         public void FetchAll()

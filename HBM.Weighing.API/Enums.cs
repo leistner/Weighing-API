@@ -36,6 +36,22 @@ namespace HBM.Weighing.API
         Jetbus = 1
     };
 
+    public enum IOType
+    {
+        Input = 0,
+        Output = 1
+    };
+
+    public enum DataType
+    {
+        Int32 = 0,
+        U08 = 1,
+        U16 = 2,
+        Int16 = 3,
+        S32 = 4,
+        U32 = 5
+    };
+
     public enum InputFunction
     {
         Off,

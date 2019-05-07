@@ -51,13 +51,12 @@ namespace HBM.Weighing.API.WTX
         private ushort[] _data;
         private ushort[] _outputData;
         private ushort[] _dataWritten;
-        
+        private ushort[] _asyncData;
+
         private int _timerInterval;
         private int _previousNetValue;
 
         private ApplicationMode _applicationMode;
-        private LimitSwitchesSourceStandard _limitSwitchesSourceStandard;
-        private LimitSwitchesModeStandard _limitSwitchesModeStandard;
 
         private ushort _command;
         private double dPreload, dNominalLoad, multiplierMv2D;      
@@ -86,6 +85,7 @@ namespace HBM.Weighing.API.WTX
             DataFiller = new DataFillerModbus(_connection);
 
             this._data = new ushort[100];
+            this._asyncData = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
             this._dataWritten = new ushort[2];
 
@@ -116,6 +116,7 @@ namespace HBM.Weighing.API.WTX
             DataFiller = new DataFillerModbus(_connection);
 
             this._data = new ushort[100];
+            this._asyncData = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
             this._dataWritten = new ushort[2];
 
@@ -323,7 +324,7 @@ namespace HBM.Weighing.API.WTX
             {
                 Task<ushort[]> FetchValues = _connection.ReadAsync();
                 //DoIndependentWork();
-                ushort[] _asyncData = await FetchValues;
+                _asyncData = await FetchValues;
                 OnData(_asyncData);
             }
         }
@@ -420,21 +421,7 @@ namespace HBM.Weighing.API.WTX
                 return _applicationMode;
             }
         }
-        public override LimitSwitchesSourceStandard LimitSwitchesSourceStandard
-        {
-            get
-            {
-                return _limitSwitchesSourceStandard;
-            }
-        }
 
-        public override LimitSwitchesModeStandard LimitSwitchesModeStandard
-        {
-            get
-            {
-                return _limitSwitchesModeStandard;
-            }
-        }
 
         public override string Unit
         {

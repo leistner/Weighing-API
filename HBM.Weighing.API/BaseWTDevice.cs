@@ -106,16 +106,6 @@ namespace HBM.Weighing.API
         /// <returns></returns>
         public abstract ApplicationMode ApplicationMode { get; }
 
-        /// <summary>
-        /// Returns the enumeration of the limit switches for the standard application : Source
-        /// </summary>
-        public abstract LimitSwitchesSourceStandard LimitSwitchesSourceStandard { get; }
-
-        /// <summary>
-        /// Returns the enumeration of the limit switches for the filler application : Mode 
-        /// </summary>
-        public abstract LimitSwitchesModeStandard LimitSwitchesModeStandard { get; }
-
         #endregion
 
         #region Abstract methods for the wtx class(WTXJet or WTXModbus) to get, to send and to analyse data
