@@ -27,82 +27,10 @@
 // SOFTWARE.
 //
 // </copyright>
-using HBM.Weighing.API.Data;
-using HBM.Weighing.API.WTX;
-using HBM.Weighing.API.WTX.Jet;
-using HBM.Weighing.API.WTX.Modbus;
 using System;
 
 namespace HBM.Weighing.API
 {
-    #region Enumerations ethernet connection type application mode, limit switches for standard application
-
-    public enum ConnectionType
-    {
-        Modbus = 0,
-        Jetbus = 1
-    };
-
-    public enum InputFunction
-    {
-        Off,
-        Tare,
-        Trigger,      // Only for IMD1
-        reserved,
-        BreakFilling, // = BRK ; Stop dosing ; Only for IMD2
-        RunFilling,   // = RUN ; Start dosing; Only for IMD2
-        Redosing,
-        WeightDetection,
-        Sum
-    }
-
-    public enum OutputFunction
-    {
-        Off,
-        Manually,     // manual with instruction OSx
-        LimitSwitch1, // Only for IMD0
-        LimitSwitch2, // Only for IMD0
-        LimitSwitch3, // Only for IMD0
-        LimitSwitch4, // Only for IMD0
-        reserved,
-        StopMaterial,   //Undefined
-        CoarseFlow,   // Only for IMD2
-        FineFlow,     // Only for IMD2
-        Ready,        // Only for IMD2
-        ToleranceExceeded,  // Only for IMD2
-        ToleranceUnderrun, // Only for IMD2
-        ToleranceExceededUnderrun, // Only for IMD2
-        Alert,    // Only for IMD2
-        DL1DL2,
-        LS1Blinking, 
-        LS2Blinking,
-        LS3Blinking, 
-        LS4Blinking
-    }
-
-    public enum ApplicationMode
-    {
-        Standard = 0,
-        Checkweigher = 1,
-        Filler = 2
-    };
-
-    public enum LimitSwitchesSourceStandard
-    {
-        AboveLevel  = 0,
-        BelowLevel  = 1,
-        OutsideBand = 2,
-        InsideBand  = 3
-    };
-
-    public enum LimitSwitchesModeStandard
-    {
-        Net = 1,
-        Gross = 2
-    };
-
-    #endregion
-
     /// <summary>
     /// Abstract class to declare methods and properties/attributes for its subclasses WtxJet and WtxModbus implementing  BaseWtDevice.
     /// 
