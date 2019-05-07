@@ -48,7 +48,10 @@ namespace HBM.Weighing.API.WTX.Jet
     {
         public JetBusCommands()
         {
+            ResidualFlowTime = new JetBusCommand(1, "2220/07", 0, 0);
         }
+
+        public JetBusCommand ResidualFlowTime { get; private set; }
 
         #region ID Commands : Maintenance - Calibration
 
