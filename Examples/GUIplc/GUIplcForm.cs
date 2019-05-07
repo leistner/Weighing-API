@@ -772,7 +772,7 @@ namespace GUIplc
                     dataGridView1.Rows[32].Cells[6].Value = _wtxDevice.DataFiller.Alarm;
                     dataGridView1.Rows[33].Cells[6].Value = _wtxDevice.DataFiller.AdcOverUnderload;
                     dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.DataFiller.MaximumDosingTime;
-                    dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.DataFiller.LegalForTradeOperation;
+                    //dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.DataFiller.LegalForTradeOperation;
                     dataGridView1.Rows[36].Cells[6].Value = _wtxDevice.DataFiller.ToleranceErrorPlus;
                     dataGridView1.Rows[37].Cells[6].Value = _wtxDevice.DataFiller.ToleranceErrorMinus;
                     dataGridView1.Rows[38].Cells[6].Value = _wtxDevice.DataFiller.StatusInput1;

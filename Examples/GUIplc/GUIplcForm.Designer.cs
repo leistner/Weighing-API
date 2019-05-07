@@ -68,22 +68,27 @@
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.button10 = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.statusStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
             // 
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.Location = new System.Drawing.Point(0, 28);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(1156, 443);
+            this.dataGridView1.Size = new System.Drawing.Size(1156, 400);
             this.dataGridView1.TabIndex = 2;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(81, 477);
+            this.button1.Location = new System.Drawing.Point(84, 3);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 4;
@@ -93,7 +98,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(0, 477);
+            this.button4.Location = new System.Drawing.Point(3, 3);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(75, 23);
             this.button4.TabIndex = 5;
@@ -103,7 +108,7 @@
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(162, 477);
+            this.button5.Location = new System.Drawing.Point(165, 3);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(75, 23);
             this.button5.TabIndex = 6;
@@ -113,7 +118,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(243, 477);
+            this.button6.Location = new System.Drawing.Point(246, 3);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(75, 23);
             this.button6.TabIndex = 7;
@@ -123,7 +128,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(324, 477);
+            this.button7.Location = new System.Drawing.Point(327, 3);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(83, 23);
             this.button7.TabIndex = 8;
@@ -133,7 +138,7 @@
             // 
             // button8
             // 
-            this.button8.Location = new System.Drawing.Point(413, 477);
+            this.button8.Location = new System.Drawing.Point(416, 3);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(86, 23);
             this.button8.TabIndex = 9;
@@ -143,7 +148,7 @@
             // 
             // button9
             // 
-            this.button9.Location = new System.Drawing.Point(770, 477);
+            this.button9.Location = new System.Drawing.Point(773, 3);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(106, 23);
             this.button9.TabIndex = 10;
@@ -322,7 +327,7 @@
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(770, 506);
+            this.button11.Location = new System.Drawing.Point(773, 32);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(106, 23);
             this.button11.TabIndex = 15;
@@ -332,7 +337,7 @@
             // 
             // button12
             // 
-            this.button12.Location = new System.Drawing.Point(882, 506);
+            this.button12.Location = new System.Drawing.Point(885, 32);
             this.button12.Name = "button12";
             this.button12.Size = new System.Drawing.Size(87, 23);
             this.button12.TabIndex = 16;
@@ -342,7 +347,7 @@
             // 
             // button13
             // 
-            this.button13.Location = new System.Drawing.Point(975, 506);
+            this.button13.Location = new System.Drawing.Point(975, 32);
             this.button13.Name = "button13";
             this.button13.Size = new System.Drawing.Size(75, 23);
             this.button13.TabIndex = 17;
@@ -352,9 +357,9 @@
             // 
             // button14
             // 
-            this.button14.Location = new System.Drawing.Point(1056, 506);
+            this.button14.Location = new System.Drawing.Point(1051, 32);
             this.button14.Name = "button14";
-            this.button14.Size = new System.Drawing.Size(100, 23);
+            this.button14.Size = new System.Drawing.Size(102, 23);
             this.button14.TabIndex = 18;
             this.button14.Text = "Manual re-dosing";
             this.button14.UseVisualStyleBackColor = true;
@@ -363,7 +368,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(610, 482);
+            this.label1.Location = new System.Drawing.Point(613, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(35, 13);
             this.label1.TabIndex = 19;
@@ -372,7 +377,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(610, 508);
+            this.label2.Location = new System.Drawing.Point(613, 34);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(35, 13);
             this.label2.TabIndex = 20;
@@ -380,7 +385,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(505, 477);
+            this.button2.Location = new System.Drawing.Point(508, 3);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(87, 23);
             this.button2.TabIndex = 21;
@@ -390,7 +395,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(0, 508);
+            this.button3.Location = new System.Drawing.Point(3, 34);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(156, 23);
             this.button3.TabIndex = 22;
@@ -400,7 +405,7 @@
             // 
             // button10
             // 
-            this.button10.Location = new System.Drawing.Point(162, 508);
+            this.button10.Location = new System.Drawing.Point(165, 34);
             this.button10.Name = "button10";
             this.button10.Size = new System.Drawing.Size(156, 23);
             this.button10.TabIndex = 23;
@@ -408,29 +413,39 @@
             this.button10.UseVisualStyleBackColor = true;
             this.button10.Click += new System.EventHandler(this.button10_Click_1);
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel1.Controls.Add(this.button4);
+            this.panel1.Controls.Add(this.button10);
+            this.panel1.Controls.Add(this.button1);
+            this.panel1.Controls.Add(this.button3);
+            this.panel1.Controls.Add(this.button5);
+            this.panel1.Controls.Add(this.button2);
+            this.panel1.Controls.Add(this.button6);
+            this.panel1.Controls.Add(this.label2);
+            this.panel1.Controls.Add(this.button7);
+            this.panel1.Controls.Add(this.label1);
+            this.panel1.Controls.Add(this.button8);
+            this.panel1.Controls.Add(this.button14);
+            this.panel1.Controls.Add(this.button9);
+            this.panel1.Controls.Add(this.button13);
+            this.panel1.Controls.Add(this.button11);
+            this.panel1.Controls.Add(this.button12);
+            this.panel1.Location = new System.Drawing.Point(0, 434);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(1156, 100);
+            this.panel1.TabIndex = 24;
+            // 
             // GUIplcForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1156, 559);
-            this.Controls.Add(this.button10);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.button14);
-            this.Controls.Add(this.button13);
-            this.Controls.Add(this.button12);
-            this.Controls.Add(this.button11);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.button9);
-            this.Controls.Add(this.button8);
-            this.Controls.Add(this.button7);
-            this.Controls.Add(this.button6);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGridView1);
             this.Name = "GUIplcForm";
             this.Text = "GUI";
@@ -440,6 +455,8 @@
             this.statusStrip1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -485,5 +502,6 @@
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.Panel panel1;
     }
 }
