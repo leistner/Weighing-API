@@ -104,17 +104,8 @@ namespace HBM.Weighing.API
         /// Sets the application mode according to the integer value in ProcessData : Standard or filler mode
         /// </summary>
         /// <returns></returns>
-        public abstract ApplicationMode ApplicationMode { get; }
+        public abstract ApplicationMode ApplicationMode { get; set; }
 
-        /// <summary>
-        /// Returns the enumeration of the limit switches for the standard application : Source
-        /// </summary>
-        public abstract LimitSwitchesSourceStandard LimitSwitchesSourceStandard { get; }
-
-        /// <summary>
-        /// Returns the enumeration of the limit switches for the filler application : Mode 
-        /// </summary>
-        public abstract LimitSwitchesModeStandard LimitSwitchesModeStandard { get; }
 
         #endregion
 

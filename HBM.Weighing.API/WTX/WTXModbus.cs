@@ -55,10 +55,6 @@ namespace HBM.Weighing.API.WTX
         private int _timerInterval;
         private int _previousNetValue;
 
-        private ApplicationMode _applicationMode;
-        private LimitSwitchesSourceStandard _limitSwitchesSourceStandard;
-        private LimitSwitchesModeStandard _limitSwitchesModeStandard;
-
         private ushort _command;
         private double dPreload, dNominalLoad, multiplierMv2D;      
         public System.Timers.Timer _aTimer;
@@ -350,9 +346,9 @@ namespace HBM.Weighing.API.WTX
         public void UpdateApplicationMode(ushort[] Data)
         {
             if ((_data[5] & 0x03) == 0)
-                _applicationMode = ApplicationMode.Standard;
+                ApplicationMode = ApplicationMode.Standard;
             else
-                _applicationMode = ApplicationMode.Filler;        
+                ApplicationMode = ApplicationMode.Filler;        
         }
         #endregion
 
@@ -413,28 +409,8 @@ namespace HBM.Weighing.API.WTX
         }
 
 
-        public override ApplicationMode ApplicationMode
-        {
-            get
-            {
-                return _applicationMode;
-            }
-        }
-        public override LimitSwitchesSourceStandard LimitSwitchesSourceStandard
-        {
-            get
-            {
-                return _limitSwitchesSourceStandard;
-            }
-        }
-
-        public override LimitSwitchesModeStandard LimitSwitchesModeStandard
-        {
-            get
-            {
-                return _limitSwitchesModeStandard;
-            }
-        }
+        public override ApplicationMode ApplicationMode { get; set; }
+        
 
         public override string Unit
         {

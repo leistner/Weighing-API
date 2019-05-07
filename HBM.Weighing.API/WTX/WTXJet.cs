@@ -42,11 +42,7 @@ namespace HBM.Weighing.API.WTX
     /// send it to the GUI or application class by an eventhandler (=ProcessDataReceived). 
     /// </summary>
     public class WTXJet : BaseWtDevice
-    {
-        private ApplicationMode _applicationMode;
-        private LimitSwitchesSourceStandard _limitSwitchesSourceStandard;
-        private LimitSwitchesModeStandard _limitSwitchesModeStandard;
-        
+    {       
         #region Constants
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)   
 
@@ -191,45 +187,17 @@ namespace HBM.Weighing.API.WTX
             return returnvalue;
         }
 
-        public override ApplicationMode ApplicationMode
-        {
-            get
-            {
-                _applicationMode = ApplicationMode.Standard; 
+        public override ApplicationMode ApplicationMode { get; set; }
 
-                return _applicationMode;
-            }
-                
-            /*
-            set
-            {
-                _applicationMode = value;
-            }
-            */
-        }
 
-        public override LimitSwitchesSourceStandard LimitSwitchesSourceStandard
-        {
-            get
-            {
-                return _limitSwitchesSourceStandard;
-            }
-        }
 
-        public override LimitSwitchesModeStandard LimitSwitchesModeStandard
-        {
-            get
-            {
-                return _limitSwitchesModeStandard;
-            }
-        }
 
         public void UpdateApplicationMode(ushort[] Data)
         {
             if ((Data[5] & 0x03) == 0)
-                _applicationMode = ApplicationMode.Standard;
+                ApplicationMode = ApplicationMode.Standard;
             else
-                _applicationMode = ApplicationMode.Filler;
+                ApplicationMode = ApplicationMode.Filler;
         }
 
         public override string Unit

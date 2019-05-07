@@ -488,8 +488,8 @@ namespace GUIplc
 
         }
 
-        private LimitSwitchesSourceStandard _limitSource;
-        private LimitSwitchesModeStandard _limitMode;
+        private LimitSwitchMode _limitMode;
+        private LimitSwitchSource _limitSource;
 
         // This method is set if the output value in column 13 has changed - For writing output words the standard and filler mode: 
         private void GridValueChangedMethod(object sender, DataGridViewCellEventArgs e)
@@ -511,23 +511,23 @@ namespace GUIplc
                         switch (valueStr)
                         {
                             case "Above Level":
-                                _limitSource = LimitSwitchesSourceStandard.AboveLevel;
+                                _limitMode = LimitSwitchMode.AboveLevel;
                                 value = 0; break;
                             case "Below Level":
-                                _limitSource = LimitSwitchesSourceStandard.BelowLevel;
+                                _limitMode = LimitSwitchMode.BelowLevel;
                                 value = 1; break;
                             case "Outside Band":
-                                _limitSource = LimitSwitchesSourceStandard.OutsideBand;
+                                _limitMode = LimitSwitchMode.OutsideBand;
                                 value = 2; break;
                             case "Inside Band":
-                                _limitSource = LimitSwitchesSourceStandard.InsideBand;
+                                _limitMode = LimitSwitchMode.InsideBand;
                                 value = 3; break;
                             case "Net=1":
-                                _limitMode = LimitSwitchesModeStandard.Net;
+                                _limitSource = LimitSwitchSource.Net;
                                 value = 1;
                                 break;
                             case "Gross=2":
-                                _limitMode = LimitSwitchesModeStandard.Gross;
+                                _limitSource = LimitSwitchSource.Gross;
                                 value = 2;
                                 break;
                             default:
@@ -544,23 +544,23 @@ namespace GUIplc
                             switch (value)
                             {
                                 case 0:
-                                    _limitSource = LimitSwitchesSourceStandard.AboveLevel; break;
+                                    _limitMode = LimitSwitchMode.AboveLevel; break;
                                 case 1:
-                                    _limitSource = LimitSwitchesSourceStandard.BelowLevel; break;
+                                    _limitMode = LimitSwitchMode.BelowLevel; break;
                                 case 2:
-                                    _limitSource = LimitSwitchesSourceStandard.OutsideBand; break;
+                                    _limitMode = LimitSwitchMode.OutsideBand; break;
                                 case 3:
-                                    _limitSource = LimitSwitchesSourceStandard.InsideBand; break;
+                                    _limitMode = LimitSwitchMode.InsideBand; break;
 
                                 default: break;
                             }
 
-                            switch (_limitSource)
+                            switch (_limitMode)
                             {
-                                case LimitSwitchesSourceStandard.AboveLevel:  dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Above Level"; break;
-                                case LimitSwitchesSourceStandard.BelowLevel:  dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Below Level"; break;
-                                case LimitSwitchesSourceStandard.OutsideBand: dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Outside Band"; break;
-                                case LimitSwitchesSourceStandard.InsideBand:  dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Inside Band"; break;
+                                case LimitSwitchMode.AboveLevel:  dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Above Level"; break;
+                                case LimitSwitchMode.BelowLevel:  dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Below Level"; break;
+                                case LimitSwitchMode.OutsideBand: dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Outside Band"; break;
+                                case LimitSwitchMode.InsideBand:  dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Inside Band"; break;
 
                                 default: dataGridView1[e.ColumnIndex, e.RowIndex].Value = "default"; break;
                             }
@@ -570,15 +570,15 @@ namespace GUIplc
                         if (e.RowIndex == 10 || e.RowIndex == 14 || e.RowIndex == 18 || e.RowIndex == 22)
                         {
                             if (value == 1)
-                                _limitMode = LimitSwitchesModeStandard.Net;
+                                _limitSource = LimitSwitchSource.Net;
                             else 
                                 if(value == 2)
-                                    _limitMode = LimitSwitchesModeStandard.Gross;
+                                    _limitSource = LimitSwitchSource.Gross;
 
-                            if (_limitMode == LimitSwitchesModeStandard.Net)
+                            if (_limitSource == LimitSwitchSource.Net)
                                 dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Net=1";
                             else
-                                if (_limitMode == LimitSwitchesModeStandard.Gross)
+                                if (_limitSource == LimitSwitchSource.Gross)
                                     dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Gross=2";
                         }
                     }
