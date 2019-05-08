@@ -101,6 +101,28 @@ namespace HBM.Weighing.API.Data
         private int _limitSwitch4ActivationLevelLowerBandLimit;
         private int _limitSwitch4HysteresisBandHeight;
 
+        private int _manualTareValue;
+        private int _limitValue1Input;
+        private int _limitValue1Mode;
+        private int _limitValue1ActivationLevelLowerBandLimit;
+        private int _limitValue1HysteresisBandHeight;
+        private int _limitValue2Source;
+        private int _limitValue2Mode;
+        private int _limitValue2ActivationLevelLowerBandLimit;
+        private int _limitValue2HysteresisBandHeight;
+
+        private int _limitValue3Source;
+        private int _limitValue3Mode;
+        private int _limitValue3ActivationLevelLowerBandLimit;
+        private int _limitValue3HysteresisBandHeight;
+        private int _limitValue4Source;
+        private int _limitValue4Mode;
+        private int _limitValue4ActivationLevelLowerBandLimit;
+        private int _limitValue4HysteresisBandHeight;
+        private int _calibrationWeight;
+        private int _zeroLoad;
+        private int _nominalLoad;
+
         private INetConnection _connection;
         private JetBusCommands _commands;
         #endregion
@@ -109,11 +131,11 @@ namespace HBM.Weighing.API.Data
 
         public DataStandardJet(INetConnection Connection)
         {
+            _commands = new JetBusCommands();
+
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateStandardData;
-
-            _commands = new JetBusCommands();
 
             _input1 = 0;
             _input2=0;
@@ -158,8 +180,30 @@ namespace HBM.Weighing.API.Data
             _limitSwitch4Source=0;
             _limitSwitch4Mode=0;
             _limitSwitch4ActivationLevelLowerBandLimit=0;
-            _limitSwitch4HysteresisBandHeight=0;  
-        }
+            _limitSwitch4HysteresisBandHeight=0;
+
+            _manualTareValue = 0;
+            _limitValue1Input = 0;
+            _limitValue1Mode = 0;
+            _limitValue1ActivationLevelLowerBandLimit = 0;
+            _limitValue1HysteresisBandHeight = 0;
+            _limitValue2Source = 0;
+            _limitValue2Mode = 0;
+            _limitValue2ActivationLevelLowerBandLimit = 0;
+            _limitValue2HysteresisBandHeight = 0;
+
+            _limitValue3Source = 0;
+            _limitValue3Mode = 0;
+            _limitValue3ActivationLevelLowerBandLimit = 0;
+            _limitValue3HysteresisBandHeight = 0;
+            _limitValue4Source = 0;
+            _limitValue4Mode = 0;
+            _limitValue4ActivationLevelLowerBandLimit = 0;
+            _limitValue4HysteresisBandHeight = 0;
+            _calibrationWeight = 0;
+            _zeroLoad = 0;
+            _nominalLoad = 0;
+    }
 
         #endregion
 
@@ -182,10 +226,11 @@ namespace HBM.Weighing.API.Data
             _limitStatus3 = (e.DataDictionary[_commands.Limit_value.PathIndex] & 0x4) >> 2;
             _limitStatus4 = (e.DataDictionary[_commands.Limit_value.PathIndex] & 0x8) >> 3;
 
-            _weight_storage = Convert.ToInt16(e.DataDictionary[(_commands.Storage_weight_mode.PathIndex)]);
+            _weight_storage = Convert.ToInt16(e.DataDictionary[(_commands.Storage_weight_mode).PathIndex]);
 
             if (e.DataDictionary[_commands.Application_mode.PathIndex] == 0 || e.DataDictionary[_commands.Application_mode.PathIndex] == 1)  // If application mode is in standard mode
             {
+                /*
                 _limitValueMonitoringLIV11 = e.DataDictionary[_commands.Limit_value_monitoring_liv11.PathIndex];
                 _signalSourceLIV12   = e.DataDictionary[_commands.Signal_source_liv12.PathIndex];
                 _switchOnLevelLIV13  = e.DataDictionary[_commands.Switch_on_level_liv13.PathIndex];
@@ -205,6 +250,7 @@ namespace HBM.Weighing.API.Data
                 _signalSourceLIV42   = e.DataDictionary[_commands.Signal_source_liv42.PathIndex];
                 _switchOnLevelLIV43  = e.DataDictionary[_commands.Switch_on_level_liv43.PathIndex];
                 _switchOffLevelLIV44 = e.DataDictionary[_commands.Switch_off_level_liv44.PathIndex];
+                */
             }
         }
         #endregion
@@ -331,7 +377,7 @@ namespace HBM.Weighing.API.Data
         #endregion
 
         #region Get-/Set-properties for standard mode 
-        
+
         public int LimitSwitch1Source // Type : unsigned integer 8 Bit
         {
             get { return _limitSwitch1Source; }
@@ -364,7 +410,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
+                _connection.WriteArray(_commands.Switch_off_level_liv14.PathIndex, value);
                 _limitSwitch1HysteresisBandHeight = value;
             }
         }
@@ -427,7 +473,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
+                this._connection.WriteArray(_commands.Switch_on_level_liv13.PathIndex, value);
                 _limitSwitch1ActivationLevelLowerBandLimit = value;
             }
         }
@@ -436,7 +482,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
+                _connection.WriteArray(_commands.Switch_off_level_liv14.PathIndex, value);
                 _limitSwitch1HysteresisBandHeight = value;
             }
         }
@@ -449,6 +495,7 @@ namespace HBM.Weighing.API.Data
                 _limitValue3Source = value;
             }
         }
+
         public int LimitSwitch3Mode // Type : unsigned integer 8 Bit
         {
             get { return _limitSwitch3Mode; }
@@ -544,7 +591,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
+                _connection.WriteArray(_commands.Switch_off_level_liv14.PathIndex, value);
                 _limitSwitch1HysteresisBandHeight = value;
             }
         }

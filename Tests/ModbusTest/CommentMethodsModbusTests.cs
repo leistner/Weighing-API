@@ -437,7 +437,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             Assert.AreEqual(dValue.ToString("0.000000"), strValue);
         }
-        
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "ScaleRangeStringComment_Range1_TestCase_Modbus")]
         //public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
         public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
@@ -616,13 +616,13 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.WeightTypeStringComment();
         }
-        
+        */
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
         }
-
         private void OnConnect(bool obj)
         {
         }
+        
     }
 }
