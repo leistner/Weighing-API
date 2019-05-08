@@ -146,7 +146,7 @@ namespace HBM.Weighing.API.WTX
         {
             this._connection.Connect();
         }
-        public override bool isConnected
+        public override bool IsConnected
         {
             get
             {
@@ -224,7 +224,7 @@ namespace HBM.Weighing.API.WTX
 
         public async Task<int> AsyncWrite(ushort index, ushort commandParam)
         {
-            if (isConnected)
+            if (IsConnected)
             {
                 Task<int> WriteValue = _connection.WriteAsync(index, commandParam);
                 DoHandshake(index);
@@ -325,7 +325,7 @@ namespace HBM.Weighing.API.WTX
         public async void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             // Call the async method 'AsyncTaskCall' by an Eventhandler:     
-            if (isConnected)
+            if (IsConnected)
             {
                 Task<ushort[]> FetchValues = _connection.ReadAsync();
                 //DoIndependentWork();
@@ -573,49 +573,49 @@ namespace HBM.Weighing.API.WTX
             _command = (ushort)await AsyncWrite(0, 0x40);
         }
 
-        public async override void adjustZero()
+        public async override void AdjustZero()
         {
             _command = (ushort)await AsyncWrite(0, 0x80);
         }
 
-        public async override void adjustNominal()
+        public async override void AdjustNominal()
         {
             _command = (ushort)await AsyncWrite(0, 0x100);
         }
 
-        public async override void activateData()
+        public async override void ActivateData()
         {
             _command = (ushort)await AsyncWrite(0, 0x800);
         }
 
-        public async override void manualTaring()
+        public async override void ManualTaring()
         {
             _command = (ushort)await AsyncWrite(0, 0x1000);
         }
         #endregion
 
         #region Process data methods - Filling
-        public async override void clearDosingResults()
+        public async override void ClearDosingResults()
         {
             _command = (ushort)await AsyncWrite(0, 0x4);
         }
 
-        public async override void abortDosing()
+        public async override void AbortDosing()
         {
             _command = (ushort)await AsyncWrite(0, 0x8);
         }
 
-        public async override void startDosing()
+        public async override void StartDosing()
         {
             _command = (ushort)await AsyncWrite(0, 0x10);
         }
 
-        public async override void recordWeight()
+        public async override void RecordWeight()
         {
             _command = (ushort)await AsyncWrite(0, 0x4000);
         }
 
-        public async override void manualReDosing()
+        public async override void ManualReDosing()
         {
             _command = (ushort)await AsyncWrite(0, 0x8000);
         }

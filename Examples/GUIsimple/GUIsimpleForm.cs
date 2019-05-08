@@ -142,7 +142,7 @@ namespace GUIsimple
                 txtInfo.Text = MESSAGE_CONNECTION_FAILED;
             }
 
-            if (_wtxDevice.isConnected == true)
+            if (_wtxDevice.IsConnected == true)
             {
                 picNE107.Image = Properties.Resources.NE107_DiagnosisActive;
             }

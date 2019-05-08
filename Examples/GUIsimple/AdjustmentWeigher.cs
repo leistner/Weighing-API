@@ -58,7 +58,7 @@ namespace GUIsimple
 
             InitializeComponent();
 
-            if (!wtxDevice.isConnected)
+            if (!wtxDevice.IsConnected)
             {
                 txtCalibrationWeight.Enabled = false;
                 cmdAdjust.Enabled = false;

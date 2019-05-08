@@ -486,7 +486,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.adjustZero();
+            _wtxObj.AdjustZero();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x80, _wtxObj.getCommand);
@@ -504,7 +504,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.adjustNominal();
+            _wtxObj.AdjustNominal();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x100, _wtxObj.getCommand);
@@ -522,7 +522,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.activateData();
+            _wtxObj.ActivateData();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x800, _wtxObj.getCommand);
@@ -540,7 +540,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.manualTaring();
+            _wtxObj.ManualTaring();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x1000, _wtxObj.getCommand);
@@ -559,7 +559,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.clearDosingResults();
+            _wtxObj.ClearDosingResults();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x4, _wtxObj.getCommand);
@@ -577,7 +577,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.abortDosing();
+            _wtxObj.AbortDosing();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x8, _wtxObj.getCommand);
@@ -617,7 +617,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.startDosing();
+            _wtxObj.StartDosing();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x10, _wtxObj.getCommand);
@@ -635,7 +635,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.recordWeight();
+            _wtxObj.RecordWeight();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x4000, _wtxObj.getCommand);
@@ -653,7 +653,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.manualReDosing();
+            _wtxObj.ManualReDosing();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x8000, _wtxObj.getCommand);

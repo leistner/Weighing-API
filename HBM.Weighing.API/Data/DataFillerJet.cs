@@ -45,18 +45,11 @@ namespace HBM.Weighing.API.Data
     /// </summary>
     public class DataFillerJet : IDataFiller
     {
-        #region privates for filler mode
 
-        private int _coarseFlow;
+        #region privates for filler mode
         private int _fineFlow;
         private int _ready;
         private int _reDosing;
-
-        private int _emptying;
-        private int _flowError;
-        private int _alarm;
-        private int _adcOverUnderload;
-
         private int _maxDosingTime;
         private int _toleranceErrorPlus;
         private int _toleranceErrorMinus;
@@ -139,15 +132,15 @@ namespace HBM.Weighing.API.Data
 
             _commands = new JetBusCommands();
             
-            _coarseFlow = 0;
+            CoarseFlow = 0;
             _fineFlow=0;
             _ready=0;
             _reDosing=0;
 
-            _emptying=0;
-            _flowError=0;
-            _alarm=0;
-            _adcOverUnderload=0;
+            Emptying=0;
+            FlowError=0;
+            Alarm=0;
+            AdcOverUnderload=0;
 
             _fillingProcessStatus=0;
             _numberDosingResults=0;
@@ -251,15 +244,12 @@ namespace HBM.Weighing.API.Data
                 _weight_storage = Convert.ToInt16(e.DataDictionary[(_commands.Storage_weight.PathIndex)]); 
                 _mode_weight_storage = Convert.ToInt16(e.DataDictionary[(_commands.Storage_weight_mode.PathIndex)]);
             }
-        }    
+        }
         #endregion
 
         #region Get-properties for input words of filler mode
 
-        public int CoarseFlow
-        {
-            get { return _coarseFlow; }
-        }
+        public int CoarseFlow { get; private set; }
         public int FineFlow
         {
             get { return _fineFlow; }
@@ -272,22 +262,15 @@ namespace HBM.Weighing.API.Data
         {
             get { return _reDosing; }
         }
-        public int Emptying
-        {
-            get { return _emptying; }
-        }
-        public int FlowError
-        {
-            get { return _flowError; }
-        }
-        public int Alarm
-        {
-            get { return _alarm; }
-        }
-        public int AdcOverUnderload
-        {
-            get { return _adcOverUnderload; }
-        }
+
+        public int Emptying { get; private set; }
+
+        public int FlowError { get; private set; }
+
+        public int Alarm { get; private set; }
+
+        public int AdcOverUnderload { get; private set; }
+
         public int FillingProcessStatus
         {
             get { return _fillingProcessStatus; }

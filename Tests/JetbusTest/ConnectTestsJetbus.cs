@@ -54,13 +54,13 @@ namespace HBM.Weighing.API.WTX.Jet
         {        
             testConnection = new TestJetbusConnection(behaviour, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; },1000);
 
-            WTXJet WTXJetObj = new WTXJet(testConnection,update);      
+            WTXJet WTXJetObj = new WTXJet(testConnection,Update);      
 
             this.connectCallbackCalled = false;
 
             WTXJetObj.Connect(this.OnConnect, 100);
             
-            return WTXJetObj.isConnected;
+            return WTXJetObj.IsConnected;
         }
 
         [Test, TestCaseSource(typeof(ConnectTestsJetbus), "Disconnect_Testcases_Jetbus")]
@@ -68,7 +68,7 @@ namespace HBM.Weighing.API.WTX.Jet
         {
             testConnection = new TestJetbusConnection(behaviour, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            WTXJet WTXJetObj = new WTXJet(testConnection,update);
+            WTXJet WTXJetObj = new WTXJet(testConnection,Update);
 
             this.connectCallbackCalled = false;
             
@@ -76,10 +76,10 @@ namespace HBM.Weighing.API.WTX.Jet
 
             WTXJetObj.Disconnect(this.OnDisconnect);
 
-            return WTXJetObj.isConnected;
+            return WTXJetObj.IsConnected;
         }
 
-        private void update(object sender, ProcessDataReceivedEventArgs e)
+        private void Update(object sender, ProcessDataReceivedEventArgs e)
         {
             //throw new NotImplementedException();
         }

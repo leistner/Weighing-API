@@ -354,7 +354,7 @@ namespace GUIplc
         private void button6_Click(object sender, EventArgs e)
         {
             // Adjust zero
-            _wtxDevice.adjustZero();
+            _wtxDevice.AdjustZero();
         }
 
         // This method sends a command to the device : Adjust nominal. Command : 0x100
@@ -362,7 +362,7 @@ namespace GUIplc
         private void button7_Click(object sender, EventArgs e)
         {
             // Adjust nominal
-            _wtxDevice.adjustNominal();
+            _wtxDevice.AdjustNominal();
         }
 
         // This method sends a command to the device : Activate data. Command : 0x800
@@ -406,7 +406,7 @@ namespace GUIplc
             }
             //_wtxDevice.UpdateOutputWords(valueArr);
 
-            _wtxDevice.activateData(); 
+            _wtxDevice.ActivateData(); 
         }       
 
         // This method sends a command to the device : Manual taring. Command : 0x1000
@@ -415,7 +415,7 @@ namespace GUIplc
         {
             // Manual taring
             //if (this.is_standard == true)      // Activate this if-conditon only in case, if the should be a change between standard and filler application. 
-            _wtxDevice.manualTaring();
+            _wtxDevice.ManualTaring();
         }
 
         // This method sends a command to the device : Clear dosing results. Command : 0x4
@@ -424,7 +424,7 @@ namespace GUIplc
         {
             // Clear dosing results
             //if (this.is_standard == false)
-            _wtxDevice.clearDosingResults();
+            _wtxDevice.ClearDosingResults();
         }
 
         // This method sends a command to the device : Abort dosing. Command : 0x8
@@ -433,7 +433,7 @@ namespace GUIplc
         {
             // Abort dosing
             //if (this.is_standard == false)
-            _wtxDevice.abortDosing();
+            _wtxDevice.AbortDosing();
         }
 
         // This method sends a command to the device : Start dosing. Command : 0x10
@@ -442,7 +442,7 @@ namespace GUIplc
         {
             // Start dosing
             //if (this.is_standard == false)
-            _wtxDevice.startDosing();
+            _wtxDevice.StartDosing();
         }
 
         // This method sends a command to the device : Record weight. Command : 0x4000 , Bit .14
@@ -451,7 +451,7 @@ namespace GUIplc
         {
             // Record weight: 
             //if (this.is_standard == false)
-            _wtxDevice.recordWeight();
+            _wtxDevice.RecordWeight();
 
         }
 
@@ -461,7 +461,7 @@ namespace GUIplc
         {
             // Manual re-dosing
             //if (this.is_standard == false)
-            _wtxDevice.manualReDosing();
+            _wtxDevice.ManualReDosing();
         }
 
         // This event starts the timer and the periodical fetch of values from the device (here: WTX120_Modbus).
@@ -677,7 +677,7 @@ namespace GUIplc
                         }
                     }
                 }
-                _wtxDevice.activateData();
+                _wtxDevice.ActivateData();
             }
         }     
 

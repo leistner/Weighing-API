@@ -212,11 +212,11 @@ namespace WTXModbus
                         case '0': _wtxDevice.Tare(); break;                  // Taring 
                         case '1': _wtxDevice.SetGross(); break;                   // Gross/Net
                         case '2': _wtxDevice.Zero(); break;                 // Zeroing
-                        case '3': _wtxDevice.adjustZero(); break;              // Adjust zero 
-                        case '4': _wtxDevice.adjustNominal(); break;           // Adjust nominal
-                        case '5': _wtxDevice.activateData(); break;            // Activate data
-                        case '6': _wtxDevice.manualTaring(); break;            // Manual taring
-                        case '7': _wtxDevice.recordWeight(); break;            // Record Weight
+                        case '3': _wtxDevice.AdjustZero(); break;              // Adjust zero 
+                        case '4': _wtxDevice.AdjustNominal(); break;           // Adjust nominal
+                        case '5': _wtxDevice.ActivateData(); break;            // Activate data
+                        case '6': _wtxDevice.ManualTaring(); break;            // Manual taring
+                        case '7': _wtxDevice.RecordWeight(); break;            // Record Weight
 
 
                         // 'c' for writing on multiple registers, which is necessary for the calibration. 
@@ -288,11 +288,11 @@ namespace WTXModbus
                         case '0': _wtxDevice.Tare(); break;                  // Taring 
                         case '1': _wtxDevice.SetGross(); break;                   // Gross/Net
                         case '2': _wtxDevice.Zero(); break;                 // Zeroing
-                        case '3': _wtxDevice.adjustZero(); break;              // Adjust zero 
-                        case '4': _wtxDevice.adjustNominal(); break;           // Adjust nominal
-                        case '5': _wtxDevice.activateData(); break;            // Activate data
-                        case '6': _wtxDevice.manualTaring(); break;            // Manual taring
-                        case '7': _wtxDevice.recordWeight(); break;            // Record Weight
+                        case '3': _wtxDevice.AdjustZero(); break;              // Adjust zero 
+                        case '4': _wtxDevice.AdjustNominal(); break;           // Adjust nominal
+                        case '5': _wtxDevice.ActivateData(); break;            // Activate data
+                        case '6': _wtxDevice.ManualTaring(); break;            // Manual taring
+                        case '7': _wtxDevice.RecordWeight(); break;            // Record Weight
 
                         // 'c' for writing on multiple registers, which is necessary for the calibration. 
                         case 'c':       // Calculate Calibration

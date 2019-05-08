@@ -50,7 +50,7 @@ namespace GUIsimple
 
             InitializeComponent();
 
-            if (!wtxDevice.isConnected)
+            if (!wtxDevice.IsConnected)
             {
                 textBox1.Enabled = false;
                 textBox2.Enabled = false;

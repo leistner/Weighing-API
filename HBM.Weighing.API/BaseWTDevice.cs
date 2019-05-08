@@ -52,7 +52,7 @@ namespace HBM.Weighing.API
         /// Eventhandler to raise an event and commit the data to the GUI/application from WTXJet and WTXModbus
         public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
 
-        public abstract bool isConnected { get; }
+        public abstract bool IsConnected { get; }
         #endregion
 
         #region constructor of BaseWtDevice
@@ -136,17 +136,17 @@ namespace HBM.Weighing.API
         /// </summary>
         public abstract void Tare();
 
-        public abstract void adjustZero();
+        public abstract void AdjustZero();
 
-        public abstract void adjustNominal();
+        public abstract void AdjustNominal();
 
-        public abstract void activateData();
-        public abstract void manualTaring();
-        public abstract void recordWeight();
-        public abstract void clearDosingResults();
-        public abstract void abortDosing();
-        public abstract void startDosing();
-        public abstract void manualReDosing();
+        public abstract void ActivateData();
+        public abstract void ManualTaring();
+        public abstract void RecordWeight();
+        public abstract void ClearDosingResults();
+        public abstract void AbortDosing();
+        public abstract void StartDosing();
+        public abstract void ManualReDosing();
         /// <summary>
         /// Synchronous call to disconnect
         /// </summary>

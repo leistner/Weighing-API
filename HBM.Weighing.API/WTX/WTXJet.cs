@@ -103,7 +103,7 @@ namespace HBM.Weighing.API.WTX
         }
 
 
-        public override bool isConnected
+        public override bool IsConnected
         {
             get
             {
@@ -158,15 +158,15 @@ namespace HBM.Weighing.API.WTX
         }
 
 
-        public override void activateData()
+        public override void ActivateData()
         {
         }
 
-        public override void manualTaring()
+        public override void ManualTaring()
         {
         }
 
-        public override void recordWeight()
+        public override void RecordWeight()
         {
         }
 
@@ -265,22 +265,22 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Process data methods - Filling
-        public override void clearDosingResults()
+        public override void ClearDosingResults()
         {
             throw new NotImplementedException();
         }
 
-        public override void abortDosing()
+        public override void AbortDosing()
         {
             throw new NotImplementedException();
         }
 
-        public override void startDosing()
+        public override void StartDosing()
         {
             throw new NotImplementedException();
         }
 
-        public override void manualReDosing()
+        public override void ManualReDosing()
         {
             throw new NotImplementedException();
         }
@@ -371,13 +371,13 @@ namespace HBM.Weighing.API.WTX
             //this._isCalibrating = true;
         }
 
-        public override void adjustZero()
+        public override void AdjustZero()
         {
             throw new NotImplementedException();
         }
 
 
-        public override void adjustNominal()
+        public override void AdjustNominal()
         {
             throw new NotImplementedException();
         }

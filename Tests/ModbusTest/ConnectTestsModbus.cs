@@ -91,7 +91,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             WTXModbusObj.Connect(this.OnConnect, 100);
             
-            return WTXModbusObj.isConnected;
+            return WTXModbusObj.IsConnected;
         }
 
         private void OnConnect(bool connectCompleted)
@@ -110,7 +110,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             
             WTXModbusObj.Disconnect(this.OnDisconnect);
 
-            return WTXModbusObj.isConnected;       
+            return WTXModbusObj.IsConnected;       
         }
 
         private void update(object sender, ProcessDataReceivedEventArgs e)
