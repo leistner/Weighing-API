@@ -28,6 +28,8 @@
 //
 // </copyright>
 
+using HBM.Weighing.API.WTX.Jet;
+using HBM.Weighing.API.WTX.Modbus;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -46,22 +48,18 @@ namespace HBM.Weighing.API
     {
         private Dictionary<string, int> _dataDict;
 
-        public DataEventArgs(Dictionary<string,int> DataDictionary)
+        public DataEventArgs(Dictionary<string,int> DataDictionaryParam)
         {
-            this._dataDict = DataDictionary; 
+            this._dataDict = DataDictionaryParam;
         }
-
-        public Dictionary<string,int> DataDictionary
+        public Dictionary<string, int> DataDictionary
         {
             get
             {
                 return this._dataDict;
             }
-            set
-            {
-                this._dataDict = value;
-            }
         }
+
     }
 }
 

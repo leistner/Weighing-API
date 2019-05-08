@@ -365,7 +365,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 Assert.AreEqual(0x00, command);
           
         }
-
+        /*
         // Test for synchronous writing : Tare 
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteSyncTestModbus")]
         public int WriteSyncTest(Behavior behavior)
@@ -380,7 +380,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return testConnection.getCommand;
         }
-
+        */
         /*
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteArrayTestCases")]
         public bool WriteArrayTestCasesModbus(Behavior behavior)

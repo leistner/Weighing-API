@@ -347,10 +347,10 @@ namespace HBM.Weighing.API.WTX
             _connection.Write(_commands.Scale_command.PathIndex, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution
-            while (_connection.Read(_commands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING);
+            while (_connection.Read(_commands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_ONGOING);
 
             // check : command "ok" = command is done
-            while (_connection.Read(_commands.Scale_command_status) != SCALE_COMMAND_STATUS_OK);
+            while (_connection.Read(_commands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_OK);
             
         }
 
@@ -363,10 +363,10 @@ namespace HBM.Weighing.API.WTX
             _connection.Write(_commands.Scale_command.PathIndex, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution
-            while (_connection.Read(_commands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
+            while (_connection.Read(_commands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
 
             // check : command "ok" = command is done
-            while (_connection.Read(_commands.Scale_command_status) != SCALE_COMMAND_STATUS_OK) ;     
+            while (_connection.Read(_commands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_OK) ;     
 
             //this._isCalibrating = true;
         }

@@ -117,6 +117,23 @@ namespace HBM.Weighing.API.Data
         private int _emptyWeightTolerance;
         private int _residualFlowDosingCycle;
 
+        private int _limitValueMonitoringLIV11;
+        private int _signalSourceLIV12;
+        private int _switchOnLevelLIV13;
+        private int _switchOffLevelLIV14;
+        private int _limitValueMonitoringLIV21;
+        private int _signalSourceLIV22;
+        private int _switchOnLevelLIV23;
+        private int _switchOffLevelLIV24;
+        private int _limitValueMonitoringLIV31;
+        private int _signalSourceLIV32;
+        private int _switchOnLevelLIV33;
+        private int _switchOffLevelLIV34;
+        private int _limitValueMonitoringLIV41;
+        private int _signalSourceLIV42;
+        private int _switchOnLevelLIV43;
+        private int _switchOffLevelLIV44;
+
         private INetConnection _connection;
         private JetBusCommands _commands;
         #endregion
@@ -125,11 +142,11 @@ namespace HBM.Weighing.API.Data
 
         public DataFillerExtendedJet(INetConnection Connection):base(Connection)          
         {
+            _commands = new JetBusCommands();
+
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateFillerExtendedData;
-
-            _commands = new JetBusCommands();
 
             _errorRegister =0;
             _saveAllParameters =0;
@@ -200,6 +217,23 @@ namespace HBM.Weighing.API.Data
             _delay2Dosing = 0 ;
             _emptyWeightTolerance = 0 ;
             _residualFlowDosingCycle = 0 ;
+
+            _limitValueMonitoringLIV11 = 0;
+            _signalSourceLIV12 = 0;
+            _switchOnLevelLIV13 = 0;
+            _switchOffLevelLIV14 = 0;
+            _limitValueMonitoringLIV21 = 0;
+            _signalSourceLIV22 = 0;
+            _switchOnLevelLIV23 = 0;
+            _switchOffLevelLIV24 = 0;
+            _limitValueMonitoringLIV31 = 0;
+            _signalSourceLIV32 = 0;
+            _switchOnLevelLIV33 = 0;
+            _switchOffLevelLIV34 = 0;
+            _limitValueMonitoringLIV41 = 0;
+            _signalSourceLIV42 = 0;
+            _switchOnLevelLIV43 = 0;
+            _switchOffLevelLIV44 = 0;
     }
 
         #endregion
@@ -688,7 +722,6 @@ namespace HBM.Weighing.API.Data
             set { _connection.Write(_commands.Switch_off_level_liv44.PathIndex, value);
                 this._switchOffLevelLIV44 = value; }
         }
-
         public int OutputScale
         {
             get { return _outputScale; }

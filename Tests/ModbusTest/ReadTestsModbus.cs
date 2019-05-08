@@ -89,7 +89,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         ushort _testValue = 0;
-
+        /*
         // Test for reading: 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "ReadTestCases")]
         public async Task<ushort> ReadTestModbus(Behavior behavior)
@@ -114,7 +114,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             _testValue = (ushort) e.ProcessData.NetValue;
         }
-
+        */
         /*
         // Test for checking the handshake bit 
         [Test, TestCaseSource(typeof(ReadTestsModbus), "HandshakeTestCases")]
@@ -134,7 +134,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         private void UpdateTestHandshake(object sender, ProcessDataReceivedEventArgs e)
         {
         }
-
+        /*
         [Test, TestCaseSource(typeof(ReadTestsModbus), "MeasureZeroTestCases")]
         public bool MeasureZeroTest(Behavior behavior)
         {
@@ -158,11 +158,11 @@ namespace HBM.Weighing.API.WTX.Modbus
                 return false;
             }
         }
-
+        */
         private void UpdateMeasureZeroTest(object sender, ProcessDataReceivedEventArgs e)
         {
         }
-
+        /*
         [Test, TestCaseSource(typeof(ReadTestsModbus), "ApplicationModeTestCases")]
         public int ApplicationModeTest(Behavior behavior)
         {
@@ -180,11 +180,11 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             //return _wtxDevice.ApplicationMode;
         }
-
+        */
         private void UpdateApplicationModeTest(object sender, ProcessDataReceivedEventArgs e)
         {
         }
-
+        /*
         [Test, TestCaseSource(typeof(ReadTestsModbus), "LogEventTestCases")]
         public async Task<bool> LogEventGetTest(Behavior behavior)
         {
@@ -207,11 +207,11 @@ namespace HBM.Weighing.API.WTX.Modbus
                 return false; 
             //return _wtxDevice.ApplicationMode;
         }
-
+        */
         private void UpdateLogEventGetTest(object sender, ProcessDataReceivedEventArgs e)
         {
         }
-
+        /*
         [Test, TestCaseSource(typeof(ReadTestsModbus), "LogEventTestCases")]
         public async Task<bool> LogEventSetTest(Behavior behavior)
         {
@@ -234,7 +234,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 return false;
             //return _wtxDevice.ApplicationMode;
         }
-
+        */
         private void UpdateLogEventSetTest(object sender, ProcessDataReceivedEventArgs e)
         {
         }

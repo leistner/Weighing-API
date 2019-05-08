@@ -28,6 +28,8 @@
 //
 // </copyright>
 using HBM.Weighing.API.WTX;
+using HBM.Weighing.API.WTX.Jet;
+using HBM.Weighing.API.WTX.Modbus;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -52,8 +54,12 @@ namespace HBM.Weighing.API
 
         #region Attributes for data, commands, ip address, connection, connection type
 
-        Dictionary<string, int> AllData { get; }            // dictionary list containing pairs of paths-values
+        Dictionary<string,int>AllData { get; }
+        /*
+        Dictionary<ModbusCommand, int> ModbusData { get; }  // dictionary list containing pairs of paths-values via Modbus
 
+        Dictionary<JetBusCommand, int> JetBusData { get; }  // dictionary list containing pairs of paths-values via Jetbus
+        */
         string IpAddress    { get; set; }                   // ip address establishing a connection to the device
 
         bool IsConnected    { get; }                        // boolean stating the connection status
