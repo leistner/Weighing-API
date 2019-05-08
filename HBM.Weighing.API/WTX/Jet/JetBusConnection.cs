@@ -73,7 +73,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
         private string _ipaddress;
         private int interval;
-        private ICommands _commands;
+        private JetBusCommands _commands;
 
         private JToken[] JTokenArray;
         private ushort[] DataUshortArray;
@@ -124,12 +124,6 @@ namespace HBM.Weighing.API.WTX.Jet
             this._connected = false;
             this.IncomingDataReceived = null;
         }
-
-        public ICommands IDCommands
-        {
-            get { return this._commands; }
-        }
-
         private void ConnectPeer(string User, string Password, int TimeoutMs)
         {
             this._user = User;
@@ -613,6 +607,14 @@ namespace HBM.Weighing.API.WTX.Jet
         }
         
         
+        public JetBusCommands Commands
+        {
+            get
+            {
+                return _commands;
+            }
+        }
+
         public string IpAddress
         {
             get

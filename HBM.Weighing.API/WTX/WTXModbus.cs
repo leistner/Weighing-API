@@ -51,9 +51,13 @@ namespace HBM.Weighing.API.WTX
         private ushort[] _data;
         private ushort[] _outputData;
         private ushort[] _dataWritten;
-        
+        private ushort[] _asyncData;
+
         private int _timerInterval;
         private int _previousNetValue;
+
+        private ApplicationMode _applicationMode;
+
         private int _manualTareValue;
         private int _calibrationWeight;
         private int _zeroLoad;
@@ -86,6 +90,7 @@ namespace HBM.Weighing.API.WTX
             DataFiller = new DataFillerModbus(_connection);
 
             this._data = new ushort[100];
+            this._asyncData = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
             this._dataWritten = new ushort[2];
 
@@ -116,6 +121,7 @@ namespace HBM.Weighing.API.WTX
             DataFiller = new DataFillerModbus(_connection);
 
             this._data = new ushort[100];
+            this._asyncData = new ushort[100];
             this._outputData = new ushort[43]; // Output data length for filler application, also used for the standard application.
             this._dataWritten = new ushort[2];
 
@@ -323,7 +329,7 @@ namespace HBM.Weighing.API.WTX
             {
                 Task<ushort[]> FetchValues = _connection.ReadAsync();
                 //DoIndependentWork();
-                ushort[] _asyncData = await FetchValues;
+                _asyncData = await FetchValues;
                 OnData(_asyncData);
             }
         }
@@ -420,10 +426,7 @@ namespace HBM.Weighing.API.WTX
                     return "error";
             }
         }
-
-
         public override ApplicationMode ApplicationMode { get; set; }
-        
 
         public override string Unit
         {
@@ -444,19 +447,7 @@ namespace HBM.Weighing.API.WTX
                 }
             }
         }
-        /*
-        public override string StatusStringComment()
-        {
-            if (ProcessData.Status == 1)
-                return "Execution OK!";
-            else
-                if (ProcessData.Status != 1)
-                return "Execution not OK!";
-            else
-                return "error.";
-
-        }
-        */
+        
         #endregion
 
         #region Adjustment methods 

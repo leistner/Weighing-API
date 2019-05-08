@@ -105,8 +105,6 @@ namespace HBM.Weighing.API
         /// </summary>
         /// <returns></returns>
         public abstract ApplicationMode ApplicationMode { get; set; }
-
-
         #endregion
 
         #region Abstract methods for the wtx class(WTXJet or WTXModbus) to get, to send and to analyse data

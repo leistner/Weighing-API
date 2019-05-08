@@ -54,8 +54,6 @@ namespace HBM.Weighing.API
 
         Dictionary<string, int> AllData { get; }            // dictionary list containing pairs of paths-values
 
-        ICommands IDCommands { get; }                       // interface for creating objects for Jet-&Modbus commands(=index=paths)
-
         string IpAddress    { get; set; }                   // ip address establishing a connection to the device
 
         bool IsConnected    { get; }                        // boolean stating the connection status

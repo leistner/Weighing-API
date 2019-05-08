@@ -44,1010 +44,383 @@ namespace HBM.Weighing.API.WTX.Jet
     /// This class inherits from interface ICommands. 
     /// </summary>
     /// </summary>
-    public class JetBusCommands : ICommands
+    public class JetBusCommands
     {
         public JetBusCommands()
         {
             ResidualFlowTime = new JetBusCommand(1, "2220/07", 0, 0);
+            Ldw_dead_weight = new JetBusCommand(1, "2110/06", 0, 0);                // LDW = Nullpunkt
+            Lwt_nominal_value = new JetBusCommand(1, "2110/07", 0, 0);              // LWT = Nennwert
+            Lft_scale_calibration_weight = new JetBusCommand(1, "6152/00", 0, 0);   // LFT = LFT scale calibration weight
+
+            Net_value = new JetBusCommand(1, "601A/01", 0, 0);
+            Gross_value = new JetBusCommand(1, "6144/00", 0, 0);
+            Zero_value = new JetBusCommand(1, "6142/00", 0, 0);
+
+            Tare_value = new JetBusCommand(1, "6143/00", 0, 0);
+            Weighing_device_1_weight_status = new JetBusCommand(1, "6012/01", 0, 0);
+            Unit_prefix_fixed_parameter = new JetBusCommand(1, "6014/01", 0, 0);
+            Application_mode = new JetBusCommand(1, "2010/07", 0, 0); // IMD = Input mode ( Application mode)
+            Decimals = new JetBusCommand(1, "6013/01", 0, 0);
+            Scale_command = new JetBusCommand(1, "6002/01", 0, 0);
+            Scale_command_status = new JetBusCommand(1, "6002/02", 0, 0);
+
+            Status_digital_input_1 = new JetBusCommand(1, "2020/18", 0, 0);    // IS1
+            Status_digital_input_2 = new JetBusCommand(1, "2020/19", 0, 0);    // IS2
+            Status_digital_input_3 = new JetBusCommand(1, "2020/1A", 0, 0);    // IS3
+            Status_digital_input_4 = new JetBusCommand(1, "2020/1B", 0, 0);    // IS4
+            Status_digital_output_1 = new JetBusCommand(1, "2020/1E", 0, 0);   // OS1
+            Status_digital_output_2 = new JetBusCommand(1, "2020/1F", 0, 0);   // OS2
+            Status_digital_output_3 = new JetBusCommand(1, "2020/20", 0, 0);   // OS3
+            Status_digital_output_4 = new JetBusCommand(1, "2020/21", 0, 0);   // OS4
+
+            Limit_value = new JetBusCommand(1, "2020/25", 0, 0);   // LVS
+            Coarse_flow_monitoring = new JetBusCommand(1, "2210/01", 0, 0);      // CBK = Füllstromüberwachung Grobstrom
+            Coarse_flow_monitoring_time = new JetBusCommand(1, "2220/01", 0, 0); // CBT = Überwachungszeit Grobstrom
+            Coarse_flow_cut_off_point = new JetBusCommand(1, "2210/02", 0, 0);   // CFD = Grobstromabschaltpunkt
+            Coarse_flow_time = new JetBusCommand(1, "2230/01", 0, 0);            // CFT = Grobstromzeit
+            Dosing_mode = new JetBusCommand(1, "2200/04", 0, 0);                 // DMD = Dosiermodus
+            Dosing_time = new JetBusCommand(1, "2230/03", 0, 0);                 // DST = Dosieristzeit
+            Emptying_mode = new JetBusCommand(1, "2200/05", 0, 0);               // EMD = Entleermodus
+            Fine_flow_monitoring = new JetBusCommand(1, "2210/04", 0, 0);        // FBK = Füllstromüberwachung Feinstrom
+            Fine_flow_monitoring_time = new JetBusCommand(1, "2220/03", 0, 0);   // FBT = Überwachungszeit Feinstrom
+            Fine_flow_cut_off_point = new JetBusCommand(1, "2210/05", 0, 0);     // FFD = Feinstromabschaltpunkt
+            Fine_flow_phase_before_coarse_flow = new JetBusCommand(1, "2220/0A", 0, 0); // FFL = Feinstromphase vor Grobstrom
+            Minimum_fine_flow = new JetBusCommand(1, "2210/06", 0, 0);           // FFM = Minimaler Feinstromanteil
+            Fine_flow_time = new JetBusCommand(1, "2230/04", 0, 0);              // FFT = Feinstromzeit
+            Dosing_result = new JetBusCommand(1, "2000/05", 0, 0);               // FRS1 = Dosierergebnis
+            dosing_state = new JetBusCommand(1, "2000/06", 0, 0);                // FRS2 = Dosierstatus
+            Reference_value_dosing = new JetBusCommand(1, "2210/07", 0, 0);      // FWT = Sollwert dosieren
+            Lockout_time_coarse_flow = new JetBusCommand(1, "2220/04", 0, 0);    // LTC = Sperrzeit Grobstrom
+            Lockout_time_fine_flow = new JetBusCommand(1, "2220/05", 0, 0);      // LTF = Sperrzeit Feinstrom
+            Lower_tolerance_limit = new JetBusCommand(1, "2210/08", 0, 0);       // LTL = Untere Toleranz
+            Maximal_dosing_time = new JetBusCommand(1, "2220/06", 0, 0);         // MDT = Maximale Dosierzeit
+            Minimum_start_weight = new JetBusCommand(1, "2210/0B", 0, 0);        // MSW = Minimum Startgewicht
+            Dosing_counter = new JetBusCommand(1, "2230/05", 0, 0);              // NDS = Dosierzähler
+            Optimization = new JetBusCommand(1, "2200/07", 0, 0);                // OSN = Optimierung
+            Range_selection_parameter = new JetBusCommand(1, "2200/02", 0, 0);   // RDP = Auswahl Dosierparameter
+            Redosing = new JetBusCommand(1, "2200/08", 0, 0);                    // RDS = Nachdosieren
+            Residual_flow_time = new JetBusCommand(1, "2220/07", 0, 0);          // RFT = Nachstromzeit
+            Run_start_dosing = new JetBusCommand(1, "2240/02", 0, 0);            // RUN = Start Dosieren
+            Mean_value_dosing_results = new JetBusCommand(1, "2230/06", 0, 0);         // SDM = Mittelwert Dosieren
+            Dosing_state_filler = new JetBusCommand(1, "2D00/02", 0, 0);               // SDO = Dosierstatus
+            Standard_deviation = new JetBusCommand(1, "2230/07", 0, 0);                // SDS = Standardabweichung
+            Settling_time_transient_response = new JetBusCommand(1, "2220/08", 0, 0);  // STT = Beruhigungszeit
+            Systematic_difference = new JetBusCommand(1, "2210/09", 0, 0);             // SYD = Systematische Differenz
+            Tare_delay = new JetBusCommand(1, "2220/09", 0, 0);                        // TAD = Tarierverzögerung
+            Tare_mode = new JetBusCommand(1, "2200/0B", 0, 0);                         // TMD = Tariermodus
+            Upper_tolerance_limit = new JetBusCommand(1, "2210/0A", 0, 0);             // UTL = Obere Toleranz
+            Valve_control = new JetBusCommand(1, "2200/0C", 0, 0);               // VCT = Ventilsteuerung
+            _write_dosing_parameter_set = new JetBusCommand(1, "2200/01", 0, 0);  // WDP = Dosierparametersatz schreiben
+            Storage_weight = new JetBusCommand(1, "2040/05", 0, 0);              // STO = Gewichtsspeicherung
+            Storage_weight_mode = new JetBusCommand(1, "2300/08", 0, 0);         // SMD = Modus Gewichtsspeicherung
+
+            // Paths/Commands : Digital input in the extended filler mode, only via Jetbus
+            Function_digital_input_1 = new JetBusCommand(1, "2022/01", 0, 0);
+            Function_digital_input_2 = new JetBusCommand(1, "2022/02", 0, 0);
+            Function_digital_input_3 = new JetBusCommand(1, "2022/03", 0, 0);
+            Function_digital_input_4 = new JetBusCommand(1, "2022/04", 0, 0);
+            // Paths/Commands : Digital output in the extended filler mode, only via Jetbus
+            Function_digital_output_1 = new JetBusCommand(1, "2021/01", 0, 0);
+            Function_digital_output_2 = new JetBusCommand(1, "2021/02", 0, 0);
+            Function_digital_output_3 = new JetBusCommand(1, "2021/03", 0, 0);
+            Function_digital_output_4 = new JetBusCommand(1, "2021/04", 0, 0);
+
+            Error_register = new JetBusCommand(1, "1001/00", 0, 0);
+            Save_all_parameters = new JetBusCommand(1, "1010/01", 0, 0);
+            Restore_all_default_parameters = new JetBusCommand(1, "1011/01", 0, 0);
+            Vendor_id = new JetBusCommand(1, "1018/01", 0, 0);
+            Product_code = new JetBusCommand(1, "1018/02", 0, 0);
+            Serial_number = new JetBusCommand(1, "1018/04", 0, 0);
+            Implemented_profile_specification = new JetBusCommand(1, "1030/01", 0, 0);
+            Lc_capability = new JetBusCommand(1, "6001/01", 0, 0);
+            Weighing_device_1_unit_prefix_output_parameter = new JetBusCommand(1, "6015/01", 0, 0);
+
+            Weighing_device_1_weight_step = new JetBusCommand(1, "6016/01", 0, 0);
+            Alarms = new JetBusCommand(1, "6018/01", 0, 0);
+            Weighing_device_1_output_weight = new JetBusCommand(1, "601A/01", 0, 0);
+            Weighing_device_1_setting = new JetBusCommand(1, "6020/01", 0, 0);
+            Local_gravity_factor = new JetBusCommand(1, "6021/01", 0, 0);
+            Scale_filter_setup = new JetBusCommand(1, "6040/01", 0, 0);
+            Data_sample_rate = new JetBusCommand(1, "6050/01", 0, 0);
+
+            Filter_order_critically_damped = new JetBusCommand(1, "60A1/01", 0, 0);
+
+            Cut_off_frequency_critically_damped = new JetBusCommand(1, "60A1/02", 0, 0);
+            Filter_order_butterworth = new JetBusCommand(1, "60A1/01", 0, 0);
+            Cut_off_frequency_butterworth = new JetBusCommand(1, "60A2/02", 0, 0);
+            Filter_order_bessel = new JetBusCommand(1, "60B1/01", 0, 0);
+            Cut_off_frequency_bessel = new JetBusCommand(1, "60B1/02", 0, 0);
+            Scale_suppy_nominal_voltage = new JetBusCommand(1, "6110/01", 0, 0);
+            Scale_suppy_minimum_voltage = new JetBusCommand(1, "6110/02", 0, 0);
+            Scale_suppy_maximum_voltage = new JetBusCommand(1, "6110/03", 0, 0);
+
+            Scale_accuracy_class = new JetBusCommand(1, "6111/01", 0, 0);
+            Scale_minimum_dead_load = new JetBusCommand(1, "6112/01", 0, 0);
+            Scale_maximum_capacity = new JetBusCommand(1, "6113/01", 0, 0);
+            Scale_maximum_number_of_verification_interval = new JetBusCommand(1, "6114/01", 0, 0);
+            Scale_apportionment_factor = new JetBusCommand(1, "6116/01", 0, 0);
+            Scale_safe_load_limit = new JetBusCommand(1, "6117/01", 0, 0);
+            Scale_operation_nominal_temperature = new JetBusCommand(1, "6118/01", 0, 0);
+            Scale_operation_minimum_temperature = new JetBusCommand(1, "6118/02", 0, 0);
+            Scale_operation_maximum_temperature = new JetBusCommand(1, "6118/03", 0, 0);
+            Scale_relative_minimum_load_cell_verification_interval = new JetBusCommand(1, "611B/01", 0, 0);
+            Interval_range_control = new JetBusCommand(1, "611C/01", 0, 0);
+            Multi_limit_1 = new JetBusCommand(1, "611C/02", 0, 0);
+            Multi_limit_2 = new JetBusCommand(1, "611C/03", 0, 0);
+            Oiml_certificaiton_information = new JetBusCommand(1, "6138/01", 0, 0);
+            Ntep_certificaiton_information = new JetBusCommand(1, "6138/02", 0, 0);
+            Maximum_zeroing_time = new JetBusCommand(1, "6141/02", 0, 0);
+            Maximum_peak_value_gross = new JetBusCommand(1, "6149/01", 0, 0);
+            Minimum_peak_value_gross = new JetBusCommand(1, "6149/02", 0, 0);
+            Maximum_peak_value = new JetBusCommand(1, "6149/03", 0, 0);
+            Minimum_peak_value = new JetBusCommand(1, "6149/04", 0, 0);
+            Weight_moving_detection = new JetBusCommand(1, "6153/00", 0, 0);
+            Device_address = new JetBusCommand(1, "2600/00", 0, 0);
+
+            Hardware_version = new JetBusCommand(1, "2520/0A", 0, 0); // = Hardware Variante
+            Identification = new JetBusCommand(1, "2520/01", 0, 0);
+            Limit_value_monitoring_liv11 = new JetBusCommand(1, "2030/01", 0, 0); // = Grenzwertüberwachung
+            Signal_source_liv12 = new JetBusCommand(1, "2030/02", 0, 0);
+            Switch_on_level_liv13 = new JetBusCommand(1, "2030/03", 0, 0);  // = Einschaltpegel
+            Switch_off_level_liv14 = new JetBusCommand(1, "2030/04", 0, 0);  // = Ausschaltpegel
+            Limit_value_monitoring_liv21 = new JetBusCommand(1, "2030/05", 0, 0);
+            Signal_source_liv22 = new JetBusCommand(1, "2030/06", 0, 0);
+            Switch_on_level_liv23 = new JetBusCommand(1, "2030/07", 0, 0);
+            Switch_off_level_liv24 = new JetBusCommand(1, "2030/08", 0, 0);
+            Limit_value_monitoring_liv31 = new JetBusCommand(1, "2030/09", 0, 0);
+            Signal_source_liv32 = new JetBusCommand(1, "2030/0A", 0, 0);
+            Switch_on_level_liv33 = new JetBusCommand(1, "2030/0B", 0, 0);
+            Switch_off_level_liv34 = new JetBusCommand(1, "2030/0C", 0, 0);
+            Limit_value_monitoring_liv41 = new JetBusCommand(1, "2030/0D", 0, 0);
+            Signal_source_liv42 = new JetBusCommand(1, "2030/0E", 0, 0);
+            Switch_on_level_liv43 = new JetBusCommand(1, "2030/0F", 0, 0);
+            Switch_off_level_liv44 = new JetBusCommand(1, "2030/10", 0, 0);
+            Output_scale = new JetBusCommand(1, "2110/0A", 0, 0);
+            Firmware_date = new JetBusCommand(1, "2520/05", 0, 0);
+            Reset_trigger = new JetBusCommand(1, "2D00/04", 0, 0);
+            State_digital_io_extended = new JetBusCommand(1, "2020/12", 0, 0);  //Zustand Digital-IO(erweitert)
+            Software_identification = new JetBusCommand(1, "2600/22", 0, 0);
+            Software_version = new JetBusCommand(1, "2600/16", 0, 0);
+            Date_time = new JetBusCommand(1, "2E00/02", 0, 0);
+
+            Break_dosing = new JetBusCommand(1, "2240/01", 0, 0);                // BRK = Abbruch Dosierung
+            Delete_dosing_result = new JetBusCommand(1, "2230/02", 0, 0);        // CSN = Löschen Dosierergebniss
+            Material_stream_last_dosing = new JetBusCommand(1, "2000/0E", 0, 0); // MFO = Materialstrom des letzten Dosierzyklus
+            Sum = new JetBusCommand(1, "2230/08", 0, 0);                         // SUM = Summe
+            Special_dosing_functions = new JetBusCommand(1, "2200/0A", 0, 0);    // SDF = Sonderfunktionen
+            Discharge_time = new JetBusCommand(1, "2220/02", 0, 0);              // EPT = Entleerzeit
+            Exceeding_weight_break = new JetBusCommand(1, "2200/0F", 0, 0);      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
+            Delay1_dosing = new JetBusCommand(1, "2220/0B", 0, 0);               // DL1 = Delay 1 für Dosieren
+            Delay2_dosing = new JetBusCommand(1, "2220/0C", 0, 0);               // DL2 = Delay 2 für Dosieren
+            Empty_weight_tolerance = new JetBusCommand(1, "2210/03", 0, 0);      // EWT = Entleertoleranz
+            Residual_flow_dosing_cycle = new JetBusCommand(1, "2000/0F", 0, 0);  // RFO = Nachstrom des letzten Dosierzyklus
         }
 
         public JetBusCommand ResidualFlowTime { get; private set; }
+        public JetBusCommand Ldw_dead_weight { get; private set; }                // LDW = Nullpunkt
+        public JetBusCommand Lwt_nominal_value { get; private set; }              // LWT = Nennwert
+        public JetBusCommand Lft_scale_calibration_weight { get; private set; }   // LFT = LFT scale calibration weight
 
-        #region ID Commands : Maintenance - Calibration
+        public JetBusCommand Net_value { get; private set; }
+        public JetBusCommand Gross_value { get; private set; }
+        public JetBusCommand Zero_value { get; private set; }
 
-        private const string _ldw_dead_weight = "2110/06";                // LDW = Nullpunkt
-        private const string _lwt_nominal_value = "2110/07";              // LWT = Nennwert
-        private const string _lft_scale_calibration_weight = "6152/00";   // LFT = LFT scale calibration weight
+        public JetBusCommand Tare_value { get; private set; }
+        public JetBusCommand Weighing_device_1_weight_status { get; private set; }
+        public JetBusCommand Unit_prefix_fixed_parameter { get; private set; }
 
-        #endregion
+        public JetBusCommand Application_mode { get; private set; } // IMD = Input mode ( Application mode)
 
-        #region ID commands for process data
-        private const string _net_value = "601A/01";
-        private const string _gross_value = "6144/00";
-        private const string _zero_value = "6142/00";
+        public JetBusCommand Decimals { get; private set; }
+        public JetBusCommand Scale_command { get; private set; }
+        public JetBusCommand Scale_command_status { get; private set; }
 
-        private const string _tare_value = "6143/00";
-        private const string _weighing_device_1_weight_status = "6012/01";
-        private const string _unit_prefix_fixed_parameter = "6014/01";
+        public JetBusCommand Status_digital_input_1 { get; private set; }    // IS1
+        public JetBusCommand Status_digital_input_2 { get; private set; }    // IS2
+        public JetBusCommand Status_digital_input_3 { get; private set; }    // IS3
+        public JetBusCommand Status_digital_input_4 { get; private set; }    // IS4
 
-        private const string _application_mode = "2010/07"; // IMD = Input mode ( Application mode)
+        public JetBusCommand Status_digital_output_1 { get; private set; }   // OS1
+        public JetBusCommand Status_digital_output_2 { get; private set; }   // OS2
+        public JetBusCommand Status_digital_output_3 { get; private set; }   // OS3
+        public JetBusCommand Status_digital_output_4 { get; private set; }   // OS4
 
-        private const string _decimals = "6013/01";
-        private const string _scale_command = "6002/01";
-        private const string _scale_command_status = "6002/02";
-        #endregion
+        public JetBusCommand Limit_value { get; private set; }   // LVS
 
-        #region ID commands for standard mode
-        private const string _status_digital_input_1 = "2020/18";    // IS1
-        private const string _status_digital_input_2 = "2020/19";    // IS2
-        private const string _status_digital_input_3 = "2020/1A";    // IS3
-        private const string _status_digital_input_4 = "2020/1B";    // IS4
+        //private string[] _weightMemArray = new string[2] { _storage_weight, _storage_weight_mode };
 
-        private const string _status_digital_output_1 = "2020/1E";   // OS1
-        private const string _status_digital_output_2 = "2020/1F";   // OS2
-        private const string _status_digital_output_3 = "2020/20";   // OS3
-        private const string _status_digital_output_4 = "2020/21";   // OS4
+        public JetBusCommand Coarse_flow_monitoring { get; private set; }      // CBK = Füllstromüberwachung Grobstrom
+        public JetBusCommand Coarse_flow_monitoring_time { get; private set; } // CBT = Überwachungszeit Grobstrom
+        public JetBusCommand Coarse_flow_cut_off_point { get; private set; }   // CFD = Grobstromabschaltpunkt
+        public JetBusCommand Coarse_flow_time { get; private set; }            // CFT = Grobstromzeit
+        public JetBusCommand Dosing_mode { get; private set; }                 // DMD = Dosiermodus
+        public JetBusCommand Dosing_time { get; private set; }                 // DST = Dosieristzeit
+        public JetBusCommand Emptying_mode { get; private set; }               // EMD = Entleermodus
 
-        private const string _limit_value = "2020/25";   // LVS
+        public JetBusCommand Fine_flow_monitoring { get; private set; }        // FBK = Füllstromüberwachung Feinstrom
+        public JetBusCommand Fine_flow_monitoring_time { get; private set; }   // FBT = Überwachungszeit Feinstrom
+        public JetBusCommand Fine_flow_cut_off_point { get; private set; }     // FFD = Feinstromabschaltpunkt
+        public JetBusCommand Fine_flow_phase_before_coarse_flow { get; private set; } // FFL = Feinstromphase vor Grobstrom
+        public JetBusCommand Minimum_fine_flow { get; private set; }           // FFM = Minimaler Feinstromanteil
 
-        private string[] _weightMemArray = new string[2] { _storage_weight, _storage_weight_mode };
+        public JetBusCommand Fine_flow_time { get; private set; }              // FFT = Feinstromzeit
+        public JetBusCommand Dosing_result { get; private set; }               // FRS1 = Dosierergebnis
+        public JetBusCommand dosing_state { get; private set; }                // FRS2 = Dosierstatus
+        public JetBusCommand Reference_value_dosing { get; private set; }      // FWT = Sollwert dosieren
+        public JetBusCommand Lockout_time_coarse_flow { get; private set; }    // LTC = Sperrzeit Grobstrom
+        public JetBusCommand Lockout_time_fine_flow { get; private set; }      // LTF = Sperrzeit Feinstrom
+        public JetBusCommand Lower_tolerance_limit { get; private set; }       // LTL = Untere Toleranz
+        public JetBusCommand Maximal_dosing_time { get; private set; }         // MDT = Maximale Dosierzeit
+        public JetBusCommand Minimum_start_weight { get; private set; }        // MSW = Minimum Startgewicht
+        public JetBusCommand Dosing_counter { get; private set; }              // NDS = Dosierzähler
+        public JetBusCommand Optimization { get; private set; }                // OSN = Optimierung
+        public JetBusCommand Range_selection_parameter { get; private set; }   // RDP = Auswahl Dosierparameter
+        public JetBusCommand Redosing { get; private set; }                    // RDS = Nachdosieren
+        public JetBusCommand Residual_flow_time { get; private set; }          // RFT = Nachstromzeit
+        public JetBusCommand Run_start_dosing { get; private set; }            // RUN = Start Dosieren
 
-        #endregion
+        public JetBusCommand Mean_value_dosing_results { get; private set; }         // SDM = Mittelwert Dosieren
+        public JetBusCommand Dosing_state_filler { get; private set; }               // SDO = Dosierstatus
+        public JetBusCommand Standard_deviation { get; private set; }                // SDS = Standardabweichung
+        public JetBusCommand Settling_time_transient_response { get; private set; }  // STT = Beruhigungszeit
+        public JetBusCommand Systematic_difference { get; private set; }             // SYD = Systematische Differenz
+        public JetBusCommand Tare_delay { get; private set; }                        // TAD = Tarierverzögerung
+        public JetBusCommand Tare_mode { get; private set; }                         // TMD = Tariermodus
+        public JetBusCommand Upper_tolerance_limit { get; private set; }             // UTL = Obere Toleranz
+        public JetBusCommand Valve_control { get; private set; }                    // VCT = Ventilsteuerung
+        public JetBusCommand _write_dosing_parameter_set { get; private set; }      // WDP = Dosierparametersatz schreiben
+        public JetBusCommand Storage_weight { get; private set; }                   // STO = Gewichtsspeicherung
+        public JetBusCommand Storage_weight_mode { get; private set; }              // SMD = Modus Gewichtsspeicherung
 
-        #region ID commands for filler data
 
-        private const string _coarse_flow_monitoring = "2210/01";      // CBK = Füllstromüberwachung Grobstrom
-        private const string _coarse_flow_monitoring_time = "2220/01"; // CBT = Überwachungszeit Grobstrom
-        private const string _coarse_flow_cut_off_point = "2210/02";   // CFD = Grobstromabschaltpunkt
-        private const string _coarse_flow_time = "2230/01";            // CFT = Grobstromzeit
-        private const string _dosing_mode = "2200/04";                 // DMD = Dosiermodus
-        private const string _dosing_time = "2230/03";                 // DST = Dosieristzeit
-        private const string _emptying_mode = "2200/05";               // EMD = Entleermodus
-
-        private const string _fine_flow_monitoring = "2210/04";        // FBK = Füllstromüberwachung Feinstrom
-        private const string _fine_flow_monitoring_time = "2220/03";   // FBT = Überwachungszeit Feinstrom
-        private const string _fine_flow_cut_off_point = "2210/05";     // FFD = Feinstromabschaltpunkt
-        private const string _fine_flow_phase_before_coarse_flow = "2220/0A"; // FFL = Feinstromphase vor Grobstrom
-        private const string _minimum_fine_flow = "2210/06";           // FFM = Minimaler Feinstromanteil
-
-        private const string _fine_flow_time = "2230/04";              // FFT = Feinstromzeit
-        private const string _dosing_result = "2000/05";               // FRS1 = Dosierergebnis
-        private const string _dosing_state = "2000/06";                // FRS2 = Dosierstatus
-        private const string _reference_value_dosing = "2210/07";      // FWT = Sollwert dosieren
-        private const string _lockout_time_coarse_flow = "2220/04";    // LTC = Sperrzeit Grobstrom
-        private const string _lockout_time_fine_flow = "2220/05";      // LTF = Sperrzeit Feinstrom
-        private const string _lower_tolerance_lomit = "2210/08";       // LTL = Untere Toleranz
-        private const string _maximal_dosing_time = "2220/06";         // MDT = Maximale Dosierzeit
-        private const string _minimum_start_weight = "2210/0B";        // MSW = Minimum Startgewicht
-        private const string _dosing_counter = "2230/05";              // NDS = Dosierzähler
-        private const string _optimization = "2200/07";                // OSN = Optimierung
-        private const string _range_selection_parameter = "2200/02";   // RDP = Auswahl Dosierparameter
-
-        private const string _redosing = "2200/08";                    // RDS = Nachdosieren
-        private const string _residual_flow_time = "2220/07";          // RFT = Nachstromzeit
-        private const string _run_start_dosing = "2240/02";            // RUN = Start Dosieren
-
-        private const string _mean_value_dosing_results = "2230/06";         // SDM = Mittelwert Dosieren
-        private const string _dosing_state_filler = "2D00/02";               // SDO = Dosierstatus
-        private const string _standard_deviation = "2230/07";                // SDS = Standardabweichung
-        private const string _settling_time_transient_response = "2220/08";  // STT = Beruhigungszeit
-        private const string _systematic_difference = "2210/09";             // SYD = Systematische Differenz
-        private const string _tare_delay = "2220/09";                        // TAD = Tarierverzögerung
-        private const string _tare_mode = "2200/0B";                         // TMD = Tariermodus
-        private const string _upper_tolerance_limit = "2210/0A";             // UTL = Obere Toleranz
-
-        private const string _valve_control = "2200/0C";               // VCT = Ventilsteuerung
-        private const string _write_dosing_parameter_set = "2200/01";  // WDP = Dosierparametersatz schreiben
-
-        private const string _storage_weight = "2040/05";              // STO = Gewichtsspeicherung
-        private const string _storage_weight_mode = "2300/08";         // SMD = Modus Gewichtsspeicherung
-
-        #endregion
-
-        #region ID commands for filler extended data
-
-        #endregion
-
-        #region All other ID commands for Operator, Administrator and Maintenance : 
 
         // Paths/Commands : Digital input in the extended filler mode, only via Jetbus
-        private const string _function_digital_input_1 = "2022/01";
-        private const string _function_digital_input_2 = "2022/02";
-        private const string _function_digital_input_3 = "2022/03";
-        private const string _function_digital_input_4 = "2022/04";
+        public JetBusCommand Function_digital_input_1 { get; private set; }
+        public JetBusCommand Function_digital_input_2 { get; private set; }
+        public JetBusCommand Function_digital_input_3 { get; private set; }
+        public JetBusCommand Function_digital_input_4 { get; private set; }
         // Paths/Commands : Digital output in the extended filler mode, only via Jetbus
-        private const string _function_digital_output_1 = "2021/01";
-        private const string _function_digital_output_2 = "2021/02";
-        private const string _function_digital_output_3 = "2021/03";
-        private const string _function_digital_output_4 = "2021/04";
+        public JetBusCommand Function_digital_output_1 { get; private set; }
+        public JetBusCommand Function_digital_output_2 { get; private set; }
+        public JetBusCommand Function_digital_output_3 { get; private set; }
+        public JetBusCommand Function_digital_output_4 { get; private set; }
+
+        public JetBusCommand Error_register { get; private set; }
+        public JetBusCommand Save_all_parameters { get; private set; }
+        public JetBusCommand Restore_all_default_parameters { get; private set; }
+        public JetBusCommand Vendor_id { get; private set; }
+        public JetBusCommand Product_code { get; private set; }
+        public JetBusCommand Serial_number { get; private set; }
+        public JetBusCommand Implemented_profile_specification { get; private set; }
+        public JetBusCommand Lc_capability { get; private set; }
+        public JetBusCommand Weighing_device_1_unit_prefix_output_parameter { get; private set; }
+
+        public JetBusCommand Weighing_device_1_weight_step { get; private set; }
+        public JetBusCommand Alarms { get; private set; }
+        public JetBusCommand Weighing_device_1_output_weight { get; private set; }
+        public JetBusCommand Weighing_device_1_setting { get; private set; }
+        public JetBusCommand Local_gravity_factor { get; private set; }
+        public JetBusCommand Scale_filter_setup { get; private set; }
+        public JetBusCommand Data_sample_rate { get; private set; }
+
+        public JetBusCommand Filter_order_critically_damped { get; private set; }
+
+        public JetBusCommand Cut_off_frequency_critically_damped { get; private set; }
+        public JetBusCommand Filter_order_butterworth { get; private set; }
+        public JetBusCommand Cut_off_frequency_butterworth { get; private set; }
+        public JetBusCommand Filter_order_bessel { get; private set; }
+        public JetBusCommand Cut_off_frequency_bessel { get; private set; }
+        public JetBusCommand Scale_suppy_nominal_voltage { get; private set; }
+        public JetBusCommand Scale_suppy_minimum_voltage { get; private set; }
+        public JetBusCommand Scale_suppy_maximum_voltage { get; private set; }
+
+        public JetBusCommand Scale_accuracy_class { get; private set; }
+        public JetBusCommand Scale_minimum_dead_load { get; private set; }
+        public JetBusCommand Scale_maximum_capacity { get; private set; }
+        public JetBusCommand Scale_maximum_number_of_verification_interval { get; private set; }
+        public JetBusCommand Scale_apportionment_factor { get; private set; }
+        public JetBusCommand Scale_safe_load_limit { get; private set; }
+        public JetBusCommand Scale_operation_nominal_temperature { get; private set; }
+        public JetBusCommand Scale_operation_minimum_temperature { get; private set; }
+        public JetBusCommand Scale_operation_maximum_temperature { get; private set; }
+        public JetBusCommand Scale_relative_minimum_load_cell_verification_interval { get; private set; }
+        public JetBusCommand Interval_range_control { get; private set; }
+        public JetBusCommand Multi_limit_1 { get; private set; }
+        public JetBusCommand Multi_limit_2 { get; private set; }
+        public JetBusCommand Oiml_certificaiton_information { get; private set; }
+        public JetBusCommand Ntep_certificaiton_information { get; private set; }
+        public JetBusCommand Maximum_zeroing_time { get; private set; }
+        public JetBusCommand Maximum_peak_value_gross { get; private set; }
+        public JetBusCommand Minimum_peak_value_gross { get; private set; }
+        public JetBusCommand Maximum_peak_value { get; private set; }
+        public JetBusCommand Minimum_peak_value { get; private set; }
+        public JetBusCommand Weight_moving_detection { get; private set; }
+        public JetBusCommand Device_address { get; private set; }
+
+        public JetBusCommand Hardware_version { get; private set; } // = Hardware Variante
+        public JetBusCommand Identification { get; private set; }
+        public JetBusCommand Limit_value_monitoring_liv11 { get; private set; } // = Grenzwertüberwachung
+        public JetBusCommand Signal_source_liv12 { get; private set; }
+        public JetBusCommand Switch_on_level_liv13 { get; private set; }  // = Einschaltpegel
+        public JetBusCommand Switch_off_level_liv14 { get; private set; }  // = Ausschaltpegel
+        public JetBusCommand Limit_value_monitoring_liv21 { get; private set; }
+        public JetBusCommand Signal_source_liv22 { get; private set; }
+        public JetBusCommand Switch_on_level_liv23 { get; private set; }
+        public JetBusCommand Switch_off_level_liv24 { get; private set; }
+        public JetBusCommand Limit_value_monitoring_liv31 { get; private set; }
+        public JetBusCommand Signal_source_liv32 { get; private set; }
+        public JetBusCommand Switch_on_level_liv33 { get; private set; }
+        public JetBusCommand Switch_off_level_liv34 { get; private set; }
+        public JetBusCommand Limit_value_monitoring_liv41 { get; private set; }
+        public JetBusCommand Signal_source_liv42 { get; private set; }
+        public JetBusCommand Switch_on_level_liv43 { get; private set; }
+        public JetBusCommand Switch_off_level_liv44 { get; private set; }
+        public JetBusCommand Output_scale { get; private set; }
+        public JetBusCommand Firmware_date { get; private set; }
+        public JetBusCommand Reset_trigger { get; private set; }
+        public JetBusCommand State_digital_io_extended { get; private set; }  //Zustand Digital-IO(erweitert)
+        public JetBusCommand Software_identification { get; private set; }
+        public JetBusCommand Software_version { get; private set; }
+        public JetBusCommand Date_time { get; private set; }
+
+        public JetBusCommand Break_dosing { get; private set; }                // BRK = Abbruch Dosierung
+        public JetBusCommand Delete_dosing_result { get; private set; }        // CSN = Löschen Dosierergebniss
+        public JetBusCommand Material_stream_last_dosing { get; private set; } // MFO = Materialstrom des letzten Dosierzyklus
+        public JetBusCommand Sum { get; private set; }                         // SUM = Summe
+        public JetBusCommand Special_dosing_functions { get; private set; }    // SDF = Sonderfunktionen
+        public JetBusCommand Discharge_time { get; private set; }              // EPT = Entleerzeit
+        public JetBusCommand Exceeding_weight_break { get; private set; }      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
+        public JetBusCommand Delay1_dosing { get; private set; }               // DL1 = Delay 1 für Dosieren
+        public JetBusCommand Delay2_dosing { get; private set; }               // DL2 = Delay 2 für Dosieren
+        public JetBusCommand Empty_weight_tolerance { get; private set; }      // EWT = Entleertoleranz
+        public JetBusCommand Residual_flow_dosing_cycle { get; private set; }  // RFO = Nachstrom des letzten Dosierzyklus
 
-        private const string _error_register = "1001/00";
-        private const string _save_all_parameters = "1010/01";
-        private const string _restore_all_default_parameters ="1011/01";
-        private const string _vendor_id ="1018/01";
-        private const string _product_code ="1018/02";
-        private const string _serial_number ="1018/04";
-        private const string _implemented_profile_specification = "1030/01";
-        private const string _lc_capability ="6001/01";
-        private const string _weighing_device_1_unit_prefix_output_parameter ="6015/01";
-
-        private const string _weighing_device_1_weight_step = "6016/01";
-        private const string _alarms = "6018/01";
-        private const string _weighing_device_1_output_weight = "601A/01";
-        private const string _weighing_device_1_setting = "6020/01";
-        private const string _local_gravity_factor = "6021/01";
-        private const string _scale_filter_setup = "6040/01";
-        private const string _data_sample_rate = "6050/01";
-        private const string _filter_order_critically_damped ="60A1/01";
-        private const string _cut_off_frequency_critically_damped = "60A1/02";
-        private const string _filter_order_butterworth = "60A1/01";
-        private const string _cut_off_frequency_butterworth = "60A2/02";
-        private const string _filter_order_bessel = "60B1/01";
-        private const string _cut_off_frequency_bessel = "60B1/02";
-        private const string _scale_suppy_nominal_voltage = "6110/01";
-        private const string _scale_suppy_minimum_voltage = "6110/02";
-        private const string _scale_suppy_maximum_voltage = "6110/03";
-        private const string _scale_accuracy_class ="6111/01";
-        private const string _scale_minimum_dead_load ="6112/01";
-        private const string _scale_maximum_capacity = "6113/01";
-        private const string _scale_maximum_number_of_verification_interval = "6114/01";
-        private const string _scale_apportionment_factor = "6116/01";
-        private const string _scale_safe_load_limit ="6117/01";
-        private const string _scale_operation_nominal_temperature = "6118/01";
-        private const string _scale_operation_minimum_temperature = "6118/02";
-        private const string _scale_operation_maximum_temperature = "6118/03";
-        private const string _scale_relative_minimum_load_cell_verification_interval = "611B/01";     
-        private const string _interval_range_control = "611C/01";
-        private const string _multi_limit_1 = "611C/02";
-        private const string _multi_limit_2 = "611C/03";
-        private const string _oiml_certificaiton_information = "6138/01";
-        private const string _ntep_certificaiton_information = "6138/02";
-        private const string _maximum_zeroing_time = "6141/02";
-        private const string _maximum_peak_value_gross = "6149/01";
-        private const string _minimum_peak_value_gross = "6149/02";
-        private const string _maximum_peak_value = "6149/03";
-        private const string _minimum_peak_value = "6149/04";
-        private const string _weight_moving_detection = "6153/00";
-        private const string _device_address = "2600/00";
-
-        private const string _hardware_version = "2520/0A"; // = Hardware Variante
-        private const string _identification = "2520/01";
-        private const string _limit_value_monitoring_liv11 = "2030/01"; // = Grenzwertüberwachung
-        private const string _signal_source_liv12 = "2030/02";
-        private const string _switch_on_level_liv13 =  "2030/03";  // = Einschaltpegel
-        private const string _switch_off_level_liv14 = "2030/04";  // = Ausschaltpegel
-        private const string _limit_value_monitoring_liv21 = "2030/05";
-        private const string _signal_source_liv22 = "2030/06";
-        private const string _switch_on_level_liv23 = "2030/07";
-        private const string _switch_off_level_liv24 = "2030/08";
-        private const string _limit_value_monitoring_liv31 = "2030/09";
-        private const string _signal_source_liv32 = "2030/0A";
-        private const string _switch_on_level_liv33 = "2030/0B";
-        private const string _switch_off_level_liv34 = "2030/0C";
-        private const string _limit_value_monitoring_liv41 = "2030/0D";
-        private const string _signal_source_liv42 = "2030/0E";
-        private const string _switch_on_level_liv43 = "2030/0F";
-        private const string _switch_off_level_liv44 = "2030/10";
-        private const string _output_scale = "2110/0A";
-        private const string _firmware_date = "2520/05";
-        private const string _reset_trigger = "2D00/04";
-        private const string _state_digital_io_extended = "2020/12";  //Zustand Digital-IO(erweitert)
-        private const string _software_identification = "2600/22";
-        private const string _software_version = "2600/16";
-        private const string _date_time = "2E00/02";
-
-        private const string _break_dosing = "2240/01";                // BRK = Abbruch Dosierung
-        private const string _delete_dosing_result = "2230/02";        // CSN = Löschen Dosierergebniss
-        private const string _material_stream_last_dosing = "2000/0E"; // MFO = Materialstrom des letzten Dosierzyklus
-        private const string _sum = "2230/08";                         // SUM = Summe
-        private const string _special_dosing_functions = "2200/0A";    // SDF = Sonderfunktionen
-        private const string _discharge_time = "2220/02";              // EPT = Entleerzeit
-        private const string _exceeding_weight_break = "2200/0F";      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
-        private const string _delay1_dosing = "2220/0B";               // DL1 = Delay 1 für Dosieren
-        private const string _delay2_dosing = "2220/0C";               // DL2 = Delay 2 für Dosieren
-        private const string _empty_weight_tolerance = "2210/03";      // EWT = Entleertoleranz
-        private const string _residual_flow_dosing_cycle = "2000/0F";  // RFO = Nachstrom des letzten Dosierzyklus
-
-        #endregion
-
-        #region Get properties of all ID commands
-
-        public string[] WEIGHT_MEMORY_STANDARD
-        {
-            get
-            {
-                return _weightMemArray;
-            }
-        }
-
-        public string[] WEIGHT_MEMORY_FILLER
-        {
-            get
-            {
-                return _weightMemArray;
-            }
-        }
-
-        string ICommands.LDW_DEAD_WEIGHT
-        {
-            get { return _ldw_dead_weight; }
-        }
-
-        string ICommands.LWT_NOMINAL_VALUE
-        {
-            get { return _lwt_nominal_value; }
-        }
-
-        string ICommands.LFT_SCALE_CALIBRATION_WEIGHT
-        {
-            get { return _lft_scale_calibration_weight; }
-        }
-
-        string ICommands.NET_VALUE
-        {
-            get { return _net_value; }
-        }
-
-        string ICommands.GROSS_VALUE
-        {
-            get { return _gross_value; }
-        }
-
-        string ICommands.ZERO_VALUE
-        {
-            get { return _zero_value; }
-        }
-
-        string ICommands.TARE_VALUE
-        {
-            get { return _tare_value; }
-        }
-
-        string ICommands.WEIGHING_DEVICE_1_WEIGHT_STATUS
-        {
-            get { return _weighing_device_1_weight_status; }
-        }
-
-        string ICommands.UNIT_PREFIX_FIXED_PARAMETER
-        {
-            get { return _unit_prefix_fixed_parameter; }
-        }
-
-        string ICommands.APPLICATION_MODE
-        {
-            get { return _application_mode; }
-        }
-
-        string ICommands.DECIMALS
-        {
-            get { return _decimals; }
-        }
-
-        string ICommands.SCALE_COMMAND
-        {
-            get { return _scale_command; }
-        }
-
-        string ICommands.SCALE_COMMAND_STATUS
-        {
-            get { return _scale_command_status; }
-        }
-
-        string ICommands.STATUS_DIGITAL_INPUT_1
-        {
-            get { return _status_digital_input_1; }
-        }
-
-        string ICommands.STATUS_DIGITAL_INPUT_2
-        {
-            get { return _status_digital_input_2; }
-        }
-
-        string ICommands.STATUS_DIGITAL_INPUT_3
-        {
-            get { return _status_digital_input_3; }
-        }
-
-        string ICommands.STATUS_DIGITAL_INPUT_4
-        {
-            get { return _status_digital_input_4; }
-        }
-
-        string ICommands.STATUS_DIGITAL_OUTPUT_1
-        {
-            get { return _status_digital_output_1; }
-        }
-
-        string ICommands.STATUS_DIGITAL_OUTPUT_2
-        {
-            get { return _status_digital_output_2; }
-        }
-
-        string ICommands.STATUS_DIGITAL_OUTPUT_3
-        {
-            get { return _status_digital_output_3; }
-        }
-
-        string ICommands.STATUS_DIGITAL_OUTPUT_4
-        {
-            get { return _status_digital_output_4; }
-        }
-
-        string ICommands.LIMIT_VALUE
-        {
-            get { return _limit_value; }
-        }
-
-        public string COARSE_FLOW_MONITORING
-        {
-            get { return _coarse_flow_monitoring; }
-        }
-
-        public string COARSE_FLOW_MONITORING_TIME
-        {
-            get { return _coarse_flow_monitoring_time; }
-        }
-
-        public string COARSE_FLOW_CUT_OFF_POINT
-        {
-            get { return _coarse_flow_cut_off_point; }
-        }
-
-        public string COARSE_FLOW_TIME
-        {
-            get { return _coarse_flow_time; }
-        }
-
-        public string DOSING_MODE
-        {
-            get { return _dosing_mode; }
-        }
-
-        public string DOSING_TIME
-        {
-            get { return _dosing_time; }
-        }
-
-        public string EMPTYING_MODE
-        {
-            get { return _emptying_mode; }
-        }
-
-        public string FINE_FLOW_MONITORING
-        {
-            get { return _fine_flow_monitoring; }
-        }
-
-        public string FINE_FLOW_MONITORING_TIME
-        {
-            get { return _fine_flow_monitoring_time; }
-        }
-
-        public string FINE_FLOW_CUT_OFF_POINT
-        {
-            get { return _fine_flow_cut_off_point; }
-        }
-
-        public string FINE_FLOW_PHASE_BEFORE_COARSE_FLOW
-        {
-            get { return _fine_flow_phase_before_coarse_flow; }
-        }
-
-        public string MINIMUM_FINE_FLOW
-        {
-            get { return _minimum_fine_flow; }
-        }
-
-        public string FINE_FLOW_TIME
-        {
-            get { return _fine_flow_time; }
-        }
-
-        public string DOSING_RESULT
-        {
-            get { return _dosing_result; }
-        }
-
-        public string DOSING_STATE
-        {
-            get { return _dosing_state; }
-        }
-
-        public string REFERENCE_VALUE_DOSING
-        {
-            get { return _reference_value_dosing; }
-        }
-
-        public string LOCKOUT_TIME_COARSE_FLOW
-        {
-            get { return _lockout_time_coarse_flow; }
-        }
-
-        public string LOCKOUT_TIME_FINE_FLOW
-        {
-            get { return _lockout_time_fine_flow; }
-        }
-
-        public string LOWER_TOLERANCE_LIMIT
-        {
-            get { return _lower_tolerance_lomit; }
-        }
-
-        public string MAXIMAL_DOSING_TIME
-        {
-            get { return _maximal_dosing_time; }
-        }
-
-        public string MINIMUM_START_WEIGHT
-        {
-            get { return _minimum_start_weight; }
-        }
-
-        public string DOSING_COUNTER
-        {
-            get { return _dosing_counter; }
-        }
-
-        public string OPTIMIZATION
-        {
-            get { return _optimization; }
-        }
-
-        public string RANGE_SELECTION_PARAMETER
-        {
-            get { return _range_selection_parameter; }
-        }
-
-        public string REDOSING
-        {
-            get { return _redosing; }
-        }
-
-        public string RESIDUAL_FLOW_TIME
-        {
-            get { return _residual_flow_time; }
-        }
-
-        public string RUN_START_DOSING
-        {
-            get { return _run_start_dosing; }
-        }
-
-        public string MEAN_VALUE_DOSING_RESULTS
-        {
-            get { return _mean_value_dosing_results; }
-        }
-
-        public string DOSING_STATE_FILLER
-        {
-            get { return _dosing_state_filler; }
-        }
-
-        public string STANDARD_DEVIATION
-        {
-            get { return _standard_deviation; }
-        }
-
-        public string SETTLING_TIME_TRANSIENT_RESPONSE
-        {
-            get { return _settling_time_transient_response; }
-        }
-
-        public string SYSTEMATIC_DIFFERENCE
-        {
-            get { return _systematic_difference; }
-        }
-
-        public string TARE_DELAY
-        {
-            get { return _tare_delay; }
-        }
-
-        public string TARE_MODE
-        {
-            get { return _tare_mode; }
-        }
-
-        public string UPPER_TOLERANCE_LIMIT
-        {
-            get { return _upper_tolerance_limit; }
-        }
-
-        public string VALVE_CONTROL
-        {
-            get { return _valve_control; }
-        }
-
-        public string WRITE_DOSING_PARAMETER_SET
-        {
-            get { return _write_dosing_parameter_set; }
-        }
-
-        public string STORAGE_WEIGHT
-        {
-            get { return _storage_weight; }
-        }
-
-        public string STORAGE_WEIGHT_MODE
-        {
-            get { return _storage_weight_mode; }
-        }
-
-
-        public string FUNCTION_DIGITAL_INPUT_1
-        {
-            get { return _function_digital_input_1; }
-        }
-        public string FUNCTION_DIGITAL_INPUT_2
-        {
-            get { return _function_digital_input_2; }
-        }
-        public string FUNCTION_DIGITAL_INPUT_3
-        {
-            get { return _function_digital_input_3; }
-        }
-        public string FUNCTION_DIGITAL_INPUT_4
-        {
-            get { return _function_digital_input_4; }
-        }
-        public string FUNCTION_DIGITAL_OUTPUT_1
-        {
-            get { return _function_digital_output_1; }
-        }
-        public string FUNCTION_DIGITAL_OUTPUT_2
-        {
-            get { return _function_digital_output_2; }
-        }
-        public string FUNCTION_DIGITAL_OUTPUT_3
-        {
-            get { return _function_digital_output_3; }
-        }
-        public string FUNCTION_DIGITAL_OUTPUT_4
-        {
-            get { return _function_digital_output_4; }
-        }
-
-        public string ERROR_REGISTER
-        {
-            get { return _error_register; }
-        }
-
-        public string SAVE_ALL_PARAMETERS
-        {
-            get { return _save_all_parameters; }
-        }
-
-        public string RESTORE_ALL_DEFAULT_PARAMETERS
-        {
-            get { return _restore_all_default_parameters; }
-        }
-
-        public string VENDOR_ID
-        {
-            get { return _vendor_id; }
-        }
-
-        public string PRODUCT_CODE
-        {
-            get { return _product_code; }
-        }
-
-        public string SERIAL_NUMBER
-        {
-            get { return _serial_number; }
-        }
-
-        public string IMPLEMENTED_PROFILE_SPECIFICATION
-        {
-            get { return _implemented_profile_specification; }
-        }
-
-        public string LC_CAPABILITY
-        {
-            get { return _lc_capability; }
-        }
-
-        public string WEIGHING_DEVICE_1_UNIT_PREFIX_OUTPUT_PARAMETER
-        {
-            get { return _weighing_device_1_unit_prefix_output_parameter; }
-        }
-
-        public string WEIGHING_DEVICE_1_WEIGHT_STEP
-        {
-            get { return _weighing_device_1_weight_step; }
-        }
-
-        public string ALARMS
-        {
-            get { return _alarms; }
-        }
-
-        public string WEIGHING_DEVICE_1_OUTPUT_WEIGHT
-        {
-            get { return _weighing_device_1_output_weight; }
-        }
-
-        public string WEIGHING_DEVICE_1_SETTING
-        {
-            get { return _weighing_device_1_setting; }
-        }
-
-        public string LOCAL_GRAVITY_FACTOR
-        {
-            get { return _local_gravity_factor; }
-        }
-
-        public string SCALE_FILTER_SETUP
-        {
-            get { return _scale_filter_setup; }
-        }
-
-        public string DATA_SAMPLE_RATE
-        {
-            get { return _data_sample_rate; }
-        }
-
-        public string FILTER_ORDER_CRITICALLY_DAMPED
-        {
-            get { return _filter_order_critically_damped; }
-        }
-
-        public string CUT_OFF_FREQUENCY_CRITICALLY_DAMPED
-        {
-            get { return _cut_off_frequency_critically_damped; }
-        }
-
-        public string FILTER_ORDER_BUTTERWORTH
-        {
-            get { return _filter_order_butterworth; }
-        }
-
-        public string CUT_OFF_FREQUENCY_BUTTERWORTH
-        {
-            get { return _cut_off_frequency_butterworth; }
-        }
-
-        public string FILTER_ORDER_BESSEL
-        {
-            get { return _filter_order_bessel; }
-        }
-
-        public string CUT_OFF_FREQUENCY_BESSEL
-        {
-            get { return _cut_off_frequency_bessel; }
-        }
-
-        public string SCALE_SUPPY_NOMINAL_VOLTAGE
-        {
-            get { return _scale_suppy_nominal_voltage; }
-        }
-
-        public string SCALE_SUPPY_MINIMUM_VOLTAGE
-        {
-            get { return _scale_suppy_minimum_voltage; }
-        }
-
-        public string SCALE_SUPPY_MAXIMUM_VOLTAGE
-        {
-            get { return _scale_suppy_maximum_voltage; }
-        }
-
-        public string SCALE_ACCURACY_CLASS
-        {
-            get { return _scale_accuracy_class; }
-        }
-
-        public string SCALE_MINIMUM_DEAD_LOAD
-        {
-            get { return _scale_minimum_dead_load; }
-        }
-
-        public string SCALE_MAXIMUM_CAPACITY
-        {
-            get { return _scale_maximum_capacity; }
-        }
-
-        public string SCALE_MAXIMUM_NUMBER_OF_VERIFICATION_INTERVAL
-        {
-            get { return _scale_maximum_number_of_verification_interval; }
-        }
-
-        public string SCALE_APPORTIONMENT_FACTOR
-        {
-            get { return _scale_apportionment_factor; }
-        }
-
-        public string SCALE_SAFE_LOAD_LIMIT
-        {
-            get { return _scale_safe_load_limit; }
-        }
-
-        public string SCALE_OPERATION_NOMINAL_TEMPERATURE
-        {
-            get { return _scale_operation_nominal_temperature; }
-        }
-
-        public string SCALE_OPERATION_MINIMUM_TEMPERATURE
-        {
-            get { return _scale_operation_minimum_temperature; }
-        }
-
-        public string SCALE_OPERATION_MAXIMUM_TEMPERATURE
-        {
-            get { return _scale_operation_maximum_temperature; }
-        }
-
-        public string SCALE_RELATIVE_MINIMUM_LOAD_CELL_VERIFICATION_INTERVAL
-        {
-            get { return _scale_relative_minimum_load_cell_verification_interval; }
-        }
-
-        public string INTERVAL_RANGE_CONTROL
-        {
-            get { return _interval_range_control; }
-        }
-
-        public string MULTI_LIMIT_1
-        {
-            get { return _multi_limit_1; }
-        }
-
-        public string MULTI_LIMIT_2
-        {
-            get { return _multi_limit_2; }
-        }
-
-        public string OIML_CERTIFICAITON_INFORMATION
-        {
-            get { return _oiml_certificaiton_information; }
-        }
-
-        public string NTEP_CERTIFICAITON_INFORMATION
-        {
-            get { return _ntep_certificaiton_information; }
-        }
-
-        public string MAXIMUM_ZEROING_TIME
-        {
-            get { return _maximum_zeroing_time; }
-        }
-
-        public string MAXIMUM_PEAK_VALUE_GROSS
-        {
-            get { return _maximum_peak_value_gross; }
-        }
-
-        public string MINIMUM_PEAK_VALUE_GROSS
-        {
-            get { return _minimum_peak_value_gross; }
-        }
-
-        public string MAXIMUM_PEAK_VALUE
-        {
-            get { return _maximum_peak_value; }
-        }
-
-        public string MINIMUM_PEAK_VALUE
-        {
-            get { return _minimum_peak_value; }
-        }
-
-        public string WEIGHT_MOVING_DETECTION
-        {
-            get { return _weight_moving_detection; }
-        }
-
-        public string DEVICE_ADDRESS
-        {
-            get { return _device_address; }
-        }
-
-        public string HARDWARE_VERSION
-        {
-            get { return _hardware_version; }
-        }
-
-        public string IDENTIFICATION
-        {
-            get { return _identification; }
-        }
-
-        public string LIMIT_VALUE_MONITORING_LIV11
-        {
-            get { return _limit_value_monitoring_liv11; }
-        }
-
-        public string SIGNAL_SOURCE_LIV12
-        {
-            get { return _signal_source_liv12; }
-        }
-
-        public string SWITCH_ON_LEVEL_LIV13
-        {
-            get { return _switch_on_level_liv13; }
-        }
-
-        public string SWITCH_OFF_LEVEL_LIV14
-        {
-            get { return _switch_off_level_liv14; }
-        }
-
-        public string LIMIT_VALUE_MONITORING_LIV21
-        {
-            get { return _limit_value_monitoring_liv21; }
-        }
-
-        public string SIGNAL_SOURCE_LIV22
-        {
-            get { return _signal_source_liv22; }
-        }
-
-        public string SWITCH_ON_LEVEL_LIV23
-        {
-            get { return _switch_on_level_liv23; }
-        }
-
-        public string SWITCH_OFF_LEVEL_LIV24
-        {
-            get { return _switch_off_level_liv24; }
-        }
-
-        public string LIMIT_VALUE_MONITORING_LIV31
-        {
-            get { return _limit_value_monitoring_liv31; }
-        }
-
-        public string SIGNAL_SOURCE_LIV32
-        {
-            get { return _signal_source_liv32; }
-        }
-
-        public string SWITCH_ON_LEVEL_LIV33
-        {
-            get { return _switch_on_level_liv33; }
-        }
-
-        public string SWITCH_OFF_LEVEL_LIV34
-        {
-            get { return _switch_off_level_liv34; }
-        }
-
-        public string LIMIT_VALUE_MONITORING_LIV41
-        {
-            get { return _limit_value_monitoring_liv41; }
-        }
-
-        public string SIGNAL_SOURCE_LIV42
-        {
-            get { return _signal_source_liv42; }
-        }
-
-        public string SWITCH_ON_LEVEL_LIV43
-        {
-            get { return _switch_on_level_liv43; }
-        }
-
-        public string SWITCH_OFF_LEVEL_LIV44
-        {
-            get { return _switch_off_level_liv44; }
-        }
-
-        public string OUTPUT_SCALE
-        {
-            get { return _output_scale; }
-        }
-
-        public string FIRMWARE_DATE
-        {
-            get { return _firmware_date; }
-        }
-
-        public string RESET_TRIGGER
-        {
-            get { return _reset_trigger; }
-        }
-
-        public string STATE_DIGITAL_IO_EXTENDED
-        {
-            get { return _state_digital_io_extended; }
-        }
-
-        public string SOFTWARE_IDENTIFICATION
-        {
-            get { return _software_identification; }
-        }
-
-        public string SOFTWARE_VERSION
-        {
-            get { return _software_version; }
-        }
-
-        public string DATE_TIME
-        {
-            get { return _date_time; }
-        }
-
-        public string BREAK_DOSING
-        {
-            get { return _break_dosing; }
-        }
-
-        public string DELETE_DOSING_RESULT
-        {
-            get { return _delete_dosing_result; }
-        }
-
-        public string MATERIAL_STREAM_LAST_DOSING
-        {
-            get { return _material_stream_last_dosing; }
-        }
-
-        public string SUM
-        {
-            get { return _sum; }
-        }
-
-        public string SPECIAL_DOSING_FUNCTIONS
-        {
-            get { return _special_dosing_functions; }
-        }
-
-        public string DISCHARGE_TIME
-        {
-            get { return _discharge_time; }
-        }
-
-        public string EXCEEDING_WEIGHT_BREAK
-        {
-            get { return _exceeding_weight_break; }
-        }
-
-        public string DELAY1_DOSING
-        {
-            get { return _delay1_dosing; }
-        }
-
-        public string DELAY2_DOSING
-        {
-            get { return _delay2_dosing; }
-        }
-
-        public string EMPTY_WEIGHT_TOLERANCE
-        {
-            get { return _empty_weight_tolerance; }
-        }
-
-        public string RESIDUAL_FLOW_DOSING_CYCLE
-        {
-            get { return _residual_flow_dosing_cycle; }
-        }
 
         // Missing IDs (so far : Modbus only - look at ModbusCommands)
-        public string ADC_OVER_UNDERLOAD { get { return ""; }}
-        public string LEGAL_FOR_TRADE_OPERATION { get { return ""; }}
-        public string STATUS_INPUT_1 { get { return ""; }}
-        public string GENERAL_SCALE_ERROR { get { return ""; }}
-        public string COARSE_FLOW { get { return ""; }}
-        public string FINE_FLOW { get { return ""; }}
-        public string READY { get { return ""; }}
-        public string EMPTYING { get { return ""; }}
-        public string FLOW_ERROR { get { return ""; }}
-        public string ALARM { get { return ""; }}
-        public string TOLERANCE_ERROR_PLUS { get { return ""; }}
-        public string TOLERANCE_ERROR_MINUS { get { return ""; }}
-        public string CURRENT_DOSING_TIME { get { return ""; }}
-        public string CURRENT_COARSE_FLOW_TIME { get { return ""; }}
-        public string CURRENT_FINE_FLOW_TIME { get { return ""; }}
-        public string PARAMETER_SET_PRODUCT { get { return ""; }}
-        public string DELAY_TIME_AFTER_FINE_FLOW { get { return ""; } }
-        public string ACTIVATION_TIME_AFTER_FINE_FLOW { get { return ""; } }
-        public string DOWNWARDS_DOSING { get { return ""; }}
-        public string TOTAL_WEIGHT { get { return ""; }}
-        public string TARGET_FILLING_WEIGHT { get { return ""; }}
-        public string COARSE_FLOW_CUT_OFF_POINT_SET { get { return ""; }}
-        public string FINE_FLOW_CUT_OFF_POINT_SET { get { return ""; }}
-        public string START_WITH_FINE_FLOW { get { return ""; }}
-
-        #endregion
+        public JetBusCommand ADC_OVER_UNDERLOAD { get; private set; }
+        public JetBusCommand LEGAL_FOR_TRADE_OPERATION { get; private set; }
+        public JetBusCommand STATUS_INPUT_1 { get; private set; }
+        public JetBusCommand GENERAL_SCALE_ERROR { get; private set; }
+        public JetBusCommand COARSE_FLOW { get; private set; }
+        public JetBusCommand FINE_FLOW { get; private set; }
+        public JetBusCommand READY { get; private set; }
+        public JetBusCommand EMPTYING { get; private set; }
+        public JetBusCommand FLOW_ERROR { get; private set; }
+        public JetBusCommand ALARM { get; private set; }
+        public JetBusCommand TOLERANCE_ERROR_PLUS { get; private set; }
+        public JetBusCommand TOLERANCE_ERROR_MINUS { get; private set; }
+        public JetBusCommand CURRENT_DOSING_TIME { get; private set; }
+        public JetBusCommand CURRENT_COARSE_FLOW_TIME { get; private set; }
+        public JetBusCommand CURRENT_FINE_FLOW_TIME { get; private set; }
+        public JetBusCommand PARAMETER_SET_PRODUCT { get; private set; }
+        public JetBusCommand DELAY_TIME_AFTER_FINE_FLOW { get; private set; }
+        public JetBusCommand ACTIVATION_TIME_AFTER_FINE_FLOW { get; private set; }
+        public JetBusCommand DOWNWARDS_DOSING { get; private set; }
+        public JetBusCommand TOTAL_WEIGHT { get; private set; }
+        public JetBusCommand TARGET_FILLING_WEIGHT { get; private set; }
+        public JetBusCommand COARSE_FLOW_CUT_OFF_POINT_SET { get; private set; }
+        public JetBusCommand FINE_FLOW_CUT_OFF_POINT_SET { get; private set; }
+        public JetBusCommand START_WITH_FINE_FLOW { get; private set; }
     }
 }

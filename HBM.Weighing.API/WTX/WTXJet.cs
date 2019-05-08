@@ -42,7 +42,10 @@ namespace HBM.Weighing.API.WTX
     /// send it to the GUI or application class by an eventhandler (=ProcessDataReceived). 
     /// </summary>
     public class WTXJet : BaseWtDevice
-    {       
+    {
+        private ApplicationMode _applicationMode;
+        private JetBusCommands _commands;
+
         #region Constants
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)   
 
@@ -74,6 +77,8 @@ namespace HBM.Weighing.API.WTX
         public WTXJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)
         {
             _connection = Connection;
+
+            _commands = new JetBusCommands();
 
             ProcessData = new ProcessDataJet(_connection);
             DataStandard = new DataStandardJet(_connection);
@@ -139,17 +144,17 @@ namespace HBM.Weighing.API.WTX
 
         public override void Zero()
         {
-            _connection.Write(_connection.IDCommands.SCALE_COMMAND, SCALE_COMMAND_ZERO);
+            _connection.Write(_commands.Scale_command.PathIndex, SCALE_COMMAND_ZERO);
         }
 
         public override void SetGross()
         {
-            _connection.Write(_connection.IDCommands.SCALE_COMMAND, SCALE_COMMAND_SET_GROSS);
+            _connection.Write(_commands.Scale_command.PathIndex, SCALE_COMMAND_SET_GROSS);
         }
 
         public override void Tare()
         {
-            _connection.Write(_connection.IDCommands.SCALE_COMMAND, SCALE_COMMAND_TARE);
+            _connection.Write(_commands.Scale_command.PathIndex, SCALE_COMMAND_TARE);
         }
 
 
@@ -193,9 +198,6 @@ namespace HBM.Weighing.API.WTX
         }
 
         public override ApplicationMode ApplicationMode { get; set; }
-
-
-
 
         public void UpdateApplicationMode(ushort[] Data)
         {
@@ -329,11 +331,11 @@ namespace HBM.Weighing.API.WTX
 
             // write path 2110/06 - dead load = LDW_DEAD_WEIGHT 
 
-            _connection.Write(_connection.IDCommands.LDW_DEAD_WEIGHT, scalZeroLoad_d);         // Zero point = LDW_DEAD_WEIGHT= "2110/06" 
+            _connection.Write(_commands.Ldw_dead_weight.PathIndex, scalZeroLoad_d);         // Zero point = LDW_DEAD_WEIGHT= "2110/06" 
 
             // write path 2110/07 - capacity/span = Nominal value = LWT_NOMINAL_VALUE        
 
-            _connection.Write(_connection.IDCommands.LWT_NOMINAL_VALUE, Convert.ToInt32(scaleCapacity_d));    // Nominal value = LWT_NOMINAL_VALUE = "2110/07" ; 
+            _connection.Write(_commands.Lwt_nominal_value.PathIndex, Convert.ToInt32(scaleCapacity_d));    // Nominal value = LWT_NOMINAL_VALUE = "2110/07" ; 
 
             //this._isCalibrating = true;
         }
@@ -342,13 +344,13 @@ namespace HBM.Weighing.API.WTX
         public override void MeasureZero()
         {
             //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
-            _connection.Write(_connection.IDCommands.SCALE_COMMAND, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
+            _connection.Write(_commands.Scale_command.PathIndex, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution
-            while (_connection.Read(_connection.IDCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_ONGOING);
+            while (_connection.Read(_commands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING);
 
             // check : command "ok" = command is done
-            while (_connection.Read(_connection.IDCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_OK);
+            while (_connection.Read(_commands.Scale_command_status) != SCALE_COMMAND_STATUS_OK);
             
         }
 
@@ -356,15 +358,15 @@ namespace HBM.Weighing.API.WTX
         // This method sets the value for the nominal weight in the WTX.
         public override void Calibrate(int calibrationValue, string calibrationWeightStr)
         {
-            _connection.Write(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT, calibrationValue);   // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
+            _connection.Write(_commands.Lft_scale_calibration_weight.PathIndex, calibrationValue);   // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
 
-            _connection.Write(_connection.IDCommands.SCALE_COMMAND, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
+            _connection.Write(_commands.Scale_command.PathIndex, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution
-            while (_connection.Read(_connection.IDCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
+            while (_connection.Read(_commands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
 
             // check : command "ok" = command is done
-            while (_connection.Read(_connection.IDCommands.SCALE_COMMAND_STATUS) != SCALE_COMMAND_STATUS_OK) ;     
+            while (_connection.Read(_commands.Scale_command_status) != SCALE_COMMAND_STATUS_OK) ;     
 
             //this._isCalibrating = true;
         }

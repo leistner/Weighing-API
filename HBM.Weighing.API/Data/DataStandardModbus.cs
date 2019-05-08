@@ -123,6 +123,7 @@ namespace HBM.Weighing.API.Data
         private int _switchOffLevelLIV44;
 
         private INetConnection _connection;
+        private ModbusCommands _commands;
         #endregion
 
         #region constructor
@@ -208,49 +209,49 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardData(object sender, DataEventArgs e)
         {
-            _input1 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_1] & 0x1);
-            _input2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_2] & 0x2) >> 1;
-            _input3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_3] & 0x4) >> 2;
-            _input4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_INPUT_4] & 0x8) >> 3;
+            _input1 = (e.DataDictionary[_commands.Status_digital_input_1.PathIndex] & 0x1);
+            _input2 = (e.DataDictionary[_commands.Status_digital_input_2.PathIndex] & 0x2) >> 1;
+            _input3 = (e.DataDictionary[_commands.Status_digital_input_3.PathIndex] & 0x4) >> 2;
+            _input4 = (e.DataDictionary[_commands.Status_digital_input_4.PathIndex] & 0x8) >> 3;
 
-            _output1 = e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_1] & 0x1;
-            _output2 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_2] & 0x2) >> 1;
-            _output3 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_3] & 0x4) >> 2;
-            _output4 = (e.DataDictionary[_connection.IDCommands.STATUS_DIGITAL_OUTPUT_4] & 0x8) >> 3;
+            _output1 = e.DataDictionary [_commands.Status_digital_output_1.PathIndex] & 0x1;
+            _output2 = (e.DataDictionary[_commands.Status_digital_output_2.PathIndex] & 0x2) >> 1;
+            _output3 = (e.DataDictionary[_commands.Status_digital_output_3.PathIndex] & 0x4) >> 2;
+            _output4 = (e.DataDictionary[_commands.Status_digital_output_4.PathIndex] & 0x8) >> 3;
 
-            _limitStatus1 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x1);
-            _limitStatus2 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x2) >> 1;
-            _limitStatus3 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x4) >> 2;
-            _limitStatus4 = (e.DataDictionary[_connection.IDCommands.LIMIT_VALUE] & 0x8) >> 3;
+            _limitStatus1 = (e.DataDictionary[_commands.Limit_value.PathIndex] & 0x1);
+            _limitStatus2 = (e.DataDictionary[_commands.Limit_value.PathIndex] & 0x2) >> 1;
+            _limitStatus3 = (e.DataDictionary[_commands.Limit_value.PathIndex] & 0x4) >> 2;
+            _limitStatus4 = (e.DataDictionary[_commands.Limit_value.PathIndex] & 0x8) >> 3;
 
-            _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[0]]);
-            _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[1]]);
-            _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[2]]);
-            _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[3]]);
-            _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[4]]);
-            _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_connection.IDCommands.WEIGHT_MEMORY_STANDARD[5]]);
+            _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemDay_ID.PathIndex]);
+            _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemMonth_ID.PathIndex]);
+            _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemYear_ID.PathIndex]);
+            _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemSeqNumber_ID.PathIndex]);
+            _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemGross_ID.PathIndex]);
+            _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemNet_ID.PathIndex]);
 
-            if (e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 0 || e.DataDictionary[_connection.IDCommands.APPLICATION_MODE] == 1)  // If application mode is in standard mode
+            if (e.DataDictionary[_commands.Application_mode.PathIndex] == 0 || e.DataDictionary[_commands.Application_mode.PathIndex] == 1)  // If application mode is in standard mode
             {
-                _LimitSwitchMonitoringLIV11 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11];
-                _signalSourceLIV12 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV12];
-                _switchOnLevelLIV13 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV13];
-                _switchOffLevelLIV14 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14];
+                _limitValueMonitoringLIV11 = e.DataDictionary[_commands.Limit_value_monitoring_liv11.PathIndex];
+                _signalSourceLIV12 = e.DataDictionary[_commands.Signal_source_liv12.PathIndex];
+                _switchOnLevelLIV13 = e.DataDictionary[_commands.Switch_on_level_liv13.PathIndex];
+                _switchOffLevelLIV14 = e.DataDictionary[_commands.Switch_off_level_liv14.PathIndex];
 
-                _LimitSwitchMonitoringLIV21 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21];
-                _signalSourceLIV22 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV22];
-                _switchOnLevelLIV23 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV23];
-                _switchOffLevelLIV24 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24];
+                _limitValueMonitoringLIV11 = e.DataDictionary[_commands.Limit_value_monitoring_liv21.PathIndex];
+                _signalSourceLIV12 = e.DataDictionary[_commands.Signal_source_liv22.PathIndex];
+                _switchOnLevelLIV13 = e.DataDictionary[_commands.Switch_on_level_liv23.PathIndex];
+                _switchOffLevelLIV14 = e.DataDictionary[_commands.Switch_off_level_liv24.PathIndex];
 
-                _LimitSwitchMonitoringLIV31 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31];
-                _signalSourceLIV32 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV32];
-                _switchOnLevelLIV33 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV33];
-                _switchOffLevelLIV34 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34];
+                _limitValueMonitoringLIV11 = e.DataDictionary[_commands.Limit_value_monitoring_liv31.PathIndex];
+                _signalSourceLIV12 = e.DataDictionary[_commands.Signal_source_liv32.PathIndex];
+                _switchOnLevelLIV13 = e.DataDictionary[_commands.Switch_on_level_liv33.PathIndex];
+                _switchOffLevelLIV14 = e.DataDictionary[_commands.Switch_off_level_liv34.PathIndex];
 
-                _LimitSwitchMonitoringLIV41 = e.DataDictionary[_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41];
-                _signalSourceLIV42 = e.DataDictionary[_connection.IDCommands.SIGNAL_SOURCE_LIV42];
-                _switchOnLevelLIV43 = e.DataDictionary[_connection.IDCommands.SWITCH_ON_LEVEL_LIV43];
-                _switchOffLevelLIV44 = e.DataDictionary[_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44];
+                _limitValueMonitoringLIV11 = e.DataDictionary[_commands.Limit_value_monitoring_liv41.PathIndex];
+                _signalSourceLIV12 = e.DataDictionary[_commands.Signal_source_liv42.PathIndex];
+                _switchOnLevelLIV13 = e.DataDictionary[_commands.Switch_on_level_liv43.PathIndex];
+                _switchOffLevelLIV14 = e.DataDictionary[_commands.Switch_off_level_liv44.PathIndex];
             }
         }
         #endregion
@@ -262,7 +263,7 @@ namespace HBM.Weighing.API.Data
             get { return _input1; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_1), value);
+                _connection.Write(_commands.Status_digital_input_1.PathIndex, value);
                 _input1 = value;
             }
         }
@@ -271,7 +272,7 @@ namespace HBM.Weighing.API.Data
             get { return _input2; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_2), value);
+                _connection.Write(_commands.Status_digital_input_2.PathIndex, value);
                 _input2 = value;
             }
         }
@@ -280,7 +281,7 @@ namespace HBM.Weighing.API.Data
             get { return _input3; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_3), value);
+                _connection.Write(_commands.Status_digital_input_3.PathIndex, value);
                 _input3 = value;
             }
         }
@@ -289,7 +290,7 @@ namespace HBM.Weighing.API.Data
             get { return _input4; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_INPUT_4), value);
+                _connection.Write(_commands.Status_digital_input_4.PathIndex, value);
                 _input4 = value;
             }
         }
@@ -298,7 +299,7 @@ namespace HBM.Weighing.API.Data
             get { return _output1; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_1), value);
+                _connection.Write(_commands.Status_digital_output_1.PathIndex, value);
                 _output1 = value;
             }
         }
@@ -307,7 +308,7 @@ namespace HBM.Weighing.API.Data
             get { return _output2; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_2), value);
+                _connection.Write(_commands.Status_digital_output_2.PathIndex, value);
                 _output2 = value;
             }
         }
@@ -316,7 +317,7 @@ namespace HBM.Weighing.API.Data
             get { return _output3; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_3), value);
+                _connection.Write(_commands.Status_digital_output_3.PathIndex, value);
                 _output3 = value;
             }
         }
@@ -325,7 +326,7 @@ namespace HBM.Weighing.API.Data
             get { return _output4; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.FUNCTION_DIGITAL_OUTPUT_4), value);
+                _connection.Write(_commands.Status_digital_output_4.PathIndex, value);
                 _output4 = value;
             }
         }
@@ -384,8 +385,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch1Input; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV12), value);
-                _LimitSwitch1Input = value;
+                _connection.Write(_commands.Tare_value.PathIndex, value);
+                _manualTareValue = value;
             }
         }
         public int LimitSwitch1Mode // Type : unsigned integer 8 Bit
@@ -393,8 +394,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch1Mode; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV11), value);
-                _LimitSwitch1Mode = value;
+                _connection.Write(_commands.Signal_source_liv12.PathIndex, value);
+                _limitValue1Input = value;
             }
         }
         public int LimitSwitch1Level // Type : signed integer 32 Bit
@@ -402,8 +403,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
-                _LimitSwitch1ActivationLevelLowerBandLimit = value;
+                _connection.Write(_commands.Limit_value_monitoring_liv11.PathIndex, value);
+                _limitValue1Mode = value;
             }
         }
         public int LimitSwitch1Hysteresis // Type : signed integer 32 Bit
@@ -420,8 +421,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
-                _LimitSwitch1ActivationLevelLowerBandLimit = value;
+                this._connection.WriteArray(_commands.Switch_on_level_liv13.PathIndex, value);
+                _limitValue1ActivationLevelLowerBandLimit = value;
             }
         }
         public int LimitSwitch1BandHeight // Type : signed integer 32 Bit
@@ -429,8 +430,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
-                _LimitSwitch1HysteresisBandHeight = value;
+                _connection.WriteArray(_commands.Switch_off_level_liv14.PathIndex, value);
+                _limitValue1HysteresisBandHeight = value;
             }
         }
         public int LimitSwitch2Source // Type : unsigned integer 8 Bit
@@ -438,8 +439,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch2Source; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV22), value);
-                _LimitSwitch2Source = value;
+                _connection.Write(_commands.Signal_source_liv22.PathIndex, value);
+                _limitValue2Source = value;
             }
         }
         public int LimitSwitch2Mode // Type : unsigned integer 8 Bit
@@ -447,8 +448,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch2Mode; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV21), value);
-                _LimitSwitch2Mode = value;
+                _connection.Write(_commands.Limit_value_monitoring_liv21.PathIndex, value);
+                _limitValue2Mode = value;
             }
         }
         public int LimitSwitch2Level // Type : signed integer 32 Bit
@@ -456,8 +457,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch2ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV23), value);
-                _LimitSwitch2ActivationLevelLowerBandLimit = value;
+                _connection.WriteArray(_commands.Switch_on_level_liv23.PathIndex, value);
+                _limitValue2ActivationLevelLowerBandLimit = value;
             }
         }
         public int LimitSwitch2Hysteresis // Type : signed integer 32 Bit
@@ -465,8 +466,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch2HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV24), value);
-                _LimitSwitch2HysteresisBandHeight = value;
+                _connection.WriteArray(_commands.Switch_off_level_liv24.PathIndex, value);
+                _limitValue2HysteresisBandHeight = value;
             }
         }
         public int LimitSwitch2LowerBandValue // Type : signed integer 32 Bit
@@ -492,8 +493,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch3Source; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV32), value);
-                _LimitSwitch3Source = value;
+                _connection.Write(_commands.Signal_source_liv32.PathIndex, value);
+                _limitValue3Source = value;
             }
         }
         public int LimitSwitch3Mode // Type : unsigned integer 8 Bit
@@ -501,8 +502,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch3Mode; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV31), value);
-                _LimitSwitch3Mode = value;
+                _connection.Write(_commands.Limit_value_monitoring_liv31.PathIndex, value);
+                _limitValue3Mode = value;
             }
         }
         public int LimitSwitch3ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
@@ -510,8 +511,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch3ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV33), value);
-                _LimitSwitch3ActivationLevelLowerBandLimit = value;
+                _connection.WriteArray(_commands.Switch_on_level_liv33.PathIndex, value);
+                _limitValue3ActivationLevelLowerBandLimit = value;
             }
         }
         public int LimitSwitch3Hysteresis // Type : signed integer 32 Bit
@@ -519,8 +520,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch3HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV34), value);
-                _LimitSwitch3HysteresisBandHeight = value;
+                _connection.WriteArray(_commands.Switch_off_level_liv34.PathIndex, value);
+                _limitValue3HysteresisBandHeight = value;
             }
         }
         public int LimitSwitch3LowerBandValue // Type : signed integer 32 Bit
@@ -528,8 +529,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
-                _LimitSwitch1ActivationLevelLowerBandLimit = value;
+                _connection.Write(_commands.Signal_source_liv42.PathIndex, value);
+                _limitValue4Source = value;
             }
         }
         public int LimitSwitch3BandHeight // Type : signed integer 32 Bit
@@ -537,8 +538,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV14), value);
-                _LimitSwitch1HysteresisBandHeight = value;
+                _connection.Write(_commands.Limit_value_monitoring_liv41.PathIndex, value);
+                _limitValue4Mode = value;
             }
         }
         public int LimitSwitch4Source // Type : unsigned integer 8 Bit
@@ -546,8 +547,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch4Source; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.SIGNAL_SOURCE_LIV42), value);
-                _LimitSwitch4Source = value;
+                _connection.WriteArray(_commands.Switch_on_level_liv43.PathIndex, value);
+                _limitValue4ActivationLevelLowerBandLimit = value;
             }
         }
         public int LimitSwitch4Mode // Type : unsigned integer 8 Bit
@@ -555,8 +556,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch4Mode; }
             set
             {
-                _connection.Write(this.getIndex(_connection.IDCommands.LIMIT_VALUE_MONITORING_LIV41), value);
-                _LimitSwitch4Mode = value;
+                _connection.WriteArray(_commands.Switch_off_level_liv44.PathIndex, value);
+                _limitValue4HysteresisBandHeight = value;
             }
         }
         public int LimitSwitch4Level // Type : signed integer 32 Bit
@@ -564,8 +565,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch4ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV43), value);
-                _LimitSwitch4ActivationLevelLowerBandLimit = value;
+                _connection.WriteArray(_commands.Lft_scale_calibration_weight.PathIndex, value);
+                _calibrationWeight = value;
             }
         }
         public int LimitSwitch4Hysteresis // Type : signed integer 32 Bit
@@ -573,8 +574,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch4HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_OFF_LEVEL_LIV44), value);
-                _LimitSwitch4HysteresisBandHeight = value;
+                _connection.WriteArray(_commands.Ldw_dead_weight.PathIndex, value);
+                _zeroLoad = value;
             }
         }
         public int LimitSwitch4LowerBandValue // Type : signed integer 32 Bit
@@ -582,8 +583,8 @@ namespace HBM.Weighing.API.Data
             get { return _LimitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.WriteArray(this.getIndex(_connection.IDCommands.SWITCH_ON_LEVEL_LIV13), value);
-                _LimitSwitch1ActivationLevelLowerBandLimit = value;
+                _connection.WriteArray(_commands.Lwt_nominal_value.PathIndex, value);
+                _nominalLoad = value;
             }
         }
         public int LimitSwitch4BandHeight // Type : signed integer 32 Bit
@@ -596,12 +597,5 @@ namespace HBM.Weighing.API.Data
             }
         }
         #endregion
-
-        private string getIndex(string IDCommandParam)
-        {
-            return IDCommandParam.Split('/')[0];
-        }
-
-
     }
 }

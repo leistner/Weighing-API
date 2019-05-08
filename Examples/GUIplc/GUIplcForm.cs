@@ -484,9 +484,10 @@ namespace GUIplc
             //_wtxDevice.ProcessDataReceived += ValuesOnConsole;
 
             // New eventhandler for a change in a data grid cell : 
-            dataGridView1.CellValueChanged += new DataGridViewCellEventHandler(GridValueChangedMethod);
+            //dataGridView1.CellValueChanged += new DataGridViewCellEventHandler(GridValueChangedMethod);
 
         }
+
 
         private LimitSwitchMode _limitMode;
         private LimitSwitchSource _limitSource;
@@ -500,14 +501,14 @@ namespace GUIplc
                 ushort index = 0;
 
                 string valueStr = "";
-
+                
                 // For standard mode : 
                 if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)
                 {
                     if (e.RowIndex >= 8 && e.RowIndex <= 24)
                     {
                         valueStr = dataGridView1[e.ColumnIndex, e.RowIndex].Value.ToString();
-
+                        
                         switch (valueStr)
                         {
                             case "Above Level":
