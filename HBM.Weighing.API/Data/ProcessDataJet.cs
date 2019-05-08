@@ -44,10 +44,9 @@ namespace HBM.Weighing.API.Data
         #region Constructor
         public ProcessDataJet(INetConnection Connection)
         {
+            _commands = new JetBusCommands();
             _connection = Connection;
             _connection.UpdateDataClasses += UpdateProcessData;
-
-            _commands = new JetBusCommands();
 
             NetValue = 0;
             GrossValue = 0;

@@ -26,7 +26,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         // The following 2 tests as a first draw : Implementation for the following 2 tests follows in the week from 27.08-31.08
-
+        /*
         [Test, TestCaseSource(typeof(CalibrationTestsModbus), "CalculateCalibrationTestCases")]
         public bool CalculateCalibrationTest(Behavior behavior)
         {
@@ -98,7 +98,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
 
         }
-
+        */
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
             throw new NotImplementedException();

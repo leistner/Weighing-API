@@ -29,6 +29,7 @@
 // </copyright>
 
 using Hbm.Devices.Jet;
+using HBM.Weighing.API.WTX.Modbus;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -59,6 +60,8 @@ namespace HBM.Weighing.API.WTX.Jet
 
         private Dictionary<string, JToken> _dataJTokenBuffer = new Dictionary<string, JToken>();
         Dictionary<string, int> _dataIntegerBuffer = new Dictionary<string, int>();
+
+        Dictionary<JetBusCommand, int> _dataCommandsBuffer = new Dictionary<JetBusCommand, int>();
 
         private AutoResetEvent _mSuccessEvent = new AutoResetEvent(false);
         private Exception _mException = null;
@@ -222,7 +225,7 @@ namespace HBM.Weighing.API.WTX.Jet
             WaitOne(3);
 
             dataArrived = true;
-            
+
             IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));  // For getting data already in the FetchAll() 
 
             // Update data in data classes : 
@@ -272,9 +275,11 @@ namespace HBM.Weighing.API.WTX.Jet
                     case "add":
 
                         _dataJTokenBuffer.Add(path, data["value"]);
-                    
+
                         if (int.TryParse(data["value"].ToString(), out i))      // checks if the data is a number, which can be converted to an integer at the path. 
+                        {
                             _dataIntegerBuffer.Add(path, Convert.ToInt32(data["value"].ToString()));
+                        }
                         break;
 
                     case "fetch":
@@ -282,7 +287,9 @@ namespace HBM.Weighing.API.WTX.Jet
                         _dataJTokenBuffer[path] = data["value"];
 
                         if (int.TryParse(data["value"].ToString(), out i))      // checks if the data is a number, which can be converted to an integer at the path. 
+                        {
                             _dataIntegerBuffer[path] = Convert.ToInt32(data["value"].ToString());
+                        }
                         break;
 
                     case "change":
@@ -290,7 +297,9 @@ namespace HBM.Weighing.API.WTX.Jet
                         _dataJTokenBuffer[path] = data["value"];
 
                         if (int.TryParse(data["value"].ToString(), out i))      // checks if the data is a number, which can be converted to an integer at the path. 
+                        {
                             _dataIntegerBuffer[path] = Convert.ToInt32(data["value"].ToString());
+                        }
                         
                         break;
                 }
@@ -306,16 +315,6 @@ namespace HBM.Weighing.API.WTX.Jet
                 BusActivityDetection?.Invoke(this, new LogEvent(data.ToString()));
             }
         }
-     
-        public Dictionary<string, int> AllData
-        {
-            get
-            {
-                return _dataIntegerBuffer;
-            }
-        }
-
-
         /// <summary>
         /// 
         /// </summary>
@@ -325,19 +324,20 @@ namespace HBM.Weighing.API.WTX.Jet
 
             //lock (_dataJTokenBuffer)
 
-                if (_dataJTokenBuffer.ContainsKey(index.ToString())) {
+                //if (_dataJTokenBuffer.ContainsKey(index.ToString())) {
 
                     this.ConvertJTokenToStringArray();
 
                     //IncomingDataReceived?.Invoke(this, null);
 
                 return _dataJTokenBuffer[index.ToString()];
-                }
+                /*}
                 else
                 {
 
                     throw new Exception("Object does not exist in the object dictionary");
                 }
+                */
         }
 
         private void ConvertJTokenToStringArray()
@@ -624,6 +624,20 @@ namespace HBM.Weighing.API.WTX.Jet
             set
             {
                 this._ipaddress = value;
+            }
+        }
+        public Dictionary<string, int> AllData
+        {
+            get
+            {
+                return _dataIntegerBuffer;
+            }
+        }
+        public Dictionary<ModbusCommand, int> ModbusData
+        {
+            get
+            {
+                return new Dictionary<ModbusCommand, int>();
             }
         }
 

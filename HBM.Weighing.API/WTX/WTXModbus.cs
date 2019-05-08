@@ -342,15 +342,14 @@ namespace HBM.Weighing.API.WTX
         /// <param name="_data"></param>
         public void OnData(ushort[] _data)
         {
-            this.UpdateApplicationMode(_data);  // Update the application mode
+            //this.UpdateApplicationMode(_data);  // Update the application mode
 
             this._previousNetValue = ProcessData.NetValue;
 
             // Only if the net value changed, the data will be send to the GUI
             //if(_previousNetValue != ProcessData.NetValue)
                 // Invoke Event - GUI/application class receives _processData: 
-                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
-       
+                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));   
         }
 
         public void UpdateApplicationMode(ushort[] Data)
