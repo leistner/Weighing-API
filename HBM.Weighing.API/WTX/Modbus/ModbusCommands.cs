@@ -45,12 +45,14 @@ namespace HBM.Weighing.API.WTX.Modbus
     /// </summary>
     public class ModbusCommands
     {
+        private List<ModbusCommand> _items = new List<ModbusCommand>();
+
         public ModbusCommands()
         {
-            // region : ID Commands : Memory - day, month, year, seqNumber, gross, net
 
+            // region : ID Commands : Memory - day, month, year, seqNumber, gross, net
             // For standard mode: 
-            ReadWeightMemDay_ID   = new ModbusCommand(DataType.Int16, "9", IOType.Input, 0, 0);
+            _items.Add(ReadWeightMemDay_ID   = new ModbusCommand(DataType.Int16, "9", IOType.Input, 0, 0));
             ReadWeightMemMonth_ID = new ModbusCommand(DataType.Int16, "10", IOType.Input, 0, 0);
             ReadWeightMemYear_ID  = new ModbusCommand(DataType.Int16, "11", IOType.Input, 0, 0);
             ReadWeightMemSeqNumber_ID = new ModbusCommand(DataType.Int16, "12", IOType.Input, 0, 0);
@@ -311,5 +313,6 @@ namespace HBM.Weighing.API.WTX.Modbus
         public ModbusCommand DownwardsDosing { get; private set; }             // data output word 42, application mode=filler
         public ModbusCommand Valve_control { get; private set; }               // VCT = Ventilsteuerung
         public ModbusCommand Emptying_mode { get; private set; }               // EMD = Entleermodus
+        public List<ModbusCommand> Items { get => _items; }
     }
 }
