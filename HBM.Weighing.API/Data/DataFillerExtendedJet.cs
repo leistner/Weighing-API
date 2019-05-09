@@ -117,14 +117,14 @@ namespace HBM.Weighing.API.Data
         private int _emptyWeightTolerance;
         private int _residualFlowDosingCycle;
 
-        private INetConnection _connection;
+        private JetBusConnection _connection;
         #endregion
 
         #region constructor
 
         public DataFillerExtendedJet(INetConnection Connection):base(Connection)          
         {
-            _connection = Connection;
+            _connection = (JetBusConnection) Connection;
 
             _connection.UpdateDataClasses += UpdateFillerExtendedData;
 
@@ -203,90 +203,90 @@ namespace HBM.Weighing.API.Data
         
         #region update method for the filler extended data
 
-        public void UpdateFillerExtendedData(object sender, DataEventArgs e)
+        public void UpdateFillerExtendedData(object sender, EventArgs e)
         {
-            if (e.DataDictionary[JetBusCommands.Application_mode.PathIndex] == 2 ||  e.DataDictionary[JetBusCommands.Application_mode.PathIndex] == 3) // If application mode = filler
+            if (_connection.GetDataFromDictionary(JetBusCommands.Application_mode) == 2 ||  _connection.GetDataFromDictionary(JetBusCommands.Application_mode) == 3) // If application mode = filler
             {
                 this.UpdateFillerData(this, e);
 
-                //_errorRegister = Convert.ToInt32(e.DataDictionary[JetBusCommands.ERROR_REGISTER.PathIndex]);
-                _saveAllParameters = Convert.ToInt32(e.DataDictionary[JetBusCommands.Save_all_parameters.PathIndex]);
-                _restoreAllDefaultParameters = Convert.ToInt32(e.DataDictionary[JetBusCommands.Restore_all_default_parameters.PathIndex]);
-                _vendorID = Convert.ToInt32(e.DataDictionary[JetBusCommands.Vendor_id.PathIndex]);
+                //_errorRegister = _connection.GetDataFromDictionary(JetBusCommands.ERROR_REGISTER);
+                _saveAllParameters = _connection.GetDataFromDictionary(JetBusCommands.Save_all_parameters);
+                _restoreAllDefaultParameters = _connection.GetDataFromDictionary(JetBusCommands.Restore_all_default_parameters);
+                _vendorID = _connection.GetDataFromDictionary(JetBusCommands.Vendor_id);
 
-                _productCode = Convert.ToInt32(e.DataDictionary[JetBusCommands.Product_code.PathIndex]);
-                _serialNumber = Convert.ToInt32(e.DataDictionary[JetBusCommands.Serial_number.PathIndex]);
-                _implementedProfileSpecification = Convert.ToInt32(e.DataDictionary[JetBusCommands.Implemented_profile_specification.PathIndex]);
-                //_lcCapability = Convert.ToInt32(e.DataDictionary[JetBusCommands.LC_CAPABILITY.PathIndex]);
-                _weighingDevice1UnitPrefixOutputParameter = Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_unit_prefix_output_parameter.PathIndex]);             
+                _productCode = _connection.GetDataFromDictionary(JetBusCommands.Product_code);
+                _serialNumber = _connection.GetDataFromDictionary(JetBusCommands.Serial_number);
+                _implementedProfileSpecification = _connection.GetDataFromDictionary(JetBusCommands.Implemented_profile_specification);
+                //_lcCapability = _connection.GetDataFromDictionary(JetBusCommands.LC_CAPABILITY);
+                _weighingDevice1UnitPrefixOutputParameter = _connection.GetDataFromDictionary(JetBusCommands.Weighing_device_1_unit_prefix_output_parameter);             
 
-                _weighingDevice1WeightStep = Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_step.PathIndex]);
-                _alarms = Convert.ToInt32(e.DataDictionary[JetBusCommands.Alarms.PathIndex]);
-                _weighingDevice1OutputWeight = Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_output_weight.PathIndex]);
-                _weighingDevice1Setting = Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_setting.PathIndex]);
+                _weighingDevice1WeightStep = _connection.GetDataFromDictionary(JetBusCommands.Weighing_device_1_weight_step);
+                _alarms = _connection.GetDataFromDictionary(JetBusCommands.Alarms);
+                _weighingDevice1OutputWeight = _connection.GetDataFromDictionary(JetBusCommands.Weighing_device_1_output_weight);
+                _weighingDevice1Setting = _connection.GetDataFromDictionary(JetBusCommands.Weighing_device_1_setting);
 
-                _localGravityFactor = Convert.ToInt32(e.DataDictionary[JetBusCommands.Local_gravity_factor.PathIndex]);
-                _scaleFilterSetup = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_filter_setup.PathIndex]);
-                _dataSampleRate = Convert.ToInt32(e.DataDictionary[JetBusCommands.Data_sample_rate.PathIndex]);
+                _localGravityFactor = _connection.GetDataFromDictionary(JetBusCommands.Local_gravity_factor);
+                _scaleFilterSetup = _connection.GetDataFromDictionary(JetBusCommands.Scale_filter_setup);
+                _dataSampleRate = _connection.GetDataFromDictionary(JetBusCommands.Data_sample_rate);
 
-                _filterOrderCriticallyDamped = Convert.ToInt32(e.DataDictionary[JetBusCommands.Filter_order_critically_damped.PathIndex]);
-                _cutOffFrequencyCriticallyDamped = Convert.ToInt32(e.DataDictionary[JetBusCommands.Cut_off_frequency_critically_damped.PathIndex]);
-                _filterOrderButterworth = Convert.ToInt32(e.DataDictionary[JetBusCommands.Filter_order_butterworth.PathIndex]);
-                _cutOffFrequencyButterWorth = Convert.ToInt32(e.DataDictionary[JetBusCommands.Cut_off_frequency_butterworth.PathIndex]);
-                _filterOrderBessel = Convert.ToInt32(e.DataDictionary[JetBusCommands.Filter_order_bessel.PathIndex]);
+                _filterOrderCriticallyDamped = _connection.GetDataFromDictionary(JetBusCommands.Filter_order_critically_damped);
+                _cutOffFrequencyCriticallyDamped = _connection.GetDataFromDictionary(JetBusCommands.Cut_off_frequency_critically_damped);
+                _filterOrderButterworth = _connection.GetDataFromDictionary(JetBusCommands.Filter_order_butterworth);
+                _cutOffFrequencyButterWorth = _connection.GetDataFromDictionary(JetBusCommands.Cut_off_frequency_butterworth);
+                _filterOrderBessel = _connection.GetDataFromDictionary(JetBusCommands.Filter_order_bessel);
 
-                _cutOffFrequencyBessel = Convert.ToInt32(e.DataDictionary[JetBusCommands.Cut_off_frequency_bessel.PathIndex]);
-                _scaleSupplyNominalVoltage = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_suppy_nominal_voltage.PathIndex]);
-                _scaleSupplyMinimumVoltage = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_suppy_minimum_voltage.PathIndex]);
-                _scaleSupplyMaximumVoltage = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_suppy_maximum_voltage.PathIndex]);
+                _cutOffFrequencyBessel = _connection.GetDataFromDictionary(JetBusCommands.Cut_off_frequency_bessel);
+                _scaleSupplyNominalVoltage = _connection.GetDataFromDictionary(JetBusCommands.Scale_suppy_nominal_voltage);
+                _scaleSupplyMinimumVoltage = _connection.GetDataFromDictionary(JetBusCommands.Scale_suppy_minimum_voltage);
+                _scaleSupplyMaximumVoltage = _connection.GetDataFromDictionary(JetBusCommands.Scale_suppy_maximum_voltage);
 
-                _scaleAccuracyClass = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_accuracy_class.PathIndex]);
-                _scaleMinimumDeadLoad = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_minimum_dead_load.PathIndex]);
-                _scaleMaximumCapacity = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_maximum_capacity.PathIndex]);
-                _scaleMaximumNumberVerificationInterval = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_maximum_number_of_verification_interval.PathIndex]);
-                _scaleApportionmentFactor = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_apportionment_factor.PathIndex]);
-                _scaleSafeLoadLimit = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_safe_load_limit.PathIndex]);
-                _scaleOperationNominalTemperature = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_operation_nominal_temperature.PathIndex]);
-                _scaleOperationMinimumTemperature = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_operation_minimum_temperature.PathIndex]);
-                _scaleOperationMaximumTemperature = Convert.ToInt32(e.DataDictionary[JetBusCommands.Scale_operation_maximum_temperature.PathIndex]);
+                _scaleAccuracyClass = _connection.GetDataFromDictionary(JetBusCommands.Scale_accuracy_class);
+                _scaleMinimumDeadLoad = _connection.GetDataFromDictionary(JetBusCommands.Scale_minimum_dead_load);
+                _scaleMaximumCapacity = _connection.GetDataFromDictionary(JetBusCommands.Scale_maximum_capacity);
+                _scaleMaximumNumberVerificationInterval = _connection.GetDataFromDictionary(JetBusCommands.Scale_maximum_number_of_verification_interval);
+                _scaleApportionmentFactor = _connection.GetDataFromDictionary(JetBusCommands.Scale_apportionment_factor);
+                _scaleSafeLoadLimit = _connection.GetDataFromDictionary(JetBusCommands.Scale_safe_load_limit);
+                _scaleOperationNominalTemperature = _connection.GetDataFromDictionary(JetBusCommands.Scale_operation_nominal_temperature);
+                _scaleOperationMinimumTemperature = _connection.GetDataFromDictionary(JetBusCommands.Scale_operation_minimum_temperature);
+                _scaleOperationMaximumTemperature = _connection.GetDataFromDictionary(JetBusCommands.Scale_operation_maximum_temperature);
 
-                //_scaleRelativeMinimumLoadCellVerficationInterval = e.DataDictionary[JetBusCommands.Scale_relative_minimum_load_cell_verification_interval.PathIndex];
-                _intervalRangeControl = Convert.ToInt32(e.DataDictionary[JetBusCommands.Interval_range_control.PathIndex]);
-                _multiLimit1 = Convert.ToInt32(e.DataDictionary[JetBusCommands.Multi_limit_1.PathIndex]);
-                _multiLimit2 = Convert.ToInt32(e.DataDictionary[JetBusCommands.Multi_limit_2.PathIndex]);
-                //_oimlCertificationInformation = e.DataDictionary[JetBusCommands.Oiml_certificaiton_information.PathIndex];
-                //_ntepCertificationInformation = e.DataDictionary[JetBusCommands.Ntep_certificaiton_information.PathIndex];
-                _maximumZeroingTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.Maximum_zeroing_time.PathIndex]);
-                _maximumPeakValueGross = Convert.ToInt32(e.DataDictionary[JetBusCommands.Maximum_peak_value_gross.PathIndex]);
-                _minimumPeakValueGross = Convert.ToInt32(e.DataDictionary[JetBusCommands.Minimum_peak_value_gross.PathIndex]);
+                //_scaleRelativeMinimumLoadCellVerficationInterval = _connection.GetDataFromDictionary(JetBusCommands.Scale_relative_minimum_load_cell_verification_interval);
+                _intervalRangeControl = _connection.GetDataFromDictionary(JetBusCommands.Interval_range_control);
+                _multiLimit1 = _connection.GetDataFromDictionary(JetBusCommands.Multi_limit_1);
+                _multiLimit2 = _connection.GetDataFromDictionary(JetBusCommands.Multi_limit_2);
+                //_oimlCertificationInformation = _connection.GetDataFromDictionary(JetBusCommands.Oiml_certificaiton_information);
+                //_ntepCertificationInformation = _connection.GetDataFromDictionary(JetBusCommands.Ntep_certificaiton_information);
+                _maximumZeroingTime = _connection.GetDataFromDictionary(JetBusCommands.Maximum_zeroing_time);
+                _maximumPeakValueGross = _connection.GetDataFromDictionary(JetBusCommands.Maximum_peak_value_gross);
+                _minimumPeakValueGross = _connection.GetDataFromDictionary(JetBusCommands.Minimum_peak_value_gross);
 
-                _maximumPeakValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.Maximum_peak_value.PathIndex]);
-                _minimumPeakValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.Minimum_peak_value.PathIndex]);
-                _weightMovingDetection = Convert.ToInt32(e.DataDictionary[JetBusCommands.Weight_moving_detection.PathIndex]);
-                //_deviceAddress = e.DataDictionary[JetBusCommands.Device_address.PathIndex];
-                //_hardwareVersion = e.DataDictionary[JetBusCommands.Hardware_version.PathIndex];
-                //_identification = e.DataDictionary[JetBusCommands.Identification.PathIndex];
+                _maximumPeakValue = _connection.GetDataFromDictionary(JetBusCommands.Maximum_peak_value);
+                _minimumPeakValue = _connection.GetDataFromDictionary(JetBusCommands.Minimum_peak_value);
+                _weightMovingDetection = _connection.GetDataFromDictionary(JetBusCommands.Weight_moving_detection);
+                //_deviceAddress = _connection.GetDataFromDictionary(JetBusCommands.Device_address);
+                //_hardwareVersion = _connection.GetDataFromDictionary(JetBusCommands.Hardware_version);
+                //_identification = _connection.GetDataFromDictionary(JetBusCommands.Identification);
 
-                _outputScale = Convert.ToInt32(e.DataDictionary[JetBusCommands.Output_scale.PathIndex]);
-                //_firmwareDate = e.DataDictionary[JetBusCommands.Firmware_date.PathIndex];
-                _resetTrigger = Convert.ToInt32(e.DataDictionary[JetBusCommands.Reset_trigger.PathIndex]);
-                _stateDigital_IO_Extended = Convert.ToInt32(e.DataDictionary[JetBusCommands.State_digital_io_extended.PathIndex]);
+                _outputScale = _connection.GetDataFromDictionary(JetBusCommands.Output_scale);
+                //_firmwareDate = _connection.GetDataFromDictionary(JetBusCommands.Firmware_date);
+                _resetTrigger = _connection.GetDataFromDictionary(JetBusCommands.Reset_trigger);
+                _stateDigital_IO_Extended = _connection.GetDataFromDictionary(JetBusCommands.State_digital_io_extended);
 
-                //_softwareIdentification = e.DataDictionary[JetBusCommands.Software_identification.PathIndex];
-                //_softwareVersion = e.DataDictionary[JetBusCommands.Software_version.PathIndex];
-                _dateTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.Date_time.PathIndex]);
+                //_softwareIdentification = _connection.GetDataFromDictionary(JetBusCommands.Software_identification);
+                //_softwareVersion = _connection.GetDataFromDictionary(JetBusCommands.Software_version);
+                _dateTime = _connection.GetDataFromDictionary(JetBusCommands.Date_time);
 
-                _breakDosing = Convert.ToInt32(e.DataDictionary[JetBusCommands.Break_dosing.PathIndex]);
-                _deleteDosingResult = Convert.ToInt32(e.DataDictionary[JetBusCommands.Delete_dosing_result.PathIndex]);
-                _materialStreamLastDosing = Convert.ToInt32(e.DataDictionary[JetBusCommands.Material_stream_last_dosing.PathIndex]);
-                _sum = Convert.ToInt32(e.DataDictionary[JetBusCommands.Sum.PathIndex]);
-                _specialDosingFunctions = Convert.ToInt32(e.DataDictionary[JetBusCommands.Special_dosing_functions.PathIndex]);
-                _dischargeTime = Convert.ToInt32(e.DataDictionary[JetBusCommands.Discharge_time.PathIndex]);
-                _exceedingWeightBreak = Convert.ToInt32(e.DataDictionary[JetBusCommands.Exceeding_weight_break.PathIndex]);
-                _delay1Dosing = Convert.ToInt32(e.DataDictionary[JetBusCommands.Delay1_dosing.PathIndex]);
-                _delay2Dosing = Convert.ToInt32(e.DataDictionary[JetBusCommands.Delay2_dosing.PathIndex]);
-                _emptyWeightTolerance = Convert.ToInt32(e.DataDictionary[JetBusCommands.Empty_weight_tolerance.PathIndex]);
-                _residualFlowDosingCycle = Convert.ToInt32(e.DataDictionary[JetBusCommands.Residual_flow_dosing_cycle.PathIndex]);
+                _breakDosing = _connection.GetDataFromDictionary(JetBusCommands.Break_dosing);
+                _deleteDosingResult = _connection.GetDataFromDictionary(JetBusCommands.Delete_dosing_result);
+                _materialStreamLastDosing = _connection.GetDataFromDictionary(JetBusCommands.Material_stream_last_dosing);
+                _sum = _connection.GetDataFromDictionary(JetBusCommands.Sum);
+                _specialDosingFunctions = _connection.GetDataFromDictionary(JetBusCommands.Special_dosing_functions);
+                _dischargeTime = _connection.GetDataFromDictionary(JetBusCommands.Discharge_time);
+                _exceedingWeightBreak = _connection.GetDataFromDictionary(JetBusCommands.Exceeding_weight_break);
+                _delay1Dosing = _connection.GetDataFromDictionary(JetBusCommands.Delay1_dosing);
+                _delay2Dosing = _connection.GetDataFromDictionary(JetBusCommands.Delay2_dosing);
+                _emptyWeightTolerance = _connection.GetDataFromDictionary(JetBusCommands.Empty_weight_tolerance);
+                _residualFlowDosingCycle = _connection.GetDataFromDictionary(JetBusCommands.Residual_flow_dosing_cycle);
             }
         }
         #endregion

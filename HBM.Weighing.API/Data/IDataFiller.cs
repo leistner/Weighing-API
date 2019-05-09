@@ -130,7 +130,7 @@ namespace HBM.Weighing.API
 
         #region Update methods for the data of standard mode
 
-        void UpdateFillerData(object sender, DataEventArgs e);
+        void UpdateFillerData(object sender, EventArgs e);
 
         #endregion
     }

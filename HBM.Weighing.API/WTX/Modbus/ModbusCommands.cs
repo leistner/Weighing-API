@@ -43,9 +43,9 @@ namespace HBM.Weighing.API.WTX.Modbus
     /// The ID's are commited as a parameter for the read and/or write method call.  
     /// This class inherits from interface ICommands. 
     /// </summary>
-    public class ModbusCommands
+    public static class ModbusCommands
     {
-        public ModbusCommands()
+        static ModbusCommands()
         {
             // region : ID Commands : Memory - day, month, year, seqNumber, gross, net
             // For standard mode: 
@@ -188,139 +188,139 @@ namespace HBM.Weighing.API.WTX.Modbus
         // region ID Commands : Memory - day, month, year, seqNumber, gross, net
 
         // For standard mode: 
-        public ModbusCommand WeightMemDayStandard { get; private set; }
-        public ModbusCommand WeightMemMonthStandard { get; private set; }
-        public ModbusCommand WeightMemYearStandard { get; private set; }
-        public ModbusCommand WeightMemSeqNumberStandard { get; private set; }
-        public ModbusCommand WeightMemGrossStandard { get; private set; }
-        public ModbusCommand WeightMemNetStandard { get; private set; }
+        public static  ModbusCommand WeightMemDayStandard { get; private set; }
+        public static  ModbusCommand WeightMemMonthStandard { get; private set; }
+        public static  ModbusCommand WeightMemYearStandard { get; private set; }
+        public static  ModbusCommand WeightMemSeqNumberStandard { get; private set; }
+        public static  ModbusCommand WeightMemGrossStandard { get; private set; }
+        public static  ModbusCommand WeightMemNetStandard { get; private set; }
 
         // For filler mode: 
-        public ModbusCommand WeightMemDayFiller { get; private set; }
-        public ModbusCommand WeightMemMonthFiller { get; private set; }
-        public ModbusCommand WeightMemYearFiller { get; private set; }
-        public ModbusCommand WeightMemSeqNumberFiller { get; private set; }
-        public ModbusCommand WeightMemGrossFiller { get; private set; }
-        public ModbusCommand WeightMemNetFiller { get; private set; }
+        public static  ModbusCommand WeightMemDayFiller { get; private set; }
+        public static  ModbusCommand WeightMemMonthFiller { get; private set; }
+        public static  ModbusCommand WeightMemYearFiller { get; private set; }
+        public static  ModbusCommand WeightMemSeqNumberFiller { get; private set; }
+        public static  ModbusCommand WeightMemGrossFiller { get; private set; }
+        public static  ModbusCommand WeightMemNetFiller { get; private set; }
 
         // region ID Commands : Maintenance - Calibration
 
-        public ModbusCommand LDWZeroSignal { get; private set; }        
-        public ModbusCommand LWTNominalSignal { get; private set; }      
-        public ModbusCommand CWTScaleCalibrationWeight { get; private set; }   
+        public static  ModbusCommand LDWZeroSignal { get; private set; }        
+        public static  ModbusCommand LWTNominalSignal { get; private set; }      
+        public static  ModbusCommand CWTScaleCalibrationWeight { get; private set; }   
 
         // region ID commands for process data
-        public ModbusCommand Net { get; private set; }
-        public ModbusCommand Gross { get; private set; }
-        public ModbusCommand Zero { get; private set; }
-        public ModbusCommand ManualTareValue { get; private set; }  
+        public static  ModbusCommand Net { get; private set; }
+        public static  ModbusCommand Gross { get; private set; }
+        public static  ModbusCommand Zero { get; private set; }
+        public static  ModbusCommand ManualTareValue { get; private set; }  
 
-        public ModbusCommand GeneralWeightError { get; private set; }
-        public ModbusCommand ScaleAlarmTriggered { get; private set; }
-        public ModbusCommand WeightMoving { get; private set; }
-        public ModbusCommand ScaleSealIsOpen { get; private set; }
-        public ModbusCommand ManualTare { get; private set; }
-        public ModbusCommand WeightType { get; private set; }
-        public ModbusCommand ScaleRange { get; private set; }
-        public ModbusCommand ZeroRequired { get; private set; }
-        public ModbusCommand WeightinCenterOfZero { get; private set; }
-        public ModbusCommand WeightinZeroRange { get; private set; }
-        public ModbusCommand Decimals { get; private set; }
-        public ModbusCommand Handshake { get; private set; }
-        public ModbusCommand Limit_status { get; private set; }             
-        public ModbusCommand Unit { get; private set; }   
-        public ModbusCommand Application_mode { get; private set; }            
-        public ModbusCommand Status { get; private set; }    
+        public static  ModbusCommand GeneralWeightError { get; private set; }
+        public static  ModbusCommand ScaleAlarmTriggered { get; private set; }
+        public static  ModbusCommand WeightMoving { get; private set; }
+        public static  ModbusCommand ScaleSealIsOpen { get; private set; }
+        public static  ModbusCommand ManualTare { get; private set; }
+        public static  ModbusCommand WeightType { get; private set; }
+        public static  ModbusCommand ScaleRange { get; private set; }
+        public static  ModbusCommand ZeroRequired { get; private set; }
+        public static  ModbusCommand WeightinCenterOfZero { get; private set; }
+        public static  ModbusCommand WeightinZeroRange { get; private set; }
+        public static  ModbusCommand Decimals { get; private set; }
+        public static  ModbusCommand Handshake { get; private set; }
+        public static  ModbusCommand Limit_status { get; private set; }             
+        public static  ModbusCommand Unit { get; private set; }   
+        public static  ModbusCommand Application_mode { get; private set; }            
+        public static  ModbusCommand Status { get; private set; }    
 
         // region ID commands for standard mode
-        public ModbusCommand Status_digital_input_1 { get; private set; }    // IS1
-        public ModbusCommand Status_digital_input_2 { get; private set; }    // IS2
-        public ModbusCommand Status_digital_input_3 { get; private set; }    // IS3
-        public ModbusCommand Status_digital_input_4 { get; private set; }    // IS4
+        public static  ModbusCommand Status_digital_input_1 { get; private set; }    // IS1
+        public static  ModbusCommand Status_digital_input_2 { get; private set; }    // IS2
+        public static  ModbusCommand Status_digital_input_3 { get; private set; }    // IS3
+        public static  ModbusCommand Status_digital_input_4 { get; private set; }    // IS4
 
-        public ModbusCommand Status_digital_output_1 { get; private set; }   // OS1
-        public ModbusCommand Status_digital_output_2 { get; private set; }   // OS2
-        public ModbusCommand Status_digital_output_3 { get; private set; }   // OS3
-        public ModbusCommand Status_digital_output_4 { get; private set; }   // OS4
+        public static  ModbusCommand Status_digital_output_1 { get; private set; }   // OS1
+        public static  ModbusCommand Status_digital_output_2 { get; private set; }   // OS2
+        public static  ModbusCommand Status_digital_output_3 { get; private set; }   // OS3
+        public static  ModbusCommand Status_digital_output_4 { get; private set; }   // OS4
 
-        public ModbusCommand Limit_value { get; private set; }   // LVS
+        public static  ModbusCommand Limit_value { get; private set; }   // LVS
 
 
-        public ModbusCommand LimitValue1Input { get; private set; } // = Grenzwertüberwachung 
-        public ModbusCommand LimitValue1Mode { get; private set; }
-        public ModbusCommand LimitValue1ActivationLevelLowerBandLimit { get; private set; }        // = Einschaltpegel
-        public ModbusCommand LimitValue1HysteresisBandHeight { get; private set; }       // = Ausschaltpegel
+        public static  ModbusCommand LimitValue1Input { get; private set; } // = Grenzwertüberwachung 
+        public static  ModbusCommand LimitValue1Mode { get; private set; }
+        public static  ModbusCommand LimitValue1ActivationLevelLowerBandLimit { get; private set; }        // = Einschaltpegel
+        public static  ModbusCommand LimitValue1HysteresisBandHeight { get; private set; }       // = Ausschaltpegel
 
-        public ModbusCommand LimitValue2Source { get; private set; }
-        public ModbusCommand LimitValue2Mode { get; private set; }
-        public ModbusCommand LimitValue2ActivationLevelLowerBandLimit { get; private set; }
-        public ModbusCommand LimitValue2HysteresisBandHeight { get; private set; }
+        public static  ModbusCommand LimitValue2Source { get; private set; }
+        public static  ModbusCommand LimitValue2Mode { get; private set; }
+        public static  ModbusCommand LimitValue2ActivationLevelLowerBandLimit { get; private set; }
+        public static  ModbusCommand LimitValue2HysteresisBandHeight { get; private set; }
 
-        public ModbusCommand LimitValue3Source { get; private set; }
-        public ModbusCommand LimitValue3Mode { get; private set; }
-        public ModbusCommand LimitValue3ActivationLevelLowerBandLimit { get; private set; }
-        public ModbusCommand LimitValue3HysteresisBandHeight { get; private set; }
+        public static  ModbusCommand LimitValue3Source { get; private set; }
+        public static  ModbusCommand LimitValue3Mode { get; private set; }
+        public static  ModbusCommand LimitValue3ActivationLevelLowerBandLimit { get; private set; }
+        public static  ModbusCommand LimitValue3HysteresisBandHeight { get; private set; }
 
-        public ModbusCommand LimitValue4Source { get; private set; }
-        public ModbusCommand LimitValue4Mode { get; private set; }
-        public ModbusCommand LimitValue4ActivationLevelLowerBandLimit { get; private set; }
-        public ModbusCommand LimitValue4HysteresisBandHeight { get; private set; }
+        public static  ModbusCommand LimitValue4Source { get; private set; }
+        public static  ModbusCommand LimitValue4Mode { get; private set; }
+        public static  ModbusCommand LimitValue4ActivationLevelLowerBandLimit { get; private set; }
+        public static  ModbusCommand LimitValue4HysteresisBandHeight { get; private set; }
 
         // region ID commands for filler data
 
-        public ModbusCommand CoarseFlow { get; private set; }                // data input word 8, bit .0, application mode=filler
-        public ModbusCommand FineFlow { get; private set; }                 // data input word 8, bit .1, application mode=filler
-        public ModbusCommand Ready { get; private set; }                    // data input word 8, bit .2, application mode=filler
-        public ModbusCommand ReDosing { get; private set; }                 // data input word 8, bit .3, application mode=filler; RDS = Nachdosieren
-        public ModbusCommand Emptying { get; private set; }                 // data input word 8, bit .4, application mode=filler
-        public ModbusCommand FlowError { get; private set; }                // data input word 8, bit .5, application mode=filler
-        public ModbusCommand Alarm { get; private set; }                    // data input word 8, bit .6, application mode=filler
-        public ModbusCommand AdcOverUnderload { get; private set; }         // data input word 8, bit .7, application mode=filler
-        public ModbusCommand MaximalDosingTimeInput { get; private set; }   // data input word 8, bit .8, application mode=filler
-        public ModbusCommand LegalForTradeOperation { get; private set; }   // data input word 8, bit .9, application mode=filler
-        public ModbusCommand ToleranceErrorPlus { get; private set; }       // data input word 8, bit .10, application mode=filler
-        public ModbusCommand ToleranceErrorMinus { get; private set; }      // data input word 8, bit .11, application mode=filler
-        public ModbusCommand StatusInput1 { get; private set; }             // data input word 8, bit .14, application mode=filler
-        public ModbusCommand GeneralScaleError { get; private set; }        // data input word 8, bit .15, application mode=filler
+        public static  ModbusCommand CoarseFlow { get; private set; }                // data input word 8, bit .0, application mode=filler
+        public static  ModbusCommand FineFlow { get; private set; }                 // data input word 8, bit .1, application mode=filler
+        public static  ModbusCommand Ready { get; private set; }                    // data input word 8, bit .2, application mode=filler
+        public static  ModbusCommand ReDosing { get; private set; }                 // data input word 8, bit .3, application mode=filler; RDS = Nachdosieren
+        public static  ModbusCommand Emptying { get; private set; }                 // data input word 8, bit .4, application mode=filler
+        public static  ModbusCommand FlowError { get; private set; }                // data input word 8, bit .5, application mode=filler
+        public static  ModbusCommand Alarm { get; private set; }                    // data input word 8, bit .6, application mode=filler
+        public static  ModbusCommand AdcOverUnderload { get; private set; }         // data input word 8, bit .7, application mode=filler
+        public static  ModbusCommand MaximalDosingTimeInput { get; private set; }   // data input word 8, bit .8, application mode=filler
+        public static  ModbusCommand LegalForTradeOperation { get; private set; }   // data input word 8, bit .9, application mode=filler
+        public static  ModbusCommand ToleranceErrorPlus { get; private set; }       // data input word 8, bit .10, application mode=filler
+        public static  ModbusCommand ToleranceErrorMinus { get; private set; }      // data input word 8, bit .11, application mode=filler
+        public static  ModbusCommand StatusInput1 { get; private set; }             // data input word 8, bit .14, application mode=filler
+        public static  ModbusCommand GeneralScaleError { get; private set; }        // data input word 8, bit .15, application mode=filler
 
-        public ModbusCommand TotalWeight { get; private set; }             // data input word 18, application mode=filler
-        public ModbusCommand Dosing_time { get; private set; }             // DST = Dosieristzeit
-        public ModbusCommand Coarse_flow_time { get; private set; }        // CFT = Grobstromzeit
-        public ModbusCommand CurrentFineFlowTime { get; private set; }     // data input word 26, application mode=filler; FFT = Feinstromzeit
-        public ModbusCommand ParameterSetProduct { get; private set; }     // data input word 27, application mode=filler
-        public ModbusCommand TargetFillingWeight { get; private set; }     // data output word 10, application mode=filler
+        public static  ModbusCommand TotalWeight { get; private set; }             // data input word 18, application mode=filler
+        public static  ModbusCommand Dosing_time { get; private set; }             // DST = Dosieristzeit
+        public static  ModbusCommand Coarse_flow_time { get; private set; }        // CFT = Grobstromzeit
+        public static  ModbusCommand CurrentFineFlowTime { get; private set; }     // data input word 26, application mode=filler; FFT = Feinstromzeit
+        public static  ModbusCommand ParameterSetProduct { get; private set; }     // data input word 27, application mode=filler
+        public static  ModbusCommand TargetFillingWeight { get; private set; }     // data output word 10, application mode=filler
 
-        public ModbusCommand Residual_flow_time { get; private set; }          // RFT = Nachstromzeit
-        public ModbusCommand Reference_value_dosing { get; private set; }      // FWT = Sollwert dosieren = Target filling weight
-        public ModbusCommand Coarse_flow_cut_off_point { get; private set; }   // CFD = Grobstromabschaltpunkt
-        public ModbusCommand Fine_flow_cut_off_point { get; private set; }     // FFD = Feinstromabschaltpunkt
+        public static  ModbusCommand Residual_flow_time { get; private set; }          // RFT = Nachstromzeit
+        public static  ModbusCommand Reference_value_dosing { get; private set; }      // FWT = Sollwert dosieren = Target filling weight
+        public static  ModbusCommand Coarse_flow_cut_off_point { get; private set; }   // CFD = Grobstromabschaltpunkt
+        public static  ModbusCommand Fine_flow_cut_off_point { get; private set; }     // FFD = Feinstromabschaltpunkt
 
-        public ModbusCommand Minimum_fine_flow { get; private set; }           // FFM = Minimaler Feinstromanteil
-        public ModbusCommand Optimization { get; private set; }                // OSN = Optimierung
-        public ModbusCommand Maximal_dosing_time { get; private set; }         // MDT = Maximale Dosierzeit
-        public ModbusCommand Run_start_dosing { get; private set; }            // RUN = Start Dosieren
+        public static  ModbusCommand Minimum_fine_flow { get; private set; }           // FFM = Minimaler Feinstromanteil
+        public static  ModbusCommand Optimization { get; private set; }                // OSN = Optimierung
+        public static  ModbusCommand Maximal_dosing_time { get; private set; }         // MDT = Maximale Dosierzeit
+        public static  ModbusCommand Run_start_dosing { get; private set; }            // RUN = Start Dosieren
 
-        public ModbusCommand Lockout_time_coarse_flow { get; private set; }    // LTC = Sperrzeit Grobstrom
-        public ModbusCommand Lockout_time_fine_flow { get; private set; }      // LTF = Sperrzeit Feinstrom
-        public ModbusCommand Tare_mode { get; private set; }                   // TMD = Tariermodus
-        public ModbusCommand Upper_tolerance_limit { get; private set; }       // UTL = Obere Toleranz
+        public static  ModbusCommand Lockout_time_coarse_flow { get; private set; }    // LTC = Sperrzeit Grobstrom
+        public static  ModbusCommand Lockout_time_fine_flow { get; private set; }      // LTF = Sperrzeit Feinstrom
+        public static  ModbusCommand Tare_mode { get; private set; }                   // TMD = Tariermodus
+        public static  ModbusCommand Upper_tolerance_limit { get; private set; }       // UTL = Obere Toleranz
 
-        public ModbusCommand Lower_tolerance_limit { get; private set; }   // LTL = Untere Toleranz
-        public ModbusCommand Minimum_start_weight { get; private set; }   // MSW = Minimum Startgewicht
-        public ModbusCommand Empty_weight { get; private set; }
-        public ModbusCommand Tare_delay { get; private set; }   // TAD = Tarierverzögerung
+        public static  ModbusCommand Lower_tolerance_limit { get; private set; }   // LTL = Untere Toleranz
+        public static  ModbusCommand Minimum_start_weight { get; private set; }   // MSW = Minimum Startgewicht
+        public static  ModbusCommand Empty_weight { get; private set; }
+        public static  ModbusCommand Tare_delay { get; private set; }   // TAD = Tarierverzögerung
 
-        public ModbusCommand Coarse_flow_monitoring_time { get; private set; }  // CBT = Überwachungszeit Grobstrom
-        public ModbusCommand Coarse_flow_monitoring { get; private set; }       // CBK = Füllstromüberwachung Grobstrom
-        public ModbusCommand Fine_flow_monitoring { get; private set; }         // FBK = Füllstromüberwachung Feinstrom
-        public ModbusCommand Fine_flow_monitoring_time { get; private set; }    // FBT = Überwachungszeit Feinstrom
+        public static  ModbusCommand Coarse_flow_monitoring_time { get; private set; }  // CBT = Überwachungszeit Grobstrom
+        public static  ModbusCommand Coarse_flow_monitoring { get; private set; }       // CBK = Füllstromüberwachung Grobstrom
+        public static  ModbusCommand Fine_flow_monitoring { get; private set; }         // FBK = Füllstromüberwachung Feinstrom
+        public static  ModbusCommand Fine_flow_monitoring_time { get; private set; }    // FBT = Überwachungszeit Feinstrom
 
-        public ModbusCommand Delay_time_after_fine_flow { get; private set; }
-        public ModbusCommand Activation_time_after_fine_flow { get; private set; }
+        public static  ModbusCommand Delay_time_after_fine_flow { get; private set; }
+        public static  ModbusCommand Activation_time_after_fine_flow { get; private set; }
 
-        public ModbusCommand Systematic_difference { get; private set; }       // SYD = Systematische Differenz
-        public ModbusCommand DownwardsDosing { get; private set; }             // data output word 42, application mode=filler
-        public ModbusCommand Valve_control { get; private set; }               // VCT = Ventilsteuerung
-        public ModbusCommand Emptying_mode { get; private set; }               // EMD = Entleermodus
+        public static  ModbusCommand Systematic_difference { get; private set; }       // SYD = Systematische Differenz
+        public static  ModbusCommand DownwardsDosing { get; private set; }             // data output word 42, application mode=filler
+        public static  ModbusCommand Valve_control { get; private set; }               // VCT = Ventilsteuerung
+        public static  ModbusCommand Emptying_mode { get; private set; }               // EMD = Entleermodus
     }
 }

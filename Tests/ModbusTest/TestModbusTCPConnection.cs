@@ -178,11 +178,10 @@ namespace HBM.Weighing.API.WTX.Modbus
         private ushort[] _dataWTX;
 
         public int command;
-        private ModbusCommands _commands;
 
         public event EventHandler BusActivityDetection;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
-        public event EventHandler<DataEventArgs> UpdateDataClasses;
+        public event EventHandler<EventArgs> UpdateDataClasses;
         
         private Dictionary<string, int> _dataIntegerBuffer;
 
@@ -201,8 +200,6 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             _dataWTX = new ushort[38];
             // size of 38 elements for the standard and filler application mode.            
-
-            _commands = new ModbusCommands();
 
              _dataIntegerBuffer = new Dictionary<string, int>();
 
@@ -279,109 +276,109 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void CreateDictionary()
         {
-            _dataIntegerBuffer.Add(_commands.Net.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Gross.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Net.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Gross.Path, 0);
             
-            _dataIntegerBuffer.Add(_commands.Unit.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Unit.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Fine_flow_cut_off_point.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Coarse_flow_cut_off_point.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.Decimals.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.Application_mode.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.Scale_command_status.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Fine_flow_cut_off_point.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Coarse_flow_cut_off_point.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.Decimals.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.Application_mode.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.Scale_command_status.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Status_digital_input_1.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.Status_digital_input_2.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.Status_digital_input_3.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.Status_digital_input_4.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Status_digital_input_1.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.Status_digital_input_2.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.Status_digital_input_3.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.Status_digital_input_4.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Status_digital_output_1.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.Status_digital_output_2.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.Status_digital_output_3.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.Status_digital_output_4.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Status_digital_output_1.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.Status_digital_output_2.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.Status_digital_output_3.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.Status_digital_output_4.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Limit_value.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Limit_value.Path, 0);
             /*
-            _dataIntegerBuffer.Add(_commands.Limit_value_monitoring_liv11.Path, 0); ;
-            _dataIntegerBuffer.Add(_commands.Signal_source_liv12.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Switch_on_level_liv13.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Switch_off_level_liv14.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Limit_value_monitoring_liv11.Path, 0); ;
+            _dataIntegerBuffer.Add(ModbusCommands.Signal_source_liv12.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Switch_on_level_liv13.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Switch_off_level_liv14.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Limit_value_monitoring_liv21.Path, 0); ;
-            _dataIntegerBuffer.Add(_commands.Signal_source_liv22.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Switch_on_level_liv23.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Switch_off_level_liv24.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Limit_value_monitoring_liv21.Path, 0); ;
+            _dataIntegerBuffer.Add(ModbusCommands.Signal_source_liv22.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Switch_on_level_liv23.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Switch_off_level_liv24.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Limit_value_monitoring_liv31.Path, 0); ;
-            _dataIntegerBuffer.Add(_commands.Signal_source_liv32.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Switch_on_level_liv33.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Switch_off_level_liv34.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Limit_value_monitoring_liv31.Path, 0); ;
+            _dataIntegerBuffer.Add(ModbusCommands.Signal_source_liv32.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Switch_on_level_liv33.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Switch_off_level_liv34.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Limit_value_monitoring_liv41.Path, 0); ;
-            _dataIntegerBuffer.Add(_commands.Signal_source_liv42.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Switch_on_level_liv43.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Switch_off_level_liv44.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Limit_value_monitoring_liv41.Path, 0); ;
+            _dataIntegerBuffer.Add(ModbusCommands.Signal_source_liv42.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Switch_on_level_liv43.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Switch_off_level_liv44.Path, 0);
             */
 
-            _dataIntegerBuffer.Add(_commands.WeightMemDayStandard.Path, 0);
-            _dataIntegerBuffer.Add(_commands.WeightMemMonthStandard.Path, 0);
-            _dataIntegerBuffer.Add(_commands.WeightMemYearStandard.Path, 0);
-            _dataIntegerBuffer.Add(_commands.WeightMemSeqNumberStandard.Path, 0);
-            _dataIntegerBuffer.Add(_commands.WeightMemGrossStandard.Path, 0);
-            _dataIntegerBuffer.Add(_commands.WeightMemNetStandard.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.WeightMemDayStandard.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.WeightMemMonthStandard.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.WeightMemYearStandard.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.WeightMemSeqNumberStandard.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.WeightMemGrossStandard.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.WeightMemNetStandard.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Residual_flow_time.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Minimum_fine_flow.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Optimization.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Tare_mode.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Minimum_start_weight.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Tare_delay.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Coarse_flow_monitoring_time.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Fine_flow_monitoring_time.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Systematic_difference.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Valve_control.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.AdcOverUnderload.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.LegalForTradeOperation.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Residual_flow_time.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Minimum_fine_flow.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Optimization.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Tare_mode.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Minimum_start_weight.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Tare_delay.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Coarse_flow_monitoring_time.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Fine_flow_monitoring_time.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Systematic_difference.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Valve_control.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.AdcOverUnderload.Path, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.LegalForTradeOperation.Path, 0);
             /*
-            _dataIntegerBuffer.Add(_commands.StatusInput1.Path, 0);
-            _dataIntegerBuffer.Add(_commands.GeneralScaleError.Path, 0);
-            _dataIntegerBuffer.Add(_commands.CoarseFlow.Path, 0);
-            _dataIntegerBuffer.Add(_commands.FineFlow.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Ready.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ReDosing.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Emptying.Path, 0);
-            _dataIntegerBuffer.Add(_commands.FlowError.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.StatusInput1.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.GeneralScaleError.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.CoarseFlow.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.FineFlow.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Ready.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.ReDosing.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Emptying.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.FlowError.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Alarm.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ToleranceErrorPlus.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ToleranceErrorMinus.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Dosing_time.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Coarse_flow_time.Path, 0);
-            _dataIntegerBuffer.Add(_commands.CurrentFineFlowTime.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ParameterSetProduct.Path, 0);
-            _dataIntegerBuffer.Add(_commands.DownwardsDosing.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Alarm.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.ToleranceErrorPlus.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.ToleranceErrorMinus.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Dosing_time.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Coarse_flow_time.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.CurrentFineFlowTime.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.ParameterSetProduct.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.DownwardsDosing.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.TotalWeight.Path, 0);
-            _dataIntegerBuffer.Add(_commands.TargetFillingWeight.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Run_start_dosing.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.TotalWeight.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.TargetFillingWeight.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Run_start_dosing.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Coarse_flow_monitoring.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Fine_flow_monitoring.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Emptying_mode.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Maximal_dosing_time.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Coarse_flow_monitoring.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Fine_flow_monitoring.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Emptying_mode.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Maximal_dosing_time.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Upper_tolerance_limit.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Lower_tolerance_limit.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Upper_tolerance_limit.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Lower_tolerance_limit.Path, 0);
 
-            //_dataIntegerBuffer.Add(_commands.IDCommands.RANGE_SELECTION_PARAMETER, 0);
+            //_dataIntegerBuffer.Add(ModbusCommands.IDCommands.RANGE_SELECTION_PARAMETER, 0);
 
-            _dataIntegerBuffer.Add(_commands.Delay_time_after_fine_flow.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Activation_time_after_fine_flow.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Delay_time_after_fine_flow.Path, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.Activation_time_after_fine_flow.Path, 0);
             */
             // Undefined IDs : 
             /*
-            _dataIntegerBuffer.Add(_commands.DOSING_STATE, 0);
-            _dataIntegerBuffer.Add(_commands.DOSING_RESULT, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.DOSING_STATE, 0);
+            _dataIntegerBuffer.Add(ModbusCommands.DOSING_RESULT, 0);
             _dataIntegerBuffer.Add(IDCommands.DELAY1_DOSING, 0);
             _dataIntegerBuffer.Add(IDCommands.STANDARD_DEVIATION, 0);
             _dataIntegerBuffer.Add(IDCommands.EMPTY_WEIGHT_TOLERANCE, 0);
@@ -392,29 +389,29 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void UpdateDictionary()
         {
-            _dataIntegerBuffer[_commands.Net.Path] = _data[1] + (_data[0] << 16);
-            _dataIntegerBuffer[_commands.Gross.Path] = _data[3] + (_data[2] << 16);
-            _dataIntegerBuffer[_commands.Status_digital_input_1.Path] = _data[6];
-            _dataIntegerBuffer[_commands.Status_digital_output_1.Path] = _data[7];
-            _dataIntegerBuffer[_commands.Limit_value.Path] = _data[8];
-            _dataIntegerBuffer[_commands.Fine_flow_cut_off_point.Path] = _data[20];
-            _dataIntegerBuffer[_commands.Coarse_flow_cut_off_point.Path] = _data[22];
+            _dataIntegerBuffer[ModbusCommands.Net.Path] = _data[1] + (_data[0] << 16);
+            _dataIntegerBuffer[ModbusCommands.Gross.Path] = _data[3] + (_data[2] << 16);
+            _dataIntegerBuffer[ModbusCommands.Status_digital_input_1.Path] = _data[6];
+            _dataIntegerBuffer[ModbusCommands.Status_digital_output_1.Path] = _data[7];
+            _dataIntegerBuffer[ModbusCommands.Limit_value.Path] = _data[8];
+            _dataIntegerBuffer[ModbusCommands.Fine_flow_cut_off_point.Path] = _data[20];
+            _dataIntegerBuffer[ModbusCommands.Coarse_flow_cut_off_point.Path] = _data[22];
 
-            _dataIntegerBuffer[_commands.Application_mode.Path] = _data[5] & 0x1;             // application mode 
-            _dataIntegerBuffer[_commands.Decimals.Path] = (_data[5] & 0x70) >> 4;     // decimals
-            _dataIntegerBuffer[_commands.Unit.Path] = (_data[5] & 0x180) >> 7;    // unit
+            _dataIntegerBuffer[ModbusCommands.Application_mode.Path] = _data[5] & 0x1;             // application mode 
+            _dataIntegerBuffer[ModbusCommands.Decimals.Path] = (_data[5] & 0x70) >> 4;     // decimals
+            _dataIntegerBuffer[ModbusCommands.Unit.Path] = (_data[5] & 0x180) >> 7;    // unit
 
-            _dataIntegerBuffer[_commands.Coarse_flow_monitoring.Path] = _data[8] & 0x1;           //_coarseFlow
-            _dataIntegerBuffer[_commands.Fine_flow_monitoring.Path] = ((_data[8] & 0x2) >> 1);  // _fineFlow
+            _dataIntegerBuffer[ModbusCommands.Coarse_flow_monitoring.Path] = _data[8] & 0x1;           //_coarseFlow
+            _dataIntegerBuffer[ModbusCommands.Fine_flow_monitoring.Path] = ((_data[8] & 0x2) >> 1);  // _fineFlow
 
-            _dataIntegerBuffer[_commands.Ready.Path] = ((_data[8] & 0x4) >> 2);
-            _dataIntegerBuffer[_commands.ReDosing.Path] = ((_data[8] & 0x8) >> 3);
-            _dataIntegerBuffer[_commands.Emptying_mode.Path] = ((_data[8] & 0x10) >> 4);
-            _dataIntegerBuffer[_commands.Maximal_dosing_time.Path] = ((_data[8] & 0x100) >> 8);
-            _dataIntegerBuffer[_commands.Upper_tolerance_limit.Path] = ((_data[8] & 0x400) >> 10);
-            _dataIntegerBuffer[_commands.Lower_tolerance_limit.Path] = ((_data[8] & 0x800) >> 11);
-            _dataIntegerBuffer[_commands.Status_digital_input_1.Path] = ((_data[8] & 0x4000) >> 14);
-            _dataIntegerBuffer[_commands.LegalForTradeOperation.Path] = ((_data[8] & 0x200) >> 9);
+            _dataIntegerBuffer[ModbusCommands.Ready.Path] = ((_data[8] & 0x4) >> 2);
+            _dataIntegerBuffer[ModbusCommands.ReDosing.Path] = ((_data[8] & 0x8) >> 3);
+            _dataIntegerBuffer[ModbusCommands.Emptying_mode.Path] = ((_data[8] & 0x10) >> 4);
+            _dataIntegerBuffer[ModbusCommands.Maximal_dosing_time.Path] = ((_data[8] & 0x100) >> 8);
+            _dataIntegerBuffer[ModbusCommands.Upper_tolerance_limit.Path] = ((_data[8] & 0x400) >> 10);
+            _dataIntegerBuffer[ModbusCommands.Lower_tolerance_limit.Path] = ((_data[8] & 0x800) >> 11);
+            _dataIntegerBuffer[ModbusCommands.Status_digital_input_1.Path] = ((_data[8] & 0x4000) >> 14);
+            _dataIntegerBuffer[ModbusCommands.LegalForTradeOperation.Path] = ((_data[8] & 0x200) >> 9);
 
             /*
             _dataIntegerBuffer[IDCommands.DOSING_RESULT]      = _data[12];
@@ -427,21 +424,21 @@ namespace HBM.Weighing.API.WTX.Modbus
             _dataIntegerBuffer[IDCommands.RANGE_SELECTION_PARAMETER] = _data[27];     // _parameterSetProduct
             */
 
-            _dataIntegerBuffer[_commands.WeightMemDayStandard.Path] = (_data[9]);   // = weightMemDay
-            _dataIntegerBuffer[_commands.WeightMemMonthStandard.Path] = (_data[10]);  // = weightMemMonth
-            _dataIntegerBuffer[_commands.WeightMemYearStandard.Path] = (_data[11]);  // = weightMemYear
-            _dataIntegerBuffer[_commands.WeightMemSeqNumberStandard.Path] = (_data[12]);  // = weightMemSeqNumber
-            _dataIntegerBuffer[_commands.WeightMemGrossStandard.Path] = (_data[13]);  // = weightMemGross
-            _dataIntegerBuffer[_commands.WeightMemNetStandard.Path] = (_data[14]);  // = weightMemNet
+            _dataIntegerBuffer[ModbusCommands.WeightMemDayStandard.Path] = (_data[9]);   // = weightMemDay
+            _dataIntegerBuffer[ModbusCommands.WeightMemMonthStandard.Path] = (_data[10]);  // = weightMemMonth
+            _dataIntegerBuffer[ModbusCommands.WeightMemYearStandard.Path] = (_data[11]);  // = weightMemYear
+            _dataIntegerBuffer[ModbusCommands.WeightMemSeqNumberStandard.Path] = (_data[12]);  // = weightMemSeqNumber
+            _dataIntegerBuffer[ModbusCommands.WeightMemGrossStandard.Path] = (_data[13]);  // = weightMemGross
+            _dataIntegerBuffer[ModbusCommands.WeightMemNetStandard.Path] = (_data[14]);  // = weightMemNet
 
-            _dataIntegerBuffer[_commands.Emptying.Path] = ((_data[8] & 0x10) >> 4);
-            _dataIntegerBuffer[_commands.FlowError.Path] = ((_data[8] & 0x20) >> 5);
-            _dataIntegerBuffer[_commands.Alarm.Path] = ((_data[8] & 0x40) >> 6);
-            _dataIntegerBuffer[_commands.AdcOverUnderload.Path] = ((_data[8] & 0x80) >> 7);
+            _dataIntegerBuffer[ModbusCommands.Emptying.Path] = ((_data[8] & 0x10) >> 4);
+            _dataIntegerBuffer[ModbusCommands.FlowError.Path] = ((_data[8] & 0x20) >> 5);
+            _dataIntegerBuffer[ModbusCommands.Alarm.Path] = ((_data[8] & 0x40) >> 6);
+            _dataIntegerBuffer[ModbusCommands.AdcOverUnderload.Path] = ((_data[8] & 0x80) >> 7);
 
-            _dataIntegerBuffer[_commands.StatusInput1.Path] = ((_data[8] & 0x4000) >> 14);
-            _dataIntegerBuffer[_commands.GeneralScaleError.Path] = ((_data[8] & 0x8000) >> 15);
-            _dataIntegerBuffer[_commands.TotalWeight.Path] = _data[18];
+            _dataIntegerBuffer[ModbusCommands.StatusInput1.Path] = ((_data[8] & 0x4000) >> 14);
+            _dataIntegerBuffer[ModbusCommands.GeneralScaleError.Path] = ((_data[8] & 0x8000) >> 15);
+            _dataIntegerBuffer[ModbusCommands.TotalWeight.Path] = _data[18];
 
             // Filler data: Missing ID's
             /*
@@ -615,7 +612,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             this.UpdateDictionary();
             // Updata data in data classes : 
-            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+            this.UpdateDataClasses?.Invoke(this, new EventArgs());
 
             return _dataWTX[Convert.ToInt16(index)];
         }
@@ -1098,7 +1095,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             
                 this.UpdateDictionary();
                 // Update data in data classes : 
-                this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+                this.UpdateDataClasses?.Invoke(this, new EventArgs());
 
                 return _dataWTX;
 
@@ -1106,7 +1103,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             this.UpdateDictionary();
             // Update data in data classes : 
-            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+            this.UpdateDataClasses?.Invoke(this, new EventArgs());
 
             return _dataWTX;
         }

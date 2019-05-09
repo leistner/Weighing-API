@@ -61,7 +61,21 @@ namespace HBM.Weighing.API.WTX.Jet
             Weighing_device_1_weight_status = new JetBusCommand(1, "6012/01", 0, 0);
 
             WS_GeneralWeightError = new JetBusCommand(1, "6012/01", 0, 1);
+            WS_ScaleAlarm = new JetBusCommand(1, "6012/01", 1, 1);
+            WS_LimitStatus = new JetBusCommand(1, "6012/01", 2, 2);
+            WS_WeightMoving = new JetBusCommand(1, "6012/01", 4, 1);
+            WS_ScaleSealIsOpen = new JetBusCommand(1, "6012/01", 5, 1);
+            WS_ManualTare = new JetBusCommand(1, "6012/01", 6, 1);
+            WS_WeightType = new JetBusCommand(1, "6012/01", 7, 1);
+            WS_ScaleRange = new JetBusCommand(1, "6012/01", 8, 2);
+            WS_ZeroRequired = new JetBusCommand(1, "6012/01", 10, 1);
+            WS_CenterOfZero = new JetBusCommand(1, "6012/01", 11, 1);
+            WS_InsideZero = new JetBusCommand(1, "6012/01", 12, 1);
+            WS_Reserved = new JetBusCommand(1, "6012/01", 13, 1);
+            WS_ImplementationSpecificWeightStatus1 = new JetBusCommand(1, "6012/01", 14, 1);
+            WS_ImplementationSpecificWeightStatus2 = new JetBusCommand(1, "6012/01", 14, 1);
 
+            WS_Unit = new JetBusCommand(1, "6014/01", 16, 8);
             Unit_prefix_fixed_parameter = new JetBusCommand(1, "6014/01", 0, 0);
             Application_mode = new JetBusCommand(1, "2010/07", 0, 0); // IMD = Input mode ( Application mode)
             Decimals = new JetBusCommand(1, "6013/01", 0, 0);
@@ -77,7 +91,11 @@ namespace HBM.Weighing.API.WTX.Jet
             Status_digital_output_3 = new JetBusCommand(1, "2020/20", 0, 0);   // OS3
             Status_digital_output_4 = new JetBusCommand(1, "2020/21", 0, 0);   // OS4
 
-            Limit_value = new JetBusCommand(1, "2020/25", 0, 0);   // LVS
+            Limit_value_status1 = new JetBusCommand(1, "2020/25", 0, 1);// LVS - limit value status 1
+            Limit_value_status2 = new JetBusCommand(1, "2020/25", 1, 1);// LVS - limit value status 2
+            Limit_value_status3 = new JetBusCommand(1, "2020/25", 2, 1);// LVS - limit value status 3
+            Limit_value_status4 = new JetBusCommand(1, "2020/25", 3, 1);// LVS - limit value status 4
+
             Coarse_flow_monitoring = new JetBusCommand(1, "2210/01", 0, 0);      // CBK = Füllstromüberwachung Grobstrom
             Coarse_flow_monitoring_time = new JetBusCommand(1, "2220/01", 0, 0); // CBT = Überwachungszeit Grobstrom
             Coarse_flow_cut_off_point = new JetBusCommand(1, "2210/02", 0, 0);   // CFD = Grobstromabschaltpunkt
@@ -228,10 +246,25 @@ namespace HBM.Weighing.API.WTX.Jet
         public static JetBusCommand Net_value { get; private set; }
         public static JetBusCommand Gross_value { get; private set; }
         public static JetBusCommand Zero_value { get; private set; }
-
         public static JetBusCommand Tare_value { get; private set; }
+
         public static JetBusCommand Weighing_device_1_weight_status { get; private set; }
         public static JetBusCommand WS_GeneralWeightError { get; private set; }
+        public static JetBusCommand WS_ScaleAlarm { get; private set; }
+        public static JetBusCommand WS_LimitStatus { get; private set; }
+        public static JetBusCommand WS_WeightMoving { get; private set; }
+        public static JetBusCommand WS_ScaleSealIsOpen { get; private set; }
+        public static JetBusCommand WS_ManualTare { get; private set; }
+        public static JetBusCommand WS_WeightType { get; private set; }
+        public static JetBusCommand WS_ScaleRange { get; private set; }
+        public static JetBusCommand WS_ZeroRequired { get; private set; }
+        public static JetBusCommand WS_CenterOfZero { get; private set; }
+        public static JetBusCommand WS_InsideZero { get; private set; }
+        public static JetBusCommand WS_Reserved { get; private set; }
+        public static JetBusCommand WS_ImplementationSpecificWeightStatus1 { get; private set; }
+        public static JetBusCommand WS_ImplementationSpecificWeightStatus2 { get; private set; }
+
+        public static JetBusCommand WS_Unit { get; private set; }
         public static JetBusCommand Unit_prefix_fixed_parameter { get; private set; }
 
         public static JetBusCommand Application_mode { get; private set; } // IMD = Input mode ( Application mode)
@@ -250,7 +283,10 @@ namespace HBM.Weighing.API.WTX.Jet
         public static JetBusCommand Status_digital_output_3 { get; private set; }   // OS3
         public static JetBusCommand Status_digital_output_4 { get; private set; }   // OS4
 
-        public static JetBusCommand Limit_value { get; private set; }   // LVS
+        public static JetBusCommand Limit_value_status1 { get; private set; }   // LVS - limit value status 1
+        public static JetBusCommand Limit_value_status2 { get; private set; }   // LVS - limit value status 2
+        public static JetBusCommand Limit_value_status3 { get; private set; }   // LVS - limit value status 3
+        public static JetBusCommand Limit_value_status4 { get; private set; }   // LVS - limit value status 4
 
         //private string[] _weightMemArray = new string[2] { _storage_weight, _storage_weight_mode };
 

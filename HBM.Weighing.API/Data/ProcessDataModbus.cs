@@ -39,14 +39,12 @@ namespace HBM.Weighing.API.Data
     public class ProcessDataModbus : IProcessData
     {
         private ModbusTcpConnection _connection;
-        private ModbusCommands _commands;
 
         #region Constructor
         public ProcessDataModbus(INetConnection Connection)
         {
-            _commands = new ModbusCommands();
-
             _connection = (ModbusTcpConnection) Connection;
+
             _connection.UpdateDataClasses += UpdateProcessData;
 
             NetValue = 0;
@@ -75,34 +73,34 @@ namespace HBM.Weighing.API.Data
         #endregion
 
         #region Update method
-        public void UpdateProcessData(object sender, DataEventArgs e)
+        public void UpdateProcessData(object sender, EventArgs e)
         {
-            NetValue = _connection.GetDataFromDictionary(_commands.Net);
-            GrossValue = _connection.GetDataFromDictionary(_commands.Gross);
+            NetValue = _connection.GetDataFromDictionary(ModbusCommands.Net);
+            GrossValue = _connection.GetDataFromDictionary(ModbusCommands.Gross);
             TareValue = NetValue - GrossValue;
-            GeneralWeightError = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.GeneralWeightError));
+            GeneralWeightError = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.GeneralWeightError));
 
-            ScaleAlarm = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.ScaleAlarmTriggered));
-            LimitStatus = (Convert.ToInt32(_connection.GetDataFromDictionary(_commands.Limit_status))); 
+            ScaleAlarm = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.ScaleAlarmTriggered));
+            LimitStatus = (Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Limit_status))); 
             WeightWithinLimits = (LimitStatus == 0);
             Underload = (LimitStatus == 1);
             Overload = (LimitStatus == 2);
             HigherSafeLoadLimit = (LimitStatus == 3);
 
-            WeightMoving = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.WeightMoving));
-            ScaleSealIsOpen = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.ScaleSealIsOpen));
-            ManualTare = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.ManualTare));
-            TareMode = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.Tare_mode));
-            ScaleRange = Convert.ToInt32(_connection.GetDataFromDictionary(_commands.ScaleRange));
-            ZeroRequired = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.ZeroRequired));
-            CenterOfZero = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.WeightinCenterOfZero));
-            InsideZero = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.WeightinZeroRange));
+            WeightMoving = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.WeightMoving));
+            ScaleSealIsOpen = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.ScaleSealIsOpen));
+            ManualTare = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.ManualTare));
+            TareMode = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.Tare_mode));
+            ScaleRange = Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.ScaleRange));
+            ZeroRequired = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.ZeroRequired));
+            CenterOfZero = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.WeightinCenterOfZero));
+            InsideZero = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.WeightinZeroRange));
 
-            ApplicationMode = (ApplicationMode)_connection.GetDataFromDictionary(_commands.Application_mode);
-            Decimals = _connection.GetDataFromDictionary(_commands.Decimals);
-            Unit = _connection.GetDataFromDictionary(_commands.Unit);
-            Handshake = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.Handshake));
-            Status = _connection.GetDataFromDictionary(_commands.Status);
+            ApplicationMode = (ApplicationMode)_connection.GetDataFromDictionary(ModbusCommands.Application_mode);
+            Decimals = _connection.GetDataFromDictionary(ModbusCommands.Decimals);
+            Unit = _connection.GetDataFromDictionary(ModbusCommands.Unit);
+            Handshake = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.Handshake));
+            Status = _connection.GetDataFromDictionary(ModbusCommands.Status);
         }
         #endregion
 

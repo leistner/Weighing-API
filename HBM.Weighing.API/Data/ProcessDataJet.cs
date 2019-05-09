@@ -38,12 +38,13 @@ namespace HBM.Weighing.API.Data
     /// </summary>
     public class ProcessDataJet : IProcessData
     {
-        private INetConnection _connection;
+        private JetBusConnection _connection;
 
         #region Constructor
         public ProcessDataJet(INetConnection Connection)
         {
-            _connection = Connection;
+            _connection = (JetBusConnection) Connection;
+
             _connection.UpdateDataClasses += UpdateProcessData;
 
             NetValue = 0;
@@ -73,30 +74,30 @@ namespace HBM.Weighing.API.Data
 
 
         #region Update method
-        public void UpdateProcessData(object sender, DataEventArgs e)
+        public void UpdateProcessData(object sender, EventArgs e)
         {
-            ApplicationMode = (ApplicationMode)e.DataDictionary[JetBusCommands.Application_mode.PathIndex];
-            NetValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.Net_value.PathIndex]);
-            GrossValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.Gross_value.PathIndex]);
+            ApplicationMode = (ApplicationMode)_connection.GetDataFromDictionary(JetBusCommands.Application_mode);
+            NetValue = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Net_value));
+            GrossValue = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Gross_value));
             TareValue = NetValue - GrossValue;
-            //GeneralWeightError = GetDataFromDict(JetBusCommands.WS_GeneralWeightError);
-            GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x1);
-            ScaleAlarm = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x2) >> 1);
-            LimitStatus = (Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0xC) >> 2;
+
+            GeneralWeightError = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_GeneralWeightError));
+            ScaleAlarm = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_ScaleAlarm));
+            LimitStatus = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_LimitStatus));
             WeightWithinLimits = (LimitStatus == 0);
             Underload = (LimitStatus == 1);
             Overload = (LimitStatus == 2);
             HigherSafeLoadLimit = (LimitStatus == 3);
-            WeightMoving = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x10) >> 4);
-            ScaleSealIsOpen = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x20) >> 5);
-            ManualTare = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x40) >> 6);
-            TareMode = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x80) >> 7);
-            ScaleRange = (Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x300) >> 8;
-            ZeroRequired = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x400) >> 10);
-            CenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x800) >> 11);
-            InsideZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x1000) >> 12);
-            Decimals = Convert.ToInt32(e.DataDictionary[JetBusCommands.Decimals.PathIndex]);
-            Unit = (Convert.ToInt32(e.DataDictionary[JetBusCommands.Unit_prefix_fixed_parameter.PathIndex]) & 0xFF0000) >> 16;                    
+            WeightMoving = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_WeightMoving));
+            ScaleSealIsOpen = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_ScaleSealIsOpen));
+            ManualTare = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_ManualTare));
+            TareMode = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_WeightType));  // TareMode != WeightType
+            ScaleRange = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_ScaleRange));
+            ZeroRequired = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_ZeroRequired));
+            CenterOfZero = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_CenterOfZero));
+            InsideZero = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_InsideZero));
+            Decimals = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Decimals));
+            Unit = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_Unit));
         }
         #endregion
 

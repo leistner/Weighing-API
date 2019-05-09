@@ -382,7 +382,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_3D_TestCase_Modbus")]
         public void testModbus_NetGrossValueStringComment_3D(Behavior behavior)
         {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            INetConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 

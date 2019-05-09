@@ -15,7 +15,7 @@ namespace JetbusTest
     [TestFixture]
     public class CalibrationTests
     {
-        private TestJetbusConnection _jetTestConnection;
+        private INetConnection _jetTestConnection;
         private WTXJet _wtxObj;
         private int testGrossValue;
 
@@ -57,7 +57,7 @@ namespace JetbusTest
             testGrossValue = 0;
         }
     
-        
+        /*
         [Test, TestCaseSource(typeof(CalibrationTests), "CalibrationTestCases")]
         public bool CalibrationTest(Behavior behavior)
         {
@@ -106,7 +106,8 @@ namespace JetbusTest
             else
                 return false;
         }
-
+        */
+        /*
         [Test, TestCaseSource(typeof(CalibrationTests), "CalibrationPreloadCapacityTestCases")]
         public bool CalibrationPreloadCapacityTest(Behavior behavior)
         {
@@ -144,7 +145,7 @@ namespace JetbusTest
             else
                 return false;
         }
-        
+        */
 
         private void OnConnect(bool obj)
         {
