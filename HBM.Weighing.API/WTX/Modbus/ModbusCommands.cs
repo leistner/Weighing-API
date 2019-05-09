@@ -52,12 +52,12 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             // region : ID Commands : Memory - day, month, year, seqNumber, gross, net
             // For standard mode: 
-            _items.Add(ReadWeightMemDay_ID   = new ModbusCommand(DataType.Int16, "9", IOType.Input, 0, 0));
-            ReadWeightMemMonth_ID = new ModbusCommand(DataType.Int16, "10", IOType.Input, 0, 0);
-            ReadWeightMemYear_ID  = new ModbusCommand(DataType.Int16, "11", IOType.Input, 0, 0);
-            ReadWeightMemSeqNumber_ID = new ModbusCommand(DataType.Int16, "12", IOType.Input, 0, 0);
-            ReadWeightMemGross_ID = new ModbusCommand(DataType.Int16, "13", IOType.Input, 0, 0);
-            ReadWeightMemNet_ID   = new ModbusCommand(DataType.Int16, "14", IOType.Input, 0, 0);
+            _items.Add(ReadWeightMemDay_ID   = new ModbusCommand(DataType.Int16, "9", IOType.Input, ApplicationMode.Standard, 0, 0));
+            ReadWeightMemMonth_ID = new ModbusCommand(DataType.Int16, "10", IOType.Input, ApplicationMode.Standard, 0, 0);
+            ReadWeightMemYear_ID  = new ModbusCommand(DataType.Int16, "11", IOType.Input, ApplicationMode.Standard, 0, 0);
+            ReadWeightMemSeqNumber_ID = new ModbusCommand(DataType.Int16, "12", IOType.Input, ApplicationMode.Standard, 0, 0);
+            ReadWeightMemGross_ID = new ModbusCommand(DataType.Int16, "13", IOType.Input, ApplicationMode.Standard, 0, 0);
+            ReadWeightMemNet_ID   = new ModbusCommand(DataType.Int16, "14", IOType.Input, ApplicationMode.Standard, 0, 0);
 
             // For filler mode: 
             WriteWeightMemDay_ID   = new ModbusCommand(DataType.Int16, "32", IOType.Output, ApplicationMode.Filler, 0, 0);
@@ -193,131 +193,131 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void CreateList()
         {
-            items.Add(ReadWeightMemDay_ID);
-            items.Add(ReadWeightMemMonth_ID);
-            items.Add(ReadWeightMemYear_ID);
-            items.Add(ReadWeightMemSeqNumber_ID);
-            items.Add(ReadWeightMemGross_ID);
-            items.Add(ReadWeightMemNet_ID);
+            _items.Add(ReadWeightMemDay_ID);
+            _items.Add(ReadWeightMemMonth_ID);
+            _items.Add(ReadWeightMemYear_ID);
+            _items.Add(ReadWeightMemSeqNumber_ID);
+            _items.Add(ReadWeightMemGross_ID);
+            _items.Add(ReadWeightMemNet_ID);
 
             // For filler mode: 
-            items.Add(WriteWeightMemDay_ID);
-            items.Add(WriteWeightMemMonth_ID);
-            items.Add(WriteWeightMemYear_ID);
-            items.Add(WriteWeightMemSeqNumber_ID);
-            items.Add(WriteWeightMemGross_ID);
-            items.Add(WriteWeightMemNet_ID);
+            _items.Add(WriteWeightMemDay_ID);
+            _items.Add(WriteWeightMemMonth_ID);
+            _items.Add(WriteWeightMemYear_ID);
+            _items.Add(WriteWeightMemSeqNumber_ID);
+            _items.Add(WriteWeightMemGross_ID);
+            _items.Add(WriteWeightMemNet_ID);
 
             // region ID Commands : Maintenance - Calibration
 
-            items.Add(Ldw_dead_weight);              // LDW = Nullpunkt
-            items.Add(Lwt_nominal_value);              // LWT = Nennwert
-            items.Add(Lft_scale_calibration_weight);   // LFT = LFT scale calibration weight
+            _items.Add(Ldw_dead_weight);              // LDW = Nullpunkt
+            _items.Add(Lwt_nominal_value);              // LWT = Nennwert
+            _items.Add(Lft_scale_calibration_weight);   // LFT = LFT scale calibration weight
 
             // region ID commands for process data
-            items.Add(Net_value);
-            items.Add(Gross_value);
-            items.Add(Zero_value);
+            _items.Add(Net_value);
+            _items.Add(Gross_value);
+            _items.Add(Zero_value);
 
-            items.Add(Weighing_device_1_weight_status);
+            _items.Add(Weighing_device_1_weight_status);
 
-            items.Add(Limit_status);                   // data word = 4 ; length = 2 ; offset = 2;
-            items.Add(Unit_prefix_fixed_parameter);    // data word = 5 ; length = 2 ; offset = 7;
+            _items.Add(Limit_status);                   // data word = 4 ; length = 2 ; offset = 2;
+            _items.Add(Unit_prefix_fixed_parameter);    // data word = 5 ; length = 2 ; offset = 7;
 
-            items.Add(Application_mode);               // data word = 5 ; length = 2 ; offset = 0;
-            items.Add(Decimals);                       // data word = 5 ; length = 3 ; offset = 4;
-            items.Add(Status);          // data word = 5 ; length = 1 ; offset = 15;
+            _items.Add(Application_mode);               // data word = 5 ; length = 2 ; offset = 0;
+            _items.Add(Decimals);                       // data word = 5 ; length = 3 ; offset = 4;
+            _items.Add(Status);          // data word = 5 ; length = 1 ; offset = 15;
 
             // region ID commands for standard mode
-            items.Add(Status_digital_input_1);    // IS1
-            items.Add(Status_digital_input_2);    // IS2
-            items.Add(Status_digital_input_3);    // IS3
-            items.Add(Status_digital_input_4);    // IS4
+            _items.Add(Status_digital_input_1);    // IS1
+            _items.Add(Status_digital_input_2);    // IS2
+            _items.Add(Status_digital_input_3);    // IS3
+            _items.Add(Status_digital_input_4);    // IS4
 
-            items.Add(Status_digital_output_1);   // OS1
-            items.Add(Status_digital_output_2);   // OS2
-            items.Add(Status_digital_output_3);   // OS3
-            items.Add(Status_digital_output_4);   // OS4
+            _items.Add(Status_digital_output_1);   // OS1
+            _items.Add(Status_digital_output_2);   // OS2
+            _items.Add(Status_digital_output_3);   // OS3
+            _items.Add(Status_digital_output_4);   // OS4
 
-            items.Add(Limit_value);   // LVS , standard
-            items.Add(Tare_value);  // manual tare value
+            _items.Add(Limit_value);   // LVS , standard
+            _items.Add(Tare_value);  // manual tare value
 
-            items.Add(LimitValue1Input); // = Grenzwertüberwachung 
-            items.Add(LimitValue1Mode);
-            items.Add(LimitValue1ActivationLevelLowerBandLimit);        // = Einschaltpegel
-            items.Add(LimitValue1HysteresisBandHeight);       // = Ausschaltpegel
+            _items.Add(LimitValue1Input); // = Grenzwertüberwachung 
+            _items.Add(LimitValue1Mode);
+            _items.Add(LimitValue1ActivationLevelLowerBandLimit);        // = Einschaltpegel
+            _items.Add(LimitValue1HysteresisBandHeight);       // = Ausschaltpegel
 
-            items.Add(LimitValue2Source);
-            items.Add(LimitValue2Mode);
-            items.Add(LimitValue2ActivationLevelLowerBandLimit);
-            items.Add(LimitValue2HysteresisBandHeight);
+            _items.Add(LimitValue2Source);
+            _items.Add(LimitValue2Mode);
+            _items.Add(LimitValue2ActivationLevelLowerBandLimit);
+            _items.Add(LimitValue2HysteresisBandHeight);
 
-            items.Add(LimitValue3Source);
-            items.Add(LimitValue3Mode);
-            items.Add(LimitValue3ActivationLevelLowerBandLimit);
-            items.Add(LimitValue3HysteresisBandHeight);
+            _items.Add(LimitValue3Source);
+            _items.Add(LimitValue3Mode);
+            _items.Add(LimitValue3ActivationLevelLowerBandLimit);
+            _items.Add(LimitValue3HysteresisBandHeight);
 
-            items.Add(LimitValue4Source);
-            items.Add(LimitValue4Mode);
-            items.Add(LimitValue4ActivationLevelLowerBandLimit);
-            items.Add(LimitValue4HysteresisBandHeight);
+            _items.Add(LimitValue4Source);
+            _items.Add(LimitValue4Mode);
+            _items.Add(LimitValue4ActivationLevelLowerBandLimit);
+            _items.Add(LimitValue4HysteresisBandHeight);
 
         // region ID commands for filler data:
 
-            items.Add(CoarseFlow);               // data input word 8, bit .0, application mode=filler
-            items.Add(FineFlow);                 // data input word 8, bit .1, application mode=filler
-            items.Add(Ready);                    // data input word 8, bit .2, application mode=filler
-            items.Add(ReDosing);                 // data input word 8, bit .3, application mode=filler; RDS = Nachdosieren
-            items.Add(Emptying);                 // data input word 8, bit .4, application mode=filler
-            items.Add(FlowError);                // data input word 8, bit .5, application mode=filler
-            items.Add(Alarm);                    // data input word 8, bit .6, application mode=filler
-            items.Add(AdcOverUnderload);         // data input word 8, bit .7, application mode=filler
-            items.Add(MaximalDosingTimeInput);   // data input word 8, bit .8, application mode=filler
-            items.Add(LegalForTradeOperation);   // data input word 8, bit .9, application mode=filler
-            items.Add(ToleranceErrorPlus);       // data input word 8, bit .10, application mode=filler
-            items.Add(ToleranceErrorMinus);      // data input word 8, bit .11, application mode=filler
-            items.Add(StatusInput1);             // data input word 8, bit .14, application mode=filler
-            items.Add(GeneralScaleError);        // data input word 8, bit .15, application mode=filler
+            _items.Add(CoarseFlow);               // data input word 8, bit .0, application mode=filler
+            _items.Add(FineFlow);                 // data input word 8, bit .1, application mode=filler
+            _items.Add(Ready);                    // data input word 8, bit .2, application mode=filler
+            _items.Add(ReDosing);                 // data input word 8, bit .3, application mode=filler; RDS = Nachdosieren
+            _items.Add(Emptying);                 // data input word 8, bit .4, application mode=filler
+            _items.Add(FlowError);                // data input word 8, bit .5, application mode=filler
+            _items.Add(Alarm);                    // data input word 8, bit .6, application mode=filler
+            _items.Add(AdcOverUnderload);         // data input word 8, bit .7, application mode=filler
+            _items.Add(MaximalDosingTimeInput);   // data input word 8, bit .8, application mode=filler
+            _items.Add(LegalForTradeOperation);   // data input word 8, bit .9, application mode=filler
+            _items.Add(ToleranceErrorPlus);       // data input word 8, bit .10, application mode=filler
+            _items.Add(ToleranceErrorMinus);      // data input word 8, bit .11, application mode=filler
+            _items.Add(StatusInput1);             // data input word 8, bit .14, application mode=filler
+            _items.Add(GeneralScaleError);        // data input word 8, bit .15, application mode=filler
 
-            items.Add(TotalWeight);             // data input word 18, application mode=filler
-            items.Add(Dosing_time);             // DST = Dosieristzeit
-            items.Add(Coarse_flow_time);        // CFT = Grobstromzeit
-            items.Add(CurrentFineFlowTime);     // data input word 26, application mode=filler; FFT = Feinstromzeit
-            items.Add(ParameterSetProduct);     // data input word 27, application mode=filler
+            _items.Add(TotalWeight);             // data input word 18, application mode=filler
+            _items.Add(Dosing_time);             // DST = Dosieristzeit
+            _items.Add(Coarse_flow_time);        // CFT = Grobstromzeit
+            _items.Add(CurrentFineFlowTime);     // data input word 26, application mode=filler; FFT = Feinstromzeit
+            _items.Add(ParameterSetProduct);     // data input word 27, application mode=filler
 
-            items.Add(TargetFillingWeight);        // data output word 10, application mode=filler
-            items.Add(Residual_flow_time);          // RFT = Nachstromzeit
+            _items.Add(TargetFillingWeight);        // data output word 10, application mode=filler
+            _items.Add(Residual_flow_time);          // RFT = Nachstromzeit
             //items.Add(Reference_value_dosing);     // FWT = Sollwert dosieren = Target filling weight
-            items.Add(Coarse_flow_cut_off_point);  // CFD = Grobstromabschaltpunkt
-            items.Add(Fine_flow_cut_off_point);    // FFD = Feinstromabschaltpunkt
+            _items.Add(Coarse_flow_cut_off_point);  // CFD = Grobstromabschaltpunkt
+            _items.Add(Fine_flow_cut_off_point);    // FFD = Feinstromabschaltpunkt
 
-            items.Add(Minimum_fine_flow);          // FFM = Minimaler Feinstromanteil
-            items.Add(Optimization);               // OSN = Optimierung
-            items.Add(Maximal_dosing_time);        // MDT = Maximale Dosierzeit
-            items.Add(Run_start_dosing);          // RUN = Start Dosieren
+            _items.Add(Minimum_fine_flow);          // FFM = Minimaler Feinstromanteil
+            _items.Add(Optimization);               // OSN = Optimierung
+            _items.Add(Maximal_dosing_time);        // MDT = Maximale Dosierzeit
+            _items.Add(Run_start_dosing);          // RUN = Start Dosieren
 
-            items.Add(Lockout_time_coarse_flow);   // LTC = Sperrzeit Grobstrom
-            items.Add(Lockout_time_fine_flow);     // LTF = Sperrzeit Feinstrom
-            items.Add(Tare_mode);                  // TMD = Tariermodus
-            items.Add(Upper_tolerance_limit);      // UTL = Obere Toleranz
+            _items.Add(Lockout_time_coarse_flow);   // LTC = Sperrzeit Grobstrom
+            _items.Add(Lockout_time_fine_flow);     // LTF = Sperrzeit Feinstrom
+            _items.Add(Tare_mode);                  // TMD = Tariermodus
+            _items.Add(Upper_tolerance_limit);      // UTL = Obere Toleranz
 
-            items.Add(Lower_tolerance_limit);      // LTL = Untere Toleranz
-            items.Add(Minimum_start_weight);       // MSW = Minimum Startgewicht
-            items.Add(Empty_weight);
-            items.Add(Tare_delay);                  // TAD = Tarierverzögerung
+            _items.Add(Lower_tolerance_limit);      // LTL = Untere Toleranz
+            _items.Add(Minimum_start_weight);       // MSW = Minimum Startgewicht
+            _items.Add(Empty_weight);
+            _items.Add(Tare_delay);                  // TAD = Tarierverzögerung
 
-            items.Add(Coarse_flow_monitoring_time); // CBT = Überwachungszeit Grobstrom
-            items.Add(Coarse_flow_monitoring);      // CBK = Füllstromüberwachung Grobstrom
-            items.Add(Fine_flow_monitoring);        // FBK = Füllstromüberwachung Feinstrom
-            items.Add(Fine_flow_monitoring_time);   // FBT = Überwachungszeit Feinstrom
+            _items.Add(Coarse_flow_monitoring_time); // CBT = Überwachungszeit Grobstrom
+            _items.Add(Coarse_flow_monitoring);      // CBK = Füllstromüberwachung Grobstrom
+            _items.Add(Fine_flow_monitoring);        // FBK = Füllstromüberwachung Feinstrom
+            _items.Add(Fine_flow_monitoring_time);   // FBT = Überwachungszeit Feinstrom
 
-            items.Add(Delay_time_after_fine_flow);
-            items.Add(Activation_time_after_fine_flow);
+            _items.Add(Delay_time_after_fine_flow);
+            _items.Add(Activation_time_after_fine_flow);
 
-            items.Add(Systematic_difference);       // SYD = Systematische Differenz
-            items.Add(DownwardsDosing);             // data output word 42, application mode=filler
-            items.Add(Valve_control);               // VCT = Ventilsteuerung
-            items.Add(Emptying_mode);               // EMD = Entleermodus
+            _items.Add(Systematic_difference);       // SYD = Systematische Differenz
+            _items.Add(DownwardsDosing);             // data output word 42, application mode=filler
+            _items.Add(Valve_control);               // VCT = Ventilsteuerung
+            _items.Add(Emptying_mode);               // EMD = Entleermodus
         }
 
         // region ID Commands : Memory - day, month, year, seqNumber, gross, net
