@@ -28,6 +28,7 @@
 //
 // </copyright>
 using HBM.Weighing.API.Data;
+using HBM.Weighing.API.WTX.Modbus;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,7 @@ namespace HBM.Weighing.API.WTX
 
             this.ProcessDataReceived += OnProcessData;
 
-            ProcessData = new ProcessDataModbus(_connection);
+            ProcessData = new ProcessDataModbus((ModbusTcpConnection)_connection);
             DataStandard = new DataStandardModbus(_connection);
             DataFiller = new DataFillerModbus(_connection);
 

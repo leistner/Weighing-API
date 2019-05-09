@@ -38,7 +38,7 @@ namespace HBM.Weighing.API.Data
     /// </summary>
     public class ProcessDataModbus : IProcessData
     {
-        private INetConnection _connection;
+        private ModbusTcpConnection _connection;
         private ModbusCommands _commands;
 
         #region Constructor
@@ -46,7 +46,7 @@ namespace HBM.Weighing.API.Data
         {
             _commands = new ModbusCommands();
 
-            _connection = Connection;
+            _connection = (ModbusTcpConnection) Connection;
             _connection.UpdateDataClasses += UpdateProcessData;
 
             NetValue = 0;
@@ -74,33 +74,35 @@ namespace HBM.Weighing.API.Data
         }
         #endregion
 
-
         #region Update method
         public void UpdateProcessData(object sender, DataEventArgs e)
-        {            
-            NetValue = e.DataDictionary[_commands.Net.Path];
-            GrossValue = e.DataDictionary[_commands.Gross.Path];
+        {
+            NetValue = _connection.GetDataFromDictionary(_commands.Net);
+            GrossValue = _connection.GetDataFromDictionary(_commands.Gross);
             TareValue = NetValue - GrossValue;
-            GeneralWeightError = Convert.ToBoolean(e.DataDictionary[_commands.CiA461WeightStatus.Path] & 0x1);
-            ApplicationMode = (ApplicationMode)e.DataDictionary[_commands.Application_mode.Path];
+            GeneralWeightError = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.GeneralWeightError));
 
-            ScaleAlarm = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.CiA461WeightStatus.Path]) & 0x2) >> 1);
-            LimitStatus = (Convert.ToInt32(e.DataDictionary[_commands.CiA461WeightStatus.Path]) & 0xC) >> 2;
+            ScaleAlarm = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.ScaleAlarmTriggered));
+            LimitStatus = (Convert.ToInt32(_connection.GetDataFromDictionary(_commands.Limit_status))); 
             WeightWithinLimits = (LimitStatus == 0);
             Underload = (LimitStatus == 1);
             Overload = (LimitStatus == 2);
             HigherSafeLoadLimit = (LimitStatus == 3);
-            WeightMoving = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.CiA461WeightStatus.Path]) & 0x10) >> 4);
-            ScaleSealIsOpen = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.CiA461WeightStatus.Path]) & 0x20) >> 5);
-            ManualTare = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.CiA461WeightStatus.Path]) & 0x40) >> 6);
-            TareMode = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.CiA461WeightStatus.Path]) & 0x80) >> 7);
-            ScaleRange = (Convert.ToInt32(e.DataDictionary[_commands.CiA461WeightStatus.Path]) & 0x300) >> 8;
-            ZeroRequired = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.CiA461WeightStatus.Path]) & 0x400) >> 10);
-            CenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.CiA461WeightStatus.Path]) & 0x800) >> 11);
-            InsideZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.CiA461WeightStatus.Path]) & 0x1000) >> 12);
 
-            Decimals = e.DataDictionary[_commands.Decimals.Path];
-            Unit = e.DataDictionary[_commands.Unit.Path];        
+            WeightMoving = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.WeightMoving));
+            ScaleSealIsOpen = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.ScaleSealIsOpen));
+            ManualTare = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.ManualTare));
+            TareMode = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.Tare_mode));
+            ScaleRange = Convert.ToInt32(_connection.GetDataFromDictionary(_commands.ScaleRange));
+            ZeroRequired = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.ZeroRequired));
+            CenterOfZero = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.WeightinCenterOfZero));
+            InsideZero = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.WeightinZeroRange));
+
+            ApplicationMode = (ApplicationMode)_connection.GetDataFromDictionary(_commands.Application_mode);
+            Decimals = _connection.GetDataFromDictionary(_commands.Decimals);
+            Unit = _connection.GetDataFromDictionary(_commands.Unit);
+            Handshake = Convert.ToBoolean(_connection.GetDataFromDictionary(_commands.Handshake));
+            Status = _connection.GetDataFromDictionary(_commands.Status);
         }
         #endregion
 

@@ -224,7 +224,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             {
                 Console.WriteLine("\nNumber of points has to be between 1 and 125.\n");
             }
-
             return _data[Convert.ToInt16(index)];
         }
 
@@ -290,8 +289,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
-
-
         public void Write(string index, int data)
         {
             this._dataCommand = data;
@@ -326,6 +323,36 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         #region Update dictionary methods, properties
 
+        public int GetDataFromDictionary(ModbusCommand frame)
+        {
+            int _register   = 0;
+            ushort _bitMask = 0;
+            ushort _mask    = 0;
+            
+            if(frame.DataType == DataType.Int32) // if the register of 'Net measured value'(=0) or 'Gross measured value'(=2)
+                _dataIntegerBuffer[frame.Path] = _data[Convert.ToInt16(frame.Register)+1] + (_data[Convert.ToInt16(frame.Register)] << 16);
+
+            if (frame.DataType != DataType.Int32 && frame.DataType != DataType.S32 && frame.DataType != DataType.U32)
+            {
+                switch (frame.BitLength)
+                {
+                    case 0: _bitMask = 0xFFFF; break;
+                    case 1: _bitMask = 1 ;    break; 
+                    case 2: _bitMask = 3 ;    break;
+                    case 3: _bitMask = 7 ;    break;
+
+                    default: _bitMask = 1; break;
+                }
+
+                _mask = (ushort)(_bitMask << frame.BitIndex);
+
+                _register = Convert.ToInt32(frame.Register);
+                _dataIntegerBuffer[frame.Path] = (_data[_register] & _mask) >> frame.BitIndex;
+            }
+
+            return _dataIntegerBuffer[frame.Path];
+        }
+
         private void CreateDictionary()
         {
             _dataIntegerBuffer.Clear();
@@ -349,47 +376,57 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void UpdateDictionary()
         {
-            _dataIntegerBuffer[_commands.Net.Path] = _data[1] + (_data[0] << 16);
-            _dataIntegerBuffer[_commands.Gross.Path] =  _data[3] + (_data[2] << 16);
-            _dataIntegerBuffer[_commands.CiA461WeightStatus.Path] = _data[4];
-            _dataIntegerBuffer[_commands.Status_digital_input_1.Path] = _data[6];
-            _dataIntegerBuffer[_commands.Status_digital_output_1.Path] = _data[7];
-            _dataIntegerBuffer[_commands.Limit_value.Path] = _data[8];
-            _dataIntegerBuffer[_commands.Fine_flow_cut_off_point.Path] = _data[20];
-            _dataIntegerBuffer[_commands.Coarse_flow_cut_off_point.Path] = _data[22];
+            this.GetDataFromDictionary(_commands.Net);
+            this.GetDataFromDictionary(_commands.Gross);
 
-            _dataIntegerBuffer[_commands.Application_mode.Path] = _data[5] & 0x1;             // application mode 
-            _dataIntegerBuffer[_commands.Decimals.Path] = (_data[5] & 0x70) >> 4;             // decimals
-            _dataIntegerBuffer[_commands.Unit.Path] = (_data[5] & 0x180) >> 7;    // unit
+            this.GetDataFromDictionary(_commands.WeightMoving);
+            this.GetDataFromDictionary(_commands.ScaleSealIsOpen);
+            this.GetDataFromDictionary(_commands.ManualTare);
+            this.GetDataFromDictionary(_commands.Tare_mode);
+            this.GetDataFromDictionary(_commands.ScaleRange);
+            this.GetDataFromDictionary(_commands.ZeroRequired);
+            this.GetDataFromDictionary(_commands.WeightinCenterOfZero);
+            this.GetDataFromDictionary(_commands.WeightinZeroRange);
 
+            this.GetDataFromDictionary(_commands.Application_mode);     // application mode 
+            this.GetDataFromDictionary(_commands.Decimals);             // decimals
+            this.GetDataFromDictionary(_commands.Unit);                 // unit
+            this.GetDataFromDictionary(_commands.Handshake);            // handshake
+
+            this.GetDataFromDictionary(_commands.Status_digital_input_1);
+            this.GetDataFromDictionary(_commands.Status_digital_output_1);
+            this.GetDataFromDictionary(_commands.Limit_value);
+
+            this.GetDataFromDictionary(_commands.Fine_flow_cut_off_point);
+            this.GetDataFromDictionary(_commands.Coarse_flow_cut_off_point);
+            this.GetDataFromDictionary(_commands.Coarse_flow_monitoring);   
+            this.GetDataFromDictionary(_commands.Fine_flow_monitoring);   
+
+            this.GetDataFromDictionary(_commands.Ready);
+            this.GetDataFromDictionary(_commands.ReDosing);
             
-            _dataIntegerBuffer[_commands.Coarse_flow_monitoring.Path] = _data[8] & 0x1;           //_coarseFlow
-            _dataIntegerBuffer[_commands.Fine_flow_monitoring.Path] = ((_data[8] & 0x2) >> 1);  // _fineFlow
+            //this.GetDataFromDictionary(_commands.Emptying_mode);
+            this.GetDataFromDictionary(_commands.Maximal_dosing_time);
+            this.GetDataFromDictionary(_commands.Upper_tolerance_limit);
+            this.GetDataFromDictionary(_commands.Lower_tolerance_limit);
+            this.GetDataFromDictionary(_commands.StatusInput1);
+            this.GetDataFromDictionary(_commands.LegalForTradeOperation);
 
-            _dataIntegerBuffer[_commands.Ready.Path] = ((_data[8] & 0x4) >> 2);
-            _dataIntegerBuffer[_commands.ReDosing.Path] = ((_data[8] & 0x8) >> 3);
-            _dataIntegerBuffer[_commands.Emptying_mode.Path] = ((_data[8] & 0x10) >> 4);
-            _dataIntegerBuffer[_commands.Maximal_dosing_time.Path] = ((_data[8] & 0x100) >> 8);
-            _dataIntegerBuffer[_commands.Upper_tolerance_limit.Path] = ((_data[8] & 0x400) >> 10);
-            _dataIntegerBuffer[_commands.Lower_tolerance_limit.Path] = ((_data[8] & 0x800) >> 11);
-            _dataIntegerBuffer[_commands.StatusInput1.Path] = ((_data[8] & 0x4000) >> 14);
-            _dataIntegerBuffer[_commands.LegalForTradeOperation.Path] = ((_data[8] & 0x200) >> 9);
-            
-            _dataIntegerBuffer[_commands.WeightMemDayStandard.Path]         = (_data[9]);
-            _dataIntegerBuffer[_commands.WeightMemMonthStandard.Path] = (_data[10]);
-            _dataIntegerBuffer[_commands.WeightMemYearStandard.Path]     = (_data[11]);
-            _dataIntegerBuffer[_commands.WeightMemSeqNumberStandard.Path] = (_data[12]);
-            _dataIntegerBuffer[_commands.WeightMemGrossStandard.Path] = (_data[13]);
-            _dataIntegerBuffer[_commands.WeightMemNetStandard.Path]         = (_data[14]);
+            this.GetDataFromDictionary(_commands.WeightMemDayStandard);
+            this.GetDataFromDictionary(_commands.WeightMemMonthStandard);
+            this.GetDataFromDictionary(_commands.WeightMemYearStandard);
+            this.GetDataFromDictionary(_commands.WeightMemSeqNumberStandard);
+            this.GetDataFromDictionary(_commands.WeightMemGrossStandard);
+            this.GetDataFromDictionary(_commands.WeightMemNetStandard);
 
-            _dataIntegerBuffer[_commands.Emptying.Path] = ((_data[8] & 0x10) >> 4);
-            _dataIntegerBuffer[_commands.FlowError.Path] = ((_data[8] & 0x20) >> 5);
-            _dataIntegerBuffer[_commands.Alarm.Path] = ((_data[8] & 0x40) >> 6);
-            _dataIntegerBuffer[_commands.AdcOverUnderload.Path] = ((_data[8] & 0x80) >> 7);
+            this.GetDataFromDictionary(_commands.Emptying);
+            this.GetDataFromDictionary(_commands.FlowError);
+            this.GetDataFromDictionary(_commands.Alarm);
+            this.GetDataFromDictionary(_commands.AdcOverUnderload);
 
-            _dataIntegerBuffer[_commands.StatusInput1.Path] = ((_data[8] & 0x4000) >> 14);
-            _dataIntegerBuffer[_commands.GeneralScaleError.Path] = ((_data[8] & 0x8000) >> 15);
-            _dataIntegerBuffer[_commands.TotalWeight.Path] = _data[18];
+            this.GetDataFromDictionary(_commands.StatusInput1);
+            this.GetDataFromDictionary(_commands.GeneralScaleError);
+            this.GetDataFromDictionary(_commands.TotalWeight);
 
             // Undefined IDs:
             /*

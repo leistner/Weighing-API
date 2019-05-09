@@ -62,7 +62,6 @@ namespace HBM.Weighing.API.WTX.Jet
 
             WS_GeneralWeightError = new JetBusCommand(1, "6012/01", 0, 1);
 
-
             Unit_prefix_fixed_parameter = new JetBusCommand(1, "6014/01", 0, 0);
             Application_mode = new JetBusCommand(1, "2010/07", 0, 0); // IMD = Input mode ( Application mode)
             Decimals = new JetBusCommand(1, "6013/01", 0, 0);

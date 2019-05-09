@@ -72,6 +72,10 @@ namespace HBM.Weighing.API
 
         int Unit { get; }
 
+        bool Handshake { get; }
+
+        int Status { get; }
+
         bool Underload { get; }
 
         bool Overload { get; }
@@ -80,7 +84,6 @@ namespace HBM.Weighing.API
 
         bool HigherSafeLoadLimit{ get; }
         #endregion
-
 
         #region Update method
         void UpdateProcessData(object sender, DataEventArgs e);

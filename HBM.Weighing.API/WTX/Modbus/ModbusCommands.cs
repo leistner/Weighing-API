@@ -74,26 +74,24 @@ namespace HBM.Weighing.API.WTX.Modbus
             Net   = new ModbusCommand(DataType.Int32, "0", IOType.Input, ApplicationMode.Standard, 32, 0);
             Gross = new ModbusCommand(DataType.Int32, "2", IOType.Input, ApplicationMode.Standard, 32, 0);
             Zero  = new ModbusCommand(DataType.Int32, "",  IOType.Input, ApplicationMode.Standard, 32, 0);
-
-            CiA461WeightStatus = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 0, 0);
-
-            GeneralWeightError = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 0);
+            
+            GeneralWeightError = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 0, 1);
             ScaleAlarmTriggered = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 1);
             Limit_status = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 2, 2);                   // data word = 4 ; length = 2 ; offset = 2;
-            WeightMoving = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 4);
-            ScaleSealIsOpen = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 5);
-            ManualTare = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 6);
-            WeightType = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 7);
-            ScaleRange = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 2, 8);
-            ZeroRequired = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 10);
-            WeightinCenterOfZero = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 11);
-            WeightinZeroRange = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 12);
+            WeightMoving = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 4, 1);
+            ScaleSealIsOpen = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 5, 1);
+            ManualTare = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 6, 1);
+            WeightType = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 7, 1);
+            ScaleRange = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 8, 2);
+            ZeroRequired = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 10, 1);
+            WeightinCenterOfZero = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 11, 1);
+            WeightinZeroRange = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 12, 1);
 
-            Application_mode = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 2, 0);               // data word = 5 ; length = 2 ; offset = 0;
-            Decimals = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 3, 4);                       // data word = 5 ; length = 3 ; offset = 4;
-            Unit = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 2, 7);    // data word = 5 ; length = 2 ; offset = 7;
-            Handshake = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 1, 14);
-            Status = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 1, 15);          // data word = 5 ; length = 1 ; offset = 15;
+            Application_mode = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 0, 2);       // data word = 5 ; length = 2 ; offset = 0;
+            Decimals = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 4, 3);               // data word = 5 ; length = 3 ; offset = 4;
+            Unit = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 7, 2);                   // data word = 5 ; length = 2 ; offset = 7;
+            Handshake = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 14, 1);             // data word = 5 : length = 1 ; offset = 14;
+            Status = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 15, 1);                // data word = 5 ; length = 1 ; offset = 15;
 
             // region ID commands for standard mode
             Status_digital_input_1 = new ModbusCommand(DataType.U08, "6", IOType.Input, ApplicationMode.Standard, 1, 1);    // IS1
@@ -216,8 +214,6 @@ namespace HBM.Weighing.API.WTX.Modbus
         public ModbusCommand Gross { get; private set; }
         public ModbusCommand Zero { get; private set; }
         public ModbusCommand ManualTareValue { get; private set; }  
-
-        public ModbusCommand CiA461WeightStatus { get; private set; }
 
         public ModbusCommand GeneralWeightError { get; private set; }
         public ModbusCommand ScaleAlarmTriggered { get; private set; }
