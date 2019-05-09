@@ -28,6 +28,7 @@
 //
 // </copyright>
 using HBM.Weighing.API.Data;
+using HBM.Weighing.API.WTX.Modbus;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
