@@ -126,7 +126,7 @@ namespace HBM.Weighing.API.Data
         private int _valveControl;
         private int _emptyingMode;
 
-        private INetConnection _connection;
+        private ModbusTcpConnection _connection;
         private ModbusCommands _commands;
 
         #endregion
@@ -137,7 +137,7 @@ namespace HBM.Weighing.API.Data
         {
             _commands = new ModbusCommands();
 
-            _connection = Connection;
+            _connection = (ModbusTcpConnection) Connection;
 
             _connection.UpdateDataClasses += UpdateFillerData;
 
@@ -219,72 +219,73 @@ namespace HBM.Weighing.API.Data
             if (e.DataDictionary[_commands.Application_mode.Path] == 2 || e.DataDictionary[_commands.Application_mode.Path] == 3)  // If application mode = filler
             {
                 // Via Modbus and Jetbus IDs: 
-                _maxDosingTime = Convert.ToInt32(e.DataDictionary[(_commands.Maximal_dosing_time.Path)]);
-                //_meanValueDosingResults = Convert.ToInt32(e.DataDictionary[(_commands.Mean_value_dosing_results.Path)]);
-                //_standardDeviation = Convert.ToInt32(e.DataDictionary[(_commands.Standard_deviation.Path)]);
-                _fineFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[(_commands.Fine_flow_cut_off_point.Path)]);
-                _coarseFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_cut_off_point.Path)]);
+                _maxDosingTime = _connection.GetDataFromDictionary(_commands.Maximal_dosing_time);
+                //_meanValueDosingResults = _connection.GetDataFromDictionary(_commands.Mean_value_dosing_results);
+                //_standardDeviation = _connection.GetDataFromDictionary(_commands.Standard_deviation);
+                _fineFlowCutOffPoint = _connection.GetDataFromDictionary(_commands.Fine_flow_cut_off_point);
+                _coarseFlowCutOffPoint = _connection.GetDataFromDictionary(_commands.Coarse_flow_cut_off_point);
 
-                //_residualFlowTime = Convert.ToInt32(e.DataDictionary[(_commands.Residual_flow_time.Path)]);
-                _minimumFineFlow = Convert.ToInt32(e.DataDictionary[(_commands.Minimum_fine_flow.Path)]);
-                _optimizationOfCutOffPoints = Convert.ToInt32(e.DataDictionary[(_commands.Optimization.Path)]);
-                _maximumDosingTime = Convert.ToInt32(e.DataDictionary[(_commands.Maximal_dosing_time.Path)]);
-                _coarseLockoutTime = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_time.Path)]);
-                _fineLockoutTime = Convert.ToInt32(e.DataDictionary[(_commands.CurrentFineFlowTime.Path)]);
-                _tareMode = Convert.ToInt32(e.DataDictionary[(_commands.Tare_mode.Path)]);
+                //_residualFlowTime = _connection.GetDataFromDictionary(_commands.Residual_flow_time);
+                _minimumFineFlow = _connection.GetDataFromDictionary(_commands.Minimum_fine_flow);
+                _optimizationOfCutOffPoints = _connection.GetDataFromDictionary(_commands.Optimization);
+                _maximumDosingTime = _connection.GetDataFromDictionary(_commands.Maximal_dosing_time);
+                _coarseLockoutTime = _connection.GetDataFromDictionary(_commands.Coarse_flow_time);
+                _fineLockoutTime = _connection.GetDataFromDictionary(_commands.CurrentFineFlowTime);
+                _tareMode = _connection.GetDataFromDictionary(_commands.Tare_mode);
 
-                _upperToleranceLimit = Convert.ToInt32(e.DataDictionary[(_commands.Upper_tolerance_limit.Path)]);
-                _lowerToleranceLimit = Convert.ToInt32(e.DataDictionary[(_commands.Lower_tolerance_limit.Path)]);
-                _minimumStartWeight = Convert.ToInt32(e.DataDictionary[(_commands.Minimum_start_weight.Path)]);
-                //_emptyWeight = Convert.ToInt32(e.DataDictionary[(_commands.Empty_weight.Path)]);
-                _tareDelay = Convert.ToInt32(e.DataDictionary[(_commands.Tare_delay.Path)]);
+                _upperToleranceLimit = _connection.GetDataFromDictionary(_commands.Upper_tolerance_limit);
+                _lowerToleranceLimit = _connection.GetDataFromDictionary(_commands.Lower_tolerance_limit);
+                _minimumStartWeight = _connection.GetDataFromDictionary(_commands.Minimum_start_weight);
+                //_emptyWeight = _connection.GetDataFromDictionary(_commands.Empty_weight);
+                _tareDelay = _connection.GetDataFromDictionary(_commands.Tare_delay);
 
-                _coarseFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_monitoring_time.Path)]);
-                _coarseFlowMonitoring = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_monitoring.Path)]);
-                _fineFlowMonitoring = Convert.ToInt32(e.DataDictionary[(_commands.Fine_flow_monitoring.Path)]);
-                _fineFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[(_commands.Fine_flow_monitoring_time.Path)]); ;
+                _coarseFlowMonitoringTime = _connection.GetDataFromDictionary(_commands.Coarse_flow_monitoring_time);
+                _coarseFlowMonitoring = _connection.GetDataFromDictionary(_commands.Coarse_flow_monitoring);
+                _fineFlowMonitoring = _connection.GetDataFromDictionary(_commands.Fine_flow_monitoring);
+                //_fineFlowMonitoringTime = _connection.GetDataFromDictionary(_commands.Fine_flow_monitoring_time); ;
 
-                _systematicDifference = Convert.ToInt32(e.DataDictionary[(_commands.Systematic_difference.Path)]);
-                _valveControl = Convert.ToInt32(e.DataDictionary[(_commands.Valve_control.Path)]);
-                _emptyingMode = Convert.ToInt32(e.DataDictionary[(_commands.Emptying_mode.Path)]);
-                _delayTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[(_commands.Delay_time_after_fine_flow.Path)]);
-                _activationTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[(_commands.Activation_time_after_fine_flow.Path)]);
+                _systematicDifference = _connection.GetDataFromDictionary(_commands.Systematic_difference);
+                /*
+                _valveControl = _connection.GetDataFromDictionary(_commands.Valve_control);
+                _emptyingMode = _connection.GetDataFromDictionary(_commands.Emptying_mode);
+                _delayTimeAfterFineFlow = _connection.GetDataFromDictionary(_commands.Delay_time_after_fine_flow);
+                _activationTimeAfterFineFlow = _connection.GetDataFromDictionary(_commands.Activation_time_after_fine_flow);
 
-                _adcOverUnderload = Convert.ToInt16(e.DataDictionary[_commands.AdcOverUnderload.Path]);
-                _legalForTradeOperation = Convert.ToInt16(e.DataDictionary[_commands.LegalForTradeOperation.Path]);
-                _statusInput1 = Convert.ToInt16(e.DataDictionary[_commands.StatusInput1.Path]);
-                _generalScaleError = Convert.ToInt16(e.DataDictionary[_commands.GeneralScaleError.Path]);
+                _adcOverUnderload = _connection.GetDataFromDictionary(_commands.AdcOverUnderload);
+                _legalForTradeOperation = _connection.GetDataFromDictionary(_commands.LegalForTradeOperation);
+                _statusInput1 = _connection.GetDataFromDictionary(_commands.StatusInput1);
+                _generalScaleError = _connection.GetDataFromDictionary(_commands.GeneralScaleError);
 
-                _coarseFlow = Convert.ToInt16(e.DataDictionary[_commands.CoarseFlow.Path]);
-                _fineFlow = Convert.ToInt16(e.DataDictionary[_commands.FineFlow.Path]);
-                _ready = Convert.ToInt16(e.DataDictionary[_commands.Ready.Path]);
-                _reDosing = Convert.ToInt16(e.DataDictionary[_commands.ReDosing.Path]);
+                _coarseFlow = _connection.GetDataFromDictionary(_commands.CoarseFlow);
+                _fineFlow = _connection.GetDataFromDictionary(_commands.FineFlow);
+                _ready = _connection.GetDataFromDictionary(_commands.Ready);
+                _reDosing = _connection.GetDataFromDictionary(_commands.ReDosing);
 
-                _emptying = Convert.ToInt16(e.DataDictionary[_commands.Emptying.Path]);
-                _flowError = Convert.ToInt16(e.DataDictionary[_commands.FlowError.Path]);
-                _alarm = Convert.ToInt16(e.DataDictionary[_commands.Alarm.Path]);
-                _toleranceErrorPlus = Convert.ToInt16(e.DataDictionary[_commands.ToleranceErrorPlus.Path]);
+                _emptying = _connection.GetDataFromDictionary(_commands.Emptying);
+                _flowError = _connection.GetDataFromDictionary(_commands.FlowError);
+                _alarm = _connection.GetDataFromDictionary(_commands.Alarm);
+                _toleranceErrorPlus = _connection.GetDataFromDictionary(_commands.ToleranceErrorPlus);
 
-                _toleranceErrorMinus = Convert.ToInt16(e.DataDictionary[_commands.ToleranceErrorMinus.Path]);
-                _currentDosingTime = Convert.ToInt16(e.DataDictionary[_commands.Dosing_time.Path]);
-                _currentCoarseFlowTime = Convert.ToInt16(e.DataDictionary[_commands.Coarse_flow_time.Path]);
-                _currentFineFlowTime = Convert.ToInt16(e.DataDictionary[_commands.CurrentFineFlowTime.Path]);
+                _toleranceErrorMinus = _connection.GetDataFromDictionary(_commands.ToleranceErrorMinus);
+                _currentDosingTime = _connection.GetDataFromDictionary(_commands.Dosing_time);
+                _currentCoarseFlowTime = _connection.GetDataFromDictionary(_commands.Coarse_flow_time);
+                _currentFineFlowTime = _connection.GetDataFromDictionary(_commands.CurrentFineFlowTime);
 
-                _parameterSetProduct = Convert.ToInt16(e.DataDictionary[_commands.ParameterSetProduct.Path]);
-                _downwardsDosing = Convert.ToInt16(e.DataDictionary[_commands.DownwardsDosing.Path]);
-                _totalWeight = Convert.ToInt32(e.DataDictionary[_commands.TotalWeight.Path]);
+                _parameterSetProduct = _connection.GetDataFromDictionary(_commands.ParameterSetProduct);
+                _downwardsDosing = _connection.GetDataFromDictionary(_commands.DownwardsDosing);
+                _totalWeight = _connection.GetDataFromDictionary(_commands.TotalWeight);
 
-                //_targetFillingWeight = Convert.ToInt32(e.DataDictionary[_commands.TargetFillingWeight.Path]);
-                _coarseFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_commands.Coarse_flow_cut_off_point.Path]);
-                _fineFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_commands.Fine_flow_cut_off_point.Path]);
-                _startWithFineFlow = Convert.ToInt32(e.DataDictionary[_commands.Run_start_dosing.Path]);  // Command 'Run_start_dosing' right
-
-                _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.WeightMemDayStandard.Path]);
-                _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.WeightMemMonthStandard.Path]);
-                _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.WeightMemYearStandard.Path]);
-                _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.WeightMemSeqNumberStandard.Path]);
-                _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.WeightMemGrossStandard.Path]);
-                _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.WeightMemNetStandard.Path]);
+                //_targetFillingWeight = Convert.ToInt32(e.DataDictionary[_commands.TargetFillingWeight);
+                _coarseFlowCutOffPointSet = _connection.GetDataFromDictionary(_commands.Coarse_flow_cut_off_point);
+                _fineFlowCutOffPointSet = _connection.GetDataFromDictionary(_commands.Fine_flow_cut_off_point);
+                _startWithFineFlow = _connection.GetDataFromDictionary(_commands.Run_start_dosing);  // Command 'Run_start_dosing' right
+                */
+                _weightMemoryDay = _connection.GetDataFromDictionary(_commands.WeightMemDayStandard);
+                _weightMemoryMonth = _connection.GetDataFromDictionary(_commands.WeightMemMonthStandard);
+                _weightMemoryYear = _connection.GetDataFromDictionary(_commands.WeightMemYearStandard);
+                _weightMemorySeqNumber = _connection.GetDataFromDictionary(_commands.WeightMemSeqNumberStandard);
+                _weightMemoryGross = _connection.GetDataFromDictionary(_commands.WeightMemGrossStandard);
+                _weightMemoryNet = _connection.GetDataFromDictionary(_commands.WeightMemNetStandard);
             }
         }
         #endregion

@@ -281,8 +281,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             _dataIntegerBuffer.Add(_commands.Net.Path, 0);
             _dataIntegerBuffer.Add(_commands.Gross.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.CiA461WeightStatus.Path, 0);
+            
             _dataIntegerBuffer.Add(_commands.Unit.Path, 0);
 
             _dataIntegerBuffer.Add(_commands.Fine_flow_cut_off_point.Path, 0);
@@ -395,7 +394,6 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             _dataIntegerBuffer[_commands.Net.Path] = _data[1] + (_data[0] << 16);
             _dataIntegerBuffer[_commands.Gross.Path] = _data[3] + (_data[2] << 16);
-            _dataIntegerBuffer[_commands.CiA461WeightStatus.Path] = _data[4];
             _dataIntegerBuffer[_commands.Status_digital_input_1.Path] = _data[6];
             _dataIntegerBuffer[_commands.Status_digital_output_1.Path] = _data[7];
             _dataIntegerBuffer[_commands.Limit_value.Path] = _data[8];

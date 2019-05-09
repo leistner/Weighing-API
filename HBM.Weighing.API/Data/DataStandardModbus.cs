@@ -96,7 +96,7 @@ namespace HBM.Weighing.API.Data
         private int _limitSwitch4ActivationLevelLowerBandLimit;
         private int _limitSwitch4HysteresisBandHeight;
                
-        private INetConnection _connection;
+        private ModbusTcpConnection _connection;
         private ModbusCommands _commands;
         #endregion
 
@@ -106,7 +106,7 @@ namespace HBM.Weighing.API.Data
         {
             _commands = new ModbusCommands();
 
-            _connection = Connection;
+            _connection = (ModbusTcpConnection)Connection;
 
             _connection.UpdateDataClasses += UpdateStandardData;
 
@@ -161,49 +161,49 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardData(object sender, DataEventArgs e)
         {
-            _input1 = (e.DataDictionary[_commands.Status_digital_input_1.Path] & 0x1);
-            _input2 = (e.DataDictionary[_commands.Status_digital_input_2.Path] & 0x2) >> 1;
-            _input3 = (e.DataDictionary[_commands.Status_digital_input_3.Path] & 0x4) >> 2;
-            _input4 = (e.DataDictionary[_commands.Status_digital_input_4.Path] & 0x8) >> 3;
+            _input1 = _connection.GetDataFromDictionary(_commands.Status_digital_input_1);
+            _input2 = _connection.GetDataFromDictionary(_commands.Status_digital_input_2);
+            _input3 = _connection.GetDataFromDictionary(_commands.Status_digital_input_3);
+            _input4 = _connection.GetDataFromDictionary(_commands.Status_digital_input_4);
 
-            _output1 = e.DataDictionary [_commands.Status_digital_output_1.Path] & 0x1;
-            _output2 = (e.DataDictionary[_commands.Status_digital_output_2.Path] & 0x2) >> 1;
-            _output3 = (e.DataDictionary[_commands.Status_digital_output_3.Path] & 0x4) >> 2;
-            _output4 = (e.DataDictionary[_commands.Status_digital_output_4.Path] & 0x8) >> 3;
+            _output1 = _connection.GetDataFromDictionary(_commands.Status_digital_output_1);
+            _output2 = _connection.GetDataFromDictionary(_commands.Status_digital_output_2);
+            _output3 = _connection.GetDataFromDictionary(_commands.Status_digital_output_3);
+            _output4 = _connection.GetDataFromDictionary(_commands.Status_digital_output_4);
 
-            _limitStatus1 = (e.DataDictionary[_commands.Limit_value.Path] & 0x1);
-            _limitStatus2 = (e.DataDictionary[_commands.Limit_value.Path] & 0x2) >> 1;
-            _limitStatus3 = (e.DataDictionary[_commands.Limit_value.Path] & 0x4) >> 2;
-            _limitStatus4 = (e.DataDictionary[_commands.Limit_value.Path] & 0x8) >> 3;
+            _limitStatus1 = _connection.GetDataFromDictionary(_commands.Limit_value);
+            _limitStatus2 = _connection.GetDataFromDictionary(_commands.Limit_value);
+            _limitStatus3 = _connection.GetDataFromDictionary(_commands.Limit_value);
+            _limitStatus4 = _connection.GetDataFromDictionary(_commands.Limit_value);
 
-            _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.WeightMemDayStandard.Path]);
-            _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.WeightMemMonthStandard.Path]);
-            _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.WeightMemYearStandard.Path]);
-            _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.WeightMemSeqNumberStandard.Path]);
-            _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.WeightMemGrossStandard.Path]);
-            _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.WeightMemNetStandard.Path]);
+            _weightMemoryDay = Convert.ToInt16(_connection.GetDataFromDictionary(_commands.WeightMemDayStandard));
+            _weightMemoryMonth = Convert.ToInt16(_connection.GetDataFromDictionary(_commands.WeightMemMonthStandard));
+            _weightMemoryYear = Convert.ToInt16(_connection.GetDataFromDictionary(_commands.WeightMemYearStandard));
+            _weightMemorySeqNumber = Convert.ToInt16(_connection.GetDataFromDictionary(_commands.WeightMemSeqNumberStandard));
+            _weightMemoryGross = Convert.ToInt16(_connection.GetDataFromDictionary(_commands.WeightMemGrossStandard));
+            _weightMemoryNet = Convert.ToInt16(_connection.GetDataFromDictionary(_commands.WeightMemNetStandard));
 
-            if (e.DataDictionary[_commands.Application_mode.Path] == 0 || e.DataDictionary[_commands.Application_mode.Path] == 1)  // If application mode is in standard mode
+            if (_connection.GetDataFromDictionary(_commands.Application_mode) == 0 || _connection.GetDataFromDictionary(_commands.Application_mode) == 1)  // If application mode is in standard mode
             {
-                _limitSwitch1Input = e.DataDictionary[_commands.LimitValue1Mode.Path];
-                _limitSwitch1Mode = e.DataDictionary[_commands.LimitValue1Input.Path];
-                _limitSwitch1ActivationLevelLowerBandLimit = e.DataDictionary[_commands.LimitValue1ActivationLevelLowerBandLimit.Path];
-                _limitSwitch1HysteresisBandHeight = e.DataDictionary[_commands.LimitValue1HysteresisBandHeight.Path];
+                _limitSwitch1Input = _connection.GetDataFromDictionary(_commands.LimitValue1Mode);
+                _limitSwitch1Mode = _connection.GetDataFromDictionary(_commands.LimitValue1Input);
+                _limitSwitch1ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(_commands.LimitValue1ActivationLevelLowerBandLimit);
+                _limitSwitch1HysteresisBandHeight = _connection.GetDataFromDictionary(_commands.LimitValue1HysteresisBandHeight);
 
-                _limitSwitch2Mode = e.DataDictionary[_commands.LimitValue2Source.Path];
-                _limitSwitch2Source = e.DataDictionary[_commands.LimitValue2Mode.Path];
-                _limitSwitch2ActivationLevelLowerBandLimit = e.DataDictionary[_commands.LimitValue2ActivationLevelLowerBandLimit.Path];
-                _limitSwitch2HysteresisBandHeight = e.DataDictionary[_commands.LimitValue2HysteresisBandHeight.Path];
-                
-                _limitSwitch3Mode = e.DataDictionary[_commands.LimitValue3Source.Path];
-                _limitSwitch3Source = e.DataDictionary[_commands.LimitValue3Mode.Path];
-                _limitSwitch3ActivationLevelLowerBandLimit = e.DataDictionary[_commands.LimitValue3ActivationLevelLowerBandLimit.Path];
-                _limitSwitch3HysteresisBandHeight = e.DataDictionary[_commands.LimitValue3HysteresisBandHeight.Path];
-                
-                _limitSwitch4Mode = e.DataDictionary[_commands.LimitValue3Source.Path];
-                _limitSwitch4Source = e.DataDictionary[_commands.LimitValue3Mode.Path];
-                _limitSwitch4ActivationLevelLowerBandLimit = e.DataDictionary[_commands.LimitValue3ActivationLevelLowerBandLimit.Path];
-                _limitSwitch4HysteresisBandHeight = e.DataDictionary[_commands.LimitValue3HysteresisBandHeight.Path];
+                _limitSwitch2Mode = _connection.GetDataFromDictionary(_commands.LimitValue2Source);
+                _limitSwitch2Source = _connection.GetDataFromDictionary(_commands.LimitValue2Mode);
+                _limitSwitch2ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(_commands.LimitValue2ActivationLevelLowerBandLimit);
+                _limitSwitch2HysteresisBandHeight = _connection.GetDataFromDictionary(_commands.LimitValue2HysteresisBandHeight);
+
+                _limitSwitch3Mode = _connection.GetDataFromDictionary(_commands.LimitValue3Source);
+                _limitSwitch3Source = _connection.GetDataFromDictionary(_commands.LimitValue3Mode);
+                _limitSwitch3ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(_commands.LimitValue3ActivationLevelLowerBandLimit);
+                _limitSwitch3HysteresisBandHeight = _connection.GetDataFromDictionary(_commands.LimitValue3HysteresisBandHeight);
+
+                _limitSwitch4Mode = _connection.GetDataFromDictionary(_commands.LimitValue3Source);
+                _limitSwitch4Source = _connection.GetDataFromDictionary(_commands.LimitValue3Mode);
+                _limitSwitch4ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(_commands.LimitValue3ActivationLevelLowerBandLimit);
+                _limitSwitch4HysteresisBandHeight = _connection.GetDataFromDictionary(_commands.LimitValue3HysteresisBandHeight);
             }
         }
         #endregion
