@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 using HBM.Weighing.API;
 
-namespace WTXModbus
+namespace GUIplc
 {
     /// <summary>
     /// A form to select IO input and output functions listed in a checkedlistbox

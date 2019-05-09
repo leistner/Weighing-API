@@ -63,7 +63,7 @@ namespace WTXModbus
 
         private const int WAIT_DISCONNECT = 2000; 
         
-        private static BaseWtDevice _wtxDevice;
+        private static BaseWTDevice _wtxDevice;
         
         private static string _ipAddress = DEFAULT_IP_ADDRESS ;     // IP-adress, set as the first argument in the VS project properties menu as an argument or in the console application as an input(which is commented out in the following) 
         private static int _timerInterval = 200;                    // timer interval, set as the second argument in the VS project properties menu as an argument or in the console application as an input(which is commented out in the following) 
@@ -148,9 +148,9 @@ namespace WTXModbus
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTcpConnection _modbusConection = new ModbusTcpConnection(_ipAddress);
 
-                _wtxDevice = new WtxModbus(_modbusConection, _timerInterval,Update);
+                _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_modbusConection, _timerInterval, Update);
 
-                ((WtxModbus)_wtxDevice).ReadBufferLength = 38;
+                ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).ReadBufferLength = 38;
             }
             else
             {
@@ -212,10 +212,10 @@ namespace WTXModbus
                         case '0': _wtxDevice.Tare(); break;                  // Taring 
                         case '1': _wtxDevice.SetGross(); break;                   // Gross/Net
                         case '2': _wtxDevice.Zero(); break;                 // Zeroing
-                        case '3': _wtxDevice.AdjustZero(); break;              // Adjust zero 
-                        case '4': _wtxDevice.AdjustNominal(); break;           // Adjust nominal
-                        case '5': _wtxDevice.ActivateData(); break;            // Activate data
-                        case '6': _wtxDevice.ManualTaring(); break;            // Manual taring
+                        case '3': _wtxDevice.AdjustZeroSignal(); break;              // Adjust zero 
+                        case '4': _wtxDevice.AdjustNominalSignal(); break;           // Adjust nominal
+                        //case '5': _wtxDevice.ActivateData(); break;            // Activate data
+                        //case '6': _wtxDevice.ManualTaring(); break;            // Manual taring
                         case '7': _wtxDevice.RecordWeight(); break;            // Record Weight
 
 
@@ -288,10 +288,10 @@ namespace WTXModbus
                         case '0': _wtxDevice.Tare(); break;                  // Taring 
                         case '1': _wtxDevice.SetGross(); break;                   // Gross/Net
                         case '2': _wtxDevice.Zero(); break;                 // Zeroing
-                        case '3': _wtxDevice.AdjustZero(); break;              // Adjust zero 
-                        case '4': _wtxDevice.AdjustNominal(); break;           // Adjust nominal
-                        case '5': _wtxDevice.ActivateData(); break;            // Activate data
-                        case '6': _wtxDevice.ManualTaring(); break;            // Manual taring
+                        case '3': _wtxDevice.AdjustZeroSignal(); break;              // Adjust zero 
+                        case '4': _wtxDevice.AdjustNominalSignal(); break;           // Adjust nominal
+                        //case '5': _wtxDevice.ActivateData(); break;            // Activate data
+                        //case '6': _wtxDevice.ManualTaring(); break;            // Manual taring
                         case '7': _wtxDevice.RecordWeight(); break;            // Record Weight
 
                         // 'c' for writing on multiple registers, which is necessary for the calibration. 
@@ -367,11 +367,11 @@ namespace WTXModbus
         {
             //_isCalibrating = true;
 
-            _wtxDevice.StopUpdate();
+            _wtxDevice.Stop();
 
             zero_load_nominal_load_input();
            
-            _wtxDevice.Calculate(_preload,_capacity);
+            _wtxDevice.CalculateAdjustment(_preload,_capacity);
             
             //_isCalibrating = false;           
         }
@@ -383,7 +383,7 @@ namespace WTXModbus
          */
         private static void CalibrationWithWeight()
         {
-            _wtxDevice.StopUpdate();
+            _wtxDevice.Stop();
 
             Console.Clear();
             Console.WriteLine("\nPlease tip the value for the calibration weight and tip enter to confirm : ");
@@ -392,14 +392,14 @@ namespace WTXModbus
             Console.WriteLine("\nTo start : Set zero load and press any key for measuring zero and wait.");
             string another = Console.ReadLine();
 
-            _wtxDevice.MeasureZero();
-            Console.WriteLine("\n\nDead load measured.Put weight on scale, press any key and wait.");
+            _wtxDevice.AdjustZeroSignal();
+            Console.WriteLine("\nZero load measured.Put weight on scale, press any key and wait.");
 
             string another2 = Console.ReadLine();
 
-            _wtxDevice.Calibrate(PotencyCalibrationWeight(), _calibrationWeight);
+            _wtxDevice.AdjustNominalSignalWithAdjustmentWeight(PotencyCalibrationWeight());
 
-            _wtxDevice.RestartUpdate();
+            _wtxDevice.Restart();
         }  
 
         /*
@@ -456,19 +456,19 @@ namespace WTXModbus
 
                     if (_inputMode == 1)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) + "\t  As an int/bool:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight + "\t  As an int/bool:  " + e.ProcessData.NetValue);
                     }
                     else
                         if (_inputMode == 2 || _inputMode == 3 || _inputMode == 4)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
                     }
                     else
                        if (_inputMode == 5)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
                         Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() + "\t  As an int/bool:  " + e.ProcessData.GeneralWeightError);
                         Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +        "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
                         Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +    "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
@@ -485,8 +485,8 @@ namespace WTXModbus
                     else
                     if (_inputMode == 6 || _inputMode == 38)
                     { 
-                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +  "\t  As an int/bool:  " + e.ProcessData.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals)+ "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight +  "\t  As an int/bool:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
                         Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() +                  "\t  As an int/bool:  " + e.ProcessData.GeneralWeightError);
                         Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +                         "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
                         Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +                     "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
@@ -511,8 +511,8 @@ namespace WTXModbus
                 }
                 else
                 {
-                    Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals) +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
-                    Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals) + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                    Console.WriteLine("Net value:                     " + _wtxDevice.CurrentWeight +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
+                    Console.WriteLine("Gross value:                   " + _wtxDevice.CurrentWeight + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
                     Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() +                   "\t  As an int/bool:  " + e.ProcessData.GeneralWeightError);
                     Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +     "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
                     Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() + "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
@@ -534,53 +534,53 @@ namespace WTXModbus
                     if (_showAllInputWords == true)
                     {
 
-                        Console.WriteLine("Digital input  1:              " + ((WtxModbus)_wtxDevice).DataStandard.Input1.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Input1);
-                        Console.WriteLine("Digital input  2:              " + ((WtxModbus)_wtxDevice).DataStandard.Input2.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Input2);
-                        Console.WriteLine("Digital input  3:              " + ((WtxModbus)_wtxDevice).DataStandard.Input3.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Input3);
-                        Console.WriteLine("Digital input  4:              " + ((WtxModbus)_wtxDevice).DataStandard.Input4.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Input4);
+                        Console.WriteLine("Digital input  1:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Input1.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Input1);
+                        Console.WriteLine("Digital input  2:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Input2.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Input2);
+                        Console.WriteLine("Digital input  3:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Input3.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Input3);
+                        Console.WriteLine("Digital input  4:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Input4.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Input4);
 
-                        Console.WriteLine("Digital output 1:              " + ((WtxModbus)_wtxDevice).DataStandard.Output1.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Output1);
-                        Console.WriteLine("Digital output 2:              " + ((WtxModbus)_wtxDevice).DataStandard.Output2.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Output2);
-                        Console.WriteLine("Digital output 3:              " + ((WtxModbus)_wtxDevice).DataStandard.Output3.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Output3);
-                        Console.WriteLine("Digital output 4:              " + ((WtxModbus)_wtxDevice).DataStandard.Output4.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.Output4);
+                        Console.WriteLine("Digital output 1:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Output1.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Output1);
+                        Console.WriteLine("Digital output 2:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Output2.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Output2);
+                        Console.WriteLine("Digital output 3:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Output3.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Output3);
+                        Console.WriteLine("Digital output 4:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Output4.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.Output4);
 
-                        Console.WriteLine("Coarse flow:                   " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlow.ToString() +  "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlow);
-                        Console.WriteLine("Fine flow:                     " + ((WtxModbus)_wtxDevice).DataFiller.FineFlow.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.FineFlow);
-                        Console.WriteLine("Ready:                         " + ((WtxModbus)_wtxDevice).DataFiller.Ready.ToString() +       "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.Ready);
-                        Console.WriteLine("Re-dosing:                     " + ((WtxModbus)_wtxDevice).DataFiller.ReDosing.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ReDosing);
+                        Console.WriteLine("Coarse flow:                   " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CoarseFlow.ToString() +  "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CoarseFlow);
+                        Console.WriteLine("Fine flow:                     " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FineFlow.ToString() +    "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FineFlow);
+                        Console.WriteLine("Ready:                         " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.Ready.ToString() +       "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.Ready);
+                        Console.WriteLine("Re-dosing:                     " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ReDosing.ToString() +    "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ReDosing);
 
-                        Console.WriteLine("Emptying:                      " + ((WtxModbus)_wtxDevice).DataFiller.Emptying.ToString() +          "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.Emptying);
-                        Console.WriteLine("Flow error:                    " + ((WtxModbus)_wtxDevice).DataFiller.FlowError.ToString() +         "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.FlowError);
-                        Console.WriteLine("Alarm:                         " + ((WtxModbus)_wtxDevice).DataFiller.Alarm.ToString() +             "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.Alarm);
-                        Console.WriteLine("ADC Overload/Unterload:        " + ((WtxModbus)_wtxDevice).DataFiller.AdcOverUnderload.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.AdcOverUnderload);
+                        Console.WriteLine("Emptying:                      " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.Emptying.ToString() +          "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.Emptying);
+                        Console.WriteLine("Flow error:                    " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FlowError.ToString() +         "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FlowError);
+                        Console.WriteLine("Alarm:                         " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.Alarm.ToString() +             "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.Alarm);
+                        Console.WriteLine("ADC Overload/Unterload:        " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.AdcOverUnderload.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.AdcOverUnderload);
 
-                        Console.WriteLine("Max.Dosing time:               " + ((WtxModbus)_wtxDevice).DataFiller.MaxDosingTime.ToString() +          "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.MaxDosingTime);
-                         Console.WriteLine("Tolerance error+:              " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorPlus.ToString() +     "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorPlus);
-                        Console.WriteLine("Tolerance error-:              " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorMinus.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ToleranceErrorMinus);
-                                            
-                        Console.WriteLine("Status digital input 1:        " + ((WtxModbus)_wtxDevice).DataFiller.StatusInput1.ToString() +           "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.StatusInput1);
-                        Console.WriteLine("General scale error:           " + ((WtxModbus)_wtxDevice).DataFiller.GeneralScaleError.ToString() +      "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.GeneralScaleError);
-                        Console.WriteLine("Filling process status:        " + ((WtxModbus)_wtxDevice).DataFiller.FillingProcessStatus.ToString() +   "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.FillingProcessStatus);
-                        Console.WriteLine("Number of dosing results:      " + ((WtxModbus)_wtxDevice).DataFiller.NumberDosingResults.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.NumberDosingResults);
+                        Console.WriteLine("Max.Dosing time:               " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.MaxDosingTime.ToString() +          "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.MaxDosingTime);
+                        Console.WriteLine("Tolerance error+:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ToleranceErrorPlus.ToString() +     "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ToleranceErrorPlus);
+                        Console.WriteLine("Tolerance error-:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ToleranceErrorMinus.ToString() +    "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ToleranceErrorMinus);
 
-                        Console.WriteLine("Dosing result:                 " + ((WtxModbus)_wtxDevice).DataFiller.DosingResult.ToString() +           "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.DosingResult);
-                        Console.WriteLine("Mean value of dosing results:  " + ((WtxModbus)_wtxDevice).DataFiller.MeanValueDosingResults.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.MeanValueDosingResults);
-                        Console.WriteLine("Standard deviation:            " + ((WtxModbus)_wtxDevice).DataFiller.StandardDeviation.ToString() +      "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.StandardDeviation);
-                        Console.WriteLine("Total weight:                  " + ((WtxModbus)_wtxDevice).DataFiller.TotalWeight.ToString() +            "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.TotalWeight);
+                        Console.WriteLine("Status digital input 1:        " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.StatusInput1.ToString() +           "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.StatusInput1);
+                        Console.WriteLine("General scale error:           " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.GeneralScaleError.ToString() +      "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.GeneralScaleError);
+                        Console.WriteLine("Filling process status:        " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FillingProcessStatus.ToString() +   "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FillingProcessStatus);
+                        Console.WriteLine("Number of dosing results:      " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.NumberDosingResults.ToString() +    "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.NumberDosingResults);
 
-                        Console.WriteLine("Fine flow cut-off point:       " + ((WtxModbus)_wtxDevice).DataFiller.FineFlowCutOffPoint.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.FineFlowCutOffPoint);
-                        Console.WriteLine("Coarse flow cut-off point:     " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlowCutOffPoint.ToString() +  "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlowCutOffPoint);
-                        Console.WriteLine("Current dosing time:           " + ((WtxModbus)_wtxDevice).DataFiller.CurrentDosingTime.ToString() +      "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.CurrentDosingTime);
-                        Console.WriteLine("Current coarse flow time:      " + ((WtxModbus)_wtxDevice).DataFiller.CurrentCoarseFlowTime.ToString() +  "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.CurrentCoarseFlowTime);
-                        Console.WriteLine("Current fine flow time:        " + ((WtxModbus)_wtxDevice).DataFiller.CurrentFineFlowTime.ToString() +    "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.CurrentFineFlowTime);
+                        Console.WriteLine("Dosing result:                 " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.DosingResult.ToString() +           "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.DosingResult);
+                        Console.WriteLine("Mean value of dosing results:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.MeanValueDosingResults.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.MeanValueDosingResults);
+                        Console.WriteLine("Standard deviation:            " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.StandardDeviation.ToString() +      "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.StandardDeviation);
+                        Console.WriteLine("Total weight:                  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.TotalWeight.ToString() +            "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.TotalWeight);
 
-                        Console.WriteLine("Parameter set (product):       " + ((WtxModbus)_wtxDevice).DataFiller.ParameterSetProduct.ToString() + "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataFiller.ParameterSetProduct);
-                        Console.WriteLine("Weight memory, Day:            " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemDay.ToString() +        "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemDay);
-                        Console.WriteLine("Weight memory, Month:          " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemMonth.ToString() +      "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemMonth);
-                        Console.WriteLine("Weight memory, Year:           " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemYear.ToString() +       "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemYear);
-                        Console.WriteLine("Weight memory, Seq.Number:     " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemSeqNumber.ToString() +  "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemSeqNumber);
-                        Console.WriteLine("Weight memory, gross:          " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemGross.ToString() +      "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemGross);
-                        Console.WriteLine("Weight memory, net:            " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemNet.ToString() +        "\t  As an int/bool:  " + ((WtxModbus)_wtxDevice).DataStandard.WeightMemNet);
+                        Console.WriteLine("Fine flow cut-off point:       " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FineFlowCutOffPoint.ToString() +    "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FineFlowCutOffPoint);
+                        Console.WriteLine("Coarse flow cut-off point:     " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CoarseFlowCutOffPoint.ToString() +  "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CoarseFlowCutOffPoint);
+                        Console.WriteLine("Current dosing time:           " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CurrentDosingTime.ToString() +      "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CurrentDosingTime);
+                        Console.WriteLine("Current coarse flow time:      " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CurrentCoarseFlowTime.ToString() +  "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CurrentCoarseFlowTime);
+                        Console.WriteLine("Current fine flow time:        " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CurrentFineFlowTime.ToString() +    "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CurrentFineFlowTime);
+
+                        Console.WriteLine("Parameter set (product):       " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ParameterSetProduct.ToString() + "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ParameterSetProduct);
+                        Console.WriteLine("Weight memory, Day:            " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemDay.ToString() +        "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemDay);
+                        Console.WriteLine("Weight memory, Month:          " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemMonth.ToString() +      "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemMonth);
+                        Console.WriteLine("Weight memory, Year:           " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemYear.ToString() +       "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemYear);
+                        Console.WriteLine("Weight memory, Seq.Number:     " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemSeqNumber.ToString() +  "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemSeqNumber);
+                        Console.WriteLine("Weight memory, gross:          " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemGross.ToString() +      "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemGross);
+                        Console.WriteLine("Weight memory, net:            " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemNet.ToString() +        "\t  As an int/bool:  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemNet);
 
                         Console.WriteLine("\nPress 'a' again to hide the input words.");
                     }
@@ -588,37 +588,37 @@ namespace WTXModbus
                     if(_showAllOutputWords==true)
                     {
                         Console.WriteLine("\nOutput words:\n");
-                  
-                        Console.WriteLine(" 9) Residual flow time:            " + ((WtxModbus)_wtxDevice).DataFiller.ResidualFlowTime      + " Press '9' and a value to write");
-                        Console.WriteLine("10) Target filling weight:         " + ((WtxModbus)_wtxDevice).DataFiller.TargetFillingWeight   + " Press '10' and a value to write");
-                        Console.WriteLine("12) Coarse flow cut-off point:     " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlowCutOffPoint + " Press '12' and a value to write");
-                        Console.WriteLine("14) Fine flow cut-off point:       " + ((WtxModbus)_wtxDevice).DataFiller.FineFlowCutOffPoint   + " Press '14' and a value to write");
 
-                        Console.WriteLine("16) Minimum fine flow:             " + ((WtxModbus)_wtxDevice).DataFiller.MinimumFineFlow   + " Press '16' and a value to write");
-                        Console.WriteLine("18) Optimization of cut-off points:" + ((WtxModbus)_wtxDevice).DataFiller.OptimizationOfCutOffPoints + " Press '18' and a value to write");
-                        Console.WriteLine("19) Maximum dosing time:           " + ((WtxModbus)_wtxDevice).DataFiller.MaxDosingTime     + " Press '19' and a value to write");
-                        Console.WriteLine("20) Start with fine flow:          " + ((WtxModbus)_wtxDevice).DataFiller.StartWithFineFlow + " Press '20' and a value to write");
+                        Console.WriteLine(" 9) Residual flow time:            " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ResidualFlowTime      + " Press '9' and a value to write");
+                        Console.WriteLine("10) Target filling weight:         " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.TargetFillingWeight   + " Press '10' and a value to write");
+                        Console.WriteLine("12) Coarse flow cut-off point:     " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CoarseFlowCutOffPoint + " Press '12' and a value to write");
+                        Console.WriteLine("14) Fine flow cut-off point:       " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FineFlowCutOffPoint   + " Press '14' and a value to write");
 
-                        Console.WriteLine("21) Coarse lockout time:           " + ((WtxModbus)_wtxDevice).DataFiller.CoarseLockoutTime + " Press '21' and a value to write");
-                        Console.WriteLine("22) Fine lockout time:             " + ((WtxModbus)_wtxDevice).DataFiller.FineLockoutTime   + " Press '22' and a value to write");
-                        Console.WriteLine("23) Tare mode:                     " + ((WtxModbus)_wtxDevice).DataFiller.TareMode + " Press '23' and a value to write");
-                        Console.WriteLine("24) Upper tolerance limit + :      " + ((WtxModbus)_wtxDevice).DataFiller.UpperToleranceLimit + " Press '24' and a value to write");
+                        Console.WriteLine("16) Minimum fine flow:             " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.MinimumFineFlow   + " Press '16' and a value to write");
+                        Console.WriteLine("18) Optimization of cut-off points:" + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.OptimizationOfCutOffPoints + " Press '18' and a value to write");
+                        Console.WriteLine("19) Maximum dosing time:           " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.MaxDosingTime     + " Press '19' and a value to write");
+                        Console.WriteLine("20) Start with fine flow:          " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.StartWithFineFlow + " Press '20' and a value to write");
 
-                        Console.WriteLine("26) Lower tolerance limit -:       " + ((WtxModbus)_wtxDevice).DataFiller.LowerToleranceLimit + " Press '26' and a value to write");
-                        Console.WriteLine("28) Minimum start weight:          " + ((WtxModbus)_wtxDevice).DataFiller.MinimumStartWeight  + " Press '28' and a value to write");
-                        Console.WriteLine("30) Empty weight:                  " + ((WtxModbus)_wtxDevice).DataFiller.EmptyWeight + " Press '30' and a value to write");
-                        Console.WriteLine("32) Tare delay:                    " + ((WtxModbus)_wtxDevice).DataFiller.TareDelay   + " Press '32' and a value to write");
+                        Console.WriteLine("21) Coarse lockout time:           " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CoarseLockoutTime + " Press '21' and a value to write");
+                        Console.WriteLine("22) Fine lockout time:             " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FineLockoutTime   + " Press '22' and a value to write");
+                        Console.WriteLine("23) Tare mode:                     " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.TareMode + " Press '23' and a value to write");
+                        Console.WriteLine("24) Upper tolerance limit + :      " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.UpperToleranceLimit + " Press '24' and a value to write");
 
-                        Console.WriteLine("33) Coarse flow monitoring time:   " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlowMonitoringTime + " Press '33' and a value to write");
-                        Console.WriteLine("34) Coarse flow monitoring:        " + ((WtxModbus)_wtxDevice).DataFiller.CoarseFlowMonitoring   + " Press '34' and a value to write");
-                        Console.WriteLine("36) Fine flow monitoring:          " + ((WtxModbus)_wtxDevice).DataFiller.FineFlowMonitoring     + " Press '36' and a value to write");
-                        Console.WriteLine("38) Fine flow monitoring time:     " + ((WtxModbus)_wtxDevice).DataFiller.FineFlowMonitoringTime + " Press '38' and a value to write");
+                        Console.WriteLine("26) Lower tolerance limit -:       " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.LowerToleranceLimit + " Press '26' and a value to write");
+                        Console.WriteLine("28) Minimum start weight:          " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.MinimumStartWeight  + " Press '28' and a value to write");
+                        Console.WriteLine("30) Empty weight:                  " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.EmptyWeight + " Press '30' and a value to write");
+                        Console.WriteLine("32) Tare delay:                    " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.TareDelay   + " Press '32' and a value to write");
 
-                        Console.WriteLine("40) Delay time after fine flow:    " + ((WtxModbus)_wtxDevice).DataFiller.DelayTimeAfterFineFlow + " Press '40' and a value to write");
-                        Console.WriteLine("41) Systematic difference:         " + ((WtxModbus)_wtxDevice).DataFiller.SystematicDifference + " Press '41' and a value to write");
-                        Console.WriteLine("42) Downwards dosing:              " + ((WtxModbus)_wtxDevice).DataFiller.DownwardsDosing + " Press '42' and a value to write");
-                        Console.WriteLine("43) Valve control:                 " + ((WtxModbus)_wtxDevice).DataFiller.ValveControl   + " Press '43' and a value to write");
-                        Console.WriteLine("44) Emptying mode:                 " + ((WtxModbus)_wtxDevice).DataFiller.EmptyingMode   + " Press '44' and a value to write");
+                        Console.WriteLine("33) Coarse flow monitoring time:   " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CoarseFlowMonitoringTime + " Press '33' and a value to write");
+                        Console.WriteLine("34) Coarse flow monitoring:        " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CoarseFlowMonitoring   + " Press '34' and a value to write");
+                        Console.WriteLine("36) Fine flow monitoring:          " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FineFlowMonitoring     + " Press '36' and a value to write");
+                        Console.WriteLine("38) Fine flow monitoring time:     " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.FineFlowMonitoringTime + " Press '38' and a value to write");
+
+                        Console.WriteLine("40) Delay time after fine flow:    " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.DelayTimeAfterFineFlow + " Press '40' and a value to write");
+                        Console.WriteLine("41) Systematic difference:         " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.SystematicDifference + " Press '41' and a value to write");
+                        Console.WriteLine("42) Downwards dosing:              " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.DownwardsDosing + " Press '42' and a value to write");
+                        Console.WriteLine("43) Valve control:                 " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ValveControl   + " Press '43' and a value to write");
+                        Console.WriteLine("44) Emptying mode:                 " + ((HBM.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.EmptyingMode   + " Press '44' and a value to write");
 
                         Console.WriteLine("\nPress 'o' again to hide the output words.");
 

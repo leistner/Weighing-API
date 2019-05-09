@@ -47,7 +47,7 @@ namespace GUIsimple
     {
         #region Locales
 
-        private static BaseWtDevice _wtxDevice;
+        private static BaseWTDevice _wtxDevice;
 
         private AdjustmentCalculator _adjustmentCalculator;
         private AdjustmentWeigher _adjustmentWeigher;
@@ -118,7 +118,7 @@ namespace GUIsimple
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTcpConnection _modbusConnection = new ModbusTcpConnection(this._ipAddress);
 
-                _wtxDevice = new WtxModbus(_modbusConnection, this._timerInterval,update);
+                _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_modbusConnection, this._timerInterval, this.update);
 
             }
             else
@@ -165,9 +165,9 @@ namespace GUIsimple
 
                 int taraValue = netValue - grossValue;
 
-                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight(netValue, decimals) + _wtxDevice.Unit + Environment.NewLine
-                + "Gross:" + _wtxDevice.CurrentWeight(grossValue, decimals) + _wtxDevice.Unit + Environment.NewLine
-                + "Tara:" + _wtxDevice.CurrentWeight(taraValue, decimals) + _wtxDevice.Unit;
+                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight + _wtxDevice.Unit + Environment.NewLine
+                + "Gross:" + _wtxDevice.ProcessData.NetValue + _wtxDevice.Unit + Environment.NewLine
+                + "Tara:" + _wtxDevice.ProcessData.TareValue + _wtxDevice.Unit;
                 txtInfo.TextAlign = HorizontalAlignment.Right;
 
                 if (e.ProcessData.Underload == true)
@@ -258,7 +258,7 @@ namespace GUIsimple
         // Toolstrip Click Event for Digital IO : Input & Output
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            _wtxDevice.StopUpdate();
+            _wtxDevice.Stop();
 
             if (_wtxDevice.Connection.ConnType == ConnectionType.Modbus)
             {
@@ -286,7 +286,7 @@ namespace GUIsimple
 
                 DialogResult res = _functionIOForm.ShowDialog();
             }
-            _wtxDevice.RestartUpdate();
+            _wtxDevice.Restart();
         }
 
         public void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
@@ -303,7 +303,7 @@ namespace GUIsimple
             {
                 _wtxDevice.Disconnect();
                 ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
-                _wtxDevice = new WtxModbus(_connection, this._timerInterval, update);
+                _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }
         public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
@@ -326,7 +326,7 @@ namespace GUIsimple
             {
                 _wtxDevice.Disconnect();
                 ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
-                _wtxDevice = new WtxModbus(_connection, this._timerInterval, update);
+                _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }
         #endregion

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace WTXModbus.Properties {
+namespace GUIplc.Properties {
     using System;
     
     

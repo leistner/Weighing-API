@@ -340,12 +340,12 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void testModbus_NetGrossValueStringComment_0D(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
            //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, _wtxObj.ProcessData.Decimals);
+            string strValue = _wtxObj.CurrentWeight;
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, _wtxObj.ProcessData.Decimals);
 
             Assert.AreEqual(dValue.ToString(), strValue);
@@ -356,27 +356,25 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void testModbus_NetGrossValueStringComment_1D(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             //_wtxObj.WriteSync(0, 0x00);    ???
-
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 1 /*_wtxObj.Decimals*/);
-
+            
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 1 /*_wtxObj.Decimals*/);
 
-            Assert.AreEqual(dValue.ToString("0.0"), strValue);
+            Assert.AreEqual(dValue.ToString("0.0"), _wtxObj.CurrentWeight);
         }
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_2D_TestCase_Modbus")]
         public void testModbus_NetGrossValueStringComment_2D(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 2/*_wtxObj.Decimals*/);
+            string strValue = _wtxObj.CurrentWeight;
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 2 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.00"), strValue);
@@ -385,12 +383,12 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void testModbus_NetGrossValueStringComment_3D(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 3/*_wtxObj.Decimals*/);
+            string strValue = _wtxObj.CurrentWeight;
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 3 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.000"), strValue);
@@ -399,26 +397,25 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void testModbus_NetGrossValueStringComment_4D(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 4/*_wtxObj.Decimals*/);
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 4 /*_wtxObj.Decimals*/);
 
-            Assert.AreEqual(dValue.ToString("0.0000"), strValue);
+            Assert.AreEqual(dValue.ToString("0.0000"), _wtxObj.CurrentWeight);
         }
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_5D_TestCase_Modbus")]
         public void testModbus_NetGrossValueStringComment_5D(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 5/*_wtxObj.Decimals*/);
+            string strValue = _wtxObj.CurrentWeight;
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 5 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.00000"), strValue);
@@ -427,12 +424,12 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void testModbus_NetGrossValueStringComment_6D(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 6/*_wtxObj.Decimals*/);
+            string strValue = _wtxObj.CurrentWeight;
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 6 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.000000"), strValue);

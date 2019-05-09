@@ -28,7 +28,7 @@ namespace GUIsimple
     // based on know values for dead load and nominal load in mV/V
     public partial class AdjustmentCalculator : Form
     {
-        private BaseWtDevice _wtxDevice;
+        private BaseWTDevice _wtxDevice;
 
         private bool _finished;
         private double _preload;
@@ -38,7 +38,7 @@ namespace GUIsimple
         private string _strCommaDot;
               
         // Constructor of class 'CalcCalibration' : 
-        public AdjustmentCalculator(BaseWtDevice wtxDevice)
+        public AdjustmentCalculator(BaseWTDevice wtxDevice)
         {
             this._wtxDevice = wtxDevice;
             
@@ -105,7 +105,7 @@ namespace GUIsimple
                 }
                 if (abort) return;
                 
-                _wtxDevice.Calculate(_preload,_capacity);
+                _wtxDevice.CalculateAdjustment(_preload,_capacity);
 
                 label5.Text = "Calibration Successful!";
                 _finished = true;

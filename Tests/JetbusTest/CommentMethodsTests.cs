@@ -252,12 +252,10 @@ namespace JetbusTest
             _wtxObj = new WTXJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 3);
-
+            
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 3);
 
-            Assert.AreEqual(dValue.ToString("0.000"), strValue);
+            Assert.AreEqual(dValue.ToString("0.000"), _wtxObj.CurrentWeight);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_2D_TestCase")]
@@ -268,12 +266,10 @@ namespace JetbusTest
             _wtxObj = new WTXJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 2);
-
+            
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 2);
 
-            Assert.AreEqual(dValue.ToString("0.00"), strValue);
+            Assert.AreEqual(dValue.ToString("0.00"), _wtxObj.CurrentWeight);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -284,12 +280,10 @@ namespace JetbusTest
             _wtxObj = new WTXJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 1);
-
+            
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 1);
 
-            Assert.AreEqual(dValue.ToString("0.0"), strValue);
+            Assert.AreEqual(dValue.ToString("0.0"), _wtxObj.CurrentWeight);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -300,12 +294,10 @@ namespace JetbusTest
             _wtxObj = new WTXJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 5);
-
+            
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 5);
 
-            Assert.AreEqual(dValue.ToString("0.00000"), strValue);
+            Assert.AreEqual(dValue.ToString("0.00000"), _wtxObj.CurrentWeight);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -316,12 +308,10 @@ namespace JetbusTest
             _wtxObj = new WTXJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 6);
-
+            
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 6);
 
-            Assert.AreEqual(dValue.ToString("0.000000"), strValue);
+            Assert.AreEqual(dValue.ToString("0.000000"), _wtxObj.CurrentWeight);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -332,12 +322,10 @@ namespace JetbusTest
             _wtxObj = new WTXJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 7);
-
+            
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 7);
 
-            Assert.AreEqual(dValue.ToString(), strValue);
+            Assert.AreEqual(dValue.ToString(), _wtxObj.CurrentWeight);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -348,12 +336,10 @@ namespace JetbusTest
             _wtxObj = new WTXJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            string strValue = _wtxObj.CurrentWeight(_wtxObj.ProcessData.GrossValue, 0);
-
+            
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 0);
 
-            Assert.AreEqual(dValue.ToString(), strValue);
+            Assert.AreEqual(dValue.ToString(), _wtxObj.CurrentWeight);
         }
 
         

@@ -43,7 +43,7 @@ namespace HBM.Weighing.API.WTX
     /// WtxModbus fetches, interprets the data( method OnData(data) ) and 
     /// send it to the GUI or application class by an eventhandler (=ProcessDataReceived). 
     /// </summary>
-    public class WtxModbus : BaseWtDevice
+    public class WTXModbus : BaseWTDevice
     {
 
         #region privates
@@ -79,15 +79,15 @@ namespace HBM.Weighing.API.WTX
         /// </summary>
         /// <param name="connection"></param>
         #region Constructor
-        public WtxModbus(INetConnection connection, int paramTimerInterval, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(connection)
+        public WTXModbus(INetConnection connection, int paramTimerInterval, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(connection)
         {
-            this._connection = connection;
+            this.Connection = connection;
 
             this.ProcessDataReceived += OnProcessData;
 
-            ProcessData = new ProcessDataModbus(_connection);
-            DataStandard = new DataStandardModbus(_connection);
-            DataFiller = new DataFillerModbus(_connection);
+            ProcessData = new ProcessDataModbus(base.Connection);
+            DataStandard = new DataStandardModbus(base.Connection);
+            DataFiller = new DataFillerModbus(base.Connection);
 
             this._data = new ushort[100];
             this._asyncData = new ushort[100];
@@ -112,13 +112,13 @@ namespace HBM.Weighing.API.WTX
         /// For a more simple solution : Constructor with no asynchronous callback and no timer interval for continously updating the data. 
         /// </summary>
         /// <param name="connection"></param>
-        public WtxModbus(INetConnection connection) : base(connection)
+        public WTXModbus(INetConnection connection) : base(connection)
         {
-            this._connection = connection;
+            this.Connection = connection;
 
-            ProcessData = new ProcessDataModbus(_connection);
-            DataStandard = new DataStandardModbus(_connection);
-            DataFiller = new DataFillerModbus(_connection);
+            ProcessData = new ProcessDataModbus(base.Connection);
+            DataStandard = new DataStandardModbus(base.Connection);
+            DataFiller = new DataFillerModbus(base.Connection);
 
             this._data = new ushort[100];
             this._asyncData = new ushort[100];
@@ -139,31 +139,31 @@ namespace HBM.Weighing.API.WTX
         // To establish a connection to the WTX device via class WTX120_Modbus.
         public override void Connect(double timeoutMs)
         {
-            this._connection.Connect();
+            this.Connection.Connect();
         }
         // To establish a connection to the WTX device via class WTX120_Modbus.
         public override void Connect(Action<bool> ConnectCompleted, double timeoutMs)
         {
-            this._connection.Connect();
+            this.Connection.Connect();
         }
         public override bool IsConnected
         {
             get
             {
-                return _connection.IsConnected;
+                return Connection.IsConnected;
             }
         }
 
         // To terminate,break, a connection to the WTX device via class WTX120_Modbus.
         public override void Disconnect(Action<bool> DisconnectCompleted)
         {
-            this._connection.Disconnect();
+            this.Connection.Disconnect();
         }
 
         // To terminate,break, a connection to the WTX device via class WTX120_Modbus.
         public override void Disconnect()
         {
-            this._connection.Disconnect();
+            this.Connection.Disconnect();
         }
 
         public override string ConnectionType
@@ -191,27 +191,27 @@ namespace HBM.Weighing.API.WTX
             this._command = commandParam;
 
                 // (1) Sending of a command:        
-                this._connection.Write(Convert.ToString(wordNumber), this._command);
-                dataWord = this._connection.Read(5);
+                this.Connection.Write(Convert.ToString(wordNumber), this._command);
+                dataWord = this.Connection.Read(5);
 
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 // Handshake protocol as given in the manual:                            
 
                 while (handshakeBit == 0)
                 {
-                    dataWord = this._connection.Read(5);
+                    dataWord = this.Connection.Read(5);
                     handshakeBit = ((dataWord & 0x4000) >> 14);
                 }
 
                 // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
                 if (handshakeBit == 1)
                 {
-                    this._connection.Write(Convert.ToString(wordNumber), 0x00);
+                    this.Connection.Write(Convert.ToString(wordNumber), 0x00);
                 }
 
                 while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
                 {
-                    dataWord = this._connection.Read(5);
+                    dataWord = this.Connection.Read(5);
                     handshakeBit = ((dataWord & 0x4000) >> 14);
                 }
 
@@ -226,7 +226,7 @@ namespace HBM.Weighing.API.WTX
         {
             if (IsConnected)
             {
-                Task<int> WriteValue = _connection.WriteAsync(index, commandParam);
+                Task<int> WriteValue = Connection.WriteAsync(index, commandParam);
                 DoHandshake(index);
                 int command = await WriteValue;
                 return command;
@@ -245,17 +245,17 @@ namespace HBM.Weighing.API.WTX
                        
             do
             {
-                dataWord = this._connection.Read(5);
+                dataWord = this.Connection.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 Thread.Sleep(50);
             }
             while (handshakeBit == 0);
             
-            this._connection.Write(Convert.ToString(index), 0x00);
+            this.Connection.Write(Convert.ToString(index), 0x00);
 
             do
             {
-                dataWord = this._connection.Read(5);
+                dataWord = this.Connection.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 Thread.Sleep(50);
             }
@@ -303,7 +303,7 @@ namespace HBM.Weighing.API.WTX
         /*
         * This method stops the timer, for example in case for the calibration.
         */
-        public override void StopUpdate()
+        public override void Stop()
         {
             _aTimer.Elapsed -= OnTimedEvent;
             _aTimer.Enabled = false;
@@ -313,7 +313,7 @@ namespace HBM.Weighing.API.WTX
         /*
          * This method restarts the timer, for example in case for the calibration.
          */
-        public override void RestartUpdate()
+        public override void Restart()
         {
             _aTimer.Elapsed += OnTimedEvent;
             _aTimer.Enabled = true;
@@ -327,7 +327,7 @@ namespace HBM.Weighing.API.WTX
             // Call the async method 'AsyncTaskCall' by an Eventhandler:     
             if (IsConnected)
             {
-                Task<ushort[]> FetchValues = _connection.ReadAsync();
+                Task<ushort[]> FetchValues = Connection.ReadAsync();
                 //DoIndependentWork();
                 _asyncData = await FetchValues;
                 OnData(_asyncData);
@@ -376,7 +376,7 @@ namespace HBM.Weighing.API.WTX
             get { return _manualTareValue; }
             set
             {
-                //_connection.Write(this.getIndex(_connection.IDCommands.TARE_VALUE), value);
+                //Connection.Write(this.getIndex(Connection.IDCommands.TARE_VALUE), value);
                 _manualTareValue = value;
             }
         }
@@ -398,31 +398,27 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public override string WeightTypeStringComment()
+        public override WeightType WeightType
         {
-            if (ProcessData.TareMode == false)
+            get
             {
-                return "gross";
-            }
-            else
-            {
-                return "net";
+                if (ProcessData.TareMode == false)
+                {
+                    return WeightType.Gross;
+                }
+                else
+                {
+                    return WeightType.Net;
+                }
             }
         }
 
 
-        public override string ScaleRangeStringComment()
+        public override int ScaleRange
         {
-            switch (ProcessData.ScaleRange)
+            get
             {
-                case 0:
-                    return "Range 1";
-                case 1:
-                    return "Range 2";
-                case 2:
-                    return "Range 3";
-                default:
-                    return "error";
+                return ProcessData.ScaleRange + 1;
             }
         }
         public override ApplicationMode ApplicationMode { get; set; }
@@ -450,42 +446,42 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Adjustment methods 
-        public override int CalibrationWeight // Type : signed integer 32 Bit
+        public override int AdjustmentWeight // Type : signed integer 32 Bit
         {
             get { return _calibrationWeight; }
             set
             {
-                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), value);
+                //Connection.WriteArray(this.getIndex(Connection.IDCommands.LFT_SCALE_CALIBRATION_WEIGHT), value);
                 _calibrationWeight = value;
             }
         }
-        public override int ZeroLoad // Type : signed integer 32 Bit
+        public override int ZeroSignal // Type : signed integer 32 Bit
         {
             get { return _zeroLoad; }
             set
             {
-                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LDW_DEAD_WEIGHT), value);
+                //Connection.WriteArray(this.getIndex(Connection.IDCommands.LDW_DEAD_WEIGHT), value);
                 _zeroLoad = value;
             }
         }
-        public override int NominalLoad // Type : signed integer 32 Bit
+        public override int NominalSignal // Type : signed integer 32 Bit
         {
             get { return _nominalLoad; }
             set
             {
-                //_connection.WriteArray(this.getIndex(_connection.IDCommands.LWT_NOMINAL_VALUE), value);
+                //Connection.WriteArray(this.getIndex(Connection.IDCommands.LWT_NOMINAL_VALUE), value);
                 _nominalLoad = value;
             }
         }
 
         // This methods sets the value of the WTX to zero. 
-        public override void MeasureZero()
+        public override void AdjustZeroSignal()
         {
-            this.StopUpdate();
+            this.Stop();
 
             //todo: write reg 48, 0x7FFFFFFF
             
-            _connection.WriteArray("48", 0x7FFFFFFF);
+            Connection.WriteArray("48", 0x7FFFFFFF);
 
             Console.Write(".");
 
@@ -493,21 +489,21 @@ namespace HBM.Weighing.API.WTX
         }
 
         // This method sets the value for the nominal weight in the WTX.
-        public override void Calibrate(int calibrationValue, string calibrationWeightStr)
+        public override void AdjustNominalSignalWithAdjustmentWeight(int adjustmentWeight)
         {
             //write reg 46, CalibrationWeight     
 
-            _connection.WriteArray("46", calibrationValue);
+            Connection.WriteArray("46", adjustmentWeight);
 
             //write reg 50, 0x7FFFFFFF
                   
-            _connection.WriteArray("50", 0x7FFFFFFF);
+            Connection.WriteArray("50", 0x7FFFFFFF);
 
             Console.Write(".");
 
             this.WriteSync(0, 0x100);
 
-            this.RestartUpdate();
+            this.Restart();
         }
         
         public double getDPreload
@@ -529,7 +525,7 @@ namespace HBM.Weighing.API.WTX
 
         // Calculates the values for deadload and nominal load in d from the inputs in mV/V
         // and writes the into the WTX registers.
-        public override void Calculate(double preload, double capacity)
+        public override void CalculateAdjustment(double preload, double capacity)
         {
             dPreload = 0;
             dNominalLoad = 0; 
@@ -539,19 +535,19 @@ namespace HBM.Weighing.API.WTX
             dPreload = preload * multiplierMv2D;
             dNominalLoad = dPreload + (capacity * multiplierMv2D);
                            
-            this.StopUpdate();
+            this.Stop();
 
             //write reg 48, DPreload;         
-            _connection.WriteArray("48", Convert.ToInt32(dPreload));
+            Connection.WriteArray("48", Convert.ToInt32(dPreload));
 
             this.WriteSync(0, 0x80);
 
             //write reg 50, DNominalLoad;          
-            _connection.WriteArray("50", Convert.ToInt32(dNominalLoad));
+            Connection.WriteArray("50", Convert.ToInt32(dNominalLoad));
 
             this.WriteSync(0, 0x100);
             
-            this.RestartUpdate();
+            this.Restart();
 
         }
         #endregion
@@ -572,75 +568,53 @@ namespace HBM.Weighing.API.WTX
             _command = (ushort)await AsyncWrite(0, 0x40);
         }
 
-        public async override void AdjustZero()
-        {
-            _command = (ushort)await AsyncWrite(0, 0x80);
-        }
-
-        public async override void AdjustNominal()
+        public async override void AdjustNominalSignal()
         {
             _command = (ushort)await AsyncWrite(0, 0x100);
         }
 
-        public async override void ActivateData()
+        public async void ActivateData()
         {
             _command = (ushort)await AsyncWrite(0, 0x800);
         }
 
-        public async override void ManualTaring()
+        public async override void TareManually(double manualTareValue)
         {
             _command = (ushort)await AsyncWrite(0, 0x1000);
         }
         #endregion
-
-        #region Process data methods - Filling
-        public async override void ClearDosingResults()
-        {
-            _command = (ushort)await AsyncWrite(0, 0x4);
-        }
-
-        public async override void AbortDosing()
-        {
-            _command = (ushort)await AsyncWrite(0, 0x8);
-        }
-
-        public async override void StartDosing()
-        {
-            _command = (ushort)await AsyncWrite(0, 0x10);
-        }
 
         public async override void RecordWeight()
         {
             _command = (ushort)await AsyncWrite(0, 0x4000);
         }
 
-        public async override void ManualReDosing()
+        public void ActivateDate()
         {
-            _command = (ushort)await AsyncWrite(0, 0x8000);
         }
+
         // In the following methods the different options for the single integer values are used to define and
         // interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
-        public override string CurrentWeight(int value, int decimals)
+        public override string CurrentWeight
         {
-            double dvalue = value / Math.Pow(10, decimals);
-            string returnvalue = "";
-
-            switch (decimals)
+            get
             {
-                case 0: returnvalue = dvalue.ToString(); break;
-                case 1: returnvalue = dvalue.ToString("0.0"); break;
-                case 2: returnvalue = dvalue.ToString("0.00"); break;
-                case 3: returnvalue = dvalue.ToString("0.000"); break;
-                case 4: returnvalue = dvalue.ToString("0.0000"); break;
-                case 5: returnvalue = dvalue.ToString("0.00000"); break;
-                case 6: returnvalue = dvalue.ToString("0.000000"); break;
-                default: returnvalue = dvalue.ToString(); break;
+                string returnvalue;
+                double dvalue = this.ProcessData.NetValue/ Math.Pow(10, this.ProcessData.Decimals);
+                switch (this.ProcessData.Decimals)
+                {
+                    case 0: returnvalue = dvalue.ToString(); break;
+                    case 1: returnvalue = dvalue.ToString("0.0"); break;
+                    case 2: returnvalue = dvalue.ToString("0.00"); break;
+                    case 3: returnvalue = dvalue.ToString("0.000"); break;
+                    case 4: returnvalue = dvalue.ToString("0.0000"); break;
+                    case 5: returnvalue = dvalue.ToString("0.00000"); break;
+                    case 6: returnvalue = dvalue.ToString("0.000000"); break;
+                    default: returnvalue = dvalue.ToString(); break;
 
+                }
+                return returnvalue;
             }
-            return returnvalue;
         }
-        #endregion
-
-
     }
 }

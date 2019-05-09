@@ -41,7 +41,7 @@ namespace HBM.Weighing.API.WTX
     /// WtxJet fetches, interprets the data( method OnData(sender, DataEventArgs) ) and 
     /// send it to the GUI or application class by an eventhandler (=ProcessDataReceived). 
     /// </summary>
-    public class WTXJet : BaseWtDevice
+    public class WTXJet : BaseWTDevice
     {
         private ApplicationMode _applicationMode;
 
@@ -75,28 +75,28 @@ namespace HBM.Weighing.API.WTX
         #region Constructors
         public WTXJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)
         {
-            _connection = Connection;
+            Connection = Connection;
             
-            ProcessData = new ProcessDataJet(_connection);
-            DataStandard = new DataStandardJet(_connection);
-            DataFillerExtended = new DataFillerExtendedJet(_connection);
+            ProcessData = new ProcessDataJet(Connection);
+            DataStandard = new DataStandardJet(Connection);
+            DataFillerExtended = new DataFillerExtendedJet(Connection);
 
             this.ProcessDataReceived += OnProcessData;
 
-            _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.              
+            Connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.              
         }
         #endregion
 
         #region Connection
         public override void Disconnect(Action<bool> DisconnectCompleted)
         {
-            _connection.Disconnect();
+            Connection.Disconnect();
         }
 
 
         public override void Disconnect()
         {
-            _connection.Disconnect();
+            Connection.Disconnect();
         }
 
 
@@ -104,18 +104,18 @@ namespace HBM.Weighing.API.WTX
         {
             get
             {
-                return _connection.IsConnected;
+                return Connection.IsConnected;
             }
         }
 
         public override void Connect(double timeoutMs = 20000)
         {
-            _connection.Connect();          
+            Connection.Connect();          
         }
 
         public override void Connect(Action<bool> completed, double timeoutMs)
         {
-            _connection.Connect();
+            Connection.Connect();
         }
         #endregion
 
@@ -141,26 +141,22 @@ namespace HBM.Weighing.API.WTX
 
         public override void Zero()
         {
-            _connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_ZERO);
+            Connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_ZERO);
         }
 
         public override void SetGross()
         {
-            _connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_SET_GROSS);
+            Connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_SET_GROSS);
         }
 
         public override void Tare()
         {
-            _connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_TARE);
+            Connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_TARE);
         }
 
-
-        public override void ActivateData()
+        public override void TareManually(double manualTareValue)
         {
-        }
-
-        public override void ManualTaring()
-        {
+            Connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_TARE);
         }
 
         public override void RecordWeight()
@@ -175,23 +171,25 @@ namespace HBM.Weighing.API.WTX
         *In the following methods the different options for the single integer values are used to define and
         *interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
         */
-        public override string CurrentWeight(int value, int decimals)
+        public override string CurrentWeight
         {
-            double dvalue = value / Math.Pow(10, decimals);
-            string returnvalue = "";
-
-            switch (decimals)
+            get
             {
-                case 0: returnvalue = dvalue.ToString(); break;
-                case 1: returnvalue = dvalue.ToString("0.0"); break;
-                case 2: returnvalue = dvalue.ToString("0.00"); break;
-                case 3: returnvalue = dvalue.ToString("0.000"); break;
-                case 4: returnvalue = dvalue.ToString("0.0000"); break;
-                case 5: returnvalue = dvalue.ToString("0.00000"); break;
-                case 6: returnvalue = dvalue.ToString("0.000000"); break;
-                default: returnvalue = dvalue.ToString(); break;
+                string returnvalue;
+                double dvalue = this.ProcessData.NetValue / Math.Pow(10, this.ProcessData.Decimals);
+                switch (this.ProcessData.Decimals)
+                {
+                    case 0: returnvalue = dvalue.ToString(); break;
+                    case 1: returnvalue = dvalue.ToString("0.0"); break;
+                    case 2: returnvalue = dvalue.ToString("0.00"); break;
+                    case 3: returnvalue = dvalue.ToString("0.000"); break;
+                    case 4: returnvalue = dvalue.ToString("0.0000"); break;
+                    case 5: returnvalue = dvalue.ToString("0.00000"); break;
+                    case 6: returnvalue = dvalue.ToString("0.000000"); break;
+                    default: returnvalue = dvalue.ToString(); break;
+                }
+                return returnvalue;
             }
-            return returnvalue;
         }
 
         public override ApplicationMode ApplicationMode { get; set; }
@@ -224,29 +222,25 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public override string WeightTypeStringComment()
+        public override WeightType WeightType
         {
-            if (ProcessData.TareMode == false)
+            get
             {
-                return "gross";
-            }
-            else
-            {
-                return "net";
+                if (ProcessData.TareMode == false)
+                {
+                    return WeightType.Gross;
+                }
+                else
+                {
+                    return WeightType.Net;
+                }
             }
         }
-        public override string ScaleRangeStringComment()
+        public override int ScaleRange
         {
-            switch (ProcessData.ScaleRange)
+            get
             {
-                case 0:
-                    return "Range 1";
-                case 1:
-                    return "Range 2";
-                case 2:
-                    return "Range 3";
-                default:
-                    return "error";
+                return ProcessData.ScaleRange+1;
             }
         }
 
@@ -260,31 +254,9 @@ namespace HBM.Weighing.API.WTX
             }
         }
         #endregion
-
-        #region Process data methods - Filling
-        public override void ClearDosingResults()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void AbortDosing()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void StartDosing()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void ManualReDosing()
-        {
-            throw new NotImplementedException();
-        }
-        #endregion
-
+                       
         #region Adjustment methods
-        public override int CalibrationWeight // Type : signed integer 32 Bit
+        public override int AdjustmentWeight // Type : signed integer 32 Bit
         {
             get { return _calibrationWeight; }
             set
@@ -293,7 +265,7 @@ namespace HBM.Weighing.API.WTX
                 _calibrationWeight = value;
             }
         }
-        public override int ZeroLoad // Type : signed integer 32 Bit
+        public override int ZeroSignal // Type : signed integer 32 Bit
         {
             get { return _zeroLoad; }
             set
@@ -302,7 +274,7 @@ namespace HBM.Weighing.API.WTX
                 _zeroLoad = value;
             }
         }
-        public override int NominalLoad // Type : signed integer 32 Bit
+        public override int NominalSignal // Type : signed integer 32 Bit
         {
             get { return _nominalLoad; }
             set
@@ -317,7 +289,7 @@ namespace HBM.Weighing.API.WTX
         /// </summary>
         /// <param name="scaleZeroLoad_mVV"></param>
         /// <param name="scaleCapacity_mVV"></param>
-        public override void Calculate(double scaleZeroLoad_mVV, double scaleCapacity_mVV)
+        public override void CalculateAdjustment(double scaleZeroLoad_mVV, double scaleCapacity_mVV)
         {
             int scalZeroLoad_d;
             int scaleCapacity_d; 
@@ -328,70 +300,63 @@ namespace HBM.Weighing.API.WTX
 
             // write path 2110/06 - dead load = LDW_DEAD_WEIGHT 
 
-            _connection.Write(JetBusCommands.Ldw_dead_weight.PathIndex, scalZeroLoad_d);         // Zero point = LDW_DEAD_WEIGHT= "2110/06" 
+            Connection.Write(JetBusCommands.Ldw_dead_weight.PathIndex, scalZeroLoad_d);         // Zero point = LDW_DEAD_WEIGHT= "2110/06" 
 
             // write path 2110/07 - capacity/span = Nominal value = LWT_NOMINAL_VALUE        
 
-            _connection.Write(JetBusCommands.Lwt_nominal_value.PathIndex, Convert.ToInt32(scaleCapacity_d));    // Nominal value = LWT_NOMINAL_VALUE = "2110/07" ; 
+            Connection.Write(JetBusCommands.Lwt_nominal_value.PathIndex, Convert.ToInt32(scaleCapacity_d));    // Nominal value = LWT_NOMINAL_VALUE = "2110/07" ; 
 
             //this._isCalibrating = true;
         }
 
 
-        public override void MeasureZero()
+        public override void AdjustZeroSignal()
         {
             //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
-            _connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
+            Connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution
-            while (_connection.Read(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_ONGOING);
+            while (Connection.Read(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_ONGOING);
 
             // check : command "ok" = command is done
-            while (_connection.Read(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_OK);
+            while (Connection.Read(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_OK);
             
         }
 
-
         // This method sets the value for the nominal weight in the WTX.
-        public override void Calibrate(int calibrationValue, string calibrationWeightStr)
+        public override void AdjustNominalSignalWithAdjustmentWeight(int calibrationValue)
         {
-            _connection.Write(JetBusCommands.Lft_scale_calibration_weight.PathIndex, calibrationValue);   // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
+            Connection.Write(JetBusCommands.Lft_scale_calibration_weight.PathIndex, calibrationValue);   // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
 
-            _connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
+            Connection.Write(JetBusCommands.Scale_command.PathIndex, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution
-            while (_connection.Read(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
+            while (Connection.Read(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
 
             // check : command "ok" = command is done
-            while (_connection.Read(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_OK) ;     
+            while (Connection.Read(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_OK) ;     
 
             //this._isCalibrating = true;
         }
 
-        public override void AdjustZero()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public override void AdjustNominal()
+        public override void AdjustNominalSignal()
         {
             throw new NotImplementedException();
         }
 
         public void SetOutput(object index, int value)
         {
-            _connection.Write(Convert.ToString(index),value);
+            Connection.Write(Convert.ToString(index),value);
         }
 
-        public override void StopUpdate()
+        public override void Stop()
         {
-            _connection.IncomingDataReceived -= this.OnData;   // Subscribe to the event. 
+            Connection.IncomingDataReceived -= this.OnData;   // Subscribe to the event. 
         }
 
-        public override void RestartUpdate()
+        public override void Restart()
         {
-            _connection.IncomingDataReceived += this.OnData;   // Subscribe to the event. 
+            Connection.IncomingDataReceived += this.OnData;   // Subscribe to the event. 
         }
         #endregion
     }

@@ -110,4 +110,10 @@ namespace HBM.Weighing.API
         Gross = 2
     };
 
+    public enum WeightType
+    {
+        Gross,
+        Net,
+        NetPT
+    };
 }

@@ -18,7 +18,7 @@ namespace HBM.Weighing.API.WTX.Modbus
     public class ReadTestsModbus
     {
         private TestModbusTCPConnection testConnection;
-        private WtxModbus _wtxDevice;
+        private WTXModbus _wtxDevice;
 
         private bool connectCallbackCalled;
         private bool connectCompleted;

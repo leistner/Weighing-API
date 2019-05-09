@@ -13,7 +13,6 @@ using HBM.Weighing.API;
 using HBM.Weighing.API.WTX.Modbus;
 using GUIsimple;
 using HBM.Weighing.API.WTX.Jet;
-using WTXModbus;
 
 namespace GUIplc
 {
@@ -44,7 +43,7 @@ namespace GUIplc
     {
         #region Locales
 
-        private static BaseWtDevice _wtxDevice;
+        private static BaseWTDevice _wtxDevice;
         
         private SettingsForm _settings;
 
@@ -89,8 +88,8 @@ namespace GUIplc
             }
             else
             {
-                WTXModbus.Properties.Settings.Default.Reload();
-                _ipAddress = WTXModbus.Properties.Settings.Default.IPAddress;
+                GUIplc.Properties.Settings.Default.Reload();
+                _ipAddress = GUIplc.Properties.Settings.Default.IPAddress;
             }
             if (_args.Length > 2)
             {
@@ -112,7 +111,7 @@ namespace GUIplc
 
         public void setTimerInterval(int timerIntervalParam)
         {
-            _wtxDevice.RestartUpdate();
+            _wtxDevice.Restart();
             //_wtxDevice.ResetTimer(timerIntervalParam);
         }
 
@@ -125,7 +124,7 @@ namespace GUIplc
                 */
 
                 ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
-                _wtxDevice = new WtxModbus(_connection, this._timerInterval, update);
+                _wtxDevice = new WTXModbus(_connection, this._timerInterval, this.update);
             
                 _ApplicationModeStr = "Standard";
 
@@ -295,7 +294,7 @@ namespace GUIplc
         }
 
         // This automatic property returns an instance of this class. It has usage in the class "Settings_Form".
-        public BaseWtDevice GetDataviewer
+        public BaseWTDevice GetDataviewer
         {
             get
             {
@@ -354,7 +353,7 @@ namespace GUIplc
         private void button6_Click(object sender, EventArgs e)
         {
             // Adjust zero
-            _wtxDevice.AdjustZero();
+            _wtxDevice.AdjustZeroSignal();
         }
 
         // This method sends a command to the device : Adjust nominal. Command : 0x100
@@ -362,7 +361,7 @@ namespace GUIplc
         private void button7_Click(object sender, EventArgs e)
         {
             // Adjust nominal
-            _wtxDevice.AdjustNominal();
+            _wtxDevice.AdjustNominalSignal();
         }
 
         // This method sends a command to the device : Activate data. Command : 0x800
@@ -406,7 +405,7 @@ namespace GUIplc
             }
             //_wtxDevice.UpdateOutputWords(valueArr);
 
-            _wtxDevice.ActivateData(); 
+            ((WTXModbus)_wtxDevice).ActivateData(); 
         }       
 
         // This method sends a command to the device : Manual taring. Command : 0x1000
@@ -415,7 +414,7 @@ namespace GUIplc
         {
             // Manual taring
             //if (this.is_standard == true)      // Activate this if-conditon only in case, if the should be a change between standard and filler application. 
-            _wtxDevice.ManualTaring();
+            _wtxDevice.TareManually(100.0);
         }
 
         // This method sends a command to the device : Clear dosing results. Command : 0x4
@@ -424,7 +423,7 @@ namespace GUIplc
         {
             // Clear dosing results
             //if (this.is_standard == false)
-            _wtxDevice.ClearDosingResults();
+            //_wtxDevice.ClearDosingResults();
         }
 
         // This method sends a command to the device : Abort dosing. Command : 0x8
@@ -433,7 +432,7 @@ namespace GUIplc
         {
             // Abort dosing
             //if (this.is_standard == false)
-            _wtxDevice.AbortDosing();
+            //_wtxDevice.AbortDosing();
         }
 
         // This method sends a command to the device : Start dosing. Command : 0x10
@@ -442,7 +441,7 @@ namespace GUIplc
         {
             // Start dosing
             //if (this.is_standard == false)
-            _wtxDevice.StartDosing();
+            //_wtxDevice.StartDosing();
         }
 
         // This method sends a command to the device : Record weight. Command : 0x4000 , Bit .14
@@ -461,7 +460,7 @@ namespace GUIplc
         {
             // Manual re-dosing
             //if (this.is_standard == false)
-            _wtxDevice.ManualReDosing();
+           // _wtxDevice.ManualReDosing();
         }
 
         // This event starts the timer and the periodical fetch of values from the device (here: WTX120_Modbus).
@@ -677,7 +676,8 @@ namespace GUIplc
                         }
                     }
                 }
-                _wtxDevice.ActivateData();
+                if (_wtxDevice.Connection.GetType() == typeof(WTXModbus) )
+                    ((WTXModbus)_wtxDevice).ActivateData();
             }
         }     
 
@@ -710,8 +710,8 @@ namespace GUIplc
                     c.Width = 120;*/
                 try
                 {
-                    dataGridView1.Rows[0].Cells[6].Value = _wtxDevice.CurrentWeight(e.ProcessData.NetValue, e.ProcessData.Decimals);
-                    dataGridView1.Rows[1].Cells[6].Value = _wtxDevice.CurrentWeight(e.ProcessData.GrossValue, e.ProcessData.Decimals);
+                    dataGridView1.Rows[0].Cells[6].Value = _wtxDevice.CurrentWeight;
+                    dataGridView1.Rows[1].Cells[6].Value = _wtxDevice.CurrentWeight;
                     dataGridView1.Rows[2].Cells[6].Value = e.ProcessData.GeneralWeightError;
                     dataGridView1.Rows[3].Cells[6].Value = e.ProcessData.ScaleAlarm;
                     dataGridView1.Rows[4].Cells[6].Value = e.ProcessData.LimitStatus;
@@ -880,7 +880,7 @@ namespace GUIplc
             if (this.timer1.Interval != e.TimerInterval)
             {
                 this.timer1.Interval = e.TimerInterval;
-                _wtxDevice.RestartUpdate();
+                _wtxDevice.Restart();
                 //_wtxDevice.ResetTimer(timerIntervalParam);
             }
             // timer update missing
@@ -914,12 +914,12 @@ namespace GUIplc
          */
         private void calculateCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _wtxDevice.StopUpdate();
+            _wtxDevice.Stop();
 
             _adjustmentCalculator = new AdjustmentCalculator(_wtxDevice);
             DialogResult res = _adjustmentCalculator.ShowDialog();
 
-            _wtxDevice.RestartUpdate();
+            _wtxDevice.Restart();
         }
 
         /*
@@ -928,23 +928,23 @@ namespace GUIplc
          */
         private void calibrationWithWeightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _wtxDevice.StopUpdate();
+            _wtxDevice.Stop();
 
             _adjustmentWeigher = new AdjustmentWeigher(_wtxDevice);
             DialogResult res = _adjustmentWeigher.ShowDialog();
 
-            _wtxDevice.RestartUpdate();
+            _wtxDevice.Restart();
         }
         // This button event resets the calibration to the following default setting : 
         // Dead load = 0 mv/V
         // Span (Nominal load) = 2 mV/V
         private void button3_Click(object sender, EventArgs e)
         {
-            _wtxDevice.StopUpdate();
+            _wtxDevice.Stop();
 
-            _wtxDevice.Calculate(0, 2);
+            _wtxDevice.CalculateAdjustment(0, 2);
 
-            _wtxDevice.RestartUpdate();
+            _wtxDevice.Restart();
         }
 
         // Refresh the GUI if the change between standard and filler have been made: 
@@ -960,7 +960,7 @@ namespace GUIplc
         // Toolstrip Click Event for Digital IO : Input & Output
         private void toolStripMenuItem2_Click(object sender, EventArgs e)
         {
-            _wtxDevice.StopUpdate();
+            _wtxDevice.Stop();
 
             if (_wtxDevice.Connection.ConnType == ConnectionType.Modbus)
             {
@@ -971,7 +971,7 @@ namespace GUIplc
 
                 _wtxDevice.Connect(5000);
 
-                _functionIOForm = new WTXModbus.FunctionIO();
+                _functionIOForm = new GUIplc.FunctionIO();
 
                 _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
                 _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
@@ -981,14 +981,14 @@ namespace GUIplc
             else
                 if (_wtxDevice.Connection.ConnType == ConnectionType.Jetbus)
                 {
-                    _functionIOForm = new WTXModbus.FunctionIO();
+                    _functionIOForm = new GUIplc.FunctionIO();
 
                     _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
                     _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
 
                     DialogResult res = _functionIOForm.ShowDialog();
                 }
-            _wtxDevice.RestartUpdate();
+            _wtxDevice.Restart();
         }
 
         public void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
@@ -1004,7 +1004,7 @@ namespace GUIplc
             _wtxDevice.Disconnect();
 
             ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
-            _wtxDevice = new WtxModbus(_connection, this._timerInterval, update);
+            _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
         }
         public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
@@ -1025,7 +1025,7 @@ namespace GUIplc
             _wtxDevice.Disconnect();
 
             ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
-            _wtxDevice = new WtxModbus(_connection, this._timerInterval, update);
+            _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
         }
 
         private void jetbusToolStripMenuItem_Click(object sender, EventArgs e)

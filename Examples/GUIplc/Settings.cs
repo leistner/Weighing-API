@@ -15,7 +15,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using WTXModbus;
 
 namespace GUIplc
 {
@@ -60,8 +59,8 @@ namespace GUIplc
             ValuesChanged.Invoke(this, new SettingsEventArgs(this._ipAddress, this._sendingInterval));
 
             //Store IPAddress in Settings .settings
-            WTXModbus.Properties.Settings.Default.IPAddress = this._ipAddress;
-            WTXModbus.Properties.Settings.Default.Save();
+            GUIplc.Properties.Settings.Default.IPAddress = this._ipAddress;
+            GUIplc.Properties.Settings.Default.Save();
 
             this.Close();
         }

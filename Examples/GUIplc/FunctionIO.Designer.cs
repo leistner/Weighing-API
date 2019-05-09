@@ -1,4 +1,4 @@
-﻿namespace WTXModbus
+﻿namespace GUIplc
 {
     partial class FunctionIO
     {

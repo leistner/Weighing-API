@@ -22,7 +22,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         private static ushort[] _dataReadFail;
         
         private TestModbusTCPConnection testConnection;
-        private WtxModbus WTXModbusObj;
+        private WTXModbus WTXModbusObj;
 
         // Test case source for the connection establishment. 
         public static IEnumerable ConnectTestCases 
@@ -85,7 +85,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public bool ConnectTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbusObj = new WtxModbus(testConnection, 200, update);
+            WTXModbusObj = new WTXModbus(testConnection, 200, update);
 
             this.connectCallbackCalled = false;
 
@@ -104,7 +104,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public bool DisconnectTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbusObj = new WtxModbus(testConnection, 200, update);
+            WTXModbusObj = new WTXModbus(testConnection, 200, update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
             

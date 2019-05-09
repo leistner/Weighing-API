@@ -67,7 +67,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
            
-            _wtxObj.Calibrate(15000, "15000");
+            _wtxObj.AdjustNominalSignalWithAdjustmentWeight(15000);
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("6152/00") && _jetTestConnection.getDataBuffer.ContainsValue(15000) &&       // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
                 _jetTestConnection.getDataBuffer.ContainsKey("6002/01") && _jetTestConnection.getDataBuffer.ContainsValue(1852596579) &&  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
@@ -95,7 +95,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.MeasureZero();
+            _wtxObj.AdjustZeroSignal();
 
             if (
                 _jetTestConnection.getDataBuffer.ContainsKey("6002/01") && _jetTestConnection.getDataBuffer.ContainsValue(2053923171) &&
@@ -126,7 +126,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.Calculate(preload, capacity);
+            _wtxObj.CalculateAdjustment(preload, capacity);
 
             testdPreload = preload * multiplierMv2D;
             testdNominalLoad = testdPreload + (capacity * multiplierMv2D);

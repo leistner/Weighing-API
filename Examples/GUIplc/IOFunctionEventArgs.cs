@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WTXModbus
+namespace GUIplc
 {
     /// <summary>
     /// Event argument for the selected input and output function. Used by the event ''.

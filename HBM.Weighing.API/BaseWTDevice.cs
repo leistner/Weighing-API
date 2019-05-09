@@ -27,87 +27,126 @@
 // SOFTWARE.
 //
 // </copyright>
-using System;
 
 namespace HBM.Weighing.API
 {
+    using System;
+
     /// <summary>
-    /// Abstract class to declare methods and properties/attributes for its subclasses WtxJet and WtxModbus implementing  BaseWtDevice.
-    /// 
-    /// By implementing the subclasses of BaseWtDevice (WtxModbus or WtxJet), you can implement your communication to the WTX device either via Jetbus or via Modbus.
-    /// The connection establishment and read/write functions via Jet-/or Modbus are given by interface INetConnection (_connection).
-    /// Real-Time data is given by the interface IProcessData (_processData).
-    /// By function calls in your application you can use all the methods like Tare(), Zero(), Calibrate( PotencyCalibrationWeight, calibrationWeight) via Jetbus or Modbus.
-    public abstract class BaseWtDevice
+    /// Basic device class, holds the most important properties, available in all weighing devices.
+    /// <para>- Weight data properties (e.g. Gross/Net value or tare value) and methods (e.g. Tare(), Zero() )</para>
+    /// <para>- Adjustment  properties (e.g. zero signal or nominal signal) and methods (e.g. CalibrateZero() )</para>
+    /// </summary>
+    public abstract class BaseWTDevice
     {
-        #region Attributes
-
-        protected INetConnection _connection;
-
-        private IProcessData _processData;
-        private IDataStandard _dataStandard;
-        private IDataFiller _dataFiller;
-        private IDataFillerExtended _dataFillerExtended;
-
-        /// Eventhandler to raise an event and commit the data to the GUI/application from WTXJet and WTXModbus
+        #region ==================== events & delegates ====================
+        /// <summary>
+        /// Event handler to raise an event whenever new process data from the device is available
+        /// </summary>
         public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
-
-        public abstract bool IsConnected { get; }
+        #endregion
+        
+        #region =============== constructors & destructors =================
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseWTDevice" /> class.
+        /// </summary>
+        /// <param name="connection">Target connection of the device</param>
+        public BaseWTDevice(INetConnection connection) : base()
+        {
+            this.Connection = connection;
+        }
         #endregion
 
-        #region constructor of BaseWtDevice
-        public BaseWtDevice(INetConnection connection) : base()
-        {
-            this._connection = connection;
-        }
-        #endregion
-
-        #region get-properties
+        #region ======================== properties ========================
         /// <summary>
-        /// Get-Property : Interface for the classes JetbusConnection and ModbusTcpconnection
+        /// Gets or sets the current process data (e.g. weighing data and device status)
         /// </summary>
-        public INetConnection Connection
-        {
-            get
-            {
-                return _connection;
-            }
-        }
+        public IProcessData ProcessData { get; protected set; }
+
         /// <summary>
-        /// Get-Property : Class of interface IProcessData containing the real-time data
+        /// Gets or sets the limit switch data
         /// </summary>
-        public IProcessData ProcessData
-        {
-            get { return _processData;  }
-            set { _processData = value; }
-        }
-
-        public IDataStandard DataStandard
-        {
-            get { return _dataStandard;  }
-            set { _dataStandard = value; }
-        }
-
-        public IDataFiller DataFiller
-        {
-            get { return _dataFiller;  }
-            set { _dataFiller = value; }
-        }
-
-        public IDataFillerExtended DataFillerExtended
-        {
-            get { return _dataFillerExtended;  }
-            set { _dataFillerExtended = value; }
-        }
+        public IDataStandard DataStandard { get; protected set; }
 
         /// <summary>
-        /// Sets the application mode according to the integer value in ProcessData : Standard or filler mode
+        /// Gets or sets the basic filler data
+        /// </summary>
+        public IDataFiller DataFiller { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the extended filler data 
+        /// </summary>
+        public IDataFillerExtended DataFillerExtended { get; protected set; }
+
+        /// <summary>
+        /// Gets or sets the current application of the device
         /// </summary>
         /// <returns></returns>
         public abstract ApplicationMode ApplicationMode { get; set; }
+
+        /// <summary>
+        ///  Gets or sets the current connection of the device
+        /// </summary>
+        public INetConnection Connection { get; protected set; }
+
+        /// <summary>
+        ///  Gets a value indicating whether the device is connected or not
+        /// </summary>
+        public abstract bool IsConnected { get; }
+
+        /// <summary>
+        /// Gets the type of the connection (e.g. "JET" or "Modbus")
+        /// </summary>
+        public abstract string ConnectionType { get; }
+
+        /// <summary>
+        /// Gets the current weight of the device depending on decimal count (e.g. "1,42")
+        /// </summary>
+        /// <returns>Current weight</returns>
+        public abstract string CurrentWeight { get; }
+
+        /// <summary>
+        /// Gets the engineering unit (e.g. "g", "kg", "t") 
+        /// </summary>
+        /// <returns></returns>
+        public abstract string Unit { get; }
+
+        /// <summary>
+        /// Gets the weight type, Gross or Net
+        /// </summary>
+        /// <returns></returns>
+        public abstract WeightType WeightType { get; }
+
+        /// <summary>
+        /// Gets the scale range 1-3
+        /// </summary>
+        /// <returns></returns>
+        public abstract int ScaleRange { get; }
+
+        /// <summary>
+        /// Gets or sets the manual tare value
+        /// </summary>
+        public abstract int ManualTareValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets the calibration weight for the next adjustment
+        /// </summary>
+        public abstract int AdjustmentWeight { get; set; }
+
+        /// <summary>
+        /// Gets or sets the zero signal
+        /// </summary>
+        public abstract int ZeroSignal { get; set; }
+
+        /// <summary>
+        /// Gets or sets the nominal signal
+        /// </summary>
+        public abstract int NominalSignal { get; set; }
+            
         #endregion
 
-        #region Abstract methods for the wtx class(WTXJet or WTXModbus) to get, to send and to analyse data
+        #region ================ public & internal methods =================
+
         /// <summary>
         /// Synchronous call to connect
         /// </summary>
@@ -115,14 +154,35 @@ namespace HBM.Weighing.API
         public abstract void Connect(double timeoutMs);
 
         /// <summary>
-        /// Asynchronous calll to connect
+        /// Asynchronous call to connect
         /// </summary>
         /// <param name="completed">Callback raised after connection completed</param>
         /// <param name="timeoutMs">Timeout to wait for connect response</param>
         public abstract void Connect(Action<bool> completed, double timeoutMs);
+
+        /// <summary>
+        /// Synchronous call to disconnect
+        /// </summary>
+        public abstract void Disconnect();
+
+        /// <summary>
+        /// Asynchronous call to disconnect
+        /// </summary>
+        /// <param name="disconnectCompleted">Callback raised after disconnect completed</param>
+        public abstract void Disconnect(Action<bool> disconnectCompleted);
                
         /// <summary>
-        /// Sets the the device to gross values
+        /// Stop update process data
+        /// </summary>
+        public abstract void Stop();
+
+        /// <summary>
+        /// Restart updating process data
+        /// </summary>
+        public abstract void Restart();
+
+        /// <summary>
+        /// Sets the the device to gross
         /// </summary>
         public abstract void SetGross();
 
@@ -136,96 +196,40 @@ namespace HBM.Weighing.API
         /// </summary>
         public abstract void Tare();
 
-        public abstract void AdjustZero();
+        /// <summary>
+        /// Tares the device manually
+        /// </summary>
+        /// <param name="manualTareValue">Tare value</param>
+        public abstract void TareManually(double manualTareValue);
 
-        public abstract void AdjustNominal();
-
-        public abstract void ActivateData();
-        public abstract void ManualTaring();
+        /// <summary>
+        /// Records the weight to legal-for-trade memory
+        /// </summary>
         public abstract void RecordWeight();
-        public abstract void ClearDosingResults();
-        public abstract void AbortDosing();
-        public abstract void StartDosing();
-        public abstract void ManualReDosing();
-        /// <summary>
-        /// Synchronous call to disconnect
-        /// </summary>
-        public abstract void Disconnect();
-
-        /// <summary>
-        /// Asynchronous call to disconnect
-        /// </summary>
-        /// <param name="disconnectCompleted">Callback raised after disconnect completed</param>
-        public abstract void Disconnect(Action<bool> disconnectCompleted);
-
-        /// <summary>
-        /// Current weight of device depending on decimal count, gross or net
-        /// </summary>
-        /// <returns>Current weight of device</returns>
-        public abstract string CurrentWeight(int weightNoDecimals, int decimals);
-               
-        /// <summary>
-        /// Zeroing the wtx device. 
-        /// </summary>
-        public abstract void MeasureZero();
-
-        public abstract int ManualTareValue { get; set; }
-
-        public abstract int CalibrationWeight { get; set; }
-        public abstract int ZeroLoad { get; set; }
-        public abstract int NominalLoad { get; set; }
-
-        /// <summary>
-        /// Calibration with an individual calibration weight. 
-        /// </summary>
-        /// <param name="PotencyCalibrationWeight"></param>
-        /// <param name="calibrationWeight"></param>
-        public abstract void Calibrate(int PotencyCalibrationWeight, string calibrationWeight);
-
-        /// <summary>
-        /// Calibration with dead load and span. 
-        /// </summary>
-        /// <param name="_preload"></param>
-        /// <param name="_capacity"></param>
-        public abstract void Calculate(double _preload, double _capacity);
-
-        /// <summary>
-        /// Identify the device type (e.g. "Jetbus" or "Modbus")
-        /// </summary>
-        public abstract string ConnectionType { get; }
-
-        /// <summary>
-        /// Gets the unit according to an integer value : g, kg, lb, t 
-        /// </summary>
-        /// <returns></returns>
-        public abstract string Unit { get; }
         
         /// <summary>
-        /// Sets the weight type according to the integer value in ProcessData: gross or net
+        /// Adjust the zero load 
         /// </summary>
-        /// <returns></returns>
-        public abstract string WeightTypeStringComment();
+        public abstract void AdjustZeroSignal();
 
         /// <summary>
-        /// Sets the scale range according to the integer value in ProcessData : Range 1, 2, 3
+        /// Adjust the nominal load 
         /// </summary>
-        /// <returns></returns>
-        public abstract string ScaleRangeStringComment();
+        public abstract void AdjustNominalSignal();
+        
+        /// <summary>
+        /// Adjust with an individual adjustment weight. 
+        /// </summary>
+        /// <param name="adjustmentWeight">Weight for the next adjustment</param>
+        public abstract void AdjustNominalSignalWithAdjustmentWeight(int adjustmentWeight);
 
         /// <summary>
-        /// Stop the data update - Stop timer update
+        /// Calibration with zero load and span. 
         /// </summary>
-        /// <returns></returns>
-        public abstract void StopUpdate();
-
-        /// <summary>
-        /// Restart the data update - Restart timer update
-        /// </summary>
-        /// <returns></returns>
-        public abstract void RestartUpdate();
+        /// <param name="scaleZeroLoad">Zero load for calculating the adjustment</param>
+        /// <param name="scaleCapacity">Scale capacity for calculating the adjustment</param>
+        public abstract void CalculateAdjustment(double scaleZeroLoad, double scaleCapacity);
 
         #endregion
-
     }
 }
-

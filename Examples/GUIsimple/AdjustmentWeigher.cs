@@ -42,7 +42,7 @@ namespace GUIsimple
 
     public partial class AdjustmentWeigher : Form
     {
-        private BaseWtDevice _wtxDevice;
+        private BaseWTDevice _wtxDevice;
         private int _state = 0;
         
         private double _calibrationWeight = 0.0;
@@ -52,7 +52,7 @@ namespace GUIsimple
         private string _calibrationWeightWithComma;
 
         // Constructor of class WeightCalibration: 
-        public AdjustmentWeigher(BaseWtDevice wtxDevice)
+        public AdjustmentWeigher(BaseWTDevice wtxDevice)
         {
             this._wtxDevice = wtxDevice;
 
@@ -93,9 +93,7 @@ namespace GUIsimple
                     }
                     catch (FormatException)
                     {
-                        txtInfo.Text = "Wrong format!" + Environment.NewLine
-                        + "Accepted format(comma): " + _wtxDevice.CurrentWeight(19876, _wtxDevice.ProcessData.Decimals)
-                        + " ; or(dot): " + _wtxDevice.CurrentWeight(19876, _wtxDevice.ProcessData.Decimals).Replace(",", ".");
+                        txtInfo.Text = "Wrong format!" + Environment.NewLine + "Accepted format *,***";
                         break;
                     }
                     catch (OverflowException)
@@ -115,7 +113,7 @@ namespace GUIsimple
                     txtInfo.Text = "Measure zero in progess.";
                     Application.DoEvents(); //Change txtInfo
 
-                    _wtxDevice.MeasureZero();
+                    _wtxDevice.AdjustZeroSignal();
                     
                     txtInfo.Text = "Zero load measured." + Environment.NewLine + "Put weight on scale.";
                     cmdAdjust.Text = "Calibrate";
@@ -128,7 +126,7 @@ namespace GUIsimple
                     txtInfo.Text = "Calibration in progress.";
                     Application.DoEvents();              //For changing the 'txtInfo' textbox. 
 
-                    _wtxDevice.Calibrate(this.CalibrationWeightWithoutDecimals(), _calibrationWeight.ToString());
+                    _wtxDevice.AdjustNominalSignalWithAdjustmentWeight(this.CalibrationWeightWithoutDecimals());
                                        
                     cmdAdjust.Text = "Check";
                     _state = 3;

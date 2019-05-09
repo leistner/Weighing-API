@@ -13,7 +13,7 @@ namespace HBM.Weighing.API.WTX.Modbus
     {
 
         private TestModbusTCPConnection testConnection;
-        private WtxModbus _wtxObj;
+        private WTXModbus _wtxObj;
 
         private bool connectCallbackCalled;
         private bool connectCompleted;
@@ -280,7 +280,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public bool LimitSwitch1ModeWriteTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -298,7 +298,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public bool LimitSwitch2ModeWriteTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             _wtxObj.DataStandard.LimitSwitch2Mode = 2;
@@ -315,7 +315,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public bool LimitSwitch3ModeWriteTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             _wtxObj.DataStandard.LimitSwitch3Mode = 3;
@@ -332,7 +332,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public bool LimitSwitch4ModeWriteTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             _wtxObj.DataStandard.LimitSwitch4Mode = 4;
@@ -350,7 +350,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             int command = 0;
 
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -416,7 +416,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void TareAsyncTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -445,7 +445,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void GrosMethodTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -463,7 +463,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void TareMethodTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -482,11 +482,11 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void AdjustingZeroMethodTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.AdjustZero();
+            _wtxObj.AdjustZeroSignal();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x80, _wtxObj.getCommand);
@@ -500,11 +500,11 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void AdjustingNominalMethodTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.AdjustNominal();
+            _wtxObj.AdjustNominalSignal();
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x100, _wtxObj.getCommand);
@@ -518,7 +518,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void /*int*/ ActivateDataMethodTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -536,11 +536,11 @@ namespace HBM.Weighing.API.WTX.Modbus
         public void ManualTaringTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ManualTaring();
+            _wtxObj.TareManually(200.0); 
 
             if (behavior == Behavior.TareMethodTestSuccess)
                 Assert.AreEqual(0x1000, _wtxObj.getCommand);
@@ -550,12 +550,12 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
 
-        // Test for method : Adjusting nominal
+        /* No filling in baseWTDevice !
         [Test, TestCaseSource(typeof(WriteTestsModbus), "ClearDosingResultsMethodTestCases")]
         public void ClearDosingResultsMethodTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -567,13 +567,13 @@ namespace HBM.Weighing.API.WTX.Modbus
                 if (behavior == Behavior.TareMethodTestFail)
                 Assert.AreEqual(0x0, _wtxObj.getCommand);
         }
-
-        // Test for method : Adjusting nominal
+        */
+        /* No filling in baseWTDevice !
         [Test, TestCaseSource(typeof(WriteTestsModbus), "AbortDosingMethodTestCases")]
         public void AbortDosingMethodTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -585,7 +585,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 if (behavior == Behavior.TareMethodTestFail)
                 Assert.AreEqual(0x0, _wtxObj.getCommand);
         }
-
+        */
         /*
 // Test for method : Zeroing
 [Test, TestCaseSource(typeof(WriteTestsModbus), "ZeroMethodTestCases")]
@@ -608,12 +608,13 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
 }
 */
 
-        // Test for method : Adjusting nominal
+
+        /* No filling in baseWTDevice !
         [Test, TestCaseSource(typeof(WriteTestsModbus), "StartDosingMethodTestCases")]
         public void StartDosingMethodTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -625,13 +626,14 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 if (behavior == Behavior.TareMethodTestFail)
                 Assert.AreEqual(0x0, _wtxObj.getCommand);
         }
+        */
 
         // Test for method : Record weight
         [Test, TestCaseSource(typeof(WriteTestsModbus), "RecordWeightMethodTestCases")]
         public void RecordweightMethodTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -644,12 +646,13 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 Assert.AreEqual(0x0, _wtxObj.getCommand);
         }
 
-        // Test for method : manualReDosing
+
+        /* No filling in baseWTDevice !
         [Test, TestCaseSource(typeof(WriteTestsModbus), "ManualRedosingMethodTestCases")]
         public void ManualRedosingMethodTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -661,6 +664,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 if (behavior == Behavior.TareMethodTestFail)
                 Assert.AreEqual(0x0, _wtxObj.getCommand);
         }
+        */
 
         /*
         // Test for method : Write an Array of type signed integer 32 bit. 
@@ -737,7 +741,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
         public int ResetTimerTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
