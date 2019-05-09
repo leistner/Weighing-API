@@ -44,9 +44,9 @@ namespace HBM.Weighing.API.WTX.Jet
     /// This class inherits from interface ICommands. 
     /// </summary>
     /// </summary>
-    public class JetBusCommands
+    public static class JetBusCommands
     {
-        public JetBusCommands()
+        static JetBusCommands()
         {
             ResidualFlowTime = new JetBusCommand(1, "2220/07", 0, 0);
             Ldw_dead_weight = new JetBusCommand(1, "2110/06", 0, 0);                // LDW = Nullpunkt
@@ -59,6 +59,10 @@ namespace HBM.Weighing.API.WTX.Jet
 
             Tare_value = new JetBusCommand(1, "6143/00", 0, 0);
             Weighing_device_1_weight_status = new JetBusCommand(1, "6012/01", 0, 0);
+
+            WS_GeneralWeightError = new JetBusCommand(1, "6012/01", 0, 1);
+
+
             Unit_prefix_fixed_parameter = new JetBusCommand(1, "6014/01", 0, 0);
             Application_mode = new JetBusCommand(1, "2010/07", 0, 0); // IMD = Input mode ( Application mode)
             Decimals = new JetBusCommand(1, "6013/01", 0, 0);
@@ -217,210 +221,211 @@ namespace HBM.Weighing.API.WTX.Jet
             Residual_flow_dosing_cycle = new JetBusCommand(1, "2000/0F", 0, 0);  // RFO = Nachstrom des letzten Dosierzyklus
         }
 
-        public JetBusCommand ResidualFlowTime { get; private set; }
-        public JetBusCommand Ldw_dead_weight { get; private set; }                // LDW = Nullpunkt
-        public JetBusCommand Lwt_nominal_value { get; private set; }              // LWT = Nennwert
-        public JetBusCommand Lft_scale_calibration_weight { get; private set; }   // LFT = LFT scale calibration weight
+        public static JetBusCommand ResidualFlowTime { get; private set; }
+        public static JetBusCommand Ldw_dead_weight { get; private set; }                // LDW = Nullpunkt
+        public static JetBusCommand Lwt_nominal_value { get; private set; }              // LWT = Nennwert
+        public static JetBusCommand Lft_scale_calibration_weight { get; private set; }   // LFT = LFT scale calibration weight
 
-        public JetBusCommand Net_value { get; private set; }
-        public JetBusCommand Gross_value { get; private set; }
-        public JetBusCommand Zero_value { get; private set; }
+        public static JetBusCommand Net_value { get; private set; }
+        public static JetBusCommand Gross_value { get; private set; }
+        public static JetBusCommand Zero_value { get; private set; }
 
-        public JetBusCommand Tare_value { get; private set; }
-        public JetBusCommand Weighing_device_1_weight_status { get; private set; }
-        public JetBusCommand Unit_prefix_fixed_parameter { get; private set; }
+        public static JetBusCommand Tare_value { get; private set; }
+        public static JetBusCommand Weighing_device_1_weight_status { get; private set; }
+        public static JetBusCommand WS_GeneralWeightError { get; private set; }
+        public static JetBusCommand Unit_prefix_fixed_parameter { get; private set; }
 
-        public JetBusCommand Application_mode { get; private set; } // IMD = Input mode ( Application mode)
+        public static JetBusCommand Application_mode { get; private set; } // IMD = Input mode ( Application mode)
 
-        public JetBusCommand Decimals { get; private set; }
-        public JetBusCommand Scale_command { get; private set; }
-        public JetBusCommand Scale_command_status { get; private set; }
+        public static JetBusCommand Decimals { get; private set; }
+        public static JetBusCommand Scale_command { get; private set; }
+        public static JetBusCommand Scale_command_status { get; private set; }
 
-        public JetBusCommand Status_digital_input_1 { get; private set; }    // IS1
-        public JetBusCommand Status_digital_input_2 { get; private set; }    // IS2
-        public JetBusCommand Status_digital_input_3 { get; private set; }    // IS3
-        public JetBusCommand Status_digital_input_4 { get; private set; }    // IS4
+        public static JetBusCommand Status_digital_input_1 { get; private set; }    // IS1
+        public static JetBusCommand Status_digital_input_2 { get; private set; }    // IS2
+        public static JetBusCommand Status_digital_input_3 { get; private set; }    // IS3
+        public static JetBusCommand Status_digital_input_4 { get; private set; }    // IS4
 
-        public JetBusCommand Status_digital_output_1 { get; private set; }   // OS1
-        public JetBusCommand Status_digital_output_2 { get; private set; }   // OS2
-        public JetBusCommand Status_digital_output_3 { get; private set; }   // OS3
-        public JetBusCommand Status_digital_output_4 { get; private set; }   // OS4
+        public static JetBusCommand Status_digital_output_1 { get; private set; }   // OS1
+        public static JetBusCommand Status_digital_output_2 { get; private set; }   // OS2
+        public static JetBusCommand Status_digital_output_3 { get; private set; }   // OS3
+        public static JetBusCommand Status_digital_output_4 { get; private set; }   // OS4
 
-        public JetBusCommand Limit_value { get; private set; }   // LVS
+        public static JetBusCommand Limit_value { get; private set; }   // LVS
 
         //private string[] _weightMemArray = new string[2] { _storage_weight, _storage_weight_mode };
 
-        public JetBusCommand Coarse_flow_monitoring { get; private set; }      // CBK = Füllstromüberwachung Grobstrom
-        public JetBusCommand Coarse_flow_monitoring_time { get; private set; } // CBT = Überwachungszeit Grobstrom
-        public JetBusCommand Coarse_flow_cut_off_point { get; private set; }   // CFD = Grobstromabschaltpunkt
-        public JetBusCommand Coarse_flow_time { get; private set; }            // CFT = Grobstromzeit
-        public JetBusCommand Dosing_mode { get; private set; }                 // DMD = Dosiermodus
-        public JetBusCommand Dosing_time { get; private set; }                 // DST = Dosieristzeit
-        public JetBusCommand Emptying_mode { get; private set; }               // EMD = Entleermodus
+        public static JetBusCommand Coarse_flow_monitoring { get; private set; }      // CBK = Füllstromüberwachung Grobstrom
+        public static JetBusCommand Coarse_flow_monitoring_time { get; private set; } // CBT = Überwachungszeit Grobstrom
+        public static JetBusCommand Coarse_flow_cut_off_point { get; private set; }   // CFD = Grobstromabschaltpunkt
+        public static JetBusCommand Coarse_flow_time { get; private set; }            // CFT = Grobstromzeit
+        public static JetBusCommand Dosing_mode { get; private set; }                 // DMD = Dosiermodus
+        public static JetBusCommand Dosing_time { get; private set; }                 // DST = Dosieristzeit
+        public static JetBusCommand Emptying_mode { get; private set; }               // EMD = Entleermodus
 
-        public JetBusCommand Fine_flow_monitoring { get; private set; }        // FBK = Füllstromüberwachung Feinstrom
-        public JetBusCommand Fine_flow_monitoring_time { get; private set; }   // FBT = Überwachungszeit Feinstrom
-        public JetBusCommand Fine_flow_cut_off_point { get; private set; }     // FFD = Feinstromabschaltpunkt
-        public JetBusCommand Fine_flow_phase_before_coarse_flow { get; private set; } // FFL = Feinstromphase vor Grobstrom
-        public JetBusCommand Minimum_fine_flow { get; private set; }           // FFM = Minimaler Feinstromanteil
+        public static JetBusCommand Fine_flow_monitoring { get; private set; }        // FBK = Füllstromüberwachung Feinstrom
+        public static JetBusCommand Fine_flow_monitoring_time { get; private set; }   // FBT = Überwachungszeit Feinstrom
+        public static JetBusCommand Fine_flow_cut_off_point { get; private set; }     // FFD = Feinstromabschaltpunkt
+        public static JetBusCommand Fine_flow_phase_before_coarse_flow { get; private set; } // FFL = Feinstromphase vor Grobstrom
+        public static JetBusCommand Minimum_fine_flow { get; private set; }           // FFM = Minimaler Feinstromanteil
 
-        public JetBusCommand Fine_flow_time { get; private set; }              // FFT = Feinstromzeit
-        public JetBusCommand Dosing_result { get; private set; }               // FRS1 = Dosierergebnis
-        public JetBusCommand dosing_state { get; private set; }                // FRS2 = Dosierstatus
-        public JetBusCommand Reference_value_dosing { get; private set; }      // FWT = Sollwert dosieren
-        public JetBusCommand Lockout_time_coarse_flow { get; private set; }    // LTC = Sperrzeit Grobstrom
-        public JetBusCommand Lockout_time_fine_flow { get; private set; }      // LTF = Sperrzeit Feinstrom
-        public JetBusCommand Lower_tolerance_limit { get; private set; }       // LTL = Untere Toleranz
-        public JetBusCommand Maximal_dosing_time { get; private set; }         // MDT = Maximale Dosierzeit
-        public JetBusCommand Minimum_start_weight { get; private set; }        // MSW = Minimum Startgewicht
-        public JetBusCommand Dosing_counter { get; private set; }              // NDS = Dosierzähler
-        public JetBusCommand Optimization { get; private set; }                // OSN = Optimierung
-        public JetBusCommand Range_selection_parameter { get; private set; }   // RDP = Auswahl Dosierparameter
-        public JetBusCommand Redosing { get; private set; }                    // RDS = Nachdosieren
-        public JetBusCommand Residual_flow_time { get; private set; }          // RFT = Nachstromzeit
-        public JetBusCommand Run_start_dosing { get; private set; }            // RUN = Start Dosieren
+        public static JetBusCommand Fine_flow_time { get; private set; }              // FFT = Feinstromzeit
+        public static JetBusCommand Dosing_result { get; private set; }               // FRS1 = Dosierergebnis
+        public static JetBusCommand dosing_state { get; private set; }                // FRS2 = Dosierstatus
+        public static JetBusCommand Reference_value_dosing { get; private set; }      // FWT = Sollwert dosieren
+        public static JetBusCommand Lockout_time_coarse_flow { get; private set; }    // LTC = Sperrzeit Grobstrom
+        public static JetBusCommand Lockout_time_fine_flow { get; private set; }      // LTF = Sperrzeit Feinstrom
+        public static JetBusCommand Lower_tolerance_limit { get; private set; }       // LTL = Untere Toleranz
+        public static JetBusCommand Maximal_dosing_time { get; private set; }         // MDT = Maximale Dosierzeit
+        public static JetBusCommand Minimum_start_weight { get; private set; }        // MSW = Minimum Startgewicht
+        public static JetBusCommand Dosing_counter { get; private set; }              // NDS = Dosierzähler
+        public static JetBusCommand Optimization { get; private set; }                // OSN = Optimierung
+        public static JetBusCommand Range_selection_parameter { get; private set; }   // RDP = Auswahl Dosierparameter
+        public static JetBusCommand Redosing { get; private set; }                    // RDS = Nachdosieren
+        public static JetBusCommand Residual_flow_time { get; private set; }          // RFT = Nachstromzeit
+        public static JetBusCommand Run_start_dosing { get; private set; }            // RUN = Start Dosieren
 
-        public JetBusCommand Mean_value_dosing_results { get; private set; }         // SDM = Mittelwert Dosieren
-        public JetBusCommand Dosing_state_filler { get; private set; }               // SDO = Dosierstatus
-        public JetBusCommand Standard_deviation { get; private set; }                // SDS = Standardabweichung
-        public JetBusCommand Settling_time_transient_response { get; private set; }  // STT = Beruhigungszeit
-        public JetBusCommand Systematic_difference { get; private set; }             // SYD = Systematische Differenz
-        public JetBusCommand Tare_delay { get; private set; }                        // TAD = Tarierverzögerung
-        public JetBusCommand Tare_mode { get; private set; }                         // TMD = Tariermodus
-        public JetBusCommand Upper_tolerance_limit { get; private set; }             // UTL = Obere Toleranz
-        public JetBusCommand Valve_control { get; private set; }                    // VCT = Ventilsteuerung
-        public JetBusCommand _write_dosing_parameter_set { get; private set; }      // WDP = Dosierparametersatz schreiben
-        public JetBusCommand Storage_weight { get; private set; }                   // STO = Gewichtsspeicherung
-        public JetBusCommand Storage_weight_mode { get; private set; }              // SMD = Modus Gewichtsspeicherung
+        public static JetBusCommand Mean_value_dosing_results { get; private set; }         // SDM = Mittelwert Dosieren
+        public static JetBusCommand Dosing_state_filler { get; private set; }               // SDO = Dosierstatus
+        public static JetBusCommand Standard_deviation { get; private set; }                // SDS = Standardabweichung
+        public static JetBusCommand Settling_time_transient_response { get; private set; }  // STT = Beruhigungszeit
+        public static JetBusCommand Systematic_difference { get; private set; }             // SYD = Systematische Differenz
+        public static JetBusCommand Tare_delay { get; private set; }                        // TAD = Tarierverzögerung
+        public static JetBusCommand Tare_mode { get; private set; }                         // TMD = Tariermodus
+        public static JetBusCommand Upper_tolerance_limit { get; private set; }             // UTL = Obere Toleranz
+        public static JetBusCommand Valve_control { get; private set; }                    // VCT = Ventilsteuerung
+        public static JetBusCommand _write_dosing_parameter_set { get; private set; }      // WDP = Dosierparametersatz schreiben
+        public static JetBusCommand Storage_weight { get; private set; }                   // STO = Gewichtsspeicherung
+        public static JetBusCommand Storage_weight_mode { get; private set; }              // SMD = Modus Gewichtsspeicherung
 
 
 
         // Paths/Commands : Digital input in the extended filler mode, only via Jetbus
-        public JetBusCommand Function_digital_input_1 { get; private set; }
-        public JetBusCommand Function_digital_input_2 { get; private set; }
-        public JetBusCommand Function_digital_input_3 { get; private set; }
-        public JetBusCommand Function_digital_input_4 { get; private set; }
+        public static JetBusCommand Function_digital_input_1 { get; private set; }
+        public static JetBusCommand Function_digital_input_2 { get; private set; }
+        public static JetBusCommand Function_digital_input_3 { get; private set; }
+        public static JetBusCommand Function_digital_input_4 { get; private set; }
         // Paths/Commands : Digital output in the extended filler mode, only via Jetbus
-        public JetBusCommand Function_digital_output_1 { get; private set; }
-        public JetBusCommand Function_digital_output_2 { get; private set; }
-        public JetBusCommand Function_digital_output_3 { get; private set; }
-        public JetBusCommand Function_digital_output_4 { get; private set; }
+        public static JetBusCommand Function_digital_output_1 { get; private set; }
+        public static JetBusCommand Function_digital_output_2 { get; private set; }
+        public static JetBusCommand Function_digital_output_3 { get; private set; }
+        public static JetBusCommand Function_digital_output_4 { get; private set; }
 
-        public JetBusCommand Error_register { get; private set; }
-        public JetBusCommand Save_all_parameters { get; private set; }
-        public JetBusCommand Restore_all_default_parameters { get; private set; }
-        public JetBusCommand Vendor_id { get; private set; }
-        public JetBusCommand Product_code { get; private set; }
-        public JetBusCommand Serial_number { get; private set; }
-        public JetBusCommand Implemented_profile_specification { get; private set; }
-        public JetBusCommand Lc_capability { get; private set; }
-        public JetBusCommand Weighing_device_1_unit_prefix_output_parameter { get; private set; }
+        public static JetBusCommand Error_register { get; private set; }
+        public static JetBusCommand Save_all_parameters { get; private set; }
+        public static JetBusCommand Restore_all_default_parameters { get; private set; }
+        public static JetBusCommand Vendor_id { get; private set; }
+        public static JetBusCommand Product_code { get; private set; }
+        public static JetBusCommand Serial_number { get; private set; }
+        public static JetBusCommand Implemented_profile_specification { get; private set; }
+        public static JetBusCommand Lc_capability { get; private set; }
+        public static JetBusCommand Weighing_device_1_unit_prefix_output_parameter { get; private set; }
 
-        public JetBusCommand Weighing_device_1_weight_step { get; private set; }
-        public JetBusCommand Alarms { get; private set; }
-        public JetBusCommand Weighing_device_1_output_weight { get; private set; }
-        public JetBusCommand Weighing_device_1_setting { get; private set; }
-        public JetBusCommand Local_gravity_factor { get; private set; }
-        public JetBusCommand Scale_filter_setup { get; private set; }
-        public JetBusCommand Data_sample_rate { get; private set; }
+        public static JetBusCommand Weighing_device_1_weight_step { get; private set; }
+        public static JetBusCommand Alarms { get; private set; }
+        public static JetBusCommand Weighing_device_1_output_weight { get; private set; }
+        public static JetBusCommand Weighing_device_1_setting { get; private set; }
+        public static JetBusCommand Local_gravity_factor { get; private set; }
+        public static JetBusCommand Scale_filter_setup { get; private set; }
+        public static JetBusCommand Data_sample_rate { get; private set; }
 
-        public JetBusCommand Filter_order_critically_damped { get; private set; }
+        public static JetBusCommand Filter_order_critically_damped { get; private set; }
 
-        public JetBusCommand Cut_off_frequency_critically_damped { get; private set; }
-        public JetBusCommand Filter_order_butterworth { get; private set; }
-        public JetBusCommand Cut_off_frequency_butterworth { get; private set; }
-        public JetBusCommand Filter_order_bessel { get; private set; }
-        public JetBusCommand Cut_off_frequency_bessel { get; private set; }
-        public JetBusCommand Scale_suppy_nominal_voltage { get; private set; }
-        public JetBusCommand Scale_suppy_minimum_voltage { get; private set; }
-        public JetBusCommand Scale_suppy_maximum_voltage { get; private set; }
+        public static JetBusCommand Cut_off_frequency_critically_damped { get; private set; }
+        public static JetBusCommand Filter_order_butterworth { get; private set; }
+        public static JetBusCommand Cut_off_frequency_butterworth { get; private set; }
+        public static JetBusCommand Filter_order_bessel { get; private set; }
+        public static JetBusCommand Cut_off_frequency_bessel { get; private set; }
+        public static JetBusCommand Scale_suppy_nominal_voltage { get; private set; }
+        public static JetBusCommand Scale_suppy_minimum_voltage { get; private set; }
+        public static JetBusCommand Scale_suppy_maximum_voltage { get; private set; }
 
-        public JetBusCommand Scale_accuracy_class { get; private set; }
-        public JetBusCommand Scale_minimum_dead_load { get; private set; }
-        public JetBusCommand Scale_maximum_capacity { get; private set; }
-        public JetBusCommand Scale_maximum_number_of_verification_interval { get; private set; }
-        public JetBusCommand Scale_apportionment_factor { get; private set; }
-        public JetBusCommand Scale_safe_load_limit { get; private set; }
-        public JetBusCommand Scale_operation_nominal_temperature { get; private set; }
-        public JetBusCommand Scale_operation_minimum_temperature { get; private set; }
-        public JetBusCommand Scale_operation_maximum_temperature { get; private set; }
-        public JetBusCommand Scale_relative_minimum_load_cell_verification_interval { get; private set; }
-        public JetBusCommand Interval_range_control { get; private set; }
-        public JetBusCommand Multi_limit_1 { get; private set; }
-        public JetBusCommand Multi_limit_2 { get; private set; }
-        public JetBusCommand Oiml_certificaiton_information { get; private set; }
-        public JetBusCommand Ntep_certificaiton_information { get; private set; }
-        public JetBusCommand Maximum_zeroing_time { get; private set; }
-        public JetBusCommand Maximum_peak_value_gross { get; private set; }
-        public JetBusCommand Minimum_peak_value_gross { get; private set; }
-        public JetBusCommand Maximum_peak_value { get; private set; }
-        public JetBusCommand Minimum_peak_value { get; private set; }
-        public JetBusCommand Weight_moving_detection { get; private set; }
-        public JetBusCommand Device_address { get; private set; }
+        public static JetBusCommand Scale_accuracy_class { get; private set; }
+        public static JetBusCommand Scale_minimum_dead_load { get; private set; }
+        public static JetBusCommand Scale_maximum_capacity { get; private set; }
+        public static JetBusCommand Scale_maximum_number_of_verification_interval { get; private set; }
+        public static JetBusCommand Scale_apportionment_factor { get; private set; }
+        public static JetBusCommand Scale_safe_load_limit { get; private set; }
+        public static JetBusCommand Scale_operation_nominal_temperature { get; private set; }
+        public static JetBusCommand Scale_operation_minimum_temperature { get; private set; }
+        public static JetBusCommand Scale_operation_maximum_temperature { get; private set; }
+        public static JetBusCommand Scale_relative_minimum_load_cell_verification_interval { get; private set; }
+        public static JetBusCommand Interval_range_control { get; private set; }
+        public static JetBusCommand Multi_limit_1 { get; private set; }
+        public static JetBusCommand Multi_limit_2 { get; private set; }
+        public static JetBusCommand Oiml_certificaiton_information { get; private set; }
+        public static JetBusCommand Ntep_certificaiton_information { get; private set; }
+        public static JetBusCommand Maximum_zeroing_time { get; private set; }
+        public static JetBusCommand Maximum_peak_value_gross { get; private set; }
+        public static JetBusCommand Minimum_peak_value_gross { get; private set; }
+        public static JetBusCommand Maximum_peak_value { get; private set; }
+        public static JetBusCommand Minimum_peak_value { get; private set; }
+        public static JetBusCommand Weight_moving_detection { get; private set; }
+        public static JetBusCommand Device_address { get; private set; }
 
-        public JetBusCommand Hardware_version { get; private set; } // = Hardware Variante
-        public JetBusCommand Identification { get; private set; }
-        public JetBusCommand Limit_value_monitoring_liv11 { get; private set; } // = Grenzwertüberwachung
-        public JetBusCommand Signal_source_liv12 { get; private set; }
-        public JetBusCommand Switch_on_level_liv13 { get; private set; }  // = Einschaltpegel
-        public JetBusCommand Switch_off_level_liv14 { get; private set; }  // = Ausschaltpegel
-        public JetBusCommand Limit_value_monitoring_liv21 { get; private set; }
-        public JetBusCommand Signal_source_liv22 { get; private set; }
-        public JetBusCommand Switch_on_level_liv23 { get; private set; }
-        public JetBusCommand Switch_off_level_liv24 { get; private set; }
-        public JetBusCommand Limit_value_monitoring_liv31 { get; private set; }
-        public JetBusCommand Signal_source_liv32 { get; private set; }
-        public JetBusCommand Switch_on_level_liv33 { get; private set; }
-        public JetBusCommand Switch_off_level_liv34 { get; private set; }
-        public JetBusCommand Limit_value_monitoring_liv41 { get; private set; }
-        public JetBusCommand Signal_source_liv42 { get; private set; }
-        public JetBusCommand Switch_on_level_liv43 { get; private set; }
-        public JetBusCommand Switch_off_level_liv44 { get; private set; }
-        public JetBusCommand Output_scale { get; private set; }
-        public JetBusCommand Firmware_date { get; private set; }
-        public JetBusCommand Reset_trigger { get; private set; }
-        public JetBusCommand State_digital_io_extended { get; private set; }  //Zustand Digital-IO(erweitert)
-        public JetBusCommand Software_identification { get; private set; }
-        public JetBusCommand Software_version { get; private set; }
-        public JetBusCommand Date_time { get; private set; }
+        public static JetBusCommand Hardware_version { get; private set; } // = Hardware Variante
+        public static JetBusCommand Identification { get; private set; }
+        public static JetBusCommand Limit_value_monitoring_liv11 { get; private set; } // = Grenzwertüberwachung
+        public static JetBusCommand Signal_source_liv12 { get; private set; }
+        public static JetBusCommand Switch_on_level_liv13 { get; private set; }  // = Einschaltpegel
+        public static JetBusCommand Switch_off_level_liv14 { get; private set; }  // = Ausschaltpegel
+        public static JetBusCommand Limit_value_monitoring_liv21 { get; private set; }
+        public static JetBusCommand Signal_source_liv22 { get; private set; }
+        public static JetBusCommand Switch_on_level_liv23 { get; private set; }
+        public static JetBusCommand Switch_off_level_liv24 { get; private set; }
+        public static JetBusCommand Limit_value_monitoring_liv31 { get; private set; }
+        public static JetBusCommand Signal_source_liv32 { get; private set; }
+        public static JetBusCommand Switch_on_level_liv33 { get; private set; }
+        public static JetBusCommand Switch_off_level_liv34 { get; private set; }
+        public static JetBusCommand Limit_value_monitoring_liv41 { get; private set; }
+        public static JetBusCommand Signal_source_liv42 { get; private set; }
+        public static JetBusCommand Switch_on_level_liv43 { get; private set; }
+        public static JetBusCommand Switch_off_level_liv44 { get; private set; }
+        public static JetBusCommand Output_scale { get; private set; }
+        public static JetBusCommand Firmware_date { get; private set; }
+        public static JetBusCommand Reset_trigger { get; private set; }
+        public static JetBusCommand State_digital_io_extended { get; private set; }  //Zustand Digital-IO(erweitert)
+        public static JetBusCommand Software_identification { get; private set; }
+        public static JetBusCommand Software_version { get; private set; }
+        public static JetBusCommand Date_time { get; private set; }
 
-        public JetBusCommand Break_dosing { get; private set; }                // BRK = Abbruch Dosierung
-        public JetBusCommand Delete_dosing_result { get; private set; }        // CSN = Löschen Dosierergebniss
-        public JetBusCommand Material_stream_last_dosing { get; private set; } // MFO = Materialstrom des letzten Dosierzyklus
-        public JetBusCommand Sum { get; private set; }                         // SUM = Summe
-        public JetBusCommand Special_dosing_functions { get; private set; }    // SDF = Sonderfunktionen
-        public JetBusCommand Discharge_time { get; private set; }              // EPT = Entleerzeit
-        public JetBusCommand Exceeding_weight_break { get; private set; }      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
-        public JetBusCommand Delay1_dosing { get; private set; }               // DL1 = Delay 1 für Dosieren
-        public JetBusCommand Delay2_dosing { get; private set; }               // DL2 = Delay 2 für Dosieren
-        public JetBusCommand Empty_weight_tolerance { get; private set; }      // EWT = Entleertoleranz
-        public JetBusCommand Residual_flow_dosing_cycle { get; private set; }  // RFO = Nachstrom des letzten Dosierzyklus
+        public static JetBusCommand Break_dosing { get; private set; }                // BRK = Abbruch Dosierung
+        public static JetBusCommand Delete_dosing_result { get; private set; }        // CSN = Löschen Dosierergebniss
+        public static JetBusCommand Material_stream_last_dosing { get; private set; } // MFO = Materialstrom des letzten Dosierzyklus
+        public static JetBusCommand Sum { get; private set; }                         // SUM = Summe
+        public static JetBusCommand Special_dosing_functions { get; private set; }    // SDF = Sonderfunktionen
+        public static JetBusCommand Discharge_time { get; private set; }              // EPT = Entleerzeit
+        public static JetBusCommand Exceeding_weight_break { get; private set; }      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
+        public static JetBusCommand Delay1_dosing { get; private set; }               // DL1 = Delay 1 für Dosieren
+        public static JetBusCommand Delay2_dosing { get; private set; }               // DL2 = Delay 2 für Dosieren
+        public static JetBusCommand Empty_weight_tolerance { get; private set; }      // EWT = Entleertoleranz
+        public static JetBusCommand Residual_flow_dosing_cycle { get; private set; }  // RFO = Nachstrom des letzten Dosierzyklus
 
 
         // Missing IDs (so far : Modbus only - look at ModbusCommands)
-        public JetBusCommand ADC_OVER_UNDERLOAD { get; private set; }
-        public JetBusCommand LEGAL_FOR_TRADE_OPERATION { get; private set; }
-        public JetBusCommand STATUS_INPUT_1 { get; private set; }
-        public JetBusCommand GENERAL_SCALE_ERROR { get; private set; }
-        public JetBusCommand COARSE_FLOW { get; private set; }
-        public JetBusCommand FINE_FLOW { get; private set; }
-        public JetBusCommand READY { get; private set; }
-        public JetBusCommand EMPTYING { get; private set; }
-        public JetBusCommand FLOW_ERROR { get; private set; }
-        public JetBusCommand ALARM { get; private set; }
-        public JetBusCommand TOLERANCE_ERROR_PLUS { get; private set; }
-        public JetBusCommand TOLERANCE_ERROR_MINUS { get; private set; }
-        public JetBusCommand CURRENT_DOSING_TIME { get; private set; }
-        public JetBusCommand CURRENT_COARSE_FLOW_TIME { get; private set; }
-        public JetBusCommand CURRENT_FINE_FLOW_TIME { get; private set; }
-        public JetBusCommand PARAMETER_SET_PRODUCT { get; private set; }
-        public JetBusCommand DELAY_TIME_AFTER_FINE_FLOW { get; private set; }
-        public JetBusCommand ACTIVATION_TIME_AFTER_FINE_FLOW { get; private set; }
-        public JetBusCommand DOWNWARDS_DOSING { get; private set; }
-        public JetBusCommand TOTAL_WEIGHT { get; private set; }
-        public JetBusCommand TARGET_FILLING_WEIGHT { get; private set; }
-        public JetBusCommand COARSE_FLOW_CUT_OFF_POINT_SET { get; private set; }
-        public JetBusCommand FINE_FLOW_CUT_OFF_POINT_SET { get; private set; }
-        public JetBusCommand START_WITH_FINE_FLOW { get; private set; }
+        public static JetBusCommand ADC_OVER_UNDERLOAD { get; private set; }
+        public static JetBusCommand LEGAL_FOR_TRADE_OPERATION { get; private set; }
+        public static JetBusCommand STATUS_INPUT_1 { get; private set; }
+        public static JetBusCommand GENERAL_SCALE_ERROR { get; private set; }
+        public static JetBusCommand COARSE_FLOW { get; private set; }
+        public static JetBusCommand FINE_FLOW { get; private set; }
+        public static JetBusCommand READY { get; private set; }
+        public static JetBusCommand EMPTYING { get; private set; }
+        public static JetBusCommand FLOW_ERROR { get; private set; }
+        public static JetBusCommand ALARM { get; private set; }
+        public static JetBusCommand TOLERANCE_ERROR_PLUS { get; private set; }
+        public static JetBusCommand TOLERANCE_ERROR_MINUS { get; private set; }
+        public static JetBusCommand CURRENT_DOSING_TIME { get; private set; }
+        public static JetBusCommand CURRENT_COARSE_FLOW_TIME { get; private set; }
+        public static JetBusCommand CURRENT_FINE_FLOW_TIME { get; private set; }
+        public static JetBusCommand PARAMETER_SET_PRODUCT { get; private set; }
+        public static JetBusCommand DELAY_TIME_AFTER_FINE_FLOW { get; private set; }
+        public static JetBusCommand ACTIVATION_TIME_AFTER_FINE_FLOW { get; private set; }
+        public static JetBusCommand DOWNWARDS_DOSING { get; private set; }
+        public static JetBusCommand TOTAL_WEIGHT { get; private set; }
+        public static JetBusCommand TARGET_FILLING_WEIGHT { get; private set; }
+        public static JetBusCommand COARSE_FLOW_CUT_OFF_POINT_SET { get; private set; }
+        public static JetBusCommand FINE_FLOW_CUT_OFF_POINT_SET { get; private set; }
+        public static JetBusCommand START_WITH_FINE_FLOW { get; private set; }
     }
 }

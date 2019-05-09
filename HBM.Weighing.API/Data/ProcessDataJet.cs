@@ -38,13 +38,11 @@ namespace HBM.Weighing.API.Data
     /// </summary>
     public class ProcessDataJet : IProcessData
     {
-        private JetBusCommands _commands;
         private INetConnection _connection;
 
         #region Constructor
         public ProcessDataJet(INetConnection Connection)
         {
-            _commands = new JetBusCommands();
             _connection = Connection;
             _connection.UpdateDataClasses += UpdateProcessData;
 
@@ -77,27 +75,28 @@ namespace HBM.Weighing.API.Data
         #region Update method
         public void UpdateProcessData(object sender, DataEventArgs e)
         {
-            ApplicationMode = (ApplicationMode)e.DataDictionary[_commands.Application_mode.PathIndex];
-            NetValue = Convert.ToInt32(e.DataDictionary[_commands.Net_value.PathIndex]);
-            GrossValue = Convert.ToInt32(e.DataDictionary[_commands.Gross_value.PathIndex]);
+            ApplicationMode = (ApplicationMode)e.DataDictionary[JetBusCommands.Application_mode.PathIndex];
+            NetValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.Net_value.PathIndex]);
+            GrossValue = Convert.ToInt32(e.DataDictionary[JetBusCommands.Gross_value.PathIndex]);
             TareValue = NetValue - GrossValue;
-            GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0x1);
-            ScaleAlarm = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0x2) >> 1);
-            LimitStatus = (Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0xC) >> 2;
+            //GeneralWeightError = GetDataFromDict(JetBusCommands.WS_GeneralWeightError);
+            GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x1);
+            ScaleAlarm = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x2) >> 1);
+            LimitStatus = (Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0xC) >> 2;
             WeightWithinLimits = (LimitStatus == 0);
             Underload = (LimitStatus == 1);
             Overload = (LimitStatus == 2);
             HigherSafeLoadLimit = (LimitStatus == 3);
-            WeightMoving = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0x10) >> 4);
-            ScaleSealIsOpen = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0x20) >> 5);
-            ManualTare = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0x40) >> 6);
-            TareMode = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0x80) >> 7);
-            ScaleRange = (Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0x300) >> 8;
-            ZeroRequired = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0x400) >> 10);
-            CenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0x800) >> 11);
-            InsideZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[_commands.Weighing_device_1_weight_status.PathIndex]) & 0x1000) >> 12);
-            Decimals = Convert.ToInt32(e.DataDictionary[_commands.Decimals.PathIndex]);
-            Unit = (Convert.ToInt32(e.DataDictionary[_commands.Unit_prefix_fixed_parameter.PathIndex]) & 0xFF0000) >> 16;                    
+            WeightMoving = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x10) >> 4);
+            ScaleSealIsOpen = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x20) >> 5);
+            ManualTare = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x40) >> 6);
+            TareMode = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x80) >> 7);
+            ScaleRange = (Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x300) >> 8;
+            ZeroRequired = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x400) >> 10);
+            CenterOfZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x800) >> 11);
+            InsideZero = Convert.ToBoolean((Convert.ToInt32(e.DataDictionary[JetBusCommands.Weighing_device_1_weight_status.PathIndex]) & 0x1000) >> 12);
+            Decimals = Convert.ToInt32(e.DataDictionary[JetBusCommands.Decimals.PathIndex]);
+            Unit = (Convert.ToInt32(e.DataDictionary[JetBusCommands.Unit_prefix_fixed_parameter.PathIndex]) & 0xFF0000) >> 16;                    
         }
         #endregion
 

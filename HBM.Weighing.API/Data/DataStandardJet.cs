@@ -124,15 +124,12 @@ namespace HBM.Weighing.API.Data
         private int _nominalLoad;
 
         private INetConnection _connection;
-        private JetBusCommands _commands;
         #endregion
 
         #region constructor
 
         public DataStandardJet(INetConnection Connection)
         {
-            _commands = new JetBusCommands();
-
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateStandardData;
@@ -211,45 +208,45 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardData(object sender, DataEventArgs e)
         {
-            _input1 = e.DataDictionary[_commands.Status_digital_input_1.PathIndex];
-            _input2 = e.DataDictionary[_commands.Status_digital_input_2.PathIndex];
-            _input3 = e.DataDictionary[_commands.Status_digital_input_3.PathIndex];
-            _input4 = e.DataDictionary[_commands.Status_digital_input_4.PathIndex];
+            _input1 = e.DataDictionary[JetBusCommands.Status_digital_input_1.PathIndex];
+            _input2 = e.DataDictionary[JetBusCommands.Status_digital_input_2.PathIndex];
+            _input3 = e.DataDictionary[JetBusCommands.Status_digital_input_3.PathIndex];
+            _input4 = e.DataDictionary[JetBusCommands.Status_digital_input_4.PathIndex];
 
-            _output1 = e.DataDictionary[_commands.Status_digital_output_1.PathIndex];
-            _output2 = e.DataDictionary[_commands.Status_digital_output_2.PathIndex];
-            _output3 = e.DataDictionary[_commands.Status_digital_output_3.PathIndex];
-            _output4 = e.DataDictionary[_commands.Status_digital_output_4.PathIndex];
+            _output1 = e.DataDictionary[JetBusCommands.Status_digital_output_1.PathIndex];
+            _output2 = e.DataDictionary[JetBusCommands.Status_digital_output_2.PathIndex];
+            _output3 = e.DataDictionary[JetBusCommands.Status_digital_output_3.PathIndex];
+            _output4 = e.DataDictionary[JetBusCommands.Status_digital_output_4.PathIndex];
 
-            _limitStatus1 = (e.DataDictionary[_commands.Limit_value.PathIndex] & 0x1);
-            _limitStatus2 = (e.DataDictionary[_commands.Limit_value.PathIndex] & 0x2) >> 1;
-            _limitStatus3 = (e.DataDictionary[_commands.Limit_value.PathIndex] & 0x4) >> 2;
-            _limitStatus4 = (e.DataDictionary[_commands.Limit_value.PathIndex] & 0x8) >> 3;
+            _limitStatus1 = (e.DataDictionary[JetBusCommands.Limit_value.PathIndex] & 0x1);
+            _limitStatus2 = (e.DataDictionary[JetBusCommands.Limit_value.PathIndex] & 0x2) >> 1;
+            _limitStatus3 = (e.DataDictionary[JetBusCommands.Limit_value.PathIndex] & 0x4) >> 2;
+            _limitStatus4 = (e.DataDictionary[JetBusCommands.Limit_value.PathIndex] & 0x8) >> 3;
 
-            _weight_storage = Convert.ToInt16(e.DataDictionary[(_commands.Storage_weight_mode).PathIndex]);
+            _weight_storage = Convert.ToInt16(e.DataDictionary[(JetBusCommands.Storage_weight_mode).PathIndex]);
 
-            if (e.DataDictionary[_commands.Application_mode.PathIndex] == 0 || e.DataDictionary[_commands.Application_mode.PathIndex] == 1)  // If application mode is in standard mode
+            if (e.DataDictionary[JetBusCommands.Application_mode.PathIndex] == 0 || e.DataDictionary[JetBusCommands.Application_mode.PathIndex] == 1)  // If application mode is in standard mode
             {
                 /*
-                _limitValueMonitoringLIV11 = e.DataDictionary[_commands.Limit_value_monitoring_liv11.PathIndex];
-                _signalSourceLIV12   = e.DataDictionary[_commands.Signal_source_liv12.PathIndex];
-                _switchOnLevelLIV13  = e.DataDictionary[_commands.Switch_on_level_liv13.PathIndex];
-                _switchOffLevelLIV14 = e.DataDictionary[_commands.Switch_off_level_liv14.PathIndex];
+                _limitValueMonitoringLIV11 = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv11.PathIndex];
+                _signalSourceLIV12   = e.DataDictionary[JetBusCommands.Signal_source_liv12.PathIndex];
+                _switchOnLevelLIV13  = e.DataDictionary[JetBusCommands.Switch_on_level_liv13.PathIndex];
+                _switchOffLevelLIV14 = e.DataDictionary[JetBusCommands.Switch_off_level_liv14.PathIndex];
 
-                _limitValueMonitoringLIV21 = e.DataDictionary[_commands.Limit_value_monitoring_liv21.PathIndex];
-                _signalSourceLIV22   = e.DataDictionary[_commands.Signal_source_liv22.PathIndex];
-                _switchOnLevelLIV23  = e.DataDictionary[_commands.Switch_on_level_liv23.PathIndex];
-                _switchOffLevelLIV24 = e.DataDictionary[_commands.Switch_off_level_liv24.PathIndex];
+                _limitValueMonitoringLIV21 = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv21.PathIndex];
+                _signalSourceLIV22   = e.DataDictionary[JetBusCommands.Signal_source_liv22.PathIndex];
+                _switchOnLevelLIV23  = e.DataDictionary[JetBusCommands.Switch_on_level_liv23.PathIndex];
+                _switchOffLevelLIV24 = e.DataDictionary[JetBusCommands.Switch_off_level_liv24.PathIndex];
 
-                _limitValueMonitoringLIV31 = e.DataDictionary[_commands.Limit_value_monitoring_liv31.PathIndex];
-                _signalSourceLIV32   = e.DataDictionary[_commands.Signal_source_liv32.PathIndex];
-                _switchOnLevelLIV33  = e.DataDictionary[_commands.Switch_on_level_liv33.PathIndex];
-                _switchOffLevelLIV34 = e.DataDictionary[_commands.Switch_off_level_liv34.PathIndex];
+                _limitValueMonitoringLIV31 = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv31.PathIndex];
+                _signalSourceLIV32   = e.DataDictionary[JetBusCommands.Signal_source_liv32.PathIndex];
+                _switchOnLevelLIV33  = e.DataDictionary[JetBusCommands.Switch_on_level_liv33.PathIndex];
+                _switchOffLevelLIV34 = e.DataDictionary[JetBusCommands.Switch_off_level_liv34.PathIndex];
 
-                _limitValueMonitoringLIV41 = e.DataDictionary[_commands.Limit_value_monitoring_liv41.PathIndex];
-                _signalSourceLIV42   = e.DataDictionary[_commands.Signal_source_liv42.PathIndex];
-                _switchOnLevelLIV43  = e.DataDictionary[_commands.Switch_on_level_liv43.PathIndex];
-                _switchOffLevelLIV44 = e.DataDictionary[_commands.Switch_off_level_liv44.PathIndex];
+                _limitValueMonitoringLIV41 = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv41.PathIndex];
+                _signalSourceLIV42   = e.DataDictionary[JetBusCommands.Signal_source_liv42.PathIndex];
+                _switchOnLevelLIV43  = e.DataDictionary[JetBusCommands.Switch_on_level_liv43.PathIndex];
+                _switchOffLevelLIV44 = e.DataDictionary[JetBusCommands.Switch_off_level_liv44.PathIndex];
                 */
             }
         }
@@ -262,7 +259,7 @@ namespace HBM.Weighing.API.Data
             get{ return _input1; }
             set
             {
-                _connection.Write(_commands.Status_digital_input_1.PathIndex, value);
+                _connection.Write(JetBusCommands.Status_digital_input_1.PathIndex, value);
                 _input1 = value;
             }
         }
@@ -271,7 +268,7 @@ namespace HBM.Weighing.API.Data
             get{ return _input2; }
             set
             {
-                _connection.Write(_commands.Status_digital_input_2.PathIndex, value);
+                _connection.Write(JetBusCommands.Status_digital_input_2.PathIndex, value);
                 _input2 = value;
             }
         }
@@ -280,7 +277,7 @@ namespace HBM.Weighing.API.Data
             get{ return _input3; }
             set
             {
-                _connection.Write(_commands.Status_digital_input_3.PathIndex, value);
+                _connection.Write(JetBusCommands.Status_digital_input_3.PathIndex, value);
                 _input3 = value;
             }
         }
@@ -289,7 +286,7 @@ namespace HBM.Weighing.API.Data
             get{ return _input4; }
             set
             {
-                _connection.Write(_commands.Status_digital_input_4.PathIndex, value);
+                _connection.Write(JetBusCommands.Status_digital_input_4.PathIndex, value);
                 _input4 = value;
             }
         }
@@ -298,7 +295,7 @@ namespace HBM.Weighing.API.Data
             get{ return _output1; }
             set
             {
-                _connection.Write(_commands.Status_digital_output_1.PathIndex, value);
+                _connection.Write(JetBusCommands.Status_digital_output_1.PathIndex, value);
                 _output1 = value;
             }
         }
@@ -307,7 +304,7 @@ namespace HBM.Weighing.API.Data
             get{ return _output2; }
             set
             {
-                _connection.Write(_commands.Status_digital_output_2.PathIndex, value);
+                _connection.Write(JetBusCommands.Status_digital_output_2.PathIndex, value);
                 _output2 = value;
             }
         }
@@ -316,7 +313,7 @@ namespace HBM.Weighing.API.Data
             get{ return _output3; }
             set
             {
-                _connection.Write(_commands.Status_digital_output_3.PathIndex, value);
+                _connection.Write(JetBusCommands.Status_digital_output_3.PathIndex, value);
                 _output3 = value;
             }
         }
@@ -325,7 +322,7 @@ namespace HBM.Weighing.API.Data
             get{ return _output4; }
             set
             {
-                _connection.Write(_commands.Status_digital_output_4.PathIndex, value);
+                _connection.Write(JetBusCommands.Status_digital_output_4.PathIndex, value);
                 _output4 = value;
             }
         }
@@ -383,7 +380,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1Source; }
             set
             {
-                  _connection.Write(_commands.Tare_value.PathIndex, value);
+                  _connection.Write(JetBusCommands.Tare_value.PathIndex, value);
                   _manualTareValue = value;
             }
         }
@@ -392,7 +389,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1Mode; }
             set
             {
-                _connection.Write(_commands.Signal_source_liv12.PathIndex, value);
+                _connection.Write(JetBusCommands.Signal_source_liv12.PathIndex, value);
                 _limitValue1Input = value;
             }
         }
@@ -401,7 +398,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(_commands.Limit_value_monitoring_liv11.PathIndex, value);
+                _connection.Write(JetBusCommands.Limit_value_monitoring_liv11.PathIndex, value);
                 _limitValue1Mode = value;
             }
         }
@@ -410,7 +407,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv14.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Switch_off_level_liv14.PathIndex, value);
                 _limitSwitch1HysteresisBandHeight = value;
             }
         }
@@ -419,7 +416,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.WriteArray(_commands.Switch_on_level_liv13.PathIndex, value);
+                this._connection.WriteArray(JetBusCommands.Switch_on_level_liv13.PathIndex, value);
                 _limitValue1ActivationLevelLowerBandLimit = value;
             }
         }
@@ -428,7 +425,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv14.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Switch_off_level_liv14.PathIndex, value);
                 _limitValue1HysteresisBandHeight = value;
             }
         }
@@ -437,7 +434,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2Source; }
             set
             {
-                _connection.Write(_commands.Signal_source_liv22.PathIndex, value);
+                _connection.Write(JetBusCommands.Signal_source_liv22.PathIndex, value);
                 _limitValue2Source = value;
             }
         }
@@ -446,7 +443,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2Mode; }
             set
             {
-                _connection.Write(_commands.Limit_value_monitoring_liv21.PathIndex, value);
+                _connection.Write(JetBusCommands.Limit_value_monitoring_liv21.PathIndex, value);
                 _limitValue2Mode = value;
             }
         }
@@ -455,7 +452,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(_commands.Switch_on_level_liv23.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Switch_on_level_liv23.PathIndex, value);
                 _limitValue2ActivationLevelLowerBandLimit = value;
             }
         }
@@ -464,7 +461,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv24.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Switch_off_level_liv24.PathIndex, value);
                 _limitValue2HysteresisBandHeight = value;
             }
         }
@@ -473,7 +470,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.WriteArray(_commands.Switch_on_level_liv13.PathIndex, value);
+                this._connection.WriteArray(JetBusCommands.Switch_on_level_liv13.PathIndex, value);
                 _limitSwitch1ActivationLevelLowerBandLimit = value;
             }
         }
@@ -482,7 +479,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv14.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Switch_off_level_liv14.PathIndex, value);
                 _limitSwitch1HysteresisBandHeight = value;
             }
         }
@@ -491,7 +488,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3Source; }
             set
             {
-                _connection.Write(_commands.Signal_source_liv32.PathIndex, value);
+                _connection.Write(JetBusCommands.Signal_source_liv32.PathIndex, value);
                 _limitValue3Source = value;
             }
         }
@@ -501,7 +498,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3Mode; }
             set
             {
-                _connection.Write(_commands.Limit_value_monitoring_liv31.PathIndex, value);
+                _connection.Write(JetBusCommands.Limit_value_monitoring_liv31.PathIndex, value);
                 _limitValue3Mode = value;
             }
         }
@@ -510,7 +507,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(_commands.Switch_on_level_liv33.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Switch_on_level_liv33.PathIndex, value);
                 _limitValue3ActivationLevelLowerBandLimit = value;
             }
         }
@@ -519,7 +516,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv34.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Switch_off_level_liv34.PathIndex, value);
                 _limitValue3HysteresisBandHeight = value;
             }
         }
@@ -528,7 +525,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(_commands.Signal_source_liv42.PathIndex, value);
+                _connection.Write(JetBusCommands.Signal_source_liv42.PathIndex, value);
                 _limitValue4Source = value;
             }
         }
@@ -537,7 +534,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.Write(_commands.Limit_value_monitoring_liv41.PathIndex, value);
+                _connection.Write(JetBusCommands.Limit_value_monitoring_liv41.PathIndex, value);
                 _limitValue4Mode = value;
             }
         }
@@ -546,7 +543,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4Source; }
             set
             {
-                _connection.WriteArray(_commands.Switch_on_level_liv43.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Switch_on_level_liv43.PathIndex, value);
                 _limitValue4ActivationLevelLowerBandLimit = value;
             }
         }
@@ -555,7 +552,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4Mode; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv44.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Switch_off_level_liv44.PathIndex, value);
                 _limitValue4HysteresisBandHeight = value;
             }
         }
@@ -564,7 +561,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(_commands.Lft_scale_calibration_weight.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Lft_scale_calibration_weight.PathIndex, value);
                 _calibrationWeight = value;
             }
         }
@@ -573,7 +570,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(_commands.Ldw_dead_weight.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Ldw_dead_weight.PathIndex, value);
                 _zeroLoad = value;
             }
         }
@@ -582,7 +579,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(_commands.Lwt_nominal_value.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Lwt_nominal_value.PathIndex, value);
                 _nominalLoad = value;
             }
         }
@@ -591,7 +588,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv14.PathIndex, value);
+                _connection.WriteArray(JetBusCommands.Switch_off_level_liv14.PathIndex, value);
                 _limitSwitch1HysteresisBandHeight = value;
             }
         }

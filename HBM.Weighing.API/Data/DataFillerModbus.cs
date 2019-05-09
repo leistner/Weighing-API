@@ -216,75 +216,75 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateFillerData(object sender, DataEventArgs e)
         {
-            if (e.DataDictionary[_commands.Application_mode.PathIndex + Convert.ToInt32(_commands.Application_mode.IO).ToString() + _commands.Application_mode.BitLength.ToString() + _commands.Application_mode.BitIndex.ToString()] == 2 || e.DataDictionary[_commands.Application_mode.PathIndex + Convert.ToInt32(_commands.Application_mode.IO).ToString() + _commands.Application_mode.BitLength.ToString() + _commands.Application_mode.BitIndex.ToString()] == 3)  // If application mode = filler
+            if (e.DataDictionary[_commands.Application_mode.Register + Convert.ToInt32(_commands.Application_mode.IO).ToString() + _commands.Application_mode.BitLength.ToString() + _commands.Application_mode.BitIndex.ToString()] == 2 || e.DataDictionary[_commands.Application_mode.Register + Convert.ToInt32(_commands.Application_mode.IO).ToString() + _commands.Application_mode.BitLength.ToString() + _commands.Application_mode.BitIndex.ToString()] == 3)  // If application mode = filler
             {
                 // Via Modbus and Jetbus IDs: 
-                _maxDosingTime = Convert.ToInt32(e.DataDictionary[(_commands.Maximal_dosing_time.PathIndex + Convert.ToInt32(_commands.Maximal_dosing_time.IO).ToString() + _commands.Maximal_dosing_time.BitLength.ToString() + _commands.Maximal_dosing_time.BitIndex.ToString())]);
+                _maxDosingTime = Convert.ToInt32(e.DataDictionary[(_commands.Maximal_dosing_time.Register + Convert.ToInt32(_commands.Maximal_dosing_time.IO).ToString() + _commands.Maximal_dosing_time.BitLength.ToString() + _commands.Maximal_dosing_time.BitIndex.ToString())]);
                 //_meanValueDosingResults = Convert.ToInt32(e.DataDictionary[(_commands.Mean_value_dosing_results)]);
                 //_standardDeviation = Convert.ToInt32(e.DataDictionary[(_commands.Standard_deviation)]);
-                _fineFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[(_commands.Fine_flow_cut_off_point.PathIndex + Convert.ToInt32(_commands.Fine_flow_cut_off_point.IO).ToString() + _commands.Fine_flow_cut_off_point.BitLength.ToString() + _commands.Fine_flow_cut_off_point.BitIndex.ToString())]);
-                _coarseFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_cut_off_point.PathIndex + Convert.ToInt32(_commands.Coarse_flow_cut_off_point.IO).ToString() + _commands.Coarse_flow_cut_off_point.BitLength.ToString() + _commands.Coarse_flow_cut_off_point.BitIndex.ToString())]);
+                _fineFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[(_commands.Fine_flow_cut_off_point.Register + Convert.ToInt32(_commands.Fine_flow_cut_off_point.IO).ToString() + _commands.Fine_flow_cut_off_point.BitLength.ToString() + _commands.Fine_flow_cut_off_point.BitIndex.ToString())]);
+                _coarseFlowCutOffPoint = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_cut_off_point.Register + Convert.ToInt32(_commands.Coarse_flow_cut_off_point.IO).ToString() + _commands.Coarse_flow_cut_off_point.BitLength.ToString() + _commands.Coarse_flow_cut_off_point.BitIndex.ToString())]);
 
                 //_residualFlowTime = Convert.ToInt32(e.DataDictionary[(_commands.Residual_flow_time)]);
-                _minimumFineFlow = Convert.ToInt32(e.DataDictionary[(_commands.Minimum_fine_flow.PathIndex + Convert.ToInt32(_commands.Minimum_fine_flow.IO).ToString() + _commands.Minimum_fine_flow.BitLength.ToString() + _commands.Minimum_fine_flow.BitIndex.ToString())]);
-                _optimizationOfCutOffPoints = Convert.ToInt32(e.DataDictionary[(_commands.Optimization.PathIndex + Convert.ToInt32(_commands.Optimization.IO).ToString() + _commands.Optimization.BitLength.ToString() + _commands.Optimization.BitIndex.ToString())]);
-                _maximumDosingTime = Convert.ToInt32(e.DataDictionary[(_commands.Maximal_dosing_time.PathIndex + Convert.ToInt32(_commands.Maximal_dosing_time.IO).ToString() + _commands.Maximal_dosing_time.BitLength.ToString() + _commands.Maximal_dosing_time.BitIndex.ToString())]);
-                _coarseLockoutTime = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_time.PathIndex + Convert.ToInt32(_commands.Coarse_flow_time.IO).ToString() + _commands.Coarse_flow_time.BitLength.ToString() + _commands.Coarse_flow_time.BitIndex.ToString())]);
-                _fineLockoutTime = Convert.ToInt32(e.DataDictionary[(_commands.CurrentFineFlowTime.PathIndex + Convert.ToInt32(_commands.CurrentFineFlowTime.IO).ToString() + _commands.CurrentFineFlowTime.BitLength.ToString() + _commands.CurrentFineFlowTime.BitIndex.ToString())]);
-                _tareMode = Convert.ToInt32(e.DataDictionary[(_commands.Tare_mode.PathIndex + Convert.ToInt32(_commands.Tare_mode.IO).ToString() + _commands.Tare_mode.BitLength.ToString() + _commands.Tare_mode.BitIndex.ToString())]);
+                _minimumFineFlow = Convert.ToInt32(e.DataDictionary[(_commands.Minimum_fine_flow.Register + Convert.ToInt32(_commands.Minimum_fine_flow.IO).ToString() + _commands.Minimum_fine_flow.BitLength.ToString() + _commands.Minimum_fine_flow.BitIndex.ToString())]);
+                _optimizationOfCutOffPoints = Convert.ToInt32(e.DataDictionary[(_commands.Optimization.Register + Convert.ToInt32(_commands.Optimization.IO).ToString() + _commands.Optimization.BitLength.ToString() + _commands.Optimization.BitIndex.ToString())]);
+                _maximumDosingTime = Convert.ToInt32(e.DataDictionary[(_commands.Maximal_dosing_time.Register + Convert.ToInt32(_commands.Maximal_dosing_time.IO).ToString() + _commands.Maximal_dosing_time.BitLength.ToString() + _commands.Maximal_dosing_time.BitIndex.ToString())]);
+                _coarseLockoutTime = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_time.Register + Convert.ToInt32(_commands.Coarse_flow_time.IO).ToString() + _commands.Coarse_flow_time.BitLength.ToString() + _commands.Coarse_flow_time.BitIndex.ToString())]);
+                _fineLockoutTime = Convert.ToInt32(e.DataDictionary[(_commands.CurrentFineFlowTime.Register + Convert.ToInt32(_commands.CurrentFineFlowTime.IO).ToString() + _commands.CurrentFineFlowTime.BitLength.ToString() + _commands.CurrentFineFlowTime.BitIndex.ToString())]);
+                _tareMode = Convert.ToInt32(e.DataDictionary[(_commands.Tare_mode.Register + Convert.ToInt32(_commands.Tare_mode.IO).ToString() + _commands.Tare_mode.BitLength.ToString() + _commands.Tare_mode.BitIndex.ToString())]);
 
-                _upperToleranceLimit = Convert.ToInt32(e.DataDictionary[(_commands.Upper_tolerance_limit.PathIndex + Convert.ToInt32(_commands.Upper_tolerance_limit.IO).ToString() + _commands.Upper_tolerance_limit.BitLength.ToString() + _commands.Upper_tolerance_limit.BitIndex.ToString())]);
-                _lowerToleranceLimit = Convert.ToInt32(e.DataDictionary[(_commands.Lower_tolerance_limit.PathIndex + Convert.ToInt32(_commands.Lower_tolerance_limit.IO).ToString() + _commands.Lower_tolerance_limit.BitLength.ToString() + _commands.Lower_tolerance_limit.BitIndex.ToString())]);
-                _minimumStartWeight = Convert.ToInt32(e.DataDictionary[(_commands.Minimum_start_weight.PathIndex + Convert.ToInt32(_commands.Minimum_start_weight.IO).ToString() + _commands.Minimum_start_weight.BitLength.ToString() + _commands.Minimum_start_weight.BitIndex.ToString())]);
+                _upperToleranceLimit = Convert.ToInt32(e.DataDictionary[(_commands.Upper_tolerance_limit.Register + Convert.ToInt32(_commands.Upper_tolerance_limit.IO).ToString() + _commands.Upper_tolerance_limit.BitLength.ToString() + _commands.Upper_tolerance_limit.BitIndex.ToString())]);
+                _lowerToleranceLimit = Convert.ToInt32(e.DataDictionary[(_commands.Lower_tolerance_limit.Register + Convert.ToInt32(_commands.Lower_tolerance_limit.IO).ToString() + _commands.Lower_tolerance_limit.BitLength.ToString() + _commands.Lower_tolerance_limit.BitIndex.ToString())]);
+                _minimumStartWeight = Convert.ToInt32(e.DataDictionary[(_commands.Minimum_start_weight.Register + Convert.ToInt32(_commands.Minimum_start_weight.IO).ToString() + _commands.Minimum_start_weight.BitLength.ToString() + _commands.Minimum_start_weight.BitIndex.ToString())]);
                 //_emptyWeight = Convert.ToInt32(e.DataDictionary[(_commands.Empty_weight)]);
-                _tareDelay = Convert.ToInt32(e.DataDictionary[(_commands.Tare_delay.PathIndex + Convert.ToInt32(_commands.Tare_delay.IO).ToString() + _commands.Tare_delay.BitLength.ToString() + _commands.Tare_delay.BitIndex.ToString())]);
+                _tareDelay = Convert.ToInt32(e.DataDictionary[(_commands.Tare_delay.Register + Convert.ToInt32(_commands.Tare_delay.IO).ToString() + _commands.Tare_delay.BitLength.ToString() + _commands.Tare_delay.BitIndex.ToString())]);
 
                 _coarseFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_monitoring_time.IO).ToString() + _commands.Coarse_flow_monitoring_time.BitLength.ToString() + _commands.Coarse_flow_monitoring_time.BitIndex.ToString()]);
-                _coarseFlowMonitoring = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_monitoring.PathIndex + Convert.ToInt32(_commands.Coarse_flow_monitoring.IO).ToString() + _commands.Coarse_flow_monitoring.BitLength.ToString() + _commands.Coarse_flow_monitoring.BitIndex.ToString())]);
-                _fineFlowMonitoring = Convert.ToInt32(e.DataDictionary[(_commands.Fine_flow_monitoring.PathIndex + Convert.ToInt32(_commands.Fine_flow_monitoring.IO).ToString() + _commands.Fine_flow_monitoring.BitLength.ToString() + _commands.Fine_flow_monitoring.BitIndex.ToString())]);
-                _fineFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[(_commands.Fine_flow_monitoring_time.PathIndex + Convert.ToInt32(_commands.Fine_flow_monitoring_time.IO).ToString() + _commands.Fine_flow_monitoring_time.BitLength.ToString() + _commands.Fine_flow_monitoring_time.BitIndex.ToString())]); ;
+                _coarseFlowMonitoring = Convert.ToInt32(e.DataDictionary[(_commands.Coarse_flow_monitoring.Register + Convert.ToInt32(_commands.Coarse_flow_monitoring.IO).ToString() + _commands.Coarse_flow_monitoring.BitLength.ToString() + _commands.Coarse_flow_monitoring.BitIndex.ToString())]);
+                _fineFlowMonitoring = Convert.ToInt32(e.DataDictionary[(_commands.Fine_flow_monitoring.Register + Convert.ToInt32(_commands.Fine_flow_monitoring.IO).ToString() + _commands.Fine_flow_monitoring.BitLength.ToString() + _commands.Fine_flow_monitoring.BitIndex.ToString())]);
+                _fineFlowMonitoringTime = Convert.ToInt32(e.DataDictionary[(_commands.Fine_flow_monitoring_time.Register + Convert.ToInt32(_commands.Fine_flow_monitoring_time.IO).ToString() + _commands.Fine_flow_monitoring_time.BitLength.ToString() + _commands.Fine_flow_monitoring_time.BitIndex.ToString())]); ;
 
-                _systematicDifference = Convert.ToInt32(e.DataDictionary[(_commands.Systematic_difference.PathIndex + Convert.ToInt32(_commands.Systematic_difference.IO).ToString() + _commands.Systematic_difference.BitLength.ToString() + _commands.Systematic_difference.BitIndex.ToString())]);
-                _valveControl = Convert.ToInt32(e.DataDictionary[(_commands.Valve_control.PathIndex + Convert.ToInt32(_commands.Valve_control.IO).ToString() + _commands.Valve_control.BitLength.ToString() + _commands.Valve_control.BitIndex.ToString())]);
-                _emptyingMode = Convert.ToInt32(e.DataDictionary[(_commands.Emptying_mode.PathIndex + Convert.ToInt32(_commands.Emptying_mode.IO).ToString() + _commands.Emptying_mode.BitLength.ToString() + _commands.Emptying_mode.BitIndex.ToString())]);
-                _delayTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[(_commands.Delay_time_after_fine_flow.PathIndex + Convert.ToInt32(_commands.Delay_time_after_fine_flow.IO).ToString() + _commands.Delay_time_after_fine_flow.BitLength.ToString() + _commands.Delay_time_after_fine_flow.BitIndex.ToString())]);
-                _activationTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[(_commands.Activation_time_after_fine_flow.PathIndex + Convert.ToInt32(_commands.Activation_time_after_fine_flow.IO).ToString() + _commands.Activation_time_after_fine_flow.BitLength.ToString() + _commands.Activation_time_after_fine_flow.BitIndex.ToString())]);
+                _systematicDifference = Convert.ToInt32(e.DataDictionary[(_commands.Systematic_difference.Register + Convert.ToInt32(_commands.Systematic_difference.IO).ToString() + _commands.Systematic_difference.BitLength.ToString() + _commands.Systematic_difference.BitIndex.ToString())]);
+                _valveControl = Convert.ToInt32(e.DataDictionary[(_commands.Valve_control.Register + Convert.ToInt32(_commands.Valve_control.IO).ToString() + _commands.Valve_control.BitLength.ToString() + _commands.Valve_control.BitIndex.ToString())]);
+                _emptyingMode = Convert.ToInt32(e.DataDictionary[(_commands.Emptying_mode.Register + Convert.ToInt32(_commands.Emptying_mode.IO).ToString() + _commands.Emptying_mode.BitLength.ToString() + _commands.Emptying_mode.BitIndex.ToString())]);
+                _delayTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[(_commands.Delay_time_after_fine_flow.Register + Convert.ToInt32(_commands.Delay_time_after_fine_flow.IO).ToString() + _commands.Delay_time_after_fine_flow.BitLength.ToString() + _commands.Delay_time_after_fine_flow.BitIndex.ToString())]);
+                _activationTimeAfterFineFlow = Convert.ToInt32(e.DataDictionary[(_commands.Activation_time_after_fine_flow.Register + Convert.ToInt32(_commands.Activation_time_after_fine_flow.IO).ToString() + _commands.Activation_time_after_fine_flow.BitLength.ToString() + _commands.Activation_time_after_fine_flow.BitIndex.ToString())]);
 
-                _adcOverUnderload = Convert.ToInt16(e.DataDictionary[_commands.AdcOverUnderload.PathIndex + Convert.ToInt32(_commands.AdcOverUnderload.IO).ToString() + _commands.AdcOverUnderload.BitLength.ToString() + _commands.AdcOverUnderload.BitIndex.ToString()]);
-                _legalForTradeOperation = Convert.ToInt16(e.DataDictionary[_commands.LegalForTradeOperation.PathIndex + Convert.ToInt32(_commands.LegalForTradeOperation.IO).ToString() + _commands.LegalForTradeOperation.BitLength.ToString() + _commands.LegalForTradeOperation.BitIndex.ToString()]);
-                _statusInput1 = Convert.ToInt16(e.DataDictionary[_commands.StatusInput1.PathIndex + Convert.ToInt32(_commands.StatusInput1.IO).ToString() + _commands.StatusInput1.BitLength.ToString() + _commands.StatusInput1.BitIndex.ToString()]);
-                _generalScaleError = Convert.ToInt16(e.DataDictionary[_commands.GeneralScaleError.PathIndex + Convert.ToInt32(_commands.GeneralScaleError.IO).ToString() + _commands.GeneralScaleError.BitLength.ToString() + _commands.GeneralScaleError.BitIndex.ToString()]);
+                _adcOverUnderload = Convert.ToInt16(e.DataDictionary[_commands.AdcOverUnderload.Register + Convert.ToInt32(_commands.AdcOverUnderload.IO).ToString() + _commands.AdcOverUnderload.BitLength.ToString() + _commands.AdcOverUnderload.BitIndex.ToString()]);
+                _legalForTradeOperation = Convert.ToInt16(e.DataDictionary[_commands.LegalForTradeOperation.Register + Convert.ToInt32(_commands.LegalForTradeOperation.IO).ToString() + _commands.LegalForTradeOperation.BitLength.ToString() + _commands.LegalForTradeOperation.BitIndex.ToString()]);
+                _statusInput1 = Convert.ToInt16(e.DataDictionary[_commands.StatusInput1.Register + Convert.ToInt32(_commands.StatusInput1.IO).ToString() + _commands.StatusInput1.BitLength.ToString() + _commands.StatusInput1.BitIndex.ToString()]);
+                _generalScaleError = Convert.ToInt16(e.DataDictionary[_commands.GeneralScaleError.Register + Convert.ToInt32(_commands.GeneralScaleError.IO).ToString() + _commands.GeneralScaleError.BitLength.ToString() + _commands.GeneralScaleError.BitIndex.ToString()]);
 
-                _coarseFlow = Convert.ToInt16(e.DataDictionary[_commands.CoarseFlow.PathIndex + Convert.ToInt32(_commands.CoarseFlow.IO).ToString() + _commands.CoarseFlow.BitLength.ToString() + _commands.CoarseFlow.BitIndex.ToString()]);
-                _fineFlow = Convert.ToInt16(e.DataDictionary[_commands.FineFlow.PathIndex + Convert.ToInt32(_commands.FineFlow.IO).ToString() + _commands.FineFlow.BitLength.ToString() + _commands.FineFlow.BitIndex.ToString()]);
-                _ready = Convert.ToInt16(e.DataDictionary[_commands.Ready.PathIndex + Convert.ToInt32(_commands.Ready.IO).ToString() + _commands.Ready.BitLength.ToString() + _commands.Ready.BitIndex.ToString()]);
-                _reDosing = Convert.ToInt16(e.DataDictionary[_commands.ReDosing.PathIndex + Convert.ToInt32(_commands.ReDosing.IO).ToString() + _commands.ReDosing.BitLength.ToString() + _commands.ReDosing.BitIndex.ToString()]);
+                _coarseFlow = Convert.ToInt16(e.DataDictionary[_commands.CoarseFlow.Register + Convert.ToInt32(_commands.CoarseFlow.IO).ToString() + _commands.CoarseFlow.BitLength.ToString() + _commands.CoarseFlow.BitIndex.ToString()]);
+                _fineFlow = Convert.ToInt16(e.DataDictionary[_commands.FineFlow.Register + Convert.ToInt32(_commands.FineFlow.IO).ToString() + _commands.FineFlow.BitLength.ToString() + _commands.FineFlow.BitIndex.ToString()]);
+                _ready = Convert.ToInt16(e.DataDictionary[_commands.Ready.Register + Convert.ToInt32(_commands.Ready.IO).ToString() + _commands.Ready.BitLength.ToString() + _commands.Ready.BitIndex.ToString()]);
+                _reDosing = Convert.ToInt16(e.DataDictionary[_commands.ReDosing.Register + Convert.ToInt32(_commands.ReDosing.IO).ToString() + _commands.ReDosing.BitLength.ToString() + _commands.ReDosing.BitIndex.ToString()]);
 
-                _emptying = Convert.ToInt16(e.DataDictionary[_commands.Emptying.PathIndex + Convert.ToInt32(_commands.Emptying.IO).ToString() + _commands.Emptying.BitLength.ToString() + _commands.Emptying.BitIndex.ToString()]);
-                _flowError = Convert.ToInt16(e.DataDictionary[_commands.FlowError.PathIndex + Convert.ToInt32(_commands.FlowError.IO).ToString() + _commands.FlowError.BitLength.ToString() + _commands.FlowError.BitIndex.ToString()]);
-                _alarm = Convert.ToInt16(e.DataDictionary[_commands.Alarm.PathIndex + Convert.ToInt32(_commands.Alarm.IO).ToString() + _commands.Alarm.BitLength.ToString() + _commands.Alarm.BitIndex.ToString()]);
-                _toleranceErrorPlus = Convert.ToInt16(e.DataDictionary[_commands.ToleranceErrorPlus.PathIndex + Convert.ToInt32(_commands.ToleranceErrorPlus.IO).ToString() + _commands.ToleranceErrorPlus.BitLength.ToString() + _commands.ToleranceErrorPlus.BitIndex.ToString()]);
+                _emptying = Convert.ToInt16(e.DataDictionary[_commands.Emptying.Register + Convert.ToInt32(_commands.Emptying.IO).ToString() + _commands.Emptying.BitLength.ToString() + _commands.Emptying.BitIndex.ToString()]);
+                _flowError = Convert.ToInt16(e.DataDictionary[_commands.FlowError.Register + Convert.ToInt32(_commands.FlowError.IO).ToString() + _commands.FlowError.BitLength.ToString() + _commands.FlowError.BitIndex.ToString()]);
+                _alarm = Convert.ToInt16(e.DataDictionary[_commands.Alarm.Register + Convert.ToInt32(_commands.Alarm.IO).ToString() + _commands.Alarm.BitLength.ToString() + _commands.Alarm.BitIndex.ToString()]);
+                _toleranceErrorPlus = Convert.ToInt16(e.DataDictionary[_commands.ToleranceErrorPlus.Register + Convert.ToInt32(_commands.ToleranceErrorPlus.IO).ToString() + _commands.ToleranceErrorPlus.BitLength.ToString() + _commands.ToleranceErrorPlus.BitIndex.ToString()]);
 
-                _toleranceErrorMinus = Convert.ToInt16(e.DataDictionary[_commands.ToleranceErrorMinus.PathIndex + Convert.ToInt32(_commands.ToleranceErrorMinus.IO).ToString() + _commands.ToleranceErrorMinus.BitLength.ToString() + _commands.ToleranceErrorMinus.BitIndex.ToString()]);
-                _currentDosingTime = Convert.ToInt16(e.DataDictionary[_commands.Dosing_time.PathIndex + Convert.ToInt32(_commands.Dosing_time.IO).ToString() + _commands.Dosing_time.BitLength.ToString() + _commands.Dosing_time.BitIndex.ToString()]);
-                _currentCoarseFlowTime = Convert.ToInt16(e.DataDictionary[_commands.Coarse_flow_time.PathIndex + Convert.ToInt32(_commands.Coarse_flow_time.IO).ToString() + _commands.Coarse_flow_time.BitLength.ToString() + _commands.Coarse_flow_time.BitIndex.ToString()]);
-                _currentFineFlowTime = Convert.ToInt16(e.DataDictionary[_commands.CurrentFineFlowTime.PathIndex + Convert.ToInt32(_commands.CurrentFineFlowTime.IO).ToString() + _commands.CurrentFineFlowTime.BitLength.ToString() + _commands.CurrentFineFlowTime.BitIndex.ToString()]);
+                _toleranceErrorMinus = Convert.ToInt16(e.DataDictionary[_commands.ToleranceErrorMinus.Register + Convert.ToInt32(_commands.ToleranceErrorMinus.IO).ToString() + _commands.ToleranceErrorMinus.BitLength.ToString() + _commands.ToleranceErrorMinus.BitIndex.ToString()]);
+                _currentDosingTime = Convert.ToInt16(e.DataDictionary[_commands.Dosing_time.Register + Convert.ToInt32(_commands.Dosing_time.IO).ToString() + _commands.Dosing_time.BitLength.ToString() + _commands.Dosing_time.BitIndex.ToString()]);
+                _currentCoarseFlowTime = Convert.ToInt16(e.DataDictionary[_commands.Coarse_flow_time.Register + Convert.ToInt32(_commands.Coarse_flow_time.IO).ToString() + _commands.Coarse_flow_time.BitLength.ToString() + _commands.Coarse_flow_time.BitIndex.ToString()]);
+                _currentFineFlowTime = Convert.ToInt16(e.DataDictionary[_commands.CurrentFineFlowTime.Register + Convert.ToInt32(_commands.CurrentFineFlowTime.IO).ToString() + _commands.CurrentFineFlowTime.BitLength.ToString() + _commands.CurrentFineFlowTime.BitIndex.ToString()]);
 
-                _parameterSetProduct = Convert.ToInt16(e.DataDictionary[_commands.ParameterSetProduct.PathIndex + Convert.ToInt32(_commands.ParameterSetProduct.IO).ToString() + _commands.ParameterSetProduct.BitLength.ToString() + _commands.ParameterSetProduct.BitIndex.ToString()]);
-                _downwardsDosing = Convert.ToInt16(e.DataDictionary[_commands.DownwardsDosing.PathIndex + Convert.ToInt32(_commands.DownwardsDosing.IO).ToString() + _commands.DownwardsDosing.BitLength.ToString() + _commands.DownwardsDosing.BitIndex.ToString()]);
-                _totalWeight = Convert.ToInt32(e.DataDictionary[_commands.TotalWeight.PathIndex + Convert.ToInt32(_commands.TotalWeight.IO).ToString() + _commands.TotalWeight.BitLength.ToString() + _commands.TotalWeight.BitIndex.ToString()]);
+                _parameterSetProduct = Convert.ToInt16(e.DataDictionary[_commands.ParameterSetProduct.Register + Convert.ToInt32(_commands.ParameterSetProduct.IO).ToString() + _commands.ParameterSetProduct.BitLength.ToString() + _commands.ParameterSetProduct.BitIndex.ToString()]);
+                _downwardsDosing = Convert.ToInt16(e.DataDictionary[_commands.DownwardsDosing.Register + Convert.ToInt32(_commands.DownwardsDosing.IO).ToString() + _commands.DownwardsDosing.BitLength.ToString() + _commands.DownwardsDosing.BitIndex.ToString()]);
+                _totalWeight = Convert.ToInt32(e.DataDictionary[_commands.TotalWeight.Register + Convert.ToInt32(_commands.TotalWeight.IO).ToString() + _commands.TotalWeight.BitLength.ToString() + _commands.TotalWeight.BitIndex.ToString()]);
 
                 //_targetFillingWeight = Convert.ToInt32(e.DataDictionary[_commands.TargetFillingWeight.PathIndex + Convert.ToInt32(_commands.TargetFillingWeight.IO).ToString() + _commands.TargetFillingWeight.BitLength.ToString() + _commands.TargetFillingWeight.BitIndex.ToString()]);
-                _coarseFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_commands.Coarse_flow_cut_off_point.PathIndex + Convert.ToInt32(_commands.Coarse_flow_cut_off_point.IO).ToString() + _commands.Coarse_flow_cut_off_point.BitLength.ToString() + _commands.Coarse_flow_cut_off_point.BitIndex.ToString()]);
-                _fineFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_commands.Fine_flow_cut_off_point.PathIndex + Convert.ToInt32(_commands.Fine_flow_cut_off_point.IO).ToString() + _commands.Fine_flow_cut_off_point.BitLength.ToString() + _commands.Fine_flow_cut_off_point.BitIndex.ToString()]);
-                _startWithFineFlow = Convert.ToInt32(e.DataDictionary[_commands.Run_start_dosing.PathIndex + Convert.ToInt32(_commands.Run_start_dosing.IO).ToString() + _commands.Run_start_dosing.BitLength.ToString() + _commands.Run_start_dosing.BitIndex.ToString()]);  // Command 'Run_start_dosing' right? 
+                _coarseFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_commands.Coarse_flow_cut_off_point.Register + Convert.ToInt32(_commands.Coarse_flow_cut_off_point.IO).ToString() + _commands.Coarse_flow_cut_off_point.BitLength.ToString() + _commands.Coarse_flow_cut_off_point.BitIndex.ToString()]);
+                _fineFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_commands.Fine_flow_cut_off_point.Register + Convert.ToInt32(_commands.Fine_flow_cut_off_point.IO).ToString() + _commands.Fine_flow_cut_off_point.BitLength.ToString() + _commands.Fine_flow_cut_off_point.BitIndex.ToString()]);
+                _startWithFineFlow = Convert.ToInt32(e.DataDictionary[_commands.Run_start_dosing.Register + Convert.ToInt32(_commands.Run_start_dosing.IO).ToString() + _commands.Run_start_dosing.BitLength.ToString() + _commands.Run_start_dosing.BitIndex.ToString()]);  // Command 'Run_start_dosing' right? 
 
-                _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemDay_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemDay_ID.IO).ToString() + _commands.ReadWeightMemDay_ID.BitLength.ToString() + _commands.ReadWeightMemDay_ID.BitIndex.ToString()]);
-                _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemMonth_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemMonth_ID.IO).ToString() + _commands.ReadWeightMemMonth_ID.BitLength.ToString() + _commands.ReadWeightMemMonth_ID.BitIndex.ToString()]);
-                _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemYear_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemYear_ID.IO).ToString() + _commands.ReadWeightMemYear_ID.BitLength.ToString() + _commands.ReadWeightMemYear_ID.BitIndex.ToString()]);
-                _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemSeqNumber_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemSeqNumber_ID.IO).ToString() + _commands.ReadWeightMemSeqNumber_ID.BitLength.ToString() + _commands.ReadWeightMemSeqNumber_ID.BitIndex.ToString()]);
-                _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemGross_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemGross_ID.IO).ToString() + _commands.ReadWeightMemGross_ID.BitLength.ToString() + _commands.ReadWeightMemGross_ID.BitIndex.ToString()]);
-                _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemNet_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemNet_ID.IO).ToString() + _commands.ReadWeightMemNet_ID.BitLength.ToString() + _commands.ReadWeightMemNet_ID.BitIndex.ToString()]);
+                _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemDay_ID.Register + Convert.ToInt32(_commands.ReadWeightMemDay_ID.IO).ToString() + _commands.ReadWeightMemDay_ID.BitLength.ToString() + _commands.ReadWeightMemDay_ID.BitIndex.ToString()]);
+                _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemMonth_ID.Register + Convert.ToInt32(_commands.ReadWeightMemMonth_ID.IO).ToString() + _commands.ReadWeightMemMonth_ID.BitLength.ToString() + _commands.ReadWeightMemMonth_ID.BitIndex.ToString()]);
+                _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemYear_ID.Register + Convert.ToInt32(_commands.ReadWeightMemYear_ID.IO).ToString() + _commands.ReadWeightMemYear_ID.BitLength.ToString() + _commands.ReadWeightMemYear_ID.BitIndex.ToString()]);
+                _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemSeqNumber_ID.Register + Convert.ToInt32(_commands.ReadWeightMemSeqNumber_ID.IO).ToString() + _commands.ReadWeightMemSeqNumber_ID.BitLength.ToString() + _commands.ReadWeightMemSeqNumber_ID.BitIndex.ToString()]);
+                _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemGross_ID.Register + Convert.ToInt32(_commands.ReadWeightMemGross_ID.IO).ToString() + _commands.ReadWeightMemGross_ID.BitLength.ToString() + _commands.ReadWeightMemGross_ID.BitIndex.ToString()]);
+                _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemNet_ID.Register + Convert.ToInt32(_commands.ReadWeightMemNet_ID.IO).ToString() + _commands.ReadWeightMemNet_ID.BitLength.ToString() + _commands.ReadWeightMemNet_ID.BitIndex.ToString()]);
             }
         }
         #endregion
@@ -431,7 +431,7 @@ namespace HBM.Weighing.API.Data
             get { return _residualFlowTime; }
             set
             {
-                _connection.WriteArray(_commands.Residual_flow_time.PathIndex, value);
+                _connection.WriteArray(_commands.Residual_flow_time.Register, value);
                 this._residualFlowTime = value;
             }
         }
@@ -440,7 +440,7 @@ namespace HBM.Weighing.API.Data
             get { return _targetFillingWeight; }
             set
             {
-                _connection.WriteArray(_commands.Reference_value_dosing.PathIndex, value);
+                _connection.WriteArray(_commands.Reference_value_dosing.Register, value);
                 this._targetFillingWeight = value;
             }
         }
@@ -449,7 +449,7 @@ namespace HBM.Weighing.API.Data
             get { return _coarseFlowCutOffPointSet; }
             set
             {
-                _connection.WriteArray(_commands.Coarse_flow_cut_off_point.PathIndex, value);
+                _connection.WriteArray(_commands.Coarse_flow_cut_off_point.Register, value);
                 this._coarseFlowCutOffPointSet = value;
             }
         }
@@ -458,7 +458,7 @@ namespace HBM.Weighing.API.Data
             get { return _fineFlowCutOffPointSet; }
             set
             {
-                _connection.WriteArray(_commands.Fine_flow_cut_off_point.PathIndex, value);
+                _connection.WriteArray(_commands.Fine_flow_cut_off_point.Register, value);
                 this._fineFlowCutOffPointSet = value;
             }
         }
@@ -467,7 +467,7 @@ namespace HBM.Weighing.API.Data
             get { return _minimumFineFlow; }
             set
             {
-                _connection.WriteArray(_commands.Minimum_fine_flow.PathIndex, value);
+                _connection.WriteArray(_commands.Minimum_fine_flow.Register, value);
                 this._minimumFineFlow = value;
             }
         }
@@ -476,7 +476,7 @@ namespace HBM.Weighing.API.Data
             get { return _optimizationOfCutOffPoints; }
             set
             {
-                _connection.Write(_commands.Optimization.PathIndex, value);
+                _connection.Write(_commands.Optimization.Register, value);
                 this._optimizationOfCutOffPoints = value;
             }
         }
@@ -485,7 +485,7 @@ namespace HBM.Weighing.API.Data
             get { return _maximumDosingTime; }
             set
             {
-                _connection.WriteArray(_commands.Maximal_dosing_time.PathIndex, value);
+                _connection.WriteArray(_commands.Maximal_dosing_time.Register, value);
                 this._maximumDosingTime = value;
             }
         }
@@ -494,7 +494,7 @@ namespace HBM.Weighing.API.Data
             get { return _startWithFineFlow; }
             set
             {
-                _connection.WriteArray(_commands.Run_start_dosing.PathIndex, value);
+                _connection.WriteArray(_commands.Run_start_dosing.Register, value);
                 this._startWithFineFlow = value;
             }
         }
@@ -503,7 +503,7 @@ namespace HBM.Weighing.API.Data
             get { return _coarseLockoutTime; }
             set
             {
-                _connection.WriteArray(_commands.Lockout_time_coarse_flow.PathIndex, value);
+                _connection.WriteArray(_commands.Lockout_time_coarse_flow.Register, value);
                 this._coarseLockoutTime = value;
             }
         }
@@ -512,7 +512,7 @@ namespace HBM.Weighing.API.Data
             get { return _fineLockoutTime; }
             set
             {
-                _connection.WriteArray(_commands.Lockout_time_fine_flow.PathIndex, value);
+                _connection.WriteArray(_commands.Lockout_time_fine_flow.Register, value);
                 this._fineLockoutTime = value;
             }
         }
@@ -521,7 +521,7 @@ namespace HBM.Weighing.API.Data
             get { return _tareMode; }
             set
             {
-                _connection.Write(_commands.Tare_mode.PathIndex, value);
+                _connection.Write(_commands.Tare_mode.Register, value);
                 this._tareMode = value;
             }
         }
@@ -530,7 +530,7 @@ namespace HBM.Weighing.API.Data
             get { return _upperToleranceLimit; }
             set
             {
-                _connection.WriteArray(_commands.Upper_tolerance_limit.PathIndex, value);
+                _connection.WriteArray(_commands.Upper_tolerance_limit.Register, value);
                 this._upperToleranceLimit = value;
             }
         }
@@ -539,7 +539,7 @@ namespace HBM.Weighing.API.Data
             get { return _lowerToleranceLimit; }
             set
             {
-                _connection.WriteArray(_commands.Lower_tolerance_limit.PathIndex, value);
+                _connection.WriteArray(_commands.Lower_tolerance_limit.Register, value);
                 this._lowerToleranceLimit = value;
             }
         }
@@ -548,7 +548,7 @@ namespace HBM.Weighing.API.Data
             get { return _minimumStartWeight; }
             set
             {
-                _connection.WriteArray(_commands.Minimum_start_weight.PathIndex, value);
+                _connection.WriteArray(_commands.Minimum_start_weight.Register, value);
                 this._minimumStartWeight = value;
             }
         }
@@ -557,7 +557,7 @@ namespace HBM.Weighing.API.Data
             get { return _emptyWeight; }
             set
             {
-                _connection.WriteArray(_commands.Empty_weight.PathIndex, value);
+                _connection.WriteArray(_commands.Empty_weight.Register, value);
                 this._emptyWeight = value;
             }
         }
@@ -566,7 +566,7 @@ namespace HBM.Weighing.API.Data
             get { return _tareDelay; }
             set
             {
-                _connection.WriteArray(_commands.Tare_delay.PathIndex, value);
+                _connection.WriteArray(_commands.Tare_delay.Register, value);
                 this._tareDelay = value;
             }
         }
@@ -575,7 +575,7 @@ namespace HBM.Weighing.API.Data
             get { return _coarseFlowMonitoringTime; }
             set
             {
-                _connection.WriteArray(_commands.Coarse_flow_monitoring_time.PathIndex, value);
+                _connection.WriteArray(_commands.Coarse_flow_monitoring_time.Register, value);
                 this._coarseFlowMonitoringTime = value;
             }
         }
@@ -584,7 +584,7 @@ namespace HBM.Weighing.API.Data
             get { return _coarseFlowMonitoring; }
             set
             {
-                _connection.WriteArray(_commands.Coarse_flow_monitoring.PathIndex, value);
+                _connection.WriteArray(_commands.Coarse_flow_monitoring.Register, value);
                 this._coarseFlowMonitoring = value;
             }
         }
@@ -593,7 +593,7 @@ namespace HBM.Weighing.API.Data
             get { return _fineFlowMonitoring; }
             set
             {
-                _connection.WriteArray(_commands.Fine_flow_monitoring.PathIndex, value);
+                _connection.WriteArray(_commands.Fine_flow_monitoring.Register, value);
                 this._fineFlowMonitoring = value;
             }
         }
@@ -602,7 +602,7 @@ namespace HBM.Weighing.API.Data
             get { return _fineFlowMonitoringTime; }
             set
             {
-                _connection.WriteArray(_commands.Fine_flow_monitoring_time.PathIndex, value);
+                _connection.WriteArray(_commands.Fine_flow_monitoring_time.Register, value);
                 this._fineFlowMonitoringTime = value;
             }
         }
@@ -629,7 +629,7 @@ namespace HBM.Weighing.API.Data
             get { return _systematicDifference; }
             set
             {
-                _connection.WriteArray(_commands.Systematic_difference.PathIndex, value);
+                _connection.WriteArray(_commands.Systematic_difference.Register, value);
                 this._systematicDifference = value;
             }
         }
@@ -646,7 +646,7 @@ namespace HBM.Weighing.API.Data
             get { return _valveControl; }
             set
             {
-                _connection.Write(_commands.Valve_control.PathIndex, value);
+                _connection.Write(_commands.Valve_control.Register, value);
                 this._valveControl = value;
             }
         }
@@ -656,7 +656,7 @@ namespace HBM.Weighing.API.Data
             get { return _emptyingMode; }
             set
             {
-                _connection.Write(_commands.Emptying_mode.PathIndex, value);
+                _connection.Write(_commands.Emptying_mode.Register, value);
                 this._emptyingMode = value;
             }
         }

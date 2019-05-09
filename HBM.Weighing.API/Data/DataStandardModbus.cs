@@ -169,37 +169,37 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardData(object sender, DataEventArgs e)
         {
-            _input1 = (e.DataDictionary[_commands.Status_digital_input_1.PathIndex + Convert.ToInt32(_commands.Status_digital_input_1.IO).ToString() + _commands.Status_digital_input_1.BitLength.ToString() + _commands.Status_digital_input_1.BitIndex.ToString()] & 0x1);
-            _input2 = (e.DataDictionary[_commands.Status_digital_input_2.PathIndex + Convert.ToInt32(_commands.Status_digital_input_2.IO).ToString() + _commands.Status_digital_input_2.BitLength.ToString() + _commands.Status_digital_input_2.BitIndex.ToString()] & 0x2) >> 1;
-            _input3 = (e.DataDictionary[_commands.Status_digital_input_3.PathIndex + Convert.ToInt32(_commands.Status_digital_input_3.IO).ToString() + _commands.Status_digital_input_3.BitLength.ToString() + _commands.Status_digital_input_3.BitIndex.ToString()] & 0x4) >> 2;
-            _input4 = (e.DataDictionary[_commands.Status_digital_input_4.PathIndex + Convert.ToInt32(_commands.Status_digital_input_4.IO).ToString() + _commands.Status_digital_input_4.BitLength.ToString() + _commands.Status_digital_input_4.BitIndex.ToString()] & 0x8) >> 3;
+            _input1 = (e.DataDictionary[_commands.Status_digital_input_1.Register + Convert.ToInt32(_commands.Status_digital_input_1.IO).ToString() + _commands.Status_digital_input_1.BitLength.ToString() + _commands.Status_digital_input_1.BitIndex.ToString()] & 0x1);
+            _input2 = (e.DataDictionary[_commands.Status_digital_input_2.Register + Convert.ToInt32(_commands.Status_digital_input_2.IO).ToString() + _commands.Status_digital_input_2.BitLength.ToString() + _commands.Status_digital_input_2.BitIndex.ToString()] & 0x2) >> 1;
+            _input3 = (e.DataDictionary[_commands.Status_digital_input_3.Register + Convert.ToInt32(_commands.Status_digital_input_3.IO).ToString() + _commands.Status_digital_input_3.BitLength.ToString() + _commands.Status_digital_input_3.BitIndex.ToString()] & 0x4) >> 2;
+            _input4 = (e.DataDictionary[_commands.Status_digital_input_4.Register + Convert.ToInt32(_commands.Status_digital_input_4.IO).ToString() + _commands.Status_digital_input_4.BitLength.ToString() + _commands.Status_digital_input_4.BitIndex.ToString()] & 0x8) >> 3;
 
-            _output1 = e.DataDictionary [_commands.Status_digital_output_1.PathIndex + Convert.ToInt32(_commands.Status_digital_output_1.IO).ToString() + _commands.Status_digital_output_1.BitLength.ToString() + _commands.Status_digital_output_1.BitIndex.ToString()] & 0x1;
-            _output2 = (e.DataDictionary[_commands.Status_digital_output_2.PathIndex + Convert.ToInt32(_commands.Status_digital_output_2.IO).ToString() + _commands.Status_digital_output_2.BitLength.ToString() + _commands.Status_digital_output_2.BitIndex.ToString()] & 0x2) >> 1;
-            _output3 = (e.DataDictionary[_commands.Status_digital_output_3.PathIndex + Convert.ToInt32(_commands.Status_digital_output_3.IO).ToString() + _commands.Status_digital_output_3.BitLength.ToString() + _commands.Status_digital_output_3.BitIndex.ToString()] & 0x4) >> 2;
-            _output4 = (e.DataDictionary[_commands.Status_digital_output_4.PathIndex + Convert.ToInt32(_commands.Status_digital_output_4.IO).ToString() + _commands.Status_digital_output_4.BitLength.ToString() + _commands.Status_digital_output_4.BitIndex.ToString()] & 0x8) >> 3;
+            _output1 = e.DataDictionary [_commands.Status_digital_output_1.Register + Convert.ToInt32(_commands.Status_digital_output_1.IO).ToString() + _commands.Status_digital_output_1.BitLength.ToString() + _commands.Status_digital_output_1.BitIndex.ToString()] & 0x1;
+            _output2 = (e.DataDictionary[_commands.Status_digital_output_2.Register + Convert.ToInt32(_commands.Status_digital_output_2.IO).ToString() + _commands.Status_digital_output_2.BitLength.ToString() + _commands.Status_digital_output_2.BitIndex.ToString()] & 0x2) >> 1;
+            _output3 = (e.DataDictionary[_commands.Status_digital_output_3.Register + Convert.ToInt32(_commands.Status_digital_output_3.IO).ToString() + _commands.Status_digital_output_3.BitLength.ToString() + _commands.Status_digital_output_3.BitIndex.ToString()] & 0x4) >> 2;
+            _output4 = (e.DataDictionary[_commands.Status_digital_output_4.Register + Convert.ToInt32(_commands.Status_digital_output_4.IO).ToString() + _commands.Status_digital_output_4.BitLength.ToString() + _commands.Status_digital_output_4.BitIndex.ToString()] & 0x8) >> 3;
 
-            _limitStatus1 = (e.DataDictionary[_commands.Limit_value.PathIndex + Convert.ToInt32(_commands.Limit_value.IO).ToString() + _commands.Limit_value.BitLength.ToString() + _commands.Limit_value.BitIndex.ToString()] & 0x1);
-            _limitStatus2 = (e.DataDictionary[_commands.Limit_value.PathIndex + Convert.ToInt32(_commands.Limit_value.IO).ToString() + _commands.Limit_value.BitLength.ToString() + _commands.Limit_value.BitIndex.ToString()] & 0x2) >> 1;
-            _limitStatus3 = (e.DataDictionary[_commands.Limit_value.PathIndex + Convert.ToInt32(_commands.Limit_value.IO).ToString() + _commands.Limit_value.BitLength.ToString() + _commands.Limit_value.BitIndex.ToString()] & 0x4) >> 2;
-            _limitStatus4 = (e.DataDictionary[_commands.Limit_value.PathIndex + Convert.ToInt32(_commands.Limit_value.IO).ToString() + _commands.Limit_value.BitLength.ToString() + _commands.Limit_value.BitIndex.ToString()] & 0x8) >> 3;
+            _limitStatus1 = (e.DataDictionary[_commands.Limit_value.Register + Convert.ToInt32(_commands.Limit_value.IO).ToString() + _commands.Limit_value.BitLength.ToString() + _commands.Limit_value.BitIndex.ToString()] & 0x1);
+            _limitStatus2 = (e.DataDictionary[_commands.Limit_value.Register + Convert.ToInt32(_commands.Limit_value.IO).ToString() + _commands.Limit_value.BitLength.ToString() + _commands.Limit_value.BitIndex.ToString()] & 0x2) >> 1;
+            _limitStatus3 = (e.DataDictionary[_commands.Limit_value.Register + Convert.ToInt32(_commands.Limit_value.IO).ToString() + _commands.Limit_value.BitLength.ToString() + _commands.Limit_value.BitIndex.ToString()] & 0x4) >> 2;
+            _limitStatus4 = (e.DataDictionary[_commands.Limit_value.Register + Convert.ToInt32(_commands.Limit_value.IO).ToString() + _commands.Limit_value.BitLength.ToString() + _commands.Limit_value.BitIndex.ToString()] & 0x8) >> 3;
 
-            _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemDay_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemDay_ID.IO).ToString() + _commands.ReadWeightMemDay_ID.BitLength.ToString() + _commands.ReadWeightMemDay_ID.BitIndex.ToString()]);
-            _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemMonth_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemMonth_ID.IO).ToString() + _commands.ReadWeightMemMonth_ID.BitLength.ToString() + _commands.ReadWeightMemMonth_ID.BitIndex.ToString()]);
-            _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemYear_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemYear_ID.IO).ToString() + _commands.ReadWeightMemYear_ID.BitLength.ToString() + _commands.ReadWeightMemYear_ID.BitIndex.ToString()]);
-            _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemSeqNumber_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemSeqNumber_ID.IO).ToString() + _commands.ReadWeightMemSeqNumber_ID.BitLength.ToString() + _commands.ReadWeightMemSeqNumber_ID.BitIndex.ToString()]);
-            _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemGross_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemGross_ID.IO).ToString() + _commands.ReadWeightMemGross_ID.BitLength.ToString() + _commands.ReadWeightMemGross_ID.BitIndex.ToString()]);
-            _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemNet_ID.PathIndex + Convert.ToInt32(_commands.ReadWeightMemNet_ID.IO).ToString() + _commands.ReadWeightMemNet_ID.BitLength.ToString() + _commands.ReadWeightMemNet_ID.BitIndex.ToString()]);
+            _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemDay_ID.Register + Convert.ToInt32(_commands.ReadWeightMemDay_ID.IO).ToString() + _commands.ReadWeightMemDay_ID.BitLength.ToString() + _commands.ReadWeightMemDay_ID.BitIndex.ToString()]);
+            _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemMonth_ID.Register + Convert.ToInt32(_commands.ReadWeightMemMonth_ID.IO).ToString() + _commands.ReadWeightMemMonth_ID.BitLength.ToString() + _commands.ReadWeightMemMonth_ID.BitIndex.ToString()]);
+            _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemYear_ID.Register + Convert.ToInt32(_commands.ReadWeightMemYear_ID.IO).ToString() + _commands.ReadWeightMemYear_ID.BitLength.ToString() + _commands.ReadWeightMemYear_ID.BitIndex.ToString()]);
+            _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemSeqNumber_ID.Register + Convert.ToInt32(_commands.ReadWeightMemSeqNumber_ID.IO).ToString() + _commands.ReadWeightMemSeqNumber_ID.BitLength.ToString() + _commands.ReadWeightMemSeqNumber_ID.BitIndex.ToString()]);
+            _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemGross_ID.Register + Convert.ToInt32(_commands.ReadWeightMemGross_ID.IO).ToString() + _commands.ReadWeightMemGross_ID.BitLength.ToString() + _commands.ReadWeightMemGross_ID.BitIndex.ToString()]);
+            _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemNet_ID.Register + Convert.ToInt32(_commands.ReadWeightMemNet_ID.IO).ToString() + _commands.ReadWeightMemNet_ID.BitLength.ToString() + _commands.ReadWeightMemNet_ID.BitIndex.ToString()]);
 
-            if (e.DataDictionary[_commands.Application_mode.PathIndex + Convert.ToInt32(_commands.Application_mode.IO).ToString() + _commands.Application_mode.BitLength.ToString() + _commands.Application_mode.BitIndex.ToString()] == 0 || e.DataDictionary[_commands.Application_mode.PathIndex + Convert.ToInt32(_commands.Application_mode.IO).ToString() + _commands.Application_mode.BitLength.ToString() + _commands.Application_mode.BitIndex.ToString()] == 1)  // If application mode is in standard mode
+            if (e.DataDictionary[_commands.Application_mode.Register + Convert.ToInt32(_commands.Application_mode.IO).ToString() + _commands.Application_mode.BitLength.ToString() + _commands.Application_mode.BitIndex.ToString()] == 0 || e.DataDictionary[_commands.Application_mode.Register + Convert.ToInt32(_commands.Application_mode.IO).ToString() + _commands.Application_mode.BitLength.ToString() + _commands.Application_mode.BitIndex.ToString()] == 1)  // If application mode is in standard mode
             {
-                _limitSwitch1Mode = e.DataDictionary[_commands.Limit_value_monitoring_liv11.PathIndex + Convert.ToInt32(_commands.Limit_value_monitoring_liv11.IO).ToString() + _commands.Limit_value_monitoring_liv11.BitLength.ToString() + _commands.Limit_value_monitoring_liv11.BitIndex.ToString()];
-                _limitSwitch1Input = e.DataDictionary[_commands.Signal_source_liv12.PathIndex + Convert.ToInt32(_commands.Signal_source_liv12.IO).ToString() + _commands.Signal_source_liv12.BitLength.ToString() + _commands.Signal_source_liv12.BitIndex.ToString()];
-                _limitSwitch1ActivationLevelLowerBandLimit = e.DataDictionary[_commands.Switch_on_level_liv13.PathIndex + Convert.ToInt32(_commands.Switch_on_level_liv13.IO).ToString() + _commands.Switch_on_level_liv13.BitLength.ToString() + _commands.Switch_on_level_liv13.BitIndex.ToString()];
-                _limitSwitch1HysteresisBandHeight = e.DataDictionary[_commands.Switch_off_level_liv14.PathIndex + Convert.ToInt32(_commands.Switch_off_level_liv14.IO).ToString() + _commands.Switch_off_level_liv14.BitLength.ToString() + _commands.Switch_off_level_liv14.BitIndex.ToString()];
+                _limitSwitch1Mode = e.DataDictionary[_commands.Limit_value_monitoring_liv11.Register + Convert.ToInt32(_commands.Limit_value_monitoring_liv11.IO).ToString() + _commands.Limit_value_monitoring_liv11.BitLength.ToString() + _commands.Limit_value_monitoring_liv11.BitIndex.ToString()];
+                _limitSwitch1Input = e.DataDictionary[_commands.Signal_source_liv12.Register + Convert.ToInt32(_commands.Signal_source_liv12.IO).ToString() + _commands.Signal_source_liv12.BitLength.ToString() + _commands.Signal_source_liv12.BitIndex.ToString()];
+                _limitSwitch1ActivationLevelLowerBandLimit = e.DataDictionary[_commands.Switch_on_level_liv13.Register + Convert.ToInt32(_commands.Switch_on_level_liv13.IO).ToString() + _commands.Switch_on_level_liv13.BitLength.ToString() + _commands.Switch_on_level_liv13.BitIndex.ToString()];
+                _limitSwitch1HysteresisBandHeight = e.DataDictionary[_commands.Switch_off_level_liv14.Register + Convert.ToInt32(_commands.Switch_off_level_liv14.IO).ToString() + _commands.Switch_off_level_liv14.BitLength.ToString() + _commands.Switch_off_level_liv14.BitIndex.ToString()];
 
-                _limitSwitch2Mode = e.DataDictionary[_commands.Limit_value_monitoring_liv21.PathIndex + Convert.ToInt32(_commands.Limit_value_monitoring_liv21.IO).ToString() + _commands.Limit_value_monitoring_liv21.BitLength.ToString() + _commands.Limit_value_monitoring_liv21.BitIndex.ToString()];
-                _limitSwitch2Source = e.DataDictionary[_commands.Signal_source_liv22.PathIndex + Convert.ToInt32(_commands.Signal_source_liv22.IO).ToString() + _commands.Signal_source_liv22.BitLength.ToString() + _commands.Signal_source_liv22.BitIndex.ToString()];
+                _limitSwitch2Mode = e.DataDictionary[_commands.Limit_value_monitoring_liv21.Register + Convert.ToInt32(_commands.Limit_value_monitoring_liv21.IO).ToString() + _commands.Limit_value_monitoring_liv21.BitLength.ToString() + _commands.Limit_value_monitoring_liv21.BitIndex.ToString()];
+                _limitSwitch2Source = e.DataDictionary[_commands.Signal_source_liv22.Register + Convert.ToInt32(_commands.Signal_source_liv22.IO).ToString() + _commands.Signal_source_liv22.BitLength.ToString() + _commands.Signal_source_liv22.BitIndex.ToString()];
 
                 /*
                 _limitSwitch2ActivationLevelLowerBandLimit = e.DataDictionary[_commands.Switch_on_level_liv23.PathIndex + Convert.ToInt32(_commands.Switch_on_level_liv23.IO).ToString() + _commands.Switch_on_level_liv23.BitLength.ToString() + _commands.Switch_on_level_liv23.BitIndex.ToString()];
@@ -226,7 +226,7 @@ namespace HBM.Weighing.API.Data
             get { return _input1; }
             set
             {
-                _connection.Write(_commands.Status_digital_input_1.PathIndex, value);
+                _connection.Write(_commands.Status_digital_input_1.Register, value);
                 _input1 = value;
             }
         }
@@ -235,7 +235,7 @@ namespace HBM.Weighing.API.Data
             get { return _input2; }
             set
             {
-                _connection.Write(_commands.Status_digital_input_2.PathIndex, value);
+                _connection.Write(_commands.Status_digital_input_2.Register, value);
                 _input2 = value;
             }
         }
@@ -244,7 +244,7 @@ namespace HBM.Weighing.API.Data
             get { return _input3; }
             set
             {
-                _connection.Write(_commands.Status_digital_input_3.PathIndex, value);
+                _connection.Write(_commands.Status_digital_input_3.Register, value);
                 _input3 = value;
             }
         }
@@ -253,7 +253,7 @@ namespace HBM.Weighing.API.Data
             get { return _input4; }
             set
             {
-                _connection.Write(_commands.Status_digital_input_4.PathIndex, value);
+                _connection.Write(_commands.Status_digital_input_4.Register, value);
                 _input4 = value;
             }
         }
@@ -262,7 +262,7 @@ namespace HBM.Weighing.API.Data
             get { return _output1; }
             set
             {
-                _connection.Write(_commands.Status_digital_output_1.PathIndex, value);
+                _connection.Write(_commands.Status_digital_output_1.Register, value);
                 _output1 = value;
             }
         }
@@ -271,7 +271,7 @@ namespace HBM.Weighing.API.Data
             get { return _output2; }
             set
             {
-                _connection.Write(_commands.Status_digital_output_2.PathIndex, value);
+                _connection.Write(_commands.Status_digital_output_2.Register, value);
                 _output2 = value;
             }
         }
@@ -280,7 +280,7 @@ namespace HBM.Weighing.API.Data
             get { return _output3; }
             set
             {
-                _connection.Write(_commands.Status_digital_output_3.PathIndex, value);
+                _connection.Write(_commands.Status_digital_output_3.Register, value);
                 _output3 = value;
             }
         }
@@ -289,7 +289,7 @@ namespace HBM.Weighing.API.Data
             get { return _output4; }
             set
             {
-                _connection.Write(_commands.Status_digital_output_4.PathIndex, value);
+                _connection.Write(_commands.Status_digital_output_4.Register, value);
                 _output4 = value;
             }
         }
@@ -347,7 +347,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1Input; }
             set
             {
-                _connection.Write(_commands.Tare_value.PathIndex, value);
+                _connection.Write(_commands.Tare_value.Register, value);
                 _limitSwitch1Input = value;
             }
         }
@@ -356,7 +356,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1Mode; }
             set
             {
-                _connection.Write(_commands.Signal_source_liv12.PathIndex, value);
+                _connection.Write(_commands.Signal_source_liv12.Register, value);
                 _limitSwitch1Mode = value;
             }
         }
@@ -365,7 +365,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(_commands.Limit_value_monitoring_liv11.PathIndex, value);
+                _connection.Write(_commands.Limit_value_monitoring_liv11.Register, value);
                 _limitSwitch1ActivationLevelLowerBandLimit = value;
             }
         }
@@ -374,7 +374,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.Write(_commands.Signal_source_liv12.PathIndex, value);
+                _connection.Write(_commands.Signal_source_liv12.Register, value);
                 _limitSwitch1HysteresisBandHeight = value;
             }
         }
@@ -383,7 +383,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.WriteArray(_commands.Switch_on_level_liv13.PathIndex, value);
+                this._connection.WriteArray(_commands.Switch_on_level_liv13.Register, value);
                 _limitSwitch1ActivationLevelLowerBandLimit = value;
             }
         }
@@ -392,7 +392,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv14.PathIndex, value);
+                _connection.WriteArray(_commands.Switch_off_level_liv14.Register, value);
                 _limitSwitch1HysteresisBandHeight = value;
             }
         }
@@ -401,7 +401,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2Source; }
             set
             {
-                _connection.Write(_commands.Signal_source_liv22.PathIndex, value);
+                _connection.Write(_commands.Signal_source_liv22.Register, value);
                 _limitSwitch2Source = value;
             }
         }
@@ -410,7 +410,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2Mode; }
             set
             {
-                _connection.Write(_commands.Limit_value_monitoring_liv21.PathIndex, value);
+                _connection.Write(_commands.Limit_value_monitoring_liv21.Register, value);
                 _limitSwitch2Mode = value;
             }
         }
@@ -419,7 +419,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(_commands.Switch_on_level_liv23.PathIndex, value);
+                _connection.Write(_commands.Switch_on_level_liv23.Register, value);
                 _limitSwitch2ActivationLevelLowerBandLimit = value;
             }
         }
@@ -428,7 +428,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2HysteresisBandHeight; }
             set
             {
-                _connection.Write(_commands.Switch_off_level_liv24.PathIndex, value);
+                _connection.Write(_commands.Switch_off_level_liv24.Register, value);
                 _limitSwitch2HysteresisBandHeight = value;
             }
         }
@@ -437,7 +437,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.Write(_commands.Switch_off_level_liv34.PathIndex, value);
+                this._connection.Write(_commands.Switch_off_level_liv34.Register, value);
                 _limitSwitch2ActivationLevelLowerBandLimit = value;
             }
         }
@@ -446,7 +446,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2HysteresisBandHeight; }
             set
             {
-                _connection.Write(_commands.Switch_off_level_liv24.PathIndex, value);
+                _connection.Write(_commands.Switch_off_level_liv24.Register, value);
                 _limitSwitch2HysteresisBandHeight = value;
             }
         }
@@ -455,7 +455,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3Source; }
             set
             {
-                _connection.Write(_commands.Signal_source_liv32.PathIndex, value);
+                _connection.Write(_commands.Signal_source_liv32.Register, value);
                 _limitSwitch3Source = value;
             }
         }
@@ -464,7 +464,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3Mode; }
             set
             {
-                _connection.Write(_commands.Limit_value_monitoring_liv31.PathIndex, value);
+                _connection.Write(_commands.Limit_value_monitoring_liv31.Register, value);
                 _limitSwitch3Mode = value;
             }
         }
@@ -473,7 +473,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(_commands.Switch_on_level_liv33.PathIndex, value);
+                _connection.WriteArray(_commands.Switch_on_level_liv33.Register, value);
                 _limitSwitch3ActivationLevelLowerBandLimit = value;
             }
         }
@@ -482,7 +482,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv34.PathIndex, value);
+                _connection.WriteArray(_commands.Switch_off_level_liv34.Register, value);
                 _limitSwitch3HysteresisBandHeight = value;
             }
         }
@@ -491,7 +491,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(_commands.Signal_source_liv42.PathIndex, value);
+                _connection.Write(_commands.Signal_source_liv42.Register, value);
                 _limitSwitch3ActivationLevelLowerBandLimit = value;
             }
         }
@@ -500,7 +500,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3HysteresisBandHeight; }
             set
             {
-                _connection.Write(_commands.Limit_value_monitoring_liv41.PathIndex, value);
+                _connection.Write(_commands.Limit_value_monitoring_liv41.Register, value);
                 _limitSwitch3HysteresisBandHeight = value;
             }
         }
@@ -509,7 +509,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4Source; }
             set
             {
-                _connection.WriteArray(_commands.Switch_on_level_liv43.PathIndex, value);
+                _connection.WriteArray(_commands.Switch_on_level_liv43.Register, value);
                 _limitSwitch4Source = value;
             }
         }
@@ -518,7 +518,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4Mode; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv44.PathIndex, value);
+                _connection.WriteArray(_commands.Switch_off_level_liv44.Register, value);
                 _limitSwitch4Mode = value;
             }
         }
@@ -527,7 +527,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(_commands.Switch_on_level_liv43.PathIndex, value);
+                _connection.WriteArray(_commands.Switch_on_level_liv43.Register, value);
                 _limitSwitch4ActivationLevelLowerBandLimit = value;
             }
         }
@@ -536,7 +536,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(_commands.Switch_off_level_liv44.PathIndex, value);
+                _connection.WriteArray(_commands.Switch_off_level_liv44.Register, value);
                 _limitSwitch4HysteresisBandHeight = value;
             }
         }
@@ -545,7 +545,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(_commands.Switch_on_level_liv43.PathIndex, value);
+                _connection.WriteArray(_commands.Switch_on_level_liv43.Register, value);
                 _limitSwitch4ActivationLevelLowerBandLimit = value;
             }
         }
@@ -554,7 +554,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4HysteresisBandHeight; }
             set
             {
-                _connection.Write(_commands.Switch_off_level_liv44.PathIndex, value);
+                _connection.Write(_commands.Switch_off_level_liv44.Register, value);
                 _limitSwitch4HysteresisBandHeight = value;
             }
         }

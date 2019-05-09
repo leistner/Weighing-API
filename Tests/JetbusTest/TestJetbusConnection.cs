@@ -4,6 +4,7 @@ namespace HBM.Weighing.API.WTX.Jet
 {
     using Hbm.Devices.Jet;
     using HBM.Weighing.API;
+    using HBM.Weighing.API.WTX.Jet;
     using JetbusTest;
     using Newtonsoft.Json.Linq;
     using System;
@@ -127,9 +128,7 @@ namespace HBM.Weighing.API.WTX.Jet
         private string[] DataStrArray;
 
         private TestJetPeer _peer;
-
-        private JetBusCommands _commands;
-
+        
         // Constructor with all parameters possible from class 'JetbusConnection' - Without ssh certification.
         //public TestJetbusConnection(Behavior behavior, string ipAddr, string user, string passwd, RemoteCertificateValidationCallback certificationCallback, int timeoutMs = 5000) : base(ipAddr, user, passwd, certificationCallback, timeoutMs = 5000)
 
@@ -138,9 +137,7 @@ namespace HBM.Weighing.API.WTX.Jet
             //IJetConnection jetConnection = new WebSocketJetConnection(_uri, RemoteCertificationCheck);
 
             _peer = new TestJetPeer(behavior, this);
-
-            _commands = new JetBusCommands();
-
+            
             this.connected = false;
             this.behavior = behavior;
             this.messages = new List<string>();
