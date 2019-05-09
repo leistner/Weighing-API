@@ -227,27 +227,25 @@ namespace HBM.Weighing.API.Data
 
             if (e.DataDictionary[JetBusCommands.Application_mode.PathIndex] == 0 || e.DataDictionary[JetBusCommands.Application_mode.PathIndex] == 1)  // If application mode is in standard mode
             {
-                /*
-                _limitValueMonitoringLIV11 = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv11.PathIndex];
-                _signalSourceLIV12   = e.DataDictionary[JetBusCommands.Signal_source_liv12.PathIndex];
-                _switchOnLevelLIV13  = e.DataDictionary[JetBusCommands.Switch_on_level_liv13.PathIndex];
-                _switchOffLevelLIV14 = e.DataDictionary[JetBusCommands.Switch_off_level_liv14.PathIndex];
+                _limitSwitch1Source = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv11.PathIndex];
+                _limitSwitch1Mode = e.DataDictionary[JetBusCommands.Signal_source_liv12.PathIndex];
+                _limitSwitch1ActivationLevelLowerBandLimit = e.DataDictionary[JetBusCommands.Switch_on_level_liv13.PathIndex];
+                _limitSwitch1HysteresisBandHeight = e.DataDictionary[JetBusCommands.Switch_off_level_liv14.PathIndex];
 
-                _limitValueMonitoringLIV21 = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv21.PathIndex];
-                _signalSourceLIV22   = e.DataDictionary[JetBusCommands.Signal_source_liv22.PathIndex];
-                _switchOnLevelLIV23  = e.DataDictionary[JetBusCommands.Switch_on_level_liv23.PathIndex];
-                _switchOffLevelLIV24 = e.DataDictionary[JetBusCommands.Switch_off_level_liv24.PathIndex];
+                _limitSwitch2Source = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv21.PathIndex];
+                _limitSwitch2Mode = e.DataDictionary[JetBusCommands.Signal_source_liv22.PathIndex];
+                _limitSwitch2ActivationLevelLowerBandLimit = e.DataDictionary[JetBusCommands.Switch_on_level_liv23.PathIndex];
+                _limitSwitch2HysteresisBandHeight = e.DataDictionary[JetBusCommands.Switch_off_level_liv24.PathIndex];
 
-                _limitValueMonitoringLIV31 = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv31.PathIndex];
-                _signalSourceLIV32   = e.DataDictionary[JetBusCommands.Signal_source_liv32.PathIndex];
-                _switchOnLevelLIV33  = e.DataDictionary[JetBusCommands.Switch_on_level_liv33.PathIndex];
-                _switchOffLevelLIV34 = e.DataDictionary[JetBusCommands.Switch_off_level_liv34.PathIndex];
+                _limitSwitch3Source = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv31.PathIndex];
+                _limitSwitch3Mode = e.DataDictionary[JetBusCommands.Signal_source_liv32.PathIndex];
+                _limitSwitch3ActivationLevelLowerBandLimit = e.DataDictionary[JetBusCommands.Switch_on_level_liv33.PathIndex];
+                _limitSwitch3HysteresisBandHeight = e.DataDictionary[JetBusCommands.Switch_off_level_liv34.PathIndex];
 
-                _limitValueMonitoringLIV41 = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv41.PathIndex];
-                _signalSourceLIV42   = e.DataDictionary[JetBusCommands.Signal_source_liv42.PathIndex];
-                _switchOnLevelLIV43  = e.DataDictionary[JetBusCommands.Switch_on_level_liv43.PathIndex];
-                _switchOffLevelLIV44 = e.DataDictionary[JetBusCommands.Switch_off_level_liv44.PathIndex];
-                */
+                _limitSwitch4Source = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv41.PathIndex];
+                _limitSwitch4Mode = e.DataDictionary[JetBusCommands.Signal_source_liv42.PathIndex];
+                _limitSwitch4ActivationLevelLowerBandLimit = e.DataDictionary[JetBusCommands.Switch_on_level_liv43.PathIndex];
+                _limitSwitch4HysteresisBandHeight = e.DataDictionary[JetBusCommands.Switch_off_level_liv44.PathIndex];
             }
         }
         #endregion
