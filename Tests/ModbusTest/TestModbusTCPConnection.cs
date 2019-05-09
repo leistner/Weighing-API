@@ -279,11 +279,11 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void CreateDictionary()
         {
-            _dataIntegerBuffer.Add(_commands.Net_value.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Gross_value.Path, 0);
+            _dataIntegerBuffer.Add(_commands.Net.Path, 0);
+            _dataIntegerBuffer.Add(_commands.Gross.Path, 0);
 
-            _dataIntegerBuffer.Add(_commands.Weighing_device_1_weight_status.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Unit_prefix_fixed_parameter.Path, 0);
+            _dataIntegerBuffer.Add(_commands.CiA461WeightStatus.Path, 0);
+            _dataIntegerBuffer.Add(_commands.Unit.Path, 0);
 
             _dataIntegerBuffer.Add(_commands.Fine_flow_cut_off_point.Path, 0);
             _dataIntegerBuffer.Add(_commands.Coarse_flow_cut_off_point.Path, 0);
@@ -324,14 +324,14 @@ namespace HBM.Weighing.API.WTX.Modbus
             _dataIntegerBuffer.Add(_commands.Switch_off_level_liv44.Path, 0);
             */
 
-            _dataIntegerBuffer.Add(_commands.ReadWeightMemDay_ID.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ReadWeightMemMonth_ID.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ReadWeightMemYear_ID.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.ReadWeightMemSeqNumber_ID.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ReadWeightMemGross_ID.Path, 0);
-            //_dataIntegerBuffer.Add(_commands.ReadWeightMemNet_ID.Path, 0);
+            _dataIntegerBuffer.Add(_commands.WeightMemDayStandard.Path, 0);
+            _dataIntegerBuffer.Add(_commands.WeightMemMonthStandard.Path, 0);
+            _dataIntegerBuffer.Add(_commands.WeightMemYearStandard.Path, 0);
+            _dataIntegerBuffer.Add(_commands.WeightMemSeqNumberStandard.Path, 0);
+            _dataIntegerBuffer.Add(_commands.WeightMemGrossStandard.Path, 0);
+            _dataIntegerBuffer.Add(_commands.WeightMemNetStandard.Path, 0);
 
-            //_dataIntegerBuffer.Add(_commands.Residual_flow_time.Path, 0);
+            _dataIntegerBuffer.Add(_commands.Residual_flow_time.Path, 0);
             _dataIntegerBuffer.Add(_commands.Minimum_fine_flow.Path, 0);
             _dataIntegerBuffer.Add(_commands.Optimization.Path, 0);
             _dataIntegerBuffer.Add(_commands.Tare_mode.Path, 0);
@@ -393,9 +393,9 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void UpdateDictionary()
         {
-            _dataIntegerBuffer[_commands.Net_value.Path] = _data[1] + (_data[0] << 16);
-            _dataIntegerBuffer[_commands.Gross_value.Path] = _data[3] + (_data[2] << 16);
-            _dataIntegerBuffer[_commands.Weighing_device_1_weight_status.Path] = _data[4];
+            _dataIntegerBuffer[_commands.Net.Path] = _data[1] + (_data[0] << 16);
+            _dataIntegerBuffer[_commands.Gross.Path] = _data[3] + (_data[2] << 16);
+            _dataIntegerBuffer[_commands.CiA461WeightStatus.Path] = _data[4];
             _dataIntegerBuffer[_commands.Status_digital_input_1.Path] = _data[6];
             _dataIntegerBuffer[_commands.Status_digital_output_1.Path] = _data[7];
             _dataIntegerBuffer[_commands.Limit_value.Path] = _data[8];
@@ -404,7 +404,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _dataIntegerBuffer[_commands.Application_mode.Path] = _data[5] & 0x1;             // application mode 
             _dataIntegerBuffer[_commands.Decimals.Path] = (_data[5] & 0x70) >> 4;     // decimals
-            _dataIntegerBuffer[_commands.Unit_prefix_fixed_parameter.Path] = (_data[5] & 0x180) >> 7;    // unit
+            _dataIntegerBuffer[_commands.Unit.Path] = (_data[5] & 0x180) >> 7;    // unit
 
             _dataIntegerBuffer[_commands.Coarse_flow_monitoring.Path] = _data[8] & 0x1;           //_coarseFlow
             _dataIntegerBuffer[_commands.Fine_flow_monitoring.Path] = ((_data[8] & 0x2) >> 1);  // _fineFlow
@@ -429,12 +429,12 @@ namespace HBM.Weighing.API.WTX.Modbus
             _dataIntegerBuffer[IDCommands.RANGE_SELECTION_PARAMETER] = _data[27];     // _parameterSetProduct
             */
 
-            _dataIntegerBuffer[_commands.ReadWeightMemDay_ID.Path] = (_data[9]);   // = weightMemDay
-            _dataIntegerBuffer[_commands.ReadWeightMemMonth_ID.Path] = (_data[10]);  // = weightMemMonth
-            _dataIntegerBuffer[_commands.ReadWeightMemYear_ID.Path] = (_data[11]);  // = weightMemYear
-            _dataIntegerBuffer[_commands.ReadWeightMemSeqNumber_ID.Path] = (_data[12]);  // = weightMemSeqNumber
-            _dataIntegerBuffer[_commands.ReadWeightMemGross_ID.Path] = (_data[13]);  // = weightMemGross
-            _dataIntegerBuffer[_commands.ReadWeightMemNet_ID.Path] = (_data[14]);  // = weightMemNet
+            _dataIntegerBuffer[_commands.WeightMemDayStandard.Path] = (_data[9]);   // = weightMemDay
+            _dataIntegerBuffer[_commands.WeightMemMonthStandard.Path] = (_data[10]);  // = weightMemMonth
+            _dataIntegerBuffer[_commands.WeightMemYearStandard.Path] = (_data[11]);  // = weightMemYear
+            _dataIntegerBuffer[_commands.WeightMemSeqNumberStandard.Path] = (_data[12]);  // = weightMemSeqNumber
+            _dataIntegerBuffer[_commands.WeightMemGrossStandard.Path] = (_data[13]);  // = weightMemGross
+            _dataIntegerBuffer[_commands.WeightMemNetStandard.Path] = (_data[14]);  // = weightMemNet
 
             _dataIntegerBuffer[_commands.Emptying.Path] = ((_data[8] & 0x10) >> 4);
             _dataIntegerBuffer[_commands.FlowError.Path] = ((_data[8] & 0x20) >> 5);

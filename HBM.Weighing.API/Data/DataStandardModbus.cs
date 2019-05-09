@@ -176,12 +176,12 @@ namespace HBM.Weighing.API.Data
             _limitStatus3 = (e.DataDictionary[_commands.Limit_value.Path] & 0x4) >> 2;
             _limitStatus4 = (e.DataDictionary[_commands.Limit_value.Path] & 0x8) >> 3;
 
-            _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemDay_ID.Path]);
-            _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemMonth_ID.Path]);
-            _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemYear_ID.Path]);
-            _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemSeqNumber_ID.Path]);
-            _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemGross_ID.Path]);
-            _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemNet_ID.Path]);
+            _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.WeightMemDayStandard.Path]);
+            _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.WeightMemMonthStandard.Path]);
+            _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.WeightMemYearStandard.Path]);
+            _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.WeightMemSeqNumberStandard.Path]);
+            _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.WeightMemGrossStandard.Path]);
+            _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.WeightMemNetStandard.Path]);
 
             if (e.DataDictionary[_commands.Application_mode.Path] == 0 || e.DataDictionary[_commands.Application_mode.Path] == 1)  // If application mode is in standard mode
             {
@@ -331,7 +331,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1Input; }
             set
             {
-                _connection.Write(_commands.Tare_value.Register, value);
+                _connection.Write(_commands.ManualTareValue.Register, value);
                 _limitSwitch1Input = value;
             }
         }

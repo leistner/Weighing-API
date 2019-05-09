@@ -279,12 +279,12 @@ namespace HBM.Weighing.API.Data
                 _fineFlowCutOffPointSet = Convert.ToInt32(e.DataDictionary[_commands.Fine_flow_cut_off_point.Path]);
                 _startWithFineFlow = Convert.ToInt32(e.DataDictionary[_commands.Run_start_dosing.Path]);  // Command 'Run_start_dosing' right
 
-                _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemDay_ID.Path]);
-                _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemMonth_ID.Path]);
-                _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemYear_ID.Path]);
-                _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemSeqNumber_ID.Path]);
-                _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemGross_ID.Path]);
-                _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.ReadWeightMemNet_ID.Path]);
+                _weightMemoryDay = Convert.ToInt16(e.DataDictionary[_commands.WeightMemDayStandard.Path]);
+                _weightMemoryMonth = Convert.ToInt16(e.DataDictionary[_commands.WeightMemMonthStandard.Path]);
+                _weightMemoryYear = Convert.ToInt16(e.DataDictionary[_commands.WeightMemYearStandard.Path]);
+                _weightMemorySeqNumber = Convert.ToInt16(e.DataDictionary[_commands.WeightMemSeqNumberStandard.Path]);
+                _weightMemoryGross = Convert.ToInt16(e.DataDictionary[_commands.WeightMemGrossStandard.Path]);
+                _weightMemoryNet = Convert.ToInt16(e.DataDictionary[_commands.WeightMemNetStandard.Path]);
             }
         }
         #endregion

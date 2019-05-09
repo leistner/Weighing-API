@@ -45,40 +45,37 @@ namespace HBM.Weighing.API.WTX.Modbus
     /// </summary>
     public class ModbusCommands
     {
-        private List<ModbusCommand> _items = new List<ModbusCommand>();
-
         public ModbusCommands()
         {
-
             // region : ID Commands : Memory - day, month, year, seqNumber, gross, net
             // For standard mode: 
-            _items.Add(ReadWeightMemDay_ID   = new ModbusCommand(DataType.Int16, "9", IOType.Input, ApplicationMode.Standard, 0, 0));
-            ReadWeightMemMonth_ID = new ModbusCommand(DataType.Int16, "10", IOType.Input, ApplicationMode.Standard, 0, 0);
-            ReadWeightMemYear_ID  = new ModbusCommand(DataType.Int16, "11", IOType.Input, ApplicationMode.Standard, 0, 0);
-            ReadWeightMemSeqNumber_ID = new ModbusCommand(DataType.Int16, "12", IOType.Input, ApplicationMode.Standard, 0, 0);
-            ReadWeightMemGross_ID = new ModbusCommand(DataType.Int16, "13", IOType.Input, ApplicationMode.Standard, 0, 0);
-            ReadWeightMemNet_ID   = new ModbusCommand(DataType.Int16, "14", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemDayStandard   = new ModbusCommand(DataType.Int16, "9", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemMonthStandard = new ModbusCommand(DataType.Int16, "10", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemYearStandard = new ModbusCommand(DataType.Int16, "11", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemSeqNumberStandard = new ModbusCommand(DataType.Int16, "12", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemGrossStandard = new ModbusCommand(DataType.Int16, "13", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemNetStandard = new ModbusCommand(DataType.Int16, "14", IOType.Input, ApplicationMode.Standard, 0, 0);
 
             // For filler mode: 
-            WriteWeightMemDay_ID   = new ModbusCommand(DataType.Int16, "32", IOType.Output, ApplicationMode.Filler, 0, 0);
-            WriteWeightMemMonth_ID = new ModbusCommand(DataType.Int16, "33", IOType.Output, ApplicationMode.Filler, 0, 0);
-            WriteWeightMemYear_ID  = new ModbusCommand(DataType.Int16, "34", IOType.Output, ApplicationMode.Filler, 0, 0);
-            WriteWeightMemSeqNumber_ID = new ModbusCommand(DataType.Int16, "35", IOType.Output, ApplicationMode.Filler, 0, 0);
-            WriteWeightMemGross_ID = new ModbusCommand(DataType.Int16, "36", IOType.Output, ApplicationMode.Filler, 0, 0);
-            WriteWeightMemNet_ID   = new ModbusCommand(DataType.Int16, "37", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemDayFiller   = new ModbusCommand(DataType.Int16, "32", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemMonthFiller = new ModbusCommand(DataType.Int16, "33", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemYearFiller = new ModbusCommand(DataType.Int16, "34", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemSeqNumberFiller = new ModbusCommand(DataType.Int16, "35", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemGrossFiller = new ModbusCommand(DataType.Int16, "36", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemNetFiller = new ModbusCommand(DataType.Int16, "37", IOType.Output, ApplicationMode.Filler, 0, 0);
 
             // region ID Commands : Maintenance - Calibration
 
-            Lft_scale_calibration_weight = new ModbusCommand(DataType.S32, "46", IOType.Output, ApplicationMode.Standard, 0, 0);   // LFT = LFT scale calibration weight
-            Ldw_dead_weight   = new ModbusCommand(DataType.S32, "48", IOType.Output, ApplicationMode.Standard, 0, 0);              // LDW = Nullpunkt
-            Lwt_nominal_value = new ModbusCommand(DataType.S32, "50", IOType.Output, ApplicationMode.Standard, 0, 0);              // LWT = Nennwert
+            CWTScaleCalibrationWeight = new ModbusCommand(DataType.S32, "46", IOType.Output, ApplicationMode.Standard, 0, 0);   // LFT = LFT scale calibration weight
+            LDWZeroSignal   = new ModbusCommand(DataType.S32, "48", IOType.Output, ApplicationMode.Standard, 0, 0);              // LDW = Nullpunkt
+            LWTNominalSignal = new ModbusCommand(DataType.S32, "50", IOType.Output, ApplicationMode.Standard, 0, 0);              // LWT = Nennwert
 
             // region ID commands for process data
-            Net_value   = new ModbusCommand(DataType.Int32, "0", IOType.Input, ApplicationMode.Standard, 32, 0);
-            Gross_value = new ModbusCommand(DataType.Int32, "2", IOType.Input, ApplicationMode.Standard, 32, 0);
-            Zero_value  = new ModbusCommand(DataType.Int32, "",  IOType.Input, ApplicationMode.Standard, 32, 0);
+            Net   = new ModbusCommand(DataType.Int32, "0", IOType.Input, ApplicationMode.Standard, 32, 0);
+            Gross = new ModbusCommand(DataType.Int32, "2", IOType.Input, ApplicationMode.Standard, 32, 0);
+            Zero  = new ModbusCommand(DataType.Int32, "",  IOType.Input, ApplicationMode.Standard, 32, 0);
 
-            Weighing_device_1_weight_status = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 0, 0);
+            CiA461WeightStatus = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 0, 0);
 
             GeneralWeightError = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 0);
             ScaleAlarmTriggered = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 1);
@@ -94,7 +91,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             Application_mode = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 2, 0);               // data word = 5 ; length = 2 ; offset = 0;
             Decimals = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 3, 4);                       // data word = 5 ; length = 3 ; offset = 4;
-            Unit_prefix_fixed_parameter = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 2, 7);    // data word = 5 ; length = 2 ; offset = 7;
+            Unit = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 2, 7);    // data word = 5 ; length = 2 ; offset = 7;
             Handshake = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 1, 14);
             Status = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 1, 15);          // data word = 5 ; length = 1 ; offset = 15;
 
@@ -110,7 +107,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             Status_digital_output_4 = new ModbusCommand(DataType.U08, "7", IOType.Input, ApplicationMode.Standard, 4, 1);   // OS4
 
             Limit_value = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Standard, 0, 0);   // LVS , standard
-            Tare_value = new ModbusCommand(DataType.U08, "2", IOType.Input, ApplicationMode.Standard, 0, 0);  // manual tare value
+            ManualTareValue = new ModbusCommand(DataType.U08, "2", IOType.Input, ApplicationMode.Standard, 0, 0);  // manual tare value
 
             LimitValue1Input = new ModbusCommand(DataType.U08, "4", IOType.Output, ApplicationMode.Standard, 0, 0); 
             LimitValue1Mode = new ModbusCommand(DataType.U08, "5", IOType.Output, ApplicationMode.Standard, 0, 0);
@@ -190,165 +187,37 @@ namespace HBM.Weighing.API.WTX.Modbus
             Emptying_mode = new ModbusCommand(DataType.U08, "44", IOType.Output, ApplicationMode.Filler, 0, 0);               // EMD = Entleermodus
          }
 
-
-        private void CreateList()
-        {
-            _items.Add(ReadWeightMemDay_ID);
-            _items.Add(ReadWeightMemMonth_ID);
-            _items.Add(ReadWeightMemYear_ID);
-            _items.Add(ReadWeightMemSeqNumber_ID);
-            _items.Add(ReadWeightMemGross_ID);
-            _items.Add(ReadWeightMemNet_ID);
-
-            // For filler mode: 
-            _items.Add(WriteWeightMemDay_ID);
-            _items.Add(WriteWeightMemMonth_ID);
-            _items.Add(WriteWeightMemYear_ID);
-            _items.Add(WriteWeightMemSeqNumber_ID);
-            _items.Add(WriteWeightMemGross_ID);
-            _items.Add(WriteWeightMemNet_ID);
-
-            // region ID Commands : Maintenance - Calibration
-
-            _items.Add(Ldw_dead_weight);              // LDW = Nullpunkt
-            _items.Add(Lwt_nominal_value);              // LWT = Nennwert
-            _items.Add(Lft_scale_calibration_weight);   // LFT = LFT scale calibration weight
-
-            // region ID commands for process data
-            _items.Add(Net_value);
-            _items.Add(Gross_value);
-            _items.Add(Zero_value);
-
-            _items.Add(Weighing_device_1_weight_status);
-
-            _items.Add(Limit_status);                   // data word = 4 ; length = 2 ; offset = 2;
-            _items.Add(Unit_prefix_fixed_parameter);    // data word = 5 ; length = 2 ; offset = 7;
-
-            _items.Add(Application_mode);               // data word = 5 ; length = 2 ; offset = 0;
-            _items.Add(Decimals);                       // data word = 5 ; length = 3 ; offset = 4;
-            _items.Add(Status);          // data word = 5 ; length = 1 ; offset = 15;
-
-            // region ID commands for standard mode
-            _items.Add(Status_digital_input_1);    // IS1
-            _items.Add(Status_digital_input_2);    // IS2
-            _items.Add(Status_digital_input_3);    // IS3
-            _items.Add(Status_digital_input_4);    // IS4
-
-            _items.Add(Status_digital_output_1);   // OS1
-            _items.Add(Status_digital_output_2);   // OS2
-            _items.Add(Status_digital_output_3);   // OS3
-            _items.Add(Status_digital_output_4);   // OS4
-
-            _items.Add(Limit_value);   // LVS , standard
-            _items.Add(Tare_value);  // manual tare value
-
-            _items.Add(LimitValue1Input); // = Grenzwertüberwachung 
-            _items.Add(LimitValue1Mode);
-            _items.Add(LimitValue1ActivationLevelLowerBandLimit);        // = Einschaltpegel
-            _items.Add(LimitValue1HysteresisBandHeight);       // = Ausschaltpegel
-
-            _items.Add(LimitValue2Source);
-            _items.Add(LimitValue2Mode);
-            _items.Add(LimitValue2ActivationLevelLowerBandLimit);
-            _items.Add(LimitValue2HysteresisBandHeight);
-
-            _items.Add(LimitValue3Source);
-            _items.Add(LimitValue3Mode);
-            _items.Add(LimitValue3ActivationLevelLowerBandLimit);
-            _items.Add(LimitValue3HysteresisBandHeight);
-
-            _items.Add(LimitValue4Source);
-            _items.Add(LimitValue4Mode);
-            _items.Add(LimitValue4ActivationLevelLowerBandLimit);
-            _items.Add(LimitValue4HysteresisBandHeight);
-
-        // region ID commands for filler data:
-
-            _items.Add(CoarseFlow);               // data input word 8, bit .0, application mode=filler
-            _items.Add(FineFlow);                 // data input word 8, bit .1, application mode=filler
-            _items.Add(Ready);                    // data input word 8, bit .2, application mode=filler
-            _items.Add(ReDosing);                 // data input word 8, bit .3, application mode=filler; RDS = Nachdosieren
-            _items.Add(Emptying);                 // data input word 8, bit .4, application mode=filler
-            _items.Add(FlowError);                // data input word 8, bit .5, application mode=filler
-            _items.Add(Alarm);                    // data input word 8, bit .6, application mode=filler
-            _items.Add(AdcOverUnderload);         // data input word 8, bit .7, application mode=filler
-            _items.Add(MaximalDosingTimeInput);   // data input word 8, bit .8, application mode=filler
-            _items.Add(LegalForTradeOperation);   // data input word 8, bit .9, application mode=filler
-            _items.Add(ToleranceErrorPlus);       // data input word 8, bit .10, application mode=filler
-            _items.Add(ToleranceErrorMinus);      // data input word 8, bit .11, application mode=filler
-            _items.Add(StatusInput1);             // data input word 8, bit .14, application mode=filler
-            _items.Add(GeneralScaleError);        // data input word 8, bit .15, application mode=filler
-
-            _items.Add(TotalWeight);             // data input word 18, application mode=filler
-            _items.Add(Dosing_time);             // DST = Dosieristzeit
-            _items.Add(Coarse_flow_time);        // CFT = Grobstromzeit
-            _items.Add(CurrentFineFlowTime);     // data input word 26, application mode=filler; FFT = Feinstromzeit
-            _items.Add(ParameterSetProduct);     // data input word 27, application mode=filler
-
-            _items.Add(TargetFillingWeight);        // data output word 10, application mode=filler
-            _items.Add(Residual_flow_time);          // RFT = Nachstromzeit
-            //items.Add(Reference_value_dosing);     // FWT = Sollwert dosieren = Target filling weight
-            _items.Add(Coarse_flow_cut_off_point);  // CFD = Grobstromabschaltpunkt
-            _items.Add(Fine_flow_cut_off_point);    // FFD = Feinstromabschaltpunkt
-
-            _items.Add(Minimum_fine_flow);          // FFM = Minimaler Feinstromanteil
-            _items.Add(Optimization);               // OSN = Optimierung
-            _items.Add(Maximal_dosing_time);        // MDT = Maximale Dosierzeit
-            _items.Add(Run_start_dosing);          // RUN = Start Dosieren
-
-            _items.Add(Lockout_time_coarse_flow);   // LTC = Sperrzeit Grobstrom
-            _items.Add(Lockout_time_fine_flow);     // LTF = Sperrzeit Feinstrom
-            _items.Add(Tare_mode);                  // TMD = Tariermodus
-            _items.Add(Upper_tolerance_limit);      // UTL = Obere Toleranz
-
-            _items.Add(Lower_tolerance_limit);      // LTL = Untere Toleranz
-            _items.Add(Minimum_start_weight);       // MSW = Minimum Startgewicht
-            _items.Add(Empty_weight);
-            _items.Add(Tare_delay);                  // TAD = Tarierverzögerung
-
-            _items.Add(Coarse_flow_monitoring_time); // CBT = Überwachungszeit Grobstrom
-            _items.Add(Coarse_flow_monitoring);      // CBK = Füllstromüberwachung Grobstrom
-            _items.Add(Fine_flow_monitoring);        // FBK = Füllstromüberwachung Feinstrom
-            _items.Add(Fine_flow_monitoring_time);   // FBT = Überwachungszeit Feinstrom
-
-            _items.Add(Delay_time_after_fine_flow);
-            _items.Add(Activation_time_after_fine_flow);
-
-            _items.Add(Systematic_difference);       // SYD = Systematische Differenz
-            _items.Add(DownwardsDosing);             // data output word 42, application mode=filler
-            _items.Add(Valve_control);               // VCT = Ventilsteuerung
-            _items.Add(Emptying_mode);               // EMD = Entleermodus
-        }
-
         // region ID Commands : Memory - day, month, year, seqNumber, gross, net
 
         // For standard mode: 
-        public ModbusCommand ReadWeightMemDay_ID { get; private set; }
-        public ModbusCommand ReadWeightMemMonth_ID { get; private set; }
-        public ModbusCommand ReadWeightMemYear_ID { get; private set; }
-        public ModbusCommand ReadWeightMemSeqNumber_ID { get; private set; }
-        public ModbusCommand ReadWeightMemGross_ID { get; private set; }
-        public ModbusCommand ReadWeightMemNet_ID { get; private set; }
+        public ModbusCommand WeightMemDayStandard { get; private set; }
+        public ModbusCommand WeightMemMonthStandard { get; private set; }
+        public ModbusCommand WeightMemYearStandard { get; private set; }
+        public ModbusCommand WeightMemSeqNumberStandard { get; private set; }
+        public ModbusCommand WeightMemGrossStandard { get; private set; }
+        public ModbusCommand WeightMemNetStandard { get; private set; }
 
         // For filler mode: 
-        public ModbusCommand WriteWeightMemDay_ID { get; private set; }
-        public ModbusCommand WriteWeightMemMonth_ID { get; private set; }
-        public ModbusCommand WriteWeightMemYear_ID { get; private set; }
-        public ModbusCommand WriteWeightMemSeqNumber_ID { get; private set; }
-        public ModbusCommand WriteWeightMemGross_ID { get; private set; }
-        public ModbusCommand WriteWeightMemNet_ID { get; private set; }
+        public ModbusCommand WeightMemDayFiller { get; private set; }
+        public ModbusCommand WeightMemMonthFiller { get; private set; }
+        public ModbusCommand WeightMemYearFiller { get; private set; }
+        public ModbusCommand WeightMemSeqNumberFiller { get; private set; }
+        public ModbusCommand WeightMemGrossFiller { get; private set; }
+        public ModbusCommand WeightMemNetFiller { get; private set; }
 
         // region ID Commands : Maintenance - Calibration
 
-        public ModbusCommand Ldw_dead_weight { get; private set; }                // LDW = Nullpunkt
-        public ModbusCommand Lwt_nominal_value { get; private set; }              // LWT = Nennwert
-        public ModbusCommand Lft_scale_calibration_weight { get; private set; }   // LFT = LFT scale calibration weight
+        public ModbusCommand LDWZeroSignal { get; private set; }        
+        public ModbusCommand LWTNominalSignal { get; private set; }      
+        public ModbusCommand CWTScaleCalibrationWeight { get; private set; }   
 
         // region ID commands for process data
-        public ModbusCommand Net_value { get; private set; }
-        public ModbusCommand Gross_value { get; private set; }
-        public ModbusCommand Zero_value { get; private set; }
-        public ModbusCommand Weighing_device_1_weight_status { get; private set; }
+        public ModbusCommand Net { get; private set; }
+        public ModbusCommand Gross { get; private set; }
+        public ModbusCommand Zero { get; private set; }
+        public ModbusCommand ManualTareValue { get; private set; }  
+
+        public ModbusCommand CiA461WeightStatus { get; private set; }
 
         public ModbusCommand GeneralWeightError { get; private set; }
         public ModbusCommand ScaleAlarmTriggered { get; private set; }
@@ -363,7 +232,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public ModbusCommand Decimals { get; private set; }
         public ModbusCommand Handshake { get; private set; }
         public ModbusCommand Limit_status { get; private set; }             
-        public ModbusCommand Unit_prefix_fixed_parameter { get; private set; }   
+        public ModbusCommand Unit { get; private set; }   
         public ModbusCommand Application_mode { get; private set; }            
         public ModbusCommand Status { get; private set; }    
 
@@ -380,7 +249,6 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public ModbusCommand Limit_value { get; private set; }   // LVS
 
-        public ModbusCommand Tare_value { get; private set; }  // manual tare value
 
         public ModbusCommand LimitValue1Input { get; private set; } // = Grenzwertüberwachung 
         public ModbusCommand LimitValue1Mode { get; private set; }
@@ -458,6 +326,5 @@ namespace HBM.Weighing.API.WTX.Modbus
         public ModbusCommand DownwardsDosing { get; private set; }             // data output word 42, application mode=filler
         public ModbusCommand Valve_control { get; private set; }               // VCT = Ventilsteuerung
         public ModbusCommand Emptying_mode { get; private set; }               // EMD = Entleermodus
-        public List<ModbusCommand> Items { get => _items; }
     }
 }

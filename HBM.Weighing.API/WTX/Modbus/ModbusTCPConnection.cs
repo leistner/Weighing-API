@@ -37,6 +37,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NModbus;
 using HBM.Weighing.API.WTX.Jet;
+using System.Reflection;
 
 namespace HBM.Weighing.API.WTX.Modbus
 {
@@ -327,119 +328,30 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void CreateDictionary()
         {
-            _dataIntegerBuffer.Add(_commands.Net_value.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Gross_value.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Weighing_device_1_weight_status.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Unit_prefix_fixed_parameter.Path, 0);
+            _dataIntegerBuffer.Clear();
 
-            _dataIntegerBuffer.Add(_commands.Fine_flow_cut_off_point.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Coarse_flow_cut_off_point.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Decimals.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Application_mode.Path, 0);
+            Type pType = _commands.GetType();
+            PropertyInfo[] pInfos = pType.GetProperties();
+            foreach (PropertyInfo pInfo in pInfos)
+            {
+                object propertyValue = pInfo.GetValue(_commands, null);
+                if (propertyValue != null)
+                {
+                    Type propertyValueType = propertyValue.GetType();
 
-            _dataIntegerBuffer.Add(_commands.Status_digital_input_1.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Status_digital_input_2.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Status_digital_input_3.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Status_digital_input_4.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.Status_digital_output_1.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Status_digital_output_2.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Status_digital_output_3.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Status_digital_output_4.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.Limit_value.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LimitValue1Input.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LimitValue1Mode.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LimitValue1ActivationLevelLowerBandLimit.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LimitValue1HysteresisBandHeight.Path, 0);
-            
-            _dataIntegerBuffer.Add(_commands.LimitValue2Source.Path, 0); ;
-            _dataIntegerBuffer.Add(_commands.LimitValue2Mode.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LimitValue2ActivationLevelLowerBandLimit.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LimitValue2HysteresisBandHeight.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.LimitValue3Source.Path, 0); ;
-            _dataIntegerBuffer.Add(_commands.LimitValue3Mode.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LimitValue3ActivationLevelLowerBandLimit.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LimitValue3HysteresisBandHeight.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.LimitValue4Source.Path, 0); ;
-            _dataIntegerBuffer.Add(_commands.LimitValue4Mode.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LimitValue4ActivationLevelLowerBandLimit.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LimitValue4HysteresisBandHeight.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.ReadWeightMemDay_ID.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ReadWeightMemMonth_ID.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ReadWeightMemYear_ID.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ReadWeightMemSeqNumber_ID.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ReadWeightMemGross_ID.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ReadWeightMemNet_ID.Path, 0);
-
-            //_dataIntegerBuffer.Add(_commands.Residual_flow_time.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.Minimum_fine_flow.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Optimization.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Tare_mode.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Minimum_start_weight.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Tare_delay.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Coarse_flow_monitoring_time.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Fine_flow_monitoring_time.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Systematic_difference.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Valve_control.Path, 0);
-            _dataIntegerBuffer.Add(_commands.AdcOverUnderload.Path, 0);
-            _dataIntegerBuffer.Add(_commands.LegalForTradeOperation.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.StatusInput1.Path, 0);
-            _dataIntegerBuffer.Add(_commands.GeneralScaleError.Path, 0);
-            _dataIntegerBuffer.Add(_commands.CoarseFlow.Path, 0);
-            _dataIntegerBuffer.Add(_commands.FineFlow.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Ready.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ReDosing.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Emptying.Path, 0);
-            _dataIntegerBuffer.Add(_commands.FlowError.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.Alarm.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ToleranceErrorPlus.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ToleranceErrorMinus.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Dosing_time.Path , 0);
-            _dataIntegerBuffer.Add(_commands.Coarse_flow_time.Path, 0);
-            _dataIntegerBuffer.Add(_commands.CurrentFineFlowTime.Path, 0);
-            _dataIntegerBuffer.Add(_commands.ParameterSetProduct.Path, 0);
-            _dataIntegerBuffer.Add(_commands.DownwardsDosing.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.TotalWeight.Path, 0);
-            _dataIntegerBuffer.Add(_commands.TargetFillingWeight.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Run_start_dosing.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.Coarse_flow_monitoring.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Fine_flow_monitoring.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Emptying_mode.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Maximal_dosing_time.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.Upper_tolerance_limit.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Lower_tolerance_limit.Path, 0);
-
-            _dataIntegerBuffer.Add(_commands.Delay_time_after_fine_flow.Path, 0);
-            _dataIntegerBuffer.Add(_commands.Activation_time_after_fine_flow.Path, 0);
-
-            // Undefined IDs : 
-            /*
-            _dataIntegerBuffer.Add(_commands.Range_selection_parameter, 0);
-            _dataIntegerBuffer.Add(_commands.DOSING_STATE, 0);
-            _dataIntegerBuffer.Add(_commands.DOSING_RESULT, 0);
-            _dataIntegerBuffer.Add(IDCommands.DELAY1_DOSING, 0);
-            _dataIntegerBuffer.Add(IDCommands.STANDARD_DEVIATION, 0);
-            _dataIntegerBuffer.Add(IDCommands.EMPTY_WEIGHT_TOLERANCE, 0);
-            _dataIntegerBuffer.Add(IDCommands.MEAN_VALUE_DOSING_RESULTS, 0);
-            _dataIntegerBuffer.Add(IDCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW, 0);
-            */
+                    if (propertyValueType == typeof(ModbusCommand))
+                        _dataIntegerBuffer.Add(((ModbusCommand)propertyValue).Path, 0);
+                }
+                else
+                    Console.WriteLine("Prop: {0} ", pInfo.Name);
+            }
         }
 
         private void UpdateDictionary()
         {
-            _dataIntegerBuffer[_commands.Net_value.Path] = _data[1] + (_data[0] << 16);
-            _dataIntegerBuffer[_commands.Gross_value.Path] =  _data[3] + (_data[2] << 16);
-            _dataIntegerBuffer[_commands.Weighing_device_1_weight_status.Path] = _data[4];
+            _dataIntegerBuffer[_commands.Net.Path] = _data[1] + (_data[0] << 16);
+            _dataIntegerBuffer[_commands.Gross.Path] =  _data[3] + (_data[2] << 16);
+            _dataIntegerBuffer[_commands.CiA461WeightStatus.Path] = _data[4];
             _dataIntegerBuffer[_commands.Status_digital_input_1.Path] = _data[6];
             _dataIntegerBuffer[_commands.Status_digital_output_1.Path] = _data[7];
             _dataIntegerBuffer[_commands.Limit_value.Path] = _data[8];
@@ -448,7 +360,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _dataIntegerBuffer[_commands.Application_mode.Path] = _data[5] & 0x1;             // application mode 
             _dataIntegerBuffer[_commands.Decimals.Path] = (_data[5] & 0x70) >> 4;             // decimals
-            _dataIntegerBuffer[_commands.Unit_prefix_fixed_parameter.Path] = (_data[5] & 0x180) >> 7;    // unit
+            _dataIntegerBuffer[_commands.Unit.Path] = (_data[5] & 0x180) >> 7;    // unit
 
             
             _dataIntegerBuffer[_commands.Coarse_flow_monitoring.Path] = _data[8] & 0x1;           //_coarseFlow
@@ -463,12 +375,12 @@ namespace HBM.Weighing.API.WTX.Modbus
             _dataIntegerBuffer[_commands.StatusInput1.Path] = ((_data[8] & 0x4000) >> 14);
             _dataIntegerBuffer[_commands.LegalForTradeOperation.Path] = ((_data[8] & 0x200) >> 9);
             
-            _dataIntegerBuffer[_commands.ReadWeightMemDay_ID.Path]         = (_data[9]);
-            _dataIntegerBuffer[_commands.ReadWeightMemMonth_ID.Path] = (_data[10]);
-            _dataIntegerBuffer[_commands.ReadWeightMemYear_ID.Path]     = (_data[11]);
-            _dataIntegerBuffer[_commands.ReadWeightMemSeqNumber_ID.Path] = (_data[12]);
-            _dataIntegerBuffer[_commands.ReadWeightMemGross_ID.Path] = (_data[13]);
-            _dataIntegerBuffer[_commands.ReadWeightMemNet_ID.Path]         = (_data[14]);
+            _dataIntegerBuffer[_commands.WeightMemDayStandard.Path]         = (_data[9]);
+            _dataIntegerBuffer[_commands.WeightMemMonthStandard.Path] = (_data[10]);
+            _dataIntegerBuffer[_commands.WeightMemYearStandard.Path]     = (_data[11]);
+            _dataIntegerBuffer[_commands.WeightMemSeqNumberStandard.Path] = (_data[12]);
+            _dataIntegerBuffer[_commands.WeightMemGrossStandard.Path] = (_data[13]);
+            _dataIntegerBuffer[_commands.WeightMemNetStandard.Path]         = (_data[14]);
 
             _dataIntegerBuffer[_commands.Emptying.Path] = ((_data[8] & 0x10) >> 4);
             _dataIntegerBuffer[_commands.FlowError.Path] = ((_data[8] & 0x20) >> 5);
@@ -523,221 +435,5 @@ namespace HBM.Weighing.API.WTX.Modbus
 
     }
 }
-
-
-//CreateDictionary():
-/*
-
-public void CreateDictionary()
-{
-    _dataIntegerBuffer.Add(_commands.Net_value.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Gross_value.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Weighing_device_1_weight_status.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Unit_prefix_fixed_parameter.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.Fine_flow_cut_off_point.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Coarse_flow_cut_off_point.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Decimals.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Application_mode.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Scale_command_status.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.Status_digital_input_1.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Status_digital_input_2.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Status_digital_input_3.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Status_digital_input_4.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.Status_digital_output_1.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Status_digital_output_2.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Status_digital_output_3.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Status_digital_output_4.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.Limit_value.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Limit_value_monitoring_liv11.PathIndex, 0); ;
-    _dataIntegerBuffer.Add(_commands.Signal_source_liv12.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Switch_on_level_liv13.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Switch_off_level_liv14.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.Limit_value_monitoring_liv21.PathIndex, 0); ;
-    _dataIntegerBuffer.Add(_commands.Signal_source_liv22.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Switch_on_level_liv23.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Switch_off_level_liv24.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.Limit_value_monitoring_liv31.PathIndex, 0); ;
-    _dataIntegerBuffer.Add(_commands.Signal_source_liv32.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Switch_on_level_liv33.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Switch_off_level_liv34.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.Limit_value_monitoring_liv41.PathIndex, 0); ;
-    _dataIntegerBuffer.Add(_commands.Signal_source_liv42.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Switch_on_level_liv43.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Switch_off_level_liv44.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.ReadWeightMemDay_ID.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.ReadWeightMemMonth_ID.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.ReadWeightMemYear_ID.PathIndex, 0);   
-    _dataIntegerBuffer.Add(_commands.ReadWeightMemSeqNumber_ID.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.ReadWeightMemGross_ID.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.ReadWeightMemNet_ID.PathIndex, 0);
-
-    //_dataIntegerBuffer.Add(_commands.Residual_flow_time.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Minimum_fine_flow.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Optimization.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Tare_mode.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Minimum_start_weight.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Tare_delay.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Coarse_flow_monitoring_time.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Fine_flow_monitoring_time.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Systematic_difference.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Valve_control.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.AdcOverUnderload.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.LegalForTradeOperation.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.StatusInput1.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.GeneralScaleError.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.CoarseFlow.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.FineFlow.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Ready.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.ReDosing.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Emptying.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.FlowError.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.Alarm.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.ToleranceErrorPlus.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.ToleranceErrorMinus.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Dosing_time.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Coarse_flow_time.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.CurrentFineFlowTime.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.ParameterSetProduct.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.DownwardsDosing.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.TotalWeight.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.TargetFillingWeight.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Run_start_dosing.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.Coarse_flow_monitoring.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Fine_flow_monitoring.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Emptying_mode.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Maximal_dosing_time.PathIndex, 0);
-
-    _dataIntegerBuffer.Add(_commands.Upper_tolerance_limit.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Lower_tolerance_limit.PathIndex, 0);
-
-    //_dataIntegerBuffer.Add(_commands.Range_selection_parameter, 0);
-
-    _dataIntegerBuffer.Add(_commands.Delay_time_after_fine_flow.PathIndex, 0);
-    _dataIntegerBuffer.Add(_commands.Activation_time_after_fine_flow.PathIndex, 0);     
-} 
-*/
-
-
-/*
- *             _dataIntegerBuffer.Add(_commands.Net_value.PathIndex+ (_commands.Net_value.DataType).ToString() + _commands.Net_value.BitLength.ToString()+_commands.Net_value.BitIndex.ToString(), 0);
-        _dataCommandsBuffer.Add(_commands.Gross_value, 0);
-        _dataCommandsBuffer.Add(_commands.Weighing_device_1_weight_status, 0);
-        _dataCommandsBuffer.Add(_commands.Unit_prefix_fixed_parameter, 0);
-
-        _dataCommandsBuffer.Add(_commands.Fine_flow_cut_off_point, 0);
-        _dataCommandsBuffer.Add(_commands.Coarse_flow_cut_off_point, 0);
-        _dataCommandsBuffer.Add(_commands.Decimals, 0);
-        _dataCommandsBuffer.Add(_commands.Application_mode, 0);
-        _dataCommandsBuffer.Add(_commands.Scale_command_status, 0);
-
-        _dataCommandsBuffer.Add(_commands.Status_digital_input_1, 0);
-        _dataCommandsBuffer.Add(_commands.Status_digital_input_2, 0);
-        _dataCommandsBuffer.Add(_commands.Status_digital_input_3, 0);
-        _dataCommandsBuffer.Add(_commands.Status_digital_input_4, 0);
-
-        _dataCommandsBuffer.Add(_commands.Status_digital_output_1, 0);
-        _dataCommandsBuffer.Add(_commands.Status_digital_output_2, 0);
-        _dataCommandsBuffer.Add(_commands.Status_digital_output_3, 0);
-        _dataCommandsBuffer.Add(_commands.Status_digital_output_4, 0);
-
-        _dataCommandsBuffer.Add(_commands.Limit_value, 0);
-        _dataCommandsBuffer.Add(_commands.Limit_value_monitoring_liv11, 0); ;
-        _dataCommandsBuffer.Add(_commands.Signal_source_liv12, 0);
-        _dataCommandsBuffer.Add(_commands.Switch_on_level_liv13, 0);
-        _dataCommandsBuffer.Add(_commands.Switch_off_level_liv14, 0);
-
-        _dataCommandsBuffer.Add(_commands.Limit_value_monitoring_liv21, 0); ;
-        _dataCommandsBuffer.Add(_commands.Signal_source_liv22, 0);
-        _dataCommandsBuffer.Add(_commands.Switch_on_level_liv23, 0);
-        _dataCommandsBuffer.Add(_commands.Switch_off_level_liv24, 0);
-
-        _dataCommandsBuffer.Add(_commands.Limit_value_monitoring_liv31, 0); ;
-        _dataCommandsBuffer.Add(_commands.Signal_source_liv32, 0);
-        _dataCommandsBuffer.Add(_commands.Switch_on_level_liv33, 0);
-        _dataCommandsBuffer.Add(_commands.Switch_off_level_liv34, 0);
-
-        _dataCommandsBuffer.Add(_commands.Limit_value_monitoring_liv41, 0); ;
-        _dataCommandsBuffer.Add(_commands.Signal_source_liv42, 0);
-        _dataCommandsBuffer.Add(_commands.Switch_on_level_liv43, 0);
-        _dataCommandsBuffer.Add(_commands.Switch_off_level_liv44, 0);
-
-        _dataCommandsBuffer.Add(_commands.ReadWeightMemDay_ID, 0);
-        _dataCommandsBuffer.Add(_commands.ReadWeightMemMonth_ID, 0);
-        _dataCommandsBuffer.Add(_commands.ReadWeightMemYear_ID, 0);
-        _dataCommandsBuffer.Add(_commands.ReadWeightMemSeqNumber_ID, 0);
-        _dataCommandsBuffer.Add(_commands.ReadWeightMemGross_ID, 0);
-        _dataCommandsBuffer.Add(_commands.ReadWeightMemNet_ID, 0);
-
-        //_dataCommandsBuffer.Add(_commands.Residual_flow_time, 0);
-        _dataCommandsBuffer.Add(_commands.Minimum_fine_flow, 0);
-        _dataCommandsBuffer.Add(_commands.Optimization, 0);
-        _dataCommandsBuffer.Add(_commands.Tare_mode, 0);
-        _dataCommandsBuffer.Add(_commands.Minimum_start_weight, 0);
-        _dataCommandsBuffer.Add(_commands.Tare_delay, 0);
-        _dataCommandsBuffer.Add(_commands.Coarse_flow_monitoring_time, 0);
-        _dataCommandsBuffer.Add(_commands.Fine_flow_monitoring_time, 0);
-        _dataCommandsBuffer.Add(_commands.Systematic_difference, 0);
-        _dataCommandsBuffer.Add(_commands.Valve_control, 0);
-        _dataCommandsBuffer.Add(_commands.AdcOverUnderload, 0);
-        _dataCommandsBuffer.Add(_commands.LegalForTradeOperation, 0);
-
-        _dataCommandsBuffer.Add(_commands.StatusInput1, 0);
-        _dataCommandsBuffer.Add(_commands.GeneralScaleError, 0);
-        _dataCommandsBuffer.Add(_commands.CoarseFlow, 0);
-        _dataCommandsBuffer.Add(_commands.FineFlow, 0);
-        _dataCommandsBuffer.Add(_commands.Ready, 0);
-        _dataCommandsBuffer.Add(_commands.ReDosing, 0);
-        _dataCommandsBuffer.Add(_commands.Emptying, 0);
-        _dataCommandsBuffer.Add(_commands.FlowError, 0);
-
-        _dataCommandsBuffer.Add(_commands.Alarm, 0);
-        _dataCommandsBuffer.Add(_commands.ToleranceErrorPlus, 0);
-        _dataCommandsBuffer.Add(_commands.ToleranceErrorMinus, 0);
-        _dataCommandsBuffer.Add(_commands.Dosing_time, 0);
-        _dataCommandsBuffer.Add(_commands.Coarse_flow_time, 0);
-        _dataCommandsBuffer.Add(_commands.CurrentFineFlowTime, 0);
-        _dataCommandsBuffer.Add(_commands.ParameterSetProduct, 0);
-        _dataCommandsBuffer.Add(_commands.DownwardsDosing, 0);
-
-        _dataCommandsBuffer.Add(_commands.TotalWeight, 0);
-        _dataCommandsBuffer.Add(_commands.TargetFillingWeight, 0);
-        _dataCommandsBuffer.Add(_commands.Run_start_dosing, 0);
-
-        _dataCommandsBuffer.Add(_commands.Coarse_flow_monitoring, 0);
-        _dataCommandsBuffer.Add(_commands.Fine_flow_monitoring, 0);
-        _dataCommandsBuffer.Add(_commands.Emptying_mode, 0);
-        _dataCommandsBuffer.Add(_commands.Maximal_dosing_time, 0);
-
-        _dataCommandsBuffer.Add(_commands.Upper_tolerance_limit, 0);
-        _dataCommandsBuffer.Add(_commands.Lower_tolerance_limit, 0);
-
-        //_dataCommandsBuffer.Add(_commands.Range_selection_parameter, 0);
-
-        _dataCommandsBuffer.Add(_commands.Delay_time_after_fine_flow, 0);
-        _dataCommandsBuffer.Add(_commands.Activation_time_after_fine_flow, 0);
-        */
-        // Undefined IDs : 
-        /*
-        _dataCommandsBuffer.Add(_commands.DOSING_STATE, 0);
-        _dataCommandsBuffer.Add(_commands.DOSING_RESULT, 0);
-        _dataCommandsBuffer.Add(IDCommands.DELAY1_DOSING, 0);
-        _dataCommandsBuffer.Add(IDCommands.STANDARD_DEVIATION, 0);
-        _dataCommandsBuffer.Add(IDCommands.EMPTY_WEIGHT_TOLERANCE, 0);
-        _dataCommandsBuffer.Add(IDCommands.MEAN_VALUE_DOSING_RESULTS, 0);
-        _dataCommandsBuffer.Add(IDCommands.FINE_FLOW_PHASE_BEFORE_COARSE_FLOW, 0);
-        */
-
 
    
