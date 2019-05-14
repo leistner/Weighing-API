@@ -34,7 +34,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HBM.Weighing.API
+namespace HBM.Weighing.API.Data
 {
     /// <summary>
     /// Interface containing the data for the filler extended mode of your WTX device.

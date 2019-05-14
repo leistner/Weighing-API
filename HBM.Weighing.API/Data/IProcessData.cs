@@ -30,7 +30,7 @@
 
 using System;
 
-namespace HBM.Weighing.API
+namespace HBM.Weighing.API.Data
 {
     /// <summary>
     /// Interface containing the process data of your WTX device.
