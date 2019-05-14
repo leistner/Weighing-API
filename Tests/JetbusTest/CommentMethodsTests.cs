@@ -255,7 +255,7 @@ namespace JetbusTest
             
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 3);
 
-            Assert.AreEqual(dValue.ToString("0.000"), _wtxObj.CurrentWeight);
+            Assert.AreEqual(dValue.ToString("0.000"), _wtxObj.PrintableWeight.Net);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_2D_TestCase")]
@@ -269,7 +269,7 @@ namespace JetbusTest
             
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 2);
 
-            Assert.AreEqual(dValue.ToString("0.00"), _wtxObj.CurrentWeight);
+            Assert.AreEqual(dValue.ToString("0.00"), _wtxObj.PrintableWeight.Net);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -283,7 +283,7 @@ namespace JetbusTest
             
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 1);
 
-            Assert.AreEqual(dValue.ToString("0.0"), _wtxObj.CurrentWeight);
+            Assert.AreEqual(dValue.ToString("0.0"), _wtxObj.PrintableWeight.Net);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -297,7 +297,7 @@ namespace JetbusTest
             
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 5);
 
-            Assert.AreEqual(dValue.ToString("0.00000"), _wtxObj.CurrentWeight);
+            Assert.AreEqual(dValue.ToString("0.00000"), _wtxObj.PrintableWeight.Net);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -311,7 +311,7 @@ namespace JetbusTest
             
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 6);
 
-            Assert.AreEqual(dValue.ToString("0.000000"), _wtxObj.CurrentWeight);
+            Assert.AreEqual(dValue.ToString("0.000000"), _wtxObj.PrintableWeight.Net);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -325,7 +325,7 @@ namespace JetbusTest
             
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 7);
 
-            Assert.AreEqual(dValue.ToString(), _wtxObj.CurrentWeight);
+            Assert.AreEqual(dValue.ToString(), _wtxObj.PrintableWeight.Net);
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -339,7 +339,7 @@ namespace JetbusTest
             
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 0);
 
-            Assert.AreEqual(dValue.ToString(), _wtxObj.CurrentWeight);
+            Assert.AreEqual(dValue.ToString(), _wtxObj.PrintableWeight.Net);
         }
 
         
@@ -352,7 +352,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
             
-            _wtxObj.ProcessData.UpdateProcessData(this, new EventArgs());
+            _wtxObj.ProcessData.UpdateData(this, new EventArgs());
 
             value = _wtxObj.ProcessData.Unit;
 

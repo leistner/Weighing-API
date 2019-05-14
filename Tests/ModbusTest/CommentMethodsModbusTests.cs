@@ -345,7 +345,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
            //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight;
+            string strValue = _wtxObj.PrintableWeight.Net;
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, _wtxObj.ProcessData.Decimals);
 
             Assert.AreEqual(dValue.ToString(), strValue);
@@ -363,7 +363,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 1 /*_wtxObj.Decimals*/);
 
-            Assert.AreEqual(dValue.ToString("0.0"), _wtxObj.CurrentWeight);
+            Assert.AreEqual(dValue.ToString("0.0"), _wtxObj.PrintableWeight.Net);
         }
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_2D_TestCase_Modbus")]
         public void testModbus_NetGrossValueStringComment_2D(Behavior behavior)
@@ -374,7 +374,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight;
+            string strValue = _wtxObj.PrintableWeight.Net;
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 2 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.00"), strValue);
@@ -388,7 +388,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight;
+            string strValue = _wtxObj.PrintableWeight.Net;
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 3 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.000"), strValue);
@@ -404,7 +404,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 4 /*_wtxObj.Decimals*/);
 
-            Assert.AreEqual(dValue.ToString("0.0000"), _wtxObj.CurrentWeight);
+            Assert.AreEqual(dValue.ToString("0.0000"), _wtxObj.PrintableWeight.Net);
         }
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_5D_TestCase_Modbus")]
         public void testModbus_NetGrossValueStringComment_5D(Behavior behavior)
@@ -415,7 +415,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight;
+            string strValue = _wtxObj.PrintableWeight.Net;
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 5 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.00000"), strValue);
@@ -429,7 +429,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             //_wtxObj.WriteSync(0, 0x00);    ???
 
-            string strValue = _wtxObj.CurrentWeight;
+            string strValue = _wtxObj.PrintableWeight.Net;
             double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 6 /*_wtxObj.Decimals*/);
 
             Assert.AreEqual(dValue.ToString("0.000000"), strValue);

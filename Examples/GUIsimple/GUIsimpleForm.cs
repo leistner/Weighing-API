@@ -165,9 +165,9 @@ namespace GUIsimple
 
                 int taraValue = netValue - grossValue;
 
-                txtInfo.Text = "Net:" + _wtxDevice.CurrentWeight + _wtxDevice.Unit + Environment.NewLine
-                + "Gross:" + _wtxDevice.ProcessData.NetValue + _wtxDevice.Unit + Environment.NewLine
-                + "Tara:" + _wtxDevice.ProcessData.TareValue + _wtxDevice.Unit;
+                txtInfo.Text = "Net:" + _wtxDevice.PrintableWeight.Net + _wtxDevice.Unit + Environment.NewLine
+                + "Gross:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit + Environment.NewLine
+                + "Tara:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit;
                 txtInfo.TextAlign = HorizontalAlignment.Right;
 
                 if (e.ProcessData.Underload == true)

@@ -42,6 +42,10 @@ namespace HBM.Weighing.API.Data
         #region Process device data 
         ApplicationMode ApplicationMode { get; }
 
+        WeightType Weight { get; }
+
+        PrintableWeightType PrintableWeight { get; }
+
         int NetValue { get; }  
         
         int GrossValue { get; } 
@@ -88,7 +92,7 @@ namespace HBM.Weighing.API.Data
         #endregion
 
         #region Update method
-        void UpdateProcessData(object sender, EventArgs e);
+        void UpdateData(object sender, EventArgs e);
         #endregion
     }
 }

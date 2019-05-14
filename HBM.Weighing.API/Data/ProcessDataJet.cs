@@ -28,6 +28,7 @@
 //
 // </copyright>
 
+using HBM.Weighing.API.Utils;
 using HBM.Weighing.API.WTX.Jet;
 using System;
 
@@ -45,7 +46,7 @@ namespace HBM.Weighing.API.Data
         {
             _connection = (JetBusConnection) Connection;
 
-            _connection.UpdateDataClasses += UpdateProcessData;
+            _connection.UpdateDataClasses += UpdateData;
 
             NetValue = 0;
             GrossValue = 0;
@@ -74,7 +75,7 @@ namespace HBM.Weighing.API.Data
 
 
         #region Update method
-        public void UpdateProcessData(object sender, EventArgs e)
+        public void UpdateData(object sender, EventArgs e)
         {
             ApplicationMode = (ApplicationMode)_connection.GetDataFromDictionary(JetBusCommands.Application_mode);
             NetValue = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Net_value));
@@ -95,15 +96,31 @@ namespace HBM.Weighing.API.Data
             ScaleRange = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_ScaleRange));
             ZeroRequired = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_ZeroRequired));
             CenterOfZero = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_CenterOfZero));
-            InsideZero = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_InsideZero));
-            Decimals = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Decimals));
-            Unit = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_Unit));
+            InsideZero = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_InsideZero));            
+            try
+            {
+                Decimals = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Decimals)); //DDD Workaround
+                Unit = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_Unit));
+            }
+            catch
+            {
+                Decimals = 1;
+                Unit = 2;
+            }
+
+            Weight.Update(MeasurementUtils.DigitToDouble(NetValue, Decimals), MeasurementUtils.DigitToDouble(GrossValue, Decimals));
+            PrintableWeight.Update(MeasurementUtils.DigitToDouble(NetValue, Decimals), MeasurementUtils.DigitToDouble(GrossValue, Decimals), Decimals);
+
         }
         #endregion
 
 
         #region Properties
         public ApplicationMode ApplicationMode { get; private set; }
+
+        public WeightType Weight { get; private set; }
+
+        public PrintableWeightType PrintableWeight { get; private set; }
 
         public int NetValue { get; private set; }
 

@@ -30,8 +30,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using HBM.Weighing.API.Data;
+using HBM.Weighing.API.Utils;
 using HBM.Weighing.API.WTX.Jet;
 
 namespace HBM.Weighing.API.WTX
@@ -171,29 +173,19 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Process data
-
-        /* 
-        *In the following methods the different options for the single integer values are used to define and
-        *interpret the value. Finally a string should be returned from the methods to write it onto the GUI Form. 
-        */
-        public override string CurrentWeight
+        public override WeightType Weight
         {
             get
             {
-                string returnvalue;
-                double dvalue = this.ProcessData.NetValue / Math.Pow(10, this.ProcessData.Decimals);
-                switch (this.ProcessData.Decimals)
-                {
-                    case 0: returnvalue = dvalue.ToString(); break;
-                    case 1: returnvalue = dvalue.ToString("0.0"); break;
-                    case 2: returnvalue = dvalue.ToString("0.00"); break;
-                    case 3: returnvalue = dvalue.ToString("0.000"); break;
-                    case 4: returnvalue = dvalue.ToString("0.0000"); break;
-                    case 5: returnvalue = dvalue.ToString("0.00000"); break;
-                    case 6: returnvalue = dvalue.ToString("0.000000"); break;
-                    default: returnvalue = dvalue.ToString(); break;
-                }
-                return returnvalue;
+                return ProcessData.Weight;
+            }
+        }
+
+        public override PrintableWeightType PrintableWeight
+        {
+            get
+            {
+                return ProcessData.PrintableWeight;
             }
         }
 
@@ -227,17 +219,17 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public override WeightType WeightType
+        public override TareMode TareMode
         {
             get
             {
                 if (ProcessData.TareMode == false)
                 {
-                    return WeightType.Gross;
+                    return TareMode.None;
                 }
                 else
                 {
-                    return WeightType.Net;
+                    return TareMode.Tare;
                 }
             }
         }

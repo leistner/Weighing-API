@@ -110,10 +110,10 @@ namespace HBM.Weighing.API
         Gross = 2
     };
 
-    public enum WeightType
+    public enum TareMode
     {
-        Gross,
-        Net,
-        NetPT
+        None,
+        Tare,
+        PresetTare
     };
 }

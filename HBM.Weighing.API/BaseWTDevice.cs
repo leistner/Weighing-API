@@ -96,10 +96,16 @@ namespace HBM.Weighing.API
         public abstract string ConnectionType { get; }
 
         /// <summary>
-        /// Gets the current weight of the device depending on decimal count (e.g. "1,42")
+        /// Gets the current weight of the device depending as double
         /// </summary>
         /// <returns>Current weight</returns>
-        public abstract string CurrentWeight { get; }
+        public abstract WeightType Weight { get; }
+
+        /// <summary>
+        /// Gets the current weight of the device depending as string
+        /// </summary>
+        /// <returns>Current weight</returns>
+        public abstract PrintableWeightType PrintableWeight { get; }
 
         /// <summary>
         /// Gets the engineering unit (e.g. "g", "kg", "t") 
@@ -111,7 +117,7 @@ namespace HBM.Weighing.API
         /// Gets the weight type, Gross or Net
         /// </summary>
         /// <returns></returns>
-        public abstract WeightType WeightType { get; }
+        public abstract TareMode TareMode { get; }
 
         /// <summary>
         /// Gets the scale range 1-3

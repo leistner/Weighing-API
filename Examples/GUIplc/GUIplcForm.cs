@@ -710,8 +710,8 @@ namespace GUIplc
                     c.Width = 120;*/
                 try
                 {
-                    dataGridView1.Rows[0].Cells[6].Value = _wtxDevice.CurrentWeight;
-                    dataGridView1.Rows[1].Cells[6].Value = _wtxDevice.CurrentWeight;
+                    dataGridView1.Rows[0].Cells[6].Value = _wtxDevice.Weight.Net;
+                    dataGridView1.Rows[1].Cells[6].Value = _wtxDevice.Weight.Gross;
                     dataGridView1.Rows[2].Cells[6].Value = e.ProcessData.GeneralWeightError;
                     dataGridView1.Rows[3].Cells[6].Value = e.ProcessData.ScaleAlarm;
                     dataGridView1.Rows[4].Cells[6].Value = e.ProcessData.LimitStatus;

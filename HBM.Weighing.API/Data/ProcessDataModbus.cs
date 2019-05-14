@@ -28,6 +28,7 @@
 //
 // </copyright>
 
+using HBM.Weighing.API.Utils;
 using HBM.Weighing.API.WTX.Modbus;
 using System;
 
@@ -45,7 +46,7 @@ namespace HBM.Weighing.API.Data
         {
             _connection = (ModbusTcpConnection) Connection;
 
-            _connection.UpdateDataClasses += UpdateProcessData;
+            _connection.UpdateDataClasses += UpdateData;
 
             NetValue = 0;
             GrossValue = 0;
@@ -73,7 +74,7 @@ namespace HBM.Weighing.API.Data
         #endregion
 
         #region Update method
-        public void UpdateProcessData(object sender, EventArgs e)
+        public void UpdateData(object sender, EventArgs e)
         {
             NetValue = _connection.GetDataFromDictionary(ModbusCommands.Net);
             GrossValue = _connection.GetDataFromDictionary(ModbusCommands.Gross);
@@ -101,12 +102,19 @@ namespace HBM.Weighing.API.Data
             Unit = _connection.GetDataFromDictionary(ModbusCommands.Unit);
             Handshake = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.Handshake));
             Status = _connection.GetDataFromDictionary(ModbusCommands.Status);
+
+            Weight.Update(MeasurementUtils.DigitToDouble(NetValue, Decimals), MeasurementUtils.DigitToDouble(GrossValue, Decimals));
+            PrintableWeight.Update(MeasurementUtils.DigitToDouble(NetValue, Decimals), MeasurementUtils.DigitToDouble(GrossValue, Decimals), Decimals);
         }
         #endregion
 
 
         #region Properties
         public ApplicationMode ApplicationMode { get; private set; }
+
+        public WeightType Weight { get; private set; }
+
+        public PrintableWeightType PrintableWeight { get; private set; }
 
         public int NetValue { get; private set; }
 
