@@ -78,7 +78,7 @@ namespace HBM.Weighing.API.WTX
             ProcessData = new ProcessDataJet(Connection);
             DataStandard = new DataStandardJet(Connection);
             DataFiller = new DataFillerExtendedJet(Connection);
-            DataFillerExtended new DataFillerExtendedJet(Connection);
+            DataFillerExtended = new DataFillerExtendedJet(Connection);
             
             this.ProcessDataReceived += onProcessData;
 
