@@ -74,15 +74,15 @@ namespace HBM.Weighing.API
 
         #region Read/Write methods
 
-        int Read(object index);       
+        int Read(object index);
 
-        void Write(string index, int data);
+        void Write(string register, DataType dataType, int value);
 
         Task<ushort[]> ReadAsync();                              // For reading asynchronously
 
         Task<int> WriteAsync(ushort index, ushort commandParam); // For writing asynchronously
-
-        void WriteArray(string index, int data);    // For writing several registers
+        
+        int GetDataFromDictionary(object command); 
 
         #endregion
 

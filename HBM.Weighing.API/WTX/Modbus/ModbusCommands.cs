@@ -291,7 +291,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public static  ModbusCommand TargetFillingWeight { get; private set; }     // data output word 10, application mode=filler
 
         public static  ModbusCommand Residual_flow_time { get; private set; }          // RFT = Nachstromzeit
-        public static  ModbusCommand Reference_value_dosing { get; private set; }      // FWT = Sollwert dosieren = Target filling weight
+       // public static  ModbusCommand Reference_value_dosing { get; private set; }      // FWT = Sollwert dosieren = Target filling weight
         public static  ModbusCommand Coarse_flow_cut_off_point { get; private set; }   // CFD = Grobstromabschaltpunkt
         public static  ModbusCommand Fine_flow_cut_off_point { get; private set; }     // FFD = Feinstromabschaltpunkt
 

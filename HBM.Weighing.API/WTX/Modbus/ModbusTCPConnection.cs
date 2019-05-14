@@ -241,56 +241,47 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         #region Write methods
 
-
-        public void Write(ModbusCommand ModbusFrame, int value)
+        public void Write(string register, DataType dataType, int value)
         {
-            switch(ModbusFrame.DataType)
+            switch (dataType)
             {
 
                 case DataType.U08:
-                    _master.WriteSingleRegister(0, (ushort)Convert.ToInt32(ModbusFrame.Register), (ushort)value);
+                    _master.WriteSingleRegister(0, (ushort)Convert.ToInt32(register), (ushort)value);
                     break;
 
                 case DataType.Int16:
                     _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
                     _dataToWrite[1] = (ushort)(value & 0x0000ffff);
 
-                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(ModbusFrame.Register), _dataToWrite);
+                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(register), _dataToWrite);
                     break;
                 case DataType.U16:
                     _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
                     _dataToWrite[1] = (ushort)(value & 0x0000ffff);
 
-                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(ModbusFrame.Register), _dataToWrite);
+                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(register), _dataToWrite);
                     break;
 
                 case DataType.U32:
                     _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
                     _dataToWrite[1] = (ushort)(value & 0x0000ffff);
 
-                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(ModbusFrame.Register), _dataToWrite);
+                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(register), _dataToWrite);
                     break;
                 case DataType.Int32:
                     _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
                     _dataToWrite[1] = (ushort)(value & 0x0000ffff);
 
-                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(ModbusFrame.Register), _dataToWrite);
+                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(register), _dataToWrite);
                     break;
                 case DataType.S32:
                     _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
                     _dataToWrite[1] = (ushort)(value & 0x0000ffff);
 
-                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(ModbusFrame.Register), _dataToWrite);
+                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(register), _dataToWrite);
                     break;
             }
-        }
-
-        public void Write(string index, int data)
-        {
-            this._dataCommand = data;
-
-            _master.WriteSingleRegister(0, (ushort)Convert.ToInt32(index), (ushort)data);
-
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort) have been written successfully to the register"));
         }
 
@@ -305,49 +296,9 @@ namespace HBM.Weighing.API.WTX.Modbus
             return this._dataCommand;
         }
 
-        public void WriteArray(string index, int value)
-        {
-            _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-            _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-            _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(index), _dataToWrite);
-
-            BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort array) have been written successfully to multiple registers"));
-        }
-
         #endregion
 
         #region Update dictionary methods, properties
-
-        public int GetDataFromDictionary(ModbusCommand frame)
-        {
-            int _register   = 0;
-            ushort _bitMask = 0;
-            ushort _mask    = 0;
-            
-            if(frame.DataType == DataType.Int32) // if the register of 'Net measured value'(=0) or 'Gross measured value'(=2)
-                _dataIntegerBuffer[frame.Path] = _data[Convert.ToInt16(frame.Register)+1] + (_data[Convert.ToInt16(frame.Register)] << 16);
-
-            if (frame.DataType != DataType.Int32 && frame.DataType != DataType.S32 && frame.DataType != DataType.U32)
-            {
-                switch (frame.BitLength)
-                {
-                    case 0: _bitMask = 0xFFFF; break;
-                    case 1: _bitMask = 1 ;    break; 
-                    case 2: _bitMask = 3 ;    break;
-                    case 3: _bitMask = 7 ;    break;
-
-                    default: _bitMask = 1; break;
-                }
-
-                _mask = (ushort)(_bitMask << frame.BitIndex);
-
-                _register = Convert.ToInt32(frame.Register);
-                _dataIntegerBuffer[frame.Path] = (_data[_register] & _mask) >> frame.BitIndex;
-            }
-
-            return _dataIntegerBuffer[frame.Path];
-        }
 
         private void CreateDictionary()
         {
@@ -438,6 +389,37 @@ namespace HBM.Weighing.API.WTX.Modbus
             _dataIntegerBuffer[IDCommands.] = _fillingProcessStatus = _data[9];  // Undefined
             _dataIntegerBuffer[IDCommands.] = _numberDosingResults = _data[11];        
             */
+        }
+        public int GetDataFromDictionary(object frame)
+        {
+            int _register = 0;
+            ushort _bitMask = 0;
+            ushort _mask = 0;
+
+            ModbusCommand ConvertedFrame = frame as ModbusCommand;
+
+            if (ConvertedFrame.DataType == DataType.Int32) // if the register of 'Net measured value'(=0) or 'Gross measured value'(=2)
+                _dataIntegerBuffer[ConvertedFrame.Path] = _data[Convert.ToInt16(ConvertedFrame.Register) + 1] + (_data[Convert.ToInt16(ConvertedFrame.Register)] << 16);
+
+            if (ConvertedFrame.DataType != DataType.Int32 && ConvertedFrame.DataType != DataType.S32 && ConvertedFrame.DataType != DataType.U32)
+            {
+                switch (ConvertedFrame.BitLength)
+                {
+                    case 0: _bitMask = 0xFFFF; break;
+                    case 1: _bitMask = 1; break;
+                    case 2: _bitMask = 3; break;
+                    case 3: _bitMask = 7; break;
+
+                    default: _bitMask = 1; break;
+                }
+
+                _mask = (ushort)(_bitMask << ConvertedFrame.BitIndex);
+
+                _register = Convert.ToInt32(ConvertedFrame.Register);
+                _dataIntegerBuffer[ConvertedFrame.Path] = (_data[_register] & _mask) >> ConvertedFrame.BitIndex;
+            }
+
+            return _dataIntegerBuffer[ConvertedFrame.Path];
         }
 
         public Dictionary<string, int> AllData

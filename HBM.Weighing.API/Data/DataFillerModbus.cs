@@ -126,7 +126,7 @@ namespace HBM.Weighing.API.Data
         private int _valveControl;
         private int _emptyingMode;
 
-        private ModbusTcpConnection _connection;
+        private INetConnection _connection;
 
         #endregion
 
@@ -134,7 +134,7 @@ namespace HBM.Weighing.API.Data
 
         public DataFillerModbus(INetConnection Connection) : base()
         {
-            _connection = (ModbusTcpConnection) Connection;
+            _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateFillerData;
 
@@ -430,7 +430,7 @@ namespace HBM.Weighing.API.Data
             get { return _residualFlowTime; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Residual_flow_time.Register, value);
+                _connection.Write(ModbusCommands.Residual_flow_time.Register, ModbusCommands.Residual_flow_time.DataType, value);
                 this._residualFlowTime = value;
             }
         }
@@ -439,7 +439,7 @@ namespace HBM.Weighing.API.Data
             get { return _targetFillingWeight; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Reference_value_dosing.Register, value);
+                //_connection.Write(ModbusCommands.Reference_value_dosing.Register, ModbusCommands.Reference_value_dosing.DataType, value);
                 this._targetFillingWeight = value;
             }
         }
@@ -448,7 +448,7 @@ namespace HBM.Weighing.API.Data
             get { return _coarseFlowCutOffPointSet; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Coarse_flow_cut_off_point.Register, value);
+                _connection.Write(ModbusCommands.Coarse_flow_cut_off_point.Register, ModbusCommands.Coarse_flow_cut_off_point.DataType, value);
                 this._coarseFlowCutOffPointSet = value;
             }
         }
@@ -457,7 +457,7 @@ namespace HBM.Weighing.API.Data
             get { return _fineFlowCutOffPointSet; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Fine_flow_cut_off_point.Register, value);
+                _connection.Write(ModbusCommands.Fine_flow_cut_off_point.Register, ModbusCommands.Fine_flow_cut_off_point.DataType, value);
                 this._fineFlowCutOffPointSet = value;
             }
         }
@@ -466,7 +466,7 @@ namespace HBM.Weighing.API.Data
             get { return _minimumFineFlow; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Minimum_fine_flow.Register, value);
+                _connection.Write(ModbusCommands.Minimum_fine_flow.Register, ModbusCommands.Minimum_fine_flow.DataType, value);
                 this._minimumFineFlow = value;
             }
         }
@@ -475,7 +475,7 @@ namespace HBM.Weighing.API.Data
             get { return _optimizationOfCutOffPoints; }
             set
             {
-                _connection.Write(ModbusCommands.Optimization.Register, value);
+                _connection.Write(ModbusCommands.Optimization.Register, ModbusCommands.Optimization.DataType, value);
                 this._optimizationOfCutOffPoints = value;
             }
         }
@@ -484,7 +484,7 @@ namespace HBM.Weighing.API.Data
             get { return _maximumDosingTime; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Maximal_dosing_time.Register, value);
+                _connection.Write(ModbusCommands.Maximal_dosing_time.Register, ModbusCommands.Maximal_dosing_time.DataType, value);
                 this._maximumDosingTime = value;
             }
         }
@@ -493,7 +493,7 @@ namespace HBM.Weighing.API.Data
             get { return _startWithFineFlow; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Run_start_dosing.Register, value);
+                _connection.Write(ModbusCommands.Run_start_dosing.Register, ModbusCommands.Run_start_dosing.DataType, value);
                 this._startWithFineFlow = value;
             }
         }
@@ -502,7 +502,7 @@ namespace HBM.Weighing.API.Data
             get { return _coarseLockoutTime; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Lockout_time_coarse_flow.Register, value);
+                _connection.Write(ModbusCommands.Lockout_time_coarse_flow.Register, ModbusCommands.Lockout_time_coarse_flow.DataType, value);
                 this._coarseLockoutTime = value;
             }
         }
@@ -511,7 +511,7 @@ namespace HBM.Weighing.API.Data
             get { return _fineLockoutTime; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Lockout_time_fine_flow.Register, value);
+                _connection.Write(ModbusCommands.Lockout_time_fine_flow.Register, ModbusCommands.Lockout_time_fine_flow.DataType, value);
                 this._fineLockoutTime = value;
             }
         }
@@ -520,7 +520,7 @@ namespace HBM.Weighing.API.Data
             get { return _tareMode; }
             set
             {
-                _connection.Write(ModbusCommands.Tare_mode.Register, value);
+                _connection.Write(ModbusCommands.Tare_mode.Register, ModbusCommands.Tare_mode.DataType, value);
                 this._tareMode = value;
             }
         }
@@ -529,7 +529,7 @@ namespace HBM.Weighing.API.Data
             get { return _upperToleranceLimit; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Upper_tolerance_limit.Register, value);
+                _connection.Write(ModbusCommands.Upper_tolerance_limit.Register, ModbusCommands.Upper_tolerance_limit.DataType, value);
                 this._upperToleranceLimit = value;
             }
         }
@@ -538,7 +538,7 @@ namespace HBM.Weighing.API.Data
             get { return _lowerToleranceLimit; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Lower_tolerance_limit.Register, value);
+                _connection.Write(ModbusCommands.Lower_tolerance_limit.Register, ModbusCommands.Lower_tolerance_limit.DataType, value);
                 this._lowerToleranceLimit = value;
             }
         }
@@ -547,7 +547,7 @@ namespace HBM.Weighing.API.Data
             get { return _minimumStartWeight; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Minimum_start_weight.Register, value);
+                _connection.Write(ModbusCommands.Minimum_start_weight.Register, ModbusCommands.Minimum_start_weight.DataType, value);
                 this._minimumStartWeight = value;
             }
         }
@@ -556,7 +556,7 @@ namespace HBM.Weighing.API.Data
             get { return _emptyWeight; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Empty_weight.Register, value);
+                _connection.Write(ModbusCommands.Empty_weight.Register, ModbusCommands.Empty_weight.DataType, value);
                 this._emptyWeight = value;
             }
         }
@@ -565,7 +565,7 @@ namespace HBM.Weighing.API.Data
             get { return _tareDelay; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Tare_delay.Register, value);
+                _connection.Write(ModbusCommands.Tare_delay.Register, ModbusCommands.Tare_delay.DataType, value);
                 this._tareDelay = value;
             }
         }
@@ -574,7 +574,7 @@ namespace HBM.Weighing.API.Data
             get { return _coarseFlowMonitoringTime; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Coarse_flow_monitoring_time.Register, value);
+                _connection.Write(ModbusCommands.Coarse_flow_monitoring_time.Register, ModbusCommands.Coarse_flow_monitoring_time.DataType, value);
                 this._coarseFlowMonitoringTime = value;
             }
         }
@@ -583,7 +583,7 @@ namespace HBM.Weighing.API.Data
             get { return _coarseFlowMonitoring; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Coarse_flow_monitoring.Register, value);
+                _connection.Write(ModbusCommands.Coarse_flow_monitoring.Register, ModbusCommands.Coarse_flow_monitoring.DataType, value);
                 this._coarseFlowMonitoring = value;
             }
         }
@@ -592,7 +592,7 @@ namespace HBM.Weighing.API.Data
             get { return _fineFlowMonitoring; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Fine_flow_monitoring.Register, value);
+                _connection.Write(ModbusCommands.Fine_flow_monitoring.Register, ModbusCommands.Fine_flow_monitoring.DataType, value);
                 this._fineFlowMonitoring = value;
             }
         }
@@ -601,7 +601,7 @@ namespace HBM.Weighing.API.Data
             get { return _fineFlowMonitoringTime; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Fine_flow_monitoring_time.Register, value);
+                _connection.Write(ModbusCommands.Fine_flow_monitoring_time.Register, ModbusCommands.Fine_flow_monitoring_time.DataType, value);
                 this._fineFlowMonitoringTime = value;
             }
         }
@@ -610,7 +610,7 @@ namespace HBM.Weighing.API.Data
             get { return _delayTimeAfterFineFlow; }
             set
             {
-                _connection.Write("", value);
+                _connection.Write(ModbusCommands.Delay_time_after_fine_flow.Register, ModbusCommands.Delay_time_after_fine_flow.DataType, value);
                 this._delayTimeAfterFineFlow = value;
             }
         }
@@ -619,7 +619,7 @@ namespace HBM.Weighing.API.Data
             get { return _activationTimeAfterFineFlow; }
             set
             {
-                _connection.Write("", value);
+                _connection.Write(ModbusCommands.Activation_time_after_fine_flow.Register, ModbusCommands.Activation_time_after_fine_flow.DataType, value);
                 this._activationTimeAfterFineFlow = value;
             }
         }
@@ -628,7 +628,7 @@ namespace HBM.Weighing.API.Data
             get { return _systematicDifference; }
             set
             {
-                _connection.WriteArray(ModbusCommands.Systematic_difference.Register, value);
+                _connection.Write(ModbusCommands.Systematic_difference.Register, ModbusCommands.Systematic_difference.DataType, value);
                 this._systematicDifference = value;
             }
         }
@@ -636,7 +636,8 @@ namespace HBM.Weighing.API.Data
         {
             get { return _downwardsDosing; }
             set
-            { //_connection.Write(_connection.IDCommands.DOWNWARDS_DOSING.Register, value); 
+            {
+                _connection.Write(ModbusCommands.DownwardsDosing.Register, ModbusCommands.DownwardsDosing.DataType, value);
                 this._downwardsDosing = value;
             }
         }
@@ -645,7 +646,7 @@ namespace HBM.Weighing.API.Data
             get { return _valveControl; }
             set
             {
-                _connection.Write(ModbusCommands.Valve_control.Register, value);
+                _connection.Write(ModbusCommands.Valve_control.Register, ModbusCommands.Valve_control.DataType, value);
                 this._valveControl = value;
             }
         }
@@ -655,7 +656,7 @@ namespace HBM.Weighing.API.Data
             get { return _emptyingMode; }
             set
             {
-                _connection.Write(ModbusCommands.Emptying_mode.Register, value);
+                _connection.Write(ModbusCommands.Emptying_mode.Register, ModbusCommands.Emptying_mode.DataType, value);
                 this._emptyingMode = value;
             }
         }
