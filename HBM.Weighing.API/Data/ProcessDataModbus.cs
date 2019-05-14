@@ -39,12 +39,12 @@ namespace HBM.Weighing.API.Data
     /// </summary>
     public class ProcessDataModbus : IProcessData
     {
-        private ModbusTcpConnection _connection;
+        private INetConnection _connection;
 
         #region Constructor
         public ProcessDataModbus(INetConnection Connection)
         {
-            _connection = (ModbusTcpConnection) Connection;
+            _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateData;
 

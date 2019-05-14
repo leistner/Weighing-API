@@ -96,14 +96,14 @@ namespace HBM.Weighing.API.Data
         private int _limitSwitch4ActivationLevelLowerBandLimit;
         private int _limitSwitch4HysteresisBandHeight;
                
-        private ModbusTcpConnection _connection;
+        private INetConnection _connection;
         #endregion
 
         #region constructor
 
         public DataStandardModbus(INetConnection Connection)
         {
-            _connection = (ModbusTcpConnection)Connection;
+            _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateStandardData;
 
@@ -212,7 +212,7 @@ namespace HBM.Weighing.API.Data
             get { return _input1; }
             set
             {
-                _connection.Write(ModbusCommands.Status_digital_input_1.Register, value);
+                _connection.Write(ModbusCommands.Status_digital_input_1.Register, ModbusCommands.Status_digital_input_1.DataType, value);
                 _input1 = value;
             }
         }
@@ -221,7 +221,7 @@ namespace HBM.Weighing.API.Data
             get { return _input2; }
             set
             {
-                _connection.Write(ModbusCommands.Status_digital_input_2.Register, value);
+                _connection.Write(ModbusCommands.Status_digital_input_2.Register, ModbusCommands.Status_digital_input_2.DataType, value);
                 _input2 = value;
             }
         }
@@ -230,7 +230,7 @@ namespace HBM.Weighing.API.Data
             get { return _input3; }
             set
             {
-                _connection.Write(ModbusCommands.Status_digital_input_3.Register, value);
+                _connection.Write(ModbusCommands.Status_digital_input_3.Register, ModbusCommands.Status_digital_input_3.DataType, value);
                 _input3 = value;
             }
         }
@@ -239,7 +239,7 @@ namespace HBM.Weighing.API.Data
             get { return _input4; }
             set
             {
-                _connection.Write(ModbusCommands.Status_digital_input_4.Register, value);
+                _connection.Write(ModbusCommands.Status_digital_input_4.Register, ModbusCommands.Status_digital_input_4.DataType, value);
                 _input4 = value;
             }
         }
@@ -248,7 +248,7 @@ namespace HBM.Weighing.API.Data
             get { return _output1; }
             set
             {
-                _connection.Write(ModbusCommands.Status_digital_output_1.Register, value);
+                _connection.Write(ModbusCommands.Status_digital_output_1.Register, ModbusCommands.Status_digital_output_1.DataType, value);
                 _output1 = value;
             }
         }
@@ -257,7 +257,7 @@ namespace HBM.Weighing.API.Data
             get { return _output2; }
             set
             {
-                _connection.Write(ModbusCommands.Status_digital_output_2.Register, value);
+                _connection.Write(ModbusCommands.Status_digital_output_2.Register, ModbusCommands.Status_digital_output_2.DataType, value);
                 _output2 = value;
             }
         }
@@ -266,7 +266,7 @@ namespace HBM.Weighing.API.Data
             get { return _output3; }
             set
             {
-                _connection.Write(ModbusCommands.Status_digital_output_3.Register, value);
+                _connection.Write(ModbusCommands.Status_digital_output_3.Register, ModbusCommands.Status_digital_output_3.DataType, value);
                 _output3 = value;
             }
         }
@@ -275,7 +275,7 @@ namespace HBM.Weighing.API.Data
             get { return _output4; }
             set
             {
-                _connection.Write(ModbusCommands.Status_digital_output_4.Register, value);
+                _connection.Write(ModbusCommands.Status_digital_output_4.Register, ModbusCommands.Status_digital_output_4.DataType, value);
                 _output4 = value;
             }
         }
@@ -328,7 +328,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1Input; }
             set
             {
-                _connection.Write(ModbusCommands.ManualTareValue.Register, value);
+                _connection.Write(ModbusCommands.ManualTareValue.Register, ModbusCommands.ManualTareValue.DataType, value);
                 _limitSwitch1Input = value;
             }
         }
@@ -337,7 +337,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1Mode; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue1Input.Register, value);
+                _connection.Write(ModbusCommands.LimitValue1Input.Register, ModbusCommands.LimitValue1Input.DataType, value);
                 _limitSwitch1Mode = value;
             }
         }
@@ -346,7 +346,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue1Mode.Register, value);
+                _connection.Write(ModbusCommands.LimitValue1Mode.Register, ModbusCommands.LimitValue1Mode.DataType, value);
                 _limitSwitch1ActivationLevelLowerBandLimit = value;
             }
         }
@@ -355,7 +355,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue1HysteresisBandHeight.Register, value);
+                _connection.Write(ModbusCommands.LimitValue1HysteresisBandHeight.Register, ModbusCommands.LimitValue1HysteresisBandHeight.DataType, value);
                 _limitSwitch1HysteresisBandHeight = value;
             }
         }
@@ -364,7 +364,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.WriteArray(ModbusCommands.LimitValue2ActivationLevelLowerBandLimit.Register, value);
+                this._connection.Write(ModbusCommands.LimitValue2ActivationLevelLowerBandLimit.Register, ModbusCommands.LimitValue2ActivationLevelLowerBandLimit.DataType, value);
                 _limitSwitch1ActivationLevelLowerBandLimit = value;
             }
         }
@@ -373,7 +373,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch1HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(ModbusCommands.LimitValue1HysteresisBandHeight.Register, value);
+                _connection.Write(ModbusCommands.LimitValue1HysteresisBandHeight.Register, ModbusCommands.LimitValue1HysteresisBandHeight.DataType, value);
                 _limitSwitch1HysteresisBandHeight = value;
             }
         }
@@ -383,7 +383,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2Source; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue2Source.Register, value);
+                _connection.Write(ModbusCommands.LimitValue2Source.Register, ModbusCommands.LimitValue2Source.DataType, value);
                 _limitSwitch2Source = value;
             }
         }
@@ -392,7 +392,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2Mode; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue2Mode.Register, value);
+                _connection.Write(ModbusCommands.LimitValue2Mode.Register, ModbusCommands.LimitValue2Mode.DataType, value);
                 _limitSwitch2Mode = value;
             }
         }
@@ -401,7 +401,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue2ActivationLevelLowerBandLimit.Register, value);
+                _connection.Write(ModbusCommands.LimitValue2ActivationLevelLowerBandLimit.Register, ModbusCommands.LimitValue2ActivationLevelLowerBandLimit.DataType, value);
                 _limitSwitch2ActivationLevelLowerBandLimit = value;
             }
         }
@@ -410,7 +410,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2HysteresisBandHeight; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue2HysteresisBandHeight.Register, value);
+                _connection.Write(ModbusCommands.LimitValue2HysteresisBandHeight.Register, ModbusCommands.LimitValue2HysteresisBandHeight.DataType, value);
                 _limitSwitch2HysteresisBandHeight = value;
             }
         }
@@ -419,7 +419,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2ActivationLevelLowerBandLimit; }
             set
             {
-                this._connection.Write(ModbusCommands.LimitValue2ActivationLevelLowerBandLimit.Register, value);
+                this._connection.Write(ModbusCommands.LimitValue2ActivationLevelLowerBandLimit.Register, ModbusCommands.LimitValue2ActivationLevelLowerBandLimit.DataType, value);
                 _limitSwitch2ActivationLevelLowerBandLimit = value;
             }
         }
@@ -428,7 +428,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch2HysteresisBandHeight; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue2HysteresisBandHeight.Register, value);
+                _connection.Write(ModbusCommands.LimitValue2HysteresisBandHeight.Register, ModbusCommands.LimitValue2HysteresisBandHeight.DataType, value);
                 _limitSwitch2HysteresisBandHeight = value;
             }
         }
@@ -437,7 +437,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3Source; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue3Source.Register, value);
+                _connection.Write(ModbusCommands.LimitValue3Source.Register, ModbusCommands.LimitValue3Source.DataType, value);
                 _limitSwitch3Source = value;
             }
         }
@@ -446,7 +446,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3Mode; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue3Mode.Register, value);
+                _connection.Write(ModbusCommands.LimitValue3Mode.Register, ModbusCommands.LimitValue3Mode.DataType, value);
                 _limitSwitch3Mode = value;
             }
         }
@@ -455,7 +455,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(ModbusCommands.LimitValue3ActivationLevelLowerBandLimit.Register, value);
+                _connection.Write(ModbusCommands.LimitValue3ActivationLevelLowerBandLimit.Register, ModbusCommands.LimitValue3ActivationLevelLowerBandLimit.DataType, value);
                 _limitSwitch3ActivationLevelLowerBandLimit = value;
             }
         }
@@ -464,7 +464,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(ModbusCommands.LimitValue3HysteresisBandHeight.Register, value);
+                _connection.Write(ModbusCommands.LimitValue3HysteresisBandHeight.Register, ModbusCommands.LimitValue3HysteresisBandHeight.DataType, value);
                 _limitSwitch3HysteresisBandHeight = value;
             }
         }
@@ -473,7 +473,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue3ActivationLevelLowerBandLimit.Register, value);
+                _connection.Write(ModbusCommands.LimitValue3ActivationLevelLowerBandLimit.Register, ModbusCommands.LimitValue3ActivationLevelLowerBandLimit.DataType, value);
                 _limitSwitch3ActivationLevelLowerBandLimit = value;
             }
         }
@@ -482,7 +482,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch3HysteresisBandHeight; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue3HysteresisBandHeight.Register, value);
+                _connection.Write(ModbusCommands.LimitValue3HysteresisBandHeight.Register, ModbusCommands.LimitValue3HysteresisBandHeight.DataType, value);
                 _limitSwitch3HysteresisBandHeight = value;
             }
         }
@@ -491,7 +491,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4Source; }
             set
             {
-                _connection.WriteArray(ModbusCommands.LimitValue4Source.Register, value);
+                _connection.Write(ModbusCommands.LimitValue4Source.Register, ModbusCommands.LimitValue4Source.DataType, value);
                 _limitSwitch4Source = value;
             }
         }
@@ -500,7 +500,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4Mode; }
             set
             {
-                _connection.WriteArray(ModbusCommands.LimitValue4Mode.Register, value);
+                _connection.Write(ModbusCommands.LimitValue4Mode.Register, ModbusCommands.LimitValue4Mode.DataType, value);
                 _limitSwitch4Mode = value;
             }
         }
@@ -509,7 +509,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(ModbusCommands.LimitValue4ActivationLevelLowerBandLimit.Register, value);
+                _connection.Write(ModbusCommands.LimitValue4ActivationLevelLowerBandLimit.Register, ModbusCommands.LimitValue4ActivationLevelLowerBandLimit.DataType, value);
                 _limitSwitch4ActivationLevelLowerBandLimit = value;
             }
         }
@@ -518,7 +518,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4HysteresisBandHeight; }
             set
             {
-                _connection.WriteArray(ModbusCommands.LimitValue4HysteresisBandHeight.Register, value);
+                _connection.Write(ModbusCommands.LimitValue4HysteresisBandHeight.Register, ModbusCommands.LimitValue4HysteresisBandHeight.DataType, value);
                 _limitSwitch4HysteresisBandHeight = value;
             }
         }
@@ -527,7 +527,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.WriteArray(ModbusCommands.LimitValue3ActivationLevelLowerBandLimit.Register, value);
+                _connection.Write(ModbusCommands.LimitValue3ActivationLevelLowerBandLimit.Register, ModbusCommands.LimitValue3ActivationLevelLowerBandLimit.DataType, value);
                 _limitSwitch4ActivationLevelLowerBandLimit = value;
             }
         }
@@ -536,7 +536,7 @@ namespace HBM.Weighing.API.Data
             get { return _limitSwitch4HysteresisBandHeight; }
             set
             {
-                _connection.Write(ModbusCommands.LimitValue4HysteresisBandHeight.Register, value);
+                _connection.Write(ModbusCommands.LimitValue4HysteresisBandHeight.Register, ModbusCommands.LimitValue4HysteresisBandHeight.DataType, value);
                 _limitSwitch4HysteresisBandHeight = value;
             }
         }

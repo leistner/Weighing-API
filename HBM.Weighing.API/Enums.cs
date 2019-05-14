@@ -42,14 +42,23 @@ namespace HBM.Weighing.API
         Output = 1
     };
 
+    /// <summary>
+    /// Data types given by Modbus and Jetbus 
+    /// </summary>
     public enum DataType
     {
-        Int32 = 0,
+        NIL = 0,
         U08 = 1,
         U16 = 2,
         Int16 = 3,
-        S32 = 4,
-        U32 = 5
+        S16 = 4,
+        S32 = 5,
+        Int32 = 6,
+        U32 = 7,
+        ASC = 8,
+        ASCII = 9,
+        ASCII10 = 10,
+        ASCII15 = 11
     };
 
     public enum InputFunction

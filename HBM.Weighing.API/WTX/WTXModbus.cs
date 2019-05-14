@@ -190,7 +190,7 @@ namespace HBM.Weighing.API.WTX
             this._command = commandParam;
 
                 // (1) Sending of a command:        
-                this.Connection.Write(Convert.ToString(wordNumber), this._command);
+                this.Connection.Write(Convert.ToString(wordNumber), DataType.U08, this._command);
                 dataWord = this.Connection.Read(5);
 
                 handshakeBit = ((dataWord & 0x4000) >> 14);
@@ -205,7 +205,7 @@ namespace HBM.Weighing.API.WTX
                 // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
                 if (handshakeBit == 1)
                 {
-                    this.Connection.Write(Convert.ToString(wordNumber), 0x00);
+                    this.Connection.Write(Convert.ToString(wordNumber), DataType.U08, 0x00);
                 }
 
                 while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
@@ -250,7 +250,7 @@ namespace HBM.Weighing.API.WTX
             }
             while (handshakeBit == 0);
             
-            this.Connection.Write(Convert.ToString(index), 0x00);
+            this.Connection.Write(Convert.ToString(index), DataType.U08, 0x00);
 
             do
             {
@@ -480,9 +480,7 @@ namespace HBM.Weighing.API.WTX
 
             //todo: write reg 48, 0x7FFFFFFF
             
-            Connection.WriteArray("48", 0x7FFFFFFF);
-
-            Console.Write(".");
+            Connection.Write(ModbusCommands.LDWZeroSignal.Register, ModbusCommands.LDWZeroSignal.DataType, 0x7FFFFFFF);
 
             this.WriteSync(0, 0x80);
         }
@@ -492,13 +490,11 @@ namespace HBM.Weighing.API.WTX
         {
             //write reg 46, CalibrationWeight     
 
-            Connection.WriteArray("46", adjustmentWeight);
+            Connection.Write(ModbusCommands.CWTScaleCalibrationWeight.Register, ModbusCommands.CWTScaleCalibrationWeight.DataType, adjustmentWeight);
 
             //write reg 50, 0x7FFFFFFF
                   
-            Connection.WriteArray("50", 0x7FFFFFFF);
-
-            Console.Write(".");
+            Connection.Write(ModbusCommands.LWTNominalSignal.Register, ModbusCommands.LWTNominalSignal.DataType, 0x7FFFFFFF);
 
             this.WriteSync(0, 0x100);
 
@@ -537,12 +533,12 @@ namespace HBM.Weighing.API.WTX
             this.Stop();
 
             //write reg 48, DPreload;         
-            Connection.WriteArray("48", Convert.ToInt32(dPreload));
+            Connection.Write(ModbusCommands.LDWZeroSignal.Register, ModbusCommands.LDWZeroSignal.DataType, Convert.ToInt32(dPreload));
 
             this.WriteSync(0, 0x80);
 
             //write reg 50, DNominalLoad;          
-            Connection.WriteArray("50", Convert.ToInt32(dNominalLoad));
+            Connection.Write(ModbusCommands.LWTNominalSignal.Register, ModbusCommands.LWTNominalSignal.DataType, Convert.ToInt32(dNominalLoad));
 
             this.WriteSync(0, 0x100);
             

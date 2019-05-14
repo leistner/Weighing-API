@@ -476,7 +476,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 Assert.AreEqual(0x0, _wtxObj.getCommand);
 
         }
-
+        /*
         // Test for method : Adjusting zero
         [Test, TestCaseSource(typeof(WriteTestsModbus), "AdjustingZeroMethodTestCases")]
         public void AdjustingZeroMethodTestModbus(Behavior behavior)
@@ -494,7 +494,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 if (behavior == Behavior.TareMethodTestFail)
                 Assert.AreEqual(0x0, _wtxObj.getCommand);
         }
-
+        */
         // Test for method : Adjusting nominal
         [Test, TestCaseSource(typeof(WriteTestsModbus), "AdjustNominalMethodTestCases")]
         public void AdjustingNominalMethodTestModbus(Behavior behavior)
