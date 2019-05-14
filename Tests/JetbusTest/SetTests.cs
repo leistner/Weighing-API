@@ -1,5 +1,6 @@
 ﻿
 using HBM.Weighing.API;
+using HBM.Weighing.API.Data;
 using HBM.Weighing.API.WTX;
 using HBM.Weighing.API.WTX.Jet;
 
@@ -51,28 +52,28 @@ namespace JetbusTest
             _wtxObj.DataStandard.LimitSwitch3Source = 10010;
             _wtxObj.DataStandard.LimitSwitch4Source = 10100;
 
-            _wtxObj.DataFillerExtended.ActivationTimeAfterFineFlow = 1;
-            _wtxObj.DataFillerExtended.CoarseFlowMonitoring = 10;
-            _wtxObj.DataFillerExtended.CoarseFlowMonitoringTime = 101;
-            _wtxObj.DataFillerExtended.CoarseLockoutTime = 110;
-            _wtxObj.DataFillerExtended.DelayTimeAfterFineFlow = 111;
-            _wtxObj.DataFillerExtended.EmptyingMode = 1000;
-            _wtxObj.DataFillerExtended.EmptyWeight = 1001;
-            _wtxObj.DataFillerExtended.FineFlowMonitoring = 1011;
-            _wtxObj.DataFillerExtended.FineFlowMonitoringTime = 1100;
-            _wtxObj.DataFillerExtended.FineLockoutTime = 1111;
+            ((IDataFillerExtended)_wtxObj.DataFiller).ActivationTimeAfterFineFlow = 1;
+            ((IDataFillerExtended)_wtxObj.DataFiller).CoarseFlowMonitoring = 10;
+            ((IDataFillerExtended)_wtxObj.DataFiller).CoarseFlowMonitoringTime = 101;
+            ((IDataFillerExtended)_wtxObj.DataFiller).CoarseLockoutTime = 110;
+            ((IDataFillerExtended)_wtxObj.DataFiller).DelayTimeAfterFineFlow = 111;
+            ((IDataFillerExtended)_wtxObj.DataFiller).EmptyingMode = 1000;
+            ((IDataFillerExtended)_wtxObj.DataFiller).EmptyWeight = 1001;
+            ((IDataFillerExtended)_wtxObj.DataFiller).FineFlowMonitoring = 1011;
+            ((IDataFillerExtended)_wtxObj.DataFiller).FineFlowMonitoringTime = 1100;
+            ((IDataFillerExtended)_wtxObj.DataFiller).FineLockoutTime = 1111;
 
-            _wtxObj.DataFillerExtended.LowerToleranceLimit = 11000;
-            _wtxObj.DataFillerExtended.MaximumDosingTime = 11001;
-            _wtxObj.DataFillerExtended.MinimumFineFlow = 11001;
-            _wtxObj.DataFillerExtended.MinimumStartWeight = 11010;
-            _wtxObj.DataFillerExtended.OptimizationOfCutOffPoints = 11100;
-            _wtxObj.DataFillerExtended.ResidualFlowTime = 11101;
-            _wtxObj.DataFillerExtended.SystematicDifference = 11110;
-            _wtxObj.DataFillerExtended.TareDelay = 11111;
-            _wtxObj.DataFillerExtended.TareMode = 100000;
-            _wtxObj.DataFillerExtended.UpperToleranceLimit = 100001;
-            _wtxObj.DataFillerExtended.ValveControl = 100010;           
+            ((IDataFillerExtended)_wtxObj.DataFiller).LowerToleranceLimit = 11000;
+            ((IDataFillerExtended)_wtxObj.DataFiller).MaximumDosingTime = 11001;
+            ((IDataFillerExtended)_wtxObj.DataFiller).MinimumFineFlow = 11001;
+            ((IDataFillerExtended)_wtxObj.DataFiller).MinimumStartWeight = 11010;
+            ((IDataFillerExtended)_wtxObj.DataFiller).OptimizationOfCutOffPoints = 11100;
+            ((IDataFillerExtended)_wtxObj.DataFiller).ResidualFlowTime = 11101;
+            ((IDataFillerExtended)_wtxObj.DataFiller).SystematicDifference = 11110;
+            ((IDataFillerExtended)_wtxObj.DataFiller).TareDelay = 11111;
+            ((IDataFillerExtended)_wtxObj.DataFiller).TareMode = 100000;
+            ((IDataFillerExtended)_wtxObj.DataFiller).UpperToleranceLimit = 100001;
+            ((IDataFillerExtended)_wtxObj.DataFiller).ValveControl = 100010;           
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("VCT") && _jetTestConnection.getDataBuffer.ContainsValue(100010))           
                 return true;

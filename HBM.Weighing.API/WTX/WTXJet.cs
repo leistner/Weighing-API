@@ -43,8 +43,6 @@ namespace HBM.Weighing.API.WTX
     /// </summary>
     public class WTXJet : BaseWTDevice
     {
-        private ApplicationMode _applicationMode;
-
         #region Constants
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)   
 
@@ -73,19 +71,26 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Constructors
-        public WTXJet(INetConnection Connection, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(Connection)
+        public WTXJet(INetConnection connection, EventHandler<ProcessDataReceivedEventArgs> onProcessData) : base(connection)
         {
-            Connection = Connection;
+            Connection = connection;
             
             ProcessData = new ProcessDataJet(Connection);
             DataStandard = new DataStandardJet(Connection);
-            DataFillerExtended = new DataFillerExtendedJet(Connection);
-
-            this.ProcessDataReceived += OnProcessData;
+            DataFiller = new DataFillerExtendedJet(Connection);
+            DataFillerExtended new DataFillerExtendedJet(Connection);
+            
+            this.ProcessDataReceived += onProcessData;
 
             Connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.              
         }
+
         #endregion
+
+        /// <summary>
+        /// Gets or sets the extended filler data 
+        /// </summary>
+        public IDataFillerExtended DataFillerExtended { get; protected set; }
 
         #region Connection
         public override void Disconnect(Action<bool> DisconnectCompleted)

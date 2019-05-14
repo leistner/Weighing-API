@@ -31,6 +31,7 @@
 namespace HBM.Weighing.API
 {
     using System;
+    using HBM.Weighing.API.Data;
 
     /// <summary>
     /// Basic device class, holds the most important properties, available in all weighing devices.
@@ -72,12 +73,7 @@ namespace HBM.Weighing.API
         /// Gets or sets the basic filler data
         /// </summary>
         public IDataFiller DataFiller { get; protected set; }
-
-        /// <summary>
-        /// Gets or sets the extended filler data 
-        /// </summary>
-        public IDataFillerExtended DataFillerExtended { get; protected set; }
-
+        
         /// <summary>
         /// Gets or sets the current application of the device
         /// </summary>

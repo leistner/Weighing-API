@@ -56,9 +56,7 @@ namespace HBM.Weighing.API.WTX
 
         private int _timerInterval;
         private int _previousNetValue;
-
-        private ApplicationMode _applicationMode;
-
+        
         private int _manualTareValue;
         private int _calibrationWeight;
         private int _zeroLoad;
