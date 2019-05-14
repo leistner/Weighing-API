@@ -28,6 +28,8 @@
 //
 // </copyright>
 
+using System;
+
 namespace HBM.Weighing.API
 {
     /// <summary>
@@ -86,7 +88,7 @@ namespace HBM.Weighing.API
         #endregion
 
         #region Update method
-        void UpdateProcessData(object sender, DataEventArgs e);
+        void UpdateProcessData(object sender, EventArgs e);
         #endregion
     }
 }

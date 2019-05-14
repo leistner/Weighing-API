@@ -69,7 +69,7 @@ namespace HBM.Weighing.API.WTX.Jet
         #region Events
         public event EventHandler BusActivityDetection;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
-        public event EventHandler<DataEventArgs> UpdateDataClasses;
+        public event EventHandler<EventArgs> UpdateDataClasses;
         #endregion
 
         private bool _connected;
@@ -226,7 +226,7 @@ namespace HBM.Weighing.API.WTX.Jet
             IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));  // For getting data already in the FetchAll() 
 
             // Update data in data classes : 
-            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+            this.UpdateDataClasses?.Invoke(this, new EventArgs());
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)
@@ -250,7 +250,32 @@ namespace HBM.Weighing.API.WTX.Jet
             }            
             
         }
-        
+
+        public int GetDataFromDictionary(JetBusCommand frame)
+        {
+            string _register = "0000/00";
+            ushort _bitMask = 0;
+            ushort _mask = 0;
+
+            switch (frame.BitLength)
+            {
+                case 0: _bitMask = 0xFFFF; break;
+                case 1: _bitMask = 1; break; // = 001
+                case 2: _bitMask = 3; break; // = 011
+                case 3: _bitMask = 7; break; // = 111
+
+                default: _bitMask = 1; break;
+            }
+
+            _mask = (ushort)(_bitMask << frame.BitIndex);
+
+            _register = (frame.PathIndex);
+            _dataIntegerBuffer[frame.PathIndex] = (_dataIntegerBuffer[_register] & _mask) >> frame.BitIndex;
+
+            return _dataIntegerBuffer[frame.PathIndex];
+        }
+
+
         #endregion
 
         #region read-functions
@@ -307,7 +332,7 @@ namespace HBM.Weighing.API.WTX.Jet
                 {
                     IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
                     // Update data in data classes : 
-                    this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+                    this.UpdateDataClasses?.Invoke(this, new EventArgs());
                 }
                 BusActivityDetection?.Invoke(this, new LogEvent(data.ToString()));
             }

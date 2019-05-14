@@ -110,7 +110,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
         public event EventHandler BusActivityDetection;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
-        public event EventHandler<DataEventArgs> UpdateDataClasses;
+        public event EventHandler<EventArgs> UpdateDataClasses;
 
         private int _mTimeoutMs;
 

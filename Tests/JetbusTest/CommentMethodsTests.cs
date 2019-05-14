@@ -352,7 +352,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
             
-            _wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(_jetTestConnection.AllData));
+            _wtxObj.ProcessData.UpdateProcessData(this, new EventArgs());
 
             value = _wtxObj.ProcessData.Unit;
 

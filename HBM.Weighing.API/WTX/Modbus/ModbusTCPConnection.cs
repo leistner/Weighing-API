@@ -79,14 +79,12 @@ namespace HBM.Weighing.API.WTX.Modbus
         private Dictionary<ModbusCommand, int> _dataCommandsBuffer = new Dictionary<ModbusCommand, int>();
 
         private int _dataCommand;
-
-        private ModbusCommands _commands;
-
+        
         #endregion
 
         #region Events
         public event EventHandler BusActivityDetection;
-        public event EventHandler<DataEventArgs> UpdateDataClasses;
+        public event EventHandler<EventArgs> UpdateDataClasses;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
         #endregion
 
@@ -97,9 +95,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             _connected = false;
             _port = MODBUS_TCP_DEFAULT_PORT;
             ipAddress = IpAddress; //IP-address to establish a successful connection to the device
-
-            _commands = new ModbusCommands();
-
+            
             this.CreateDictionary();
 
             _dataToWrite = new ushort[2] { 0, 0 };
@@ -216,7 +212,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
                 this.UpdateDictionary();
                 // Updata data in data classes : 
-                this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+                this.UpdateDataClasses?.Invoke(this, new EventArgs());
 
                 return _data[Convert.ToInt16(index)];
             }
@@ -236,7 +232,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             this.UpdateDictionary();
 
             // Update data in data classes : 
-            this.UpdateDataClasses?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+            this.UpdateDataClasses?.Invoke(this, new EventArgs());
 
             return _data;
         }
@@ -357,11 +353,11 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             _dataIntegerBuffer.Clear();
 
-            Type pType = _commands.GetType();
+            Type pType = typeof(ModbusCommands); 
             PropertyInfo[] pInfos = pType.GetProperties();
             foreach (PropertyInfo pInfo in pInfos)
             {
-                object propertyValue = pInfo.GetValue(_commands, null);
+                object propertyValue = pInfo.GetValue(typeof(ModbusCommands), null);
                 if (propertyValue != null)
                 {
                     Type propertyValueType = propertyValue.GetType();
@@ -376,57 +372,57 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void UpdateDictionary()
         {
-            this.GetDataFromDictionary(_commands.Net);
-            this.GetDataFromDictionary(_commands.Gross);
+            this.GetDataFromDictionary(ModbusCommands.Net);
+            this.GetDataFromDictionary(ModbusCommands.Gross);
 
-            this.GetDataFromDictionary(_commands.WeightMoving);
-            this.GetDataFromDictionary(_commands.ScaleSealIsOpen);
-            this.GetDataFromDictionary(_commands.ManualTare);
-            this.GetDataFromDictionary(_commands.Tare_mode);
-            this.GetDataFromDictionary(_commands.ScaleRange);
-            this.GetDataFromDictionary(_commands.ZeroRequired);
-            this.GetDataFromDictionary(_commands.WeightinCenterOfZero);
-            this.GetDataFromDictionary(_commands.WeightinZeroRange);
+            this.GetDataFromDictionary(ModbusCommands.WeightMoving);
+            this.GetDataFromDictionary(ModbusCommands.ScaleSealIsOpen);
+            this.GetDataFromDictionary(ModbusCommands.ManualTare);
+            this.GetDataFromDictionary(ModbusCommands.Tare_mode);
+            this.GetDataFromDictionary(ModbusCommands.ScaleRange);
+            this.GetDataFromDictionary(ModbusCommands.ZeroRequired);
+            this.GetDataFromDictionary(ModbusCommands.WeightinCenterOfZero);
+            this.GetDataFromDictionary(ModbusCommands.WeightinZeroRange);
 
-            this.GetDataFromDictionary(_commands.Application_mode);     // application mode 
-            this.GetDataFromDictionary(_commands.Decimals);             // decimals
-            this.GetDataFromDictionary(_commands.Unit);                 // unit
-            this.GetDataFromDictionary(_commands.Handshake);            // handshake
+            this.GetDataFromDictionary(ModbusCommands.Application_mode);     // application mode 
+            this.GetDataFromDictionary(ModbusCommands.Decimals);             // decimals
+            this.GetDataFromDictionary(ModbusCommands.Unit);                 // unit
+            this.GetDataFromDictionary(ModbusCommands.Handshake);            // handshake
 
-            this.GetDataFromDictionary(_commands.Status_digital_input_1);
-            this.GetDataFromDictionary(_commands.Status_digital_output_1);
-            this.GetDataFromDictionary(_commands.Limit_value);
+            this.GetDataFromDictionary(ModbusCommands.Status_digital_input_1);
+            this.GetDataFromDictionary(ModbusCommands.Status_digital_output_1);
+            this.GetDataFromDictionary(ModbusCommands.Limit_value);
 
-            this.GetDataFromDictionary(_commands.Fine_flow_cut_off_point);
-            this.GetDataFromDictionary(_commands.Coarse_flow_cut_off_point);
-            this.GetDataFromDictionary(_commands.Coarse_flow_monitoring);   
-            this.GetDataFromDictionary(_commands.Fine_flow_monitoring);   
+            this.GetDataFromDictionary(ModbusCommands.Fine_flow_cut_off_point);
+            this.GetDataFromDictionary(ModbusCommands.Coarse_flow_cut_off_point);
+            this.GetDataFromDictionary(ModbusCommands.Coarse_flow_monitoring);   
+            this.GetDataFromDictionary(ModbusCommands.Fine_flow_monitoring);   
 
-            this.GetDataFromDictionary(_commands.Ready);
-            this.GetDataFromDictionary(_commands.ReDosing);
+            this.GetDataFromDictionary(ModbusCommands.Ready);
+            this.GetDataFromDictionary(ModbusCommands.ReDosing);
             
-            //this.GetDataFromDictionary(_commands.Emptying_mode);
-            this.GetDataFromDictionary(_commands.Maximal_dosing_time);
-            this.GetDataFromDictionary(_commands.Upper_tolerance_limit);
-            this.GetDataFromDictionary(_commands.Lower_tolerance_limit);
-            this.GetDataFromDictionary(_commands.StatusInput1);
-            this.GetDataFromDictionary(_commands.LegalForTradeOperation);
+            //this.GetDataFromDictionary(ModbusCommands.Emptying_mode);
+            this.GetDataFromDictionary(ModbusCommands.Maximal_dosing_time);
+            this.GetDataFromDictionary(ModbusCommands.Upper_tolerance_limit);
+            this.GetDataFromDictionary(ModbusCommands.Lower_tolerance_limit);
+            this.GetDataFromDictionary(ModbusCommands.StatusInput1);
+            this.GetDataFromDictionary(ModbusCommands.LegalForTradeOperation);
 
-            this.GetDataFromDictionary(_commands.WeightMemDayStandard);
-            this.GetDataFromDictionary(_commands.WeightMemMonthStandard);
-            this.GetDataFromDictionary(_commands.WeightMemYearStandard);
-            this.GetDataFromDictionary(_commands.WeightMemSeqNumberStandard);
-            this.GetDataFromDictionary(_commands.WeightMemGrossStandard);
-            this.GetDataFromDictionary(_commands.WeightMemNetStandard);
+            this.GetDataFromDictionary(ModbusCommands.WeightMemDayStandard);
+            this.GetDataFromDictionary(ModbusCommands.WeightMemMonthStandard);
+            this.GetDataFromDictionary(ModbusCommands.WeightMemYearStandard);
+            this.GetDataFromDictionary(ModbusCommands.WeightMemSeqNumberStandard);
+            this.GetDataFromDictionary(ModbusCommands.WeightMemGrossStandard);
+            this.GetDataFromDictionary(ModbusCommands.WeightMemNetStandard);
 
-            this.GetDataFromDictionary(_commands.Emptying);
-            this.GetDataFromDictionary(_commands.FlowError);
-            this.GetDataFromDictionary(_commands.Alarm);
-            this.GetDataFromDictionary(_commands.AdcOverUnderload);
+            this.GetDataFromDictionary(ModbusCommands.Emptying);
+            this.GetDataFromDictionary(ModbusCommands.FlowError);
+            this.GetDataFromDictionary(ModbusCommands.Alarm);
+            this.GetDataFromDictionary(ModbusCommands.AdcOverUnderload);
 
-            this.GetDataFromDictionary(_commands.StatusInput1);
-            this.GetDataFromDictionary(_commands.GeneralScaleError);
-            this.GetDataFromDictionary(_commands.TotalWeight);
+            this.GetDataFromDictionary(ModbusCommands.StatusInput1);
+            this.GetDataFromDictionary(ModbusCommands.GeneralScaleError);
+            this.GetDataFromDictionary(ModbusCommands.TotalWeight);
 
             // Undefined IDs:
             /*
@@ -442,14 +438,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             _dataIntegerBuffer[IDCommands.] = _fillingProcessStatus = _data[9];  // Undefined
             _dataIntegerBuffer[IDCommands.] = _numberDosingResults = _data[11];        
             */
-        }
-
-        public ModbusCommands Commands
-        {
-            get
-            {
-                return _commands;
-            }
         }
 
         public Dictionary<string, int> AllData

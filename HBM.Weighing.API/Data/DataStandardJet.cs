@@ -123,14 +123,14 @@ namespace HBM.Weighing.API.Data
         private int _zeroLoad;
         private int _nominalLoad;
 
-        private INetConnection _connection;
+        private JetBusConnection _connection;
         #endregion
 
         #region constructor
 
         public DataStandardJet(INetConnection Connection)
         {
-            _connection = Connection;
+            _connection = (JetBusConnection) Connection;
 
             _connection.UpdateDataClasses += UpdateStandardData;
 
@@ -206,46 +206,46 @@ namespace HBM.Weighing.API.Data
 
         #region Update methods for standard mode
 
-        public void UpdateStandardData(object sender, DataEventArgs e)
+        public void UpdateStandardData(object sender, EventArgs e)
         {
-            _input1 = e.DataDictionary[JetBusCommands.Status_digital_input_1.PathIndex];
-            _input2 = e.DataDictionary[JetBusCommands.Status_digital_input_2.PathIndex];
-            _input3 = e.DataDictionary[JetBusCommands.Status_digital_input_3.PathIndex];
-            _input4 = e.DataDictionary[JetBusCommands.Status_digital_input_4.PathIndex];
+            _input1 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_1);
+            _input2 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_2);
+            _input3 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_3);
+            _input4 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_4);
 
-            _output1 = e.DataDictionary[JetBusCommands.Status_digital_output_1.PathIndex];
-            _output2 = e.DataDictionary[JetBusCommands.Status_digital_output_2.PathIndex];
-            _output3 = e.DataDictionary[JetBusCommands.Status_digital_output_3.PathIndex];
-            _output4 = e.DataDictionary[JetBusCommands.Status_digital_output_4.PathIndex];
+            _output1 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_1);
+            _output2 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_2);
+            _output3 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_3);
+            _output4 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_4);
 
-            _limitStatus1 = (e.DataDictionary[JetBusCommands.Limit_value.PathIndex] & 0x1);
-            _limitStatus2 = (e.DataDictionary[JetBusCommands.Limit_value.PathIndex] & 0x2) >> 1;
-            _limitStatus3 = (e.DataDictionary[JetBusCommands.Limit_value.PathIndex] & 0x4) >> 2;
-            _limitStatus4 = (e.DataDictionary[JetBusCommands.Limit_value.PathIndex] & 0x8) >> 3;
+            _limitStatus1 = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_status1);
+            _limitStatus2 = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_status2);
+            _limitStatus3 = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_status3);
+            _limitStatus4 = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_status4);
 
-            _weight_storage = Convert.ToInt16(e.DataDictionary[(JetBusCommands.Storage_weight_mode).PathIndex]);
+            _weight_storage = _connection.GetDataFromDictionary(JetBusCommands.Storage_weight_mode);
 
-            if (e.DataDictionary[JetBusCommands.Application_mode.PathIndex] == 0 || e.DataDictionary[JetBusCommands.Application_mode.PathIndex] == 1)  // If application mode is in standard mode
+            if (_connection.GetDataFromDictionary(JetBusCommands.Application_mode) == 0 || _connection.GetDataFromDictionary(JetBusCommands.Application_mode) == 1)  // If application mode is in standard mode
             {
-                _limitSwitch1Source = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv11.PathIndex];
-                _limitSwitch1Mode = e.DataDictionary[JetBusCommands.Signal_source_liv12.PathIndex];
-                _limitSwitch1ActivationLevelLowerBandLimit = e.DataDictionary[JetBusCommands.Switch_on_level_liv13.PathIndex];
-                _limitSwitch1HysteresisBandHeight = e.DataDictionary[JetBusCommands.Switch_off_level_liv14.PathIndex];
+                _limitSwitch1Source = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv11);
+                _limitSwitch1Mode   = _connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv12);
+                _limitSwitch1ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv13);
+                _limitSwitch1HysteresisBandHeight          = _connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv14);
 
-                _limitSwitch2Source = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv21.PathIndex];
-                _limitSwitch2Mode = e.DataDictionary[JetBusCommands.Signal_source_liv22.PathIndex];
-                _limitSwitch2ActivationLevelLowerBandLimit = e.DataDictionary[JetBusCommands.Switch_on_level_liv23.PathIndex];
-                _limitSwitch2HysteresisBandHeight = e.DataDictionary[JetBusCommands.Switch_off_level_liv24.PathIndex];
+                _limitSwitch2Source = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv21);
+                _limitSwitch2Mode   = _connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv22);
+                _limitSwitch2ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv23);
+                _limitSwitch2HysteresisBandHeight          = _connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv24);
 
-                _limitSwitch3Source = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv31.PathIndex];
-                _limitSwitch3Mode = e.DataDictionary[JetBusCommands.Signal_source_liv32.PathIndex];
-                _limitSwitch3ActivationLevelLowerBandLimit = e.DataDictionary[JetBusCommands.Switch_on_level_liv33.PathIndex];
-                _limitSwitch3HysteresisBandHeight = e.DataDictionary[JetBusCommands.Switch_off_level_liv34.PathIndex];
+                _limitSwitch3Source = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv31);
+                _limitSwitch3Mode   = _connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv32);
+                _limitSwitch3ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv33);
+                _limitSwitch3HysteresisBandHeight          = _connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv34);
 
-                _limitSwitch4Source = e.DataDictionary[JetBusCommands.Limit_value_monitoring_liv41.PathIndex];
-                _limitSwitch4Mode = e.DataDictionary[JetBusCommands.Signal_source_liv42.PathIndex];
-                _limitSwitch4ActivationLevelLowerBandLimit = e.DataDictionary[JetBusCommands.Switch_on_level_liv43.PathIndex];
-                _limitSwitch4HysteresisBandHeight = e.DataDictionary[JetBusCommands.Switch_off_level_liv44.PathIndex];
+                _limitSwitch4Source = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv41);
+                _limitSwitch4Mode   = _connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv42);
+                _limitSwitch4ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv43);
+                _limitSwitch4HysteresisBandHeight          = _connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv44);
             }
         }
         #endregion

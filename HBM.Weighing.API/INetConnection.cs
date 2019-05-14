@@ -48,18 +48,14 @@ namespace HBM.Weighing.API
 
         event EventHandler<DataEventArgs> IncomingDataReceived;
 
-        event EventHandler<DataEventArgs> UpdateDataClasses;
+        event EventHandler<EventArgs> UpdateDataClasses;
 
         #endregion
 
         #region Attributes for data, commands, ip address, connection, connection type
 
         Dictionary<string,int>AllData { get; }
-        /*
-        Dictionary<ModbusCommand, int> ModbusData { get; }  // dictionary list containing pairs of paths-values via Modbus
 
-        Dictionary<JetBusCommand, int> JetBusData { get; }  // dictionary list containing pairs of paths-values via Jetbus
-        */
         string IpAddress    { get; set; }                   // ip address establishing a connection to the device
 
         bool IsConnected    { get; }                        // boolean stating the connection status
