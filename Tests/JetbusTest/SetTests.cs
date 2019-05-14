@@ -37,7 +37,7 @@ namespace JetbusTest
         {
         }
 
-
+        /*
         [Test, TestCaseSource(typeof(SetTests), "setTests")]
         public bool SetActivationTimeTest(Behavior behavior)
         {
@@ -93,5 +93,6 @@ namespace JetbusTest
         {
             throw new NotImplementedException();
         }
+        */
     }
 }

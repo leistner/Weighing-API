@@ -36,7 +36,7 @@ namespace HBM.Weighing.API.WTX.Jet
 {
     public class JetBusCommand
     {
-        public JetBusCommand(int DataTypeParam, string PathIndexParam, int BitIndexParam, int BitLengthParam)
+        public JetBusCommand(DataType DataTypeParam, string PathIndexParam, int BitIndexParam, int BitLengthParam)
         {
             this.DataType  = DataTypeParam;
             this.PathIndex = PathIndexParam;
@@ -44,7 +44,7 @@ namespace HBM.Weighing.API.WTX.Jet
             this.BitLength = BitLengthParam;
         }
 
-        public int DataType { get; private set; }
+        public DataType DataType { get; private set; }
 
         public string PathIndex { get; private set; }
 

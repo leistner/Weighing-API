@@ -38,12 +38,12 @@ namespace HBM.Weighing.API.Data
     /// </summary>
     public class ProcessDataJet : IProcessData
     {
-        private JetBusConnection _connection;
+        private INetConnection _connection;
 
         #region Constructor
         public ProcessDataJet(INetConnection Connection)
         {
-            _connection = (JetBusConnection) Connection;
+            _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateProcessData;
 

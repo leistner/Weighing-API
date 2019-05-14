@@ -243,7 +243,7 @@ namespace JetbusTest
             Assert.AreEqual(dValue.ToString("0.0000"), strValue);
         }
         */
-
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_3D_TestCase")]
         public void test_NetGrossValueStringComment_3Decimals(Behavior behavior)
         {
@@ -313,7 +313,7 @@ namespace JetbusTest
 
             Assert.AreEqual(dValue.ToString("0.000000"), _wtxObj.CurrentWeight);
         }
-
+        */
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
         public void test_NetGrossValueStringComment_Default(Behavior behavior)
         {
@@ -342,7 +342,7 @@ namespace JetbusTest
             Assert.AreEqual(dValue.ToString(), _wtxObj.CurrentWeight);
         }
 
-        
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "T_UnitValueTestCases")]
         public void testUnit_t(Behavior behavior)
         {
@@ -358,7 +358,7 @@ namespace JetbusTest
 
             Assert.AreEqual("t", _wtxObj.Unit);
         }
-        
+        */
 
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {

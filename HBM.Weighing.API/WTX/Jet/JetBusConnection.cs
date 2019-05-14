@@ -201,11 +201,11 @@ namespace HBM.Weighing.API.WTX.Jet
             //
             // Wake up the waiting thread where call the construktor to connect the session
             //
+            dataArrived = true;
             this._connected = true;
             _mSuccessEvent.Set();
             
             BusActivityDetection?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + _dataJTokenBuffer.Count));
-
         }
 
 
@@ -227,6 +227,8 @@ namespace HBM.Weighing.API.WTX.Jet
 
             // Update data in data classes : 
             this.UpdateDataClasses?.Invoke(this, new EventArgs());
+
+            BusActivityDetection?.Invoke(this, new LogEvent("Fetch-All success: " + dataArrived + " - buffersize is " + _dataJTokenBuffer.Count));
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)
@@ -251,13 +253,15 @@ namespace HBM.Weighing.API.WTX.Jet
             
         }
 
-        public int GetDataFromDictionary(JetBusCommand frame)
+        public int GetDataFromDictionary(object frame)
         {
             string _register = "0000/00";
             ushort _bitMask = 0;
             ushort _mask = 0;
 
-            switch (frame.BitLength)
+            JetBusCommand ConvertedFrame = frame as JetBusCommand;
+
+            switch (ConvertedFrame.BitLength)
             {
                 case 0: _bitMask = 0xFFFF; break;
                 case 1: _bitMask = 1; break; // = 001
@@ -267,12 +271,12 @@ namespace HBM.Weighing.API.WTX.Jet
                 default: _bitMask = 1; break;
             }
 
-            _mask = (ushort)(_bitMask << frame.BitIndex);
+            _mask = (ushort)(_bitMask << ConvertedFrame.BitIndex);
 
-            _register = (frame.PathIndex);
-            _dataIntegerBuffer[frame.PathIndex] = (_dataIntegerBuffer[_register] & _mask) >> frame.BitIndex;
+            _register = (ConvertedFrame.PathIndex);
+            _dataIntegerBuffer[ConvertedFrame.PathIndex] = (_dataIntegerBuffer[_register] & _mask) >> ConvertedFrame.BitIndex;
 
-            return _dataIntegerBuffer[frame.PathIndex];
+            return _dataIntegerBuffer[ConvertedFrame.PathIndex];
         }
 
 
@@ -388,9 +392,11 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
 
-        public void Write(string index, int value) {
+        public void Write(string path, DataType dataType, int value)
+        {
             JValue jValue = new JValue(value);
-            SetData(index, jValue);
+
+            SetData(path, jValue);
         }
 
         public int ReadInt(object index) {
@@ -612,12 +618,6 @@ namespace HBM.Weighing.API.WTX.Jet
 
             // uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
-        }
-
-        public void WriteArray(string index, int data)
-        {
-            JValue value = new JValue(data);
-            SetData(index, value);
         }
 
         public Dictionary<string, JToken> getDataBuffer

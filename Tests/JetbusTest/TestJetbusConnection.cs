@@ -526,5 +526,14 @@ namespace HBM.Weighing.API.WTX.Jet
             throw new NotImplementedException();
         }
 
+        public void Write(string register, DataType dataType, int value)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int GetDataFromDictionary(object command)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
