@@ -271,13 +271,17 @@ namespace HBM.Weighing.API.WTX.Modbus
         [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_4D_TestCase_Modbus")]
         [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_5D_TestCase_Modbus")]
         [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_6D_TestCase_Modbus")]
-        public string testModbus_NetGrossValueStringComment(Behavior behavior)
+        public async Task<string> testModbus_NetGrossValueStringComment(Behavior behavior)
         {
-            INetConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             WTXModbus _wtxObj = new WTXModbus(testConnection, 200, update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            int i = ((TestModbusTCPConnection)_wtxObj.Connection).Read(0);
+            await Task.Run(async () =>
+            {
+                ushort[] result = await testConnection.ReadAsync();
+                _wtxObj.OnData(result);
+            });
 
             string strValue = _wtxObj.PrintableWeight.Net;
 
@@ -286,7 +290,10 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "T_UnitValueTestCases")]
-        public async Task<int> testUnit_t(Behavior behavior)
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "KG_UnitValueTestCases")]
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "G_UnitValueTestCases")]
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "LB_UnitValueTestCases")]
+        public async Task<int> testModbus_Unit(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
 
@@ -304,58 +311,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             return _wtxObj.ProcessData.Unit;
         }
 
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "KG_UnitValueTestCases")]
-        public async Task<int> testUnit_kg(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.ProcessData.Unit;
-        }
-
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "G_UnitValueTestCases")]
-        public async Task<int> testUnit_g(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.ProcessData.Unit;
-        }
-
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "LB_UnitValueTestCases")]
-        public async Task<int> testUnit_lb(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.ProcessData.Unit;
-        }
-        
         /*
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "ScaleRangeStringComment_Range1_TestCase_Modbus")]
         //public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
