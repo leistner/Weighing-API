@@ -40,10 +40,12 @@ namespace HBM.Weighing.API.Data
     public class ProcessDataModbus : IProcessData
     {
         private INetConnection _connection;
-
         #region Constructor
         public ProcessDataModbus(INetConnection Connection)
         {
+            PrintableWeight = new PrintableWeightType();
+            Weight = new WeightType();
+
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateData;

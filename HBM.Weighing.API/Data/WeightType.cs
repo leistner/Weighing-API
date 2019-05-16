@@ -36,6 +36,14 @@ namespace HBM.Weighing.API.Data
     public class WeightType
     {
         /// <summary>
+        /// Constructor of WeightType
+        /// </summary>
+        public WeightType()
+        {
+
+        }
+
+        /// <summary>
         /// Gets the gross value of weight
         /// </summary>
         public double Gross { get; private set; }

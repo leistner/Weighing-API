@@ -38,6 +38,13 @@ namespace HBM.Weighing.API.Data
     public class PrintableWeightType
     {
         /// <summary>
+        /// Constructor of class PrintableWeightType
+        /// </summary>
+        public PrintableWeightType()
+        {
+        }
+
+        /// <summary>
         /// Gets the gross value of weight in string without a unit
         /// </summary>
         public string Gross { get; private set; }
