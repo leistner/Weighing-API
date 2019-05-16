@@ -192,7 +192,6 @@ namespace GUIsimple
                 }
                 else
                     picNE107.Image = Properties.Resources.NE107_DiagnosisActive;
-
             }));
         }
         
@@ -332,7 +331,7 @@ namespace GUIsimple
         #endregion
         private void GUIsimple_Load(object sender, EventArgs e)
         {
-
+            
         }
     }
 }

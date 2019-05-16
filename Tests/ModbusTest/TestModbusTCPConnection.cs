@@ -456,6 +456,10 @@ namespace HBM.Weighing.API.WTX.Modbus
                     _dataWTX[5] = 0x0000;
                     break;
 
+                case Behavior.NetGrossValueStringComment_0D_Fail:
+                    _dataWTX[5] = 0x60;
+                    break;
+
                 case Behavior.NetGrossValueStringComment_1D_Success:
                     _dataWTX[5] = 0x10;
                     break;
@@ -466,6 +470,10 @@ namespace HBM.Weighing.API.WTX.Modbus
 
                 case Behavior.NetGrossValueStringComment_3D_Success:
                     _dataWTX[5] = 0x30;
+                    break;
+
+                case Behavior.NetGrossValueStringComment_3D_Fail:
+                    _dataWTX[5] = 0x00;
                     break;
 
                 case Behavior.NetGrossValueStringComment_4D_Success:

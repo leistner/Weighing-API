@@ -40,7 +40,9 @@ namespace HBM.Weighing.API.Data
         /// </summary>
         public WeightType()
         {
-
+            Net   = 0.0;
+            Gross = 0.0;
+            Tare  = 0.0;
         }
 
         /// <summary>
