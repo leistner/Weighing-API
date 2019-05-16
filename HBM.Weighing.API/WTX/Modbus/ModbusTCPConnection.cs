@@ -293,14 +293,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
-        public Dictionary<JetBusCommand, int> JetBusData
-        {
-            get
-            {
-                return new Dictionary<JetBusCommand, int>();
-            }
-        }
-
         #endregion
 
     }
