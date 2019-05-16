@@ -396,30 +396,38 @@ namespace HBM.Weighing.API.WTX.Modbus
             ushort _bitMask = 0;
             ushort _mask = 0;
 
-            ModbusCommand ConvertedFrame = frame as ModbusCommand;
-
-            if (ConvertedFrame.DataType == DataType.Int32) // if the register of 'Net measured value'(=0) or 'Gross measured value'(=2)
-                _dataIntegerBuffer[ConvertedFrame.Path] = _data[Convert.ToInt16(ConvertedFrame.Register) + 1] + (_data[Convert.ToInt16(ConvertedFrame.Register)] << 16);
-
-            if (ConvertedFrame.DataType != DataType.Int32 && ConvertedFrame.DataType != DataType.S32 && ConvertedFrame.DataType != DataType.U32)
+            try
             {
-                switch (ConvertedFrame.BitLength)
-                {
-                    case 0: _bitMask = 0xFFFF; break;
-                    case 1: _bitMask = 1; break;
-                    case 2: _bitMask = 3; break;
-                    case 3: _bitMask = 7; break;
 
-                    default: _bitMask = 1; break;
+                ModbusCommand ConvertedFrame = frame as ModbusCommand;
+
+                if (ConvertedFrame.DataType == DataType.Int32) // if the register of 'Net measured value'(=0) or 'Gross measured value'(=2)
+                    _dataIntegerBuffer[ConvertedFrame.Path] = _data[Convert.ToInt16(ConvertedFrame.Register) + 1] + (_data[Convert.ToInt16(ConvertedFrame.Register)] << 16);
+
+                if (ConvertedFrame.DataType != DataType.Int32 && ConvertedFrame.DataType != DataType.S32 && ConvertedFrame.DataType != DataType.U32)
+                {
+                    switch (ConvertedFrame.BitLength)
+                    {
+                        case 0: _bitMask = 0xFFFF; break;
+                        case 1: _bitMask = 1; break;
+                        case 2: _bitMask = 3; break;
+                        case 3: _bitMask = 7; break;
+
+                        default: _bitMask = 1; break;
+                    }
+
+                    _mask = (ushort)(_bitMask << ConvertedFrame.BitIndex);
+
+                    _register = Convert.ToInt32(ConvertedFrame.Register);
+                    _dataIntegerBuffer[ConvertedFrame.Path] = (_data[_register] & _mask) >> ConvertedFrame.BitIndex;
                 }
 
-                _mask = (ushort)(_bitMask << ConvertedFrame.BitIndex);
-
-                _register = Convert.ToInt32(ConvertedFrame.Register);
-                _dataIntegerBuffer[ConvertedFrame.Path] = (_data[_register] & _mask) >> ConvertedFrame.BitIndex;
+                return _dataIntegerBuffer[ConvertedFrame.Path];
             }
-
-            return _dataIntegerBuffer[ConvertedFrame.Path];
+            catch
+            {
+                return 0;
+            }
         }
 
         public Dictionary<string, int> AllData
