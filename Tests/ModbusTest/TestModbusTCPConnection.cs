@@ -2,11 +2,9 @@
 namespace HBM.Weighing.API.WTX.Modbus
 {
     using HBM.Weighing.API;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
-    using System.Threading;
     using System.Threading.Tasks;
 
     public enum Behavior
@@ -180,7 +178,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public int command;
 
-        public event EventHandler BusActivityDetection;
+        public event EventHandler CommunicationLog;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
         public event EventHandler<EventArgs> UpdateDataClasses;
         
@@ -531,7 +529,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                         _dataWTX[index] = 0;
                     }
                     _logObj = new LogEvent("Read failed : Registers have not been read");
-                    BusActivityDetection?.Invoke(this, _logObj);
+                    Trace?.Invoke(this, _logObj);
                     */
                     break;
             }
@@ -862,7 +860,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
                     _logObj = new LogEvent("Read failed : Registers have not been read");
 
-                    BusActivityDetection?.Invoke(this, _logObj);
+                    CommunicationLog?.Invoke(this, _logObj);
 
                     break;
 
@@ -879,7 +877,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     _dataWTX[5] = 0x0000;
 
                     _logObj = new LogEvent("Read successful: Registers have been read");
-                    BusActivityDetection?.Invoke(this, _logObj);
+                    CommunicationLog?.Invoke(this, _logObj);
                     break;
 
                 // Simulate for testing 'Unit': 
@@ -1002,13 +1000,13 @@ namespace HBM.Weighing.API.WTX.Modbus
                 case Behavior.LogEvent_Fail:
 
                     _logObj = new LogEvent("Read failed : Registers have not been read");
-                    BusActivityDetection?.Invoke(this, _logObj);
+                    CommunicationLog?.Invoke(this, _logObj);
                     break;
 
                 case Behavior.LogEvent_Success:
 
                     _logObj = new LogEvent("Read successful: Registers have been read");
-                    BusActivityDetection?.Invoke(this, _logObj);
+                    CommunicationLog?.Invoke(this, _logObj);
                     break;
             }
             if (_dataWTX[5] == 0x0000)

@@ -44,9 +44,9 @@ namespace HBM.Weighing.API
 
         #region Eventhandlers for Log status, data received and update data
 
-        event EventHandler BusActivityDetection;
+        event EventHandler CommunicationLog;
 
-        event EventHandler<DataEventArgs> IncomingDataReceived;
+        //event EventHandler<DataEventArgs> IncomingDataReceived;
 
         event EventHandler<EventArgs> UpdateDataClasses;
 
