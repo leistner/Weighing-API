@@ -44,6 +44,9 @@ namespace HBM.Weighing.API.Data
         #region Constructor
         public ProcessDataJet(INetConnection Connection)
         {
+            PrintableWeight = new PrintableWeightType();
+            Weight = new WeightType();
+
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateData;
