@@ -277,7 +277,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             WTXModbus _wtxObj = new WTXModbus(testConnection, 200, update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            int i = _wtxObj.Connection.Read(0);
+            int i = ((TestModbusTCPConnection)_wtxObj.Connection).Read(0);
 
             string strValue = _wtxObj.PrintableWeight.Net;
 
