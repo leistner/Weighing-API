@@ -60,8 +60,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_0D_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_0D_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_0D_Fail).Returns("0.010000");
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_0D_Success).Returns("10000");
             }
         }
 
@@ -70,8 +70,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_1D_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_1D_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_1D_Fail).Returns("10000");
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_1D_Success).Returns("1000.0");
             }
         }
 
@@ -80,8 +80,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_2D_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_2D_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_2D_Fail).Returns("10000");
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_2D_Success).Returns("100.00");
             }
         }
 
@@ -90,8 +90,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_3D_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_3D_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_3D_Fail).Returns("10000");
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_3D_Success).Returns("10.000");
             }
         }
 
@@ -100,8 +100,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_4D_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_4D_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_4D_Fail).Returns("10000");
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_4D_Success).Returns("1.0000");
             }
         }
 
@@ -110,8 +110,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_5D_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_5D_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_5D_Fail).Returns("10000");
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_5D_Success).Returns("0.10000");
             }
         }
 
@@ -120,8 +120,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get
             {
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_6D_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.NetGrossValueStringComment_6D_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_6D_Fail).Returns("10000");
+                yield return new TestCaseData(Behavior.NetGrossValueStringComment_6D_Success).Returns("0.010000");
             }
         }
 
@@ -263,13 +263,34 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private ushort[] _data;
 
-        /*
+
+        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_0D_TestCase_Modbus")]
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_1D_TestCase_Modbus")]
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_2D_TestCase_Modbus")]
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_3D_TestCase_Modbus")]
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_4D_TestCase_Modbus")]
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_5D_TestCase_Modbus")]
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_6D_TestCase_Modbus")]
+        public string testModbus_NetGrossValueStringComment(Behavior behavior)
+        {
+            INetConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200, update);
+            _wtxObj.Connect(this.OnConnect, 100);
+
+            int i = _wtxObj.Connection.Read(0);
+
+            string strValue = _wtxObj.PrintableWeight.Net;
+
+            return strValue;
+        }
+
+        
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "T_UnitValueTestCases")]
         public async Task<int> testUnit_t(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
 
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
            
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -288,7 +309,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
 
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -306,7 +327,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
 
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -323,7 +344,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public async Task<int> testUnit_lb(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>
@@ -334,116 +355,14 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.ProcessData.Unit;
         }
-        */
         
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_0D_TestCase_Modbus")]
-        public void testModbus_NetGrossValueStringComment_0D(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-           //_wtxObj.WriteSync(0, 0x00);    ???
-
-            string strValue = _wtxObj.PrintableWeight.Net;
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, _wtxObj.ProcessData.Decimals);
-
-            Assert.AreEqual(dValue.ToString(), strValue);
-        }
-        
-        /*
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_1D_TestCase_Modbus")]
-        public void testModbus_NetGrossValueStringComment_1D(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            //_wtxObj.WriteSync(0, 0x00);    ???
-            
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 1 _wtxObj.Decimals);
-
-            Assert.AreEqual(dValue.ToString("0.0"), _wtxObj.PrintableWeight.Net);
-        }
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_2D_TestCase_Modbus")]
-        public void testModbus_NetGrossValueStringComment_2D(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            //_wtxObj.WriteSync(0, 0x00);    ???
-
-            string strValue = _wtxObj.PrintableWeight.Net;
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 2 /*_wtxObj.Decimals
-
-            Assert.AreEqual(dValue.ToString("0.00"), strValue);
-        }
-        */
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_3D_TestCase_Modbus")]
-        public void testModbus_NetGrossValueStringComment_3D(Behavior behavior)
-        {
-            INetConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            //_wtxObj.WriteSync(0, 0x00);    ???
-
-            string strValue = _wtxObj.PrintableWeight.Net;
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 3 /*_wtxObj.Decimals*/);
-
-            Assert.AreEqual(dValue.ToString("0.000"), strValue);
-        }
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_4D_TestCase_Modbus")]
-        public void testModbus_NetGrossValueStringComment_4D(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            //_wtxObj.WriteSync(0, 0x00);    ???
-
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 6/*_wtxObj.Decimals*/);
-
-            Assert.AreEqual(dValue.ToString("0.0000"), _wtxObj.PrintableWeight.Net);
-        }
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_5D_TestCase_Modbus")]
-        public void testModbus_NetGrossValueStringComment_5D(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            //_wtxObj.WriteSync(0, 0x00);    ???
-
-            string strValue = _wtxObj.PrintableWeight.Net;
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 5 /*_wtxObj.Decimals*/);
-
-            Assert.AreEqual(dValue.ToString("0.00000"), strValue);
-        }
-        
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_6D_TestCase_Modbus")]
-        public void testModbus_NetGrossValueStringComment_6D(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            //_wtxObj.WriteSync(0, 0x00);    ???
-
-            string strValue = _wtxObj.PrintableWeight.Net;
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 6 /*_wtxObj.Decimals*/);
-
-            Assert.AreEqual(dValue.ToString("0.000000"), strValue);
-        }
-
         /*
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "ScaleRangeStringComment_Range1_TestCase_Modbus")]
         //public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
         public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
         {            
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>
@@ -459,7 +378,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public async Task<string> testModbus_ScaleRangeStringComment_Range2(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>
@@ -486,12 +405,12 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.ScaleRangeStringComment();
         }
-       
+       */
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case0_TestCase_Modbus")]
         public async Task<string> testModbus_LimitStatusStringComment_Case0(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>
@@ -507,7 +426,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public async Task<string> testModbus_LimitStatusStringComment_Case1(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>
@@ -523,7 +442,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public async Task<string> testModbus_LimitStatusStringComment_Case2(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>
@@ -539,7 +458,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public async Task<string> testModbus_LimitStatusStringComment_Case3(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>
@@ -555,7 +474,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public async Task<string> testModbus_WeightMovingStringComment_Case0(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>
@@ -571,7 +490,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public async Task<string> testModbus_WeightMovingStringComment_Case1(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>
@@ -582,12 +501,12 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.WeightMovingStringComment();
         }
-        
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightTypeStringComment_Case0_TestCase_Modbus")]
         public async Task<string> testModbus_WeightTypeStringComment_Case0(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>
@@ -604,7 +523,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public async Task<string> testModbus_WeightTypeStringComment_Case1(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 
             await Task.Run(async () =>

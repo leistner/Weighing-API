@@ -29,9 +29,7 @@ namespace GUIplc
         private string _ipAddressBefore;
         private string _ipAddress;
 
-        private int _sendingInterval;
-
-        private GUIplcForm _guiInfo;
+        private int _sendingInterval; 
 
         // Constructor of class 'SettingForm': 
         public SettingsForm(string ipAddressParam, int sendingIntervalParam)

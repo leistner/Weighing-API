@@ -42,6 +42,9 @@ namespace HBM.Weighing.API.Data
         /// </summary>
         public PrintableWeightType()
         {
+            Net   = "0";
+            Gross = "0";
+            Tare  = "0";
         }
 
         /// <summary>
