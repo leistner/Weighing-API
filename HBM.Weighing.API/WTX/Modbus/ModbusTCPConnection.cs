@@ -56,7 +56,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         #region ==================== events & delegates ====================
         public event EventHandler CommunicationLog;
         public event EventHandler<EventArgs> UpdateDataClasses;
-        //public event EventHandler<DataEventArgs> IncomingDataReceived;
+        public event EventHandler<DataEventArgs> IncomingDataReceived;
         #endregion
                      
         #region =============== constructors & destructors =================
@@ -81,8 +81,10 @@ namespace HBM.Weighing.API.WTX.Modbus
         #endregion
 
         #region ================ public & internal methods =================
-        // This method establishs a connection to the device. Therefore an IP address and the port number
-        // for the TcpClient is needed. The client itself is used for the implementation of the ModbusIpMaster. 
+        
+        /// <summary>
+        /// Connect a Modbus/TCP device
+        /// </summary>
         public void Connect()
         {
             try
@@ -104,7 +106,9 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
      
-        // This method closes the connection to the device.
+        /// <summary>
+        /// Closes the Modbus/TCP connection
+        /// </summary>
         public void Disconnect()
         {
             _client.Close();
@@ -112,10 +116,10 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         /// <summary>
-        /// This method is called from the device class "WTX120" to read the register of the device. 
+        /// Reads a single Modbus/TCP register 
         /// </summary>
-        /// <param name="index"></param>
-        /// <returns>dataword of the wtx device</returns>
+        /// <param name="index">Modbus/TCP register index for holding register</param>
+        /// <returns>Register content</returns>
         public int ReadSingle(object index)
         {
             int _value = 0;

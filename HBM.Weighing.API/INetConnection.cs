@@ -46,7 +46,7 @@ namespace HBM.Weighing.API
 
         event EventHandler CommunicationLog;
 
-        //event EventHandler<DataEventArgs> IncomingDataReceived;
+        event EventHandler<DataEventArgs> IncomingDataReceived;
 
         event EventHandler<EventArgs> UpdateDataClasses;
 

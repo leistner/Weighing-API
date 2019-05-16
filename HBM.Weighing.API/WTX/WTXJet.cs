@@ -84,7 +84,7 @@ namespace HBM.Weighing.API.WTX
             
             this.ProcessDataReceived += onProcessData;
 
-           ((JetBusConnection)Connection).IncomingDataReceived += this.OnData;   // Subscribe to the event.              
+           Connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.              
         }
 
         #endregion
