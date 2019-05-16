@@ -137,6 +137,7 @@ namespace HBM.Weighing.API.Data
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateFillerData;
+            Console.WriteLine("DataFillerModbus");
 
             _coarseFlow = 0;
             _fineFlow = 0;

@@ -191,14 +191,14 @@ namespace HBM.Weighing.API.WTX
 
                 // (1) Sending of a command:        
                 this.Connection.Write(Convert.ToString(wordNumber), DataType.U08, this._command);
-                dataWord = this.Connection.Read(5);
+                dataWord = ((ModbusTCPConnection)this.Connection).ReadSingle(5);
 
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 // Handshake protocol as given in the manual:                            
 
                 while (handshakeBit == 0)
                 {
-                    dataWord = this.Connection.Read(5);
+                    dataWord = ((ModbusTCPConnection)this.Connection).ReadSingle(5);
                     handshakeBit = ((dataWord & 0x4000) >> 14);
                 }
 
@@ -210,7 +210,7 @@ namespace HBM.Weighing.API.WTX
 
                 while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
                 {
-                    dataWord = this.Connection.Read(5);
+                    dataWord = ((ModbusTCPConnection)this.Connection).ReadSingle(5);
                     handshakeBit = ((dataWord & 0x4000) >> 14);
                 }
 
@@ -244,7 +244,7 @@ namespace HBM.Weighing.API.WTX
                        
             do
             {
-                dataWord = this.Connection.Read(5);
+                dataWord = ((ModbusTCPConnection)this.Connection).ReadSingle(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 Thread.Sleep(50);
             }
@@ -254,7 +254,7 @@ namespace HBM.Weighing.API.WTX
 
             do
             {
-                dataWord = this.Connection.Read(5);
+                dataWord = ((ModbusTCPConnection)this.Connection).ReadSingle(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 Thread.Sleep(50);
             }

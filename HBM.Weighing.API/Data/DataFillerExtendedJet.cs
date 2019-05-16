@@ -127,6 +127,7 @@ namespace HBM.Weighing.API.Data
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateFillerExtendedData;
+            Console.WriteLine("DataFillerExtendedJet");
 
             _errorRegister =0;
             _saveAllParameters =0;

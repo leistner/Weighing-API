@@ -253,30 +253,50 @@ namespace HBM.Weighing.API.WTX.Jet
             
         }
 
-        public int GetDataFromDictionary(object frame)
+        public int GetDataFromDictionary(object command)
         {
-            string _register = "0000/00";
             ushort _bitMask = 0;
             ushort _mask = 0;
+            int _value = 0;
 
-            JetBusCommand ConvertedFrame = frame as JetBusCommand;
-
-            switch (ConvertedFrame.BitLength)
+            try
             {
-                case 0: _bitMask = 0xFFFF; break;
-                case 1: _bitMask = 1; break; // = 001
-                case 2: _bitMask = 3; break; // = 011
-                case 3: _bitMask = 7; break; // = 111
+                JetBusCommand jetcommand = command as JetBusCommand;
 
-                default: _bitMask = 1; break;
+                Console.WriteLine(jetcommand.PathIndex); //DDD
+
+                switch (jetcommand.DataType)
+                {
+                    case DataType.BIT:
+                        {
+                            switch (jetcommand.BitLength)
+                            {
+                                case 0: _bitMask = 0xFFFF; break;
+                                case 1: _bitMask = 1; break; // = 001
+                                case 2: _bitMask = 3; break; // = 011
+                                case 3: _bitMask = 7; break; // = 111
+
+                                default: _bitMask = 1; break;
+                            }
+                            _mask = (ushort)(_bitMask << jetcommand.BitIndex);
+
+                            _value = (_dataIntegerBuffer[jetcommand.PathIndex] & _mask) >> jetcommand.BitIndex;
+                            break;
+                        }
+
+                    default:
+                        {
+                            _value = _dataIntegerBuffer[jetcommand.PathIndex];
+                            break;
+                        }
+                }
+            }
+            catch
+            {
+                _value = 0;
             }
 
-            _mask = (ushort)(_bitMask << ConvertedFrame.BitIndex);
-
-            _register = (ConvertedFrame.PathIndex);
-            _dataIntegerBuffer[ConvertedFrame.PathIndex] = (_dataIntegerBuffer[_register] & _mask) >> ConvertedFrame.BitIndex;
-
-            return _dataIntegerBuffer[ConvertedFrame.PathIndex];
+            return _value;
         }
 
 

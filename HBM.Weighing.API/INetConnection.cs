@@ -74,7 +74,7 @@ namespace HBM.Weighing.API
 
         #region Read/Write methods
 
-        int Read(object index);
+        //int Read(object index);
 
         void Write(string register, DataType dataType, int value);
 

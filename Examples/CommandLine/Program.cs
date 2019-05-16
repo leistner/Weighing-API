@@ -146,7 +146,7 @@ namespace WTXModbus
             if (mode == "Modbus" || mode == "modbus")    // If 'Modbus/Tcp' is selected: 
             {
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
-                ModbusTcpConnection _modbusConection = new ModbusTcpConnection(_ipAddress);
+                ModbusTCPConnection _modbusConection = new ModbusTCPConnection(_ipAddress);
 
                 _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_modbusConection, _timerInterval, Update);
 

@@ -127,7 +127,8 @@ namespace HBM.Weighing.API.Data
             _connection = Connection;
            
             _connection.UpdateDataClasses += UpdateFillerData;
-            
+            Console.WriteLine("DataFillerJet");
+
             CoarseFlow = 0;
             _fineFlow=0;
             _ready=0;

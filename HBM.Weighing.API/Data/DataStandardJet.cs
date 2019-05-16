@@ -133,6 +133,7 @@ namespace HBM.Weighing.API.Data
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateStandardData;
+            Console.WriteLine("DataStandardJet");
 
             _input1 = 0;
             _input2=0;

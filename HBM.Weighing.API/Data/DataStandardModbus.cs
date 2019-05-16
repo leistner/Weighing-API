@@ -106,7 +106,7 @@ namespace HBM.Weighing.API.Data
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateStandardData;
-
+            Console.WriteLine("DataStandardModbus");
             _input1 = 0;
             _input2 = 0;
             _input3 = 0;

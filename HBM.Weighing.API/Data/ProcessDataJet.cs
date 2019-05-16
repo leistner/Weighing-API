@@ -50,6 +50,7 @@ namespace HBM.Weighing.API.Data
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateData;
+            Console.WriteLine("ProcessDataJet");
 
             NetValue = 0;
             GrossValue = 0;
@@ -100,16 +101,8 @@ namespace HBM.Weighing.API.Data
             ZeroRequired = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_ZeroRequired));
             CenterOfZero = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_CenterOfZero));
             InsideZero = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_InsideZero));            
-            try
-            {
-                Decimals = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Decimals)); //DDD Workaround
-                Unit = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_Unit));
-            }
-            catch
-            {
-                Decimals = 1;
-                Unit = 2;
-            }
+            Decimals = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Decimals)); //DDD Workaround
+            Unit = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_Unit));
 
             Weight.Update(MeasurementUtils.DigitToDouble(NetValue, Decimals), MeasurementUtils.DigitToDouble(GrossValue, Decimals));
             PrintableWeight.Update(MeasurementUtils.DigitToDouble(NetValue, Decimals), MeasurementUtils.DigitToDouble(GrossValue, Decimals), Decimals);

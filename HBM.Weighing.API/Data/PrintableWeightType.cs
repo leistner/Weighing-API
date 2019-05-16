@@ -64,9 +64,9 @@ namespace HBM.Weighing.API.Data
             NumberFormatInfo setPrecision = new NumberFormatInfo();
             setPrecision.NumberDecimalDigits = decimals;
 
-            Net = ((decimal)net).ToString("N", setPrecision);
-            Gross = ((decimal)gross).ToString("N", setPrecision);
-            Tare = ((decimal)net - (decimal)gross).ToString("N", setPrecision);
+            Net = ((decimal)net).ToString("F", setPrecision);
+            Gross = ((decimal)gross).ToString("F", setPrecision);
+            Tare = ((decimal)net - (decimal)gross).ToString("F", setPrecision);
         }
     }
 }

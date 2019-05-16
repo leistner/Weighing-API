@@ -123,7 +123,7 @@ namespace GUIplc
                 Create objects of ModbusTcpConnection and WtxModbus to establish a connection.
                 */
 
-                ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
+                ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
                 _wtxDevice = new WTXModbus(_connection, this._timerInterval, this.update);
             
                 _ApplicationModeStr = "Standard";
@@ -1003,7 +1003,7 @@ namespace GUIplc
 
             _wtxDevice.Disconnect();
 
-            ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
+            ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
             _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
         }
         public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
@@ -1024,7 +1024,7 @@ namespace GUIplc
 
             _wtxDevice.Disconnect();
 
-            ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
+            ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
             _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
         }
 

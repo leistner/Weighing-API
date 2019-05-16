@@ -51,13 +51,14 @@ namespace HBM.Weighing.API.WTX.Modbus
     /// Once the read method is called, the data is read from the WTX device, put into registers and loaded into a Dictionary containing
     /// pairs of values and keys. The values are shifted and masked. The keys are the indexes(data word number) given by ModbusCommands.
     /// </summary>
-    public class ModbusTcpConnection : INetConnection
+    public class ModbusTCPConnection : INetConnection
     {
         #region consts
 
-        const int MODBUS_TCP_DEFAULT_PORT = 502;
-        const int WTX_DEFAULT_START_ADDRESS = 0;
-        const int WTX_DEFAULT_DATAWORD_COUNT = 38;
+        const int MODBUS_TCP_PORT = 502;
+        const int WTX_SLAVE_ADDRESS = 0;
+        const int WTX_REGISTER_START_ADDRESS = 0;
+        const int WTX_REGISTER_DATAWORD_COUNT = 38;
 
         #endregion
 
@@ -65,13 +66,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private IModbusMaster _master;
         private TcpClient _client;
-
-        private bool _connected;
-        private string ipAddress;
-        private ushort _numOfPoints;
-        private int _port;
-        private ushort _startAdress;
-
+        
         private ushort[] _data;
         private ushort[] _dataToWrite;
 
@@ -90,73 +85,14 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         #region Constructor
 
-        public ModbusTcpConnection(string IpAddress)
+        public ModbusTCPConnection(string ipAddress)
         {
-            _connected = false;
-            _port = MODBUS_TCP_DEFAULT_PORT;
-            ipAddress = IpAddress; //IP-address to establish a successful connection to the device
-            
-            this.CreateDictionary();
-
-            _dataToWrite = new ushort[2] { 0, 0 };
-
-            _numOfPoints = WTX_DEFAULT_DATAWORD_COUNT;
-            _startAdress = WTX_DEFAULT_START_ADDRESS;
-        }
-
-        #endregion
-
-        #region Get/Set-Properties
-
-        // Getter/Setter for the IP_Adress, StartAdress, NumofPoints, Sending_interval, Port, Is_connected()
-        public string IpAddress
-        {
-            get { return ipAddress; }
-            set { ipAddress = value; }
-        }
-
-        public ushort StartAdress
-        {
-            get { return _startAdress; }
-            set { _startAdress = value; }
-        }
-
-        public ushort NumOfPoints
-        {
-            get { return _numOfPoints; }
-            set { _numOfPoints = value; }
-        }
-
-        public int Port
-        {
-            get { return _port; }
-            set { _port = value; }
-        }
-
-        public bool IsConnected
-        {
-            get
-            {
-                return this._connected;
-            }
-        }
-        public int getCommand
-        {
-            get { return this._dataCommand; }
-        }
-
-        public int NumofPoints
-        {
-            get
-            {
-                return this._numOfPoints;
-            }
-            set
-            {
-                this._numOfPoints = (ushort)value;
-            }
+            IpAddress = ipAddress;            
+            CreateDictionary();
         }
         #endregion
+        
+        public bool IsConnected { get; private set; }
 
         #region Connect/Disconnect methods
 
@@ -166,18 +102,18 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             try
             {
-                _client = new TcpClient(ipAddress, _port);
+                _client = new TcpClient(IpAddress, MODBUS_TCP_PORT);
 
                 var factory = new ModbusFactory();
                 _master = factory.CreateMaster(_client);
 
-                _connected = true;
+                IsConnected = true;
 
                 BusActivityDetection?.Invoke(this, new LogEvent("Connection has been established successfully"));
             }
             catch (Exception)
             {
-                _connected = false; // If the connection establishment has not been successful - connected=false. 
+                IsConnected = false; // If the connection establishment has not been successful - connected=false. 
 
                 BusActivityDetection?.Invoke(this, new LogEvent("Connection has NOT been established successfully"));
             }
@@ -186,13 +122,17 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             get { return ConnectionType.Modbus; }
         }
+
         // This method closes the connection to the device.
         public void Disconnect()
         {
             _client.Close();
-            _connected = false;
+            IsConnected = false;
             IncomingDataReceived = null;
         }
+
+        public string IpAddress { get; set; }
+
         #endregion
 
         #region Read methods
@@ -202,36 +142,32 @@ namespace HBM.Weighing.API.WTX.Modbus
         /// </summary>
         /// <param name="index"></param>
         /// <returns>dataword of the wtx device</returns>
-        public int Read(object index)
+        public int ReadSingle(object index)
         {
+            int _value = 0;
             try
             {
-                _data = _master.ReadHoldingRegisters(0, _startAdress, _numOfPoints);
+                _data = _master.ReadHoldingRegisters(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, 1);
 
-                BusActivityDetection?.Invoke(this, new LogEvent("Read successful: Registers have been read"));
-
-                this.UpdateDictionary();
-                // Updata data in data classes : 
-                this.UpdateDataClasses?.Invoke(this, new EventArgs());
-
-                return _data[Convert.ToInt16(index)];
+                BusActivityDetection?.Invoke(this, new LogEvent("Read successful: 1 Registers has been read"));
+                       
+                _value =_data[Convert.ToInt16(index)];
             }
             catch (ArgumentException)
             {
                 Console.WriteLine("\nNumber of points has to be between 1 and 125.\n");
+                _value = 0;
             }
-            return _data[Convert.ToInt16(index)];
+            return _value;
         }
 
         public async Task<ushort[]> ReadAsync()
         {
-            _data = new ushort[100];
+            _data = new ushort[WTX_REGISTER_DATAWORD_COUNT];
+            _data = await _master.ReadHoldingRegistersAsync(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
+            ModbusRegistersToDictionary(_data);
 
-            _data = await _master.ReadHoldingRegistersAsync(0, _startAdress, _numOfPoints);
-
-            this.UpdateDictionary();
-
-            // Update data in data classes : 
+            // Update data in data classes
             this.UpdateDataClasses?.Invoke(this, new EventArgs());
 
             return _data;
@@ -243,43 +179,26 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public void Write(string register, DataType dataType, int value)
         {
+            ushort _register = Convert.ToUInt16(register);
+
             switch (dataType)
             {
-
                 case DataType.U08:
-                    _master.WriteSingleRegister(0, (ushort)Convert.ToInt32(register), (ushort)value);
+                    _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, _register, (ushort)value);
                     break;
 
-                case DataType.Int16:
-                    _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                    _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(register), _dataToWrite);
-                    break;
+                case DataType.S16:
                 case DataType.U16:
                     _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
                     _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(register), _dataToWrite);
+                    _master.WriteMultipleRegisters(WTX_SLAVE_ADDRESS, _register, _dataToWrite);
                     break;
 
                 case DataType.U32:
-                    _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                    _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(register), _dataToWrite);
-                    break;
-                case DataType.Int32:
-                    _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                    _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(register), _dataToWrite);
-                    break;
                 case DataType.S32:
                     _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
                     _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-
-                    _master.WriteMultipleRegisters(0, (ushort)Convert.ToInt32(register), _dataToWrite);
+                    _master.WriteMultipleRegisters(WTX_SLAVE_ADDRESS, _register, _dataToWrite);
                     break;
             }
             BusActivityDetection?.Invoke(this, new LogEvent("Data(ushort) have been written successfully to the register"));
@@ -299,135 +218,71 @@ namespace HBM.Weighing.API.WTX.Modbus
         #endregion
 
         #region Update dictionary methods, properties
-
+       
         private void CreateDictionary()
         {
-            _dataIntegerBuffer.Clear();
-
-            Type pType = typeof(ModbusCommands); 
-            PropertyInfo[] pInfos = pType.GetProperties();
-            foreach (PropertyInfo pInfo in pInfos)
+            _dataIntegerBuffer = new Dictionary<string, int>();
+           
+            for (int i = 0; i<WTX_REGISTER_DATAWORD_COUNT; i++)
             {
-                object propertyValue = pInfo.GetValue(typeof(ModbusCommands), null);
-                if (propertyValue != null)
-                {
-                    Type propertyValueType = propertyValue.GetType();
-
-                    if (propertyValueType == typeof(ModbusCommand))
-                        _dataIntegerBuffer.Add(((ModbusCommand)propertyValue).Path, 0);
-                }
-                else
-                    Console.WriteLine("Prop: {0} ", pInfo.Name);
+                _dataIntegerBuffer.Add(i.ToString(), 0);
             }
         }
 
-        private void UpdateDictionary()
+        private void ModbusRegistersToDictionary(ushort[] data)
         {
-            this.GetDataFromDictionary(ModbusCommands.Net);
-            this.GetDataFromDictionary(ModbusCommands.Gross);
-
-            this.GetDataFromDictionary(ModbusCommands.WeightMoving);
-            this.GetDataFromDictionary(ModbusCommands.ScaleSealIsOpen);
-            this.GetDataFromDictionary(ModbusCommands.ManualTare);
-            this.GetDataFromDictionary(ModbusCommands.Tare_mode);
-            this.GetDataFromDictionary(ModbusCommands.ScaleRange);
-            this.GetDataFromDictionary(ModbusCommands.ZeroRequired);
-            this.GetDataFromDictionary(ModbusCommands.WeightinCenterOfZero);
-            this.GetDataFromDictionary(ModbusCommands.WeightinZeroRange);
-
-            this.GetDataFromDictionary(ModbusCommands.Application_mode);     // application mode 
-            this.GetDataFromDictionary(ModbusCommands.Decimals);             // decimals
-            this.GetDataFromDictionary(ModbusCommands.Unit);                 // unit
-            this.GetDataFromDictionary(ModbusCommands.Handshake);            // handshake
-
-            this.GetDataFromDictionary(ModbusCommands.Status_digital_input_1);
-            this.GetDataFromDictionary(ModbusCommands.Status_digital_output_1);
-            this.GetDataFromDictionary(ModbusCommands.Limit_value);
-
-            this.GetDataFromDictionary(ModbusCommands.Fine_flow_cut_off_point);
-            this.GetDataFromDictionary(ModbusCommands.Coarse_flow_cut_off_point);
-            this.GetDataFromDictionary(ModbusCommands.Coarse_flow_monitoring);   
-            this.GetDataFromDictionary(ModbusCommands.Fine_flow_monitoring);   
-
-            this.GetDataFromDictionary(ModbusCommands.Ready);
-            this.GetDataFromDictionary(ModbusCommands.ReDosing);
-            
-            //this.GetDataFromDictionary(ModbusCommands.Emptying_mode);
-            this.GetDataFromDictionary(ModbusCommands.Maximal_dosing_time);
-            this.GetDataFromDictionary(ModbusCommands.Upper_tolerance_limit);
-            this.GetDataFromDictionary(ModbusCommands.Lower_tolerance_limit);
-            this.GetDataFromDictionary(ModbusCommands.StatusInput1);
-            this.GetDataFromDictionary(ModbusCommands.LegalForTradeOperation);
-
-            this.GetDataFromDictionary(ModbusCommands.WeightMemDayStandard);
-            this.GetDataFromDictionary(ModbusCommands.WeightMemMonthStandard);
-            this.GetDataFromDictionary(ModbusCommands.WeightMemYearStandard);
-            this.GetDataFromDictionary(ModbusCommands.WeightMemSeqNumberStandard);
-            this.GetDataFromDictionary(ModbusCommands.WeightMemGrossStandard);
-            this.GetDataFromDictionary(ModbusCommands.WeightMemNetStandard);
-
-            this.GetDataFromDictionary(ModbusCommands.Emptying);
-            this.GetDataFromDictionary(ModbusCommands.FlowError);
-            this.GetDataFromDictionary(ModbusCommands.Alarm);
-            this.GetDataFromDictionary(ModbusCommands.AdcOverUnderload);
-
-            this.GetDataFromDictionary(ModbusCommands.StatusInput1);
-            this.GetDataFromDictionary(ModbusCommands.GeneralScaleError);
-            this.GetDataFromDictionary(ModbusCommands.TotalWeight);
-
-            // Undefined IDs:
-            /*
-            _dataIntegerBuffer[IDCommands.DOSING_RESULT]      = _data[12];
-            _dataIntegerBuffer[IDCommands.MEAN_VALUE_DOSING_RESULTS] = _data[14];
-            _dataIntegerBuffer[IDCommands.STANDARD_DEVIATION] = _data[16];
-            _dataIntegerBuffer[IDCommands.CURRENT_DOSING_TIME]        = _data[24];    // _currentDosingTime = _data[24];
-
-            _dataIntegerBuffer[IDCommands.CURRENT_COARSE_FLOW_TIME] = _data[25];      // _currentCoarseFlowTime
-            _dataIntegerBuffer[IDCommands.CURRENT_FINE_FLOW_TIME]   = _data[26];      // _currentFineFlowTime
-            _dataIntegerBuffer[IDCommands.RANGE_SELECTION_PARAMETER] = _data[27];     // _parameterSetProduct
-
-            _dataIntegerBuffer[IDCommands.] = _fillingProcessStatus = _data[9];  // Undefined
-            _dataIntegerBuffer[IDCommands.] = _numberDosingResults = _data[11];        
-            */
+            for (int i = 0; i<WTX_REGISTER_DATAWORD_COUNT; i++)
+            {
+                _dataIntegerBuffer[i.ToString()] = _data[i];
+            }
         }
-        public int GetDataFromDictionary(object frame)
+
+        public int GetDataFromDictionary(object command)
         {
             int _register = 0;
             ushort _bitMask = 0;
             ushort _mask = 0;
+            int _value = 0;
 
             try
             {
+                ModbusCommand modBusCommand = (ModbusCommand)command;
 
-                ModbusCommand ConvertedFrame = frame as ModbusCommand;
+                Console.WriteLine(modBusCommand.Register);
 
-                if (ConvertedFrame.DataType == DataType.Int32) // if the register of 'Net measured value'(=0) or 'Gross measured value'(=2)
-                    _dataIntegerBuffer[ConvertedFrame.Path] = _data[Convert.ToInt16(ConvertedFrame.Register) + 1] + (_data[Convert.ToInt16(ConvertedFrame.Register)] << 16);
-
-                if (ConvertedFrame.DataType != DataType.Int32 && ConvertedFrame.DataType != DataType.S32 && ConvertedFrame.DataType != DataType.U32)
+                _register = Convert.ToInt32(modBusCommand.Register);
+                switch (modBusCommand.DataType)
                 {
-                    switch (ConvertedFrame.BitLength)
-                    {
-                        case 0: _bitMask = 0xFFFF; break;
-                        case 1: _bitMask = 1; break;
-                        case 2: _bitMask = 3; break;
-                        case 3: _bitMask = 7; break;
+                    case DataType.BIT:
+                        switch (modBusCommand.BitLength)
+                        {
+                            case 0: _bitMask = 0xFFFF; break;
+                            case 1: _bitMask = 1; break;
+                            case 2: _bitMask = 3; break;
+                            case 3: _bitMask = 7; break;
+                            default: _bitMask = 1; break;
+                        }
+                        _mask = (ushort)(_bitMask << modBusCommand.BitIndex);                     
 
-                        default: _bitMask = 1; break;
-                    }
+                        _value = (_data[_register] & _mask) >> modBusCommand.BitIndex;
+                        break;
+         
+                    case DataType.U32:
+                    case DataType.S32:
+                        _value = _data[_register + 1] + (_data[_register] << 16);
+                        break;
 
-                    _mask = (ushort)(_bitMask << ConvertedFrame.BitIndex);
-
-                    _register = Convert.ToInt32(ConvertedFrame.Register);
-                    _dataIntegerBuffer[ConvertedFrame.Path] = (_data[_register] & _mask) >> ConvertedFrame.BitIndex;
+                    default:
+                        _value = _data[_register];
+                        break;
                 }
-
-                return _dataIntegerBuffer[ConvertedFrame.Path];
             }
             catch
             {
-                return 0;
+                _value = 0;
             }
+
+            return _value;
         }
 
         public Dictionary<string, int> AllData

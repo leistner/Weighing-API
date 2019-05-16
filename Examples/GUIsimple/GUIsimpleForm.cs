@@ -116,7 +116,7 @@ namespace GUIsimple
             if (this.rbtConnectionModbus.Checked)    // If 'Modbus/Tcp' is selected: 
             {
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
-                ModbusTcpConnection _modbusConnection = new ModbusTcpConnection(this._ipAddress);
+                ModbusTCPConnection _modbusConnection = new ModbusTCPConnection(this._ipAddress);
 
                 _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_modbusConnection, this._timerInterval, this.update);
 
@@ -302,7 +302,7 @@ namespace GUIsimple
             if (this.rbtConnectionModbus.Checked)    // If 'Modbus/Tcp' is selected, disconnect and reconnect from Jetbus to Modbus
             {
                 _wtxDevice.Disconnect();
-                ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
+                ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
                 _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }
@@ -325,7 +325,7 @@ namespace GUIsimple
             if (this.rbtConnectionModbus.Checked)    // If 'Modbus/Tcp' is selected, disconnect and reconnect from Jetbus to Modbus
             {
                 _wtxDevice.Disconnect();
-                ModbusTcpConnection _connection = new ModbusTcpConnection(_ipAddress);
+                ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
                 _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }

@@ -1069,10 +1069,10 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             ModbusCommand ConvertedFrame = frame as ModbusCommand;
 
-            if (ConvertedFrame.DataType == DataType.Int32) // if the register of 'Net measured value'(=0) or 'Gross measured value'(=2)
+            if (ConvertedFrame.DataType == DataType.S32)
                 _dataIntegerBuffer[ConvertedFrame.Path] = _dataWTX[Convert.ToInt16(ConvertedFrame.Register) + 1] + (_dataWTX[Convert.ToInt16(ConvertedFrame.Register)] << 16);
 
-            if (ConvertedFrame.DataType != DataType.Int32 && ConvertedFrame.DataType != DataType.S32 && ConvertedFrame.DataType != DataType.U32)
+            if (ConvertedFrame.DataType != DataType.S32 && ConvertedFrame.DataType != DataType.S32 && ConvertedFrame.DataType != DataType.U32)
             {
                 switch (ConvertedFrame.BitLength)
                 {

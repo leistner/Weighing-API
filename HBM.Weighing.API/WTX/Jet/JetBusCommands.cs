@@ -189,8 +189,8 @@ namespace HBM.Weighing.API.WTX.Jet
             Interval_range_control = new JetBusCommand(DataType.U08, "611C/01", 0, 0);
             Multi_limit_1 = new JetBusCommand(DataType.S32, "611C/02", 0, 0);
             Multi_limit_2 = new JetBusCommand(DataType.S32, "611C/03", 0, 0);
-            Oiml_certificaiton_information = new JetBusCommand(DataType.ASC, "6138/01", 0, 0);
-            Ntep_certificaiton_information = new JetBusCommand(DataType.ASC, "6138/02", 0, 0);
+            Oiml_certificaiton_information = new JetBusCommand(DataType.ASCII, "6138/01", 0, 0);
+            Ntep_certificaiton_information = new JetBusCommand(DataType.ASCII, "6138/02", 0, 0);
             Maximum_zeroing_time = new JetBusCommand(DataType.U16, "6141/02", 0, 0);
             Maximum_peak_value_gross = new JetBusCommand(DataType.S32, "6149/01", 0, 0);
             Minimum_peak_value_gross = new JetBusCommand(DataType.S32, "6149/02", 0, 0);
@@ -199,8 +199,8 @@ namespace HBM.Weighing.API.WTX.Jet
             Weight_moving_detection = new JetBusCommand(DataType.U08, "6153/00", 0, 0);
             Device_address = new JetBusCommand(DataType.U08, "2600/00", 0, 0);
 
-            Hardware_version = new JetBusCommand(DataType.ASCII10, "2520/0A", 0, 0); // = Hardware Variante
-            Identification = new JetBusCommand(DataType.ASCII15, "2520/01", 0, 0);
+            Hardware_version = new JetBusCommand(DataType.ASCII, "2520/0A", 0, 0); // = Hardware Variante
+            Identification = new JetBusCommand(DataType.ASCII, "2520/01", 0, 0);
             Limit_value_monitoring_liv11 = new JetBusCommand(DataType.U08, "2030/01", 0, 0); // = Grenzwertüberwachung
             Signal_source_liv12 = new JetBusCommand(DataType.U08, "2030/02", 0, 0);
             Switch_on_level_liv13 = new JetBusCommand(DataType.S32, "2030/03", 0, 0);  // = Einschaltpegel

@@ -47,18 +47,15 @@ namespace HBM.Weighing.API
     /// </summary>
     public enum DataType
     {
-        NIL = 0,
-        U08 = 1,
-        U16 = 2,
-        Int16 = 3,
-        S16 = 4,
-        S32 = 5,
-        Int32 = 6,
-        U32 = 7,
-        ASC = 8,
-        ASCII = 9,
-        ASCII10 = 10,
-        ASCII15 = 11
+        NIL,
+        BIT,
+        S08,
+        U08,
+        S16,
+        U16,
+        S32,
+        U32,
+        ASCII
     };
 
     public enum InputFunction

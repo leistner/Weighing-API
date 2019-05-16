@@ -49,6 +49,7 @@ namespace HBM.Weighing.API.Data
             _connection = Connection;
 
             _connection.UpdateDataClasses += UpdateData;
+            Console.WriteLine("ProcessDataModbus");
 
             NetValue = 0;
             GrossValue = 0;

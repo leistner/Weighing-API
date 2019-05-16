@@ -49,60 +49,60 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             // region : ID Commands : Memory - day, month, year, seqNumber, gross, net
             // For standard mode: 
-            WeightMemDayStandard   = new ModbusCommand(DataType.Int16, "9", IOType.Input, ApplicationMode.Standard, 0, 0);
-            WeightMemMonthStandard = new ModbusCommand(DataType.Int16, "10", IOType.Input, ApplicationMode.Standard, 0, 0);
-            WeightMemYearStandard = new ModbusCommand(DataType.Int16, "11", IOType.Input, ApplicationMode.Standard, 0, 0);
-            WeightMemSeqNumberStandard = new ModbusCommand(DataType.Int16, "12", IOType.Input, ApplicationMode.Standard, 0, 0);
-            WeightMemGrossStandard = new ModbusCommand(DataType.Int16, "13", IOType.Input, ApplicationMode.Standard, 0, 0);
-            WeightMemNetStandard = new ModbusCommand(DataType.Int16, "14", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemDayStandard   = new ModbusCommand(DataType.S16, "9", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemMonthStandard = new ModbusCommand(DataType.S16, "10", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemYearStandard = new ModbusCommand(DataType.S16, "11", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemSeqNumberStandard = new ModbusCommand(DataType.S16, "12", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemGrossStandard = new ModbusCommand(DataType.S16, "13", IOType.Input, ApplicationMode.Standard, 0, 0);
+            WeightMemNetStandard = new ModbusCommand(DataType.S16, "14", IOType.Input, ApplicationMode.Standard, 0, 0);
 
             // For filler mode: 
-            WeightMemDayFiller   = new ModbusCommand(DataType.Int16, "32", IOType.Output, ApplicationMode.Filler, 0, 0);
-            WeightMemMonthFiller = new ModbusCommand(DataType.Int16, "33", IOType.Output, ApplicationMode.Filler, 0, 0);
-            WeightMemYearFiller = new ModbusCommand(DataType.Int16, "34", IOType.Output, ApplicationMode.Filler, 0, 0);
-            WeightMemSeqNumberFiller = new ModbusCommand(DataType.Int16, "35", IOType.Output, ApplicationMode.Filler, 0, 0);
-            WeightMemGrossFiller = new ModbusCommand(DataType.Int16, "36", IOType.Output, ApplicationMode.Filler, 0, 0);
-            WeightMemNetFiller = new ModbusCommand(DataType.Int16, "37", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemDayFiller   = new ModbusCommand(DataType.S16, "32", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemMonthFiller = new ModbusCommand(DataType.S16, "33", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemYearFiller = new ModbusCommand(DataType.S16, "34", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemSeqNumberFiller = new ModbusCommand(DataType.S16, "35", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemGrossFiller = new ModbusCommand(DataType.S16, "36", IOType.Output, ApplicationMode.Filler, 0, 0);
+            WeightMemNetFiller = new ModbusCommand(DataType.S16, "37", IOType.Output, ApplicationMode.Filler, 0, 0);
 
             // region ID Commands : Maintenance - Calibration
 
-            CWTScaleCalibrationWeight = new ModbusCommand(DataType.S32, "46", IOType.Output, ApplicationMode.Standard, 0, 0);   // LFT = LFT scale calibration weight
-            LDWZeroSignal   = new ModbusCommand(DataType.S32, "48", IOType.Output, ApplicationMode.Standard, 0, 0);              // LDW = Nullpunkt
-            LWTNominalSignal = new ModbusCommand(DataType.S32, "50", IOType.Output, ApplicationMode.Standard, 0, 0);              // LWT = Nennwert
+            CWTScaleCalibrationWeight = new ModbusCommand(DataType.S32, "46", IOType.Output, ApplicationMode.Standard, 0, 0);
+            LDWZeroSignal   = new ModbusCommand(DataType.S32, "48", IOType.Output, ApplicationMode.Standard, 0, 0);
+            LWTNominalSignal = new ModbusCommand(DataType.S32, "50", IOType.Output, ApplicationMode.Standard, 0, 0);
 
             // region ID commands for process data
-            Net   = new ModbusCommand(DataType.Int32, "0", IOType.Input, ApplicationMode.Standard, 32, 0);
-            Gross = new ModbusCommand(DataType.Int32, "2", IOType.Input, ApplicationMode.Standard, 32, 0);
-            Zero  = new ModbusCommand(DataType.Int32, "",  IOType.Input, ApplicationMode.Standard, 32, 0);
+            Net   = new ModbusCommand(DataType.S32, "0", IOType.Input, ApplicationMode.Standard, 32, 0);
+            Gross = new ModbusCommand(DataType.S32, "2", IOType.Input, ApplicationMode.Standard, 32, 0);
+            //Zero  = new ModbusCommand(DataType.S32, "",  IOType.Input, ApplicationMode.Standard, 32, 0);
             
-            GeneralWeightError = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 0, 1);
-            ScaleAlarmTriggered = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 1, 1);
-            Limit_status = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 2, 2);                   // data word = 4 ; length = 2 ; offset = 2;
-            WeightMoving = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 4, 1);
-            ScaleSealIsOpen = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 5, 1);
-            ManualTare = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 6, 1);
-            WeightType = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 7, 1);
-            ScaleRange = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 8, 2);
-            ZeroRequired = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 10, 1);
-            WeightinCenterOfZero = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 11, 1);
-            WeightinZeroRange = new ModbusCommand(DataType.U08, "4", IOType.Input, ApplicationMode.Standard, 12, 1);
+            GeneralWeightError = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 0, 1);
+            ScaleAlarmTriggered = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 1, 1);
+            Limit_status = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 2, 2);                   // data word = 4 ; length = 2 ; offset = 2;
+            WeightMoving = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 4, 1);
+            ScaleSealIsOpen = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 5, 1);
+            ManualTare = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 6, 1);
+            WeightType = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 7, 1);
+            ScaleRange = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 8, 2);
+            ZeroRequired = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 10, 1);
+            WeightinCenterOfZero = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 11, 1);
+            WeightinZeroRange = new ModbusCommand(DataType.BIT, "4", IOType.Input, ApplicationMode.Standard, 12, 1);
 
-            Application_mode = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 0, 2);       // data word = 5 ; length = 2 ; offset = 0;
-            Decimals = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 4, 3);               // data word = 5 ; length = 3 ; offset = 4;
-            Unit = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 7, 2);                   // data word = 5 ; length = 2 ; offset = 7;
-            Handshake = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 14, 1);             // data word = 5 : length = 1 ; offset = 14;
-            Status = new ModbusCommand(DataType.U08, "5", IOType.Input, ApplicationMode.Standard, 15, 1);                // data word = 5 ; length = 1 ; offset = 15;
+            Application_mode = new ModbusCommand(DataType.BIT, "5", IOType.Input, ApplicationMode.Standard, 0, 2);       // data word = 5 ; length = 2 ; offset = 0;
+            Decimals = new ModbusCommand(DataType.BIT, "5", IOType.Input, ApplicationMode.Standard, 4, 3);               // data word = 5 ; length = 3 ; offset = 4;
+            Unit = new ModbusCommand(DataType.BIT, "5", IOType.Input, ApplicationMode.Standard, 7, 2);                   // data word = 5 ; length = 2 ; offset = 7;
+            Handshake = new ModbusCommand(DataType.BIT, "5", IOType.Input, ApplicationMode.Standard, 14, 1);             // data word = 5 : length = 1 ; offset = 14;
+            Status = new ModbusCommand(DataType.BIT, "5", IOType.Input, ApplicationMode.Standard, 15, 1);                // data word = 5 ; length = 1 ; offset = 15;
 
             // region ID commands for standard mode
-            Status_digital_input_1 = new ModbusCommand(DataType.U08, "6", IOType.Input, ApplicationMode.Standard, 1, 1);    // IS1
-            Status_digital_input_2 = new ModbusCommand(DataType.U08, "6", IOType.Input, ApplicationMode.Standard, 2, 1);    // IS2
-            Status_digital_input_3 = new ModbusCommand(DataType.U08, "6", IOType.Input, ApplicationMode.Standard, 3, 1);    // IS3
-            Status_digital_input_4 = new ModbusCommand(DataType.U08, "6", IOType.Input, ApplicationMode.Standard, 4, 1);    // IS4
+            Status_digital_input_1 = new ModbusCommand(DataType.BIT, "6", IOType.Input, ApplicationMode.Standard, 1, 1);    // IS1
+            Status_digital_input_2 = new ModbusCommand(DataType.BIT, "6", IOType.Input, ApplicationMode.Standard, 2, 1);    // IS2
+            Status_digital_input_3 = new ModbusCommand(DataType.BIT, "6", IOType.Input, ApplicationMode.Standard, 3, 1);    // IS3
+            Status_digital_input_4 = new ModbusCommand(DataType.BIT, "6", IOType.Input, ApplicationMode.Standard, 4, 1);    // IS4
 
-            Status_digital_output_1 = new ModbusCommand(DataType.U08, "7", IOType.Input, ApplicationMode.Standard, 1, 1);   // OS1
-            Status_digital_output_2 = new ModbusCommand(DataType.U08, "7", IOType.Input, ApplicationMode.Standard, 2, 1);   // OS2
-            Status_digital_output_3 = new ModbusCommand(DataType.U08, "7", IOType.Input, ApplicationMode.Standard, 3, 1);   // OS3
-            Status_digital_output_4 = new ModbusCommand(DataType.U08, "7", IOType.Input, ApplicationMode.Standard, 4, 1);   // OS4
+            Status_digital_output_1 = new ModbusCommand(DataType.BIT, "7", IOType.Input, ApplicationMode.Standard, 1, 1);   // OS1
+            Status_digital_output_2 = new ModbusCommand(DataType.BIT, "7", IOType.Input, ApplicationMode.Standard, 2, 1);   // OS2
+            Status_digital_output_3 = new ModbusCommand(DataType.BIT, "7", IOType.Input, ApplicationMode.Standard, 3, 1);   // OS3
+            Status_digital_output_4 = new ModbusCommand(DataType.BIT, "7", IOType.Input, ApplicationMode.Standard, 4, 1);   // OS4
 
             Limit_value = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Standard, 0, 0);   // LVS , standard
             ManualTareValue = new ModbusCommand(DataType.U08, "2", IOType.Input, ApplicationMode.Standard, 0, 0);  // manual tare value
@@ -129,20 +129,20 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             // region ID commands for filler data
 
-            CoarseFlow = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 0, 1);               // data input word 8, bit .0, application mode=filler
-            FineFlow = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 1, 1);                 // data input word 8, bit .1, application mode=filler
-            Ready = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 2, 1);                    // data input word 8, bit .2, application mode=filler
-            ReDosing = new ModbusCommand(DataType.U08, "8",  IOType.Input, ApplicationMode.Filler, 3, 1);                // data input word 8, bit .3, application mode=filler; RDS = Nachdosieren
-            Emptying = new ModbusCommand(DataType.U08, "8",  IOType.Input, ApplicationMode.Filler, 4, 1);                // data input word 8, bit .4, application mode=filler
-            FlowError = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 5, 1);                // data input word 8, bit .5, application mode=filler
-            Alarm = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 6, 1);                    // data input word 8, bit .6, application mode=filler
-            AdcOverUnderload = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 7, 1);         // data input word 8, bit .7, application mode=filler
-            MaximalDosingTimeInput = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 8, 1);   // data input word 8, bit .8, application mode=filler
-            LegalForTradeOperation = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 9, 1);   // data input word 8, bit .9, application mode=filler
-            ToleranceErrorPlus = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 10, 1);      // data input word 8, bit .10, application mode=filler
-            ToleranceErrorMinus = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 11, 1);     // data input word 8, bit .11, application mode=filler
-            StatusInput1 = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 14, 1);            // data input word 8, bit .14, application mode=filler
-            GeneralScaleError = new ModbusCommand(DataType.U08, "8", IOType.Input, ApplicationMode.Filler, 15, 1);       // data input word 8, bit .15, application mode=filler
+            CoarseFlow = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 0, 1);               // data input word 8, bit .0, application mode=filler
+            FineFlow = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 1, 1);                 // data input word 8, bit .1, application mode=filler
+            Ready = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 2, 1);                    // data input word 8, bit .2, application mode=filler
+            ReDosing = new ModbusCommand(DataType.BIT, "8",  IOType.Input, ApplicationMode.Filler, 3, 1);                // data input word 8, bit .3, application mode=filler; RDS = Nachdosieren
+            Emptying = new ModbusCommand(DataType.BIT, "8",  IOType.Input, ApplicationMode.Filler, 4, 1);                // data input word 8, bit .4, application mode=filler
+            FlowError = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 5, 1);                // data input word 8, bit .5, application mode=filler
+            Alarm = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 6, 1);                    // data input word 8, bit .6, application mode=filler
+            AdcOverUnderload = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 7, 1);         // data input word 8, bit .7, application mode=filler
+            MaximalDosingTimeInput = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 8, 1);   // data input word 8, bit .8, application mode=filler
+            LegalForTradeOperation = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 9, 1);   // data input word 8, bit .9, application mode=filler
+            ToleranceErrorPlus = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 10, 1);      // data input word 8, bit .10, application mode=filler
+            ToleranceErrorMinus = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 11, 1);     // data input word 8, bit .11, application mode=filler
+            StatusInput1 = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 14, 1);            // data input word 8, bit .14, application mode=filler
+            GeneralScaleError = new ModbusCommand(DataType.BIT, "8", IOType.Input, ApplicationMode.Filler, 15, 1);       // data input word 8, bit .15, application mode=filler
 
             TotalWeight = new ModbusCommand(DataType.S32, "18", IOType.Input, ApplicationMode.Filler, 0, 0);             // data input word 18, application mode=filler
             Dosing_time = new ModbusCommand(DataType.U16, "24", IOType.Input, ApplicationMode.Filler, 0, 0);             // DST = Dosieristzeit
