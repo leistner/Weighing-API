@@ -116,8 +116,6 @@ namespace HBM.Weighing.API.WTX.Jet
             ConnectPeer(this._user, this._password, this._timeoutMs);
             FetchAll();          
         }
-
-
         public void DisconnectDevice()
         {
             _peer.Disconnect();
@@ -235,7 +233,6 @@ namespace HBM.Weighing.API.WTX.Jet
         {
             if (!_mSuccessEvent.WaitOne(_timeoutMs * timeoutMultiplier))
             {
-
                 this._connected = false;
 
                 // Timeout-Exception
@@ -249,8 +246,7 @@ namespace HBM.Weighing.API.WTX.Jet
                 Exception exception = _mException;
                 _mException = null;
                 throw exception;
-            }            
-            
+            }                        
         }
 
         public int GetDataFromDictionary(object command)
@@ -350,8 +346,6 @@ namespace HBM.Weighing.API.WTX.Jet
                         break;
                 }
 
-                this.ConvertJTokenToStringArray();
-
                 if (dataArrived == true)
                 {
                     IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
@@ -368,38 +362,18 @@ namespace HBM.Weighing.API.WTX.Jet
         /// <returns></returns>
         protected virtual JToken ReadObj(object index) {
 
-            //lock (_dataJTokenBuffer)
-
-                //if (_dataJTokenBuffer.ContainsKey(index.ToString())) {
-
-                    this.ConvertJTokenToStringArray();
-
-                    //IncomingDataReceived?.Invoke(this, null);
-
-                return _dataJTokenBuffer[index.ToString()];
-                /*}
+            lock (_dataJTokenBuffer)
+                if (_dataJTokenBuffer.ContainsKey(index.ToString()))
+                {
+                    return _dataJTokenBuffer[index.ToString()];
+                }
                 else
                 {
-
                     throw new Exception("Object does not exist in the object dictionary");
                 }
-                */
         }
 
-        private void ConvertJTokenToStringArray()
-        {
-            JTokenArray = _dataJTokenBuffer.Values.ToArray();
-            DataUshortArray = new ushort[JTokenArray.Length];
-            DataStrArray = new string[JTokenArray.Length];
-
-            for (int i = 0; i < JTokenArray.Length; i++)
-            {
-                JToken JTokenElement = JTokenArray[i];
-
-                DataStrArray[i] = JTokenElement.ToString();
-            }
-        }
-       
+      
         public int Read(object index)
         {
             try
@@ -498,7 +472,7 @@ namespace HBM.Weighing.API.WTX.Jet
         #endregion
 
         
-        public string BufferToString()
+        private string BufferToString()
         {
             StringBuilder sb = new StringBuilder();
             lock (_dataJTokenBuffer) {
@@ -509,6 +483,19 @@ namespace HBM.Weighing.API.WTX.Jet
                 }
             }
             return sb.ToString();
+        }
+        private void ConvertJTokenToStringArray()
+        {
+            JTokenArray = _dataJTokenBuffer.Values.ToArray();
+            DataUshortArray = new ushort[JTokenArray.Length];
+            DataStrArray = new string[JTokenArray.Length];
+
+            for (int i = 0; i < JTokenArray.Length; i++)
+            {
+                JToken JTokenElement = JTokenArray[i];
+
+                DataStrArray[i] = JTokenElement.ToString();
+            }
         }
 
         public Task<int> WriteAsync(ushort index, ushort commandParam)

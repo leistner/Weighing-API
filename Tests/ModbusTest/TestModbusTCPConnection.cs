@@ -367,7 +367,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
 
-        public int Read(object index)
+        public int ReadSingle(object index)
         {
             switch (this.behavior)
             {
@@ -450,42 +450,6 @@ namespace HBM.Weighing.API.WTX.Modbus
                     else if (_dataWTX[5] >> 14 == 1)
                         _dataWTX[5] = 0x0000;
 
-                    break;
-
-                case Behavior.NetGrossValueStringComment_0D_Success:
-                    _dataWTX[5] = 0x0000;
-                    break;
-
-                case Behavior.NetGrossValueStringComment_0D_Fail:
-                    _dataWTX[5] = 0x60;
-                    break;
-
-                case Behavior.NetGrossValueStringComment_1D_Success:
-                    _dataWTX[5] = 0x10;
-                    break;
-
-                case Behavior.NetGrossValueStringComment_2D_Success:
-                    _dataWTX[5] = 0x20;
-                    break;
-
-                case Behavior.NetGrossValueStringComment_3D_Success:
-                    _dataWTX[5] = 0x30;
-                    break;
-
-                case Behavior.NetGrossValueStringComment_3D_Fail:
-                    _dataWTX[5] = 0x00;
-                    break;
-
-                case Behavior.NetGrossValueStringComment_4D_Success:
-                    _dataWTX[5] = 0x40;
-                    break;
-
-                case Behavior.NetGrossValueStringComment_5D_Success:
-                    _dataWTX[5] = 0x50;
-                    break;
-
-                case Behavior.NetGrossValueStringComment_6D_Success:
-                    _dataWTX[5] = 0x60;
                     break;
                     
                 case Behavior.WriteSyncSuccess:
@@ -882,9 +846,47 @@ namespace HBM.Weighing.API.WTX.Modbus
                     BusActivityDetection?.Invoke(this, _logObj);
                     break;
 
-                // Simulate for testing 'Unit': 
 
-                case Behavior.t_UnitValue_Success:
+                    case Behavior.NetGrossValueStringComment_0D_Success:
+                        _dataWTX[5] = 0x0000;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_0D_Fail:
+                        _dataWTX[5] = 0x60;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_1D_Success:
+                        _dataWTX[5] = 0x10;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_2D_Success:
+                        _dataWTX[5] = 0x20;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_3D_Success:
+                        _dataWTX[5] = 0x30;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_3D_Fail:
+                        _dataWTX[5] = 0x00;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_4D_Success:
+                        _dataWTX[5] = 0x40;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_5D_Success:
+                        _dataWTX[5] = 0x50;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_6D_Success:
+                        _dataWTX[5] = 0x60;
+                        break;
+
+
+                    // Simulate for testing 'Unit': 
+
+                    case Behavior.t_UnitValue_Success:
                     _dataWTX[5] = 0x100;
                     break;
                 case Behavior.t_UnitValue_Fail:
