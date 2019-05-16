@@ -725,7 +725,7 @@ namespace GUIplc
                     dataGridView1.Rows[12].Cells[6].Value = e.ProcessData.InsideZero;
                     dataGridView1.Rows[13].Cells[6].Value = _wtxDevice.ApplicationMode.ToString();
                     dataGridView1.Rows[14].Cells[6].Value = e.ProcessData.Decimals;
-                    dataGridView1.Rows[15].Cells[6].Value = e.ProcessData.Unit;
+                    dataGridView1.Rows[15].Cells[6].Value = _wtxDevice.Unit;
                     dataGridView1.Rows[16].Cells[6].Value = e.ProcessData.Handshake;
                     dataGridView1.Rows[17].Cells[6].Value = e.ProcessData.Status;
 
