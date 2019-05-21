@@ -580,9 +580,9 @@ namespace HBM.Weighing.API.WTX.Modbus
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
+           
+            _wtxObj.Connection.Write(ModbusCommands.LDWZeroSignal, 0x7FFFFFFF);
 
-            _wtxObj.Connection.Write("48",DataType.S32, 0x7FFFFFFF);
-            
             if (testConnection.getArrElement1 == _data[0] && testConnection.getArrElement2 == _data[1] && testConnection.getWordNumber == 48)
                 return true;
             else
@@ -603,8 +603,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.Connection.Write("50", DataType.U16, 0x7FFFFFFF);
-
+            _wtxObj.Connection.Write(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);
+            
             if (testConnection.getArrElement1 == _data[0] && testConnection.getArrElement2 == _data[1] && testConnection.getWordNumber == 50)
                 return true;
             else
@@ -625,9 +625,9 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.Connection.Write("1", DataType.U08, 0xA1);
-
-            if (testConnection.getArrElement1 == _data[0] && testConnection.getWordNumber == 1)
+            _wtxObj.Connection.Write(ModbusCommands.LimitValue1Input, 0xA1);
+            
+            if (testConnection.getArrElement1 == _data[0] && testConnection.getWordNumber == 4)
                 return true;
             else
                 return false;

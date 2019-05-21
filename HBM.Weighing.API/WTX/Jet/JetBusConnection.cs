@@ -386,11 +386,13 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
 
-        public void Write(string path, DataType dataType, int value)
+        public void Write(object command, int value)
         {
             JValue jValue = new JValue(value);
 
-            SetData(path, jValue);
+            JetBusCommand _command = (JetBusCommand)command;
+
+            SetData(_command.PathIndex, jValue);
         }
 
         public int ReadInt(object index) {
@@ -498,7 +500,7 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
 
-        public Task<int> WriteAsync(ushort index, ushort commandParam)
+        public Task<int> WriteAsync(object command, int commandParam)
         {
             throw new NotImplementedException();
         }

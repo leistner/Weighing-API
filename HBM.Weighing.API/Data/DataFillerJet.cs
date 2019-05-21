@@ -365,145 +365,145 @@ namespace HBM.Weighing.API.Data
 
         #endregion
 
-        #region Set-properties for output words of filler mode
+        #region Get/Set-properties for output words of filler mode
 
         public int ResidualFlowTime // Type : unsigned integer 16 Bit
         {
             get { return _residualFlowTime; }
             set {
-                _connection.Write(JetBusCommands.Residual_flow_time.PathIndex, 0, value);
+                _connection.Write(JetBusCommands.Residual_flow_time, value);
                   this._residualFlowTime = value; }
         }
         public int TargetFillingWeight // Type : signed integer 32 Bit
         {
             get { return _targetFillingWeight; }
-            set { _connection.Write(JetBusCommands.Reference_value_dosing.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Reference_value_dosing, value);
                 this._targetFillingWeight = value; }
         }
         public int CoarseFlowCutOffPointSet // Type : signed integer 32 Bit
         {
             get { return _coarseFlowCutOffPointSet; }
-            set { _connection.Write(JetBusCommands.Coarse_flow_cut_off_point.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Coarse_flow_cut_off_point, value);
                 this._coarseFlowCutOffPointSet = value; }
         }
         public int FineFlowCutOffPointSet // Type : signed integer 32 Bit
         {
             get { return _fineFlowCutOffPointSet; }
-            set { _connection.Write(JetBusCommands.Fine_flow_cut_off_point.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Fine_flow_cut_off_point, value);
                 this._fineFlowCutOffPointSet = value; }
         }
         public int MinimumFineFlow // Type : signed integer 32 Bit
         {
             get { return _minimumFineFlow; }
-            set { _connection.Write(JetBusCommands.Minimum_fine_flow.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Minimum_fine_flow, value);
                 this._minimumFineFlow = value; }
         }
         public int OptimizationOfCutOffPoints // Type : unsigned integer 8 Bit
         {
             get { return _optimizationOfCutOffPoints; }
-            set { _connection.Write(JetBusCommands.Optimization.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Optimization, value);
                 this._optimizationOfCutOffPoints = value; }
         }
         public int MaximumDosingTime // Type : unsigned integer 16 Bit
         {
             get { return _maximumDosingTime; }
-            set { _connection.Write(JetBusCommands.Maximal_dosing_time.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Maximal_dosing_time, value);
                 this._maximumDosingTime = value; }
         }
         public int StartWithFineFlow // Type : unsigned integer 16 Bit
         {
             get { return _startWithFineFlow; }
-            set { _connection.Write(JetBusCommands.Run_start_dosing.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Run_start_dosing, value);
                 this._startWithFineFlow = value; }
         }
         public int CoarseLockoutTime // Type : unsigned integer 16 Bit
         {
             get { return _coarseLockoutTime; }
-            set { _connection.Write(JetBusCommands.Lockout_time_coarse_flow.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Lockout_time_coarse_flow, value);
                 this._coarseLockoutTime = value; }
         }
         public int FineLockoutTime // Type : unsigned integer 16 Bit
         {
             get { return _fineLockoutTime; }
-            set { _connection.Write(JetBusCommands.Lockout_time_fine_flow.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Lockout_time_fine_flow, value);
                 this._fineLockoutTime = value; }
         }
         public int TareMode // Type : unsigned integer 8 Bit
         {
             get { return _tareMode; }
-            set { _connection.Write(JetBusCommands.Tare_mode.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Tare_mode, value);
                 this._tareMode = value; }
         }
         public int UpperToleranceLimit // Type : signed integer 32 Bit
         {
             get { return _upperToleranceLimit; }
-            set { _connection.Write(JetBusCommands.Upper_tolerance_limit.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Upper_tolerance_limit, value);
                 this._upperToleranceLimit = value; }
         }
         public int LowerToleranceLimit // Type : signed integer 32 Bit
         {
             get { return _lowerToleranceLimit; }
-            set { _connection.Write(JetBusCommands.Lower_tolerance_limit.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Lower_tolerance_limit, value);
                 this._lowerToleranceLimit = value; }
         }
         public int MinimumStartWeight // Type : signed integer 32 Bit
         {
             get { return _minimumStartWeight; }
-            set { _connection.Write(JetBusCommands.Minimum_start_weight.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Minimum_start_weight, value);
                 this._minimumStartWeight = value; }
         }
         public int EmptyWeight // Type : signed integer 32 Bit
         {
             get { return _emptyWeight; }
-            set { _connection.Write(JetBusCommands.Empty_weight_tolerance.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Empty_weight_tolerance, value);
                 this._emptyWeight = value; }
         }
         public int TareDelay // Type : unsigned integer 16 Bit
         {
             get { return _tareDelay; }
-            set { _connection.Write(JetBusCommands.Tare_delay.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Tare_delay, value);
                 this._tareDelay = value; }
         }
         public int CoarseFlowMonitoringTime // Type : unsigned integer 16 Bit
         {
             get { return _coarseFlowMonitoringTime; }
-            set { _connection.Write(JetBusCommands.Coarse_flow_monitoring_time.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Coarse_flow_monitoring_time, value);
                 this._coarseFlowMonitoringTime = value; }
         }
         public int CoarseFlowMonitoring  // Type : unsigned integer 32 Bit
         {
             get { return _coarseFlowMonitoring; }
-            set { _connection.Write(JetBusCommands.Coarse_flow_monitoring.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Coarse_flow_monitoring, value);
                 this._coarseFlowMonitoring = value; }
         }
         public int FineFlowMonitoring  // Type : unsigned integer 32 Bit
         {
             get { return _fineFlowMonitoring; }
-            set { _connection.Write(JetBusCommands.Fine_flow_monitoring.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Fine_flow_monitoring, value);
                 this._fineFlowMonitoring = value; }
         }
         public int FineFlowMonitoringTime // Type : unsigned integer 16 Bit
         {
             get { return _fineFlowMonitoringTime; }
-            set { _connection.Write(JetBusCommands.Fine_flow_monitoring_time.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Fine_flow_monitoring_time, value);
                 this._fineFlowMonitoringTime = value; }
         }
         public int DelayTimeAfterFineFlow  // Type : unsigned integer 8 Bit
         {
             get { return _delayTimeAfterFineFlow; }
-            set { _connection.Write("", 0, value);
+            set { _connection.Write("", value);
                 this._delayTimeAfterFineFlow = value; }
         }
         public int ActivationTimeAfterFineFlow  // Type : unsigned integer 8 Bit
         {
             get { return _activationTimeAfterFineFlow; }
-            set { _connection.Write("", 0, value);
+            set { _connection.Write("", value);
                 this._activationTimeAfterFineFlow = value; }
         }
         public int SystematicDifference // Type : unsigned integer 32 Bit
         {
             get { return _systematicDifference; }
-            set { _connection.Write(JetBusCommands.Systematic_difference.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Systematic_difference, value);
                 this._systematicDifference = value; }
         }
         public int DownwardsDosing  // Type : unsigned integer 8 Bit
@@ -515,14 +515,14 @@ namespace HBM.Weighing.API.Data
         public int ValveControl  // Type : unsigned integer 8 Bit
         {
             get { return _valveControl; }
-            set { _connection.Write(JetBusCommands.Valve_control.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Valve_control, value);
                 this._valveControl = value; }
         }
     
         public int EmptyingMode  // Type : unsigned integer 8 Bit
         {
             get { return _emptyingMode; }
-            set { _connection.Write(JetBusCommands.Emptying_mode.PathIndex, 0, value);
+            set { _connection.Write(JetBusCommands.Emptying_mode, value);
                 this._emptyingMode = value; }
         }
         public int WeightStorage

@@ -171,13 +171,11 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             _wtxDevice.Connect(this.OnConnect, 100);
 
-            testConnection.Write(Convert.ToString(0), DataType.U08, 0);
+            testConnection.Write(ModbusCommands.Control_word_ActivateData, 0);
 
             testConnection.ReadSingle(0);
 
             return testConnection.getData[5] & 0x3 >> 1;
-
-            //return _wtxDevice.ApplicationMode;
         }
 
         private void UpdateApplicationModeTest(object sender, ProcessDataReceivedEventArgs e)
