@@ -181,40 +181,6 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Write methods
-        // This method writes a data word to the WTX120 device synchronously. 
-        public void WriteSync(ushort wordNumber, ushort commandParam)
-        {
-            int dataWord = 0x00;
-            int handshakeBit = 0;
-
-            this._command = commandParam;
-
-                // (1) Sending of a command:        
-                this.Connection.Write(Convert.ToString(wordNumber), DataType.U08, this._command);
-                dataWord = ((ModbusTCPConnection)this.Connection).ReadSingle(5);
-
-                handshakeBit = ((dataWord & 0x4000) >> 14);
-                // Handshake protocol as given in the manual:                            
-
-                while (handshakeBit == 0)
-                {
-                    dataWord = ((ModbusTCPConnection)this.Connection).ReadSingle(5);
-                    handshakeBit = ((dataWord & 0x4000) >> 14);
-                }
-
-                // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
-                if (handshakeBit == 1)
-                {
-                    this.Connection.Write(Convert.ToString(wordNumber), DataType.U08, 0x00);
-                }
-
-                while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
-                {
-                    dataWord = ((ModbusTCPConnection)this.Connection).ReadSingle(5);
-                    handshakeBit = ((dataWord & 0x4000) >> 14);
-                }
-
-        }
 
         public int getCommand
         {
@@ -482,7 +448,7 @@ namespace HBM.Weighing.API.WTX
             
             Connection.Write(ModbusCommands.LDWZeroSignal.Register, ModbusCommands.LDWZeroSignal.DataType, 0x7FFFFFFF);
 
-            this.WriteSync(0, 0x80);
+            Connection.WriteSync(0, 0x80);
         }
 
         // This method sets the value for the nominal weight in the WTX.
@@ -496,7 +462,7 @@ namespace HBM.Weighing.API.WTX
                   
             Connection.Write(ModbusCommands.LWTNominalSignal.Register, ModbusCommands.LWTNominalSignal.DataType, 0x7FFFFFFF);
 
-            this.WriteSync(0, 0x100);
+            Connection.WriteSync(0, 0x100);
 
             this.Restart();
         }
@@ -535,12 +501,12 @@ namespace HBM.Weighing.API.WTX
             //write reg 48, DPreload;         
             Connection.Write(ModbusCommands.LDWZeroSignal.Register, ModbusCommands.LDWZeroSignal.DataType, Convert.ToInt32(dPreload));
 
-            this.WriteSync(0, 0x80);
+            Connection.WriteSync(0, 0x80);
 
             //write reg 50, DNominalLoad;          
             Connection.Write(ModbusCommands.LWTNominalSignal.Register, ModbusCommands.LWTNominalSignal.DataType, Convert.ToInt32(dNominalLoad));
 
-            this.WriteSync(0, 0x100);
+            Connection.WriteSync(0, 0x100);
             
             this.Restart();
 

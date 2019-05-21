@@ -514,10 +514,84 @@ namespace HBM.Weighing.API.WTX.Modbus
             get { return this.command; }
         }
 
+        // This method writes a data word to the WTX120 device synchronously. 
+        public void WriteSync(ushort wordNumber, ushort commandParam)
+        {
+            int dataWord = 0x00;
+            int handshakeBit = 0;
+
+            // (1) Sending of a command:        
+            this.Write(Convert.ToString(wordNumber), DataType.U08, commandParam);
+            dataWord = this.ReadSingle(5);
+
+            handshakeBit = ((dataWord & 0x4000) >> 14);
+            // Handshake protocol as given in the manual:                            
+
+            while (handshakeBit == 0)
+            {
+                dataWord = this.ReadSingle(5);
+                handshakeBit = ((dataWord & 0x4000) >> 14);
+            }
+
+            // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
+            if (handshakeBit == 1)
+            {
+                this.Write(Convert.ToString(wordNumber), DataType.U08, 0x00);
+            }
+
+            while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
+            {
+                dataWord = this.ReadSingle(5);
+                handshakeBit = ((dataWord & 0x4000) >> 14);
+            }
+        }
+
         public void Write(string register, DataType dataType, int data)
         {
+            this.wordNumberIndex = Convert.ToInt16(register);
+
             switch (this.behavior)
             {
+                case Behavior.MeasureZeroFail:
+
+                    // Net value in hexadecimal: 
+                    _dataWTX[0] = 0x00;
+                    _dataWTX[1] = 0x2710;
+
+                    // Gross value in hexadecimal:
+                    _dataWTX[2] = 0x00;
+                    _dataWTX[3] = 0x2710;
+
+                    //Handshake bit:
+                    if (_dataWTX[5] >> 14 == 0)
+                        _dataWTX[5] = 0x4000;
+
+                    else if (_dataWTX[5] >> 14 == 1)
+                        _dataWTX[5] = 0x0000;
+
+                    break;
+
+                case Behavior.MeasureZeroSuccess:
+
+                    // Net value in hexadecimal: 
+                    _dataWTX[0] = 0x00;
+                    _dataWTX[1] = 0x00;
+
+                    // Gross value in hexadecimal:
+                    _dataWTX[2] = 0x00;
+                    _dataWTX[3] = 0x00;
+
+                    this.arrayElement1 = (ushort)((0x7FFFFFFF & 0xffff0000) >> 16);
+                    this.arrayElement2 = (ushort)(0x7FFFFFFF & 0x0000ffff);
+        
+                    //Handshake bit:
+                        if (_dataWTX[5] >> 14 == 0)
+                        _dataWTX[5] = 0x4000;
+                    else if (_dataWTX[5] >> 14 == 1)
+                        _dataWTX[5] = 0x0000;
+
+                    break;
+
                 case Behavior.UpdateOutputTestSuccess:
                     this.command = 0x800;
                     break;
@@ -537,11 +611,26 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
                 case Behavior.WriteU16ArrayTestSuccess:
                     this.wordNumberIndex = (ushort)Convert.ToUInt16(register);
-                    this.arrayElement1 = (ushort)data;
+                    
+                    this.arrayElement1 = (ushort)((data & 0xffff0000) >> 16);
+                    this.arrayElement2 = (ushort)(data & 0x0000ffff);
+
                     break;
                 case Behavior.WriteU16ArrayTestFail:
                     this.wordNumberIndex = 0;
                     this.arrayElement1 = 0;
+                    break;
+                case Behavior.WriteS32ArrayTestSuccess:
+                    this.wordNumberIndex = (ushort)Convert.ToUInt16(register);
+
+                    this.arrayElement1 = (ushort)((data & 0xffff0000) >> 16);
+                    this.arrayElement2 = (ushort)(data & 0x0000ffff);
+                    break;
+
+                case Behavior.WriteS32ArrayTestFail:
+                    this.wordNumberIndex = 0;
+                    this.arrayElement1 = 0;
+                    this.arrayElement2 = 0;
                     break;
                 case Behavior.GrosMethodTestSuccess:
                     this.command = data;
@@ -636,11 +725,26 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
 
                 case Behavior.CalibrationFail:
-                    this.command = 0;
+                    this.arrayElement1 = 0;
+                    this.arrayElement2 = 0;
                     break;
 
                 case Behavior.CalibrationSuccess:
-                    this.command = data;
+
+                    if (this.wordNumberIndex == 48 || this.wordNumberIndex == 46)       // According to the index 48 (=wordnumber) the preload is written. 
+                    {
+                        this.arrayElement1 = (ushort)((Convert.ToInt32(data) & 0xffff0000) >> 16);
+                        this.arrayElement2 = (ushort)(Convert.ToInt32(data) & 0x0000ffff);
+                    }
+                    else
+                    if (this.wordNumberIndex == 50)       // According to the index 50 (=wordnumber) the nominal load is written. 
+                    {
+                        this.arrayElement3 = _data[0];
+                        this.arrayElement4 = _data[1];
+
+                        this.arrayElement3 = (ushort)((Convert.ToInt32(data) & 0xffff0000) >> 16);
+                        this.arrayElement4 = (ushort)((Convert.ToInt32(data) & 0x0000ffff));
+                    }
                     break;
 
                 case Behavior.WriteSyncSuccess:
@@ -738,38 +842,6 @@ namespace HBM.Weighing.API.WTX.Modbus
                     this.arrayElement2 = 0;
                     break;
 
-                case Behavior.WriteS32ArrayTestSuccess:
-                        this.wordNumberIndex = _index;
-                        this.arrayElement1 = _data[0];
-                        this.arrayElement2 = _data[1];
-                    break;
-
-                case Behavior.WriteS32ArrayTestFail:
-                        this.wordNumberIndex = 0;
-                        this.arrayElement1 = 0;
-                        this.arrayElement2 = 0;
-                    break;
-
-                case Behavior.CalibrationFail:
-                        this.arrayElement1 = 0;
-                        this.arrayElement2 = 0;
-                   break;
-
-                case Behavior.CalibrationSuccess:
-
-                    if ((int)_index == 48 || (int)_index == 46)       // According to the index 48 (=wordnumber) the preload is written. 
-                    {
-                        this.arrayElement1 = _data[0];
-                        this.arrayElement2 = _data[1];
-                    }
-                    else
-                    if ((int)_index == 50)       // According to the index 50 (=wordnumber) the nominal load is written. 
-                    {
-                        this.arrayElement3 = _data[0];
-                        this.arrayElement4 = _data[1];
-                    }
-                        break;
-
                 case Behavior.WriteArrayFail:
                     this.arrayElement1 = 0;
                     this.arrayElement2 = 0;
@@ -779,23 +851,6 @@ namespace HBM.Weighing.API.WTX.Modbus
                 case Behavior.WriteArraySuccess:
                     this.arrayElement1 = _data[0];
                     this.arrayElement2 = _data[1];
-
-                    break;
-
-                case Behavior.MeasureZeroSuccess:
-
-                    _dataWTX[0] = 0;
-                    _dataWTX[0] = 0; 
-                    this.arrayElement1 = _data[0];
-                    this.arrayElement2 = _data[1];
-
-                    break;
-
-                case Behavior.MeasureZeroFail:
-                    
-                    _dataWTX[0] = 555;
-                    this.arrayElement1 = 0;
-                    this.arrayElement2 = 0;
 
                     break;
                 default:

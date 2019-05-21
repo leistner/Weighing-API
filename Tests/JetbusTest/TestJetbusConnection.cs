@@ -170,7 +170,7 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
 
-        public int Read(object index)
+        public int ReadSingle(object index)
         {
             try
             {
@@ -532,6 +532,11 @@ namespace HBM.Weighing.API.WTX.Jet
         }
 
         public int GetDataFromDictionary(object command)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void WriteSync(ushort wordNumber, ushort commandParam)
         {
             throw new NotImplementedException();
         }

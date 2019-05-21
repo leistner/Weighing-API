@@ -360,8 +360,8 @@ namespace HBM.Weighing.API.WTX.Jet
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        protected virtual JToken ReadObj(object index) {
-
+        protected virtual JToken ReadObj(object index)
+        {
             lock (_dataJTokenBuffer)
                 if (_dataJTokenBuffer.ContainsKey(index.ToString()))
                 {
@@ -374,7 +374,7 @@ namespace HBM.Weighing.API.WTX.Jet
         }
 
       
-        public int Read(object index)
+        public int ReadSingle(object index)
         {
             try
             {
@@ -625,6 +625,11 @@ namespace HBM.Weighing.API.WTX.Jet
 
             // uncomment the following line if the finalizer is overridden above.
             // GC.SuppressFinalize(this);
+        }
+
+        public void WriteSync(ushort wordNumber, ushort commandParam)
+        {
+            throw new NotImplementedException();
         }
 
         public Dictionary<string, JToken> getDataBuffer
