@@ -133,7 +133,7 @@ namespace HBM.Weighing.API
         /// <summary>
         /// Gets or sets the calibration weight for the next adjustment
         /// </summary>
-        public abstract int AdjustmentWeight { get; set; }
+        public abstract int CalibrationWeight { get; set; }
 
         /// <summary>
         /// Gets or sets the zero signal

@@ -411,7 +411,7 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Adjustment methods 
-        public override int AdjustmentWeight // Type : signed integer 32 Bit
+        public override int CalibrationWeight // Type : signed integer 32 Bit
         {
             get { return _calibrationWeight; }
             set
