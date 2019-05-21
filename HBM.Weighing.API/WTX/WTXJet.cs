@@ -313,10 +313,10 @@ namespace HBM.Weighing.API.WTX
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution
-            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_ONGOING);
+            while (Connection.ReadSingle(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING);
 
             // check : command "ok" = command is done
-            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_OK);
+            while (Connection.ReadSingle(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_OK);
             
         }
 
@@ -328,12 +328,10 @@ namespace HBM.Weighing.API.WTX
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
 
             // check : command "on go" = command is in execution
-            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
+            while (Connection.ReadSingle(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
 
             // check : command "ok" = command is done
-            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status.PathIndex) != SCALE_COMMAND_STATUS_OK) ;     
-
-            //this._isCalibrating = true;
+            while (Connection.ReadSingle(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_OK) ;     
         }
 
         public override void AdjustNominalSignal()
