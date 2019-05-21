@@ -148,22 +148,22 @@ namespace HBM.Weighing.API.WTX
 
         public override void Zero()
         {
-            Connection.Write(JetBusCommands.Scale_command.PathIndex, 0, SCALE_COMMAND_ZERO);
+            Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_ZERO);
         }
 
         public override void SetGross()
         {
-            Connection.Write(JetBusCommands.Scale_command.PathIndex, 0, SCALE_COMMAND_SET_GROSS);
+            Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_SET_GROSS);
         }
 
         public override void Tare()
         {
-            Connection.Write(JetBusCommands.Scale_command.PathIndex, 0, SCALE_COMMAND_TARE);
+            Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_TARE);
         }
 
         public override void TareManually(double manualTareValue)
         {
-            Connection.Write(JetBusCommands.Scale_command.PathIndex, 0, SCALE_COMMAND_TARE);
+            Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_TARE);
         }
 
         public override void RecordWeight()
@@ -297,11 +297,11 @@ namespace HBM.Weighing.API.WTX
 
             // write path 2110/06 - dead load = LDW_DEAD_WEIGHT 
 
-            Connection.Write(JetBusCommands.Ldw_dead_weight.PathIndex, 0, scalZeroLoad_d);         // Zero point = LDW_DEAD_WEIGHT= "2110/06" 
+            Connection.Write(JetBusCommands.Ldw_dead_weight, scalZeroLoad_d);         // Zero point = LDW_DEAD_WEIGHT= "2110/06" 
 
             // write path 2110/07 - capacity/span = Nominal value = LWT_NOMINAL_VALUE        
 
-            Connection.Write(JetBusCommands.Lwt_nominal_value.PathIndex, 0, Convert.ToInt32(scaleCapacity_d));    // Nominal value = LWT_NOMINAL_VALUE = "2110/07" ; 
+            Connection.Write(JetBusCommands.Lwt_nominal_value, Convert.ToInt32(scaleCapacity_d));    // Nominal value = LWT_NOMINAL_VALUE = "2110/07" ; 
 
             //this._isCalibrating = true;
         }
@@ -309,7 +309,8 @@ namespace HBM.Weighing.API.WTX
 
         public override bool AdjustZeroSignal()
         {
-            Connection.Write(JetBusCommands.Scale_command.PathIndex, 0, SCALE_COMMAND_CALIBRATE_ZERO); 
+            //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
+            Connection.Write(JetBusCommands.Scale_command, 0, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
             while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
             {
@@ -330,7 +331,7 @@ namespace HBM.Weighing.API.WTX
 
         public override bool AdjustNominalSignal()
         {
-            Connection.Write(JetBusCommands.Scale_command.PathIndex, 0, SCALE_COMMAND_CALIBRATE_NOMINAL);
+            Connection.Write(JetBusCommands.Scale_command, 0, SCALE_COMMAND_CALIBRATE_NOMINAL);
 
             while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
             {
@@ -371,11 +372,6 @@ namespace HBM.Weighing.API.WTX
                 return true;
             else
                 return false;
-        }
-
-        public void SetOutput(object index, int value)
-        {
-            Connection.Write(Convert.ToString(index),0, value);
         }
 
         public override void Stop()

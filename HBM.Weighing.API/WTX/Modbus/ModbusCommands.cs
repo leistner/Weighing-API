@@ -183,7 +183,32 @@ namespace HBM.Weighing.API.WTX.Modbus
             DownwardsDosing = new ModbusCommand(DataType.U08, "42", IOType.Output, ApplicationMode.Filler, 0, 0);             // data output word 42, application mode=filler
             Valve_control = new ModbusCommand(DataType.U08, "43", IOType.Output, ApplicationMode.Filler, 0, 0);               // VCT = Ventilsteuerung
             Emptying_mode = new ModbusCommand(DataType.U08, "44", IOType.Output, ApplicationMode.Filler, 0, 0);               // EMD = Entleermodus
-         }
+
+            Control_word_Taring   = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 0, 1);
+            Control_word_GrossNet = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 1, 1);
+            Control_word_ClearDosingResults = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 2, 1);
+            Control_word_AbortDosing    = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 3, 1);
+            Control_word_StartDosing    = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 4, 1);
+            Control_word_Zeroing        = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 6, 1);
+            Control_word_AdjustZero     = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 7, 1);
+            Control_word_AdjustNominal  = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 8, 1);
+            Control_word_ActivateData   = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 11, 1);
+            Control_word_RecordWeight   = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 14, 1);
+            Control_word_ManualReDosing = new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 15, 1);
+        }
+
+        // Output word : Control word:
+        public static ModbusCommand Control_word_Taring { get; private set; }
+        public static ModbusCommand Control_word_GrossNet { get; private set; }
+        public static ModbusCommand Control_word_ClearDosingResults { get; private set; }
+        public static ModbusCommand Control_word_AbortDosing { get; private set; }
+        public static ModbusCommand Control_word_StartDosing { get; private set; }
+        public static ModbusCommand Control_word_Zeroing { get; private set; }
+        public static ModbusCommand Control_word_AdjustZero { get; private set; }
+        public static ModbusCommand Control_word_AdjustNominal { get; private set; }
+        public static ModbusCommand Control_word_ActivateData { get; private set; }
+        public static ModbusCommand Control_word_RecordWeight { get; private set; }
+        public static ModbusCommand Control_word_ManualReDosing { get; private set; }
 
         // region ID Commands : Memory - day, month, year, seqNumber, gross, net
 

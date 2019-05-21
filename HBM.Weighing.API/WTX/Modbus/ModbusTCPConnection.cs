@@ -32,6 +32,7 @@ namespace HBM.Weighing.API.WTX.Modbus
     using System;
     using System.Collections.Generic;
     using System.Net.Sockets;
+    using System.Threading;
     using System.Threading.Tasks;
     using NModbus;
 
@@ -153,12 +154,14 @@ namespace HBM.Weighing.API.WTX.Modbus
             return _data;
         }
             
-        public void Write(string register, DataType dataType, int value)
+        public void Write(object command, int value)
         {
-            ushort[] _dataToWrite = new ushort[2];
-            ushort _register = Convert.ToUInt16(register);
+            ModbusCommand _command = (ModbusCommand)command;
 
-            switch (dataType)
+            ushort[] _dataToWrite = new ushort[2];
+            ushort _register = Convert.ToUInt16(_command.Register);
+
+            switch (_command.DataType)
             {
                 case DataType.U08:
                     _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, _register, (ushort)value);
@@ -178,20 +181,19 @@ namespace HBM.Weighing.API.WTX.Modbus
                     _master.WriteMultipleRegisters(WTX_SLAVE_ADDRESS, _register, _dataToWrite);
                     break;
             }
+
+            if(_register == 0)
+                this.DoHandshake(_register);
+
             CommunicationLog?.Invoke(this, new LogEvent("Data(ushort) have been written successfully to the register"));
         }
 
         // This method writes a data word to the WTX120 device synchronously. 
-        public void WriteSync(ushort wordNumber, ushort commandParam)
+        private void DoHandshake(ushort register)
         {
-            int dataWord = 0x00;
-            int handshakeBit = 0;
+            int dataWord = this.ReadSingle(5);
 
-            // (1) Sending of a command:        
-            this.Write(Convert.ToString(wordNumber), DataType.U08, commandParam);
-            dataWord = this.ReadSingle(5);
-
-            handshakeBit = ((dataWord & 0x4000) >> 14);
+            int handshakeBit = ((dataWord & 0x4000) >> 14);
             // Handshake protocol as given in the manual:                            
 
             while (handshakeBit == 0)
@@ -203,7 +205,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
             if (handshakeBit == 1)
             {
-                this.Write(Convert.ToString(wordNumber), DataType.U08, 0x00);
+                _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, 0, 0x00);
             }
 
             while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
@@ -213,13 +215,17 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
-        public async Task<int> WriteAsync(ushort index, ushort commandParam)
+        public async Task<int> WriteAsync(object command, int value)
         {
-            await _master.WriteSingleRegisterAsync(0, index, commandParam);
+            ModbusCommand _command = (ModbusCommand)command;
 
-            CommunicationLog?.Invoke(this, new LogEvent("Write register " + index.ToString() +" successful"));
+            ushort registerAddress = (ushort)Convert.ToInt16(_command.Register);
 
-            return commandParam;
+            await _master.WriteSingleRegisterAsync(0, registerAddress, (ushort)value);
+
+            CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " successful"));
+
+            return value;
         }
                 
         public int GetDataFromDictionary(object command)
