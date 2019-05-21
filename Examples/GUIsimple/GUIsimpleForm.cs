@@ -88,7 +88,7 @@ namespace GUIsimple
             if (args.Length > 0)
             {
                 if (args[0].ToLower() == "modbus")
-                {              
+                {
                     rbtConnectionModbus.Checked = true;
                 }
                 if (args[0].ToLower() == "jet")
@@ -96,9 +96,18 @@ namespace GUIsimple
                     rbtConnectionJet.Checked = true;
                 }
             }
-
+            else
+            {
+                if (Properties.Settings.Default.IsJetBus)
+                    rbtConnectionJet.Checked = true;
+                else
+                    rbtConnectionModbus.Checked = true;
+            }
+            
             if (args.Length > 1)
                 _ipAddress = args[1];
+            else
+                _ipAddress = Properties.Settings.Default.IPAddress;
 
             if (args.Length > 2)
                 this._timerInterval = Convert.ToInt32(args[2]);
@@ -145,6 +154,9 @@ namespace GUIsimple
             if (_wtxDevice.IsConnected == true)
             {
                 picNE107.Image = Properties.Resources.NE107_DiagnosisActive;
+                Properties.Settings.Default.IPAddress = this._ipAddress;
+                Properties.Settings.Default.IsJetBus = rbtConnectionJet.Checked;
+                Properties.Settings.Default.Save();
             }
             else
             {
