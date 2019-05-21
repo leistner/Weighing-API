@@ -397,7 +397,7 @@ namespace WTXModbus
 
             string another2 = Console.ReadLine();
 
-            _wtxDevice.AdjustNominalSignalWithAdjustmentWeight(PotencyCalibrationWeight());
+            _wtxDevice.AdjustNominalSignalWithCalibrationWeight(CalibrationWeight());
 
             _wtxDevice.Restart();
         }  
@@ -406,17 +406,10 @@ namespace WTXModbus
          * This method potentiate the number of the values decimals and multiply it with the calibration weight(input) to get
          * an integer which is in written into the WTX registers by the method Calibrate(potencyCalibrationWeight()). 
          */
-        private static int PotencyCalibrationWeight()
+        private static double CalibrationWeight()
         {
-
-            _strCommaDot = _calibrationWeight.Replace(".", ","); // Transformation into a floating-point number.Thereby commas and dots can be used as input for the calibration weight.
-            _doubleCalibrationWeight = double.Parse(_strCommaDot);                  
-
-            _potenz = Math.Pow(10, _wtxDevice.ProcessData.Decimals); // Potentisation by 10^(decimals). 
-            
-            return (int) (_doubleCalibrationWeight * _potenz); // Multiplying of the potentiated values with the calibration weight, ...
-                                                             // ...casting to integer (easily possible because of the multiplying with ... 
-                                                             // ...the potensied value) and returning of the value. 
+            _strCommaDot = _calibrationWeight.Replace(".", ","); // Transformation into a floating-point number.Thereby commas and dots can be used as input for the calibration weight.                         
+            return double.Parse(_strCommaDot);                                                                                                                
         }
         #endregion
 

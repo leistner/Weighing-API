@@ -111,7 +111,7 @@ namespace GUIsimple
                 case 1: // measure zero
 
                     txtInfo.Text = "Measure zero in progess.";
-                    Application.DoEvents(); //Change txtInfo
+                    Application.DoEvents(); 
 
                     _wtxDevice.AdjustZeroSignal();
                     
@@ -124,29 +124,15 @@ namespace GUIsimple
                 case 2: // start calibration   
 
                     txtInfo.Text = "Calibration in progress.";
-                    Application.DoEvents();              //For changing the 'txtInfo' textbox. 
+                    Application.DoEvents();            
 
-                    _wtxDevice.AdjustNominalSignalWithAdjustmentWeight(this.CalibrationWeightWithoutDecimals());
-                                       
-                    cmdAdjust.Text = "Check";
+                    if (_wtxDevice.AdjustNominalSignalWithCalibrationWeight(_calibrationWeight))
+                        txtInfo.Text = "Calibration finished succesfully";
+                    else
+                        txtInfo.Text = "Calibration finished incomplete";
+                    cmdAdjust.Text = "Close";
                     _state = 3;
 
-                    break;
-
-                case 3:  // Check calibration:
-
-                    if (
-                         _wtxDevice.ProcessData.NetValue == (int)expCalibrationWeight ||
-                        (_wtxDevice.ProcessData.NetValue > (int) expCalibrationWeight && _wtxDevice.ProcessData.NetValue < (int) expCalibrationWeight + 5) ||
-                        (_wtxDevice.ProcessData.NetValue < (int) expCalibrationWeight && _wtxDevice.ProcessData.NetValue > (int) expCalibrationWeight - 5)
-                        )
-                        txtInfo.Text = "Calibration finished and successful";
-
-                    else
-                        txtInfo.Text = "Calibration failed.";
-                    
-                    cmdAdjust.Text = "Close";
-                    _state = 4;
                     break;
 
                 default: //close window

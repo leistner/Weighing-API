@@ -28,6 +28,7 @@
 //
 // </copyright>
 using HBM.Weighing.API.Data;
+using HBM.Weighing.API.Utils;
 using HBM.Weighing.API.WTX.Modbus;
 using Newtonsoft.Json.Linq;
 using System;
@@ -440,23 +441,34 @@ namespace HBM.Weighing.API.WTX
         }
 
         // This methods sets the value of the WTX to zero. 
-        public override void AdjustZeroSignal()
+        public override bool AdjustZeroSignal()
         {
             this.Stop();
-
-            //todo: write reg 48, 0x7FFFFFFF
-            
+                        
             Connection.Write(ModbusCommands.LDWZeroSignal.Register, ModbusCommands.LDWZeroSignal.DataType, 0x7FFFFFFF);
 
             Connection.WriteSync(0, 0x80);
+
+            return true; //DDD
+        }
+
+        public override bool AdjustNominalSignal()
+        {
+            this.Stop();
+
+            Connection.Write(ModbusCommands.LWTNominalSignal.Register, ModbusCommands.LWTNominalSignal.DataType, 0x7FFFFFFF);
+
+            Connection.WriteSync(0, 0x100);
+
+            return true; //DDD
         }
 
         // This method sets the value for the nominal weight in the WTX.
-        public override void AdjustNominalSignalWithAdjustmentWeight(int adjustmentWeight)
+        public override bool AdjustNominalSignalWithCalibrationWeight(double adjustmentWeight)
         {
             //write reg 46, CalibrationWeight     
 
-            Connection.Write(ModbusCommands.CWTScaleCalibrationWeight.Register, ModbusCommands.CWTScaleCalibrationWeight.DataType, adjustmentWeight);
+            Connection.Write(ModbusCommands.CWTScaleCalibrationWeight.Register, ModbusCommands.CWTScaleCalibrationWeight.DataType, MeasurementUtils.DoubleToDigit(adjustmentWeight, ProcessData.Decimals));
 
             //write reg 50, 0x7FFFFFFF
                   
@@ -465,6 +477,8 @@ namespace HBM.Weighing.API.WTX
             Connection.WriteSync(0, 0x100);
 
             this.Restart();
+
+            return true; //DDD
         }
         
         public double getDPreload
@@ -528,12 +542,7 @@ namespace HBM.Weighing.API.WTX
         {
             _command = (ushort)await AsyncWrite(0, 0x40);
         }
-
-        public async override void AdjustNominalSignal()
-        {
-            _command = (ushort)await AsyncWrite(0, 0x100);
-        }
-
+        
         public async void ActivateData()
         {
             _command = (ushort)await AsyncWrite(0, 0x800);

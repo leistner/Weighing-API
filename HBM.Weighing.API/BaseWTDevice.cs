@@ -212,25 +212,25 @@ namespace HBM.Weighing.API
         /// <summary>
         /// Adjust the zero load 
         /// </summary>
-        public abstract void AdjustZeroSignal();
+        public abstract bool AdjustZeroSignal();
 
         /// <summary>
         /// Adjust the nominal load 
         /// </summary>
-        public abstract void AdjustNominalSignal();
+        public abstract bool AdjustNominalSignal();
         
         /// <summary>
         /// Adjust with an individual adjustment weight. 
         /// </summary>
         /// <param name="adjustmentWeight">Weight for the next adjustment</param>
-        public abstract void AdjustNominalSignalWithAdjustmentWeight(int adjustmentWeight);
+        public abstract bool AdjustNominalSignalWithCalibrationWeight(double adjustmentWeight);
 
         /// <summary>
         /// Calibration with zero load and span. 
         /// </summary>
-        /// <param name="scaleZeroLoad">Zero load for calculating the adjustment</param>
+        /// <param name="scaleZeroSingal">Zero load for calculating the adjustment</param>
         /// <param name="scaleCapacity">Scale capacity for calculating the adjustment</param>
-        public abstract void CalculateAdjustment(double scaleZeroLoad, double scaleCapacity);
+        public abstract void CalculateAdjustment(double scaleZeroSingal, double scaleCapacity);
 
         #endregion
     }
