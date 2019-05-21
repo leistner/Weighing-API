@@ -310,7 +310,7 @@ namespace HBM.Weighing.API.WTX
         public override bool AdjustZeroSignal()
         {
             //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
-            Connection.Write(JetBusCommands.Scale_command, 0, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
+            Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
             while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
             {
@@ -330,7 +330,7 @@ namespace HBM.Weighing.API.WTX
 
         public override bool AdjustNominalSignal()
         {
-            Connection.Write(JetBusCommands.Scale_command, 0, SCALE_COMMAND_CALIBRATE_NOMINAL);
+            Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_NOMINAL);
 
             while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
             {
@@ -352,9 +352,9 @@ namespace HBM.Weighing.API.WTX
         ///Adjust WTX device with a calibration weight
         public override bool AdjustNominalSignalWithCalibrationWeight(double calibrationWeight)
         {
-            Connection.Write(JetBusCommands.Lft_scale_calibration_weight.PathIndex, 0, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));   
+            Connection.Write(JetBusCommands.Lft_scale_calibration_weight, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));   
 
-            Connection.Write(JetBusCommands.Scale_command.PathIndex, 0, SCALE_COMMAND_CALIBRATE_NOMINAL); 
+            Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_NOMINAL); 
   
             while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
             {

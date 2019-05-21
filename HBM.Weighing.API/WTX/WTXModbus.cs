@@ -445,9 +445,9 @@ namespace HBM.Weighing.API.WTX
         {
             this.Stop();
                         
-            Connection.Write(ModbusCommands.LDWZeroSignal, ModbusCommands.LDWZeroSignal.DataType, 0x7FFFFFFF);
+            Connection.Write(ModbusCommands.LDWZeroSignal, 0x7FFFFFFF);
 
-            Connection.WriteSync(0, 0x80);
+            Connection.Write(ModbusCommands.Control_word_AdjustZero, 0x80);
 
             return true; //DDD
         }
@@ -456,9 +456,9 @@ namespace HBM.Weighing.API.WTX
         {
             this.Stop();
 
-            Connection.Write(ModbusCommands.LWTNominalSignal, ModbusCommands.LWTNominalSignal.DataType, 0x7FFFFFFF);
-
-            Connection.WriteSync(0, 0x100);
+            Connection.Write(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);
+        
+            Connection.Write(ModbusCommands.Control_word_AdjustNominal, 0x100);
 
             return true; //DDD
         }
@@ -468,7 +468,7 @@ namespace HBM.Weighing.API.WTX
         {
             //write reg 46, CalibrationWeight     
 
-            Connection.Write(ModbusCommands.CWTScaleCalibrationWeight, adjustmentWeight);
+            Connection.Write(ModbusCommands.CWTScaleCalibrationWeight, MeasurementUtils.DoubleToDigit(adjustmentWeight,ProcessData.Decimals));
 
             //write reg 50, 0x7FFFFFFF
                   
