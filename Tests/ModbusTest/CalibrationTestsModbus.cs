@@ -26,12 +26,12 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         // The following 2 tests as a first draw : Implementation for the following 2 tests follows in the week from 27.08-31.08
-        /*
+        
         [Test, TestCaseSource(typeof(CalibrationTestsModbus), "CalculateCalibrationTestCases")]
         public bool CalculateCalibrationTest(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus WTXModbusObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus WTXModbusObj = new WTXModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
 
@@ -43,11 +43,11 @@ namespace HBM.Weighing.API.WTX.Modbus
             double dPreload = preload * multiplierMv2D;
             double dNominalLoad = dPreload + (capacity * multiplierMv2D);
 
-            WTXModbusObj.Calculate(preload, capacity);
-            
+            WTXModbusObj.CalculateAdjustment(preload, capacity);
+
             if (
-                (testConnection.getArrElement1 == (Convert.ToInt32(dPreload) & 0xffff0000) >> 16) &&
-                (testConnection.getArrElement2 == (Convert.ToInt32(dPreload) & 0x0000ffff)) &&
+               (testConnection.getArrElement1 == (Convert.ToInt32(dPreload) & 0xffff0000) >> 16) &&
+               (testConnection.getArrElement2 == (Convert.ToInt32(dPreload) & 0x0000ffff)) &&
 
                 (testConnection.getArrElement3 == (Convert.ToInt32(dNominalLoad) & 0xffff0000) >> 16) &&
                 (testConnection.getArrElement4 == (Convert.ToInt32(dNominalLoad) & 0x0000ffff)) &&
@@ -65,20 +65,18 @@ namespace HBM.Weighing.API.WTX.Modbus
             
         }
 
-
-
         [Test, TestCaseSource(typeof(CalibrationTestsModbus), "CalculateCalibrationTestCases")]
         public bool CalibrationTest(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
 
-            WtxModbus WTXModbusObj = new WtxModbus(testConnection, 200,update);
+            WTXModbus WTXModbusObj = new WTXModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
 
             int testCalibrationValue = 111;
-
-            WTXModbusObj.Calibrate(testCalibrationValue, "111");
+            
+            WTXModbusObj.AdjustNominalSignalWithAdjustmentWeight(testCalibrationValue);
 
             // Check if: write reg 46, CalibrationWeight and write reg 50, 0x7FFFFFFF
 
@@ -98,7 +96,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
 
         }
-        */
+        
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
             throw new NotImplementedException();

@@ -549,85 +549,6 @@ namespace HBM.Weighing.API.WTX.Modbus
                 Assert.AreEqual(0x0, _wtxObj.getCommand);
         }
 
-
-        /* No filling in baseWTDevice !
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "ClearDosingResultsMethodTestCases")]
-        public void ClearDosingResultsMethodTestModbus(Behavior behavior)
-        {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WTXModbus(testConnection, 200, Update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            _wtxObj.ClearDosingResults();
-
-            if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x4, _wtxObj.getCommand);
-            else
-                if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.getCommand);
-        }
-        */
-        /* No filling in baseWTDevice !
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "AbortDosingMethodTestCases")]
-        public void AbortDosingMethodTestModbus(Behavior behavior)
-        {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WTXModbus(testConnection, 200, Update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            _wtxObj.AbortDosing();
-
-            if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x8, _wtxObj.getCommand);
-            else
-                if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.getCommand);
-        }
-        */
-        /*
-// Test for method : Zeroing
-[Test, TestCaseSource(typeof(WriteTestsModbus), "ZeroMethodTestCases")]
-public async Task ZeroMethodTestModbus(Behavior behavior)
-{
-    int command = 0;
-
-    testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-    _wtxObj = new WtxModbus(testConnection, 200,Update);
-
-    _wtxObj.Connect(this.OnConnect, 100);
-
-    command = await _wtxObj.AsyncWrite(0, 0x40);
-
-    if (behavior == Behavior.ZeroMethodTestSuccess)
-        Assert.AreEqual(0x40, command);
-    else
-        if (behavior == Behavior.ZeroMethodTestFail)
-        Assert.AreEqual(0x00, command);
-}
-*/
-
-
-        /* No filling in baseWTDevice !
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "StartDosingMethodTestCases")]
-        public void StartDosingMethodTestModbus(Behavior behavior)
-        {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WTXModbus(testConnection, 200, Update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            _wtxObj.StartDosing();
-
-            if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x10, _wtxObj.getCommand);
-            else
-                if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.getCommand);
-        }
-        */
-
         // Test for method : Record weight
         [Test, TestCaseSource(typeof(WriteTestsModbus), "RecordWeightMethodTestCases")]
         public void RecordweightMethodTestModbus(Behavior behavior)
@@ -645,28 +566,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 if (behavior == Behavior.TareMethodTestFail)
                 Assert.AreEqual(0x0, _wtxObj.getCommand);
         }
-
-
-        /* No filling in baseWTDevice !
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "ManualRedosingMethodTestCases")]
-        public void ManualRedosingMethodTestModbus(Behavior behavior)
-        {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WTXModbus(testConnection, 200, Update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            _wtxObj.ManualReDosing();
-
-            if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x8000, _wtxObj.getCommand);
-            else
-                if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.getCommand);
-        }
-        */
-
-        /*
+        
         // Test for method : Write an Array of type signed integer 32 bit. 
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteS32ArrayTestCases")]
         public bool WriteS32ArrayTestModbus(Behavior behavior)
@@ -677,44 +577,41 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
             _data[1] = (ushort)(0x7FFFFFFF & 0x0000FFFF);
 
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.WriteOutputWordS32(0x7FFFFFFF, 48);
-
-            if (testConnection.getArrElement1 == _data[0] && testConnection.getArrElement2 == _data[1] &&
-                testConnection.getWordNumber == 48)
+            _wtxObj.Connection.Write("48",DataType.S32, 0x7FFFFFFF);
+            
+            if (testConnection.getArrElement1 == _data[0] && testConnection.getArrElement2 == _data[1] && testConnection.getWordNumber == 48)
                 return true;
             else
                 return false;
-
         }
-        
-         /*
+              
         // Test for method : Write an Array of type unsigned integer 16 bit. 
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteU16ArrayTestCases")]
         public bool WriteU16ArrayTestModbus(Behavior behavior)
         {
-            ushort[] _data = new ushort[1];
+            ushort[] _data = new ushort[2];
 
-            _data[0] = (ushort)((0x7FFFFFFF & 0xFFFF0000) >> 16);
+            _data[0] = (ushort)((0x7fffffff & 0xffff0000) >> 16);
+            _data[1] = (ushort)(0x7fffffff & 0x0000ffff);
 
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.WriteOutputWordU16(0x7FFFFFFF, 50);
+            _wtxObj.Connection.Write("50", DataType.U16, 0x7FFFFFFF);
 
-            if (testConnection.getArrElement1 == _data[0] && testConnection.getWordNumber == 50)
+            if (testConnection.getArrElement1 == _data[0] && testConnection.getArrElement2 == _data[1] && testConnection.getWordNumber == 50)
                 return true;
             else
                 return false;
-
         }
-        */
-        /*
+        
+        
         // Test for method : Write an Array of type unsigned integer 16 bit. 
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteU08ArrayTestCases")]
         public bool WriteU08ArrayTestModbus(Behavior behavior)
@@ -724,11 +621,11 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
             _data[0] = (ushort)(0xA1 & 0xFF);
 
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
+            _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.WriteOutputWordU08(0xA1, 1);
+            _wtxObj.Connection.Write("1", DataType.U08, 0xA1);
 
             if (testConnection.getArrElement1 == _data[0] && testConnection.getWordNumber == 1)
                 return true;
@@ -736,7 +633,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
                 return false;
 
         }
-        */
+
         [Test, TestCaseSource(typeof(WriteTestsModbus), "ResetTimerTestCases")]
         public int ResetTimerTestModbus(Behavior behavior)
         {
@@ -750,6 +647,7 @@ public async Task ZeroMethodTestModbus(Behavior behavior)
             return (int)_wtxObj._aTimer.Interval;
             //Assert.AreEqual(_wtxObj._aTimer.Interval, 500);
         }
+
         /*
         [Test, TestCaseSource(typeof(WriteTestsModbus), "UpdateOutputTestCases")]
         public bool UpdateOutputTest(Behavior behavior)
