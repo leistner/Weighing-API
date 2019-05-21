@@ -136,7 +136,7 @@ namespace HBM.Weighing.API.WTX
 
         #region Connection
         // To establish a connection to the WTX device via class WTX120_Modbus.
-        public override void Connect(double timeoutMs)
+        public override void Connect(double timeoutMs = 2000)
         {
             this.Connection.Connect();
         }
