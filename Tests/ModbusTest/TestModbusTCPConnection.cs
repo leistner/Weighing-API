@@ -240,7 +240,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break; 
             }
 
-            Write(Convert.ToString(0), 0, 0);
+            Write(ModbusCommands.Control_word_Taring, 0);
     }
 
         public bool IsConnected
@@ -512,17 +512,13 @@ namespace HBM.Weighing.API.WTX.Modbus
             get { return this.command; }
         }
 
+
         // This method writes a data word to the WTX120 device synchronously. 
-        public void WriteSync(ushort wordNumber, ushort commandParam)
+        private void DoHandshake(ushort register)
         {
-            int dataWord = 0x00;
-            int handshakeBit = 0;
+            int dataWord = this.ReadSingle(5);
 
-            // (1) Sending of a command:        
-            this.Write(Convert.ToString(wordNumber), DataType.U08, commandParam);
-            dataWord = this.ReadSingle(5);
-
-            handshakeBit = ((dataWord & 0x4000) >> 14);
+            int handshakeBit = ((dataWord & 0x4000) >> 14);
             // Handshake protocol as given in the manual:                            
 
             while (handshakeBit == 0)
@@ -534,7 +530,8 @@ namespace HBM.Weighing.API.WTX.Modbus
             // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
             if (handshakeBit == 1)
             {
-                this.Write(Convert.ToString(wordNumber), DataType.U08, 0x00);
+                this.Write(new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 0, 0),0x00);
+                //_master.WriteSingleRegister(WTX_SLAVE_ADDRESS, 0, 0x00);
             }
 
             while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
@@ -544,9 +541,11 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
-        public void Write(string register, DataType dataType, int data)
+        public void Write(object command, int data)
         {
-            this.wordNumberIndex = Convert.ToInt16(register);
+            ModbusCommand _command = (ModbusCommand)command;
+
+            this.wordNumberIndex = Convert.ToInt16(_command.Register);
 
             switch (this.behavior)
             {
@@ -599,7 +598,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
 
                 case Behavior.WriteU08ArrayTestSuccess:
-                    this.wordNumberIndex = (ushort)Convert.ToUInt16(register);
+                    this.wordNumberIndex = (ushort)Convert.ToUInt16(_command.Register);
                     this.arrayElement1 = (ushort)data;
                     break;
 
@@ -608,7 +607,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     this.arrayElement1 = 0;
                     break;
                 case Behavior.WriteU16ArrayTestSuccess:
-                    this.wordNumberIndex = (ushort)Convert.ToUInt16(register);
+                    this.wordNumberIndex = (ushort)Convert.ToUInt16(_command.Register);
                     
                     this.arrayElement1 = (ushort)((data & 0xffff0000) >> 16);
                     this.arrayElement2 = (ushort)(data & 0x0000ffff);
@@ -619,7 +618,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     this.arrayElement1 = 0;
                     break;
                 case Behavior.WriteS32ArrayTestSuccess:
-                    this.wordNumberIndex = (ushort)Convert.ToUInt16(register);
+                    this.wordNumberIndex = (ushort)Convert.ToUInt16(_command.Register);
 
                     this.arrayElement1 = (ushort)((data & 0xffff0000) >> 16);
                     this.arrayElement2 = (ushort)(data & 0x0000ffff);
@@ -1091,27 +1090,26 @@ namespace HBM.Weighing.API.WTX.Modbus
             return _dataWTX;
         }
 
-        public async Task<int> WriteAsync(ushort index, ushort commandParam)
+        public async Task<int> WriteAsync(object command, int value)
         {
-            this.command = commandParam;
+            this.command = value;
 
             switch (behavior)
             {
                 case Behavior.ZeroMethodTestSuccess:
-                    this.command = commandParam;
+                    this.command = value;
                     break;
                 case Behavior.ZeroMethodTestFail:
                     this.command = 0x00;
                     break;
 
                 case Behavior.AbortDosingMethodTestSuccess:
-                    this.command = commandParam;
+                    this.command = value;
                     break;
                 case Behavior.AbortDosingMethodTestFail:
                     this.command = 0;
                     break;
             }
-
             // Change the handshake bit : bit .14 from 0 to 1.
             if (_dataWTX[5] == 0x0000)
                 _dataWTX[5] = 0x4000;
@@ -1119,8 +1117,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                 if (_dataWTX[5] == 0x4000)
                 _dataWTX[5] = 0x0000;
 
-
-            this.command = commandParam;
+            this.command = value;
 
             return this.command;
         }

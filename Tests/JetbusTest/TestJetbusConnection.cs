@@ -461,22 +461,24 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
 
-        public void Write(string index, int data)
+        public void Write(object command, int data)
         {
+
+            JetBusCommand _command = (JetBusCommand)command;
             
             if(this.behavior == Behavior.WriteZeroSuccess   || this.behavior == Behavior.WriteGrossSuccess || this.behavior == Behavior.WriteTareSuccess   ||
                this.behavior == Behavior.CalibrationSuccess || this.behavior == Behavior.CalibrationFail   || this.behavior == Behavior.MeasureZeroSuccess ||
                this.behavior == Behavior.MeasureZeroFail    || this.behavior == Behavior.CalibratePreloadCapacitySuccess)
                {
                 JValue valueObj = new JValue(data);
-                this.SetData(index,valueObj);
+                this.SetData(_command.PathIndex, valueObj);
                }
 
 
             if(this.behavior == Behavior.setTestsSuccess || this.behavior == Behavior.setTestsFail)
             {
                 JValue valueObj = new JValue(data);
-                this.SetData(index, valueObj);
+                this.SetData(_command.PathIndex, valueObj);
             }
         }
 
@@ -516,7 +518,7 @@ namespace HBM.Weighing.API.WTX.Jet
             throw new NotImplementedException();
         }
 
-        public Task<int> WriteAsync(ushort index, ushort commandParam)
+        public Task<int> WriteAsync(object commmand, int value)
         {
             throw new NotImplementedException();
         }

@@ -215,8 +215,8 @@ namespace HBM.Weighing.API.WTX
                 Thread.Sleep(50);
             }
             while (handshakeBit == 0);
-            
-            this.Connection.Write(Convert.ToString(index), DataType.U08, 0x00);
+
+            this.Connection.Write(new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 0, 0),0);  
 
             do
             {
@@ -446,9 +446,9 @@ namespace HBM.Weighing.API.WTX
 
             //todo: write reg 48, 0x7FFFFFFF
             
-            Connection.Write(ModbusCommands.LDWZeroSignal.Register, ModbusCommands.LDWZeroSignal.DataType, 0x7FFFFFFF);
+            Connection.Write(ModbusCommands.LDWZeroSignal, 0x7FFFFFFF);
 
-            Connection.WriteSync(0, 0x80);
+            Connection.Write(ModbusCommands.Control_word_AdjustZero, 0x80);
         }
 
         // This method sets the value for the nominal weight in the WTX.
@@ -456,14 +456,14 @@ namespace HBM.Weighing.API.WTX
         {
             //write reg 46, CalibrationWeight     
 
-            Connection.Write(ModbusCommands.CWTScaleCalibrationWeight.Register, ModbusCommands.CWTScaleCalibrationWeight.DataType, adjustmentWeight);
+            Connection.Write(ModbusCommands.CWTScaleCalibrationWeight, adjustmentWeight);
 
             //write reg 50, 0x7FFFFFFF
                   
-            Connection.Write(ModbusCommands.LWTNominalSignal.Register, ModbusCommands.LWTNominalSignal.DataType, 0x7FFFFFFF);
+            Connection.Write(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);
 
-            Connection.WriteSync(0, 0x100);
-
+            Connection.Write(ModbusCommands.Control_word_AdjustNominal, 0x100);
+            
             this.Restart();
         }
         
@@ -499,15 +499,15 @@ namespace HBM.Weighing.API.WTX
             this.Stop();
 
             //write reg 48, DPreload;         
-            Connection.Write(ModbusCommands.LDWZeroSignal.Register, ModbusCommands.LDWZeroSignal.DataType, Convert.ToInt32(dPreload));
+            Connection.Write(ModbusCommands.LDWZeroSignal, Convert.ToInt32(dPreload));
 
-            Connection.WriteSync(0, 0x80);
+            Connection.Write(ModbusCommands.Control_word_AdjustZero, 0x80);
 
             //write reg 50, DNominalLoad;          
-            Connection.Write(ModbusCommands.LWTNominalSignal.Register, ModbusCommands.LWTNominalSignal.DataType, Convert.ToInt32(dNominalLoad));
+            Connection.Write(ModbusCommands.LWTNominalSignal, Convert.ToInt32(dNominalLoad));
 
-            Connection.WriteSync(0, 0x100);
-            
+            Connection.Write(ModbusCommands.Control_word_AdjustNominal, 0x100);
+
             this.Restart();
 
         }
