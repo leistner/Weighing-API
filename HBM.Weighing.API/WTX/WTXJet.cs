@@ -326,7 +326,6 @@ namespace HBM.Weighing.API.WTX
                 return true;
             else
                 return false;
-
         }
 
         public override bool AdjustNominalSignal()
@@ -347,7 +346,6 @@ namespace HBM.Weighing.API.WTX
                 return true;
             else
                 return false;
-
         }
 
 

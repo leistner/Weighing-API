@@ -257,7 +257,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
             try
             {
-                JetBusCommand jetcommand = command as JetBusCommand;
+                JetBusCommand jetcommand = (JetBusCommand)command;
 
                 Console.WriteLine(jetcommand.PathIndex); //DDD
 
@@ -372,13 +372,14 @@ namespace HBM.Weighing.API.WTX.Jet
                     throw new Exception("Object does not exist in the object dictionary");
                 }
         }
-
       
-        public int ReadSingle(object index)
+        public int ReadSingle(object command)
         {
+            JetBusCommand _command = (JetBusCommand)command;
+
             try
             {
-                return Convert.ToInt32(ReadObj(index));
+                return Convert.ToInt32(ReadObj(_command.PathIndex));
             }
             catch (FormatException)
             {
