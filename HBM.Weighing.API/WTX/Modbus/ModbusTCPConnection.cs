@@ -64,6 +64,8 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             IpAddress = ipAddress;            
             CreateDictionary();
+
+            _data = new ushort[38];
         }
         #endregion
         
@@ -125,7 +127,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             int _value = 0;
             try
             {
-                _data = _master.ReadHoldingRegisters(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, 1);
+                _data = _master.ReadHoldingRegisters(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
 
                 CommunicationLog?.Invoke(this, new LogEvent("Read successful: 1 Registers has been read"));
                        
@@ -177,6 +179,38 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
             }
             CommunicationLog?.Invoke(this, new LogEvent("Data(ushort) have been written successfully to the register"));
+        }
+
+        // This method writes a data word to the WTX120 device synchronously. 
+        public void WriteSync(ushort wordNumber, ushort commandParam)
+        {
+            int dataWord = 0x00;
+            int handshakeBit = 0;
+
+            // (1) Sending of a command:        
+            this.Write(Convert.ToString(wordNumber), DataType.U08, commandParam);
+            dataWord = this.ReadSingle(5);
+
+            handshakeBit = ((dataWord & 0x4000) >> 14);
+            // Handshake protocol as given in the manual:                            
+
+            while (handshakeBit == 0)
+            {
+                dataWord = this.ReadSingle(5);
+                handshakeBit = ((dataWord & 0x4000) >> 14);
+            }
+
+            // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
+            if (handshakeBit == 1)
+            {
+                this.Write(Convert.ToString(wordNumber), DataType.U08, 0x00);
+            }
+
+            while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
+            {
+                dataWord = this.ReadSingle(5);
+                handshakeBit = ((dataWord & 0x4000) >> 14);
+            }
         }
 
         public async Task<int> WriteAsync(ushort index, ushort commandParam)

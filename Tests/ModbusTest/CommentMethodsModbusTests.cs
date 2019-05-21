@@ -126,39 +126,6 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
         // Test case source for reading values from the WTX120 device. 
-        public static IEnumerable ScaleRangeStringComment_Range1_TestCase_Modbus
-        {
-            get
-            {
-                yield return new TestCaseData(Behavior.ScaleRangeStringComment_Range1_Fail).Returns("Range 3");
-                yield return new TestCaseData(Behavior.ScaleRangeStringComment_Range1_Success).Returns("Range 1");
-            }
-        }
-
-        // Test case source for reading values from the WTX120 device. 
-        public static IEnumerable ScaleRangeStringComment_Range2_TestCase_Modbus
-        {
-            get
-            {
-                yield return new TestCaseData(Behavior.ScaleRangeStringComment_Range2_Fail).Returns("Range 1");
-                yield return new TestCaseData(Behavior.ScaleRangeStringComment_Range2_Success).Returns("Range 2");
-            }
-        }
-
-        // Test case source for reading values from the WTX120 device. 
-        public static IEnumerable ScaleRangeStringComment_Range3_TestCase_Modbus
-        {
-            get
-            {
-                yield return new TestCaseData(Behavior.ScaleRangeStringComment_Range3_Fail).Returns("Range 2");
-                yield return new TestCaseData(Behavior.ScaleRangeStringComment_Range3_Success).Returns("Range 3");
-            }
-        }
-
-
-
-
-        // Test case source for reading values from the WTX120 device. 
         public static IEnumerable LimitStatusStringComment_Case0_TestCase_Modbus
         {
             get
@@ -215,18 +182,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
         }
 
-
-        // Test case source for reading values from the WTX120 device. 
-        public static IEnumerable WeightTypeStringComment_Case0_TestCase_Modbus
-        {
-            get
-            {
-                yield return new TestCaseData(Behavior.WeightTypeStringComment_Case0_Fail).Returns("net");
-                yield return new TestCaseData(Behavior.WeightTypeStringComment_Case0_Success).Returns("gross");
-            }
-        }
-
-
         // Test case source for reading values from the WTX120 device. 
         public static IEnumerable WeightTypeStringComment_Case1_TestCase_Modbus
         {
@@ -236,33 +191,6 @@ namespace HBM.Weighing.API.WTX.Modbus
                 yield return new TestCaseData(Behavior.WeightTypeStringComment_Case1_Success).Returns("net");
             }
         }
-
-
-        /*
-        // Test case source for reading values from the WTX120 device. 
-        public static IEnumerable WeightTypeStringComment_Case0_TestCase_Modbus
-        {
-            get
-            {
-                yield return new TestCaseData(Behavior.WeightTypeStringComment_Case0_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.WeightTypeStringComment_Case0_Success).ExpectedResult = 1;
-            }
-        }
-
-
-        // Test case source for reading values from the WTX120 device. 
-        public static IEnumerable WeightTypeStringComment_Case1_TestCase_Modbus
-        {
-            get
-            {
-                yield return new TestCaseData(Behavior.WeightTypeStringComment_Case1_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.WeightTypeStringComment_Case1_Success).ExpectedResult = 1;
-            }
-        }
-        */
-
-        private ushort[] _data;
-
 
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_0D_TestCase_Modbus")]
         [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_1D_TestCase_Modbus")]
@@ -279,8 +207,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             await Task.Run(async () =>
             {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
+                ushort[] _data = await testConnection.ReadAsync();
+                _wtxObj.OnData(_data);
             });
 
             string strValue = _wtxObj.PrintableWeight.Net;
@@ -303,66 +231,19 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             await Task.Run(async () =>
             {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
+                ushort[] _data = await testConnection.ReadAsync();
+                _wtxObj.OnData(_data);
             });
 
 
             return _wtxObj.ProcessData.Unit;
         }
 
-        /*
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "ScaleRangeStringComment_Range1_TestCase_Modbus")]
-        //public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
-        public async Task<string> testModbus_ScaleRangeStringComment_Range1(Behavior behavior)
-        {            
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                 ushort[] result = await testConnection.ReadAsync();
-                 _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.ScaleRangeStringComment();         
-        }
-
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "ScaleRangeStringComment_Range2_TestCase_Modbus")]
-        public async Task<string> testModbus_ScaleRangeStringComment_Range2(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.ScaleRangeStringComment();
-        }
-
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "ScaleRangeStringComment_Range3_TestCase_Modbus")]
-        public async Task<string> testModbus_ScaleRangeStringComment_Range3(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WtxModbus _wtxObj = new WtxModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.ScaleRangeStringComment();
-        }
-       */
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case0_TestCase_Modbus")]
-        public async Task<string> testModbus_LimitStatusStringComment_Case0(Behavior behavior)
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case1_TestCase_Modbus")]
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case2_TestCase_Modbus")]
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case3_TestCase_Modbus")]
+        public async Task<string> testModbus_LimitStatusStringComment(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
@@ -370,63 +251,17 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             await Task.Run(async () =>
             {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
+                ushort[] _data = await testConnection.ReadAsync();
+                _wtxObj.OnData(_data);
             });
 
             return _wtxObj.LimitStatusStringComment();
         }
 
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case1_TestCase_Modbus")]
-        public async Task<string> testModbus_LimitStatusStringComment_Case1(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.LimitStatusStringComment();
-        }
-
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case2_TestCase_Modbus")]
-        public async Task<string> testModbus_LimitStatusStringComment_Case2(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.LimitStatusStringComment();
-        }
-
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case3_TestCase_Modbus")]
-        public async Task<string> testModbus_LimitStatusStringComment_Case3(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.LimitStatusStringComment();
-        }   
         
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightMovingStringComment_Case0_TestCase_Modbus")]
-        public async Task<string> testModbus_WeightMovingStringComment_Case0(Behavior behavior)
+        [TestCaseSource(typeof(CommentMethodsModbusTests), "WeightMovingStringComment_Case1_TestCase_Modbus")]
+        public async Task<string> testModbus_WeightMovingStringComment(Behavior behavior)
         {
             TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
@@ -434,63 +269,13 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             await Task.Run(async () =>
             {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
+                ushort[] _data = await testConnection.ReadAsync();
+                _wtxObj.OnData(_data);
             });
 
             return _wtxObj.WeightMovingStringComment();
         }
-        
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightMovingStringComment_Case1_TestCase_Modbus")]
-        public async Task<string> testModbus_WeightMovingStringComment_Case1(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.WeightMovingStringComment();
-        }
-        /*
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightTypeStringComment_Case0_TestCase_Modbus")]
-        public async Task<string> testModbus_WeightTypeStringComment_Case0(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-            });
-
-            return _wtxObj.WeightTypeStringComment();
-        }
-        
-
-        [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "WeightTypeStringComment_Case1_TestCase_Modbus")]
-        public async Task<string> testModbus_WeightTypeStringComment_Case1(Behavior behavior)
-        {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            await Task.Run(async () =>
-            {
-                ushort[] result = await testConnection.ReadAsync();
-                _wtxObj.OnData(result);
-                //_wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(testConnection.AllData));
-            });
-
-            return _wtxObj.WeightTypeStringComment();
-        }
-        */
+           
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
         }
