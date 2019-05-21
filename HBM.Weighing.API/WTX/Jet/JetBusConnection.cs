@@ -67,7 +67,7 @@ namespace HBM.Weighing.API.WTX.Jet
         private Exception _mException = null;
 
         #region Events
-        public event EventHandler BusActivityDetection;
+        public event EventHandler CommunicationLog;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
         public event EventHandler<EventArgs> UpdateDataClasses;
         #endregion
@@ -203,7 +203,7 @@ namespace HBM.Weighing.API.WTX.Jet
             this._connected = true;
             _mSuccessEvent.Set();
             
-            BusActivityDetection?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + _dataJTokenBuffer.Count));
+            CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + _dataJTokenBuffer.Count));
         }
 
 
@@ -226,7 +226,7 @@ namespace HBM.Weighing.API.WTX.Jet
             // Update data in data classes : 
             this.UpdateDataClasses?.Invoke(this, new EventArgs());
 
-            BusActivityDetection?.Invoke(this, new LogEvent("Fetch-All success: " + dataArrived + " - buffersize is " + _dataJTokenBuffer.Count));
+            CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: " + dataArrived + " - buffersize is " + _dataJTokenBuffer.Count));
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)
@@ -352,7 +352,7 @@ namespace HBM.Weighing.API.WTX.Jet
                     // Update data in data classes : 
                     this.UpdateDataClasses?.Invoke(this, new EventArgs());
                 }
-                BusActivityDetection?.Invoke(this, new LogEvent(data.ToString()));
+                CommunicationLog?.Invoke(this, new LogEvent(data.ToString()));
             }
         }
         /// <summary>
@@ -428,7 +428,7 @@ namespace HBM.Weighing.API.WTX.Jet
             
            _mSuccessEvent.Set();
             
-           BusActivityDetection?.Invoke(this, new LogEvent("Set data" + success ));
+           CommunicationLog?.Invoke(this, new LogEvent("Set data" + success ));
         }
 
 

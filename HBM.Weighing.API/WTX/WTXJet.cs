@@ -84,7 +84,7 @@ namespace HBM.Weighing.API.WTX
             
             this.ProcessDataReceived += onProcessData;
 
-            Connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.              
+           Connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.              
         }
 
         #endregion
@@ -348,12 +348,12 @@ namespace HBM.Weighing.API.WTX
 
         public override void Stop()
         {
-            Connection.IncomingDataReceived -= this.OnData;   // Subscribe to the event. 
+            ((JetBusConnection)Connection).IncomingDataReceived -= this.OnData;   // Subscribe to the event. 
         }
 
         public override void Restart()
         {
-            Connection.IncomingDataReceived += this.OnData;   // Subscribe to the event. 
+            ((JetBusConnection)Connection).IncomingDataReceived += this.OnData;   // Subscribe to the event. 
         }
         #endregion
     }
