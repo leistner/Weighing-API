@@ -76,7 +76,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             int testCalibrationValue = 111;
             
-            WTXModbusObj.AdjustNominalSignalWithAdjustmentWeight(testCalibrationValue);
+            WTXModbusObj.AdjustNominalSignalWithCalibrationWeight((double)testCalibrationValue);
 
             // Check if: write reg 46, CalibrationWeight and write reg 50, 0x7FFFFFFF
 

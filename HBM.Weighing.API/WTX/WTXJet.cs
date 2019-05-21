@@ -80,7 +80,7 @@ namespace HBM.Weighing.API.WTX
             ProcessData = new ProcessDataJet(Connection);
             DataStandard = new DataStandardJet(Connection);
             DataFiller = new DataFillerExtendedJet(Connection);
-            DataFillerExtended = new DataFillerExtendedJet(Connection);
+            //DataFillerExtended = new DataFillerExtendedJet(Connection);
             
             this.ProcessDataReceived += onProcessData;
 
@@ -253,7 +253,7 @@ namespace HBM.Weighing.API.WTX
         #endregion
                        
         #region Adjustment methods
-        public override int AdjustmentWeight // Type : signed integer 32 Bit
+        public override int CalibrationWeight // Type : signed integer 32 Bit
         {
             get { return _calibrationWeight; }
             set
@@ -307,36 +307,69 @@ namespace HBM.Weighing.API.WTX
         }
 
 
-        public override void AdjustZeroSignal()
+        public override bool AdjustZeroSignal()
         {
             //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
-            Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
+            Connection.Write(JetBusCommands.Scale_command, 0, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
-            // check : command "on go" = command is in execution
-            while (Connection.ReadSingle(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING);
+            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
+            {
+                Thread.Sleep(200);
+            }
 
-            // check : command "ok" = command is done
-            while (Connection.ReadSingle(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_OK);
-            
+            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
+            {
+                Thread.Sleep(200);
+            }
+
+            if (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
+                return true;
+            else
+                return false;
         }
 
-        // This method sets the value for the nominal weight in the WTX.
-        public override void AdjustNominalSignalWithAdjustmentWeight(int calibrationValue)
+        public override bool AdjustNominalSignal()
         {
-            Connection.Write(JetBusCommands.Lft_scale_calibration_weight, calibrationValue);   // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
+            Connection.Write(JetBusCommands.Scale_command, 0, SCALE_COMMAND_CALIBRATE_NOMINAL);
 
-            Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_NOMINAL);  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
+            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
+            {
+                Thread.Sleep(100);
+            }
 
-            // check : command "on go" = command is in execution
-            while (Connection.ReadSingle(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING) ;      // ID_keys.SCALE_COMMAND_STATUS = 6002/02
-
-            // check : command "ok" = command is done
-            while (Connection.ReadSingle(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_OK) ;     
+            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
+            {
+                Thread.Sleep(100);
+            }
+      
+            if (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
+                return true;
+            else
+                return false;
         }
 
-        public override void AdjustNominalSignal()
+
+        ///Adjust WTX device with a calibration weight
+        public override bool AdjustNominalSignalWithCalibrationWeight(double calibrationWeight)
         {
-            throw new NotImplementedException();
+            Connection.Write(JetBusCommands.Lft_scale_calibration_weight.PathIndex, 0, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));   
+
+            Connection.Write(JetBusCommands.Scale_command.PathIndex, 0, SCALE_COMMAND_CALIBRATE_NOMINAL); 
+  
+            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
+            {
+                Thread.Sleep(100);
+            }
+
+            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
+            {
+                Thread.Sleep(100);
+            }
+
+            if (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
+                return true;
+            else
+                return false;
         }
 
         public override void Stop()
