@@ -66,7 +66,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             CreateDictionary();
 
             _data = new ushort[38];
-            _dataToWrite = new ushort[2];
         }
         #endregion
         
