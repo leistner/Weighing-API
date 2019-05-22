@@ -205,14 +205,16 @@ namespace HBM.Weighing.API.WTX
             {
                 switch (ProcessData.Unit)
                 {
-                    case 0x02:
+                    case 0x00020000:
                         return "kg";
-                    case 0x4B:
+                    case 0x004B0000:
                         return "g";
-                    case 0x4C:
+                    case 0x004C0000:
                         return "t";
-                    case 0XA6:
+                    case 0X00A60000:
                         return "lb";
+                    case 0x00210000:
+                        return "N";
                     default:
                         return "-";
                 }
