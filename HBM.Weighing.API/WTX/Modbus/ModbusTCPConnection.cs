@@ -188,6 +188,10 @@ namespace HBM.Weighing.API.WTX.Modbus
                     _dataToWrite[1] = (ushort)(value & 0x0000ffff);
                     _master.WriteMultipleRegisters(WTX_SLAVE_ADDRESS, _register, _dataToWrite);
                     break;
+
+                case DataType.BIT:
+                    _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, _register, (ushort)value);
+                    break;
             }
 
             if(_register == 0)
