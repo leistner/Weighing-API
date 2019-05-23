@@ -46,12 +46,12 @@ namespace HBM.Weighing.API
         event EventHandler<EventArgs> UpdateData;
         #endregion
 
-        Dictionary<string,string>AllData { get; }
-      
         #region ======================== properties ========================
         string IpAddress { get; set; }
       
-        ConnectionType ConnectionType { get; }                  
+        ConnectionType ConnectionType { get; }      
+       
+        bool IsConnected { get; }
         #endregion
 
         #region ================ public & internal methods =================
