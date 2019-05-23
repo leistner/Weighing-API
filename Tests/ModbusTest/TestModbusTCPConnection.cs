@@ -180,7 +180,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public event EventHandler CommunicationLog;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
-        public event EventHandler<EventArgs> UpdateDataClasses;
+        public event EventHandler<EventArgs> UpdateData;
         
         private Dictionary<string, string> _dataBuffer;
 
@@ -296,57 +296,57 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void UpdateDictionary()
         {
-            this.GetDataFromDictionary(ModbusCommands.Net);
-            this.GetDataFromDictionary(ModbusCommands.Gross);
+            this.ReadFromBuffer(ModbusCommands.Net);
+            this.ReadFromBuffer(ModbusCommands.Gross);
 
-            this.GetDataFromDictionary(ModbusCommands.WeightMoving);
-            this.GetDataFromDictionary(ModbusCommands.ScaleSealIsOpen);
-            this.GetDataFromDictionary(ModbusCommands.ManualTare);
-            this.GetDataFromDictionary(ModbusCommands.Tare_mode);
-            this.GetDataFromDictionary(ModbusCommands.ScaleRange);
-            this.GetDataFromDictionary(ModbusCommands.ZeroRequired);
-            this.GetDataFromDictionary(ModbusCommands.WeightinCenterOfZero);
-            this.GetDataFromDictionary(ModbusCommands.WeightinZeroRange);
+            this.ReadFromBuffer(ModbusCommands.WeightMoving);
+            this.ReadFromBuffer(ModbusCommands.ScaleSealIsOpen);
+            this.ReadFromBuffer(ModbusCommands.ManualTare);
+            this.ReadFromBuffer(ModbusCommands.Tare_mode);
+            this.ReadFromBuffer(ModbusCommands.ScaleRange);
+            this.ReadFromBuffer(ModbusCommands.ZeroRequired);
+            this.ReadFromBuffer(ModbusCommands.WeightinCenterOfZero);
+            this.ReadFromBuffer(ModbusCommands.WeightinZeroRange);
 
-            this.GetDataFromDictionary(ModbusCommands.Application_mode);     // application mode 
-            this.GetDataFromDictionary(ModbusCommands.Decimals);             // decimals
-            this.GetDataFromDictionary(ModbusCommands.Unit);                 // unit
-            this.GetDataFromDictionary(ModbusCommands.Handshake);            // handshake
+            this.ReadFromBuffer(ModbusCommands.Application_mode);     // application mode 
+            this.ReadFromBuffer(ModbusCommands.Decimals);             // decimals
+            this.ReadFromBuffer(ModbusCommands.Unit);                 // unit
+            this.ReadFromBuffer(ModbusCommands.Handshake);            // handshake
 
-            this.GetDataFromDictionary(ModbusCommands.Status_digital_input_1);
-            this.GetDataFromDictionary(ModbusCommands.Status_digital_output_1);
-            this.GetDataFromDictionary(ModbusCommands.Limit_value);
+            this.ReadFromBuffer(ModbusCommands.Status_digital_input_1);
+            this.ReadFromBuffer(ModbusCommands.Status_digital_output_1);
+            this.ReadFromBuffer(ModbusCommands.Limit_value);
 
-            this.GetDataFromDictionary(ModbusCommands.Fine_flow_cut_off_point);
-            this.GetDataFromDictionary(ModbusCommands.Coarse_flow_cut_off_point);
-            this.GetDataFromDictionary(ModbusCommands.Coarse_flow_monitoring);
-            this.GetDataFromDictionary(ModbusCommands.Fine_flow_monitoring);
+            this.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point);
+            this.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point);
+            this.ReadFromBuffer(ModbusCommands.Coarse_flow_monitoring);
+            this.ReadFromBuffer(ModbusCommands.Fine_flow_monitoring);
 
-            this.GetDataFromDictionary(ModbusCommands.Ready);
-            this.GetDataFromDictionary(ModbusCommands.ReDosing);
+            this.ReadFromBuffer(ModbusCommands.Ready);
+            this.ReadFromBuffer(ModbusCommands.ReDosing);
 
             //this.GetDataFromDictionary(ModbusCommands.Emptying_mode);
-            this.GetDataFromDictionary(ModbusCommands.Maximal_dosing_time);
-            this.GetDataFromDictionary(ModbusCommands.Upper_tolerance_limit);
-            this.GetDataFromDictionary(ModbusCommands.Lower_tolerance_limit);
-            this.GetDataFromDictionary(ModbusCommands.StatusInput1);
-            this.GetDataFromDictionary(ModbusCommands.LegalForTradeOperation);
+            this.ReadFromBuffer(ModbusCommands.Maximal_dosing_time);
+            this.ReadFromBuffer(ModbusCommands.Upper_tolerance_limit);
+            this.ReadFromBuffer(ModbusCommands.Lower_tolerance_limit);
+            this.ReadFromBuffer(ModbusCommands.StatusInput1);
+            this.ReadFromBuffer(ModbusCommands.LegalForTradeOperation);
 
-            this.GetDataFromDictionary(ModbusCommands.WeightMemDayStandard);
-            this.GetDataFromDictionary(ModbusCommands.WeightMemMonthStandard);
-            this.GetDataFromDictionary(ModbusCommands.WeightMemYearStandard);
-            this.GetDataFromDictionary(ModbusCommands.WeightMemSeqNumberStandard);
-            this.GetDataFromDictionary(ModbusCommands.WeightMemGrossStandard);
-            this.GetDataFromDictionary(ModbusCommands.WeightMemNetStandard);
+            this.ReadFromBuffer(ModbusCommands.WeightMemDayStandard);
+            this.ReadFromBuffer(ModbusCommands.WeightMemMonthStandard);
+            this.ReadFromBuffer(ModbusCommands.WeightMemYearStandard);
+            this.ReadFromBuffer(ModbusCommands.WeightMemSeqNumberStandard);
+            this.ReadFromBuffer(ModbusCommands.WeightMemGrossStandard);
+            this.ReadFromBuffer(ModbusCommands.WeightMemNetStandard);
 
-            this.GetDataFromDictionary(ModbusCommands.Emptying);
-            this.GetDataFromDictionary(ModbusCommands.FlowError);
-            this.GetDataFromDictionary(ModbusCommands.Alarm);
-            this.GetDataFromDictionary(ModbusCommands.AdcOverUnderload);
+            this.ReadFromBuffer(ModbusCommands.Emptying);
+            this.ReadFromBuffer(ModbusCommands.FlowError);
+            this.ReadFromBuffer(ModbusCommands.Alarm);
+            this.ReadFromBuffer(ModbusCommands.AdcOverUnderload);
 
-            this.GetDataFromDictionary(ModbusCommands.StatusInput1);
-            this.GetDataFromDictionary(ModbusCommands.GeneralScaleError);
-            this.GetDataFromDictionary(ModbusCommands.TotalWeight);
+            this.ReadFromBuffer(ModbusCommands.StatusInput1);
+            this.ReadFromBuffer(ModbusCommands.GeneralScaleError);
+            this.ReadFromBuffer(ModbusCommands.TotalWeight);
 
             // Undefined IDs:
             /*
@@ -365,7 +365,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         }
 
 
-        public int ReadSingle(object index)
+        public int Read(object index)
         {
             switch (this.behavior)
             {
@@ -502,7 +502,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             this.UpdateDictionary();
             // Updata data in data classes : 
-            this.UpdateDataClasses?.Invoke(this, new EventArgs());
+            this.UpdateData?.Invoke(this, new EventArgs());
 
             return _dataWTX[Convert.ToInt16(index)];
         }
@@ -516,27 +516,26 @@ namespace HBM.Weighing.API.WTX.Modbus
         // This method writes a data word to the WTX120 device synchronously. 
         private void DoHandshake(ushort register)
         {
-            int dataWord = this.ReadSingle(5);
+            int dataWord = this.Read(5);
 
             int handshakeBit = ((dataWord & 0x4000) >> 14);
             // Handshake protocol as given in the manual:                            
 
             while (handshakeBit == 0)
             {
-                dataWord = this.ReadSingle(5);
+                dataWord = this.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
             }
 
             // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
             if (handshakeBit == 1)
             {
-                this.Write(new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 0, 0),0x00);
-                //_master.WriteSingleRegister(WTX_SLAVE_ADDRESS, 0, 0x00);
+                this.Write(ModbusCommands.Control_word_ResetHandshake, 0x00);
             }
 
             while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
             {
-                dataWord = this.ReadSingle(5);
+                dataWord = this.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
             }
         }
@@ -860,7 +859,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             throw new NotImplementedException();
         }
 
-        public async Task<ushort[]> ReadAsync()
+        public async Task<ushort[]> SyncData()
         {
             ushort[] value = new ushort[1];
             await Task.Run(async () =>
@@ -1077,7 +1076,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             
                 this.UpdateDictionary();
                 // Update data in data classes : 
-                this.UpdateDataClasses?.Invoke(this, new EventArgs());
+                this.UpdateData?.Invoke(this, new EventArgs());
 
                 return _dataWTX;
 
@@ -1085,7 +1084,237 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             this.UpdateDictionary();
             // Update data in data classes : 
-            this.UpdateDataClasses?.Invoke(this, new EventArgs());
+            this.UpdateData?.Invoke(this, new EventArgs());
+
+            return _dataWTX;
+        }
+
+        public async Task<ushort[]> ReadAsync(object index)
+        {
+            ushort[] value = new ushort[1];
+            await Task.Run(async () =>
+            {
+                switch (behavior)
+                {
+                    case Behavior.ReadFail:
+
+                        // If there is a connection fail, all data attributes get 0 as value.
+
+                        for (int i = 0; i < _dataWTX.Length; i++)
+                        {
+                            _dataWTX[i] = 0x0000;
+                        }
+
+                        _logObj = new LogEvent("Read failed : Registers have not been read");
+
+                        CommunicationLog?.Invoke(this, _logObj);
+
+                        break;
+
+                    case Behavior.ReadSuccess:
+
+
+                        // The most important data attributes from the WTX120 device: 
+
+                        _dataWTX[0] = 0x0000;
+                        _dataWTX[1] = 0x4040;
+                        _dataWTX[2] = 0x0000;
+                        _dataWTX[3] = 0x4040;
+                        _dataWTX[4] = 0x0000;
+                        _dataWTX[5] = 0x0000;
+
+                        _logObj = new LogEvent("Read successful: Registers have been read");
+                        CommunicationLog?.Invoke(this, _logObj);
+                        break;
+
+
+                    case Behavior.NetGrossValueStringComment_0D_Success:
+                        _dataWTX[5] = 0x0000;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_0D_Fail:
+                        _dataWTX[5] = 0x60;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_1D_Success:
+                        _dataWTX[5] = 0x10;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_2D_Success:
+                        _dataWTX[5] = 0x20;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_3D_Success:
+                        _dataWTX[5] = 0x30;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_3D_Fail:
+                        _dataWTX[5] = 0x00;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_4D_Success:
+                        _dataWTX[5] = 0x40;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_5D_Success:
+                        _dataWTX[5] = 0x50;
+                        break;
+
+                    case Behavior.NetGrossValueStringComment_6D_Success:
+                        _dataWTX[5] = 0x60;
+                        break;
+
+
+                    // Simulate for testing 'Unit': 
+
+                    case Behavior.t_UnitValue_Success:
+                        _dataWTX[5] = 0x100;
+                        break;
+                    case Behavior.t_UnitValue_Fail:
+                        _dataWTX[5] = 0x0000;
+                        break;
+
+                    case Behavior.kg_UnitValue_Success:
+                        _dataWTX[5] = 0x0000;
+                        break;
+
+                    case Behavior.kg_UnitValue_Fail:
+                        _dataWTX[5] = 0xFFFF;
+                        break;
+
+                    case Behavior.g_UnitValue_Success:
+                        _dataWTX[5] = 0x80;
+                        break;
+
+                    case Behavior.g_UnitValue_Fail:
+                        _dataWTX[5] = 0x0000;
+                        break;
+
+                    case Behavior.lb_UnitValue_Success:
+                        _dataWTX[5] = 0x180;
+                        break;
+
+
+                    case Behavior.lb_UnitValue_Fail:
+                        _dataWTX[5] = 0x0000;
+                        break;
+
+
+                    // Simulate for testing 'Limit status': 
+
+                    case Behavior.LimitStatusStringComment_Case0_Fail:
+                        _dataWTX[4] = 0xC;
+                        break;
+                    case Behavior.LimitStatusStringComment_Case1_Fail:
+                        _dataWTX[4] = 0x8;
+                        break;
+                    case Behavior.LimitStatusStringComment_Case2_Fail:
+                        _dataWTX[4] = 0x0000;
+                        break;
+                    case Behavior.LimitStatusStringComment_Case3_Fail:
+                        _dataWTX[4] = 0x4;
+                        break;
+
+                    case Behavior.LimitStatusStringComment_Case0_Success:
+                        _dataWTX[4] = 0x0000;
+                        break;
+                    case Behavior.LimitStatusStringComment_Case1_Success:
+                        _dataWTX[4] = 0x4;
+                        break;
+                    case Behavior.LimitStatusStringComment_Case2_Success:
+                        _dataWTX[4] = 0x8;
+                        break;
+                    case Behavior.LimitStatusStringComment_Case3_Success:
+                        _dataWTX[4] = 0xC;
+                        break;
+
+                    // Simulate for testing 'Weight moving': 
+                    case Behavior.WeightMovingStringComment_Case0_Fail:
+                        _dataWTX[4] = 0x0010;
+                        break;
+                    case Behavior.WeightMovingStringComment_Case1_Fail:
+                        _dataWTX[4] = 0x0000;
+                        break;
+                    case Behavior.WeightMovingStringComment_Case0_Success:
+                        _dataWTX[4] = 0x0000;
+                        break;
+                    case Behavior.WeightMovingStringComment_Case1_Success:
+                        _dataWTX[4] = 0x0010;
+                        break;
+
+                    // Simulate for testing 'Weight type': 
+                    case Behavior.WeightTypeStringComment_Case0_Fail:
+                        _dataWTX[4] = 0x0080;
+                        break;
+                    case Behavior.WeightTypeStringComment_Case1_Fail:
+                        _dataWTX[4] = 0x0000;
+                        break;
+
+                    case Behavior.WeightTypeStringComment_Case0_Success:
+                        _dataWTX[4] = 0x0000;
+                        break;
+                    case Behavior.WeightTypeStringComment_Case1_Success:
+                        _dataWTX[4] = 0x0080;
+                        break;
+                    // Simulate for testing 'Scale range': 
+
+                    case Behavior.ScaleRangeStringComment_Range1_Fail:
+                        _dataWTX[4] = 0x200;
+                        break;
+
+                    case Behavior.ScaleRangeStringComment_Range2_Fail:
+                        _dataWTX[4] = 0x0000;
+                        break;
+
+                    case Behavior.ScaleRangeStringComment_Range3_Fail:
+                        _dataWTX[4] = 0x100;
+                        break;
+
+                    case Behavior.ScaleRangeStringComment_Range1_Success:
+                        _dataWTX[4] = 0x0000;
+                        break;
+
+                    case Behavior.ScaleRangeStringComment_Range2_Success:
+                        _dataWTX[4] = 0x100;
+                        break;
+
+                    case Behavior.ScaleRangeStringComment_Range3_Success:
+                        _dataWTX[4] = 0x200;
+                        break;
+
+                    case Behavior.LogEvent_Fail:
+
+                        _logObj = new LogEvent("Read failed : Registers have not been read");
+                        CommunicationLog?.Invoke(this, _logObj);
+                        break;
+
+                    case Behavior.LogEvent_Success:
+
+                        _logObj = new LogEvent("Read successful: Registers have been read");
+                        CommunicationLog?.Invoke(this, _logObj);
+                        break;
+                }
+                if (_dataWTX[5] == 0x0000)
+                {
+                    _dataWTX[5] = 0x4000;
+                }
+                else
+                if (_dataWTX[5] == 0x4000)
+                {
+                    _dataWTX[5] = 0x0000;
+                }
+
+                this.UpdateDictionary();
+                // Update data in data classes : 
+                this.UpdateData?.Invoke(this, new EventArgs());
+
+                return _dataWTX;
+
+            });
+
+            this.UpdateDictionary();
+            // Update data in data classes : 
+            this.UpdateData?.Invoke(this, new EventArgs());
 
             return _dataWTX;
         }
@@ -1121,7 +1350,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return this.command;
         }
-        public string GetDataFromDictionary(object frame)
+        
+        public string ReadFromBuffer(object frame)
         {
             int _register = 0;
             ushort _bitMask = 0;
@@ -1249,7 +1479,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             }
 
         }
-        public ConnectionType ConnType
+        public ConnectionType ConnectionType
         {
             get { return ConnectionType.Modbus; }
         }

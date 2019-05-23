@@ -101,7 +101,7 @@ namespace HBM.Weighing.API.WTX.Modbus
           
             await Task.Run(async () =>
             {
-                ushort[] _data = await testConnection.ReadAsync();
+                ushort[] _data = await testConnection.SyncData();
                 _wtxDevice.OnData(_data);
             });
 
@@ -173,7 +173,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             testConnection.Write(ModbusCommands.Control_word_ActivateData, 0);
 
-            testConnection.ReadSingle(0);
+            testConnection.Read(0);
 
             return testConnection.getData[5] & 0x3 >> 1;
         }
@@ -191,7 +191,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             _wtxDevice.Connect(this.OnConnect, 100);
             testConnection.IsConnected = true;
 
-            _data = await testConnection.ReadAsync();
+            _data = await testConnection.SyncData();
             
             if (testConnection._logObj.Args.Equals("Read successful: Registers have been read"))
                 return true;
@@ -218,7 +218,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             _wtxDevice.Connect(this.OnConnect, 100);
             testConnection.IsConnected = true;
 
-            _data = await testConnection.ReadAsync();
+            _data = await testConnection.SyncData();
 
             if (testConnection._logObj.Args.Equals("Read successful: Registers have been read"))
                 return true;

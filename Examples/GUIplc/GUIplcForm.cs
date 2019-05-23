@@ -959,7 +959,7 @@ namespace GUIplc
         {
             _wtxDevice.Stop();
 
-            if (_wtxDevice.Connection.ConnType == ConnectionType.Modbus)
+            if (_wtxDevice.Connection.ConnectionType == ConnectionType.Modbus)
             {
                 _wtxDevice.Disconnect();
 
@@ -976,7 +976,7 @@ namespace GUIplc
                 DialogResult res = _functionIOForm.ShowDialog();
             }
             else
-                if (_wtxDevice.Connection.ConnType == ConnectionType.Jetbus)
+                if (_wtxDevice.Connection.ConnectionType == ConnectionType.Jetbus)
                 {
                     _functionIOForm = new GUIplc.FunctionIO();
 

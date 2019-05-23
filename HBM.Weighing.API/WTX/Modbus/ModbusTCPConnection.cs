@@ -37,9 +37,7 @@ namespace HBM.Weighing.API.WTX.Modbus
     using NModbus;
 
     /// <summary>
-    /// Use this class to handle a connection via Modbus/TCP.
-    /// This class starts/ends the connection, reads/writes the registers..
-    /// Once the read method is called, the registers are read from the WTX device, put into a local data field and loaded into a Dictionary.
+    /// This class holda a connection via Modbus/TCP,  starts/ends the connection, reads/writes and buffers data.
     /// </summary>
     public class ModbusTCPConnection : INetConnection
     {
@@ -50,14 +48,13 @@ namespace HBM.Weighing.API.WTX.Modbus
         private const int WTX_REGISTER_DATAWORD_COUNT = 38;
 
         private IModbusMaster _master;
-        private TcpClient _client;        
-        private ushort[] _data;
+        private TcpClient _client;   
         #endregion
 
         #region ==================== events & delegates ====================
         public event EventHandler CommunicationLog;
-        public event EventHandler<EventArgs> UpdateDataClasses;
-        public event EventHandler<DataEventArgs> IncomingDataReceived;
+        public event EventHandler<EventArgs> UpdateData;
+        //public event EventHandler<DataEventArgs> IncomingDataReceived;
         #endregion
                      
         #region =============== constructors & destructors =================
@@ -65,15 +62,13 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             IpAddress = ipAddress;            
             CreateDictionary();
-
-            _data = new ushort[38];
         }
         #endregion
         
         #region ======================== properties ========================
         public bool IsConnected { get; private set; }
 
-        public ConnectionType ConnType
+        public ConnectionType ConnectionType
         {
             get { return ConnectionType.Modbus; }
         }
@@ -81,6 +76,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public string IpAddress { get; set; }
 
         public Dictionary<string, string> AllData { get; private set; } = new Dictionary<string, string>();
+
         #endregion
 
         #region ================ public & internal methods =================
@@ -118,17 +114,29 @@ namespace HBM.Weighing.API.WTX.Modbus
             IsConnected = false;
         }
 
+        public async Task<ushort[]> SyncData()
+        {
+            ushort[] _data = new ushort[WTX_REGISTER_DATAWORD_COUNT];
+            _data = await _master.ReadHoldingRegistersAsync(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
+            ModbusRegistersToDictionary(_data);
+
+            // Update data in data classes
+            this.UpdateData?.Invoke(this, new EventArgs());
+
+            return _data;
+        }
+
         /// <summary>
         /// Reads a single Modbus/TCP register 
         /// </summary>
         /// <param name="index">Modbus/TCP register index for holding register</param>
         /// <returns>Register content</returns>
-        public int ReadSingle(object index)
+        public int Read(object index)
         {
             int _value = 0;
             try
             {
-                _data = _master.ReadHoldingRegisters(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
+                ushort[]_data = _master.ReadHoldingRegisters(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
 
                 CommunicationLog?.Invoke(this, new LogEvent("Read successful: 1 Registers has been read"));
                        
@@ -142,14 +150,14 @@ namespace HBM.Weighing.API.WTX.Modbus
             return _value;
         }
 
-        public async Task<ushort[]> ReadAsync()
+        public async Task<ushort[]> ReadAsync(object command)
         {
-            _data = new ushort[WTX_REGISTER_DATAWORD_COUNT];
+            ushort[]_data = new ushort[WTX_REGISTER_DATAWORD_COUNT];
             _data = await _master.ReadHoldingRegistersAsync(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
             ModbusRegistersToDictionary(_data);
 
             // Update data in data classes
-            this.UpdateDataClasses?.Invoke(this, new EventArgs());
+            this.UpdateData?.Invoke(this, new EventArgs());
 
             return _data;
         }
@@ -191,14 +199,14 @@ namespace HBM.Weighing.API.WTX.Modbus
         // This method writes a data word to the WTX120 device synchronously. 
         private void DoHandshake(ushort register)
         {
-            int dataWord = this.ReadSingle(5);
+            int dataWord = this.Read(5);
 
             int handshakeBit = ((dataWord & 0x4000) >> 14);
             // Handshake protocol as given in the manual:                            
 
             while (handshakeBit == 0)
             {
-                dataWord = this.ReadSingle(5);
+                dataWord = this.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
             }
 
@@ -210,7 +218,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
             {
-                dataWord = this.ReadSingle(5);
+                dataWord = this.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
             }
         }
@@ -228,9 +236,8 @@ namespace HBM.Weighing.API.WTX.Modbus
             return value;
         }
                 
-        public string GetDataFromDictionary(object command)
+        public string ReadFromBuffer(object command)
         {
-            int _register = 0;
             ushort _bitMask = 0;
             ushort _mask = 0;
             string _value = "0";
@@ -238,10 +245,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             try
             {
                 ModbusCommand modBusCommand = (ModbusCommand)command;
-
-                Console.WriteLine(modBusCommand.Register);
-
-                _register = Convert.ToInt32(modBusCommand.Register);
+                    
                 switch (modBusCommand.DataType)
                 {
                     case DataType.BIT:
@@ -255,16 +259,17 @@ namespace HBM.Weighing.API.WTX.Modbus
                         }
                         _mask = (ushort)(_bitMask << modBusCommand.BitIndex);                     
 
-                        _value = ((_data[_register] & _mask) >> modBusCommand.BitIndex).ToString();
+                        _value = ((AllData[modBusCommand.Register] & _mask) >> modBusCommand.BitIndex).ToString();                        
                         break;
          
                     case DataType.U32:
                     case DataType.S32:
-                        _value = (_data[_register + 1] + (_data[_register] << 16)).ToString();
+                    
+                        _value = (AllData[modBusCommand.Register + 1] + (AllData[modBusCommand.Register] << 16)).ToString();
                         break;
 
                     default:
-                        _value = _data[_register].ToString();
+                        _value = AllData[modBusCommand.Register].ToString();                       
                         break;
                 }
             }

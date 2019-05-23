@@ -47,7 +47,7 @@ namespace HBM.Weighing.API.Data
         public ProcessDataJet(INetConnection Connection)
         {
             _connection = Connection;
-            _connection.UpdateDataClasses += UpdateData;
+            _connection.UpdateData += UpdateData;
 
             PrintableWeight = new PrintableWeightType();
             Weight = new WeightType();
@@ -67,68 +67,87 @@ namespace HBM.Weighing.API.Data
             HigherSafeLoadLimit = false;
         }
         #endregion
-        
+
         #region ==================== events & delegates ====================
+        ///<inheritdoc />
         public void UpdateData(object sender, EventArgs e)
         {
-            ApplicationMode = (ApplicationMode)Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Application_mode));
-            GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_GeneralWeightError)));
-            ScaleAlarm = Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_ScaleAlarm)));
-            int LimitStatus = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_LimitStatus));
+            ApplicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode));
+            GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_GeneralWeightError)));
+            ScaleAlarm = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleAlarm)));
+            int LimitStatus = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_LimitStatus));
             Underload = (LimitStatus == 1);
             Overload = (LimitStatus == 2);
             HigherSafeLoadLimit = (LimitStatus == 3);
-            TareMode = EvaluateTareMode(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_ManualTare)), Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_WeightType)));
-            WeightStable = !Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_WeightMoving)));
-            LegalForTrade = !Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_ScaleSealIsOpen)));
-            ScaleRange = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_ScaleRange));
-            ZeroRequired = Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_ZeroRequired)));
-            CenterOfZero = Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_CenterOfZero)));
-            InsideZero = Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_InsideZero)));
-            Decimals = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Decimals));
-            Unit = UnitIDToString(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_Unit)));
-            Weight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Net_value)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Gross_value)), Decimals));
-            PrintableWeight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Net_value)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Gross_value)), Decimals), Decimals);
+            TareMode = EvaluateTareMode(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ManualTare)), Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_WeightType)));
+            WeightStable = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_WeightMoving)));
+            LegalForTrade = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleSealIsOpen)));
+            ScaleRange = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleRange));
+            ZeroRequired = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ZeroRequired)));
+            CenterOfZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_CenterOfZero)));
+            InsideZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_InsideZero)));
+            Decimals = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Decimals));
+            Unit = UnitIDToString(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_Unit)));
+            Weight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Net_value)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Gross_value)), Decimals));
+            PrintableWeight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Net_value)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Gross_value)), Decimals), Decimals);
         }
         #endregion
-        
+
         #region ======================== properties ========================
+        ///<inheritdoc />
         public ApplicationMode ApplicationMode { get; private set; }
 
+        ///<inheritdoc />
         public WeightType Weight { get; private set; }
 
+        ///<inheritdoc />
         public PrintableWeightType PrintableWeight { get; private set; }
 
+        ///<inheritdoc />
         public string Unit { get; private set; }
 
+        ///<inheritdoc />
         public int Decimals { get; private set; }
-        
+
+        ///<inheritdoc />
         public TareMode TareMode { get; private set; }
 
+        ///<inheritdoc />
         public bool WeightStable { get; private set; }
 
+        ///<inheritdoc />
         public bool CenterOfZero { get; private set; }
 
+        ///<inheritdoc />
         public bool InsideZero { get; private set; }
 
+        ///<inheritdoc />
         public bool ZeroRequired { get; private set; }
 
+        ///<inheritdoc />
         public int ScaleRange { get; private set; }
 
+        ///<inheritdoc />
         public bool LegalForTrade { get; private set; }
-  
+
+        ///<inheritdoc />
         public bool Underload { get; private set; }
 
+        ///<inheritdoc />
         public bool Overload { get; private set; }
-        
+
+        ///<inheritdoc />
         public bool HigherSafeLoadLimit { get; private set; }
 
+        ///<inheritdoc />
         public bool GeneralWeightError { get; private set; }
 
-        public bool ScaleAlarm { get; private set; }        
+        ///<inheritdoc />
+        public bool ScaleAlarm { get; private set; }
         #endregion
 
         #region =============== protected & private methods ================
+        ///<inheritdoc />
         private string UnitIDToString(int id)
         {
             switch (id)
@@ -148,6 +167,7 @@ namespace HBM.Weighing.API.Data
             }
         }
 
+        ///<inheritdoc />
         private TareMode EvaluateTareMode(int tare, int presettare)
         {
             if (tare > 0)

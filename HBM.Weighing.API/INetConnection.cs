@@ -27,44 +27,34 @@
 // SOFTWARE.
 //
 // </copyright>
-using HBM.Weighing.API.WTX;
-using HBM.Weighing.API.WTX.Jet;
-using HBM.Weighing.API.WTX.Modbus;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HBM.Weighing.API
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     /// <summary>
     /// Defines the common communication interface
     /// </summary>
     public interface INetConnection
     {
-
-        #region ============= Eventhandlers for Log status, data received and update data =============
-
+        #region ==================== events & delegates ====================
+          
         event EventHandler CommunicationLog;
-
-        event EventHandler<DataEventArgs> IncomingDataReceived;
-
-        event EventHandler<EventArgs> UpdateDataClasses;
-
+        
+        event EventHandler<EventArgs> UpdateData;
         #endregion
-
-        #region ======== Attributes for data, commands, ip address, connection, connection type =======
 
         Dictionary<string,string>AllData { get; }
-
-        string IpAddress    { get; set; }                   // ip address establishing a connection to the device
-
-        bool IsConnected    { get; }                        // boolean stating the connection status
-
-        ConnectionType ConnType { get; }                    // enumeration containg Jetbus,Modbus
-
+      
+        #region ======================== properties ========================
+        string IpAddress { get; set; }
+      
+        ConnectionType ConnectionType { get; }                  
         #endregion
 
-        #region ============================ Connect & Disconnect method ==============================
+        #region ================ public & internal methods =================
 
         void Connect();
         
@@ -74,16 +64,16 @@ namespace HBM.Weighing.API
 
         #region =============================== Read/Write methods ====================================
 
-        int ReadSingle(object command);
+        int Read(object command);
 
         void Write(object command, int value);
 
-        Task<ushort[]> ReadAsync();                          
+        Task<ushort[]> ReadAsync(object command);                          
 
         Task<int> WriteAsync(object command, int value); 
         
-        string GetDataFromDictionary(object command);
-        
+        string ReadFromBuffer(object command);
+
         #endregion
 
     }

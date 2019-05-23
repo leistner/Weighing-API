@@ -67,7 +67,7 @@ namespace HBM.Weighing.API.WTX.Jet
         #region Events
         public event EventHandler CommunicationLog;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
-        public event EventHandler<EventArgs> UpdateDataClasses;
+        public event EventHandler<EventArgs> UpdateData;
         #endregion
 
         private bool _connected;
@@ -130,7 +130,7 @@ namespace HBM.Weighing.API.WTX.Jet
             WaitOne(2);
         }
 
-        public ConnectionType ConnType
+        public ConnectionType ConnectionType
         {
             get { return ConnectionType.Jetbus; }
         }
@@ -223,7 +223,7 @@ namespace HBM.Weighing.API.WTX.Jet
             IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataBuffer));  // For getting data already in the FetchAll() 
 
             // Update data in data classes : 
-            this.UpdateDataClasses?.Invoke(this, new EventArgs());
+            this.UpdateData?.Invoke(this, new EventArgs());
 
             CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: " + dataArrived + " - buffersize is " + _dataJTokenBuffer.Count));
         }
@@ -248,7 +248,7 @@ namespace HBM.Weighing.API.WTX.Jet
             }                        
         }
 
-        public string GetDataFromDictionary(object command)
+        public string ReadFromBuffer(object command)
         {
             ushort _bitMask = 0;
             ushort _mask = 0;
@@ -331,7 +331,7 @@ namespace HBM.Weighing.API.WTX.Jet
                 {
                     IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataBuffer));
                     // Update data in data classes : 
-                    this.UpdateDataClasses?.Invoke(this, new EventArgs());
+                    this.UpdateData?.Invoke(this, new EventArgs());
                 }
                 CommunicationLog?.Invoke(this, new LogEvent(data.ToString()));
             }
@@ -354,7 +354,7 @@ namespace HBM.Weighing.API.WTX.Jet
                 }
         }
 
-        public int ReadSingle(object command)
+        public int Read(object command)
         {
             JetBusCommand _command = (JetBusCommand)command;
 
@@ -508,7 +508,7 @@ namespace HBM.Weighing.API.WTX.Jet
             throw new NotImplementedException();
         }
 
-        public Task<ushort[]> ReadAsync()
+        public Task<ushort[]> ReadAsync(object command)
         {
             throw new NotImplementedException();
         }
