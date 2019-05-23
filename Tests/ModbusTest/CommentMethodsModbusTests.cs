@@ -212,7 +212,6 @@ namespace HBM.Weighing.API.WTX.Modbus
             return strValue;
         }
 
-
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "T_UnitValueTestCases")]
         [TestCaseSource(typeof(CommentMethodsModbusTests), "KG_UnitValueTestCases")]
         [TestCaseSource(typeof(CommentMethodsModbusTests), "G_UnitValueTestCases")]
