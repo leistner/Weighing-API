@@ -12,41 +12,41 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 
 **File status**
 
-| File                               | Status               |
-| ---------------------------------- | -------------------- |
-| BaseWTDevice.cs                    | :white_check_mark:   |
-| DataEventArgs.cs                   | :large_blue_circle:  |
-| Enums.cs                           | :large_blue_circle:  |
-| INetConnection.cs                  | :large_blue_circle:  |
-| LogEvent.cs                        | :large_blue_circle:  |
-| ProcessDataReceivedEventArgs.cs    | :large_blue_circle:  |
-| WTXJet.cs                          | :large_blue_circle:  |
-| WTXModbus.cs                       | :large_blue_circle:  | 
-| ModbusCommand.cs                   | :large_blue_circle:  |
-| ModbusCommands.cs                  | :large_blue_circle:  |
-| ModbusTCPConnection.cs             | :red_circle:         |
-| JetBusCommand.cs                   | :large_blue_circle:  |
-| JetBusCommands.cs                  | :large_blue_circle:  |
-| JetBusConnection.cs                | :red_circle:         |
-| JetBusException.cs                 | :red_circle:         |
-| MeasurementUtils.cs                | :large_blue_circle:  |
-| AssemblyInfo.cs                    | :white_check_mark:   |
-| DataFillerExtendedJet.cs           | :red_circle:         |
-| DataFillerJet.cs                   | :red_circle:         |
-| DataFillerModbus.cs                | :red_circle:         |
-| DataStandardJet.cs                 | :red_circle:         |
-| DataStandardModbus.cs              | :red_circle:         |
-| IDataFiller.cs                     | :red_circle:         |
-| IDataFillerExtended.cs             | :red_circle:         |
-| IDataStandard.cs                   | :red_circle:         |
-| PrintableWeightType.cs             | :large_blue_circle:  |
-| ProcessDataJet.cs                  | :white_check_mark:   |
-| ProcessDataModbus.cs               | :white_check_mark:   |
-| ProcessDataModbus.cs               | :white_check_mark:   |
-| 
+| File                               | Status                 |
+| ---------------------------------- | ---------------------- |
+| BaseWTDevice.cs                    | :heavy_check_mark:     |
+| DataEventArgs.cs                   | :large_orange_diamond: |
+| Enums.cs                           | :large_orange_diamond: |
+| INetConnection.cs                  | :large_orange_diamond: |
+| LogEvent.cs                        | :large_orange_diamond: |
+| ProcessDataReceivedEventArgs.cs    | :large_orange_diamond: | 
+| WTXJet.cs                          | :large_orange_diamond: |
+| WTXModbus.cs                       | :large_orange_diamond: | 
+| ModbusCommand.cs                   | :large_orange_diamond: |
+| ModbusCommands.cs                  | :large_orange_diamond: |
+| ModbusTCPConnection.cs             | :red_circle:           |
+| JetBusCommand.cs                   | :large_orange_diamond: |
+| JetBusCommands.cs                  | :large_orange_diamond: |
+| JetBusConnection.cs                | :red_circle:           |
+| JetBusException.cs                 | :red_circle:           |
+| MeasurementUtils.cs                | :large_orange_diamond: |
+| AssemblyInfo.cs                    | :heavy_check_mark:     |
+| DataFillerExtendedJet.cs           | :red_circle:           |
+| DataFillerJet.cs                   | :red_circle:           |
+| DataFillerModbus.cs                | :red_circle:           |
+| DataStandardJet.cs                 | :red_circle:           |
+| DataStandardModbus.cs              | :red_circle:           |
+| IDataFiller.cs                     | :red_circle:           |
+| IDataFillerExtended.cs             | :red_circle:           |
+| IDataStandard.cs                   | :red_circle:           |
+| PrintableWeightType.cs             | :large_orange_diamond: |
+| ProcessDataJet.cs                  | :heavy_check_mark:     |
+| ProcessDataModbus.cs               | :heavy_check_mark:     |
+| ProcessDataModbus.cs               | :heavy_check_mark:     |
 
-:white_check_mark: Well done!   
-:large_blue_circle: Pay some attention to coding style 
+
+:heavy_check_mark: Well done!   
+:large_orange_diamond: Pay some attention to coding style
 :red_circle: Review missing        
 
 
