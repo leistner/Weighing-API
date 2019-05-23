@@ -36,23 +36,22 @@ namespace HBM.Weighing.API
     /// </summary>
     public class LogEvent : EventArgs
     {
-        private string _mArgs;
-
+        #region =============== constructors & destructors =================
+        /// <summary>
+        /// Initializes a string to describe if the data transfer have been successful or not
+        /// </summary>
+        /// <param name="args"></param>
         public LogEvent(string args)
         {
-            _mArgs = args;
+            Args = args;
         }
-        
-        public string Args
-        {
-            get
-            {
-                return _mArgs;
-            }
-            set
-            {
-                _mArgs = value;
-            }
-        }
+        #endregion
+
+        #region ======================== properties ========================
+        /// <summary>
+        /// Gets the string to describe the data transfer
+        /// </summary>
+        public string Args { get; set; }
+        #endregion
     }
 }

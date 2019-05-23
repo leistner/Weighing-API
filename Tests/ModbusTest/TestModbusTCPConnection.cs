@@ -182,7 +182,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         public event EventHandler<DataEventArgs> IncomingDataReceived;
         public event EventHandler<EventArgs> UpdateData;
         
-        private Dictionary<string, int> _dataIntegerBuffer;
+        private Dictionary<string, string> _dataBuffer;
 
         private string IP;
         private int interval;
@@ -200,7 +200,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             _dataWTX = new ushort[38];
             // size of 38 elements for the standard and filler application mode.            
 
-             _dataIntegerBuffer = new Dictionary<string, int>();
+             _dataBuffer = new Dictionary<string, string>();
 
             this.CreateDictionary();
            
@@ -275,7 +275,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void CreateDictionary()
         {
-            _dataIntegerBuffer.Clear();
+            _dataBuffer.Clear();
 
             Type pType = typeof(ModbusCommands);
             PropertyInfo[] pInfos = pType.GetProperties();
@@ -287,7 +287,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     Type propertyValueType = propertyValue.GetType();
 
                     if (propertyValueType == typeof(ModbusCommand))
-                        _dataIntegerBuffer.Add(((ModbusCommand)propertyValue).Path, 0);
+                        _dataBuffer.Add(((ModbusCommand)propertyValue).Path, "0");
                 }
                 else
                     Console.WriteLine("Prop: {0} ", pInfo.Name);
@@ -350,17 +350,17 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             // Undefined IDs:
             /*
-            _dataIntegerBuffer[IDCommands.DOSING_RESULT]      = _data[12];
-            _dataIntegerBuffer[IDCommands.MEAN_VALUE_DOSING_RESULTS] = _data[14];
-            _dataIntegerBuffer[IDCommands.STANDARD_DEVIATION] = _data[16];
-            _dataIntegerBuffer[IDCommands.CURRENT_DOSING_TIME]        = _data[24];    // _currentDosingTime = _data[24];
+            _dataBuffer[IDCommands.DOSING_RESULT]      = _data[12];
+            _dataBuffer[IDCommands.MEAN_VALUE_DOSING_RESULTS] = _data[14];
+            _dataBuffer[IDCommands.STANDARD_DEVIATION] = _data[16];
+            _dataBuffer[IDCommands.CURRENT_DOSING_TIME]        = _data[24];    // _currentDosingTime = _data[24];
 
-            _dataIntegerBuffer[IDCommands.CURRENT_COARSE_FLOW_TIME] = _data[25];      // _currentCoarseFlowTime
-            _dataIntegerBuffer[IDCommands.CURRENT_FINE_FLOW_TIME]   = _data[26];      // _currentFineFlowTime
-            _dataIntegerBuffer[IDCommands.RANGE_SELECTION_PARAMETER] = _data[27];     // _parameterSetProduct
+            _dataBuffer[IDCommands.CURRENT_COARSE_FLOW_TIME] = _data[25];      // _currentCoarseFlowTime
+            _dataBuffer[IDCommands.CURRENT_FINE_FLOW_TIME]   = _data[26];      // _currentFineFlowTime
+            _dataBuffer[IDCommands.RANGE_SELECTION_PARAMETER] = _data[27];     // _parameterSetProduct
 
-            _dataIntegerBuffer[IDCommands.] = _fillingProcessStatus = _data[9];  // Undefined
-            _dataIntegerBuffer[IDCommands.] = _numberDosingResults = _data[11];        
+            _dataBuffer[IDCommands.] = _fillingProcessStatus = _data[9];  // Undefined
+            _dataBuffer[IDCommands.] = _numberDosingResults = _data[11];        
             */
         }
 
@@ -498,7 +498,7 @@ namespace HBM.Weighing.API.WTX.Modbus
                     break;
             }
 
-            _dataIntegerBuffer["0"] = 1;
+            _dataBuffer["0"] = "1";
 
             this.UpdateDictionary();
             // Updata data in data classes : 
@@ -507,7 +507,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             return _dataWTX[Convert.ToInt16(index)];
         }
 
-        public int getCommand
+        public int GetCommand
         {
             get { return this.command; }
         }
@@ -1350,7 +1350,8 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return this.command;
         }
-        public int ReadFromBuffer(object frame)
+        
+        public string ReadFromBuffer(object frame)
         {
             int _register = 0;
             ushort _bitMask = 0;
@@ -1359,7 +1360,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             ModbusCommand ConvertedFrame = frame as ModbusCommand;
 
             if (ConvertedFrame.DataType == DataType.S32)
-                _dataIntegerBuffer[ConvertedFrame.Path] = _dataWTX[Convert.ToInt16(ConvertedFrame.Register) + 1] + (_dataWTX[Convert.ToInt16(ConvertedFrame.Register)] << 16);
+                _dataBuffer[ConvertedFrame.Path] = (_dataWTX[Convert.ToInt16(ConvertedFrame.Register) + 1] + (_dataWTX[Convert.ToInt16(ConvertedFrame.Register)] << 16)).ToString();
 
             if (ConvertedFrame.DataType != DataType.S32 && ConvertedFrame.DataType != DataType.S32 && ConvertedFrame.DataType != DataType.U32)
             {
@@ -1376,17 +1377,17 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _mask = (ushort)(_bitMask << ConvertedFrame.BitIndex);
 
                 _register = Convert.ToInt32(ConvertedFrame.Register);
-                _dataIntegerBuffer[ConvertedFrame.Path] = (_dataWTX[_register] & _mask) >> ConvertedFrame.BitIndex;
+                _dataBuffer[ConvertedFrame.Path] = ((_dataWTX[_register] & _mask) >> ConvertedFrame.BitIndex).ToString();
             }
 
-            return _dataIntegerBuffer[ConvertedFrame.Path];
+            return _dataBuffer[ConvertedFrame.Path];
         }
 
-        public Dictionary<string, int> AllData
+        public Dictionary<string, string> AllData
         {
             get
             {
-                return this._dataIntegerBuffer;
+                return this._dataBuffer;
             }
         }
 

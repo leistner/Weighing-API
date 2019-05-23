@@ -63,10 +63,14 @@ namespace HBM.Weighing.API.WTX
         private const int SCALE_COMMAND_STATUS_ERROR_E3 = 860184415;
         #endregion
 
+        #region privates
+
         private int _manualTareValue;
         private int _calibrationWeight;
         private int _zeroLoad;
         private int _nominalLoad;
+
+        #endregion
 
         #region Events
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
@@ -89,10 +93,13 @@ namespace HBM.Weighing.API.WTX
 
         #endregion
 
+        #region property data class
+
         /// <summary>
-        /// Gets or sets the extended filler data 
+        /// Gets and sets the extended filler data 
         /// </summary>
         public IDataFillerExtended DataFillerExtended { get; protected set; }
+        #endregion
 
         #region Connection
         public override void Disconnect(Action<bool> DisconnectCompleted)
@@ -127,6 +134,11 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Asynchronous process data callback
+        /// <summary>
+        /// Asynchronous callback for process data
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">DataEventArgs containing data dictionary</param>
         public void OnData(object sender, DataEventArgs e)
         {
             this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
@@ -135,6 +147,9 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Identification
+        /// <summary>
+        /// Gets the the connection type : Jetbus
+        /// </summary>
         public override string ConnectionType
         {
             get
@@ -146,26 +161,42 @@ namespace HBM.Weighing.API.WTX
 
         #region Process data methods
 
+        /// <summary>
+        /// Zeros the wtx device
+        /// </summary>
         public override void Zero()
         {
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_ZERO);
         }
 
+        /// <summary>
+        /// Switches the wtx device to gross value
+        /// </summary>
         public override void SetGross()
         {
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_SET_GROSS);
         }
 
+        /// <summary>
+        /// Tares the wtx device automatically
+        /// </summary>
         public override void Tare()
         {
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_TARE);
         }
 
+        /// <summary>
+        /// Tares the wtx device manually 
+        /// </summary>
+        /// <param name="manualTareValue">manual tare value</param>
         public override void TareManually(double manualTareValue)
         {
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_TARE);
         }
 
+        /// <summary>
+        /// Records the weight of the wtx device
+        /// </summary>
         public override void RecordWeight()
         {
         }
@@ -173,6 +204,9 @@ namespace HBM.Weighing.API.WTX
         #endregion
 
         #region Process data
+        /// <summary>
+        /// Gets the weight type containing gross, net and tare value in double
+        /// </summary>
         public override WeightType Weight
         {
             get
@@ -181,6 +215,9 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
+        /// <summary>
+        /// Gets the printable weight type  containing gross, net and tare value in string
+        /// </summary>
         public override PrintableWeightType PrintableWeight
         {
             get
@@ -189,8 +226,15 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
+        /// <summary>
+        /// Gets the application mode containing an enumeration (Standard, Checkweigher, Filler)
+        /// </summary>
         public override ApplicationMode ApplicationMode { get; set; }
 
+        /// <summary>
+        /// Updates the Application mode
+        /// </summary>
+        /// <param name="Data">ushort array containing the data from the wtx device registers</param>
         public void UpdateApplicationMode(ushort[] Data)
         {
             if ((Data[5] & 0x03) == 0)
@@ -199,6 +243,9 @@ namespace HBM.Weighing.API.WTX
                 ApplicationMode = ApplicationMode.Filler;
         }
 
+        /// <summary>
+        /// Gets the unit of the measured value as string
+        /// </summary>
         public override string Unit
         {
             get
@@ -207,6 +254,9 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
+        /// <summary>
+        /// Gets the tare mode containing None, Tare, PresetTare
+        /// </summary>
         public override TareMode TareMode
         {
             get
@@ -214,6 +264,9 @@ namespace HBM.Weighing.API.WTX
                 return ProcessData.TareMode;
             }
         }
+        /// <summary>
+        /// Gets the scale range of the wtx device
+        /// </summary>
         public override int ScaleRange
         {
             get
@@ -222,6 +275,9 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
+        /// <summary>
+        /// Gets the manual tare value
+        /// </summary>
         public override int ManualTareValue 
         {
             get { return _manualTareValue; }
@@ -234,6 +290,10 @@ namespace HBM.Weighing.API.WTX
         #endregion
                        
         #region Adjustment methods
+
+        /// <summary>
+        /// Gets & sets the calibration weight value
+        /// </summary>
         public override int CalibrationWeight // Type : signed integer 32 Bit
         {
             get { return _calibrationWeight; }
@@ -243,6 +303,9 @@ namespace HBM.Weighing.API.WTX
                 _calibrationWeight = value;
             }
         }
+        /// <summary>
+        /// Gets & sets the zero value
+        /// </summary>
         public override int ZeroSignal // Type : signed integer 32 Bit
         {
             get { return _zeroLoad; }
@@ -252,6 +315,9 @@ namespace HBM.Weighing.API.WTX
                 _zeroLoad = value;
             }
         }
+        /// <summary>
+        /// Gets & set the nominal value
+        /// </summary>
         public override int NominalSignal // Type : signed integer 32 Bit
         {
             get { return _nominalLoad; }
@@ -287,77 +353,93 @@ namespace HBM.Weighing.API.WTX
             //this._isCalibrating = true;
         }
 
-
+        /// <summary>
+        /// Sets a zero value to the wtx device and checks if the command has been set successfully
+        /// </summary>
+        /// <returns></returns>
         public override bool AdjustZeroSignal()
         {
             //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
-            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(200);
             }
 
-            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(200);
             }
 
-            if (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
+            if (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_OK)
                 return true;
             else
                 return false;
         }
 
+        /// <summary>
+        /// Sets a nominal value to the wtx device and checks if the command has been set successfully
+        /// </summary>
+        /// <returns></returns>
         public override bool AdjustNominalSignal()
         {
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_NOMINAL);
 
-            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
 
-            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
       
-            if (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
+            if (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_OK)
                 return true;
             else
                 return false;
         }
 
-
-        ///Adjust WTX device with a calibration weight
+        /// <summary>
+        /// Adjusts the wtx device with a calibration weight
+        /// </summary>
+        /// <param name="calibrationWeight"></param>
+        /// <returns></returns>
         public override bool AdjustNominalSignalWithCalibrationWeight(double calibrationWeight)
         {
             Connection.Write(JetBusCommands.Lft_scale_calibration_weight, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));   
 
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_NOMINAL); 
   
-            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
 
-            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
 
-            if (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
+            if (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_OK)
                 return true;
             else
                 return false;
         }
 
+        /// <summary>
+        /// Stops the data transfer between the classes JetBusConnection and WtxJet
+        /// </summary>
         public override void Stop()
         {
             ((JetBusConnection)Connection).IncomingDataReceived -= this.OnData;   // Subscribe to the event. 
         }
 
+        /// <summary>
+        /// Restarts the data transfer between the classes JetBusConnection and WtxJet
+        /// </summary>
         public override void Restart()
         {
             ((JetBusConnection)Connection).IncomingDataReceived += this.OnData;   // Subscribe to the event. 

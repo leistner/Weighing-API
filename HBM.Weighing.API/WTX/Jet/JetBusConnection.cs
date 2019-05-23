@@ -59,10 +59,8 @@ namespace HBM.Weighing.API.WTX.Jet
         protected JetPeer _peer;
 
         private Dictionary<string, JToken> _dataJTokenBuffer = new Dictionary<string, JToken>();
-        Dictionary<string, int> _dataIntegerBuffer = new Dictionary<string, int>();
-
-        Dictionary<JetBusCommand, int> _dataCommandsBuffer = new Dictionary<JetBusCommand, int>();
-
+        Dictionary<string, string> _dataBuffer = new Dictionary<string, string>();
+        
         private AutoResetEvent _mSuccessEvent = new AutoResetEvent(false);
         private Exception _mException = null;
 
@@ -75,7 +73,6 @@ namespace HBM.Weighing.API.WTX.Jet
         private bool _connected;
 
         private string _ipaddress;
-        private int interval;
 
         private JToken[] JTokenArray;
         private ushort[] DataUshortArray;
@@ -223,7 +220,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
             dataArrived = true;
 
-            IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));  // For getting data already in the FetchAll() 
+            IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataBuffer));  // For getting data already in the FetchAll() 
 
             // Update data in data classes : 
             this.UpdateData?.Invoke(this, new EventArgs());
@@ -251,11 +248,11 @@ namespace HBM.Weighing.API.WTX.Jet
             }                        
         }
 
-        public int ReadFromBuffer(object command)
+        public string ReadFromBuffer(object command)
         {
             ushort _bitMask = 0;
             ushort _mask = 0;
-            int _value = 0;
+            string _value = "";
 
             try
             {
@@ -276,20 +273,20 @@ namespace HBM.Weighing.API.WTX.Jet
                             }
                             _mask = (ushort)(_bitMask << jetcommand.BitIndex);
 
-                            _value = (_dataIntegerBuffer[jetcommand.PathIndex] & _mask) >> jetcommand.BitIndex;
+                            _value = (((ushort)Convert.ToUInt16(_dataBuffer[jetcommand.PathIndex]) & _mask) >> jetcommand.BitIndex).ToString();
                             break;
                         }
 
                     default:
                         {
-                            _value = _dataIntegerBuffer[jetcommand.PathIndex];
+                            _value = _dataBuffer[jetcommand.PathIndex];
                             break;
                         }
                 }
             }
             catch
             {
-                _value = 0;
+                _value = "0";
             }
 
             return _value;
@@ -315,40 +312,24 @@ namespace HBM.Weighing.API.WTX.Jet
                 switch (data["event"].ToString())
                 {
                     case "add":
-
                         _dataJTokenBuffer.Add(path, data["value"]);
-
-                        if (int.TryParse(data["value"].ToString(), out i))      // checks if the data is a number, which can be converted to an integer at the path. 
-                        {
-                            _dataIntegerBuffer.Add(path, Convert.ToInt32(data["value"].ToString()));
-                        }
+                        _dataBuffer.Add(path, data["value"].ToString());
                         break;
 
                     case "fetch":
-
                         _dataJTokenBuffer[path] = data["value"];
-
-                        if (int.TryParse(data["value"].ToString(), out i))      // checks if the data is a number, which can be converted to an integer at the path. 
-                        {
-                            _dataIntegerBuffer[path] = Convert.ToInt32(data["value"].ToString());
-                        }
+                        _dataBuffer[path] = data["value"].ToString();
                         break;
 
                     case "change":
-
                         _dataJTokenBuffer[path] = data["value"];
-
-                        if (int.TryParse(data["value"].ToString(), out i))      // checks if the data is a number, which can be converted to an integer at the path. 
-                        {
-                            _dataIntegerBuffer[path] = Convert.ToInt32(data["value"].ToString());
-                        }
-                        
+                        _dataBuffer[path] = data["value"].ToString();
                         break;
                 }
 
                 if (dataArrived == true)
                 {
-                    IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataIntegerBuffer));
+                    IncomingDataReceived?.Invoke(this, new DataEventArgs(this._dataBuffer));
                     // Update data in data classes : 
                     this.UpdateData?.Invoke(this, new EventArgs());
                 }
@@ -675,11 +656,11 @@ namespace HBM.Weighing.API.WTX.Jet
                 this._ipaddress = value;
             }
         }
-        public Dictionary<string, int> AllData
+        public Dictionary<string, string> AllData
         {
             get
             {
-                return _dataIntegerBuffer;
+                return _dataBuffer;
             }
         }
         public Dictionary<ModbusCommand, int> ModbusData

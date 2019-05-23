@@ -72,25 +72,24 @@ namespace HBM.Weighing.API.Data
         ///<inheritdoc />
         public void UpdateData(object sender, EventArgs e)
         {
-            ApplicationMode = (ApplicationMode)_connection.ReadFromBuffer(JetBusCommands.Application_mode);
-            GeneralWeightError = Convert.ToBoolean(_connection.ReadFromBuffer(JetBusCommands.WS_GeneralWeightError));
-            ScaleAlarm = Convert.ToBoolean(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleAlarm));
-            int LimitStatus = _connection.ReadFromBuffer(JetBusCommands.WS_LimitStatus);
+            ApplicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode));
+            GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_GeneralWeightError)));
+            ScaleAlarm = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleAlarm)));
+            int LimitStatus = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_LimitStatus));
             Underload = (LimitStatus == 1);
             Overload = (LimitStatus == 2);
             HigherSafeLoadLimit = (LimitStatus == 3);
-            TareMode = EvaluateTareMode(_connection.ReadFromBuffer(JetBusCommands.WS_ManualTare), _connection.ReadFromBuffer(JetBusCommands.WS_WeightType));
-            WeightStable = !Convert.ToBoolean(_connection.ReadFromBuffer(JetBusCommands.WS_WeightMoving));
-            LegalForTrade = !Convert.ToBoolean(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleSealIsOpen));
-            ScaleRange = _connection.ReadFromBuffer(JetBusCommands.WS_ScaleRange);
-            ZeroRequired = Convert.ToBoolean(_connection.ReadFromBuffer(JetBusCommands.WS_ZeroRequired));
-            CenterOfZero = Convert.ToBoolean(_connection.ReadFromBuffer(JetBusCommands.WS_CenterOfZero));
-            InsideZero = Convert.ToBoolean(_connection.ReadFromBuffer(JetBusCommands.WS_InsideZero));            
-            Decimals = _connection.ReadFromBuffer(JetBusCommands.Decimals);
-            Unit = UnitIDToString(_connection.ReadFromBuffer(JetBusCommands.WS_Unit));
-            Weight.Update(MeasurementUtils.DigitToDouble(_connection.ReadFromBuffer(JetBusCommands.Net_value), Decimals), MeasurementUtils.DigitToDouble(_connection.ReadFromBuffer(JetBusCommands.Gross_value), Decimals));
-            PrintableWeight.Update(MeasurementUtils.DigitToDouble(_connection.ReadFromBuffer(JetBusCommands.Net_value), Decimals), MeasurementUtils.DigitToDouble(_connection.ReadFromBuffer(JetBusCommands.Gross_value), Decimals), Decimals);
-
+            TareMode = EvaluateTareMode(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ManualTare)), Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_WeightType)));
+            WeightStable = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_WeightMoving)));
+            LegalForTrade = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleSealIsOpen)));
+            ScaleRange = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleRange));
+            ZeroRequired = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ZeroRequired)));
+            CenterOfZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_CenterOfZero)));
+            InsideZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_InsideZero)));
+            Decimals = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Decimals));
+            Unit = UnitIDToString(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_Unit)));
+            Weight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Net_value)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Gross_value)), Decimals));
+            PrintableWeight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Net_value)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Gross_value)), Decimals), Decimals);
         }
         #endregion
 

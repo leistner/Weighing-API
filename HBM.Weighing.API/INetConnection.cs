@@ -40,23 +40,29 @@ namespace HBM.Weighing.API
     public interface INetConnection
     {
         #region ==================== events & delegates ====================
+          
         event EventHandler CommunicationLog;
         
         event EventHandler<EventArgs> UpdateData;
         #endregion
 
+        Dictionary<string,string>AllData { get; }
+      
         #region ======================== properties ========================
         string IpAddress { get; set; }
-
-        bool IsConnected { get; }                        
-
+      
         ConnectionType ConnectionType { get; }                  
         #endregion
 
         #region ================ public & internal methods =================
+
         void Connect();
         
         void Disconnect();
+
+        #endregion
+
+        #region =============================== Read/Write methods ====================================
 
         int Read(object command);
 
@@ -66,7 +72,8 @@ namespace HBM.Weighing.API
 
         Task<int> WriteAsync(object command, int value); 
         
-        int ReadFromBuffer(object command);        
+        string ReadFromBuffer(object command);
+
         #endregion
 
     }

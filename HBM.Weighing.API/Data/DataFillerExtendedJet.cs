@@ -86,8 +86,6 @@ namespace HBM.Weighing.API.Data
         private int _intervalRangeControl;
         private int _multiLimit1;
         private int _multiLimit2;
-        private int _oimlCertificationInformation;
-        private int _ntepCertificationInformation;
         private int _maximumZeroingTime;
         private int _maximumPeakValueGross;
         private int _minimumPeakValueGross;
@@ -95,15 +93,9 @@ namespace HBM.Weighing.API.Data
         private int _minimumPeakValue;
         private int _weightMovingDetection;
         private int _deviceAddress;
-        private int _hardwareVersion;
-        private int _identification;
-
         private int _outputScale;
-        private int _firmwareDate;
         private int _resetTrigger;
         private int _stateDigital_IO_Extended;
-        private int _softwareIdentification;
-        private int _softwareVersion;
         private int _dateTime;
         private int _breakDosing;
         private int _deleteDosingResult;
@@ -116,6 +108,14 @@ namespace HBM.Weighing.API.Data
         private int _delay2Dosing;
         private int _emptyWeightTolerance;
         private int _residualFlowDosingCycle;
+
+        private string _oimlCertificationInformation;
+        private string _ntepCertificationInformation;
+        private string _hardwareVersion;
+        private string _identification;
+        private string _firmwareDate;
+        private string _softwareIdentification;
+        private string _softwareVersion;
 
         private INetConnection _connection;
         #endregion
@@ -167,8 +167,6 @@ namespace HBM.Weighing.API.Data
             _intervalRangeControl=0;
             _multiLimit1=0;
             _multiLimit2=0;
-            _oimlCertificationInformation=0;
-            _ntepCertificationInformation=0;
             _maximumZeroingTime=0;
             _maximumPeakValueGross=0;
             _minimumPeakValueGross=0;
@@ -176,17 +174,10 @@ namespace HBM.Weighing.API.Data
             _minimumPeakValue=0;
             _weightMovingDetection=0;
             _deviceAddress=0;
-            _hardwareVersion=0;
-            _identification=0;
-
             _outputScale=0;
-            _firmwareDate=0;
             _resetTrigger=0;
             _stateDigital_IO_Extended=0;
-            _softwareIdentification=0;
-            _softwareVersion=0;
             _dateTime=0;
-
             _breakDosing = 0 ;
             _deleteDosingResult = 0 ;
             _materialStreamLastDosing = 0 ;
@@ -198,7 +189,15 @@ namespace HBM.Weighing.API.Data
             _delay2Dosing = 0 ;
             _emptyWeightTolerance = 0 ;
             _residualFlowDosingCycle = 0 ;
-    }
+
+            _oimlCertificationInformation = "0";
+            _ntepCertificationInformation = "0";
+            _hardwareVersion = "0";
+            _identification = "0";
+            _firmwareDate = "0";
+            _softwareIdentification = "0";
+            _softwareVersion = "0";
+        }
 
         #endregion
         
@@ -206,88 +205,88 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateFillerExtendedData(object sender, EventArgs e)
         {
-            if (_connection.ReadFromBuffer(JetBusCommands.Application_mode) == 2 ||  _connection.ReadFromBuffer(JetBusCommands.Application_mode) == 3) // If application mode = filler
+            if (Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 2 || Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 3) // If application mode = filler
             {
                 this.UpdateFillerData(this, e);
 
-                //_errorRegister = _connection.GetDataFromDictionary(JetBusCommands.ERROR_REGISTER);
-                _saveAllParameters = _connection.ReadFromBuffer(JetBusCommands.Save_all_parameters);
-                _restoreAllDefaultParameters = _connection.ReadFromBuffer(JetBusCommands.Restore_all_default_parameters);
-                _vendorID = _connection.ReadFromBuffer(JetBusCommands.Vendor_id);
+                _errorRegister = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Error_register));
+                _saveAllParameters = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Save_all_parameters));
+                _restoreAllDefaultParameters = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Restore_all_default_parameters));
+                _vendorID = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Vendor_id));
 
-                _productCode = _connection.ReadFromBuffer(JetBusCommands.Product_code);
-                _serialNumber = _connection.ReadFromBuffer(JetBusCommands.Serial_number);
-                _implementedProfileSpecification = _connection.ReadFromBuffer(JetBusCommands.Implemented_profile_specification);
-                //_lcCapability = _connection.GetDataFromDictionary(JetBusCommands.LC_CAPABILITY);
-                _weighingDevice1UnitPrefixOutputParameter = _connection.ReadFromBuffer(JetBusCommands.Weighing_device_1_unit_prefix_output_parameter);             
+                _productCode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Product_code));
+                _serialNumber = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Serial_number));
+                _implementedProfileSpecification = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Implemented_profile_specification));
+                _lcCapability = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Lc_capability));
+                _weighingDevice1UnitPrefixOutputParameter = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Weighing_device_1_unit_prefix_output_parameter));
 
-                _weighingDevice1WeightStep = _connection.ReadFromBuffer(JetBusCommands.Weighing_device_1_weight_step);
-                _alarms = _connection.ReadFromBuffer(JetBusCommands.Alarms);
-                _weighingDevice1OutputWeight = _connection.ReadFromBuffer(JetBusCommands.Weighing_device_1_output_weight);
-                _weighingDevice1Setting = _connection.ReadFromBuffer(JetBusCommands.Weighing_device_1_setting);
+                _weighingDevice1WeightStep = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Weighing_device_1_weight_step));
+                _alarms = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Alarms));
+                _weighingDevice1OutputWeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Weighing_device_1_output_weight));
+                _weighingDevice1Setting = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Weighing_device_1_setting));
 
-                _localGravityFactor = _connection.ReadFromBuffer(JetBusCommands.Local_gravity_factor);
-                _scaleFilterSetup = _connection.ReadFromBuffer(JetBusCommands.Scale_filter_setup);
-                _dataSampleRate = _connection.ReadFromBuffer(JetBusCommands.Data_sample_rate);
+                _localGravityFactor = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Local_gravity_factor));
+                _scaleFilterSetup = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_filter_setup));
+                _dataSampleRate = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Data_sample_rate));
 
-                _filterOrderCriticallyDamped = _connection.ReadFromBuffer(JetBusCommands.Filter_order_critically_damped);
-                _cutOffFrequencyCriticallyDamped = _connection.ReadFromBuffer(JetBusCommands.Cut_off_frequency_critically_damped);
-                _filterOrderButterworth = _connection.ReadFromBuffer(JetBusCommands.Filter_order_butterworth);
-                _cutOffFrequencyButterWorth = _connection.ReadFromBuffer(JetBusCommands.Cut_off_frequency_butterworth);
-                _filterOrderBessel = _connection.ReadFromBuffer(JetBusCommands.Filter_order_bessel);
+                _filterOrderCriticallyDamped = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Filter_order_critically_damped));
+                _cutOffFrequencyCriticallyDamped = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Cut_off_frequency_critically_damped));
+                _filterOrderButterworth = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Filter_order_butterworth));
+                _cutOffFrequencyButterWorth = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Cut_off_frequency_butterworth));
+                _filterOrderBessel = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Filter_order_bessel));
 
-                _cutOffFrequencyBessel = _connection.ReadFromBuffer(JetBusCommands.Cut_off_frequency_bessel);
-                _scaleSupplyNominalVoltage = _connection.ReadFromBuffer(JetBusCommands.Scale_suppy_nominal_voltage);
-                _scaleSupplyMinimumVoltage = _connection.ReadFromBuffer(JetBusCommands.Scale_suppy_minimum_voltage);
-                _scaleSupplyMaximumVoltage = _connection.ReadFromBuffer(JetBusCommands.Scale_suppy_maximum_voltage);
+                _cutOffFrequencyBessel = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Cut_off_frequency_bessel));
+                _scaleSupplyNominalVoltage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_suppy_nominal_voltage));
+                _scaleSupplyMinimumVoltage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_suppy_minimum_voltage));
+                _scaleSupplyMaximumVoltage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_suppy_maximum_voltage));
 
-                _scaleAccuracyClass = _connection.ReadFromBuffer(JetBusCommands.Scale_accuracy_class);
-                _scaleMinimumDeadLoad = _connection.ReadFromBuffer(JetBusCommands.Scale_minimum_dead_load);
-                _scaleMaximumCapacity = _connection.ReadFromBuffer(JetBusCommands.Scale_maximum_capacity);
-                _scaleMaximumNumberVerificationInterval = _connection.ReadFromBuffer(JetBusCommands.Scale_maximum_number_of_verification_interval);
-                _scaleApportionmentFactor = _connection.ReadFromBuffer(JetBusCommands.Scale_apportionment_factor);
-                _scaleSafeLoadLimit = _connection.ReadFromBuffer(JetBusCommands.Scale_safe_load_limit);
-                _scaleOperationNominalTemperature = _connection.ReadFromBuffer(JetBusCommands.Scale_operation_nominal_temperature);
-                _scaleOperationMinimumTemperature = _connection.ReadFromBuffer(JetBusCommands.Scale_operation_minimum_temperature);
-                _scaleOperationMaximumTemperature = _connection.ReadFromBuffer(JetBusCommands.Scale_operation_maximum_temperature);
+                _scaleAccuracyClass = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_accuracy_class));
+                _scaleMinimumDeadLoad = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_minimum_dead_load));
+                _scaleMaximumCapacity = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_maximum_capacity));
+                _scaleMaximumNumberVerificationInterval = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_maximum_number_of_verification_interval));
+                _scaleApportionmentFactor = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_apportionment_factor));
+                _scaleSafeLoadLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_safe_load_limit));
+                _scaleOperationNominalTemperature = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_operation_nominal_temperature));
+                _scaleOperationMinimumTemperature = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_operation_minimum_temperature));
+                _scaleOperationMaximumTemperature = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_operation_maximum_temperature));
 
-                //_scaleRelativeMinimumLoadCellVerficationInterval = _connection.GetDataFromDictionary(JetBusCommands.Scale_relative_minimum_load_cell_verification_interval);
-                _intervalRangeControl = _connection.ReadFromBuffer(JetBusCommands.Interval_range_control);
-                _multiLimit1 = _connection.ReadFromBuffer(JetBusCommands.Multi_limit_1);
-                _multiLimit2 = _connection.ReadFromBuffer(JetBusCommands.Multi_limit_2);
-                //_oimlCertificationInformation = _connection.GetDataFromDictionary(JetBusCommands.Oiml_certificaiton_information);
-                //_ntepCertificationInformation = _connection.GetDataFromDictionary(JetBusCommands.Ntep_certificaiton_information);
-                _maximumZeroingTime = _connection.ReadFromBuffer(JetBusCommands.Maximum_zeroing_time);
-                _maximumPeakValueGross = _connection.ReadFromBuffer(JetBusCommands.Maximum_peak_value_gross);
-                _minimumPeakValueGross = _connection.ReadFromBuffer(JetBusCommands.Minimum_peak_value_gross);
+                _scaleRelativeMinimumLoadCellVerficationInterval = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Scale_relative_minimum_load_cell_verification_interval));
+                _intervalRangeControl = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Interval_range_control));
+                _multiLimit1 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Multi_limit_1));
+                _multiLimit2 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Multi_limit_2));
+                _oimlCertificationInformation = _connection.ReadFromBuffer(JetBusCommands.Oiml_certificaiton_information);
+                _ntepCertificationInformation = _connection.ReadFromBuffer(JetBusCommands.Ntep_certificaiton_information);
+                _maximumZeroingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximum_zeroing_time));
+                _maximumPeakValueGross = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximum_peak_value_gross));
+                _minimumPeakValueGross = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_peak_value_gross));
 
-                _maximumPeakValue = _connection.ReadFromBuffer(JetBusCommands.Maximum_peak_value);
-                _minimumPeakValue = _connection.ReadFromBuffer(JetBusCommands.Minimum_peak_value);
-                _weightMovingDetection = _connection.ReadFromBuffer(JetBusCommands.Weight_moving_detection);
-                //_deviceAddress = _connection.GetDataFromDictionary(JetBusCommands.Device_address);
-                //_hardwareVersion = _connection.GetDataFromDictionary(JetBusCommands.Hardware_version);
-                //_identification = _connection.GetDataFromDictionary(JetBusCommands.Identification);
+                _maximumPeakValue = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximum_peak_value));
+                _minimumPeakValue = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_peak_value));
+                _weightMovingDetection = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Weight_moving_detection));
+                _deviceAddress = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Device_address));
+                _hardwareVersion = _connection.ReadFromBuffer(JetBusCommands.Hardware_version);
+                _identification = _connection.ReadFromBuffer(JetBusCommands.Identification);
 
-                _outputScale = _connection.ReadFromBuffer(JetBusCommands.Output_scale);
-                //_firmwareDate = _connection.GetDataFromDictionary(JetBusCommands.Firmware_date);
-                _resetTrigger = _connection.ReadFromBuffer(JetBusCommands.Reset_trigger);
-                _stateDigital_IO_Extended = _connection.ReadFromBuffer(JetBusCommands.State_digital_io_extended);
+                _outputScale = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Output_scale));
+                _firmwareDate = _connection.ReadFromBuffer(JetBusCommands.Firmware_date);
+                _resetTrigger = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Reset_trigger));
+                _stateDigital_IO_Extended = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.State_digital_io_extended));
 
-                //_softwareIdentification = _connection.GetDataFromDictionary(JetBusCommands.Software_identification);
-                //_softwareVersion = _connection.GetDataFromDictionary(JetBusCommands.Software_version);
-                _dateTime = _connection.ReadFromBuffer(JetBusCommands.Date_time);
+                _softwareIdentification = _connection.ReadFromBuffer(JetBusCommands.Software_identification); 
+                _softwareVersion = _connection.ReadFromBuffer(JetBusCommands.Software_version);
+                _dateTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Date_time));
 
-                _breakDosing = _connection.ReadFromBuffer(JetBusCommands.Break_dosing);
-                _deleteDosingResult = _connection.ReadFromBuffer(JetBusCommands.Delete_dosing_result);
-                _materialStreamLastDosing = _connection.ReadFromBuffer(JetBusCommands.Material_stream_last_dosing);
-                _sum = _connection.ReadFromBuffer(JetBusCommands.Sum);
-                _specialDosingFunctions = _connection.ReadFromBuffer(JetBusCommands.Special_dosing_functions);
-                _dischargeTime = _connection.ReadFromBuffer(JetBusCommands.Discharge_time);
-                _exceedingWeightBreak = _connection.ReadFromBuffer(JetBusCommands.Exceeding_weight_break);
-                _delay1Dosing = _connection.ReadFromBuffer(JetBusCommands.Delay1_dosing);
-                _delay2Dosing = _connection.ReadFromBuffer(JetBusCommands.Delay2_dosing);
-                _emptyWeightTolerance = _connection.ReadFromBuffer(JetBusCommands.Empty_weight_tolerance);
-                _residualFlowDosingCycle = _connection.ReadFromBuffer(JetBusCommands.Residual_flow_dosing_cycle);
+                _breakDosing = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Break_dosing));
+                _deleteDosingResult = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Delete_dosing_result));
+                _materialStreamLastDosing = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Material_stream_last_dosing));
+                _sum = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Sum));
+                _specialDosingFunctions = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Special_dosing_functions));
+                _dischargeTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Discharge_time));
+                _exceedingWeightBreak = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Exceeding_weight_break));
+                _delay1Dosing = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Delay1_dosing));
+                _delay2Dosing = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Delay2_dosing));
+                _emptyWeightTolerance = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Empty_weight_tolerance));
+                _residualFlowDosingCycle = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Residual_flow_dosing_cycle));
             }
         }
         #endregion
@@ -523,18 +522,6 @@ namespace HBM.Weighing.API.Data
             set { _connection.Write(JetBusCommands.Multi_limit_2 , value);
                 this._multiLimit2 = value; }
         }
-        public int OimlCertificationInformation
-        {
-            get { return _oimlCertificationInformation; }
-            set { _connection.Write(JetBusCommands.Oiml_certificaiton_information , value);
-                this._oimlCertificationInformation = value; }
-        }
-        public int NtepCertificationInformation
-        {
-            get { return _ntepCertificationInformation; }
-            set { _connection.Write(JetBusCommands.Ntep_certificaiton_information , value);
-                this._ntepCertificationInformation = value; }
-        }
         public int MaximumZeroingTime
         {
             get { return _maximumZeroingTime; }
@@ -576,30 +563,12 @@ namespace HBM.Weighing.API.Data
             get { return _deviceAddress; }
             set { _connection.Write(JetBusCommands.Device_address , value);
                 this._deviceAddress = value; }
-        }
-        public int HardwareVersion
-        {
-            get { return _hardwareVersion; }
-            set { _connection.Write(JetBusCommands.Hardware_version , value);
-                this._hardwareVersion = value; }
-        }
-        public int Identification
-        {
-            get { return _identification; }
-            set { _connection.Write(JetBusCommands.Identification , value);
-                this._identification = value; }
-        }     
+        } 
         public int OutputScale
         {
             get { return _outputScale; }
             set { _connection.Write(JetBusCommands.Output_scale , value);
                 this._outputScale = value; }
-        }
-        public int FirmwareDate
-        {
-            get { return _firmwareDate; }
-            set { _connection.Write(JetBusCommands.Firmware_date , value);
-                this._firmwareDate = value; }
         }
         public int ResetTrigger
         {
@@ -612,18 +581,6 @@ namespace HBM.Weighing.API.Data
             get { return _stateDigital_IO_Extended; }
             set { _connection.Write(JetBusCommands.State_digital_io_extended , value);
                 this._stateDigital_IO_Extended = value; }
-        }
-        public int SoftwareIdentification
-        {
-            get { return _softwareIdentification; }
-            set { _connection.Write(JetBusCommands.Software_identification , value);
-                this._softwareIdentification = value; }
-        }
-        public int SoftwareVersion
-        {
-            get { return _softwareVersion; }
-            set { _connection.Write(JetBusCommands.Software_version , value);
-                this._softwareVersion = value; }
         }
         public int DateTime
         {
@@ -697,7 +654,62 @@ namespace HBM.Weighing.API.Data
             set { _connection.Write(JetBusCommands.Residual_flow_dosing_cycle , value);
                 this._residualFlowDosingCycle = value; }
         }
-
+        public string OimlCertificationInformation
+        {
+            get { return _oimlCertificationInformation; }
+            set
+            { //_connection.Write(JetBusCommands.Oiml_certificaiton_information , value);
+                this._oimlCertificationInformation = value;
+            }
+        }
+        public string NtepCertificationInformation
+        {
+            get { return _ntepCertificationInformation; }
+            set
+            { //_connection.Write(JetBusCommands.Ntep_certificaiton_information , value);
+                this._ntepCertificationInformation = value;
+            }
+        }
+        public string HardwareVersion
+        {
+            get { return _hardwareVersion; }
+            set
+            { //_connection.Write(JetBusCommands.Hardware_version , value);
+                this._hardwareVersion = value;
+            }
+        }
+        public string FirmwareDate
+        {
+            get { return _firmwareDate; }
+            set
+            { //_connection.Write(JetBusCommands.Firmware_date , value);
+                this._firmwareDate = value;
+            }
+        }
+        public string Identification
+        {
+            get { return _identification; }
+            set
+            { //_connection.Write(JetBusCommands.Identification , value);
+                this._identification = value;
+            }
+        }
+        public string SoftwareIdentification
+        {
+            get { return _softwareIdentification; }
+            set
+            { //_connection.Write(JetBusCommands.Software_identification , value);
+                this._softwareIdentification = value;
+            }
+        }
+        public string SoftwareVersion
+        {
+            get { return _softwareVersion; }
+            set
+            { //_connection.Write(JetBusCommands.Software_version , value);
+                this._softwareVersion = value;
+            }
+        }
         #endregion
 
     }

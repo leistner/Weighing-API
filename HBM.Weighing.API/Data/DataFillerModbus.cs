@@ -214,77 +214,77 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateFillerData(object sender, EventArgs e)
         {
-            if (_connection.ReadFromBuffer(ModbusCommands.Application_mode) == 2 || _connection.ReadFromBuffer(ModbusCommands.Application_mode) == 3)  // If application mode = filler
+            if (Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Application_mode)) == 2 || Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Application_mode)) == 3)  // If application mode = filler
             {
                 // Via Modbus and Jetbus IDs: 
-                _maxDosingTime = _connection.ReadFromBuffer(ModbusCommands.Maximal_dosing_time);
-                //_meanValueDosingResults = _connection.GetDataFromDictionary(ModbusCommands.Mean_value_dosing_results);
-                //_standardDeviation = _connection.GetDataFromDictionary(ModbusCommands.Standard_deviation);
-                _fineFlowCutOffPoint = _connection.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point);
-                _coarseFlowCutOffPoint = _connection.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point);
+                _maxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Maximal_dosing_time));
+                //_meanValueDosingResults = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Mean_value_dosing_results));
+                //_standardDeviation = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Standard_deviation));
+                _fineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point));
+                _coarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point));
 
-                //_residualFlowTime = _connection.GetDataFromDictionary(ModbusCommands.Residual_flow_time);
-                _minimumFineFlow = _connection.ReadFromBuffer(ModbusCommands.Minimum_fine_flow);
-                _optimizationOfCutOffPoints = _connection.ReadFromBuffer(ModbusCommands.Optimization);
-                _maximumDosingTime = _connection.ReadFromBuffer(ModbusCommands.Maximal_dosing_time);
-                _coarseLockoutTime = _connection.ReadFromBuffer(ModbusCommands.Coarse_flow_time);
-                _fineLockoutTime = _connection.ReadFromBuffer(ModbusCommands.CurrentFineFlowTime);
-                _tareMode = _connection.ReadFromBuffer(ModbusCommands.Tare_mode);
+                //_residualFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Residual_flow_time));
+                _minimumFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Minimum_fine_flow));
+                _optimizationOfCutOffPoints = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Optimization));
+                _maximumDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Maximal_dosing_time));
+                _coarseLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_time));
+                _fineLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CurrentFineFlowTime));
+                _tareMode = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Tare_mode));
 
-                _upperToleranceLimit = _connection.ReadFromBuffer(ModbusCommands.Upper_tolerance_limit);
-                _lowerToleranceLimit = _connection.ReadFromBuffer(ModbusCommands.Lower_tolerance_limit);
-                _minimumStartWeight = _connection.ReadFromBuffer(ModbusCommands.Minimum_start_weight);
-                //_emptyWeight = _connection.GetDataFromDictionary(ModbusCommands.Empty_weight);
-                _tareDelay = _connection.ReadFromBuffer(ModbusCommands.Tare_delay);
+                _upperToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Upper_tolerance_limit));
+                _lowerToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Lower_tolerance_limit));
+                _minimumStartWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Minimum_start_weight));
+                //_emptyWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Empty_weight));
+                _tareDelay = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Tare_delay));
 
-                _coarseFlowMonitoringTime = _connection.ReadFromBuffer(ModbusCommands.Coarse_flow_monitoring_time);
-                _coarseFlowMonitoring = _connection.ReadFromBuffer(ModbusCommands.Coarse_flow_monitoring);
-                _fineFlowMonitoring = _connection.ReadFromBuffer(ModbusCommands.Fine_flow_monitoring);
-                //_fineFlowMonitoringTime = _connection.GetDataFromDictionary(ModbusCommands.Fine_flow_monitoring_time); ;
-                _systematicDifference = _connection.ReadFromBuffer(ModbusCommands.Systematic_difference);
+                _coarseFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_monitoring_time));
+                _coarseFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_monitoring));
+                _fineFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_monitoring));
+                //_fineFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_monitoring_time));
+                _systematicDifference = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Systematic_difference));
                 
                 /*
-                _valveControl = _connection.GetDataFromDictionary(ModbusCommands.Valve_control);
-                _emptyingMode = _connection.GetDataFromDictionary(ModbusCommands.Emptying_mode);
-                _delayTimeAfterFineFlow = _connection.GetDataFromDictionary(ModbusCommands.Delay_time_after_fine_flow);
-                _activationTimeAfterFineFlow = _connection.GetDataFromDictionary(ModbusCommands.Activation_time_after_fine_flow);
+                _valveControl = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Valve_control));
+                _emptyingMode = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Emptying_mode));
+                _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Delay_time_after_fine_flow));
+                _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Activation_time_after_fine_flow));
                 */
 
-                _adcOverUnderload = _connection.ReadFromBuffer(ModbusCommands.AdcOverUnderload);
-                _legalForTradeOperation = _connection.ReadFromBuffer(ModbusCommands.LegalForTradeOperation);
-                _statusInput1 = _connection.ReadFromBuffer(ModbusCommands.StatusInput1);
-                _generalScaleError = _connection.ReadFromBuffer(ModbusCommands.GeneralScaleError);
+                _adcOverUnderload = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.AdcOverUnderload));
+                _legalForTradeOperation = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.LegalForTradeOperation));
+                _statusInput1 = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.StatusInput1));
+                _generalScaleError = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.GeneralScaleError));
                 
-                _coarseFlow = _connection.ReadFromBuffer(ModbusCommands.CoarseFlow);
-                _fineFlow = _connection.ReadFromBuffer(ModbusCommands.FineFlow);
-                _ready = _connection.ReadFromBuffer(ModbusCommands.Ready);
-                _reDosing = _connection.ReadFromBuffer(ModbusCommands.ReDosing);
+                _coarseFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CoarseFlow));
+                _fineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FineFlow));
+                _ready = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Ready));
+                _reDosing = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ReDosing));
 
-                _emptying = _connection.ReadFromBuffer(ModbusCommands.Emptying);
-                _flowError = _connection.ReadFromBuffer(ModbusCommands.FlowError);
-                _alarm = _connection.ReadFromBuffer(ModbusCommands.Alarm);
-                _toleranceErrorPlus = _connection.ReadFromBuffer(ModbusCommands.ToleranceErrorPlus);
+                _emptying = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Emptying));
+                _flowError = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FlowError));
+                _alarm = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Alarm));
+                _toleranceErrorPlus = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ToleranceErrorPlus));
 
-                _toleranceErrorMinus = _connection.ReadFromBuffer(ModbusCommands.ToleranceErrorMinus);
-                _currentDosingTime = _connection.ReadFromBuffer(ModbusCommands.Dosing_time);
-                _currentCoarseFlowTime = _connection.ReadFromBuffer(ModbusCommands.Coarse_flow_time);
-                _currentFineFlowTime = _connection.ReadFromBuffer(ModbusCommands.CurrentFineFlowTime);
+                _toleranceErrorMinus = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ToleranceErrorMinus));
+                _currentDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Dosing_time));
+                _currentCoarseFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_time));
+                _currentFineFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CurrentFineFlowTime));
 
-                _parameterSetProduct = _connection.ReadFromBuffer(ModbusCommands.ParameterSetProduct);
-                //_downwardsDosing = _connection.GetDataFromDictionary(ModbusCommands.DownwardsDosing);
-                _totalWeight = _connection.ReadFromBuffer(ModbusCommands.TotalWeight);
+                _parameterSetProduct = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ParameterSetProduct));
+                //_downwardsDosing = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.DownwardsDosing));
+                _totalWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.TotalWeight));
 
                 //_targetFillingWeight = Convert.ToInt32(e.DataDictionary[ModbusCommands.TargetFillingWeight);
-                _coarseFlowCutOffPointSet = _connection.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point);
-                _fineFlowCutOffPointSet = _connection.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point);
-                _startWithFineFlow = _connection.ReadFromBuffer(ModbusCommands.Run_start_dosing);  // Command 'Run_start_dosing' right
+                _coarseFlowCutOffPointSet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point));
+                _fineFlowCutOffPointSet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point));
+                _startWithFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Run_start_dosing));  // Command 'Run_start_dosing' right
                 
-                _weightMemoryDay = _connection.ReadFromBuffer(ModbusCommands.WeightMemDayStandard);
-                _weightMemoryMonth = _connection.ReadFromBuffer(ModbusCommands.WeightMemMonthStandard);
-                _weightMemoryYear = _connection.ReadFromBuffer(ModbusCommands.WeightMemYearStandard);
-                _weightMemorySeqNumber = _connection.ReadFromBuffer(ModbusCommands.WeightMemSeqNumberStandard);
-                _weightMemoryGross = _connection.ReadFromBuffer(ModbusCommands.WeightMemGrossStandard);
-                _weightMemoryNet = _connection.ReadFromBuffer(ModbusCommands.WeightMemNetStandard);
+                _weightMemoryDay = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemDayStandard));
+                _weightMemoryMonth = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemMonthStandard));
+                _weightMemoryYear = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemYearStandard));
+                _weightMemorySeqNumber = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemSeqNumberStandard));
+                _weightMemoryGross = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemGrossStandard));
+                _weightMemoryNet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemNetStandard));
             }
         }
         #endregion
