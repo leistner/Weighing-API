@@ -15,7 +15,7 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | File                               | Status                 |
 | ---------------------------------- | ---------------------- |
 | BaseWTDevice.cs                    | :heavy_check_mark:     |
-| DataEventArgs.cs                   | :large_orange_diamond: |
+| DataEventArgs.cs                   | :heavy_check_mark:     |
 | Enums.cs                           | :large_orange_diamond: |
 | INetConnection.cs                  | :large_orange_diamond: |
 | LogEvent.cs                        | :large_orange_diamond: |

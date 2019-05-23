@@ -28,38 +28,31 @@
 //
 // </copyright>
 
-using HBM.Weighing.API.WTX.Jet;
-using HBM.Weighing.API.WTX.Modbus;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace HBM.Weighing.API
 {
+    using System.Collections.Generic;
+
     /// <summary>
-    /// Event to extend the eventbased call with a dictionary containing pairs of keys,values (=path/index, data)
-    /// Called by the read method of class ModbusTcpConnection and by the fetch/read method of class JetBusConnection
-    /// to update the data classes (DataStandard/DataFiller/DataFillerExtended)
+    /// Event to update the data classes (e.g. DataStandard/DataFiller/DataFillerExtended)
     /// </summary>
     public class DataEventArgs
     {
-        private Dictionary<string, int> _dataDict;
-
-        public DataEventArgs(Dictionary<string,int> DataDictionaryParam)
+        #region =============== constructors & destructors =================
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataEventArgs" /> class
+        /// </summary>
+        /// <param name="dataDictionaryParam">Dictionary to be injected</param>
+        public DataEventArgs(Dictionary<string, int> dataDictionaryParam)
         {
-            this._dataDict = DataDictionaryParam;
+            this.DataDictionary = dataDictionaryParam;
         }
-        public Dictionary<string, int> DataDictionary
-        {
-            get
-            {
-                return this._dataDict;
-            }
-        }
+        #endregion
 
+        #region ======================== properties ========================
+        /// <summary>
+        /// Gets the dictionary with the the data
+        /// </summary>
+        public Dictionary<string, int> DataDictionary { get; private set; }
+        #endregion
     }
 }
-
