@@ -56,7 +56,6 @@ namespace HBM.Weighing.API.WTX
         private ushort[] _asyncData;
 
         private int _timerInterval;
-        private int _previousNetValue;
         
         private int _manualTareValue;
         private int _calibrationWeight;
@@ -96,7 +95,6 @@ namespace HBM.Weighing.API.WTX
 
             this._command = 0x00; 
             this._timerInterval = 0;
-            this._previousNetValue = 0;
 
             this.dPreload = 0;
             this.dNominalLoad = 0;
@@ -308,14 +306,7 @@ namespace HBM.Weighing.API.WTX
         /// <param name="_data"></param>
         public void OnData(ushort[] _data)
         {
-            //this.UpdateApplicationMode(_data);  // Update the application mode
-
-            this._previousNetValue = ProcessData.NetValue;
-
-            // Only if the net value changed, the data will be send to the GUI
-            //if(_previousNetValue != ProcessData.NetValue)
-                // Invoke Event - GUI/application class receives _processData: 
-                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));   
+            this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));   
         }
 
         public void UpdateApplicationMode(ushort[] Data)
@@ -331,7 +322,7 @@ namespace HBM.Weighing.API.WTX
 
         public string WeightMovingStringComment()
         {
-            if (ProcessData.WeightMoving == false)
+            if (ProcessData.WeightStable)
                 return "0=Weight is not moving.";
             else
                 return "1=Weight is moving";
@@ -347,35 +338,11 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public string LimitStatusStringComment()
-        {
-            switch (ProcessData.LimitStatus)
-            {
-                case 0:
-                    return "Weight within limits";
-                case 1:
-                    return "Lower than minimum";
-                case 2:
-                    return "Higher than maximum capacity";
-                case 3:
-                    return "Higher than safe load limit";
-                default: 
-                    return "Lower than minimum";
-            }
-        }
-
         public override TareMode TareMode
         {
             get
             {
-                if (ProcessData.TareMode == false)
-                {
-                    return TareMode.None;
-                }
-                else
-                {
-                    return TareMode.Tare;
-                }
+                return ProcessData.TareMode;
             }
         }
 

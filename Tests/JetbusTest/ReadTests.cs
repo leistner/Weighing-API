@@ -26,7 +26,8 @@ namespace JetbusTest
         private WTXJet _wtxObj;
         private int _testInteger;
         private bool _testBoolean;
-        
+        private string _testString;
+
 
         // Test case source for reading values from the WTX120 device. 
         public static IEnumerable ReadGrossValueTestCases
@@ -198,7 +199,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.WeightMoving;
+            _testBoolean = _wtxObj.ProcessData.WeightStable;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -238,7 +239,7 @@ namespace JetbusTest
         }
 
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
-        public void testLimitStatus(Behavior behavior)
+        public void testOverload(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
@@ -246,7 +247,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.ProcessData.LimitStatus;
+            _testBoolean = _wtxObj.ProcessData.Overload;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -260,21 +261,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.ScaleSealIsOpen;
-
-            Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
-        }
-
-        [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
-        public void testManualTare(Behavior behavior)
-        {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WTXJet(_jetTestConnection,update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            _testBoolean = _wtxObj.ProcessData.ManualTare;
+            _testBoolean = _wtxObj.ProcessData.LegalForTrade;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -288,7 +275,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.TareMode;
+            _testBoolean = _wtxObj.ProcessData.TareMode!=TareMode.None;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -417,7 +404,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.ProcessData.Unit;
+            _testString = _wtxObj.ProcessData.Unit;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6014/01"));
         }

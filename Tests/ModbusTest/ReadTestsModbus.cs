@@ -105,13 +105,13 @@ namespace HBM.Weighing.API.WTX.Modbus
                 _wtxDevice.OnData(_data);
             });
 
-            _testValue = (ushort)_wtxDevice.ProcessData.NetValue;
+            _testValue = (ushort)_wtxDevice.ProcessData.Weight.Net;
             return _testValue;
         }
 
         private void UpdateReadTest(object sender, ProcessDataReceivedEventArgs e)
         {
-            _testValue = (ushort) e.ProcessData.NetValue;
+            _testValue = (ushort) e.ProcessData.Weight.Net;
         }
 
         /*
@@ -148,7 +148,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             if ((testConnection.getArrElement1 == (0x7FFFFFFF & 0xffff0000) >> 16) &&
                 (testConnection.getArrElement2 == (0x7FFFFFFF & 0x0000ffff)) &&
-                _wtxDevice.ProcessData.NetValue == 0 && _wtxDevice.ProcessData.GrossValue == 0)
+                _wtxDevice.ProcessData.Weight.Net == 0 && _wtxDevice.ProcessData.Weight.Gross == 0)
             {
                 return true;
             }

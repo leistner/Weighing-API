@@ -25,8 +25,8 @@ namespace JetbusTest
         {
             get
             {
-                yield return new TestCaseData(Behavior.t_UnitValue_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.t_UnitValue_Success).ExpectedResult = 1;
+                //yield return new TestCaseData(Behavior.t_UnitValue_Fail).ExpectedResult = "";
+                yield return new TestCaseData(Behavior.t_UnitValue_Success).ExpectedResult = "t";
 
             }
         }
@@ -36,8 +36,8 @@ namespace JetbusTest
         {
             get
             {
-                yield return new TestCaseData(Behavior.kg_UnitValue_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.kg_UnitValue_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.kg_UnitValue_Fail).ExpectedResult = "";
+                yield return new TestCaseData(Behavior.kg_UnitValue_Success).ExpectedResult = "kg";
 
             }
         }
@@ -47,8 +47,8 @@ namespace JetbusTest
         {
             get
             {
-                yield return new TestCaseData(Behavior.g_UnitValue_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.g_UnitValue_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.g_UnitValue_Fail).ExpectedResult = "";
+                yield return new TestCaseData(Behavior.g_UnitValue_Success).ExpectedResult = "g";
 
             }
         }
@@ -58,8 +58,8 @@ namespace JetbusTest
         {
             get
             {
-                yield return new TestCaseData(Behavior.lb_UnitValue_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.lb_UnitValue_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.lb_UnitValue_Fail).ExpectedResult = "";
+                yield return new TestCaseData(Behavior.lb_UnitValue_Success).ExpectedResult = "lb";
 
             }
         }
@@ -221,8 +221,8 @@ namespace JetbusTest
         }
         */
 
-        private int _grossValue = 0;
-        private int _decimals = 0;
+        private double _grossValue = 0.0;
+        private double _decimals = 0.0;
 
         /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_4D_TestCase")]
@@ -238,7 +238,7 @@ namespace JetbusTest
 
             string strValue=_wtxObj.CurrentWeight(_grossValue, _decimals);
 
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, _wtxObj.ProcessData.Decimals);
+            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, _wtxObj.ProcessData.Decimals);
 
             Assert.AreEqual(dValue.ToString("0.0000"), strValue);
         }
@@ -253,7 +253,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
             
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 3);
+            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 3);
 
             Assert.AreEqual(dValue.ToString("0.000"), _wtxObj.PrintableWeight.Net);
         }
@@ -267,7 +267,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
             
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 2);
+            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 2);
 
             Assert.AreEqual(dValue.ToString("0.00"), _wtxObj.PrintableWeight.Net);
         }
@@ -281,7 +281,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
             
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 1);
+            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 1);
 
             Assert.AreEqual(dValue.ToString("0.0"), _wtxObj.PrintableWeight.Net);
         }
@@ -295,7 +295,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
             
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 5);
+            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 5);
 
             Assert.AreEqual(dValue.ToString("0.00000"), _wtxObj.PrintableWeight.Net);
         }
@@ -309,7 +309,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
             
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 6);
+            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 6);
 
             Assert.AreEqual(dValue.ToString("0.000000"), _wtxObj.PrintableWeight.Net);
         }
@@ -323,7 +323,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
             
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 7);
+            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 7);
 
             Assert.AreEqual(dValue.ToString(), _wtxObj.PrintableWeight.Net);
         }
@@ -337,7 +337,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
             
-            double dValue = _wtxObj.ProcessData.GrossValue / Math.Pow(10, 0);
+            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 0);
 
             Assert.AreEqual(dValue.ToString(), _wtxObj.PrintableWeight.Net);
         }
@@ -362,7 +362,7 @@ namespace JetbusTest
 
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
-            _grossValue = e.ProcessData.GrossValue;
+            _grossValue = e.ProcessData.Weight.Gross;
             _decimals =   e.ProcessData.Decimals;
         }
         /*

@@ -171,12 +171,6 @@ namespace GUIsimple
         {           
             txtInfo.BeginInvoke(new Action(() =>
             {
-                int netValue   = e.ProcessData.NetValue;
-                int grossValue = e.ProcessData.GrossValue;
-                int decimals   = e.ProcessData.Decimals;
-
-                int taraValue = netValue - grossValue;
-
                 txtInfo.Text = "Net:" + _wtxDevice.PrintableWeight.Net + _wtxDevice.Unit + Environment.NewLine
                 + "Gross:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit + Environment.NewLine
                 + "Tara:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit;

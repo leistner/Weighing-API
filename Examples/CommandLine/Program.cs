@@ -112,7 +112,7 @@ namespace WTXModbus
             MenuCases();
 
             //Get a single value from the WTX device : 
-            int x = _wtxDevice.ProcessData.NetValue; 
+            double x = _wtxDevice.ProcessData.Weight.Net; 
 
         } // end main  
 
@@ -449,41 +449,39 @@ namespace WTXModbus
 
                     if (_inputMode == 1)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.Weight.Net + "\t  As an int/bool:  " + e.ProcessData.NetValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.Weight.Net + "\t  As an int/bool:  " + e.ProcessData.Weight.Net);
                     }
                     else
                         if (_inputMode == 2 || _inputMode == 3 || _inputMode == 4)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.Weight.Net +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.Weight.Gross + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.Weight.Net +   "\t  As an int/bool:  " + e.ProcessData.Weight.Net);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.Weight.Gross + "\t  As an int/bool:  " + e.ProcessData.Weight.Gross);
                     }
                     else
                        if (_inputMode == 5)
                     {
-                        Console.WriteLine("Net value:                     " + _wtxDevice.Weight.Net +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.Weight.Gross + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.Weight.Net +   "\t  As an int/bool:  " + e.ProcessData.Weight.Net);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.Weight.Gross + "\t  As an int/bool:  " + e.ProcessData.Weight.Gross);
                         Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() + "\t  As an int/bool:  " + e.ProcessData.GeneralWeightError);
-                        Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +        "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
-                        Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +    "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
-                        Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +         "\t  As an int/bool:  " + e.ProcessData.ManualTare);
+                        Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.ScaleAlarm.ToString() +        "\t  As an int/bool:  " + e.ProcessData.ScaleAlarm);
+                        Console.WriteLine("Scale seal is open:            " + e.ProcessData.LegalForTrade.ToString() +    "\t  As an int/bool:  " + e.ProcessData.LegalForTrade);
                         Console.WriteLine("Weight type:                   " + e.ProcessData.TareMode + "\t  As an int/bool:  " + e.ProcessData.TareMode);
                         Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange + "\t  As an int/bool:  " + e.ProcessData.ScaleRange);
                         Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +       "\t  As an int/bool:  " + e.ProcessData.ZeroRequired);
                         Console.WriteLine("Weight within center of zero:  " + e.ProcessData.CenterOfZero.ToString() + "\t  As an int/bool:  " + e.ProcessData.CenterOfZero);
                         Console.WriteLine("Weight in zero range:          " + e.ProcessData.InsideZero.ToString() +  "\t  As an int/bool:  " + e.ProcessData.InsideZero);
-
-                        Console.WriteLine("Limit status:                  " + e.ProcessData.LimitStatus.ToString() + "        As an int/bool:  " + e.ProcessData.LimitStatus);
-                        Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "          As an int/bool: " + e.ProcessData.WeightMoving);
+                        Console.WriteLine("Overload:                      " + e.ProcessData.Overload.ToString() + "        As an int/bool:  " + e.ProcessData.Overload);
+                        Console.WriteLine("Underload:                      " + e.ProcessData.Underload.ToString() + "        As an int/bool:  " + e.ProcessData.Underload);
+                        Console.WriteLine("Weight stable:                 " + e.ProcessData.WeightStable.ToString() + "          As an int/bool: " + e.ProcessData.WeightStable);
                     }
                     else
                     if (_inputMode == 6 || _inputMode == 38)
                     { 
-                        Console.WriteLine("Net value:                     " + _wtxDevice.Weight.Net +  "\t  As an int/bool:  " + e.ProcessData.NetValue);
-                        Console.WriteLine("Gross value:                   " + _wtxDevice.Weight.Gross + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                        Console.WriteLine("Net value:                     " + _wtxDevice.Weight.Net +  "\t  As an int/bool:  " + e.ProcessData.Weight.Net);
+                        Console.WriteLine("Gross value:                   " + _wtxDevice.Weight.Gross + "\t  As an int/bool:  " + e.ProcessData.Weight.Gross);
                         Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() +                  "\t  As an int/bool:  " + e.ProcessData.GeneralWeightError);
-                        Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +                         "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
-                        Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() +                     "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
-                        Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +        "\t  As an int/bool:  " + e.ProcessData.ManualTare);
+                        Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.ScaleAlarm.ToString() +                         "\t  As an int/bool:  " + e.ProcessData.ScaleAlarm);
+                        Console.WriteLine("Scale seal is open:            " + e.ProcessData.LegalForTrade.ToString() +                     "\t  As an int/bool:  " + e.ProcessData.LegalForTrade);
                         Console.WriteLine("Weight type:                   " + e.ProcessData.TareMode + "\t  As an int/bool:  " + e.ProcessData.TareMode);
                         Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange + "\t  As an int/bool:  " + e.ProcessData.ScaleRange);
                         Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +      "\t  As an int/bool:  " + e.ProcessData.ZeroRequired);
@@ -492,11 +490,9 @@ namespace WTXModbus
                         Console.WriteLine("Application mode:              " + _wtxDevice.ApplicationMode.ToString() + "\t  As an int/bool:  " + _wtxDevice.ApplicationMode.ToString());
                         Console.WriteLine("Decimal places:                " + e.ProcessData.Decimals.ToString() +          "\t  As an int/bool:  " + e.ProcessData.Decimals);
                         Console.WriteLine("Unit:                          " + _wtxDevice.Unit +                       "\t  As an int/bool:  " + e.ProcessData.Unit);
-                        //Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +         "\t  As an int/bool:  " + e.ProcessData.Handshake);
-                        //Console.WriteLine("Status:                        " + statusCommentMethod() + "\t  As an int/bool:  " + e.ProcessData.Status);
-
-                        Console.WriteLine("Limit status:                  " + limitCommentMethod() + "       As an int/bool:  " + e.ProcessData.LimitStatus);
-                        Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "         As an int/bool: " + e.ProcessData.WeightMoving);
+                        
+                        Console.WriteLine("Limit status:                  " + limitCommentMethod() + "       As an int/bool:  " + e.ProcessData.Overload);
+                        Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightStable.ToString() + "         As an int/bool: " + e.ProcessData.WeightStable);
 
                     }
                     else
@@ -504,12 +500,11 @@ namespace WTXModbus
                 }
                 else
                 {
-                    Console.WriteLine("Net value:                     " + _wtxDevice.PrintableWeight.Net +   "\t  As an int/bool:  " + e.ProcessData.NetValue);
-                    Console.WriteLine("Gross value:                   " + _wtxDevice.PrintableWeight.Gross + "\t  As an int/bool:  " + e.ProcessData.GrossValue);
+                    Console.WriteLine("Net value:                     " + _wtxDevice.PrintableWeight.Net +   "\t  As an int/bool:  " + e.ProcessData.Weight.Net);
+                    Console.WriteLine("Gross value:                   " + _wtxDevice.PrintableWeight.Gross + "\t  As an int/bool:  " + e.ProcessData.Weight.Gross);
                     Console.WriteLine("General weight error:          " + e.ProcessData.GeneralWeightError.ToString() +                   "\t  As an int/bool:  " + e.ProcessData.GeneralWeightError);
-                    Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.LimitStatus.ToString() +     "\t  As an int/bool:  " + e.ProcessData.LimitStatus);
-                    Console.WriteLine("Scale seal is open:            " + e.ProcessData.ScaleSealIsOpen.ToString() + "\t  As an int/bool:  " + e.ProcessData.ScaleSealIsOpen);
-                    Console.WriteLine("Manual tare:                   " + e.ProcessData.ManualTare.ToString() +      "\t  As an int/bool:  " + e.ProcessData.ManualTare);
+                    Console.WriteLine("Scale alarm triggered:         " + e.ProcessData.ScaleAlarm.ToString() +     "\t  As an int/bool:  " + e.ProcessData.ScaleAlarm);
+                    Console.WriteLine("Scale seal is open:            " + e.ProcessData.LegalForTrade.ToString() + "\t  As an int/bool:  " + e.ProcessData.LegalForTrade);
                     Console.WriteLine("Weight type:                   " + e.ProcessData.TareMode +               "\t  As an int/bool:  " + e.ProcessData.TareMode);
                     Console.WriteLine("Scale range:                   " + e.ProcessData.ScaleRange +               "\t  As an int/bool:  " + e.ProcessData.ScaleRange);
                     Console.WriteLine("Zero required/True zero:       " + e.ProcessData.ZeroRequired.ToString() +    "\t  As an int/bool:  " + e.ProcessData.ZeroRequired);
@@ -521,8 +516,8 @@ namespace WTXModbus
                     //Console.WriteLine("Handshake:                     " + e.ProcessData.Handshake.ToString() +        "\t  As an int/bool:  " + e.ProcessData.Handshake);
                     //Console.WriteLine("Status:                        " + statusCommentMethod() +                    "\t  As an int/bool:  " + e.ProcessData.Status);
 
-                    Console.WriteLine("Limit status:                  " + limitCommentMethod() +  "     As an int/bool:  " + e.ProcessData.LimitStatus);
-                    Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightMoving.ToString() + "          As an int/bool:  " + e.ProcessData.WeightMoving);
+                    Console.WriteLine("Limit status:                  " + limitCommentMethod() +  "     As an int/bool:  " + e.ProcessData.Overload);
+                    Console.WriteLine("Weight moving:                 " + e.ProcessData.WeightStable.ToString() + "          As an int/bool:  " + e.ProcessData.WeightStable);
 
                     if (_showAllInputWords == true)
                     {
@@ -649,20 +644,14 @@ namespace WTXModbus
 
         private static string limitCommentMethod()
         {
-
-            switch(_wtxDevice.ProcessData.LimitStatus)
-            {
-                case 0:
-                    return "Weight within limits";
-                case 1:
-                    return "Lower than minimum";
-                case 2:
-                    return "Higher than maximum capacity";
-                case 3:
-                    return "Higher than safe load limit";
-                default:
-                    return "Not defined";
-            }
+            if (_wtxDevice.ProcessData.Overload)
+                return "Higher than maximum capacity";
+            else if (_wtxDevice.ProcessData.Underload)
+                return "Lower than minimum";
+            else if (_wtxDevice.ProcessData.HigherSafeLoadLimit)
+                return "Higher than safe load limit";
+            else
+                return "Weight within limits";
         }
 
 
