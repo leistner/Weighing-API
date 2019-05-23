@@ -67,7 +67,7 @@ namespace HBM.Weighing.API.Data
             CenterOfZero = false;
             InsideZero = false;
             Decimals = 0;
-            Unit = 0;
+            Unit = "";
             Handshake = false;
             Status = 0;
             Underload = false;
@@ -82,13 +82,13 @@ namespace HBM.Weighing.API.Data
         public void UpdateData(object sender, EventArgs e)
         {
             ApplicationMode = (ApplicationMode)_connection.GetDataFromDictionary(JetBusCommands.Application_mode);
-            NetValue = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Net_value));
-            GrossValue = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Gross_value));
+            NetValue = _connection.GetDataFromDictionary(JetBusCommands.Net_value);
+            GrossValue = _connection.GetDataFromDictionary(JetBusCommands.Gross_value);
             TareValue = NetValue - GrossValue;
 
             GeneralWeightError = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_GeneralWeightError));
             ScaleAlarm = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_ScaleAlarm));
-            LimitStatus = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_LimitStatus));
+            LimitStatus = _connection.GetDataFromDictionary(JetBusCommands.WS_LimitStatus);
             WeightWithinLimits = (LimitStatus == 0);
             Underload = (LimitStatus == 1);
             Overload = (LimitStatus == 2);
@@ -97,12 +97,12 @@ namespace HBM.Weighing.API.Data
             ScaleSealIsOpen = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_ScaleSealIsOpen));
             ManualTare = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_ManualTare));
             TareMode = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_WeightType));  // TareMode != WeightType
-            ScaleRange = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_ScaleRange));
+            ScaleRange = _connection.GetDataFromDictionary(JetBusCommands.WS_ScaleRange);
             ZeroRequired = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_ZeroRequired));
             CenterOfZero = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_CenterOfZero));
             InsideZero = Convert.ToBoolean(_connection.GetDataFromDictionary(JetBusCommands.WS_InsideZero));            
-            Decimals = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Decimals)); //DDD Workaround
-            Unit = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.WS_Unit));
+            Decimals = _connection.GetDataFromDictionary(JetBusCommands.Decimals);
+            Unit = UnitIDToString(_connection.GetDataFromDictionary(JetBusCommands.WS_Unit));
 
             Weight.Update(MeasurementUtils.DigitToDouble(NetValue, Decimals), MeasurementUtils.DigitToDouble(GrossValue, Decimals));
             PrintableWeight.Update(MeasurementUtils.DigitToDouble(NetValue, Decimals), MeasurementUtils.DigitToDouble(GrossValue, Decimals), Decimals);
@@ -148,7 +148,7 @@ namespace HBM.Weighing.API.Data
 
         public int Decimals { get; private set; }
 
-        public int Unit { get; private set; }
+        public string Unit { get; private set; }
 
         public bool Handshake { get; private set; }
 
@@ -162,5 +162,24 @@ namespace HBM.Weighing.API.Data
 
         public bool HigherSafeLoadLimit { get; private set; }
         #endregion
+
+        private string UnitIDToString(int id)
+        {
+            switch (id)
+            {
+                case 0x00020000:
+                    return "kg";
+                case 0x004B0000:
+                    return "g";
+                case 0x004C0000:
+                    return "t";
+                case 0X00A60000:
+                    return "lb";
+                case 0x00210000:
+                    return "N";
+                default:
+                    return "-";
+            }
+        }
     }
 }

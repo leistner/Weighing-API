@@ -76,7 +76,7 @@ namespace HBM.Weighing.API.Data
         
         int Decimals { get; }
 
-        int Unit { get; }
+        string Unit { get; }
 
         bool Handshake { get; }
 

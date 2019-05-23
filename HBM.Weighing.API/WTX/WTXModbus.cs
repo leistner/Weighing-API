@@ -393,19 +393,7 @@ namespace HBM.Weighing.API.WTX
         {
             get
             {
-                switch (ProcessData.Unit)
-                {
-                    case 0:
-                        return "kg";
-                    case 1:
-                        return "g";
-                    case 2:
-                        return "t";
-                    case 3:
-                        return "lb";
-                    default:
-                        return "-";
-                }
+                return ProcessData.Unit;
             }
         }
         

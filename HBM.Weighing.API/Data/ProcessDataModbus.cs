@@ -66,7 +66,7 @@ namespace HBM.Weighing.API.Data
             CenterOfZero = false;
             InsideZero = false;
             Decimals = 0;
-            Unit = 0;
+            Unit = "";
             Handshake = false;
             Status = 0;
             Underload = false;
@@ -102,7 +102,7 @@ namespace HBM.Weighing.API.Data
 
             ApplicationMode = (ApplicationMode)_connection.GetDataFromDictionary(ModbusCommands.Application_mode);
             Decimals = _connection.GetDataFromDictionary(ModbusCommands.Decimals);
-            Unit = _connection.GetDataFromDictionary(ModbusCommands.Unit);
+            Unit = UnitIDToString(_connection.GetDataFromDictionary(ModbusCommands.Unit));
             Handshake = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.Handshake));
             Status = _connection.GetDataFromDictionary(ModbusCommands.Status);
 
@@ -149,7 +149,7 @@ namespace HBM.Weighing.API.Data
 
         public int Decimals { get; private set; }
 
-        public int Unit { get; private set; }
+        public string Unit { get; private set; }
 
         public bool Handshake { get; private set; }
 
@@ -163,5 +163,24 @@ namespace HBM.Weighing.API.Data
 
         public bool HigherSafeLoadLimit { get; private set; }
         #endregion
+
+        private string UnitIDToString(int id)
+        {
+            switch (id)
+            {
+                case 0:
+                    return "kg";
+                case 1:
+                    return "g";
+                case 2:
+                    return "t";
+                case 3:
+                    return "lb";
+                case 4:
+                    return "N";
+                default:
+                    return "-";
+            }
+        }
     }
 }
