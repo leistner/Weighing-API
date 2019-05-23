@@ -84,7 +84,7 @@ namespace HBM.Weighing.API.WTX
             
             this.ProcessDataReceived += onProcessData;
 
-           Connection.IncomingDataReceived += this.OnData;   // Subscribe to the event.              
+           ((JetBusConnection)Connection).IncomingDataReceived += this.OnData;   // Subscribe to the event.              
         }
 
         #endregion
@@ -293,17 +293,17 @@ namespace HBM.Weighing.API.WTX
             //write "calz" 0x7A6C6163 ( 2053923171 ) to path(ID)=6002/01
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_ZERO);       // SCALE_COMMAND = "6002/01"
 
-            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
+            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(200);
             }
 
-            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
+            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(200);
             }
 
-            if (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
+            if (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
                 return true;
             else
                 return false;
@@ -313,17 +313,17 @@ namespace HBM.Weighing.API.WTX
         {
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_NOMINAL);
 
-            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
+            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
 
-            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
+            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
       
-            if (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
+            if (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
                 return true;
             else
                 return false;
@@ -337,17 +337,17 @@ namespace HBM.Weighing.API.WTX
 
             Connection.Write(JetBusCommands.Scale_command, SCALE_COMMAND_CALIBRATE_NOMINAL); 
   
-            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
+            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
 
-            while (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
+            while (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
 
-            if (Connection.GetDataFromDictionary(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
+            if (Connection.ReadFromBuffer(JetBusCommands.Scale_command_status) == SCALE_COMMAND_STATUS_OK)
                 return true;
             else
                 return false;

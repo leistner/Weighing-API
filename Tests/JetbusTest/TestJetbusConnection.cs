@@ -110,7 +110,7 @@ namespace HBM.Weighing.API.WTX.Jet
 
         public event EventHandler CommunicationLog;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
-        public event EventHandler<EventArgs> UpdateDataClasses;
+        public event EventHandler<EventArgs> UpdateData;
 
         private int _mTimeoutMs;
 
@@ -170,7 +170,7 @@ namespace HBM.Weighing.API.WTX.Jet
             }
         }
 
-        public int ReadSingle(object index)
+        public int Read(object index)
         {
             try
             {
@@ -321,7 +321,7 @@ namespace HBM.Weighing.API.WTX.Jet
                 this.IP = value;
             }
         }
-        public ConnectionType ConnType
+        public ConnectionType ConnectionType
         {
             get { return ConnectionType.Jetbus; }
         }
@@ -513,7 +513,7 @@ namespace HBM.Weighing.API.WTX.Jet
             public int value { get; set; }
         }
 
-        public Task<ushort[]> ReadAsync()
+        public Task<ushort[]> ReadAsync(object commmand)
         {
             throw new NotImplementedException();
         }
@@ -533,7 +533,7 @@ namespace HBM.Weighing.API.WTX.Jet
             throw new NotImplementedException();
         }
 
-        public int GetDataFromDictionary(object command)
+        public int ReadFromBuffer(object command)
         {
             throw new NotImplementedException();
         }

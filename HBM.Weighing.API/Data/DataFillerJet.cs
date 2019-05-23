@@ -126,7 +126,7 @@ namespace HBM.Weighing.API.Data
         {
             _connection = Connection;
            
-            _connection.UpdateDataClasses += UpdateFillerData;
+            _connection.UpdateData += UpdateFillerData;
             Console.WriteLine("DataFillerJet");
 
             CoarseFlow = 0;
@@ -204,42 +204,42 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateFillerData(object sender, EventArgs e)
         {
-            if (_connection.GetDataFromDictionary(JetBusCommands.Application_mode) == 2 || _connection.GetDataFromDictionary(JetBusCommands.Application_mode) == 3)  // If application mode = filler
+            if (_connection.ReadFromBuffer(JetBusCommands.Application_mode) == 2 || _connection.ReadFromBuffer(JetBusCommands.Application_mode) == 3)  // If application mode = filler
             {             
                 // Via Modbus and Jetbus IDs: 
-                _maxDosingTime = _connection.GetDataFromDictionary(JetBusCommands.Maximal_dosing_time);
-                _meanValueDosingResults = _connection.GetDataFromDictionary(JetBusCommands.Mean_value_dosing_results);
-                _standardDeviation = _connection.GetDataFromDictionary(JetBusCommands.Standard_deviation);
-                _fineFlowCutOffPoint = _connection.GetDataFromDictionary(JetBusCommands.Fine_flow_cut_off_point);
-                _coarseFlowCutOffPoint = _connection.GetDataFromDictionary(JetBusCommands.Coarse_flow_cut_off_point);
+                _maxDosingTime = _connection.ReadFromBuffer(JetBusCommands.Maximal_dosing_time);
+                _meanValueDosingResults = _connection.ReadFromBuffer(JetBusCommands.Mean_value_dosing_results);
+                _standardDeviation = _connection.ReadFromBuffer(JetBusCommands.Standard_deviation);
+                _fineFlowCutOffPoint = _connection.ReadFromBuffer(JetBusCommands.Fine_flow_cut_off_point);
+                _coarseFlowCutOffPoint = _connection.ReadFromBuffer(JetBusCommands.Coarse_flow_cut_off_point);
 
-                _residualFlowTime = _connection.GetDataFromDictionary(JetBusCommands.Residual_flow_time);
-                _minimumFineFlow = _connection.GetDataFromDictionary(JetBusCommands.Minimum_fine_flow);
-                _optimizationOfCutOffPoints = _connection.GetDataFromDictionary(JetBusCommands.Optimization);
-                _maximumDosingTime = _connection.GetDataFromDictionary(JetBusCommands.Maximal_dosing_time);
-                _coarseLockoutTime = _connection.GetDataFromDictionary(JetBusCommands.Coarse_flow_time);
-                _fineLockoutTime = _connection.GetDataFromDictionary(JetBusCommands.Fine_flow_time);
-                _tareMode = _connection.GetDataFromDictionary(JetBusCommands.Tare_mode);
+                _residualFlowTime = _connection.ReadFromBuffer(JetBusCommands.Residual_flow_time);
+                _minimumFineFlow = _connection.ReadFromBuffer(JetBusCommands.Minimum_fine_flow);
+                _optimizationOfCutOffPoints = _connection.ReadFromBuffer(JetBusCommands.Optimization);
+                _maximumDosingTime = _connection.ReadFromBuffer(JetBusCommands.Maximal_dosing_time);
+                _coarseLockoutTime = _connection.ReadFromBuffer(JetBusCommands.Coarse_flow_time);
+                _fineLockoutTime = _connection.ReadFromBuffer(JetBusCommands.Fine_flow_time);
+                _tareMode = _connection.ReadFromBuffer(JetBusCommands.Tare_mode);
 
-                _upperToleranceLimit = _connection.GetDataFromDictionary(JetBusCommands.Upper_tolerance_limit);
-                _lowerToleranceLimit = _connection.GetDataFromDictionary(JetBusCommands.Lower_tolerance_limit);
-                _minimumStartWeight = _connection.GetDataFromDictionary(JetBusCommands.Minimum_start_weight);
-                _emptyWeight = _connection.GetDataFromDictionary(JetBusCommands.Empty_weight_tolerance);
-                _tareDelay = _connection.GetDataFromDictionary(JetBusCommands.Tare_delay);
+                _upperToleranceLimit = _connection.ReadFromBuffer(JetBusCommands.Upper_tolerance_limit);
+                _lowerToleranceLimit = _connection.ReadFromBuffer(JetBusCommands.Lower_tolerance_limit);
+                _minimumStartWeight = _connection.ReadFromBuffer(JetBusCommands.Minimum_start_weight);
+                _emptyWeight = _connection.ReadFromBuffer(JetBusCommands.Empty_weight_tolerance);
+                _tareDelay = _connection.ReadFromBuffer(JetBusCommands.Tare_delay);
 
-                _coarseFlowMonitoringTime = _connection.GetDataFromDictionary(JetBusCommands.Coarse_flow_monitoring_time);
-                _coarseFlowMonitoring = _connection.GetDataFromDictionary(JetBusCommands.Coarse_flow_monitoring);
-                _fineFlowMonitoring = _connection.GetDataFromDictionary(JetBusCommands.Fine_flow_monitoring);
-                _fineFlowMonitoringTime = _connection.GetDataFromDictionary(JetBusCommands.Fine_flow_monitoring_time); ;
+                _coarseFlowMonitoringTime = _connection.ReadFromBuffer(JetBusCommands.Coarse_flow_monitoring_time);
+                _coarseFlowMonitoring = _connection.ReadFromBuffer(JetBusCommands.Coarse_flow_monitoring);
+                _fineFlowMonitoring = _connection.ReadFromBuffer(JetBusCommands.Fine_flow_monitoring);
+                _fineFlowMonitoringTime = _connection.ReadFromBuffer(JetBusCommands.Fine_flow_monitoring_time); ;
 
-                _systematicDifference = _connection.GetDataFromDictionary(JetBusCommands.Systematic_difference);
-                _valveControl = _connection.GetDataFromDictionary(JetBusCommands.Valve_control);
-                _emptyingMode = _connection.GetDataFromDictionary(JetBusCommands.Emptying_mode);
-                _delayTimeAfterFineFlow = _connection.GetDataFromDictionary(JetBusCommands.Delay1_dosing);
-                _activationTimeAfterFineFlow = _connection.GetDataFromDictionary(JetBusCommands.Fine_flow_phase_before_coarse_flow);
+                _systematicDifference = _connection.ReadFromBuffer(JetBusCommands.Systematic_difference);
+                _valveControl = _connection.ReadFromBuffer(JetBusCommands.Valve_control);
+                _emptyingMode = _connection.ReadFromBuffer(JetBusCommands.Emptying_mode);
+                _delayTimeAfterFineFlow = _connection.ReadFromBuffer(JetBusCommands.Delay1_dosing);
+                _activationTimeAfterFineFlow = _connection.ReadFromBuffer(JetBusCommands.Fine_flow_phase_before_coarse_flow);
                 
-                _weight_storage = _connection.GetDataFromDictionary(JetBusCommands.Storage_weight); 
-                _mode_weight_storage = _connection.GetDataFromDictionary(JetBusCommands.Storage_weight_mode);
+                _weight_storage = _connection.ReadFromBuffer(JetBusCommands.Storage_weight); 
+                _mode_weight_storage = _connection.ReadFromBuffer(JetBusCommands.Storage_weight_mode);
             }
         }
         #endregion

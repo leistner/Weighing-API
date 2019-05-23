@@ -46,24 +46,24 @@ namespace HBM.Weighing.API.Data
         #region ==================== events & delegates ====================
         public void UpdateData(object sender, EventArgs e)
         {
-            GeneralWeightError = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.GeneralWeightError));
-            ScaleAlarm = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.ScaleAlarmTriggered));
-            int LimitStatus = (Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Limit_status)));
+            GeneralWeightError = Convert.ToBoolean(_connection.ReadFromBuffer(ModbusCommands.GeneralWeightError));
+            ScaleAlarm = Convert.ToBoolean(_connection.ReadFromBuffer(ModbusCommands.ScaleAlarmTriggered));
+            int LimitStatus = (Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Limit_status)));
             Underload = (LimitStatus == 1);
             Overload = (LimitStatus == 2);
             HigherSafeLoadLimit = (LimitStatus == 3);
-            WeightStable = !Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.WeightMoving));
-            LegalForTrade = !Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.ScaleSealIsOpen));
-            TareMode = EvaluateTareMode(_connection.GetDataFromDictionary(ModbusCommands.Tare_mode), _connection.GetDataFromDictionary(ModbusCommands.ManualTare));
-            ScaleRange = Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.ScaleRange));
-            ZeroRequired = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.ZeroRequired));
-            CenterOfZero = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.WeightinCenterOfZero));
-            InsideZero = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.WeightinZeroRange));
-            ApplicationMode = (ApplicationMode)_connection.GetDataFromDictionary(ModbusCommands.Application_mode);
-            Decimals = _connection.GetDataFromDictionary(ModbusCommands.Decimals);
-            Unit = UnitIDToString(_connection.GetDataFromDictionary(ModbusCommands.Unit));
-            Weight.Update(MeasurementUtils.DigitToDouble(_connection.GetDataFromDictionary(ModbusCommands.Net), Decimals), MeasurementUtils.DigitToDouble(_connection.GetDataFromDictionary(ModbusCommands.Gross), Decimals));
-            PrintableWeight.Update(MeasurementUtils.DigitToDouble(_connection.GetDataFromDictionary(ModbusCommands.Net), Decimals), MeasurementUtils.DigitToDouble(_connection.GetDataFromDictionary(ModbusCommands.Gross), Decimals), Decimals);
+            WeightStable = !Convert.ToBoolean(_connection.ReadFromBuffer(ModbusCommands.WeightMoving));
+            LegalForTrade = !Convert.ToBoolean(_connection.ReadFromBuffer(ModbusCommands.ScaleSealIsOpen));
+            TareMode = EvaluateTareMode(_connection.ReadFromBuffer(ModbusCommands.Tare_mode), _connection.ReadFromBuffer(ModbusCommands.ManualTare));
+            ScaleRange = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ScaleRange));
+            ZeroRequired = Convert.ToBoolean(_connection.ReadFromBuffer(ModbusCommands.ZeroRequired));
+            CenterOfZero = Convert.ToBoolean(_connection.ReadFromBuffer(ModbusCommands.WeightinCenterOfZero));
+            InsideZero = Convert.ToBoolean(_connection.ReadFromBuffer(ModbusCommands.WeightinZeroRange));
+            ApplicationMode = (ApplicationMode)_connection.ReadFromBuffer(ModbusCommands.Application_mode);
+            Decimals = _connection.ReadFromBuffer(ModbusCommands.Decimals);
+            Unit = UnitIDToString(_connection.ReadFromBuffer(ModbusCommands.Unit));
+            Weight.Update(MeasurementUtils.DigitToDouble(_connection.ReadFromBuffer(ModbusCommands.Net), Decimals), MeasurementUtils.DigitToDouble(_connection.ReadFromBuffer(ModbusCommands.Gross), Decimals));
+            PrintableWeight.Update(MeasurementUtils.DigitToDouble(_connection.ReadFromBuffer(ModbusCommands.Net), Decimals), MeasurementUtils.DigitToDouble(_connection.ReadFromBuffer(ModbusCommands.Gross), Decimals), Decimals);
         }
         #endregion
         
@@ -71,7 +71,7 @@ namespace HBM.Weighing.API.Data
         public ProcessDataModbus(INetConnection Connection)
         {
             _connection = Connection;
-            _connection.UpdateDataClasses += UpdateData;
+            _connection.UpdateData += UpdateData;
 
             PrintableWeight = new PrintableWeightType();
             Weight = new WeightType();

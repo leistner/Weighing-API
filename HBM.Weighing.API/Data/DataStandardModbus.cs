@@ -105,7 +105,7 @@ namespace HBM.Weighing.API.Data
         {
             _connection = Connection;
 
-            _connection.UpdateDataClasses += UpdateStandardData;
+            _connection.UpdateData += UpdateStandardData;
             Console.WriteLine("DataStandardModbus");
 
             _input1 = 0;
@@ -159,49 +159,49 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardData(object sender, EventArgs e)
         {
-            _input1 = _connection.GetDataFromDictionary(ModbusCommands.Status_digital_input_1);
-            _input2 = _connection.GetDataFromDictionary(ModbusCommands.Status_digital_input_2);
-            _input3 = _connection.GetDataFromDictionary(ModbusCommands.Status_digital_input_3);
-            _input4 = _connection.GetDataFromDictionary(ModbusCommands.Status_digital_input_4);
+            _input1 = _connection.ReadFromBuffer(ModbusCommands.Status_digital_input_1);
+            _input2 = _connection.ReadFromBuffer(ModbusCommands.Status_digital_input_2);
+            _input3 = _connection.ReadFromBuffer(ModbusCommands.Status_digital_input_3);
+            _input4 = _connection.ReadFromBuffer(ModbusCommands.Status_digital_input_4);
 
-            _output1 = _connection.GetDataFromDictionary(ModbusCommands.Status_digital_output_1);
-            _output2 = _connection.GetDataFromDictionary(ModbusCommands.Status_digital_output_2);
-            _output3 = _connection.GetDataFromDictionary(ModbusCommands.Status_digital_output_3);
-            _output4 = _connection.GetDataFromDictionary(ModbusCommands.Status_digital_output_4);
+            _output1 = _connection.ReadFromBuffer(ModbusCommands.Status_digital_output_1);
+            _output2 = _connection.ReadFromBuffer(ModbusCommands.Status_digital_output_2);
+            _output3 = _connection.ReadFromBuffer(ModbusCommands.Status_digital_output_3);
+            _output4 = _connection.ReadFromBuffer(ModbusCommands.Status_digital_output_4);
 
-            _limitStatus1 = _connection.GetDataFromDictionary(ModbusCommands.Limit_value);
-            _limitStatus2 = _connection.GetDataFromDictionary(ModbusCommands.Limit_value);
-            _limitStatus3 = _connection.GetDataFromDictionary(ModbusCommands.Limit_value);
-            _limitStatus4 = _connection.GetDataFromDictionary(ModbusCommands.Limit_value);
+            _limitStatus1 = _connection.ReadFromBuffer(ModbusCommands.Limit_value);
+            _limitStatus2 = _connection.ReadFromBuffer(ModbusCommands.Limit_value);
+            _limitStatus3 = _connection.ReadFromBuffer(ModbusCommands.Limit_value);
+            _limitStatus4 = _connection.ReadFromBuffer(ModbusCommands.Limit_value);
 
-            _weightMemoryDay = Convert.ToInt16(_connection.GetDataFromDictionary(ModbusCommands.WeightMemDayStandard));
-            _weightMemoryMonth = Convert.ToInt16(_connection.GetDataFromDictionary(ModbusCommands.WeightMemMonthStandard));
-            _weightMemoryYear = Convert.ToInt16(_connection.GetDataFromDictionary(ModbusCommands.WeightMemYearStandard));
-            _weightMemorySeqNumber = Convert.ToInt16(_connection.GetDataFromDictionary(ModbusCommands.WeightMemSeqNumberStandard));
-            _weightMemoryGross = Convert.ToInt16(_connection.GetDataFromDictionary(ModbusCommands.WeightMemGrossStandard));
-            _weightMemoryNet = Convert.ToInt16(_connection.GetDataFromDictionary(ModbusCommands.WeightMemNetStandard));
+            _weightMemoryDay = Convert.ToInt16(_connection.ReadFromBuffer(ModbusCommands.WeightMemDayStandard));
+            _weightMemoryMonth = Convert.ToInt16(_connection.ReadFromBuffer(ModbusCommands.WeightMemMonthStandard));
+            _weightMemoryYear = Convert.ToInt16(_connection.ReadFromBuffer(ModbusCommands.WeightMemYearStandard));
+            _weightMemorySeqNumber = Convert.ToInt16(_connection.ReadFromBuffer(ModbusCommands.WeightMemSeqNumberStandard));
+            _weightMemoryGross = Convert.ToInt16(_connection.ReadFromBuffer(ModbusCommands.WeightMemGrossStandard));
+            _weightMemoryNet = Convert.ToInt16(_connection.ReadFromBuffer(ModbusCommands.WeightMemNetStandard));
 
-            if (_connection.GetDataFromDictionary(ModbusCommands.Application_mode) == 0 || _connection.GetDataFromDictionary(ModbusCommands.Application_mode) == 1)  // If application mode is in standard mode
+            if (_connection.ReadFromBuffer(ModbusCommands.Application_mode) == 0 || _connection.ReadFromBuffer(ModbusCommands.Application_mode) == 1)  // If application mode is in standard mode
             {
-                _limitSwitch1Input = _connection.GetDataFromDictionary(ModbusCommands.LimitValue1Mode);
-                _limitSwitch1Mode = _connection.GetDataFromDictionary(ModbusCommands.LimitValue1Input);
-                _limitSwitch1ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(ModbusCommands.LimitValue1ActivationLevelLowerBandLimit);
-                _limitSwitch1HysteresisBandHeight = _connection.GetDataFromDictionary(ModbusCommands.LimitValue1HysteresisBandHeight);
+                _limitSwitch1Input = _connection.ReadFromBuffer(ModbusCommands.LimitValue1Mode);
+                _limitSwitch1Mode = _connection.ReadFromBuffer(ModbusCommands.LimitValue1Input);
+                _limitSwitch1ActivationLevelLowerBandLimit = _connection.ReadFromBuffer(ModbusCommands.LimitValue1ActivationLevelLowerBandLimit);
+                _limitSwitch1HysteresisBandHeight = _connection.ReadFromBuffer(ModbusCommands.LimitValue1HysteresisBandHeight);
 
-                _limitSwitch2Mode = _connection.GetDataFromDictionary(ModbusCommands.LimitValue2Source);
-                _limitSwitch2Source = _connection.GetDataFromDictionary(ModbusCommands.LimitValue2Mode);
-                _limitSwitch2ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(ModbusCommands.LimitValue2ActivationLevelLowerBandLimit);
-                _limitSwitch2HysteresisBandHeight = _connection.GetDataFromDictionary(ModbusCommands.LimitValue2HysteresisBandHeight);
+                _limitSwitch2Mode = _connection.ReadFromBuffer(ModbusCommands.LimitValue2Source);
+                _limitSwitch2Source = _connection.ReadFromBuffer(ModbusCommands.LimitValue2Mode);
+                _limitSwitch2ActivationLevelLowerBandLimit = _connection.ReadFromBuffer(ModbusCommands.LimitValue2ActivationLevelLowerBandLimit);
+                _limitSwitch2HysteresisBandHeight = _connection.ReadFromBuffer(ModbusCommands.LimitValue2HysteresisBandHeight);
 
-                _limitSwitch3Mode = _connection.GetDataFromDictionary(ModbusCommands.LimitValue3Source);
-                _limitSwitch3Source = _connection.GetDataFromDictionary(ModbusCommands.LimitValue3Mode);
-                _limitSwitch3ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(ModbusCommands.LimitValue3ActivationLevelLowerBandLimit);
-                _limitSwitch3HysteresisBandHeight = _connection.GetDataFromDictionary(ModbusCommands.LimitValue3HysteresisBandHeight);
+                _limitSwitch3Mode = _connection.ReadFromBuffer(ModbusCommands.LimitValue3Source);
+                _limitSwitch3Source = _connection.ReadFromBuffer(ModbusCommands.LimitValue3Mode);
+                _limitSwitch3ActivationLevelLowerBandLimit = _connection.ReadFromBuffer(ModbusCommands.LimitValue3ActivationLevelLowerBandLimit);
+                _limitSwitch3HysteresisBandHeight = _connection.ReadFromBuffer(ModbusCommands.LimitValue3HysteresisBandHeight);
 
-                _limitSwitch4Mode = _connection.GetDataFromDictionary(ModbusCommands.LimitValue3Source);
-                _limitSwitch4Source = _connection.GetDataFromDictionary(ModbusCommands.LimitValue3Mode);
-                _limitSwitch4ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(ModbusCommands.LimitValue3ActivationLevelLowerBandLimit);
-                _limitSwitch4HysteresisBandHeight = _connection.GetDataFromDictionary(ModbusCommands.LimitValue3HysteresisBandHeight);
+                _limitSwitch4Mode = _connection.ReadFromBuffer(ModbusCommands.LimitValue3Source);
+                _limitSwitch4Source = _connection.ReadFromBuffer(ModbusCommands.LimitValue3Mode);
+                _limitSwitch4ActivationLevelLowerBandLimit = _connection.ReadFromBuffer(ModbusCommands.LimitValue3ActivationLevelLowerBandLimit);
+                _limitSwitch4HysteresisBandHeight = _connection.ReadFromBuffer(ModbusCommands.LimitValue3HysteresisBandHeight);
             }
         }
         #endregion

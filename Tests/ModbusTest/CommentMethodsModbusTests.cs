@@ -203,7 +203,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             await Task.Run(async () =>
             {
-                ushort[] _data = await testConnection.ReadAsync();
+                ushort[] _data = await testConnection.SyncData();
                 _wtxObj.OnData(_data);
             });
 
@@ -226,7 +226,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             await Task.Run(async () =>
             {
-                ushort[] _data = await testConnection.ReadAsync();
+                ushort[] _data = await testConnection.SyncData();
                 _wtxObj.OnData(_data);
             });
 
@@ -244,7 +244,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             await Task.Run(async () =>
             {
-                ushort[] _data = await testConnection.ReadAsync();
+                ushort[] _data = await testConnection.SyncData();
                 _wtxObj.OnData(_data);
             });
 

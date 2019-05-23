@@ -209,17 +209,17 @@ namespace HBM.Weighing.API.WTX
                        
             do
             {
-                dataWord = ((ModbusTCPConnection)this.Connection).ReadSingle(5);
+                dataWord = ((ModbusTCPConnection)this.Connection).Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 Thread.Sleep(50);
             }
             while (handshakeBit == 0);
 
-            this.Connection.Write(new ModbusCommand(DataType.U08, "0", IOType.Output, ApplicationMode.Standard, 0, 0),0);  
+            this.Connection.Write(new ModbusCommand(DataType.U08, 0, IOType.Output, ApplicationMode.Standard, 0, 0),0);  
 
             do
             {
-                dataWord = ((ModbusTCPConnection)this.Connection).ReadSingle(5);
+                dataWord = ((ModbusTCPConnection)this.Connection).Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 Thread.Sleep(50);
             }
@@ -291,7 +291,7 @@ namespace HBM.Weighing.API.WTX
             // Call the async method 'AsyncTaskCall' by an Eventhandler:     
             if (IsConnected)
             {
-                Task<ushort[]> FetchValues = Connection.ReadAsync();
+                Task<ushort[]> FetchValues = ((ModbusTCPConnection)Connection).SyncData();
                 //DoIndependentWork();
                 _asyncData = await FetchValues;
                 OnData(_asyncData);
