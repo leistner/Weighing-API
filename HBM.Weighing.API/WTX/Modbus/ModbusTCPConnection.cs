@@ -75,7 +75,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public string IpAddress { get; set; }
 
-        public Dictionary<string, string> AllData { get; private set; } = new Dictionary<string, string>();
+        public Dictionary<int, int> AllData { get; private set; } = new Dictionary<int, int>();
 
         #endregion
 
@@ -283,10 +283,10 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void CreateDictionary()
         {
-            AllData = new Dictionary<string, string>();           
+            AllData = new Dictionary<int, int>();           
             for (int i = 0; i<WTX_REGISTER_DATAWORD_COUNT; i++)
             {
-                AllData.Add(i.ToString(), "0");
+                AllData.Add(i, 0);
             }
         }
 
@@ -294,7 +294,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             for (int i = 0; i<WTX_REGISTER_DATAWORD_COUNT; i++)
             {
-                AllData[i.ToString()] = _data[i].ToString();
+                AllData[i] = data[i];
             }
         }               
         #endregion
