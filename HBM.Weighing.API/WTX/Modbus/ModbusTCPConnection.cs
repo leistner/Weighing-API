@@ -80,7 +80,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         public string IpAddress { get; set; }
 
-        public Dictionary<string, int> AllData { get; private set; } = new Dictionary<string, int>();
+        public Dictionary<string, string> AllData { get; private set; } = new Dictionary<string, string>();
         #endregion
 
         #region ================ public & internal methods =================
@@ -228,12 +228,12 @@ namespace HBM.Weighing.API.WTX.Modbus
             return value;
         }
                 
-        public int GetDataFromDictionary(object command)
+        public string GetDataFromDictionary(object command)
         {
             int _register = 0;
             ushort _bitMask = 0;
             ushort _mask = 0;
-            int _value = 0;
+            string _value = "0";
 
             try
             {
@@ -255,22 +255,22 @@ namespace HBM.Weighing.API.WTX.Modbus
                         }
                         _mask = (ushort)(_bitMask << modBusCommand.BitIndex);                     
 
-                        _value = (_data[_register] & _mask) >> modBusCommand.BitIndex;
+                        _value = ((_data[_register] & _mask) >> modBusCommand.BitIndex).ToString();
                         break;
          
                     case DataType.U32:
                     case DataType.S32:
-                        _value = _data[_register + 1] + (_data[_register] << 16);
+                        _value = (_data[_register + 1] + (_data[_register] << 16)).ToString();
                         break;
 
                     default:
-                        _value = _data[_register];
+                        _value = _data[_register].ToString();
                         break;
                 }
             }
             catch
             {
-                _value = 0;
+                _value = "0";
             }
 
             return _value;
@@ -278,10 +278,10 @@ namespace HBM.Weighing.API.WTX.Modbus
 
         private void CreateDictionary()
         {
-            AllData = new Dictionary<string, int>();           
+            AllData = new Dictionary<string, string>();           
             for (int i = 0; i<WTX_REGISTER_DATAWORD_COUNT; i++)
             {
-                AllData.Add(i.ToString(), 0);
+                AllData.Add(i.ToString(), "0");
             }
         }
 
@@ -289,7 +289,7 @@ namespace HBM.Weighing.API.WTX.Modbus
         {
             for (int i = 0; i<WTX_REGISTER_DATAWORD_COUNT; i++)
             {
-                AllData[i.ToString()] = _data[i];
+                AllData[i.ToString()] = _data[i].ToString();
             }
         }               
         #endregion

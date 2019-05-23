@@ -87,8 +87,6 @@ namespace HBM.Weighing.API.Data
         int IntervalRangeControl { get; set; }
         int MultiLimit1 { get; set; }
         int MultiLimit2 { get; set; }
-        int OimlCertificationInformation { get; set; }
-        int NtepCertificationInformation { get; set; }
         int MaximumZeroingTime { get; set; }
         int MaximumPeakValueGross { get; set; }
         int MinimumPeakValueGross { get; set; }
@@ -98,17 +96,10 @@ namespace HBM.Weighing.API.Data
         int WeightMovingDetection{ get; set; }
         int DeviceAddress { get; set; }
 
-        int HardwareVersion { get; set; }           // = Hardware Variante
-        int Identification { get; set; }
-
         int OutputScale { get; set; }
-        int FirmwareDate { get; set; }
         int ResetTrigger { get; set; }
-        int StateDigital_IO_Extended { get; set; }  //Zustand Digital-IO(erweitert)
-        int SoftwareIdentification { get; set; }
-        int SoftwareVersion { get; set; }
+        int StateDigital_IO_Extended { get; set; }  
         int DateTime { get; set; }
-
         int BreakDosing { get; set; }
         int DeleteDosingResult { get; set; }
         int MaterialStreamLastDosing { get; set; }
@@ -121,10 +112,18 @@ namespace HBM.Weighing.API.Data
         int EmptyWeightTolerance { get; set; }
         int ResidualFlowDosingCycle { get; set; }
 
+        string OimlCertificationInformation { get; set; }
+        string NtepCertificationInformation { get; set; }
+        string HardwareVersion { get; set; }
+        string Identification { get; set; }
+        string FirmwareDate { get; set; }
+        string SoftwareIdentification { get; set; }
+        string SoftwareVersion { get; set; }
+
         #endregion
 
         #region Update methods for the data of filler extended mode
-        
+
         void UpdateFillerExtendedData(object sender, EventArgs e);
 
         #endregion

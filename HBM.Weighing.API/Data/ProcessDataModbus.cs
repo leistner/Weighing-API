@@ -46,24 +46,24 @@ namespace HBM.Weighing.API.Data
         #region ==================== events & delegates ====================
         public void UpdateData(object sender, EventArgs e)
         {
-            GeneralWeightError = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.GeneralWeightError));
-            ScaleAlarm = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.ScaleAlarmTriggered));
+            GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.GeneralWeightError)));
+            ScaleAlarm = Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.ScaleAlarmTriggered)));
             int LimitStatus = (Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Limit_status)));
             Underload = (LimitStatus == 1);
             Overload = (LimitStatus == 2);
             HigherSafeLoadLimit = (LimitStatus == 3);
-            WeightStable = !Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.WeightMoving));
-            LegalForTrade = !Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.ScaleSealIsOpen));
-            TareMode = EvaluateTareMode(_connection.GetDataFromDictionary(ModbusCommands.Tare_mode), _connection.GetDataFromDictionary(ModbusCommands.ManualTare));
+            WeightStable = !Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.WeightMoving)));
+            LegalForTrade = !Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.ScaleSealIsOpen)));
+            TareMode = EvaluateTareMode(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Tare_mode)), Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.ManualTare)));
             ScaleRange = Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.ScaleRange));
-            ZeroRequired = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.ZeroRequired));
-            CenterOfZero = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.WeightinCenterOfZero));
-            InsideZero = Convert.ToBoolean(_connection.GetDataFromDictionary(ModbusCommands.WeightinZeroRange));
-            ApplicationMode = (ApplicationMode)_connection.GetDataFromDictionary(ModbusCommands.Application_mode);
-            Decimals = _connection.GetDataFromDictionary(ModbusCommands.Decimals);
-            Unit = UnitIDToString(_connection.GetDataFromDictionary(ModbusCommands.Unit));
-            Weight.Update(MeasurementUtils.DigitToDouble(_connection.GetDataFromDictionary(ModbusCommands.Net), Decimals), MeasurementUtils.DigitToDouble(_connection.GetDataFromDictionary(ModbusCommands.Gross), Decimals));
-            PrintableWeight.Update(MeasurementUtils.DigitToDouble(_connection.GetDataFromDictionary(ModbusCommands.Net), Decimals), MeasurementUtils.DigitToDouble(_connection.GetDataFromDictionary(ModbusCommands.Gross), Decimals), Decimals);
+            ZeroRequired = Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.ZeroRequired)));
+            CenterOfZero = Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.WeightinCenterOfZero)));
+            InsideZero = Convert.ToBoolean(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.WeightinZeroRange)));
+            ApplicationMode = (ApplicationMode)Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Application_mode));
+            Decimals = Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Decimals));
+            Unit = UnitIDToString(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Unit)));
+            Weight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Net)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Gross)), Decimals));
+            PrintableWeight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Net)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.GetDataFromDictionary(ModbusCommands.Gross)), Decimals), Decimals);
         }
         #endregion
         

@@ -36,8 +36,6 @@ namespace HBM.Weighing.API.WTX.Modbus
 {
     public class ModbusCommand
     {
-        private string path;
-
         public ModbusCommand(DataType dataType, string register, IOType io , ApplicationMode app, int bitIndex, int bitLength)
         {
             this.DataType  = dataType;

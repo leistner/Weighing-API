@@ -42,7 +42,7 @@ namespace HBM.Weighing.API
         /// Initializes a new instance of the <see cref="DataEventArgs" /> class
         /// </summary>
         /// <param name="dataDictionaryParam">Dictionary to be injected</param>
-        public DataEventArgs(Dictionary<string, int> dataDictionaryParam)
+        public DataEventArgs(Dictionary<string, string> dataDictionaryParam)
         {
             this.DataDictionary = dataDictionaryParam;
         }
@@ -52,7 +52,7 @@ namespace HBM.Weighing.API
         /// <summary>
         /// Gets the dictionary with the the data
         /// </summary>
-        public Dictionary<string, int> DataDictionary { get; private set; }
+        public Dictionary<string, string> DataDictionary { get; private set; }
         #endregion
     }
 }

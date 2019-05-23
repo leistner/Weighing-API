@@ -42,7 +42,7 @@ namespace HBM.Weighing.API
     public interface INetConnection
     {
 
-        #region Eventhandlers for Log status, data received and update data
+        #region ============= Eventhandlers for Log status, data received and update data =============
 
         event EventHandler CommunicationLog;
 
@@ -52,9 +52,9 @@ namespace HBM.Weighing.API
 
         #endregion
 
-        #region Attributes for data, commands, ip address, connection, connection type
+        #region ======== Attributes for data, commands, ip address, connection, connection type =======
 
-        Dictionary<string,int>AllData { get; }
+        Dictionary<string,string>AllData { get; }
 
         string IpAddress    { get; set; }                   // ip address establishing a connection to the device
 
@@ -64,7 +64,7 @@ namespace HBM.Weighing.API
 
         #endregion
 
-        #region Connect & Disconnect method
+        #region ============================ Connect & Disconnect method ==============================
 
         void Connect();
         
@@ -72,7 +72,7 @@ namespace HBM.Weighing.API
 
         #endregion
 
-        #region Read/Write methods
+        #region =============================== Read/Write methods ====================================
 
         int ReadSingle(object command);
 
@@ -82,7 +82,7 @@ namespace HBM.Weighing.API
 
         Task<int> WriteAsync(object command, int value); 
         
-        int GetDataFromDictionary(object command);
+        string GetDataFromDictionary(object command);
         
         #endregion
 

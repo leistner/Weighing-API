@@ -79,7 +79,6 @@ namespace WTXModbus
 
         private const double MULTIPLIER_MV2_D = 500000;      //   2 / 1000000; // 2mV/V correspond 1 million digits (d)
         private static string _strCommaDot ="";
-        private static double _doubleCalibrationWeight =0.0, _potenz=0.0;
 
         //private static bool _isCalibrating = false;        // For checking if the WTX120_Modbus device is calculating at a moment after the command has been send. If 'isCalibrating' is true, the values are not printed on the console. 
         private static bool _showAllInputWords  = false;

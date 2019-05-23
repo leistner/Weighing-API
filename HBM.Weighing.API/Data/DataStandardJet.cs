@@ -77,7 +77,6 @@ namespace HBM.Weighing.API.Data
         // Jetbus only:
 
         private int _weight_storage;
-        private int _mode_weight_storage;
 
         // Output words: 
 
@@ -158,7 +157,6 @@ namespace HBM.Weighing.API.Data
             _weightMemoryNet=0;
 
             _weight_storage=0;
-            _mode_weight_storage=0;
 
             _limitSwitch1Source=0;
             _limitSwitch1Mode=0;
@@ -209,44 +207,44 @@ namespace HBM.Weighing.API.Data
 
         public void UpdateStandardData(object sender, EventArgs e)
         {
-            _input1 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_1);
-            _input2 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_2);
-            _input3 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_3);
-            _input4 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_4);
+            _input1 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_1));
+            _input2 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_2));
+            _input3 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_3));
+            _input4 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Status_digital_input_4));
 
-            _output1 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_1);
-            _output2 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_2);
-            _output3 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_3);
-            _output4 = _connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_4);
+            _output1 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_1));
+            _output2 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_2));
+            _output3 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_3));
+            _output4 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Status_digital_output_4));
 
-            _limitStatus1 = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_status1);
-            _limitStatus2 = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_status2);
-            _limitStatus3 = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_status3);
-            _limitStatus4 = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_status4);
+            _limitStatus1 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Limit_value_status1));
+            _limitStatus2 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Limit_value_status2));
+            _limitStatus3 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Limit_value_status3));
+            _limitStatus4 = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Limit_value_status4));
 
-            _weight_storage = _connection.GetDataFromDictionary(JetBusCommands.Storage_weight_mode);
+            _weight_storage = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Storage_weight_mode));
 
-            if (_connection.GetDataFromDictionary(JetBusCommands.Application_mode) == 0 || _connection.GetDataFromDictionary(JetBusCommands.Application_mode) == 1)  // If application mode is in standard mode
+            if (Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Application_mode)) == 0 || Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Application_mode)) == 1)  // If application mode is in standard mode
             {
-                _limitSwitch1Source = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv11);
-                _limitSwitch1Mode   = _connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv12);
-                _limitSwitch1ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv13);
-                _limitSwitch1HysteresisBandHeight          = _connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv14);
+                _limitSwitch1Source = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv11));
+                _limitSwitch1Mode = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv12));
+                _limitSwitch1ActivationLevelLowerBandLimit = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv13));
+                _limitSwitch1HysteresisBandHeight = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv14));
 
-                _limitSwitch2Source = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv21);
-                _limitSwitch2Mode   = _connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv22);
-                _limitSwitch2ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv23);
-                _limitSwitch2HysteresisBandHeight          = _connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv24);
+                _limitSwitch2Source = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv21));
+                _limitSwitch2Mode = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv22));
+                _limitSwitch2ActivationLevelLowerBandLimit = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv23));
+                _limitSwitch2HysteresisBandHeight = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv24));
 
-                _limitSwitch3Source = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv31);
-                _limitSwitch3Mode   = _connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv32);
-                _limitSwitch3ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv33);
-                _limitSwitch3HysteresisBandHeight          = _connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv34);
+                _limitSwitch3Source = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv31));
+                _limitSwitch3Mode = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv32));
+                _limitSwitch3ActivationLevelLowerBandLimit = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv33));
+                _limitSwitch3HysteresisBandHeight = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv34));
 
-                _limitSwitch4Source = _connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv41);
-                _limitSwitch4Mode   = _connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv42);
-                _limitSwitch4ActivationLevelLowerBandLimit = _connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv43);
-                _limitSwitch4HysteresisBandHeight          = _connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv44);
+                _limitSwitch4Source = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Limit_value_monitoring_liv41));
+                _limitSwitch4Mode = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Signal_source_liv42));
+                _limitSwitch4ActivationLevelLowerBandLimit = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Switch_on_level_liv43));
+                _limitSwitch4HysteresisBandHeight = Convert.ToInt32(_connection.GetDataFromDictionary(JetBusCommands.Switch_off_level_liv44));
             }
         }
         #endregion

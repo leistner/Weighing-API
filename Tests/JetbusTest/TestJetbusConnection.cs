@@ -255,20 +255,20 @@ namespace HBM.Weighing.API.WTX.Jet
 
         }
 
-        public Dictionary<string, int> AllData
+        public Dictionary<string, string> AllData
         {
             get
             {
                 //this.FetchAll();
 
-                Dictionary<string, int> newDict = new Dictionary<string, int>();
+                Dictionary<string, string> newDict = new Dictionary<string, string>();
 
                 foreach (var element in _dataBuffer)
                 {
                     int i = 0;
 
                     if (int.TryParse(element.Value.ToString(), out i))
-                        newDict.Add(element.Key, Convert.ToInt32(element.Value.ToString()));
+                        newDict.Add(element.Key,element.Value.ToString());
                 }
 
                 return newDict;
@@ -533,7 +533,7 @@ namespace HBM.Weighing.API.WTX.Jet
             throw new NotImplementedException();
         }
 
-        public int GetDataFromDictionary(object command)
+        public string GetDataFromDictionary(object command)
         {
             throw new NotImplementedException();
         }

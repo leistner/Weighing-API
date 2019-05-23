@@ -65,8 +65,7 @@ namespace HBM.Weighing.API.WTX
         private ushort _command;
         private double dPreload, dNominalLoad, multiplierMv2D;      
         public System.Timers.Timer _aTimer;
-
-        private Dictionary<string, JToken> _dataDict;
+        
         #endregion
 
         #region Events
@@ -103,7 +102,7 @@ namespace HBM.Weighing.API.WTX
             this.ReadBufferLength = 38; // inital setting. 
 
             // For the connection and initializing of the timer:            
-            this.initialize_timer(paramTimerInterval);
+            this.Initialize_timer(paramTimerInterval);
         }
 
         /// <summary>
@@ -181,7 +180,7 @@ namespace HBM.Weighing.API.WTX
 
         #region Write methods
 
-        public int getCommand
+        public int GetCommand
         {
             get { return this._command; }
         }
@@ -237,11 +236,11 @@ namespace HBM.Weighing.API.WTX
 
             this._timerInterval = timerIntervalParam;
 
-            this.initialize_timer(timerIntervalParam);
+            this.Initialize_timer(timerIntervalParam);
         }
 
         // This method initializes the with the timer interval as a parameter: 
-        public void initialize_timer(int paramTimerInterval)
+        public void Initialize_timer(int paramTimerInterval)
         {
             // Create a timer with an interval of the parameter value, if the argument paramTimerInterval is not valid,
             // an exception is catched and a default value for the timer interval is set, the timer tries to start again. 
