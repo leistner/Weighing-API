@@ -1,4 +1,4 @@
-﻿// <copyright file="Enum.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="Enums.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
@@ -30,20 +30,26 @@
 
 namespace HBM.Weighing.API
 {
+    /// <summary>
+    /// Identify a connection
+    /// </summary>
     public enum ConnectionType
     {
         Modbus = 0,
         Jetbus = 1
-    };
+    }
 
+    /// <summary>
+    /// IO type
+    /// </summary>
     public enum IOType
     {
         Input = 0,
         Output = 1
-    };
+    }
 
     /// <summary>
-    /// Data types given by Modbus and Jetbus 
+    /// Data types for the device data
     /// </summary>
     public enum DataType
     {
@@ -56,70 +62,84 @@ namespace HBM.Weighing.API
         S32,
         U32,
         ASCII
-    };
+    }
 
+    /// <summary>
+    /// Digital input functions
+    /// </summary>
     public enum InputFunction
     {
         Off,
         Tare,
-        Trigger,      // Only for IMD1
+        Trigger,        // Only ApplicationMode.Checkweigher
         reserved,
-        BreakFilling, // = BRK ; Stop dosing ; Only for IMD2
-        RunFilling,   // = RUN ; Start dosing; Only for IMD2
-        Redosing,
+        BreakFilling,   // Only ApplicationMode.Filler
+        RunFilling,     // Only ApplicationMode.Filler
+        Redosing,       // Only ApplicationMode.Filler
         WeightDetection,
-        Sum
+        Sum             // Only ApplicationMode.Count
     }
 
+    /// <summary>
+    /// Digital output functions
+    /// </summary>
     public enum OutputFunction
     {
         Off,
-        Manually,     // manual with instruction OSx
-        LimitSwitch1, // Only for IMD0
-        LimitSwitch2, // Only for IMD0
-        LimitSwitch3, // Only for IMD0
-        LimitSwitch4, // Only for IMD0
+        Manually,     
+        LimitSwitch1,               // Only ApplicationMode.Standard
+        LimitSwitch2,               // Only ApplicationMode.Standard
+        LimitSwitch3,               // Only ApplicationMode.Standard
+        LimitSwitch4,               // Only ApplicationMode.Standard
         reserved,
-        StopMaterial,   //Undefined
-        CoarseFlow,   // Only for IMD2
-        FineFlow,     // Only for IMD2
-        Ready,        // Only for IMD2
-        ToleranceExceeded,  // Only for IMD2
-        ToleranceUnderrun, // Only for IMD2
-        ToleranceExceededUnderrun, // Only for IMD2
-        Alert,    // Only for IMD2
-        DL1DL2,
-        LS1Blinking,
-        LS2Blinking,
-        LS3Blinking,
-        LS4Blinking
+        StopMaterial,               // Only ApplicationMode.Filler
+        CoarseFlow,                 // Only ApplicationMode.Filler
+        FineFlow,                   // Only ApplicationMode.Filler
+        Ready,                      // Only ApplicationMode.Filler
+        ToleranceExceeded,          // Only ApplicationMode.Filler
+        ToleranceUnderrun,          // Only ApplicationMode.Filler
+        ToleranceExceededUnderrun,  // Only ApplicationMode.Filler
+        Alert,                      // Only ApplicationMode.Filler
+        DL1DL2                      // Only ApplicationMode.Filler
     }
 
+    /// <summary>
+    /// Application mode
+    /// </summary>
     public enum ApplicationMode
     {
         Standard = 0,
         Checkweigher = 1,
         Filler = 2
-    };
+    }
 
+    /// <summary>
+    /// Modes for limit switches
+    /// </summary>
     public enum LimitSwitchMode
     {
         AboveLevel = 0,
         BelowLevel = 1,
         OutsideBand = 2,
         InsideBand = 3
-    };
+    }
 
+    /// <summary>
+    /// Sources for limit switches
+    /// </summary>
     public enum LimitSwitchSource
     {
         Net = 1,
         Gross = 2
-    };
+    }
 
+    /// <summary>
+    /// Tare mode
+    /// </summary>
     public enum TareMode
     {
         None,
         Tare,
         PresetTare
-    };
+    }
 }
