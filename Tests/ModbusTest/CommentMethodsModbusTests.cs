@@ -216,7 +216,7 @@ namespace HBM.Weighing.API.WTX.Modbus
             return strValue;
         }
 
-        
+        /*
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "T_UnitValueTestCases")]
         [TestCaseSource(typeof(CommentMethodsModbusTests), "KG_UnitValueTestCases")]
         [TestCaseSource(typeof(CommentMethodsModbusTests), "G_UnitValueTestCases")]
@@ -238,7 +238,7 @@ namespace HBM.Weighing.API.WTX.Modbus
 
             return _wtxObj.ProcessData.Unit;
         }
-
+        */
         [Test, TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case0_TestCase_Modbus")]
         [TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case1_TestCase_Modbus")]
         [TestCaseSource(typeof(CommentMethodsModbusTests), "LimitStatusStringComment_Case2_TestCase_Modbus")]

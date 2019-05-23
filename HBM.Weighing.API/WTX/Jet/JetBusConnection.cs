@@ -84,6 +84,7 @@ namespace HBM.Weighing.API.WTX.Jet
         private string _password;
         private string _user;
         private int _timeoutMs;
+        private int _callbackTokenValue;
 
         #endregion
 
@@ -101,6 +102,7 @@ namespace HBM.Weighing.API.WTX.Jet
             this._password = Password;
             this._timeoutMs = TimeoutMs;
             this._ipaddress = IPAddress;
+            this._callbackTokenValue = 0; 
         }
 
         // Constructor with ssh certification
@@ -258,9 +260,7 @@ namespace HBM.Weighing.API.WTX.Jet
             try
             {
                 JetBusCommand jetcommand = (JetBusCommand)command;
-
-                Console.WriteLine(jetcommand.PathIndex); //DDD
-
+                
                 switch (jetcommand.DataType)
                 {
                     case DataType.BIT:
@@ -372,18 +372,39 @@ namespace HBM.Weighing.API.WTX.Jet
                     throw new Exception("Object does not exist in the object dictionary");
                 }
         }
-      
+
         public int ReadSingle(object command)
         {
             JetBusCommand _command = (JetBusCommand)command;
 
             try
             {
-                return Convert.ToInt32(ReadObj(_command.PathIndex));
+                Matcher id = new Matcher();
+                id.EqualsTo = _command.PathIndex;
+                // value of Path (specified in id) via Callback method "OnGet" in token. 
+                JObject request = _peer.Get(id, OnGet, this._timeoutMs);
+
+                return _callbackTokenValue;
             }
             catch (FormatException)
             {
                 throw new FormatException("Invalid data format");
+            }
+        }
+
+        // Callback method to read the peer (method _peer.Get)
+        private void OnGet(bool success, JToken token)
+        {
+            if (!success)
+            {
+                JetBusException exception = new JetBusException(token);
+                _mException = new Exception(exception.ErrorCode.ToString());
+            }
+            else
+            {
+                this._callbackTokenValue = Convert.ToInt32(token["result"].Last.Value<string>("value"));
+
+                CommunicationLog?.Invoke(this, new LogEvent("Get data" + success + "Value: " + this._callbackTokenValue.ToString()));
             }
         }
 

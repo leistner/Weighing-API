@@ -407,6 +407,7 @@ namespace JetbusTest
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("NDS"));
         }
 
+        /*
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Unit")]
         public void testUnit(Behavior behavior)
         {
@@ -420,7 +421,7 @@ namespace JetbusTest
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6014/01"));
         }
-
+        */
 
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testInput1(Behavior behavior)

@@ -111,7 +111,6 @@ namespace HBM.Weighing.API.Data
         }
         #endregion
 
-
         #region Properties
         public ApplicationMode ApplicationMode { get; private set; }
 
