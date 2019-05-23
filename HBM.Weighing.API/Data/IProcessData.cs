@@ -28,71 +28,110 @@
 //
 // </copyright>
 
-using System;
-
 namespace HBM.Weighing.API.Data
 {
+    using System;
+
     /// <summary>
-    /// Interface containing the process data of your WTX device.
-    /// A class inheriting from interface IProcessData contains the 
-    /// input word concerning real-time data of WTX device 120 and 110.
+    /// Interface containing the process data of a device.
+    /// Among these are gross weight, net and weight status signals (e.g. TareMode or ScaleRange).
     /// </summary>
     public interface IProcessData
     {
-        #region Process device data 
-        ApplicationMode ApplicationMode { get; }
-
-        WeightType Weight { get; }
-
-        PrintableWeightType PrintableWeight { get; }
-
-        int NetValue { get; }  
-        
-        int GrossValue { get; } 
-
-        int TareValue { get; } 
-
-        bool GeneralWeightError { get; }
-
-        bool ScaleAlarm { get; }
-
-        int LimitStatus { get; }
-
-        bool WeightMoving { get; }
-
-        bool ScaleSealIsOpen { get; }
-
-        bool ManualTare { get; }
-
-        bool TareMode { get; }
-
-        int ScaleRange { get; }
-
-        bool ZeroRequired { get; }
-
-        bool CenterOfZero { get; }
-
-        bool InsideZero { get; }
-        
-        int Decimals { get; }
-
-        string Unit { get; }
-
-        bool Handshake { get; }
-
-        int Status { get; }
-
-        bool Underload { get; }
-
-        bool Overload { get; }
-
-        bool WeightWithinLimits { get; }
-
-        bool HigherSafeLoadLimit{ get; }
+        #region ==================== events & delegates ====================
+        /// <summary>
+        /// Use this Method to update all properties of this interface.
+        /// </summary>
+        /// <param name="sender">Sender of this event</param>
+        /// <param name="e">EventArgs of this event</param>
+        void UpdateData(object sender, EventArgs e);
         #endregion
 
-        #region Update method
-        void UpdateData(object sender, EventArgs e);
+        #region ======================== properties ========================
+        /// <summary>
+        /// Gets the application mode (e.g. Standard/Filler)
+        /// </summary>
+        ApplicationMode ApplicationMode { get; }
+
+        /// <summary>
+        /// Gets the weight values gross, net , tare as double
+        /// </summary>
+        WeightType Weight { get; }
+
+        /// <summary>
+        /// Gets the weight values gross, net , tare as string
+        /// </summary>
+        PrintableWeightType PrintableWeight { get; }
+
+        /// <summary>
+        /// Gets the engineering unit (e.g. "g", "kg",´"t", "lb", "N")
+        /// </summary>
+        string Unit { get; }
+
+        /// <summary>
+        /// Gets the number of decimals
+        /// </summary>
+        int Decimals { get; }
+
+        /// <summary>
+        /// Gets the current tare mode
+        /// </summary>
+        TareMode TareMode { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the weight is stable
+        /// </summary>
+        bool WeightStable { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the scale is in the center-of-zero status
+        /// </summary>
+        bool CenterOfZero { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the weight is inside zeroing range
+        /// </summary>
+        bool InsideZero { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether zeroing is required
+        /// </summary>
+        bool ZeroRequired { get; }
+
+        /// <summary>
+        /// Gets a value indicating the scale range (ranges 1, 2, 3 are valid)
+        /// </summary>
+        int ScaleRange { get; }
+
+        /// <summary
+        /// Gets a value indicating whether the scale is in legal-for-trade mode
+        /// </summary>
+        bool LegalForTrade { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the scale is in underload 
+        /// </summary>
+        bool Underload { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the scale is in overload 
+        /// </summary>
+        bool Overload { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the scale is higher than safe load limit
+        /// </summary>
+        bool HigherSafeLoadLimit { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the scale is in error status
+        /// </summary>
+        bool GeneralWeightError { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether the scale alarm is active
+        /// </summary>
+        bool ScaleAlarm { get; }
         #endregion
     }
 }

@@ -158,8 +158,8 @@ namespace GUIplc
 
             if (_wtxDevice.ApplicationMode == ApplicationMode.Standard) // case 1) Standard application. Initializing the description and a placeholder for the values in the data grid.
             {
-                dataGridView1.Rows.Add("0", "Measured Value", "Int32", "32Bit", "ProcessData.NetValue", "Net measured", "0", "0", "Control word", "Bit", ".0", "Taring", "Button taring");                                           // row 1 ; dataStr[1]      
-                dataGridView1.Rows.Add("2", "Measured Value", "Int32", "32Bit", "ProcessData.GrossValue", "Gross measured", "0", "0", "Control word", "Bit", ".1", "Gross/Net", "Button Gross/Net");                               // row 2 ; dataStr[2]      
+                dataGridView1.Rows.Add("0", "Measured Value", "Int32", "32Bit", "ProcessData.Weight.Net", "Net measured", "0", "0", "Control word", "Bit", ".0", "Taring", "Button taring");                                           // row 1 ; dataStr[1]      
+                dataGridView1.Rows.Add("2", "Measured Value", "Int32", "32Bit", "ProcessData.Weight.Gross", "Gross measured", "0", "0", "Control word", "Bit", ".1", "Gross/Net", "Button Gross/Net");                               // row 2 ; dataStr[2]      
                 dataGridView1.Rows.Add("4", "DS461-Weight status", "Bit", ".0", "ProcessData.GeneralWeightError", "General weight error", "0", "0", "Control word", "Bit", ".6", "Zeroing", "Button Zeroing");                    // row 3 ; dataStr[3]
 
                 dataGridView1.Rows.Add("4", "DS461-Weight status", "Bit", ".1", "ProcessData.ScaleAlarmTriggered", "Scale alarm(s) triggered", "0", "0", "Control word", "Bit", ".7", "Adjust zero", "Button Adjust zero");         // row 4 ; dataStr[4]
@@ -205,8 +205,8 @@ namespace GUIplc
             }
             else
             {
-                dataGridView1.Rows.Add("0", "Measured Value", "Int32", "32Bit", "ProcessData.NetValue", "Net measured", "0", "0", "Control word", "Bit", ".0", "Taring",  "Button Taring");                               // row 1 ; dataStr[1]      
-                dataGridView1.Rows.Add("2", "Measured Value", "Int32", "32Bit", "ProcessData.GrossValue", "Gross measured", "0", "0", "Control word", "Bit", ".1", "Gross/Net", "Button Gross/Net");                      // row 2 ; dataStr[2]
+                dataGridView1.Rows.Add("0", "Measured Value", "Int32", "32Bit", "ProcessData.Weight.Net", "Net measured", "0", "0", "Control word", "Bit", ".0", "Taring",  "Button Taring");                               // row 1 ; dataStr[1]      
+                dataGridView1.Rows.Add("2", "Measured Value", "Int32", "32Bit", "ProcessData.Weight.Gross", "Gross measured", "0", "0", "Control word", "Bit", ".1", "Gross/Net", "Button Gross/Net");                      // row 2 ; dataStr[2]
 
                 dataGridView1.Rows.Add("4", "DS461-Weight status", "Bit", ".0", "ProcessData.GeneralWeightError", "General weight error", "0", "0", "Control word", "Bit", ".2", "Clear dosing results", "Button Clear dosing results");         // row 3 ; dataStr[3]        
                 dataGridView1.Rows.Add("4", "DS461-Weight status", "Bit", ".1", "ProcessData.ScaleAlarmTriggered", "Scale alarm(s) triggered", "0", "0", "Control word", "Bit", ".3", "Abort dosing", "Button Abort dosing");                    // row 4 ; dataStr[4]
@@ -714,10 +714,9 @@ namespace GUIplc
                     dataGridView1.Rows[1].Cells[6].Value = _wtxDevice.Weight.Gross;
                     dataGridView1.Rows[2].Cells[6].Value = e.ProcessData.GeneralWeightError;
                     dataGridView1.Rows[3].Cells[6].Value = e.ProcessData.ScaleAlarm;
-                    dataGridView1.Rows[4].Cells[6].Value = e.ProcessData.LimitStatus;
-                    dataGridView1.Rows[5].Cells[6].Value = e.ProcessData.WeightMoving;
-                    dataGridView1.Rows[6].Cells[6].Value = e.ProcessData.ScaleSealIsOpen;
-                    dataGridView1.Rows[7].Cells[6].Value = e.ProcessData.ManualTare;
+                    dataGridView1.Rows[4].Cells[6].Value = e.ProcessData.Overload;
+                    dataGridView1.Rows[5].Cells[6].Value = e.ProcessData.WeightStable;
+                    dataGridView1.Rows[6].Cells[6].Value = e.ProcessData.LegalForTrade;
                     dataGridView1.Rows[8].Cells[6].Value = e.ProcessData.TareMode;
                     dataGridView1.Rows[9].Cells[6].Value = e.ProcessData.ScaleRange;
                     dataGridView1.Rows[10].Cells[6].Value = e.ProcessData.ZeroRequired;
@@ -726,8 +725,6 @@ namespace GUIplc
                     dataGridView1.Rows[13].Cells[6].Value = _wtxDevice.ApplicationMode.ToString();
                     dataGridView1.Rows[14].Cells[6].Value = e.ProcessData.Decimals;
                     dataGridView1.Rows[15].Cells[6].Value = _wtxDevice.Unit;
-                    dataGridView1.Rows[16].Cells[6].Value = e.ProcessData.Handshake;
-                    dataGridView1.Rows[17].Cells[6].Value = e.ProcessData.Status;
 
                     dataGridView1.Rows[18].Cells[6].Value = _wtxDevice.DataStandard.Input1;
                     dataGridView1.Rows[19].Cells[6].Value = _wtxDevice.DataStandard.Input2;

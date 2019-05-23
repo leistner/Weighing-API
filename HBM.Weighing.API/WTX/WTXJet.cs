@@ -211,14 +211,7 @@ namespace HBM.Weighing.API.WTX
         {
             get
             {
-                if (ProcessData.TareMode == false)
-                {
-                    return TareMode.None;
-                }
-                else
-                {
-                    return TareMode.Tare;
-                }
+                return ProcessData.TareMode;
             }
         }
         public override int ScaleRange

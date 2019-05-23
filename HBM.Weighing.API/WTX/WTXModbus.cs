@@ -322,7 +322,7 @@ namespace HBM.Weighing.API.WTX
 
         public string WeightMovingStringComment()
         {
-            if (ProcessData.WeightMoving == false)
+            if (ProcessData.WeightStable)
                 return "0=Weight is not moving.";
             else
                 return "1=Weight is moving";
@@ -338,35 +338,11 @@ namespace HBM.Weighing.API.WTX
             }
         }
 
-        public string LimitStatusStringComment()
-        {
-            switch (ProcessData.LimitStatus)
-            {
-                case 0:
-                    return "Weight within limits";
-                case 1:
-                    return "Lower than minimum";
-                case 2:
-                    return "Higher than maximum capacity";
-                case 3:
-                    return "Higher than safe load limit";
-                default: 
-                    return "Lower than minimum";
-            }
-        }
-
         public override TareMode TareMode
         {
             get
             {
-                if (ProcessData.TareMode == false)
-                {
-                    return TareMode.None;
-                }
-                else
-                {
-                    return TareMode.Tare;
-                }
+                return ProcessData.TareMode;
             }
         }
 
