@@ -185,14 +185,13 @@ namespace HBM.Weighing.API.WTX
             get { return this._command; }
         }
 
-        public async Task<int> AsyncWrite(ushort index, ushort commandParam)
+        public async Task<int> AsyncWrite(ModbusCommand command, ushort value)
         {
             if (IsConnected)
             {
-                Task<int> WriteValue = Connection.WriteAsync(index, commandParam);
-                DoHandshake(index);
-                int command = await WriteValue;
-                return command;
+                Task<int> WriteValue = Connection.WriteAsync(command, value);
+                DoHandshake(command);
+                return await WriteValue;
             }
             else
                 return 0;
@@ -201,24 +200,24 @@ namespace HBM.Weighing.API.WTX
         /// Handshake protocol as given in the manual
         /// </summary>
         /// <param name="index"></param>
-        private void DoHandshake(ushort index)
+        private void DoHandshake(ModbusCommand command)
         {
             int handshakeBit = 0;
             int dataWord = 0x00;
-                       
+
             do
             {
-                dataWord = ((ModbusTCPConnection)this.Connection).Read(5);
+                dataWord = this.Connection.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 Thread.Sleep(50);
             }
             while (handshakeBit == 0);
 
-            this.Connection.Write(new ModbusCommand(DataType.U08, 0, IOType.Output, ApplicationMode.Standard, 0, 0),0);  
+            this.Connection.Write(ModbusCommands.Control_word_ResetHandshake, 0x00);
 
             do
             {
-                dataWord = ((ModbusTCPConnection)this.Connection).Read(5);
+                dataWord = this.Connection.Read(5);
                 handshakeBit = ((dataWord & 0x4000) >> 14);
                 Thread.Sleep(50);
             }
@@ -484,33 +483,33 @@ namespace HBM.Weighing.API.WTX
         #region Process data methods - Standard
         public async override void SetGross()
         {
-            _command = (ushort)await AsyncWrite(0, 0x2);
+            _command = (ushort)await AsyncWrite(ModbusCommands.Control_word_GrossNet, 0x2);
         }
         
         public async override void Tare()
         {
-            _command = (ushort)await AsyncWrite(0, 0x1);
+            _command = (ushort)await AsyncWrite(ModbusCommands.Control_word_Taring, 0x1);
         }
         
         public async override void Zero()
         {
-            _command = (ushort)await AsyncWrite(0, 0x40);
+            _command = (ushort)await AsyncWrite(ModbusCommands.Control_word_Zeroing, 0x40);
         }
         
         public async void ActivateData()
         {
-            _command = (ushort)await AsyncWrite(0, 0x800);
+            _command = (ushort)await AsyncWrite(ModbusCommands.Control_word_ActivateData, 0x800);
         }
 
         public async override void TareManually(double manualTareValue)
         {
-            _command = (ushort)await AsyncWrite(0, 0x1000);
+            _command = (ushort)await AsyncWrite(ModbusCommands.Control_word_Taring, 0x1000);
         }
         #endregion
 
         public async override void RecordWeight()
         {
-            _command = (ushort)await AsyncWrite(0, 0x4000);
+            _command = (ushort)await AsyncWrite(ModbusCommands.Control_word_RecordWeight, 0x4000);
         }
 
         public void ActivateDate()
