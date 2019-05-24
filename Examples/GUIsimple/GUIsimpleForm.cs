@@ -335,9 +335,5 @@ namespace GUIsimple
             }
         }
         #endregion
-        private void GUIsimple_Load(object sender, EventArgs e)
-        {
-            
-        }
     }
 }

@@ -61,6 +61,9 @@ namespace Hbm.Weighing.API.WTX
         private int _calibrationWeight;
         private int _zeroLoad;
         private int _nominalLoad;
+        private Timer _ExternalUpdateTimer;
+        private int _ExternalUpdateTimerInterval = 2000;
+
         #endregion
 
         #region ==================== events & delegates ====================
@@ -75,10 +78,10 @@ namespace Hbm.Weighing.API.WTX
             ProcessData = new ProcessDataJet(Connection);
             DataStandard = new DataStandardJet(Connection);
             DataFiller = new DataFillerExtendedJet(Connection);
-            
-            this.ProcessDataReceived += onProcessData;
+            _ExternalUpdateTimer = new Timer(ExternalUpdateTick);
+            Stop();
 
-           ((JetBusConnection)Connection).IncomingDataReceived += this.OnData; //DDD             
+            this.ProcessDataReceived += onProcessData;
         }
         #endregion
 
@@ -111,12 +114,14 @@ namespace Hbm.Weighing.API.WTX
 
         public override void Connect(double timeoutMs = 20000)
         {
-            Connection.Connect();          
+            Connection.Connect();
+            _ExternalUpdateTimer.Change(0, _ExternalUpdateTimerInterval); 
         }
 
         public override void Connect(Action<bool> completed, double timeoutMs)
         {
             Connection.Connect();
+            _ExternalUpdateTimer.Change(0, _ExternalUpdateTimerInterval);
         }
         #endregion
 
@@ -421,7 +426,7 @@ namespace Hbm.Weighing.API.WTX
         /// </summary>
         public override void Stop()
         {
-            ((JetBusConnection)Connection).IncomingDataReceived -= this.OnData;   // Subscribe to the event. 
+            _ExternalUpdateTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
 
         /// <summary>
@@ -429,8 +434,18 @@ namespace Hbm.Weighing.API.WTX
         /// </summary>
         public override void Restart()
         {
-            ((JetBusConnection)Connection).IncomingDataReceived += this.OnData;   // Subscribe to the event. 
+            _ExternalUpdateTimer.Change(_ExternalUpdateTimerInterval, _ExternalUpdateTimerInterval);
         }
         #endregion
+
+        public void ExternalUpdateTick(object info)
+        {
+            Stop();
+            if (IsConnected)
+            {
+                this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
+            }
+            Restart();
+        }
     }
 }

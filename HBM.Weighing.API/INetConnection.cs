@@ -56,7 +56,7 @@ namespace Hbm.Weighing.API
 
         #region ================ public & internal methods =================
 
-        void Connect();
+        void Connect(int timeoutMs = 20000);
         
         void Disconnect();
 

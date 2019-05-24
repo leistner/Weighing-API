@@ -84,7 +84,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         /// <summary>
         /// Connect a Modbus/TCP device
         /// </summary>
-        public void Connect()
+        public void Connect(int timeoutMs = 20000)
         {
             try
             {

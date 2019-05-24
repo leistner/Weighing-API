@@ -223,7 +223,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         }
 
 
-        public void Connect()
+        public void Connect(int timeoutMs = 20000)
         {
             switch(this.behavior)
             {
