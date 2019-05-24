@@ -62,7 +62,7 @@ namespace Hbm.Weighing.API.WTX
         private int _zeroLoad;
         private int _nominalLoad;
         private Timer _ExternalUpdateTimer;
-        private int _ExternalUpdateTimerInterval = 2000;
+        private int _ExternalUpdateTimerInterval = 500;
 
         #endregion
 

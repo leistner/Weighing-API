@@ -57,12 +57,8 @@ namespace Hbm.Weighing.API.WTX.Jet
         protected JetPeer _peer;
         private AutoResetEvent _mSuccessEvent = new AutoResetEvent(false);
         private Exception _mException = null;
-        private JToken[] JTokenArray;
-        private ushort[] DataUshortArray;
-        private string[] DataStrArray;
         private string _password;
         private string _user;
-        private bool dataArrived;
         private int _timeoutMs;
         private int _callbackTokenValue;
         private byte[] CertificateToByteArray()
@@ -84,8 +80,6 @@ namespace Hbm.Weighing.API.WTX.Jet
                 "hcGSWMs3yomPqftwitRwv5 / p8hLtf3yNIkk9OnBwPpT7QxXxw4Zs0Jvl / VBFuNwbeD12ur3RKbMyCn9W0RjaMrYpKnAjik3IlSqDYZ0XDMwZ" +
                 "0oQiOFy / a6bR4Vw =="
                 ;
-
-            // Invoke GetBytes method.
             byte[] _byteArray = Encoding.ASCII.GetBytes(input);
 
             return _byteArray;
@@ -295,7 +289,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             FetchId id;
             _peer.Fetch(out id, matcher, OnFetchData, OnFetch, this._timeoutMs);                                 
 
-            CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: " + dataArrived + " - buffersize is " + AllData.Count));
+            CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: Buffersize is " + AllData.Count));
         }
 
         private void OnFetch(bool success, JToken token)
