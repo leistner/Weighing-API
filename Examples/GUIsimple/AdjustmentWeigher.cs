@@ -28,7 +28,7 @@
 //
 // </copyright>
 
-using HBM.Weighing.API;
+using Hbm.Weighing.API;
 using System;
 using System.Threading;
 using System.Windows.Forms;

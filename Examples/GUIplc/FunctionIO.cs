@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using HBM.Weighing.API;
+using Hbm.Weighing.API;
 
 namespace GUIplc
 {

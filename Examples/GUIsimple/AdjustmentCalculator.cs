@@ -18,9 +18,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-using HBM.Weighing.API.WTX.Modbus;
-using HBM.Weighing.API.WTX;
-using HBM.Weighing.API;
+using Hbm.Weighing.API.WTX.Modbus;
+using Hbm.Weighing.API.WTX;
+using Hbm.Weighing.API;
 
 namespace GUIsimple
 {

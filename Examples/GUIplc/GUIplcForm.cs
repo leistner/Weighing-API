@@ -8,11 +8,11 @@
 using System;
 using System.Windows.Forms;
 using System.IO;
-using HBM.Weighing.API.WTX;
-using HBM.Weighing.API;
-using HBM.Weighing.API.WTX.Modbus;
+using Hbm.Weighing.API.WTX;
+using Hbm.Weighing.API;
+using Hbm.Weighing.API.WTX.Modbus;
 using GUIsimple;
-using HBM.Weighing.API.WTX.Jet;
+using Hbm.Weighing.API.WTX.Jet;
 
 namespace GUIplc
 {
@@ -1001,7 +1001,7 @@ namespace GUIplc
             _wtxDevice.Disconnect();
 
             ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-            _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
+            _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
         }
         public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
@@ -1022,7 +1022,7 @@ namespace GUIplc
             _wtxDevice.Disconnect();
 
             ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-            _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
+            _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
         }
 
         private void jetbusToolStripMenuItem_Click(object sender, EventArgs e)

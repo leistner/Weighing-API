@@ -1,6 +1,6 @@
 ﻿// <copyright file="DataEventArgs.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+// Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -28,7 +28,7 @@
 //
 // </copyright>
 
-namespace HBM.Weighing.API
+namespace Hbm.Weighing.API
 {
     using System.Collections.Generic;
 

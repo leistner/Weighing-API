@@ -1,6 +1,6 @@
-﻿using HBM.Weighing.API;
-using HBM.Weighing.API.WTX;
-using HBM.Weighing.API.WTX.Jet;
+﻿using Hbm.Weighing.API;
+using Hbm.Weighing.API.WTX;
+using Hbm.Weighing.API.WTX.Jet;
 
 using NUnit.Framework;
 using System;

@@ -1,7 +1,7 @@
 ﻿
-using HBM.Weighing.API;
-using HBM.Weighing.API.WTX;
-using HBM.Weighing.API.WTX.Modbus;
+using Hbm.Weighing.API;
+using Hbm.Weighing.API.WTX;
+using Hbm.Weighing.API.WTX.Modbus;
 
 using NUnit.Framework;
 using System;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HBM.Weighing.API.WTX.Modbus
+namespace Hbm.Weighing.API.WTX.Modbus
 {
     [TestFixture]
     public class ReadTestsModbus

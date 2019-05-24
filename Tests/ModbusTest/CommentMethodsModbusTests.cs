@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace HBM.Weighing.API.WTX.Modbus
+namespace Hbm.Weighing.API.WTX.Modbus
 {
     [TestFixture]
     public class CommentMethodsModbusTests

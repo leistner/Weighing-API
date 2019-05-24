@@ -28,10 +28,10 @@
 //
 // </copyright>
 
-using HBM.Weighing.API;
-using HBM.Weighing.API.WTX;
-using HBM.Weighing.API.WTX.Jet;
-using HBM.Weighing.API.WTX.Modbus;
+using Hbm.Weighing.API;
+using Hbm.Weighing.API.WTX;
+using Hbm.Weighing.API.WTX.Jet;
+using Hbm.Weighing.API.WTX.Modbus;
 
 using System;
 using System.Threading;
@@ -127,7 +127,7 @@ namespace GUIsimple
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTCPConnection _modbusConnection = new ModbusTCPConnection(this._ipAddress);
 
-                _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_modbusConnection, this._timerInterval, this.update);
+                _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_modbusConnection, this._timerInterval, this.update);
 
             }
             else
@@ -308,7 +308,7 @@ namespace GUIsimple
             {
                 _wtxDevice.Disconnect();
                 ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-                _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
+                _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }
         public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
@@ -331,7 +331,7 @@ namespace GUIsimple
             {
                 _wtxDevice.Disconnect();
                 ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-                _wtxDevice = new HBM.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
+                _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }
         #endregion

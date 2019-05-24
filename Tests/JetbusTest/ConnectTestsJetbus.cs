@@ -1,15 +1,15 @@
 ﻿
-namespace HBM.Weighing.API.WTX.Jet
+namespace Hbm.Weighing.API.WTX.Jet
 {
     using System;
     using System.Collections;
     using NUnit.Framework;
     using Newtonsoft.Json.Linq;
 
-    using HBM.Weighing.API;
-    using HBM.Weighing.API.WTX;   
-    using HBM.Weighing.API.WTX.Modbus;   
-    using HBM.Weighing.API.WTX.Jet;
+    using Hbm.Weighing.API;
+    using Hbm.Weighing.API.WTX;   
+    using Hbm.Weighing.API.WTX.Modbus;   
+    using Hbm.Weighing.API.WTX.Jet;
 
     [TestFixture]
     public class ConnectTestsJetbus

@@ -1,6 +1,6 @@
 ﻿// <copyright file="DataFillerExtended.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+// Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -28,14 +28,14 @@
 //
 // </copyright>
 
-using HBM.Weighing.API.WTX.Jet;
+using Hbm.Weighing.API.WTX.Jet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HBM.Weighing.API.Data
+namespace Hbm.Weighing.API.Data
 {
     /// <summary>
     /// Implementation of the interface IDataFillerExtended for the filler extended mode.

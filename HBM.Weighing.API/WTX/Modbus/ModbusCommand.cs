@@ -1,6 +1,6 @@
 ﻿// <copyright file="ModbusCommand.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+// Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -32,7 +32,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HBM.Weighing.API.WTX.Modbus
+namespace Hbm.Weighing.API.WTX.Modbus
 {
     public class ModbusCommand
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 
-namespace HBM.Weighing.API.WTX.Jet
+namespace Hbm.Weighing.API.WTX.Jet
 {
     using Hbm.Devices.Jet;
-    using HBM.Weighing.API;
-    using HBM.Weighing.API.WTX.Jet;
+    using Hbm.Weighing.API;
+    using Hbm.Weighing.API.WTX.Jet;
     using JetbusTest;
     using Newtonsoft.Json.Linq;
     using System;

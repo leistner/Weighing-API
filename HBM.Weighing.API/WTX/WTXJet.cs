@@ -1,6 +1,6 @@
 ﻿// <copyright file="WTXJet.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+// Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -28,26 +28,22 @@
 //
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Threading;
-using HBM.Weighing.API.Data;
-using HBM.Weighing.API.Utils;
-using HBM.Weighing.API.WTX.Jet;
-
-namespace HBM.Weighing.API.WTX
+namespace Hbm.Weighing.API.WTX
 {
+    using System;
+    using System.Threading;
+    using Hbm.Weighing.API.Data;
+    using Hbm.Weighing.API.Utils;
+    using Hbm.Weighing.API.WTX.Jet;
+
     /// <summary>
-    /// This class handles the data from JetBusConnection for IProcessData. 
-    /// WtxJet fetches, interprets the data( method OnData(sender, DataEventArgs) ) and 
-    /// send it to the GUI or application class by an eventhandler (=ProcessDataReceived). 
+    /// This class represents a WTX device.
+    /// Subscribe to ProcessDataReceived over the constructor to automatically get weight values.
     /// </summary>
     public class WTXJet : BaseWTDevice
     {
-        #region Constants
-        private const int CONVERISION_FACTOR_MVV_TO_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)   
-
+        #region ==================== constants & fields ====================
+        private const int CONVERISION_FACTOR_MVV_TO_D = 500000;  
         private const int SCALE_COMMAND_CALIBRATE_ZERO = 2053923171;
         private const int SCALE_COMMAND_CALIBRATE_NOMINAL = 1852596579;
         private const int SCALE_COMMAND_EXIT_CALIBRATE = 1953069157;
@@ -55,28 +51,23 @@ namespace HBM.Weighing.API.WTX
         private const int SCALE_COMMAND_CLEAR_PEAK_VALUES = 1801545072;
         private const int SCALE_COMMAND_ZERO = 1869768058;
         private const int SCALE_COMMAND_SET_GROSS = 1936683623;
-
         private const int SCALE_COMMAND_STATUS_ONGOING = 1634168417;
         private const int SCALE_COMMAND_STATUS_OK = 1801543519;
         private const int SCALE_COMMAND_STATUS_ERROR_E1 = 826629983;
         private const int SCALE_COMMAND_STATUS_ERROR_E2 = 843407199;
         private const int SCALE_COMMAND_STATUS_ERROR_E3 = 860184415;
-        #endregion
-
-        #region privates
 
         private int _manualTareValue;
         private int _calibrationWeight;
         private int _zeroLoad;
         private int _nominalLoad;
-
         #endregion
 
-        #region Events
+        #region ==================== events & delegates ====================
         public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
         #endregion
 
-        #region Constructors
+        #region =============== constructors & destructors =================
         public WTXJet(INetConnection connection, EventHandler<ProcessDataReceivedEventArgs> onProcessData) : base(connection)
         {
             Connection = connection;
@@ -84,24 +75,20 @@ namespace HBM.Weighing.API.WTX
             ProcessData = new ProcessDataJet(Connection);
             DataStandard = new DataStandardJet(Connection);
             DataFiller = new DataFillerExtendedJet(Connection);
-            //DataFillerExtended = new DataFillerExtendedJet(Connection);
             
             this.ProcessDataReceived += onProcessData;
 
-           ((JetBusConnection)Connection).IncomingDataReceived += this.OnData;   // Subscribe to the event.              
+           ((JetBusConnection)Connection).IncomingDataReceived += this.OnData; //DDD             
         }
-
         #endregion
 
-        #region property data class
+        #region ======================== properties ========================
 
         /// <summary>
         /// Gets and sets the extended filler data 
         /// </summary>
         public IDataFillerExtended DataFillerExtended { get; protected set; }
-        #endregion
 
-        #region Connection
         public override void Disconnect(Action<bool> DisconnectCompleted)
         {
             Connection.Disconnect();

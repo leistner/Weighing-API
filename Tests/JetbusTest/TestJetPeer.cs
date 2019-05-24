@@ -1,5 +1,5 @@
 ﻿using Hbm.Devices.Jet;
-using HBM.Weighing.API.WTX.Jet;
+using Hbm.Weighing.API.WTX.Jet;
 
 using Newtonsoft.Json.Linq;
 using System;

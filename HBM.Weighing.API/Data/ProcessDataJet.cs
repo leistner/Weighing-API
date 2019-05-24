@@ -1,6 +1,6 @@
 ﻿// <copyright file="ProcessDataJet.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+// Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -28,11 +28,11 @@
 //
 // </copyright>
 
-namespace HBM.Weighing.API.Data
+namespace Hbm.Weighing.API.Data
 {
     using System;
-    using HBM.Weighing.API.Utils;
-    using HBM.Weighing.API.WTX.Jet;
+    using Hbm.Weighing.API.Utils;
+    using Hbm.Weighing.API.WTX.Jet;
 
     /// <summary>
     /// The class ProcessData contains all provess data like net weight, gross weight or tare value.

@@ -1,6 +1,6 @@
 ﻿// <copyright file="WTXModbus.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+// Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -27,9 +27,9 @@
 // SOFTWARE.
 //
 // </copyright>
-using HBM.Weighing.API.Data;
-using HBM.Weighing.API.Utils;
-using HBM.Weighing.API.WTX.Modbus;
+using Hbm.Weighing.API.Data;
+using Hbm.Weighing.API.Utils;
+using Hbm.Weighing.API.WTX.Modbus;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace HBM.Weighing.API.WTX
+namespace Hbm.Weighing.API.WTX
 {
     /// <summary>
     /// This class handles the data from ModbusTcpConnection for IProcessData. 

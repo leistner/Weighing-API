@@ -1,6 +1,6 @@
 ﻿// <copyright file="ProcessDataModbus.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+// Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -28,11 +28,11 @@
 //
 // </copyright>
 
-namespace HBM.Weighing.API.Data
+namespace Hbm.Weighing.API.Data
 {
     using System;
-    using HBM.Weighing.API.Utils;
-    using HBM.Weighing.API.WTX.Modbus;
+    using Hbm.Weighing.API.Utils;
+    using Hbm.Weighing.API.WTX.Modbus;
 
     /// <summary>
     /// The class ProcessData contains all process data like net weight, gross weight or tare value.

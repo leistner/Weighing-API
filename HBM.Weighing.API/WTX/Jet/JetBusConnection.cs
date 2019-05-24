@@ -1,6 +1,6 @@
 ﻿// <copyright file="JetBusConnection.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+// Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -28,21 +28,20 @@
 //
 // </copyright>
 
-using Hbm.Devices.Jet;
-using HBM.Weighing.API.WTX.Modbus;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace HBM.Weighing.API.WTX.Jet
+namespace Hbm.Weighing.API.WTX.Jet
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net.Security;
+    using System.Security.Cryptography.X509Certificates;
+    using System.Text;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Hbm.Devices.Jet;
+    using Hbm.Weighing.API.WTX.Modbus;
+    using Newtonsoft.Json.Linq;
+
     /// <summary>
     /// Use this class to handle a connection via Ethernet.
     /// This class establishs the communication to your WTX device, starts/ends the connection,
@@ -55,39 +54,39 @@ namespace HBM.Weighing.API.WTX.Jet
     /// </summary>
     public class JetBusConnection : INetConnection, IDisposable
     {
-        #region member
+        #region ==================== constants & fields ====================
         protected JetPeer _peer;
-
         private Dictionary<string, JToken> _dataJTokenBuffer = new Dictionary<string, JToken>();
-        Dictionary<string, string> _dataBuffer = new Dictionary<string, string>();
-        
+        Dictionary<string, string> _dataBuffer = new Dictionary<string, string>();        
         private AutoResetEvent _mSuccessEvent = new AutoResetEvent(false);
         private Exception _mException = null;
+        private string _ipaddress;
+        private JToken[] JTokenArray;
+        private ushort[] DataUshortArray;
+        private string[] DataStrArray;
+        private string _password;
+        private string _user;
+        private int _timeoutMs;
+        private int _callbackTokenValue;
+        private bool dataArrived;
+        #endregion
 
-        #region Events
+        #region ==================== events & delegates ====================
         public event EventHandler CommunicationLog;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
         public event EventHandler<EventArgs> UpdateData;
         #endregion
 
-        private bool _connected;
 
-        private string _ipaddress;
+        #region =============== constructors & destructors =================
 
-        private JToken[] JTokenArray;
-        private ushort[] DataUshortArray;
-        private string[] DataStrArray;
-
-        private string _password;
-        private string _user;
-        private int _timeoutMs;
-        private int _callbackTokenValue;
-
-        #endregion
-
-        #region constructors
-
-        // Constructor without ssh certification. 
+        /// <summary>
+        /// Init
+        /// </summary>
+        /// <param name="IPAddress"></param>
+        /// <param name="User"></param>
+        /// <param name="Password"></param>
+        /// <param name="TimeoutMs"></param>
         public JetBusConnection(string IPAddress, string User, string Password, int TimeoutMs = 20000)
         {
             string _uri = "wss://" + IPAddress + ":443/jet/canopen";
@@ -118,7 +117,7 @@ namespace HBM.Weighing.API.WTX.Jet
         public void DisconnectDevice()
         {
             _peer.Disconnect();
-            this._connected = false;
+            this.IsConnected = false;
             this.IncomingDataReceived = null;
         }
         private void ConnectPeer(string User, string Password, int TimeoutMs)
@@ -130,30 +129,21 @@ namespace HBM.Weighing.API.WTX.Jet
             WaitOne(2);
         }
 
-        public ConnectionType ConnectionType
-        {
-            get { return ConnectionType.Jetbus; }
-        }
+        public ConnectionType ConnectionType => ConnectionType.Jetbus;
 
-        public bool IsConnected
-        {
-            get
-            {
-                return _connected;
-            } 
-        }
-                     
+        public bool IsConnected { get; private set; }
+
         private void OnConnectAuthenticate(bool connected)
         {
             if (connected)
             {
-                this._connected = true;
+                this.IsConnected = true;
 
                 _peer.Authenticate(this._user, this._password, OnAuthenticate, this._timeoutMs);
             }
             else
             {
-                this._connected = false;
+                this.IsConnected = false;
                 _mException = new Exception("Connection failed");
                 _mSuccessEvent.Set();
             }
@@ -165,7 +155,7 @@ namespace HBM.Weighing.API.WTX.Jet
             if (!success)
             {
 
-                this._connected = false;
+                this.IsConnected = false;
                 JetBusException exception = new JetBusException(token);
                 _mException = new Exception(exception.Message);
             }
@@ -180,7 +170,7 @@ namespace HBM.Weighing.API.WTX.Jet
                 _mException = new Exception("Connection failed.");
             }
 
-            this._connected = true;
+            this.IsConnected = true;
             _mSuccessEvent.Set();
         }
 
@@ -190,7 +180,7 @@ namespace HBM.Weighing.API.WTX.Jet
             if (!success)
             {
 
-                this._connected = false;
+                this.IsConnected = false;
 
                 JetBusException exception = new JetBusException(token);
                 _mException = new Exception(exception.ErrorCode.ToString());
@@ -199,14 +189,13 @@ namespace HBM.Weighing.API.WTX.Jet
             // Wake up the waiting thread where call the construktor to connect the session
             //
             dataArrived = true;
-            this._connected = true;
+            this.IsConnected = true;
             _mSuccessEvent.Set();
             
             CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + _dataJTokenBuffer.Count));
         }
 
 
-        private bool dataArrived;
 
         public virtual void FetchAll()
         {
@@ -232,13 +221,13 @@ namespace HBM.Weighing.API.WTX.Jet
         {
             if (!_mSuccessEvent.WaitOne(_timeoutMs * timeoutMultiplier))
             {
-                this._connected = false;
+                this.IsConnected = false;
 
                 // Timeout-Exception
                 throw new Exception("Jet interface Timeout");
             }
 
-            this._connected = true; 
+            this.IsConnected = true; 
                      
             if (_mException != null)
             {
@@ -518,7 +507,7 @@ namespace HBM.Weighing.API.WTX.Jet
         public void Disconnect()
         {
             _peer.Disconnect();
-            this._connected = false;
+            this.IsConnected = false;
             this.IncomingDataReceived = null;
         }
 

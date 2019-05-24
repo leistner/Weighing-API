@@ -1,6 +1,6 @@
 ﻿// <copyright file="PrintableWeightType.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// HBM.Weighing.API, a library to communicate with HBM weighing technology devices  
+// Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -30,7 +30,7 @@
 
 using System.Globalization;
 
-namespace HBM.Weighing.API.Data
+namespace Hbm.Weighing.API.Data
 {
     /// <summary>
     /// Holds the current weight values (gross, net, tare)
