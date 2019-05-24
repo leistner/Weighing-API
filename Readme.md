@@ -16,10 +16,10 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | ---------------------------------- | ---------------------- |
 | BaseWTDevice.cs                    | :heavy_check_mark:     |
 | DataEventArgs.cs                   | :heavy_check_mark:     |
-| Enums.cs                           | :heavy_check_mark: |
+| Enums.cs                           | :heavy_check_mark:     |
 | INetConnection.cs                  | :large_orange_diamond: |
-| LogEvent.cs                        | :large_orange_diamond: |
-| ProcessDataReceivedEventArgs.cs    | :large_orange_diamond: | 
+| LogEvent.cs                        | :heavy_check_mark:     |
+| ProcessDataReceivedEventArgs.cs    | :heavy_check_mark:     | 
 | WTXJet.cs                          | :large_orange_diamond: |
 | WTXModbus.cs                       | :large_orange_diamond: | 
 | ModbusCommand.cs                   | :large_orange_diamond: |

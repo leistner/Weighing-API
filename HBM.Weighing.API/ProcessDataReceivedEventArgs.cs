@@ -27,13 +27,14 @@
 // SOFTWARE.
 //
 // </copyright>
-using HBM.Weighing.API.Data;
-using System;
 
 namespace HBM.Weighing.API
 {
+    using System;
+    using HBM.Weighing.API.Data;
+
     /// <summary>
-    /// Event to extend the eventbased call with an interface containing real-time process data.
+    /// Event to extend the event based call with an interface containing real-time process data.
     /// Called by the update method ("OnData()") of the classes WtxJet and WtxModbus to send the
     /// process data to the application class.
     /// </summary>
@@ -41,7 +42,7 @@ namespace HBM.Weighing.API
     {
         #region =============== constructors & destructors =================
         /// <summary>
-        /// Initializes a new instance of IProcessData containing the process data
+        /// Initializes a new instance of the <see cref="ProcessDataReceivedEventArgs" /> class.
         /// </summary>
         /// <param name="processData">Instance of interface IProcessData</param>
         public ProcessDataReceivedEventArgs(IProcessData processData)
@@ -52,7 +53,7 @@ namespace HBM.Weighing.API
 
         #region ======================== properties ========================
         /// <summary>
-        /// Gets an instance of interface IProcessData containing the process data
+        /// Gets or sets an instance of interface IProcessData containing the process data
         /// </summary>
         public IProcessData ProcessData { get; set; }
         #endregion

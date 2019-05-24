@@ -27,18 +27,19 @@
 // SOFTWARE.
 //
 // </copyright>
-using System;
 
 namespace HBM.Weighing.API
 {
+    using System;
+
     /// <summary>
-    /// Event to describe if a data transfer have been successful
+    /// Event to describe if a data transfer was  successful
     /// </summary>
     public class LogEvent : EventArgs
     {
         #region =============== constructors & destructors =================
         /// <summary>
-        /// Initializes a string to describe if the data transfer have been successful or not
+        /// Initializes a string to describe if the data transfer was successful or not
         /// </summary>
         /// <param name="args"></param>
         public LogEvent(string args)
