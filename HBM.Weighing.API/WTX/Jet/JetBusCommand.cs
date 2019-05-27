@@ -51,5 +51,44 @@ namespace Hbm.Weighing.API.WTX.Jet
         public int BitIndex { get; private set; }
 
         public int BitLength { get; private set; }
+
+        public string ToValue(string input)
+        {
+            ushort _bitMask = 0;
+            ushort _mask = 0;
+            string _value;
+
+            try
+            {               
+                switch (DataType)
+                {
+                    case DataType.BIT:
+                        {
+                            switch (BitLength)
+                            {
+                                case 0: _bitMask = 0xFFFF; break;
+                                case 1: _bitMask = 1; break; 
+                                case 2: _bitMask = 3; break;
+                                case 3: _bitMask = 7; break;
+                                default: _bitMask = 1; break;
+                            }
+                            _mask = (ushort)(_bitMask << BitIndex);
+                            _value = ((Convert.ToUInt16(input) & _mask) >> BitIndex).ToString();
+                            break;
+                        }
+
+                    default:
+                        {
+                            _value = input;
+                            break;
+                        }
+                }
+            }
+            catch
+            {
+                _value = "0";
+            }
+            return _value;
+        }
     }
 }

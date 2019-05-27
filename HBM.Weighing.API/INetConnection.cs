@@ -64,11 +64,11 @@ namespace Hbm.Weighing.API
 
         #region =============================== Read/Write methods ====================================
 
-        int Read(object command);
+        string Read(object command);
 
-        void Write(object command, int value);
+        bool Write(object command, int value);
 
-        Task<ushort[]> ReadAsync(object command);                          
+        Task<string> ReadAsync(object command);                          
 
         Task<int> WriteAsync(object command, int value); 
         

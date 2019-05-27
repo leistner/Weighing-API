@@ -148,8 +148,6 @@ namespace WTXModbus
                 ModbusTCPConnection _modbusConection = new ModbusTCPConnection(_ipAddress);
 
                 _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_modbusConection, _timerInterval, Update);
-
-                ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).ReadBufferLength = 38;
             }
             else
             {

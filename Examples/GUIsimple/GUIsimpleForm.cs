@@ -126,7 +126,7 @@ namespace GUIsimple
             {
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTCPConnection _modbusConnection = new ModbusTCPConnection(this._ipAddress);
-
+                _modbusConnection.CommunicationLog += Logger;
                 _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_modbusConnection, this._timerInterval, this.update);
 
             }
@@ -136,6 +136,7 @@ namespace GUIsimple
                 {
                     // Creating objects of JetBusConnection and WTXJet: 
                     JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
+                    _jetConnection.CommunicationLog += Logger;
 
                     _wtxDevice = new WTXJet(_jetConnection,update);
                 }
@@ -335,5 +336,13 @@ namespace GUIsimple
             }
         }
         #endregion
+
+        public void Logger(object sender, EventArgs e)
+        {
+            txtLog.BeginInvoke(new Action(() =>
+            {
+                txtLog.Text = txtLog.Text + ((LogEvent)e).Args + Environment.NewLine;
+            }));
+        }
     }
 }

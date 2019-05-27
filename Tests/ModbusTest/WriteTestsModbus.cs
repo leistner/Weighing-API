@@ -347,8 +347,6 @@ namespace Hbm.Weighing.API.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "ZeroMethodTestCases")]
         public void ZeroMethodTestModbus(Behavior behavior)
         {
-            int command = 0;
-
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
@@ -356,13 +354,11 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
             _wtxObj.Zero();
 
-            command = _wtxObj.GetCommand;
-
             if (behavior == Behavior.ZeroMethodTestSuccess)
-                Assert.AreEqual(0x40, command);
+                Assert.AreEqual(0x40, testConnection.GetCommand);
             else
                 if (behavior == Behavior.ZeroMethodTestFail)
-                Assert.AreEqual(0x00, command);
+                Assert.AreEqual(0x00, testConnection.GetCommand);
           
         }
         /*
@@ -423,10 +419,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
             _wtxObj.Tare();
 
             if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x1, _wtxObj.GetCommand);
+                Assert.AreEqual(0x1, testConnection.GetCommand);
             else
                 if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.GetCommand);
+                Assert.AreEqual(0x0, testConnection.GetCommand);
 
         }
 
@@ -452,10 +448,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
             _wtxObj.SetGross();
 
             if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x2, _wtxObj.GetCommand);
+                Assert.AreEqual(0x2, testConnection.GetCommand);
             else
                 if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.GetCommand);
+                Assert.AreEqual(0x0, testConnection.GetCommand);
         }
 
         // Test for method : Taring
@@ -470,10 +466,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
             _wtxObj.Tare();
 
             if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x1, _wtxObj.GetCommand);
+                Assert.AreEqual(0x1, testConnection.GetCommand);
             else
                 if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.GetCommand);
+                Assert.AreEqual(0x0, testConnection.GetCommand);
 
         }
         /*
@@ -489,10 +485,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
             _wtxObj.AdjustZeroSignal();
 
             if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x80, _wtxObj.GetCommand);
+                Assert.AreEqual(0x80, testConnection.GetCommand);
             else
                 if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.GetCommand);
+                Assert.AreEqual(0x0, testConnection.GetCommand);
         }
         */
         // Test for method : Adjusting nominal
@@ -507,10 +503,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
             _wtxObj.AdjustNominalSignal();
 
             if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x100, _wtxObj.GetCommand);
+                Assert.AreEqual(0x100, testConnection.GetCommand);
             else
                 if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.GetCommand);
+                Assert.AreEqual(0x0, testConnection.GetCommand);
         }
 
         // Test for method : Adjusting nominal
@@ -525,10 +521,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
             _wtxObj.ActivateData();
 
             if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x800, _wtxObj.GetCommand);
+                Assert.AreEqual(0x800, testConnection.GetCommand);
             else
                 if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.GetCommand);
+                Assert.AreEqual(0x0, testConnection.GetCommand);
         }
 
         // Test for method : Adjusting nominal
@@ -543,10 +539,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
             _wtxObj.TareManually(200.0); 
 
             if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x1000, _wtxObj.GetCommand);
+                Assert.AreEqual(0x1000, testConnection.GetCommand);
             else
                 if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.GetCommand);
+                Assert.AreEqual(0x0, testConnection.GetCommand);
         }
 
         // Test for method : Record weight
@@ -561,10 +557,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
             _wtxObj.RecordWeight();
 
             if (behavior == Behavior.TareMethodTestSuccess)
-                Assert.AreEqual(0x4000, _wtxObj.GetCommand);
+                Assert.AreEqual(0x4000, testConnection.GetCommand);
             else
                 if (behavior == Behavior.TareMethodTestFail)
-                Assert.AreEqual(0x0, _wtxObj.GetCommand);
+                Assert.AreEqual(0x0, testConnection.GetCommand);
         }
         
         // Test for method : Write an Array of type signed integer 32 bit. 
@@ -644,7 +640,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
             _wtxObj.ResetTimer(500);
 
-            return (int)_wtxObj._aTimer.Interval;
+            return (int)_wtxObj.ProcessDataIntervall;
             //Assert.AreEqual(_wtxObj._aTimer.Interval, 500);
         }
 

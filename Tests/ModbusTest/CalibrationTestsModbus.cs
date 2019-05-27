@@ -50,10 +50,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
                (testConnection.getArrElement2 == (Convert.ToInt32(dPreload) & 0x0000ffff)) &&
 
                 (testConnection.getArrElement3 == (Convert.ToInt32(dNominalLoad) & 0xffff0000) >> 16) &&
-                (testConnection.getArrElement4 == (Convert.ToInt32(dNominalLoad) & 0x0000ffff)) &&
-
-                WTXModbusObj.getDPreload == dPreload &&               
-                WTXModbusObj.getDNominalLoad == dNominalLoad
+                (testConnection.getArrElement4 == (Convert.ToInt32(dNominalLoad) & 0x0000ffff))
                )
             {
                 return true;

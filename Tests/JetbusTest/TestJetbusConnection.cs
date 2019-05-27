@@ -170,11 +170,11 @@ namespace Hbm.Weighing.API.WTX.Jet
             }
         }
 
-        public int Read(object index)
+        public string Read(object index)
         {
             try
             {
-                return Convert.ToInt32(ReadObj(index));
+                return ReadObj(index).ToString();
             }
             catch (FormatException)
             {
@@ -461,7 +461,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             }
         }
 
-        public void Write(object command, int data)
+        public bool Write(object command, int data)
         {
 
             JetBusCommand _command = (JetBusCommand)command;
@@ -480,6 +480,8 @@ namespace Hbm.Weighing.API.WTX.Jet
                 JValue valueObj = new JValue(data);
                 this.SetData(_command.PathIndex, valueObj);
             }
+
+            return true;
         }
 
         public JToken simulateJTokenInstance(string pathParam, string eventParam, int data)
@@ -513,7 +515,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             public int value { get; set; }
         }
 
-        public Task<ushort[]> ReadAsync(object commmand)
+        public Task<string> ReadAsync(object commmand)
         {
             throw new NotImplementedException();
         }

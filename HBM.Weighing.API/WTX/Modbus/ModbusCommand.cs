@@ -36,7 +36,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
 {
     public class ModbusCommand
     {
-        public ModbusCommand(DataType dataType, int register, IOType io , ApplicationMode app, int bitIndex, int bitLength)
+        public ModbusCommand(DataType dataType, ushort register, IOType io , ApplicationMode app, int bitIndex, int bitLength)
         {
             this.DataType  = dataType;
             this.Register  = register;
@@ -50,7 +50,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
         public DataType DataType { get; private set; }
 
-        public int Register { get; private set; }
+        public ushort Register { get; private set; }
 
         public IOType IO { get; private set; }
 
@@ -61,5 +61,51 @@ namespace Hbm.Weighing.API.WTX.Modbus
         public int BitLength { get; private set; }
 
         public string Path { get; private set; }
+
+        public int ToValue(ushort[] allRegisters)
+        {
+            ushort _bitMask = 0;
+            ushort _mask = 0;
+            int _value;
+
+            try
+            {
+                switch (DataType)
+                {
+                    case DataType.BIT:
+                        {
+                            switch (BitLength)
+                            {
+                                case 0: _bitMask = 0xFFFF; break;
+                                case 1: _bitMask = 1; break;
+                                case 2: _bitMask = 3; break;
+                                case 3: _bitMask = 7; break;
+                                default: _bitMask = 1; break;
+                            }
+                            _mask = (ushort)(_bitMask << BitIndex);
+                            _value = ((allRegisters[Register] & _mask) >> BitIndex);
+                            break;
+                        }
+
+                    case DataType.U32:
+                    case DataType.S32:
+                        _value = (allRegisters[Register] >> 16) + allRegisters[Register+1];
+                        break;
+
+                    case DataType.S16:
+                    case DataType.U16:
+                    case DataType.U08:
+                    default:
+                        _value = allRegisters[Register];
+                        break;
+
+                }
+            }
+            catch
+            {
+                _value = 0;
+            }
+            return _value;
+        }
     }
 }

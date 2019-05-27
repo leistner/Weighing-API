@@ -100,7 +100,6 @@ namespace Hbm.Weighing.API.Data
         #endregion
 
         #region constructor
-
         public DataStandardModbus(INetConnection Connection)
         {
             _connection = Connection;

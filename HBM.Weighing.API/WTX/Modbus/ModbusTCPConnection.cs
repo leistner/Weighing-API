@@ -31,6 +31,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net.Sockets;
     using System.Threading;
     using System.Threading.Tasks;
@@ -46,6 +47,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         private const int WTX_SLAVE_ADDRESS = 0;
         private const int WTX_REGISTER_START_ADDRESS = 0;
         private const int WTX_REGISTER_DATAWORD_COUNT = 38;
+        private const int WTX_REGISTER_EXECUTION_COMMANDS = 0;
 
         private IModbusMaster _master;
         private TcpClient _client;   
@@ -54,7 +56,6 @@ namespace Hbm.Weighing.API.WTX.Modbus
         #region ==================== events & delegates ====================
         public event EventHandler CommunicationLog;
         public event EventHandler<EventArgs> UpdateData;
-        //public event EventHandler<DataEventArgs> IncomingDataReceived;
         #endregion
                      
         #region =============== constructors & destructors =================
@@ -89,18 +90,14 @@ namespace Hbm.Weighing.API.WTX.Modbus
             try
             {
                 _client = new TcpClient(IpAddress, MODBUS_TCP_PORT);
-
                 var factory = new ModbusFactory();
                 _master = factory.CreateMaster(_client);
-
                 IsConnected = true;
-
                 CommunicationLog?.Invoke(this, new LogEvent("Connection successful"));
             }
             catch (Exception)
             {
-                IsConnected = false; // If the connection establishment has not been successful - connected=false. 
-
+                IsConnected = false;
                 CommunicationLog?.Invoke(this, new LogEvent("Connection failed"));
             }
         }
@@ -112,120 +109,97 @@ namespace Hbm.Weighing.API.WTX.Modbus
         {
             _client.Close();
             IsConnected = false;
+            CommunicationLog?.Invoke(this, new LogEvent("Disconnected"));
         }
 
-        public async Task<ushort[]> SyncData()
+        public ushort[] SyncData()
         {
-            ushort[] _data = new ushort[WTX_REGISTER_DATAWORD_COUNT];
-            _data = await _master.ReadHoldingRegistersAsync(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
-            ModbusRegistersToDictionary(_data);
-
-            // Update data in data classes
+            ushort[] _data = ReadModbusRegisters();
             this.UpdateData?.Invoke(this, new EventArgs());
-
             return _data;
         }
 
         /// <summary>
         /// Reads a single Modbus/TCP register 
         /// </summary>
-        /// <param name="index">Modbus/TCP register index for holding register</param>
+        /// <param name="command">Modbus/TCP register index for holding register</param>
         /// <returns>Register content</returns>
-        public int Read(object index)
+        public string Read(object command)
         {
             int _value = 0;
-            try
-            {
-                ushort[]_data = _master.ReadHoldingRegisters(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
+            ModbusCommand _command = (ModbusCommand)command;
+            ushort[]_data = ReadModbusRegisters();
+            _value = _command.ToValue(_data);
+            return _value.ToString();
+        }
 
-                CommunicationLog?.Invoke(this, new LogEvent("Read successful: 1 Registers has been read"));
-                       
-                _value =_data[Convert.ToInt16(index)];
-            }
-            catch (ArgumentException)
-            {
-                Console.WriteLine("\nNumber of points has to be between 1 and 125.\n");
-                _value = 0;
-            }
+        /// <summary>
+        /// Reads a single Modbus/TCP register 
+        /// </summary>
+        /// <param name="command">Modbus/TCP register index for holding register</param>
+        /// <returns>Register content</returns>
+        public int ReadInteger(object command)
+        {
+            int _value = 0;
+            ModbusCommand _command = (ModbusCommand)command;
+            ushort[] _data = ReadModbusRegisters();
+            _value = _command.ToValue(_data);
             return _value;
         }
 
-        public async Task<ushort[]> ReadAsync(object command)
+        public async Task<string> ReadAsync(object command)
         {
-            ushort[]_data = new ushort[WTX_REGISTER_DATAWORD_COUNT];
-            _data = await _master.ReadHoldingRegistersAsync(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
-            ModbusRegistersToDictionary(_data);
-
-            // Update data in data classes
+            int _value = 0;
+            ModbusCommand _command = (ModbusCommand)command;
+            ushort[] _data = await ReadModbusRegistersAsync();
+            _value = _command.ToValue(_data);
             this.UpdateData?.Invoke(this, new EventArgs());
-
-            return _data;
+            return _value.ToString();
         }
             
-        public void Write(object command, int value)
+        public bool Write(object command, int value)
         {
-            ModbusCommand _command = (ModbusCommand)command;
+            bool result = true;
 
+            ModbusCommand _command = (ModbusCommand)command;
             ushort[] _dataToWrite = new ushort[2];
-            ushort _register = Convert.ToUInt16(_command.Register);
 
             switch (_command.DataType)
             {
-                case DataType.U08:
-                    _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, _register, (ushort)value);
-                    break;
-
-                case DataType.S16:
-                case DataType.U16:
-                    _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
-                    _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-                    _master.WriteMultipleRegisters(WTX_SLAVE_ADDRESS, _register, _dataToWrite);
-                    break;
-
                 case DataType.U32:
                 case DataType.S32:
                     _dataToWrite[0] = (ushort)((value & 0xffff0000) >> 16);
                     _dataToWrite[1] = (ushort)(value & 0x0000ffff);
-                    _master.WriteMultipleRegisters(WTX_SLAVE_ADDRESS, _register, _dataToWrite);
+                    _master.WriteMultipleRegisters(WTX_SLAVE_ADDRESS, _command.Register, _dataToWrite);
                     break;
 
                 case DataType.BIT:
-                    _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, _register, (ushort)value);
+                case DataType.U08:
+                case DataType.S16:
+                case DataType.U16:
+                default:
+                    _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, _command.Register, (ushort)value);
                     break;
             }
 
-            if(_register == 0)
-                this.DoHandshake(_register);
+            if (_command.Register == WTX_REGISTER_EXECUTION_COMMANDS)
+            {
+                if (DoHandshake())
+                {
+                    CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " to " + value.ToString() + "successful"));
+                }
+                else
+                {
+                    CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " to " + value.ToString() + "error"));
+                    result = false;
+                }
+            }
+            else
+                CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " to " + value.ToString()));
 
-            CommunicationLog?.Invoke(this, new LogEvent("Data(ushort) have been written successfully to the register"));
+            return result;
         }
 
-        // This method writes a data word to the WTX120 device synchronously. 
-        private void DoHandshake(ushort register)
-        {
-            int dataWord = this.Read(5);
-
-            int handshakeBit = ((dataWord & 0x4000) >> 14);
-            // Handshake protocol as given in the manual:                            
-
-            while (handshakeBit == 0)
-            {
-                dataWord = this.Read(5);
-                handshakeBit = ((dataWord & 0x4000) >> 14);
-            }
-
-            // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
-            if (handshakeBit == 1)
-            {
-                _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, 0, 0x00);
-            }
-
-            while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
-            {
-                dataWord = this.Read(5);
-                handshakeBit = ((dataWord & 0x4000) >> 14);
-            }
-        }
 
         public async Task<int> WriteAsync(object command, int value)
         {
@@ -235,10 +209,30 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
             await _master.WriteSingleRegisterAsync(0, registerAddress, (ushort)value);
 
-            CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " successful"));
+            CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " to " + value.ToString()));
 
             return value;
         }
+        #endregion
+
+        #region =============== protected & private methods ================
+        /// This method writes a data word to the WTX120 device synchronously. 
+        private bool DoHandshake()
+        {        
+            while (ReadInteger(ModbusCommands.Handshake) == 0)
+            {
+                Thread.Sleep(50);
+            }
+           _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, WTX_REGISTER_EXECUTION_COMMANDS, 0);
+
+            while (ReadInteger(ModbusCommands.Handshake) == 1)
+            {
+                Thread.Sleep(50);
+            }
+
+            return (ReadInteger(ModbusCommands.Status) == 1);
+        }
+
                 
         public string ReadFromBuffer(object command)
         {
@@ -300,9 +294,24 @@ namespace Hbm.Weighing.API.WTX.Modbus
             {
                 AllData[i] = data[i];
             }
-        }               
-        #endregion
+        }   
+        
+        private async Task<ushort[]> ReadModbusRegistersAsync()
+        {
+            ushort[] _data = await _master.ReadHoldingRegistersAsync(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
+            ModbusRegistersToDictionary(_data);
+            CommunicationLog?.Invoke(this, new LogEvent("Read all: " + string.Join(",", _data.Select(x => x.ToString("X")).ToArray())));
+            return _data;
+        }
 
+        private ushort[] ReadModbusRegisters()
+        {
+            ushort[] _data = _master.ReadHoldingRegisters(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
+            ModbusRegistersToDictionary(_data);
+            CommunicationLog?.Invoke(this, new LogEvent("Read all: " + string.Join(",", _data.Select(x => x.ToString("X")).ToArray())));
+            return _data;
+        }
+        #endregion
     }
 }
 

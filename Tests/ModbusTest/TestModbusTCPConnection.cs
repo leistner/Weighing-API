@@ -365,7 +365,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         }
 
 
-        public int Read(object index)
+        public string Read(object index)
         {
             switch (this.behavior)
             {
@@ -504,7 +504,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
             // Updata data in data classes : 
             this.UpdateData?.Invoke(this, new EventArgs());
 
-            return _dataWTX[Convert.ToInt16(index)];
+            return _dataWTX[Convert.ToInt16(index)].ToString();
         }
 
         public int GetCommand
@@ -516,31 +516,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
         // This method writes a data word to the WTX120 device synchronously. 
         private void DoHandshake(ushort register)
         {
-            int dataWord = this.Read(5);
-
-            int handshakeBit = ((dataWord & 0x4000) >> 14);
-            // Handshake protocol as given in the manual:                            
-
-            while (handshakeBit == 0)
-            {
-                dataWord = this.Read(5);
-                handshakeBit = ((dataWord & 0x4000) >> 14);
-            }
-
-            // (2) If the handshake bit is equal to 0, the command has to be set to 0x00.
-            if (handshakeBit == 1)
-            {
-                this.Write(ModbusCommands.Control_word_ResetHandshake, 0x00);
-            }
-
-            while (handshakeBit == 1) // Before : 'this.status == 1' additionally in the while condition. 
-            {
-                dataWord = this.Read(5);
-                handshakeBit = ((dataWord & 0x4000) >> 14);
-            }
+        
         }
 
-        public void Write(object command, int data)
+        public bool Write(object command, int data)
         {
             ModbusCommand _command = (ModbusCommand)command;
 
@@ -816,7 +795,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
                     this.command = 0;
                     break;
             }
-
+            return true;
         }
 
         public void WriteArray(string index, int value)
@@ -1089,7 +1068,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
             return _dataWTX;
         }
 
-        public async Task<ushort[]> ReadAsync(object index)
+        public async Task<string> ReadAsync(object index)
         {
             ushort[] value = new ushort[1];
             await Task.Run(async () =>
@@ -1316,7 +1295,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
             // Update data in data classes : 
             this.UpdateData?.Invoke(this, new EventArgs());
 
-            return _dataWTX;
+            return _dataWTX.ToString();
         }
 
         public async Task<int> WriteAsync(object command, int value)
@@ -1483,6 +1462,5 @@ namespace Hbm.Weighing.API.WTX.Modbus
         {
             get { return ConnectionType.Modbus; }
         }
-        //public Dictionary<string, JToken> getDataBuffer => throw new NotImplementedException();
     }
 }

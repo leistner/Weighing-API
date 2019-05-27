@@ -60,7 +60,6 @@ namespace Hbm.Weighing.API.WTX.Jet
         private string _password;
         private string _user;
         private int _timeoutMs;
-        private int _callbackTokenValue;
         private byte[] CertificateToByteArray()
         {
             const string input =
@@ -110,7 +109,6 @@ namespace Hbm.Weighing.API.WTX.Jet
             this._user = user;
             this._password = password;
             this.IpAddress = iPAddress;
-            this._callbackTokenValue = 0; 
         }
 
         /// <summary>
@@ -157,87 +155,35 @@ namespace Hbm.Weighing.API.WTX.Jet
             this.IsConnected = false;
         }
         
-        public int Read(object command)
+        public string Read(object command)
         {
-            JetBusCommand _command = (JetBusCommand)command;
-
-            try
-            {
-                Matcher id = new Matcher();
-                id.EqualsTo = _command.PathIndex;
-                JObject request = _peer.Get(id, OnGet, this._timeoutMs);
-                WaitOne(2);
-                return _callbackTokenValue;
-            }
-            catch (FormatException)
-            {
-                throw new FormatException("Invalid data format");
-            }
+            return ReadFromBuffer(command);
         }
 
-        public Task<ushort[]> ReadAsync(object command)
+        public Task<string> ReadAsync(object command)
         {
             throw new NotImplementedException();
         }
 
         public string ReadFromBuffer(object command)
         {
-            ushort _bitMask = 0;
-            ushort _mask = 0;
-            string _value = "";
-
-            try
-            {
-                JetBusCommand jetcommand = (JetBusCommand)command;
-                switch (jetcommand.DataType)
-                {
-                    case DataType.BIT:
-                        {
-                            switch (jetcommand.BitLength)
-                            {
-                                case 0: _bitMask = 0xFFFF; break;
-                                case 1: _bitMask = 1; break; // = 001
-                                case 2: _bitMask = 3; break; // = 011
-                                case 3: _bitMask = 7; break; // = 111
-                                default: _bitMask = 1; break;
-                            }
-                            _mask = (ushort)(_bitMask << jetcommand.BitIndex);
-
-                            _value = (((ushort)Convert.ToUInt16(AllData[jetcommand.PathIndex]) & _mask) >> jetcommand.BitIndex).ToString();
-                            break;
-                        }
-
-                    default:
-                        {
-                            _value = AllData[jetcommand.PathIndex];
-                            break;
-                        }
-                }
-            }
-            catch
-            {
-                _value = "0";
-            }
-            return _value;
+            JetBusCommand jetcommand = (JetBusCommand)command;
+            return jetcommand.ToValue(AllData[jetcommand.PathIndex]);
         }
 
-        public void Write(object command, int value)
+        public bool Write(object command, int value)
         {
             JValue jValue = new JValue(value);
             JetBusCommand _command = (JetBusCommand)command;
             SetData(_command.PathIndex, jValue);
+            return true; //DDD
         }
 
         public Task<int> WriteAsync(object command, int commandParam)
         {
             throw new NotImplementedException();
         }
-
-        /// This code added to correctly implement the disposable pattern.
-        /// 
-
-
-            
+              
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
@@ -261,6 +207,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             if (connected)
             {
                 _peer.Authenticate(_user, _password, OnAuthenticateFetchAll, _timeoutMs);
+                CommunicationLog?.Invoke(this, new LogEvent("Connection successful"));
             }
             else
             {
@@ -273,6 +220,7 @@ namespace Hbm.Weighing.API.WTX.Jet
         {
             if (authenticationSuccess)
             {
+                CommunicationLog?.Invoke(this, new LogEvent("Athentication successful"));
                 FetchAll();
             }
             else
@@ -287,9 +235,7 @@ namespace Hbm.Weighing.API.WTX.Jet
         {
             Matcher matcher = new Matcher();
             FetchId id;
-            _peer.Fetch(out id, matcher, OnFetchData, OnFetch, this._timeoutMs);                                 
-
-            CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: Buffersize is " + AllData.Count));
+            _peer.Fetch(out id, matcher, OnFetchData, OnFetch, this._timeoutMs);                      
         }
 
         private void OnFetch(bool success, JToken token)
@@ -305,7 +251,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             }
             _mSuccessEvent.Set();
                         
-            CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + AllData.Count));
+            CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - Buffer size is " + AllData.Count));
         }
                
 
@@ -313,11 +259,12 @@ namespace Hbm.Weighing.API.WTX.Jet
         {
             if (!_mSuccessEvent.WaitOne(_timeoutMs * timeoutMultiplier))
             {
-                throw new Exception("Jet interface timeout");
+                throw new Exception("Jet connection timeout");
             }
                      
             if (_mException != null)
             {
+                CommunicationLog?.Invoke(this, new LogEvent(_mException.Message));
                 Exception exception = _mException;
                 _mException = null;
                 throw exception;
@@ -355,20 +302,6 @@ namespace Hbm.Weighing.API.WTX.Jet
                     this.UpdateData?.Invoke(this, new EventArgs());
                 }
                 CommunicationLog?.Invoke(this, new LogEvent(data.ToString()));
-            }
-        }
-
-        private void OnGet(bool success, JToken token)
-        {
-            if (!success)
-            {
-                JetBusException exception = new JetBusException(token);
-                _mException = new Exception(exception.ErrorCode.ToString());
-            }
-            else
-            {
-                this._callbackTokenValue = Convert.ToInt32(token["result"].Last.Value<string>("value"));
-                CommunicationLog?.Invoke(this, new LogEvent("Get data" + success + "Value: " + this._callbackTokenValue.ToString()));
             }
         }
                
