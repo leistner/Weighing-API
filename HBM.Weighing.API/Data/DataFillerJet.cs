@@ -175,7 +175,7 @@ namespace Hbm.Weighing.API.Data
                     _fineFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_monitoring_time));
 
                     _systematicDifference = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Systematic_difference));
-                    _valveControl = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Valve_control));
+                    _valveControl = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.VCTValveControl));
                     _emptyingMode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Emptying_mode));
                     _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Delay1_dosing));
                     _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_phase_before_coarse_flow));
@@ -391,7 +391,7 @@ namespace Hbm.Weighing.API.Data
         public int ValveControl  // Type : unsigned integer 8 Bit
         {
             get { return _valveControl; }
-            set { _connection.Write(JetBusCommands.Valve_control, value);
+            set { _connection.Write(JetBusCommands.VCTValveControl, value);
                 this._valveControl = value; }
         }
     

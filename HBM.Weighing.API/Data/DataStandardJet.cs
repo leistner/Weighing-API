@@ -342,7 +342,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1Source; }
             set
             {
-                  _connection.Write(JetBusCommands.Tare_value, value);
+                  _connection.Write(JetBusCommands.TareValue, value);
                   _manualTareValue = value;
             }
         }
@@ -523,7 +523,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch4ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(JetBusCommands.Lft_scale_calibration_weight, value);
+                _connection.Write(JetBusCommands.CalibrationWeight, value);
                 _calibrationWeight = value;
             }
         }
@@ -532,7 +532,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch4HysteresisBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.Ldw_dead_weight, value);
+                _connection.Write(JetBusCommands.LDWZeroValue, value);
                 _zeroLoad = value;
             }
         }
@@ -541,7 +541,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(JetBusCommands.Lwt_nominal_value, value);
+                _connection.Write(JetBusCommands.LWTNominalValue, value);
                 _nominalLoad = value;
             }
         }
