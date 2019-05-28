@@ -638,9 +638,9 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ResetTimer(500);
+            _wtxObj.ProcessDataInterval = 500;
 
-            return (int)_wtxObj.ProcessDataIntervall;
+            return (int)_wtxObj.ProcessDataInterval;
             //Assert.AreEqual(_wtxObj._aTimer.Interval, 500);
         }
 

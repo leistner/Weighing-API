@@ -31,6 +31,7 @@
 namespace Hbm.Weighing.API
 {
     using System;
+    using System.Threading;
     using Hbm.Weighing.API.Data;
 
     /// <summary>
@@ -40,21 +41,26 @@ namespace Hbm.Weighing.API
     /// </summary>
     public abstract class BaseWTDevice
     {
-        #region ==================== events & delegates ====================
-        /// <summary>
-        /// Event handler to raise an event whenever new process data from the device is available
-        /// </summary>
-        public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
-        #endregion
-        
+
+        protected Timer _processDataTimer;
+        private int _processDataInterval = 500;
+
         #region =============== constructors & destructors =================
         /// <summary>
         /// Initializes a new instance of the <see cref="BaseWTDevice" /> class.
         /// </summary>
         /// <param name="connection">Target connection of the device</param>
-        public BaseWTDevice(INetConnection connection) : base()
+        public BaseWTDevice(INetConnection connection, int timerIntervalms)
         {
             this.Connection = connection;
+            _processDataInterval = timerIntervalms;
+            _processDataTimer = new Timer(ProcessDataUpdateTick, null, Timeout.Infinite, Timeout.Infinite);
+        }
+
+        public BaseWTDevice(INetConnection connection)
+        {            this.Connection = connection;
+            _processDataInterval = 500;
+            _processDataTimer = new Timer(ProcessDataUpdateTick, null, Timeout.Infinite, Timeout.Infinite);
         }
         #endregion
 
@@ -94,6 +100,23 @@ namespace Hbm.Weighing.API
         /// Gets the type of the connection (e.g. "JET" or "Modbus")
         /// </summary>
         public abstract string ConnectionType { get; }
+
+        /// <summary>
+        /// Gets or sets the interval for updating process data
+        /// </summary>
+        public int ProcessDataInterval
+        {
+            get
+            {
+                return _processDataInterval;
+            }
+
+            set
+            {
+                _processDataInterval = value;
+                Restart();
+            }
+        }
 
         /// <summary>
         /// Gets the current weight of the device depending as double
@@ -174,16 +197,6 @@ namespace Hbm.Weighing.API
         public abstract void Disconnect(Action<bool> disconnectCompleted);
                
         /// <summary>
-        /// Stop update process data
-        /// </summary>
-        public abstract void Stop();
-
-        /// <summary>
-        /// Restart updating process data
-        /// </summary>
-        public abstract void Restart();
-
-        /// <summary>
         /// Sets the the device to gross
         /// </summary>
         public abstract void SetGross();
@@ -232,6 +245,28 @@ namespace Hbm.Weighing.API
         /// <param name="scaleCapacity">Scale capacity for calculating the adjustment</param>
         public abstract void CalculateAdjustment(double scaleZeroSingal, double scaleCapacity);
 
+
+        /// <summary>
+        /// Stop update process data
+        /// </summary>
+        public void Stop()
+        {
+            _processDataTimer.Change(Timeout.Infinite, Timeout.Infinite);
+        }
+        
+        /// <summary>
+        /// Restart updating process data
+        /// </summary>        
+        public void Restart()
+        {
+            _processDataTimer.Change(_processDataInterval, _processDataInterval);
+        }
+
+        /// <summary>
+        /// Tcik for the PreocessData timer
+        /// </summary>
+        /// <param name="info">Unused info for timer</param>
+        protected abstract void ProcessDataUpdateTick(object info);
         #endregion
     }
 }

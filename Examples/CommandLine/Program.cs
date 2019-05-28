@@ -156,7 +156,7 @@ namespace WTXModbus
                     // Creating objects of JetBusConnection and WTXJet: 
                     JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
 
-                    _wtxDevice = new WTXJet(_jetConnection,Update);
+                    _wtxDevice = new WTXJet(_jetConnection,500, Update);
                 }
             }
 
@@ -255,8 +255,6 @@ namespace WTXModbus
 
                         // Change connection from Modbus to Jetbus: 
                         case 'j':
-                            _wtxDevice.ProcessDataReceived -= Update;   // Delete Callback method 'Update' from the Eventhandler 'DataUpdateEvent'.
-
                             mode = "Jetbus";
 
                             if (_wtxDevice != null)    // Necessary to check if the object of BaseWtDevice have been created and a connection exists. 
@@ -266,9 +264,7 @@ namespace WTXModbus
                             }
 
                             Thread.Sleep(WAIT_DISCONNECT);     // Wait for 2 seconds till the disconnection request is finished. 
-
                             InitializeConnection();
-                            _wtxDevice.ProcessDataReceived += Update;   // To get updated values from the WTX, use method Update(..). 
                             break;
 
 
@@ -300,11 +296,8 @@ namespace WTXModbus
                             break;
                         // Change connection from Jetbus to Modbus: 
                         case 'j':
-                           
-                            _wtxDevice.ProcessDataReceived -= Update;   // Delete Callback method 'Update' from the Eventhandler 'DataUpdateEvent'.
 
                             mode = "Modbus";
-
                             if (_wtxDevice != null)    // Necessary to check if the object of BaseWtDevice have been created and a connection exists. 
                             {
                                 _wtxDevice.Connection.Disconnect();
@@ -314,7 +307,6 @@ namespace WTXModbus
                             Thread.Sleep(WAIT_DISCONNECT);     // Wait for 2 seconds till the disconnection request is finished. 
 
                             InitializeConnection();
-                            _wtxDevice.ProcessDataReceived += Update;   // To get updated values from the WTX, use method Update(..). 
                             break;
 
                         default: break;

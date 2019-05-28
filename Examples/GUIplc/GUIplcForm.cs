@@ -964,7 +964,7 @@ namespace GUIplc
                 _wtxDevice.Disconnect();
 
                 JetBusConnection _connection = new JetBusConnection(_ipAddress);
-                _wtxDevice = new WTXJet(_connection, update);
+                _wtxDevice = new WTXJet(_connection, 500, update);
 
                 _wtxDevice.Connect(5000);
 

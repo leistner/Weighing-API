@@ -204,7 +204,6 @@ namespace Hbm.Weighing.API.WTX.Modbus
             await Task.Run(async () =>
             {
                 ushort[] _data = await testConnection.SyncData();
-                _wtxObj.OnData(_data);
             });
 
             string strValue = _wtxObj.PrintableWeight.Net;
@@ -227,7 +226,6 @@ namespace Hbm.Weighing.API.WTX.Modbus
             await Task.Run(async () =>
             {
                 ushort[] _data = await testConnection.SyncData();
-                _wtxObj.OnData(_data);
             });
 
 
@@ -245,7 +243,6 @@ namespace Hbm.Weighing.API.WTX.Modbus
             await Task.Run(async () =>
             {
                 ushort[] _data = await testConnection.SyncData();
-                _wtxObj.OnData(_data);
             });
 
             return _wtxObj.WeightMovingStringComment();

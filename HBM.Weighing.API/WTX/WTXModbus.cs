@@ -30,11 +30,10 @@
 
 namespace Hbm.Weighing.API.WTX
 {
+    using System;
     using Hbm.Weighing.API.Data;
     using Hbm.Weighing.API.Utils;
     using Hbm.Weighing.API.WTX.Modbus;
-    using System;
-    using System.Timers;
 
     /// <summary>
     /// This class handles the data from ModbusTcpConnection for IProcessData. 
@@ -43,33 +42,30 @@ namespace Hbm.Weighing.API.WTX
     /// </summary>
     public class WTXModbus : BaseWTDevice
     {
-
         #region ==================== constants & fields ====================        
-        private System.Timers.Timer _aTimer;
         private int _manualTareValue;
         #endregion
 
         #region ==================== events & delegates ====================
-        public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        /// <summary>
+        /// Event handler to raise an event whenever new process data from the device is available
+        /// </summary>
+        public event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
         #endregion
 
         #region =============== constructors & destructors =================
         /// <summary>
-        /// Init  
+        /// Initializes a new instance of the <see cref="WTXJet" /> class.
         /// </summary>
-        /// <param name="connection"></param>
-        public WTXModbus(INetConnection connection, int timerIntervalms, EventHandler<ProcessDataReceivedEventArgs> OnProcessData) : base(connection)
+        /// <param name="connection">Inject connection (e.g. JetBusConnection)</param>
+        /// <param name="onProcessData">This event is automatically called when new ProcessData is available</param>
+        public WTXModbus(INetConnection connection, int timerIntervalms, EventHandler<ProcessDataReceivedEventArgs> onProcessData)
+            : base(connection, timerIntervalms)
         {
-            this.Connection = connection;
-
-            this.ProcessDataReceived += OnProcessData;
-
             ProcessData = new ProcessDataModbus(base.Connection);
             DataStandard = new DataStandardModbus(base.Connection);
             DataFiller = new DataFillerModbus(base.Connection);
-
-            // For the connection and initializing of the timer:            
-            this.InitializeTimer(timerIntervalms);
+            ProcessDataReceived += onProcessData;
         }
 
         /// <summary>
@@ -78,8 +74,6 @@ namespace Hbm.Weighing.API.WTX
         /// <param name="connection"></param>
         public WTXModbus(INetConnection connection) : base(connection)
         {
-            this.Connection = connection;
-
             ProcessData = new ProcessDataModbus(base.Connection);
             DataStandard = new DataStandardModbus(base.Connection);
             DataFiller = new DataFillerModbus(base.Connection);
@@ -87,6 +81,7 @@ namespace Hbm.Weighing.API.WTX
         #endregion
 
         #region ======================== properties ========================
+        /// <inheritdoc />
         public override bool IsConnected
         {
             get
@@ -94,6 +89,8 @@ namespace Hbm.Weighing.API.WTX
                 return Connection.IsConnected;
             }
         }
+
+        /// <inheritdoc />
         public override string ConnectionType
         {
             get
@@ -101,8 +98,7 @@ namespace Hbm.Weighing.API.WTX
                 return "Modbus";
             }
         }
-        public int ProcessDataIntervall {get; private set;}
-
+        
         #endregion
 
 
@@ -132,71 +128,19 @@ namespace Hbm.Weighing.API.WTX
         }
         #endregion
 
-
-        #region Timer methods
-        // This methods sets the interval value of the timer. 
-        public void ResetTimer(int timerIntervalms)
+        protected override void ProcessDataUpdateTick(object info)
         {
-            this._aTimer.Enabled = false;
-            this._aTimer.Stop();
-            this.InitializeTimer(timerIntervalms);
-        }
-
-        // This method initializes the with the timer interval as a parameter: 
-        public void InitializeTimer(int timerIntervalms)
-        {
-            ProcessDataIntervall = timerIntervalms;
-            _aTimer = new System.Timers.Timer(timerIntervalms);
-            _aTimer.Elapsed += OnTimedEvent;
-            _aTimer.AutoReset = true;
-            _aTimer.Enabled = true;
-            _aTimer.Start();
-        }
-
-        /*
-        * This method stops the timer, for example in case for the calibration.
-        */
-        public override void Stop()
-        {
-            _aTimer.Elapsed -= OnTimedEvent;
-            _aTimer.Enabled = false;
-            _aTimer.Stop();
-        }
-
-        /*
-         * This method restarts the timer, for example in case for the calibration.
-         */
-        public override void Restart()
-        {
-            _aTimer.Elapsed += OnTimedEvent;
-            _aTimer.Enabled = true;
-            _aTimer.Start();
-        }
-
-        // Event method, which will be triggered after a interval of the timer is elapsed- 
-        // After triggering (after 500ms) the register is read. 
-        public void OnTimedEvent(Object source, ElapsedEventArgs e)
-        {   
+            Stop();
             if (IsConnected)
             {
-                OnData(((ModbusTCPConnection)Connection).SyncData());
+                ((ModbusTCPConnection)Connection).SyncData();
+                ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
             }
-        }
-        #endregion
 
-        #region Asynchronous process data callback
-        /// <summary>
-        /// Called whenever new device data is available 
-        /// </summary>
-        /// <param name="_data"></param>
-        public void OnData(ushort[] _data)
-        {
-            this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));   
+            Restart();
         }
-        #endregion
 
         #region Comment methods
-
         public string WeightMovingStringComment()
         {
             if (ProcessData.WeightStable)

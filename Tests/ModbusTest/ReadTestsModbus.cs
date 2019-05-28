@@ -102,7 +102,6 @@ namespace Hbm.Weighing.API.WTX.Modbus
             await Task.Run(async () =>
             {
                 ushort[] _data = await testConnection.SyncData();
-                _wtxDevice.OnData(_data);
             });
 
             _testValue = (ushort)_wtxDevice.ProcessData.Weight.Net;

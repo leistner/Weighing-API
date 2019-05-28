@@ -138,7 +138,7 @@ namespace GUIsimple
                     JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
                     _jetConnection.CommunicationLog += Logger;
 
-                    _wtxDevice = new WTXJet(_jetConnection,update);
+                    _wtxDevice = new WTXJet(_jetConnection,500, update);
                 }
             }
 
@@ -271,7 +271,7 @@ namespace GUIsimple
                 _wtxDevice.Disconnect();
 
                 JetBusConnection _connection = new JetBusConnection(_ipAddress);
-                _wtxDevice = new WTXJet(_connection, update);
+                _wtxDevice = new WTXJet(_connection, 500, update);
 
                 _wtxDevice.Connect(5000);
 

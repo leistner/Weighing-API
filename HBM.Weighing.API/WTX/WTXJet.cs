@@ -61,12 +61,13 @@ namespace Hbm.Weighing.API.WTX
         private int _calibrationWeight;
         private int _zeroLoad;
         private int _nominalLoad;
-        private Timer _externalUpdateTimer;
-        private int _externalUpdateTimerInterval = 500;
         #endregion
-
+        
         #region ==================== events & delegates ====================
-        public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        /// <summary>
+        /// Event handler to raise an event whenever new process data from the device is available
+        /// </summary>
+        public event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
 
         /// <summary>
         /// Asynchronous callback for process data
@@ -75,18 +76,22 @@ namespace Hbm.Weighing.API.WTX
         /// <param name="e">DataEventArgs containing data dictionary</param>
         public void OnData(object sender, DataEventArgs e)
         {
-            this.ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
+            ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
         }
         #endregion
 
         #region =============== constructors & destructors =================
-        public WTXJet(INetConnection connection, EventHandler<ProcessDataReceivedEventArgs> onProcessData) : base(connection)
-        {
-            this.Connection = connection;            
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WTXJet" /> class.
+        /// </summary>
+        /// <param name="connection">Inject connection (e.g. JetBusConnection)</param>
+        /// <param name="onProcessData">This event is automatically called when new ProcessData is available</param>
+        public WTXJet(INetConnection connection, int timerIntervalms, EventHandler<ProcessDataReceivedEventArgs> onProcessData) 
+            : base(connection, timerIntervalms)
+        {          
             ProcessData = new ProcessDataJet(Connection);
             DataStandard = new DataStandardJet(Connection);
             DataFiller = new DataFillerExtendedJet(Connection);
-            _externalUpdateTimer = new Timer(ExternalUpdateTick, null, Timeout.Infinite, Timeout.Infinite);
             ProcessDataReceived += onProcessData;
         }
         #endregion
@@ -115,7 +120,7 @@ namespace Hbm.Weighing.API.WTX
                 return Connection.IsConnected;
             }
         }
-
+        
         /// <summary>
         /// Gets the weight type containing gross, net and tare value in double
         /// </summary>
@@ -246,73 +251,63 @@ namespace Hbm.Weighing.API.WTX
         #endregion
 
         #region ================ public & internal methods ================= 
+        /// <inheritdoc />
         public override void Connect(double timeoutMs = 20000)
         {
             Connection.Connect();
-            _externalUpdateTimer.Change(0, _externalUpdateTimerInterval);
+            _processDataTimer.Change(0, ProcessDataInterval);
         }
-
+        
+        /// <inheritdoc />
         public override void Connect(Action<bool> completed, double timeoutMs)
         {
             Connection.Connect();
-            _externalUpdateTimer.Change(0, _externalUpdateTimerInterval);
+            _processDataTimer.Change(0, ProcessDataInterval);
         }
 
+        /// <inheritdoc />
         public override void Disconnect(Action<bool> disconnectCompleted)
         {
             Connection.Disconnect();
         }
 
+        /// <inheritdoc />
         public override void Disconnect()
         {
             Connection.Disconnect();
         }
-        /// <summary>
-        /// Zeros the device
-        /// </summary>
+        
+        /// <inheritdoc />
         public override void Zero()
         {
             Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_ZERO);
         }
-
-        /// <summary>
-        /// Switches the device to gross value
-        /// </summary>
+        
+        /// <inheritdoc />
         public override void SetGross()
         {
             Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_SET_GROSS);
         }
-
-        /// <summary>
-        /// Tares the device automatically
-        /// </summary>
+        
+        /// <inheritdoc />
         public override void Tare()
         {
             Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_TARE);
         }
-
-        /// <summary>
-        /// Tares the device manually 
-        /// </summary>
-        /// <param name="manualTareValue">manual tare value</param>
+        
+        /// <inheritdoc />
         public override void TareManually(double manualTareValue)
         {
             Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_TARE);
         }
-
-        /// <summary>
-        /// Records the weight of the device
-        /// </summary>
+        
+        /// <inheritdoc />
         public override void RecordWeight()
         {
             Connection.Write(JetBusCommands.RecordWeight, SCALE_COMMAND_TARE);
         }
-        
-        /// <summary>
-        /// Calculates the values for zero load and nominal load in d from the input in mV/V and writes it to the device
-        /// </summary>
-        /// <param name="scaleZeroLoad_mVV">Scale zero value in mV/V</param>
-        /// <param name="scaleCapacity_mVV">Scale capacity value in mV/V. The new nominal value is the addition of zero value and scale capacity</param>
+                
+        /// <inheritdoc />
         public override void CalculateAdjustment(double scaleZeroLoad_mVV, double scaleCapacity_mVV)
         {
             int scalZeroLoad_d;
@@ -325,10 +320,7 @@ namespace Hbm.Weighing.API.WTX
             Connection.Write(JetBusCommands.LWTNominalValue, Convert.ToInt32(scaleCapacity_d)); 
         }
 
-        /// <summary>
-        /// Sets a zero value to the device and checks if the command has been set successfully
-        /// </summary>
-        /// <returns>Command result</returns>
+        /// <inheritdoc />
         public override bool AdjustZeroSignal()
         {
             Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_CALIBRATE_ZERO); 
@@ -350,11 +342,8 @@ namespace Hbm.Weighing.API.WTX
             
             return false;
         }
-
-        /// <summary>
-        /// Sets a nominal value to the device and checks if the command has been set successfully
-        /// </summary>
-        /// <returns>Command result</returns>
+        
+        /// <inheritdoc />
         public override bool AdjustNominalSignal()
         {
             Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
@@ -376,12 +365,8 @@ namespace Hbm.Weighing.API.WTX
 
             return false;
         }
-
-        /// <summary>
-        /// Adjusts the  device with a calibration weight
-        /// </summary>
-        /// <param name="calibrationWeight">The calibration weight for adjusting the scale</param>
-        /// <returns>Command result</returns>
+        
+        /// <inheritdoc />
         public override bool AdjustNominalSignalWithCalibrationWeight(double calibrationWeight)
         {
             Connection.Write(JetBusCommands.CalibrationWeight, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));
@@ -405,26 +390,8 @@ namespace Hbm.Weighing.API.WTX
 
             return false;
         }
-
-        /// <summary>
-        /// Stops the process data transfer
-        /// </summary>
-        public override void Stop()
-        {
-            _externalUpdateTimer.Change(Timeout.Infinite, Timeout.Infinite);
-        }
-
-        /// <summary>
-        /// Restarts the process data transfer
-        /// </summary>
-        public override void Restart()
-        {
-            _externalUpdateTimer.Change(_externalUpdateTimerInterval, _externalUpdateTimerInterval);
-        }
-        #endregion
-
-        #region =============== protected & private methods ================
-        private void ExternalUpdateTick(object info)
+        
+        protected override void ProcessDataUpdateTick(object info)
         {
             Stop();
             if (IsConnected)
