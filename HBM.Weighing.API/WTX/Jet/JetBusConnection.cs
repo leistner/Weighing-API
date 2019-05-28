@@ -42,52 +42,26 @@ namespace Hbm.Weighing.API.WTX.Jet
 
     /// <summary>
     /// Use this class to handle a connection via Ethernet.
-    /// This class establishs the communication to your WTX device, starts/ends the connection,
-    /// read and write the register and shows the status of the connection and closes the connection to the device.
-    /// It works by subscribing a path for the data of the WTX device. By referencing the path/index in the method Read(index)
-    /// it returns a JToken object containing all information about the index.
-    /// Once a value changes an event is triggered and the data is send via WtxJet to the data classes(ProcessData or 
-    /// DataStandard/DataFiller/DataFillerExtended), thus it can be called by the application. 
+    /// This class establishes the communication to your WTX device, starts/ends the connection,
+    /// receives and stores new data or writes new data.
     /// </summary>
     public class JetBusConnection : INetConnection, IDisposable
     {
         #region ==================== constants & fields ====================
-        const string STD_WTX_AUTHENTICATION_USER = "Administrator";
-        const string STD_WTX_AUTHENTICATION_PASSWORD = "wtx";
-        protected JetPeer _peer;
-        private AutoResetEvent _mSuccessEvent = new AutoResetEvent(false);
-        private Exception _mException = null;
+        private const string STD_WTX_AUTHENTICATION_USER = "Administrator";
+        private const string STD_WTX_AUTHENTICATION_PASSWORD = "wtx";
+        private JetPeer _peer;
+        private AutoResetEvent _successEvent = new AutoResetEvent(false);
+        private Exception _localException = null;
         private string _password;
         private string _user;
         private int _timeoutMs;
-        private byte[] CertificateToByteArray()
-        {
-            const string input =
-
-                "MIIECzCCAvOgAwIBAgIJAPTJN5RGpzbRMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJERTELMAkGA1UECAw" +
-                "CSEUxEjAQBgNVBAcMCURhcm1zdGFkdDErMCkGA1UECgwiSG90dGluZ2VyIEJhbGR3aW4gTWVzc3RlY2huaWsgR21iSDELMAkGA1UECwwCV" +
-                "1QxFDASBgNVBAMMC3d3dy5oYm0uY29tMRswGQYJKoZIhvcNAQkBFgxpbmZvQGhibS5jb20wHhcNMTcwNDA2MTU1NzQzWhcNMjcwNDA0MTU1N" +
-                "zQzWjCBmzELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkhFMRIwEAYDVQQHDAlEYXJtc3RhZHQxKzApBgNVBAoMIkhvdHRpbmdlciBCYWxkd2luIE1" +
-                "lc3N0ZWNobmlrIEdtYkgxCzAJBgNVBAsMAldUMRQwEgYDVQQDDAt3d3cuaGJtLmNvbTEbMBkGCSqGSIb3DQEJARYMaW5mb0BoYm0uY29tMIIBIjA" +
-                "NBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr + 51SnSoQX1M3aOUwaD8dcFIoac9peaiRsIOUqwJGn58g + n53aevw54sFyvffcJnzZVAFEP" +
-                "Ech1oQCNowsNDnNr4UL / NaO4C4GsJX5bmdia6nGj7IWLMeQzs + 0gfqPWmO / OsJVnwrp9h6 / SxuIz5n04l7ESupSBnXfifb9RGA0encHt" +
-                "ZK0LxHRD9sxyhNYKDKW76hgDK / EZ5HU2YjKS0y58 + PU15AV + vQ5srJFMC + KNHveWF4xgj528r3C25FWpVtW5Dqd937OrSAS5truGxPBz" +
-                "enWx3PHw6zRPvBbOApTNWLfbcp90mF8 / 9wFi94PG + EokaYSoF0xyT2G6fAVs3qQIDAQABo1AwTjAdBgNVHQ4EFgQUZC39SAkffhRee1x / 7" +
-                "TbnrQJQ / jMwHwYDVR0jBBgwFoAUZC39SAkffhRee1x / 7TbnrQJQ / jMwDAYDVR0TBAUwAwEB / zANBgkqhkiG9w0BAQUFAAOCAQEACRI28" +
-                "UaB6KNtDVee + waz + SfNd3tm / RspwRarJBlf9dcbpcxolvp9UxCoWkyf9hkmJPEyJzJltuan08DkqmschD36saOJcVRh6BfLNBD8DkFTavP" +
-                "0Q2BKb8FvJpdacNTRK542sJHSk5gr6imwnD5EAj + OT24UpH5rwq5Esu5TYFLdSuYfRXw6puTION / fqqTKVK9Au0TdFPgZ4Fppym4fInQ0jJQ" +
-                "hcGSWMs3yomPqftwitRwv5 / p8hLtf3yNIkk9OnBwPpT7QxXxw4Zs0Jvl / VBFuNwbeD12ur3RKbMyCn9W0RjaMrYpKnAjik3IlSqDYZ0XDMwZ" +
-                "0oQiOFy / a6bR4Vw =="
-                ;
-            byte[] _byteArray = Encoding.ASCII.GetBytes(input);
-
-            return _byteArray;
-        }
         private bool _disposedValue = false;
         #endregion
 
         #region ==================== events & delegates ====================
         public event EventHandler CommunicationLog;
+
         public event EventHandler<EventArgs> UpdateData;
         #endregion
 
@@ -96,27 +70,27 @@ namespace Hbm.Weighing.API.WTX.Jet
         /// Initializes a new instance of the <see cref="JetBusConnection" /> class.
         /// Use this constructor for individual authentication
         /// </summary>
-        /// <param name="iPAddress">IP address of the target device</param>
+        /// <param name="ipAddress">IP address of the target device</param>
         /// <param name="user">User for device authentication</param>
-        /// <param name="password">User for device authentication</param>
-        public JetBusConnection(string iPAddress, string user, string password)
+        /// <param name="password">Password for device authentication</param>
+        public JetBusConnection(string ipAddress, string user, string password)
         {
-            string _uri = "wss://" + iPAddress + ":443/jet/canopen";
+            string _uri = "wss://" + ipAddress + ":443/jet/canopen";
 
             IJetConnection jetConnection = new WebSocketJetConnection(_uri, RemoteCertificationCheck);
             _peer = new JetPeer(jetConnection);
             
             this._user = user;
             this._password = password;
-            this.IpAddress = iPAddress;
+            this.IpAddress = ipAddress;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="JetBusConnection" /> class.
-        /// Use this constructor for standard authentication
+        /// Use this constructor for authentication with standard credentials
         /// </summary>
-        /// <param name="iPAddress">IP address of the target device</param>
-        public JetBusConnection(string IPAddress) : this(IPAddress, STD_WTX_AUTHENTICATION_USER, STD_WTX_AUTHENTICATION_PASSWORD)
+        /// <param name="ipAddress">IP address of the target device</param>
+        public JetBusConnection(string ipAddress) : this(ipAddress, STD_WTX_AUTHENTICATION_USER, STD_WTX_AUTHENTICATION_PASSWORD)
         {
         }
         #endregion
@@ -146,7 +120,9 @@ namespace Hbm.Weighing.API.WTX.Jet
             WaitOne(3);
 
             if (IsConnected)
+            {
                 this.UpdateData?.Invoke(this, new EventArgs());
+            }
         }
 
         public void Disconnect()
@@ -173,10 +149,10 @@ namespace Hbm.Weighing.API.WTX.Jet
 
         public bool Write(object command, int value)
         {
-            JValue jValue = new JValue(value);
+            JValue jasonValue = new JValue(value);
             JetBusCommand _command = (JetBusCommand)command;
-            SetData(_command.PathIndex, jValue);
-            return true; //DDD
+            SetData(_command.PathIndex, jasonValue);
+            return true; // DDD Exception handling
         }
 
         public Task<int> WriteAsync(object command, int commandParam)
@@ -195,6 +171,20 @@ namespace Hbm.Weighing.API.WTX.Jet
         #endregion
 
         #region =============== protected & private methods ================
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _successEvent.Close();
+                    _successEvent.Dispose();
+                }
+
+                _disposedValue = true;
+            }
+        }
+
         private void ConnectPeer(string user, string password, int timeoutMs)
         {
             _user = user;
@@ -211,8 +201,8 @@ namespace Hbm.Weighing.API.WTX.Jet
             }
             else
             {
-                _mException = new Exception("Connection failed");
-                _mSuccessEvent.Set();
+                _localException = new Exception("Connection failed");
+                _successEvent.Set();
             }
         }
 
@@ -220,14 +210,14 @@ namespace Hbm.Weighing.API.WTX.Jet
         {
             if (authenticationSuccess)
             {
-                CommunicationLog?.Invoke(this, new LogEvent("Athentication successful"));
+                CommunicationLog?.Invoke(this, new LogEvent("Authentication successful"));
                 FetchAll();
             }
             else
             {
                 JetBusException exception = new JetBusException(token);
-                _mException = new Exception(exception.Message);
-                _mSuccessEvent.Set();
+                _localException = new Exception(exception.Message);
+                _successEvent.Set();
             }
         }
 
@@ -247,38 +237,37 @@ namespace Hbm.Weighing.API.WTX.Jet
             else
             {
                 JetBusException exception = new JetBusException(token);
-                _mException = new Exception(exception.ErrorCode.ToString());
+                _localException = new Exception(exception.ErrorCode.ToString());
             }
-            _mSuccessEvent.Set();
+
+            _successEvent.Set();
                         
             CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - Buffer size is " + AllData.Count));
-        }
-               
+        }            
 
         private void WaitOne(int timeoutMultiplier = 1)
         {
-            if (!_mSuccessEvent.WaitOne(_timeoutMs * timeoutMultiplier))
+            if (!_successEvent.WaitOne(_timeoutMs * timeoutMultiplier))
             {
                 throw new Exception("Jet connection timeout");
             }
                      
-            if (_mException != null)
+            if (_localException != null)
             {
-                CommunicationLog?.Invoke(this, new LogEvent(_mException.Message));
-                Exception exception = _mException;
-                _mException = null;
+                CommunicationLog?.Invoke(this, new LogEvent(_localException.Message));
+                Exception exception = _localException;
+                _localException = null;
                 throw exception;
             }                        
         }
         
         /// <summary>
-        /// Event with callend when raced a Fetch-Event by a other Peer.
+        /// Event will be called when device sends new fetch events
         /// </summary>
-        /// <param name="data"></param>
+        /// <param name="data">New device data from jet peer</param>
         private void OnFetchData(JToken data)
         {
             string path = data["path"].ToString();
-            int i = 0;
 
             lock (AllData)
             {
@@ -301,15 +290,16 @@ namespace Hbm.Weighing.API.WTX.Jet
                 {
                     this.UpdateData?.Invoke(this, new EventArgs());
                 }
+
                 CommunicationLog?.Invoke(this, new LogEvent(data.ToString()));
             }
         }
                
         /// <summary>
-        /// 
+        /// Sets data for a single jet path
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="value"></param>
+        /// <param name="path">Jet path for the data (e.g. "6002/01)"</param>
+        /// <param name="value">The new value for the path</param>
         private void SetData(string path, JValue value)
         {
             try
@@ -327,35 +317,34 @@ namespace Hbm.Weighing.API.WTX.Jet
            if (!success)
            {
                 JetBusException exception = new JetBusException(token);
-                _mException = new Exception(exception.ErrorCode.ToString());
+                _localException = new Exception(exception.ErrorCode.ToString());
            }
             
-           _mSuccessEvent.Set();
+           _successEvent.Set();
             
-           CommunicationLog?.Invoke(this, new LogEvent("Set data" + success ));
+           CommunicationLog?.Invoke(this, new LogEvent("Set data" + success));
         }
             
         /// <summary>
-        /// RemoteCertificationCheck:
-        /// Callback-Method wich is called from SslStream. Is a customized implementation of a certification-check.
+        /// Callback-Method wich is called from SslStream for SSL certificate validation
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="certificate"></param>
-        /// <param name="chain"></param>
-        /// <param name="sslPolicyErrors"></param>
-        /// <returns></returns>
+        /// <param name="sender">Sender holding the SSL stream</param>
+        /// <param name="certificate">The SSL certificate to be validated</param>
+        /// <param name="chain">SSL certification chain</param>
+        /// <param name="sslPolicyErrors">Any policy violations</param>
+        /// <returns>Indicates if validation was successful or not</returns>
         private bool RemoteCertificationCheck(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            
+        {            
             try
             {
-                X509Certificate2 clientCertificate = new X509Certificate2(CertificateToByteArray(),"");                
-                SslStream sslStream = (sender as SslStream);
+                X509Certificate2 clientCertificate = new X509Certificate2(CertificateToByteArray(), string.Empty);                
+                SslStream sslStream = sender as SslStream;
                 if (sslPolicyErrors == SslPolicyErrors.None || sslPolicyErrors == SslPolicyErrors.RemoteCertificateChainErrors)
                 {
                     foreach (X509ChainElement item in chain.ChainElements)
                     {
                         item.Certificate.Export(X509ContentType.Cert);
+
                         // If one of the included status-flags is not posiv then the cerficate-check
                         // failed. Except the "untrusted root" because it is a self-signed certificate
                         foreach (X509ChainStatus status in item.ChainElementStatus)
@@ -367,15 +356,16 @@ namespace Hbm.Weighing.API.WTX.Jet
                                 return false;
                             }
                         }
+
                         // compare the certificate in the chain-collection. If on of the certificate at
                         // the path to root equal, are the check ist positive
-                        //
                         if (clientCertificate.Equals(item.Certificate))
                         {
                             return true;
                         }
                     }
                 }
+
                 // TODO: to reactivate the hostename-check returning false.
                 return true;
             }
@@ -385,20 +375,28 @@ namespace Hbm.Weighing.API.WTX.Jet
                 return false;
             }
         }
-         
-        protected virtual void Dispose(bool disposing)
+
+        private byte[] CertificateToByteArray()
         {
-            if (!_disposedValue)
-            { 
-                if (disposing)
-                {
-                    _mSuccessEvent.Close();
-                    _mSuccessEvent.Dispose();
-                }
-                _disposedValue = true;
-            }
+            const string CERTIFICATE =
+                "MIIECzCCAvOgAwIBAgIJAPTJN5RGpzbRMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJERTELMAkGA1UECAw" +
+                "CSEUxEjAQBgNVBAcMCURhcm1zdGFkdDErMCkGA1UECgwiSG90dGluZ2VyIEJhbGR3aW4gTWVzc3RlY2huaWsgR21iSDELMAkGA1UECwwCV" +
+                "1QxFDASBgNVBAMMC3d3dy5oYm0uY29tMRswGQYJKoZIhvcNAQkBFgxpbmZvQGhibS5jb20wHhcNMTcwNDA2MTU1NzQzWhcNMjcwNDA0MTU1N" +
+                "zQzWjCBmzELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkhFMRIwEAYDVQQHDAlEYXJtc3RhZHQxKzApBgNVBAoMIkhvdHRpbmdlciBCYWxkd2luIE1" +
+                "lc3N0ZWNobmlrIEdtYkgxCzAJBgNVBAsMAldUMRQwEgYDVQQDDAt3d3cuaGJtLmNvbTEbMBkGCSqGSIb3DQEJARYMaW5mb0BoYm0uY29tMIIBIjA" +
+                "NBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr + 51SnSoQX1M3aOUwaD8dcFIoac9peaiRsIOUqwJGn58g + n53aevw54sFyvffcJnzZVAFEP" +
+                "Ech1oQCNowsNDnNr4UL / NaO4C4GsJX5bmdia6nGj7IWLMeQzs + 0gfqPWmO / OsJVnwrp9h6 / SxuIz5n04l7ESupSBnXfifb9RGA0encHt" +
+                "ZK0LxHRD9sxyhNYKDKW76hgDK / EZ5HU2YjKS0y58 + PU15AV + vQ5srJFMC + KNHveWF4xgj528r3C25FWpVtW5Dqd937OrSAS5truGxPBz" +
+                "enWx3PHw6zRPvBbOApTNWLfbcp90mF8 / 9wFi94PG + EokaYSoF0xyT2G6fAVs3qQIDAQABo1AwTjAdBgNVHQ4EFgQUZC39SAkffhRee1x / 7" +
+                "TbnrQJQ / jMwHwYDVR0jBBgwFoAUZC39SAkffhRee1x / 7TbnrQJQ / jMwDAYDVR0TBAUwAwEB / zANBgkqhkiG9w0BAQUFAAOCAQEACRI28" +
+                "UaB6KNtDVee + waz + SfNd3tm / RspwRarJBlf9dcbpcxolvp9UxCoWkyf9hkmJPEyJzJltuan08DkqmschD36saOJcVRh6BfLNBD8DkFTavP" +
+                "0Q2BKb8FvJpdacNTRK542sJHSk5gr6imwnD5EAj + OT24UpH5rwq5Esu5TYFLdSuYfRXw6puTION / fqqTKVK9Au0TdFPgZ4Fppym4fInQ0jJQ" +
+                "hcGSWMs3yomPqftwitRwv5 / p8hLtf3yNIkk9OnBwPpT7QxXxw4Zs0Jvl / VBFuNwbeD12ur3RKbMyCn9W0RjaMrYpKnAjik3IlSqDYZ0XDMwZ" +
+                "0oQiOFy / a6bR4Vw ==";
+            byte[] _byteArray = Encoding.ASCII.GetBytes(CERTIFICATE);
+
+            return _byteArray;
         }
         #endregion
     }
-
 }
