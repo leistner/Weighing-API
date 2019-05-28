@@ -174,6 +174,8 @@ namespace Hbm.Weighing.API.WTX.Modbus
                     break;
 
                 case DataType.BIT:
+                    _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, _command.Register, (ushort)(value << _command.BitIndex));
+                    break;
                 case DataType.U08:
                 case DataType.S16:
                 case DataType.U16:
@@ -200,14 +202,13 @@ namespace Hbm.Weighing.API.WTX.Modbus
             return result;
         }
 
-
         public async Task<int> WriteAsync(object command, int value)
         {
             ModbusCommand _command = (ModbusCommand)command;
 
             ushort registerAddress = (ushort)Convert.ToInt16(_command.Register);
 
-            await _master.WriteSingleRegisterAsync(0, registerAddress, (ushort)value);
+            await _master.WriteSingleRegisterAsync(0, registerAddress, (ushort)(value << _command.BitIndex));
 
             CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " to " + value.ToString()));
 
@@ -218,21 +219,19 @@ namespace Hbm.Weighing.API.WTX.Modbus
         #region =============== protected & private methods ================
         /// This method writes a data word to the WTX120 device synchronously. 
         private bool DoHandshake()
-        {        
+        {
             while (ReadInteger(ModbusCommands.Handshake) == 0)
             {
                 Thread.Sleep(50);
             }
-           _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, WTX_REGISTER_EXECUTION_COMMANDS, 0);
+           _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, WTX_REGISTER_EXECUTION_COMMANDS, 0x00);
 
-            while (ReadInteger(ModbusCommands.Handshake) == 1)
+            while (ReadInteger(ModbusCommands.Handshake) == 1) 
             {
                 Thread.Sleep(50);
             }
-
             return (ReadInteger(ModbusCommands.Status) == 1);
         }
-
                 
         public string ReadFromBuffer(object command)
         {

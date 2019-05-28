@@ -154,7 +154,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             Product_code = new JetBusCommand(DataType.U32, "1018/02", 0, 0);
             Serial_number = new JetBusCommand(DataType.U32, "1018/04", 0, 0);
             Implemented_profile_specification = new JetBusCommand(DataType.U32, "1030/01", 0, 0);
-            Lc_capability = new JetBusCommand(DataType.U32, "6001/01", 0, 0);
+            Lc_capability = new JetBusCommand(DataType.U32, "6000/01", 0, 0);
             Weighing_device_1_unit_prefix_output_parameter = new JetBusCommand(DataType.U16, "6015/01", 0, 0);
 
             Weighing_device_1_weight_step = new JetBusCommand(DataType.U08, "6016/01", 0, 0);
@@ -197,7 +197,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             Maximum_peak_value = new JetBusCommand(DataType.S32, "6149/03", 0, 0);
             Minimum_peak_value = new JetBusCommand(DataType.S32, "6149/04", 0, 0);
             Weight_moving_detection = new JetBusCommand(DataType.U08, "6153/00", 0, 0);
-            Device_address = new JetBusCommand(DataType.U08, "2600/00", 0, 0);
+            Device_address = new JetBusCommand(DataType.U08, "2600/01", 0, 0);
 
             Hardware_version = new JetBusCommand(DataType.ASCII, "2520/0A", 0, 0); // = Hardware Variante
             Identification = new JetBusCommand(DataType.ASCII, "2520/01", 0, 0);

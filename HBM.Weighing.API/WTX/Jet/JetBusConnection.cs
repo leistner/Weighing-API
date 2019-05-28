@@ -278,7 +278,6 @@ namespace Hbm.Weighing.API.WTX.Jet
         private void OnFetchData(JToken data)
         {
             string path = data["path"].ToString();
-            int i = 0;
 
             lock (AllData)
             {
