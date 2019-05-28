@@ -49,15 +49,15 @@ namespace Hbm.Weighing.API.WTX.Jet
         static JetBusCommands()
         {
             ResidualFlowTime = new JetBusCommand(DataType.U16, "2220/07", 0, 0);
-            Ldw_dead_weight = new JetBusCommand(DataType.S32, "2110/06", 0, 0);                // LDW = Nullpunkt
-            Lwt_nominal_value = new JetBusCommand(DataType.S32, "2110/07", 0, 0);              // LWT = Nennwert
-            Lft_scale_calibration_weight = new JetBusCommand(DataType.S32, "6152/00", 0, 0);   // LFT = LFT scale calibration weight
+            LDWZeroValue = new JetBusCommand(DataType.S32, "2110/06", 0, 0);                // LDW = Nullpunkt
+            LWTNominalValue = new JetBusCommand(DataType.S32, "2110/07", 0, 0);              // LWT = Nennwert
+            CalibrationWeight = new JetBusCommand(DataType.S32, "6152/00", 0, 0);   // LFT = LFT scale calibration weight
 
             Net_value = new JetBusCommand(DataType.S32, "601A/01", 0, 0);
             Gross_value = new JetBusCommand(DataType.S32, "6144/00", 0, 0);
-            Zero_value = new JetBusCommand(DataType.S32, "6142/00", 0, 0);
+            ZeroValue = new JetBusCommand(DataType.S32, "6142/00", 0, 0);
 
-            Tare_value = new JetBusCommand(DataType.S32, "6143/00", 0, 0);
+            TareValue = new JetBusCommand(DataType.S32, "6143/00", 0, 0);
             Weighing_device_1_weight_status = new JetBusCommand(DataType.U16, "6012/01", 0, 0);
 
             WS_GeneralWeightError = new JetBusCommand(DataType.U16, "6012/01", 0, 1);
@@ -79,7 +79,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             Unit_prefix_fixed_parameter = new JetBusCommand(DataType.U32, "6014/01", 0, 0);
             Application_mode = new JetBusCommand(DataType.U08, "2010/07", 0, 0); // IMD = Input mode ( Application mode)
             Decimals = new JetBusCommand(DataType.U08, "6013/01", 0, 0);
-            Scale_command = new JetBusCommand(DataType.U32, "6002/01", 0, 0);
+            ScaleCommand = new JetBusCommand(DataType.U32, "6002/01", 0, 0);
             Scale_command_status = new JetBusCommand(DataType.U32, "6002/02", 0, 0);
 
             Status_digital_input_1 = new JetBusCommand(DataType.U08, "2020/18", 0, 0);    // IS1
@@ -131,10 +131,10 @@ namespace Hbm.Weighing.API.WTX.Jet
             Tare_delay = new JetBusCommand(DataType.U16, "2220/09", 0, 0);                        // TAD = Tarierverzögerung
             Tare_mode = new JetBusCommand(DataType.U08, "2200/0B", 0, 0);                         // TMD = Tariermodus
             Upper_tolerance_limit = new JetBusCommand(DataType.S32, "2210/0A", 0, 0);             // UTL = Obere Toleranz
-            Valve_control = new JetBusCommand(DataType.U08, "2200/0C", 0, 0);               // VCT = Ventilsteuerung
-            _write_dosing_parameter_set = new JetBusCommand(DataType.U08, "2200/01", 0, 0);  // WDP = Dosierparametersatz schreiben
-            Storage_weight = new JetBusCommand(DataType.U08, "2040/05", 0, 0);              // STO = Gewichtsspeicherung
-            Storage_weight_mode = new JetBusCommand(DataType.U08, "2300/08", 0, 0);         // SMD = Modus Gewichtsspeicherung
+            VCTValveControl = new JetBusCommand(DataType.U08, "2200/0C", 0, 0);              
+            WDPWriteDosingParameterSet = new JetBusCommand(DataType.U08, "2200/01", 0, 0);  
+            RecordWeight = new JetBusCommand(DataType.U08, "2040/05", 0, 0);      
+            RecordWeightMode = new JetBusCommand(DataType.U08, "2300/08", 0, 0);         
 
             // Paths/Commands : Digital input in the extended filler mode, only via Jetbus
             Function_digital_input_1 = new JetBusCommand(DataType.U08, "2022/01", 0, 0);
@@ -239,14 +239,14 @@ namespace Hbm.Weighing.API.WTX.Jet
         }
 
         public static JetBusCommand ResidualFlowTime { get; private set; }
-        public static JetBusCommand Ldw_dead_weight { get; private set; }                // LDW = Nullpunkt
-        public static JetBusCommand Lwt_nominal_value { get; private set; }              // LWT = Nennwert
-        public static JetBusCommand Lft_scale_calibration_weight { get; private set; }   // LFT = LFT scale calibration weight
+        public static JetBusCommand LDWZeroValue { get; private set; }                // LDW = Nullpunkt
+        public static JetBusCommand LWTNominalValue { get; private set; }              // LWT = Nennwert
+        public static JetBusCommand CalibrationWeight { get; private set; }   // LFT = LFT scale calibration weight
 
         public static JetBusCommand Net_value { get; private set; }
         public static JetBusCommand Gross_value { get; private set; }
-        public static JetBusCommand Zero_value { get; private set; }
-        public static JetBusCommand Tare_value { get; private set; }
+        public static JetBusCommand ZeroValue { get; private set; }
+        public static JetBusCommand TareValue { get; private set; }
 
         public static JetBusCommand Weighing_device_1_weight_status { get; private set; }
         public static JetBusCommand WS_GeneralWeightError { get; private set; }
@@ -270,7 +270,7 @@ namespace Hbm.Weighing.API.WTX.Jet
         public static JetBusCommand Application_mode { get; private set; } // IMD = Input mode ( Application mode)
 
         public static JetBusCommand Decimals { get; private set; }
-        public static JetBusCommand Scale_command { get; private set; }
+        public static JetBusCommand ScaleCommand { get; private set; }
         public static JetBusCommand Scale_command_status { get; private set; }
 
         public static JetBusCommand Status_digital_input_1 { get; private set; }    // IS1
@@ -328,10 +328,10 @@ namespace Hbm.Weighing.API.WTX.Jet
         public static JetBusCommand Tare_delay { get; private set; }                        // TAD = Tarierverzögerung
         public static JetBusCommand Tare_mode { get; private set; }                         // TMD = Tariermodus
         public static JetBusCommand Upper_tolerance_limit { get; private set; }             // UTL = Obere Toleranz
-        public static JetBusCommand Valve_control { get; private set; }                    // VCT = Ventilsteuerung
-        public static JetBusCommand _write_dosing_parameter_set { get; private set; }      // WDP = Dosierparametersatz schreiben
-        public static JetBusCommand Storage_weight { get; private set; }                   // STO = Gewichtsspeicherung
-        public static JetBusCommand Storage_weight_mode { get; private set; }              // SMD = Modus Gewichtsspeicherung
+        public static JetBusCommand VCTValveControl { get; private set; }                    // VCT = Ventilsteuerung
+        public static JetBusCommand WDPWriteDosingParameterSet { get; private set; }      // WDP = Dosierparametersatz schreiben
+        public static JetBusCommand RecordWeight { get; private set; }                   // STO = Gewichtsspeicherung
+        public static JetBusCommand RecordWeightMode { get; private set; }              // SMD = Modus Gewichtsspeicherung
 
 
 

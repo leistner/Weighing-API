@@ -224,7 +224,7 @@ namespace Hbm.Weighing.API.Data
                 _limitStatus3 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status3));
                 _limitStatus4 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status4));
 
-                _weight_storage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight_mode));
+                _weight_storage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.RecordWeightMode));
 
                 if (Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 0 || Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 1)  // If application mode is in standard mode
                 {
@@ -385,7 +385,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1Source; }
             set
             {
-                  _connection.Write(JetBusCommands.Tare_value, value);
+                  _connection.Write(JetBusCommands.TareValue, value);
                   _manualTareValue = value;
             }
         }
@@ -566,7 +566,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch4ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(JetBusCommands.Lft_scale_calibration_weight, value);
+                _connection.Write(JetBusCommands.CalibrationWeight, value);
                 _calibrationWeight = value;
             }
         }
@@ -575,7 +575,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch4HysteresisBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.Ldw_dead_weight, value);
+                _connection.Write(JetBusCommands.LDWZeroValue, value);
                 _zeroLoad = value;
             }
         }
@@ -584,7 +584,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1ActivationLevelLowerBandLimit; }
             set
             {
-                _connection.Write(JetBusCommands.Lwt_nominal_value, value);
+                _connection.Write(JetBusCommands.LWTNominalValue, value);
                 _nominalLoad = value;
             }
         }
