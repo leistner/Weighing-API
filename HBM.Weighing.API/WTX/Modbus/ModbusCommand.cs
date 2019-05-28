@@ -34,6 +34,10 @@ using System.Text;
 
 namespace Hbm.Weighing.API.WTX.Modbus
 {
+    /// <summary>
+    /// Initializes a new instance of the <see cref="DataEventArgs" /> class
+    /// </summary>
+    /// <param name="dataDictionaryParam">Dictionary to be injected</param>
     public class ModbusCommand
     {
         public ModbusCommand(DataType dataType, ushort register, IOType io , ApplicationMode app, int bitIndex, int bitLength)

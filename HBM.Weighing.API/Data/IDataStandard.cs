@@ -43,7 +43,8 @@ namespace Hbm.Weighing.API.Data
     /// </summary>
     public interface IDataStandard 
     {
-        #region Input words for standard mode
+
+        #region ============ Input words for standard mode ============
 
         int Input1 { get; set; } // set : Jetbus only ; get : Modbus and Jetbus
         int Input2 { get; set; } // set : Jetbus only ; get : Modbus and Jetbus
@@ -70,7 +71,7 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region Limit switches
+        #region ==================== Limit switches ===================
 
         int LimitSwitch1Source { get;  set; }
         int LimitSwitch1Mode { get;  set; }
@@ -102,8 +103,9 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region Update methods for the data of standard mode
+        #region ===== Update methods for the data of standard mode ====
         void UpdateStandardData(object sender, EventArgs e);
         #endregion
+
     }
 }

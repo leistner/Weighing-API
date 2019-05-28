@@ -43,7 +43,8 @@ namespace Hbm.Weighing.API.Data
     /// </summary>
     public interface IDataFiller
     {
-        #region Filler device data - Input words
+
+        #region ============ Filler device data - input words ============
 
         int CoarseFlow { get; }
         int FineFlow { get; }
@@ -83,7 +84,7 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region Filler device data - Output words
+        #region ============ Filler device data - output words =============
 
         int ResidualFlowTime { get; set; }
         int TargetFillingWeight { get;  set; }
@@ -119,7 +120,7 @@ namespace Hbm.Weighing.API.Data
         int EmptyingMode { get;  set; }
         #endregion
 
-        #region Filler device data - Input and output words
+        #region = properties - filler device data - in/output output words =
 
         int FineFlowCutOffPoint { get; set; }
         int CoarseFlowCutOffPoint { get; set; }
@@ -128,10 +129,11 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region Update methods for the data of standard mode
+        #region ============ events & delegates - update method ============
 
         void UpdateFillerData(object sender, EventArgs e);
 
         #endregion
+
     }
 }
