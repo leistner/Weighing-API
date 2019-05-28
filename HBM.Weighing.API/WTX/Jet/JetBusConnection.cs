@@ -96,16 +96,21 @@ namespace Hbm.Weighing.API.WTX.Jet
         #endregion
 
         #region ======================== properties ========================
+        /// <inheritdoc />
         public ConnectionType ConnectionType => ConnectionType.Jetbus;
 
+        /// <inheritdoc />
         public bool IsConnected { get; private set; }
 
+        /// <inheritdoc />
         public string IpAddress { get; set; }
 
-        public Dictionary<string, string> AllData { get; } = new Dictionary<string, string>();        
+        /// <inheritdoc />
+        public Dictionary<string, string> AllData { get; } = new Dictionary<string, string>();
         #endregion
 
         #region ================ public & internal methods =================
+        /// <inheritdoc />
         public void Connect(int timeoutMs = 20000)
         {
             IsConnected = false;
@@ -125,28 +130,33 @@ namespace Hbm.Weighing.API.WTX.Jet
             }
         }
 
+        /// <inheritdoc />
         public void Disconnect()
         {
             _peer.Disconnect();
             this.IsConnected = false;
         }
-        
+
+        /// <inheritdoc />
         public string Read(object command)
         {
             return ReadFromBuffer(command);
         }
 
+        /// <inheritdoc />
         public Task<string> ReadAsync(object command)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         public string ReadFromBuffer(object command)
         {
             JetBusCommand jetcommand = (JetBusCommand)command;
             return jetcommand.ToValue(AllData[jetcommand.PathIndex]);
         }
 
+        /// <inheritdoc />
         public bool Write(object command, int value)
         {
             JValue jasonValue = new JValue(value);
@@ -155,11 +165,13 @@ namespace Hbm.Weighing.API.WTX.Jet
             return true; // DDD Exception handling
         }
 
+        /// <inheritdoc />
         public Task<int> WriteAsync(object command, int commandParam)
         {
             throw new NotImplementedException();
         }
-              
+
+        /// <inheritdoc />
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.

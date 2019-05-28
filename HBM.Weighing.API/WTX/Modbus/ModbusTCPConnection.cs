@@ -65,19 +65,22 @@ namespace Hbm.Weighing.API.WTX.Modbus
             CreateDictionary();
         }
         #endregion
-        
+
         #region ======================== properties ========================
+        /// <inheritdoc />
         public bool IsConnected { get; private set; }
 
+        /// <inheritdoc />
         public ConnectionType ConnectionType
         {
             get { return ConnectionType.Modbus; }
         }
 
+        /// <inheritdoc />
         public string IpAddress { get; set; }
 
+        /// <inheritdoc />
         public Dictionary<int, int> AllData { get; private set; } = new Dictionary<int, int>();
-
         #endregion
 
         #region ================ public & internal methods =================
@@ -112,6 +115,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
             CommunicationLog?.Invoke(this, new LogEvent("Disconnected"));
         }
 
+        /// <summary>
+        /// Synchronizes the Modbus data 
+        /// </summary>
+        /// <returns>Synchronized Modbus registers</returns>
         public ushort[] SyncData()
         {
             ushort[] _data = ReadModbusRegisters();
@@ -147,6 +154,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
             return _value;
         }
 
+        /// <inheritdoc />
         public async Task<string> ReadAsync(object command)
         {
             int _value = 0;
@@ -156,7 +164,8 @@ namespace Hbm.Weighing.API.WTX.Modbus
             this.UpdateData?.Invoke(this, new EventArgs());
             return _value.ToString();
         }
-            
+
+        /// <inheritdoc />
         public bool Write(object command, int value)
         {
             bool result = true;
@@ -202,6 +211,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
             return result;
         }
 
+        /// <inheritdoc />
         public async Task<int> WriteAsync(object command, int value)
         {
             ModbusCommand _command = (ModbusCommand)command;

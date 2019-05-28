@@ -28,26 +28,28 @@
 //
 // </copyright>
 
-using Newtonsoft.Json.Linq;
-using System;
-
-
 namespace Hbm.Weighing.API.WTX.Jet
 {
+    using System;
+    using Newtonsoft.Json.Linq;
+
     public class JetBusException : Exception
     {
-        protected string message;
+        #region ==================== constants & fields ====================
+        private string message;
+        #endregion
 
+        #region =============== constructors & destructors =================
         public JetBusException(JToken token)
         {
             ErrorCode = token["error"]["code"].ToObject<int>();
             message = token["error"]["message"].ToString();
         }
+        #endregion
 
-
+        #region ======================== properties ========================
         public int ErrorCode { get; private set; }
-
-
+        
         public override string Message
         {
             get
@@ -55,5 +57,6 @@ namespace Hbm.Weighing.API.WTX.Jet
                 return message + " [ 0x" + ErrorCode.ToString("X") + " ]";
             }
         }
+        #endregion
     }
 }

@@ -24,11 +24,11 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | WTXModbus.cs                       | :heavy_check_mark: | 
 | ModbusCommand.cs                   | :large_orange_diamond: |
 | ModbusCommands.cs                  | :large_orange_diamond: |
-| ModbusTCPConnection.cs             | :red_circle:           |
+| ModbusTCPConnection.cs             | :heavy_check_mark:           |
 | JetBusCommand.cs                   | :large_orange_diamond: |
 | JetBusCommands.cs                  | :large_orange_diamond: |
-| JetBusConnection.cs                | :red_circle:           |
-| JetBusException.cs                 | :red_circle:           |
+| JetBusConnection.cs                | :heavy_check_mark:           |
+| JetBusException.cs                 | :heavy_check_mark:           |
 | MeasurementUtils.cs                | :large_orange_diamond: |
 | AssemblyInfo.cs                    | :heavy_check_mark:     |
 | DataFillerExtendedJet.cs           | :red_circle:           |
