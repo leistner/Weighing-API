@@ -19,9 +19,9 @@ namespace JetbusTest
     [TestFixture]
     public class WriteTests
     {
-        private TestJetbusConnection _jetTestConnection;
-        private WTXJet _wtxObj;
-        private int testGrossValue;
+        //private TestJetbusConnection _jetTestConnection;
+        //private WTXJet _wtxObj;
+        //private int testGrossValue;
 
 
         // Test case source for writing values to the WTX120 device: Taring 
@@ -57,7 +57,7 @@ namespace JetbusTest
         [SetUp]
         public void Setup()
         {
-            testGrossValue = 0;
+            //testGrossValue = 0;
         }
 
         /*

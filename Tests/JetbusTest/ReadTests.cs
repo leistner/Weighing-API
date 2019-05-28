@@ -26,7 +26,6 @@ namespace JetbusTest
         private WTXJet _wtxObj;
         private int _testInteger;
         private bool _testBoolean;
-        private string _testString;
 
 
         // Test case source for reading values from the WTX120 device. 

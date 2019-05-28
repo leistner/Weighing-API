@@ -129,9 +129,7 @@ namespace JetbusTest
             _wtxObj = new WtxJet(_jetTestConnection,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            _wtxObj.OnData(this, new DataEventArgs(_jetTestConnection.AllData));
-
+            
             value = _wtxObj.ProcessData.Status;
 
             string Strvalue = _wtxObj.StatusStringComment();
@@ -233,9 +231,7 @@ namespace JetbusTest
              WtxJet _wtxObj = new WtxJet(_jetTestConnection, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-
-            _wtxObj.OnData(this,new ProcessDataReceivedEventArgs(_wtxObj.ProcessData));
-
+            
             string strValue=_wtxObj.CurrentWeight(_grossValue, _decimals);
 
             double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, _wtxObj.ProcessData.Decimals);

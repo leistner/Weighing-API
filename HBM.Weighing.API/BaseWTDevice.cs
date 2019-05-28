@@ -147,6 +147,12 @@ namespace Hbm.Weighing.API
         public abstract TareMode TareMode { get; }
 
         /// <summary>
+        /// Gets the weight stable condition
+        /// </summary>
+        /// <returns></returns>
+        public abstract bool WeightStable { get;  }
+
+        /// <summary>
         /// Gets the scale range 1-3
         /// </summary>
         /// <returns></returns>

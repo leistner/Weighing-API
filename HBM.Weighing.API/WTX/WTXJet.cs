@@ -37,7 +37,7 @@ namespace Hbm.Weighing.API.WTX
     using Hbm.Weighing.API.WTX.Jet;
 
     /// <summary>
-    /// This class represents a WTX device.
+    /// This class represents a WTX device with the Jet ethernet interface.
     /// Subscribe to ProcessDataReceived over the constructor to automatically get weight values.
     /// </summary>
     public class WTXJet : BaseWTDevice
@@ -65,19 +65,9 @@ namespace Hbm.Weighing.API.WTX
         
         #region ==================== events & delegates ====================
         /// <summary>
-        /// Event handler to raise an event whenever new process data from the device is available
+        /// Event handler to raise whenever new process data from the device is available
         /// </summary>
         public event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
-
-        /// <summary>
-        /// Asynchronous callback for process data
-        /// </summary>
-        /// <param name="sender">ProcessData sender</param>
-        /// <param name="e">DataEventArgs containing data dictionary</param>
-        public void OnData(object sender, DataEventArgs e)
-        {
-            ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
-        }
         #endregion
 
         #region =============== constructors & destructors =================
@@ -85,6 +75,7 @@ namespace Hbm.Weighing.API.WTX
         /// Initializes a new instance of the <see cref="WTXJet" /> class.
         /// </summary>
         /// <param name="connection">Inject connection (e.g. JetBusConnection)</param>
+        /// <param name="timerIntervalms">Interval for updating ProcessData</param>
         /// <param name="onProcessData">This event is automatically called when new ProcessData is available</param>
         public WTXJet(INetConnection connection, int timerIntervalms, EventHandler<ProcessDataReceivedEventArgs> onProcessData) 
             : base(connection, timerIntervalms)
@@ -101,10 +92,8 @@ namespace Hbm.Weighing.API.WTX
         /// Gets or sets the extended filler data 
         /// </summary>
         public IDataFillerExtended DataFillerExtended { get; protected set; }
-        
-        /// <summary>
-        /// Gets the the connection type
-        /// </summary>
+
+        /// <inheritdoc />
         public override string ConnectionType
         {
             get
@@ -113,6 +102,7 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
+        /// <inheritdoc />
         public override bool IsConnected
         {
             get
@@ -120,10 +110,8 @@ namespace Hbm.Weighing.API.WTX
                 return Connection.IsConnected;
             }
         }
-        
-        /// <summary>
-        /// Gets the weight type containing gross, net and tare value in double
-        /// </summary>
+
+        /// <inheritdoc />
         public override WeightType Weight
         {
             get
@@ -132,9 +120,7 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
-        /// <summary>
-        /// Gets the printable weight type  containing gross, net and tare value in string
-        /// </summary>
+        /// <inheritdoc />
         public override PrintableWeightType PrintableWeight
         {
             get
@@ -143,14 +129,10 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
-        /// <summary>
-        /// Gets the application mode containing an enumeration (Standard, Checkweigher, Filler)
-        /// </summary>
+        /// <inheritdoc />
         public override ApplicationMode ApplicationMode { get; set; }
 
-        /// <summary>
-        /// Gets the unit of the measured value as string
-        /// </summary>
+        /// <inheritdoc />
         public override string Unit
         {
             get
@@ -159,9 +141,7 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
-        /// <summary>
-        /// Gets the tare mode containing None, Tare, PresetTare
-        /// </summary>
+        /// <inheritdoc />
         public override TareMode TareMode
         {
             get
@@ -170,9 +150,16 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
-        /// <summary>
-        /// Gets the scale range of the device
-        /// </summary>
+        /// <inheritdoc />
+        public override bool WeightStable
+        {
+            get
+            {
+                return ProcessData.WeightStable;
+            }
+        }
+
+        /// <inheritdoc />
         public override int ScaleRange
         {
             get
@@ -181,9 +168,7 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
-        /// <summary>
-        /// Gets the manual tare value
-        /// </summary>
+        /// <inheritdoc />
         public override int ManualTareValue
         {
             get
@@ -198,9 +183,7 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
-        /// <summary>
-        /// Gets or sets the calibration weight value
-        /// </summary>
+        /// <inheritdoc />
         public override int CalibrationWeight
         {
             get
@@ -215,9 +198,7 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
-        /// <summary>
-        /// Gets or sets the zero value
-        /// </summary>
+        /// <inheritdoc />
         public override int ZeroSignal
         {
             get
@@ -232,9 +213,7 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
-        /// <summary>
-        /// Gets or set the nominal value
-        /// </summary>
+        /// <inheritdoc />
         public override int NominalSignal
         {
             get
@@ -390,7 +369,8 @@ namespace Hbm.Weighing.API.WTX
 
             return false;
         }
-        
+
+        /// <inheritdoc />
         protected override void ProcessDataUpdateTick(object info)
         {
             Stop();

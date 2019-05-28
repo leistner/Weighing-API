@@ -36,9 +36,8 @@ namespace Hbm.Weighing.API.WTX
     using Hbm.Weighing.API.WTX.Modbus;
 
     /// <summary>
-    /// This class handles the data from ModbusTcpConnection for IProcessData. 
-    /// WtxModbus fetches, interprets the data( method OnData(data) ) and 
-    /// send it to the GUI or application class by an eventhandler (=ProcessDataReceived). 
+    /// This class represents a WTX device with the Modbus/TCP interface.
+    /// Subscribe to ProcessDataReceived over the constructor to automatically get weight values.
     /// </summary>
     ///
     public class WTXModbus : BaseWTDevice
@@ -99,36 +98,32 @@ namespace Hbm.Weighing.API.WTX
                 return "Modbus";
             }
         }
-        
-        #endregion
 
-
-        #region ================ public & internal methods =================
-        // To establish a connection to the WTX device via class WTX120_Modbus.
+        /// <inheritdoc />
         public override void Connect(double timeoutMs = 2000)
         {
             this.Connection.Connect();
         }
 
-        // To establish a connection to the WTX device via class WTX120_Modbus.
+        /// <inheritdoc />
         public override void Connect(Action<bool> ConnectCompleted, double timeoutMs)
         {
             this.Connection.Connect();
         }
-        
-        // To terminate,break, a connection to the WTX device via class WTX120_Modbus.
+
+        /// <inheritdoc />
         public override void Disconnect(Action<bool> DisconnectCompleted)
         {
             this.Connection.Disconnect();
         }
 
-        // To terminate,break, a connection to the WTX device via class WTX120_Modbus.
+        /// <inheritdoc />
         public override void Disconnect()
         {
             this.Connection.Disconnect();
         }
-        #endregion
-
+        
+        /// <inheritdoc />
         protected override void ProcessDataUpdateTick(object info)
         {
             Stop();
@@ -141,15 +136,25 @@ namespace Hbm.Weighing.API.WTX
             Restart();
         }
 
-        #region Comment methods
-        public string WeightMovingStringComment()
+        /// <inheritdoc />
+        public override WeightType Weight
         {
-            if (ProcessData.WeightStable)
-                return "0=Weight is not moving.";
-            else
-                return "1=Weight is moving";
+            get
+            {
+                return ProcessData.Weight;
+            }
         }
 
+        /// <inheritdoc />
+        public override PrintableWeightType PrintableWeight
+        {
+            get
+            {
+                return ProcessData.PrintableWeight;
+            }
+        }
+
+        /// <inheritdoc />
         public override int ManualTareValue 
         {
             get
@@ -163,6 +168,7 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
+        /// <inheritdoc />
         public override TareMode TareMode
         {
             get
@@ -171,7 +177,16 @@ namespace Hbm.Weighing.API.WTX
             }
         }
 
+        /// <inheritdoc />
+        public override bool WeightStable
+        {
+            get
+            {
+                return ProcessData.WeightStable;
+            }
+        }
 
+        /// <inheritdoc />
         public override int ScaleRange
         {
             get
@@ -179,8 +194,11 @@ namespace Hbm.Weighing.API.WTX
                 return ProcessData.ScaleRange + 1;
             }
         }
+
+        /// <inheritdoc />
         public override ApplicationMode ApplicationMode { get; set; }
 
+        /// <inheritdoc />
         public override string Unit
         {
             get
@@ -188,18 +206,19 @@ namespace Hbm.Weighing.API.WTX
                 return ProcessData.Unit;
             }
         }
-        
-        #endregion
 
-        #region Adjustment methods 
+        /// <inheritdoc />
         public override int CalibrationWeight { get; set; }
 
+        /// <inheritdoc />
         public override int ZeroSignal { get; set; }
 
+        /// <inheritdoc />
         public override int NominalSignal { get; set; }
+        #endregion
 
-
-        // This methods sets the value of the WTX to zero. 
+        #region ================ public & internal methods =================
+        /// <inheritdoc />
         public override bool AdjustZeroSignal()
         {
             Stop();                        
@@ -207,6 +226,7 @@ namespace Hbm.Weighing.API.WTX
             return Connection.Write(ModbusCommands.Control_word_AdjustZero, 1);
         }
 
+        /// <inheritdoc />
         public override bool AdjustNominalSignal()
         {
             this.Stop();
@@ -214,7 +234,7 @@ namespace Hbm.Weighing.API.WTX
             return Connection.Write(ModbusCommands.Control_word_AdjustZero, 1);
         }
 
-        // This method sets the value for the nominal weight in the WTX.
+        /// <inheritdoc />
         public override bool AdjustNominalSignalWithCalibrationWeight(double adjustmentWeight)
         {
             Connection.Write(ModbusCommands.CWTScaleCalibrationWeight, MeasurementUtils.DoubleToDigit(adjustmentWeight,ProcessData.Decimals));    
@@ -223,9 +243,8 @@ namespace Hbm.Weighing.API.WTX
             this.Restart();
             return result;
         }
-        
-        // Calculates the values for deadload and nominal load in d from the inputs in mV/V
-        // and writes the into the WTX registers.
+
+        /// <inheritdoc />
         public override void CalculateAdjustment(double preload, double capacity)
         {
             double multiplierMv2D = 500000.0;
@@ -239,55 +258,45 @@ namespace Hbm.Weighing.API.WTX
             Connection.Write(ModbusCommands.Control_word_AdjustNominal, 1);
             Restart();
         }
-        #endregion
 
-        #region Process data methods - Standard
+        /// <inheritdoc />
         public async override void SetGross()
         {
             await Connection.WriteAsync(ModbusCommands.Control_word_GrossNet, 1);
         }
-        
+
+        /// <inheritdoc />
         public async override void Tare()
         {
             await Connection.WriteAsync(ModbusCommands.Control_word_Taring, 1);
         }
-        
+
+        /// <inheritdoc />
         public async override void Zero()
         {
             await Connection.WriteAsync(ModbusCommands.Control_word_Zeroing, 1);
         }
         
+        /// <summary>
+        /// Activate data after transmitting ober Modbus
+        /// </summary>
         public async void ActivateData()
         {
             await Connection.WriteAsync(ModbusCommands.Control_word_ActivateData, 1);
         }
 
+        /// <inheritdoc />
         public async override void TareManually(double manualTareValue)
         {
             await Connection.WriteAsync(ModbusCommands.Control_word_Taring, 1);
         }
-        #endregion
 
+        /// <inheritdoc />
         public async override void RecordWeight()
         {
             await Connection.WriteAsync(ModbusCommands.Control_word_RecordWeight, 1);
         }
-
-        public override WeightType Weight
-        {
-            get
-            {
-                return ProcessData.Weight;
-            }
-        }
-
-        public override PrintableWeightType PrintableWeight
-        {
-            get
-            {
-                return ProcessData.PrintableWeight;
-            }
-        }
+        #endregion
 
     }
 }

@@ -20,8 +20,8 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | INetConnection.cs                  | :large_orange_diamond: |
 | LogEvent.cs                        | :heavy_check_mark:     |
 | ProcessDataReceivedEventArgs.cs    | :heavy_check_mark:     | 
-| WTXJet.cs                          | :large_orange_diamond: |
-| WTXModbus.cs                       | :large_orange_diamond: | 
+| WTXJet.cs                          | :heavy_check_mark: |
+| WTXModbus.cs                       | :heavy_check_mark: | 
 | ModbusCommand.cs                   | :large_orange_diamond: |
 | ModbusCommands.cs                  | :large_orange_diamond: |
 | ModbusTCPConnection.cs             | :red_circle:           |

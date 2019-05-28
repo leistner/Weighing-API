@@ -244,8 +244,11 @@ namespace Hbm.Weighing.API.WTX.Modbus
             {
                 ushort[] _data = await testConnection.SyncData();
             });
-
-            return _wtxObj.WeightMovingStringComment();
+            
+            if (_wtxObj.WeightStable)
+                return "0=Weight is not moving.";
+            else
+                return "1=Weight is moving";            
         }
            
         private void update(object sender, ProcessDataReceivedEventArgs e)
