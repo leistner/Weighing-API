@@ -41,6 +41,7 @@ namespace Hbm.Weighing.API.WTX
     /// WtxModbus fetches, interprets the data( method OnData(data) ) and 
     /// send it to the GUI or application class by an eventhandler (=ProcessDataReceived). 
     /// </summary>
+    ///
     public class WTXModbus : BaseWTDevice
     {
 

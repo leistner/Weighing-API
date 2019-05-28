@@ -60,7 +60,7 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region ======================== properties ========================
+        #region ================ Get-/Private set properties ===============
 
         /// <summary>
         /// Gets the gross value of weight in string without a unit
@@ -79,7 +79,7 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region ====================== public method =======================
+        #region ================== public method - update ==================
 
         public void Update(double net, double gross, int decimals)
         {          

@@ -46,7 +46,8 @@ namespace Hbm.Weighing.API.Data
     /// </summary>
     public class DataFillerExtendedJet : DataFillerJet, IDataFillerExtended
     {
-        #region privates
+
+        #region ========================= privates =========================
 
         private int _errorRegister;
         private int _saveAllParameters;
@@ -109,19 +110,15 @@ namespace Hbm.Weighing.API.Data
         private int _emptyWeightTolerance;
         private int _residualFlowDosingCycle;
 
-        private string _oimlCertificationInformation;
-        private string _ntepCertificationInformation;
-        private string _hardwareVersion;
-        private string _identification;
-        private string _firmwareDate;
-        private string _softwareIdentification;
-        private string _softwareVersion;
-
         private INetConnection _connection;
         #endregion
 
-        #region constructor
+        #region =============== constructors & destructors =================
 
+        /// <summary>
+        /// Constructor of class DataFillerExtendedJet : Initalizes values and connects 
+        /// the eventhandler from Connection to the interal update method
+        /// </summary>
         public DataFillerExtendedJet(INetConnection Connection):base(Connection)          
         {
             _connection = Connection;
@@ -190,19 +187,24 @@ namespace Hbm.Weighing.API.Data
             _emptyWeightTolerance = 0 ;
             _residualFlowDosingCycle = 0 ;
 
-            _oimlCertificationInformation = "0";
-            _ntepCertificationInformation = "0";
-            _hardwareVersion = "0";
-            _identification = "0";
-            _firmwareDate = "0";
-            _softwareIdentification = "0";
-            _softwareVersion = "0";
+            OimlCertificationInformation = "0";
+            NtepCertificationInformation = "0";
+            HardwareVersion = "0";
+            Identification = "0";
+            FirmwareDate = "0";
+            SoftwareIdentification = "0";
+            SoftwareVersion = "0";
         }
 
         #endregion
-        
-        #region update method for the filler extended data
 
+        #region ========== update method - filler extended data ============
+
+        /// <summary>
+        /// Updates & converts the values from buffer (Dictionary<string,string>) 
+        /// </summary>
+        /// <param name="sender">Connection class</param>
+        /// <param name="e">EventArgs, Event argument</param>
         public void UpdateFillerExtendedData(object sender, EventArgs e)
         {
             try
@@ -254,8 +256,8 @@ namespace Hbm.Weighing.API.Data
                     _intervalRangeControl = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Interval_range_control));
                     _multiLimit1 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Multi_limit_1));
                     _multiLimit2 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Multi_limit_2));
-                    _oimlCertificationInformation = _connection.ReadFromBuffer(JetBusCommands.Oiml_certificaiton_information);
-                    _ntepCertificationInformation = _connection.ReadFromBuffer(JetBusCommands.Ntep_certificaiton_information);
+                    OimlCertificationInformation = _connection.ReadFromBuffer(JetBusCommands.Oiml_certificaiton_information);
+                    NtepCertificationInformation = _connection.ReadFromBuffer(JetBusCommands.Ntep_certificaiton_information);
                     _maximumZeroingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximum_zeroing_time));
                     _maximumPeakValueGross = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximum_peak_value_gross));
                     _minimumPeakValueGross = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_peak_value_gross));
@@ -264,16 +266,16 @@ namespace Hbm.Weighing.API.Data
                     _minimumPeakValue = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_peak_value));
                     _weightMovingDetection = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Weight_moving_detection));
                     _deviceAddress = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Device_address));
-                    _hardwareVersion = _connection.ReadFromBuffer(JetBusCommands.Hardware_version);
-                    _identification = _connection.ReadFromBuffer(JetBusCommands.Identification);
+                    HardwareVersion = _connection.ReadFromBuffer(JetBusCommands.Hardware_version);
+                    Identification = _connection.ReadFromBuffer(JetBusCommands.Identification);
 
                     _outputScale = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Output_scale));
-                    _firmwareDate = _connection.ReadFromBuffer(JetBusCommands.Firmware_date);
+                    FirmwareDate = _connection.ReadFromBuffer(JetBusCommands.Firmware_date);
                     _resetTrigger = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Reset_trigger));
                     _stateDigital_IO_Extended = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.State_digital_io_extended));
 
-                    _softwareIdentification = _connection.ReadFromBuffer(JetBusCommands.Software_identification);
-                    _softwareVersion = _connection.ReadFromBuffer(JetBusCommands.Software_version);
+                    SoftwareIdentification = _connection.ReadFromBuffer(JetBusCommands.Software_identification);
+                    SoftwareVersion = _connection.ReadFromBuffer(JetBusCommands.Software_version);
                     _dateTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Date_time));
 
                     _breakDosing = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Break_dosing));
@@ -302,7 +304,7 @@ namespace Hbm.Weighing.API.Data
         }
         #endregion
 
-        #region Properties for the filler extended data
+        #region ======== Get-/Set properties - filler extended data ========
 
         public int ErrorRegister
         {
@@ -665,62 +667,13 @@ namespace Hbm.Weighing.API.Data
             set { _connection.Write(JetBusCommands.Residual_flow_dosing_cycle , value);
                 this._residualFlowDosingCycle = value; }
         }
-        public string OimlCertificationInformation
-        {
-            get { return _oimlCertificationInformation; }
-            set
-            { //_connection.Write(JetBusCommands.Oiml_certificaiton_information , value);
-                this._oimlCertificationInformation = value;
-            }
-        }
-        public string NtepCertificationInformation
-        {
-            get { return _ntepCertificationInformation; }
-            set
-            { //_connection.Write(JetBusCommands.Ntep_certificaiton_information , value);
-                this._ntepCertificationInformation = value;
-            }
-        }
-        public string HardwareVersion
-        {
-            get { return _hardwareVersion; }
-            set
-            { //_connection.Write(JetBusCommands.Hardware_version , value);
-                this._hardwareVersion = value;
-            }
-        }
-        public string FirmwareDate
-        {
-            get { return _firmwareDate; }
-            set
-            { //_connection.Write(JetBusCommands.Firmware_date , value);
-                this._firmwareDate = value;
-            }
-        }
-        public string Identification
-        {
-            get { return _identification; }
-            set
-            { //_connection.Write(JetBusCommands.Identification , value);
-                this._identification = value;
-            }
-        }
-        public string SoftwareIdentification
-        {
-            get { return _softwareIdentification; }
-            set
-            { //_connection.Write(JetBusCommands.Software_identification , value);
-                this._softwareIdentification = value;
-            }
-        }
-        public string SoftwareVersion
-        {
-            get { return _softwareVersion; }
-            set
-            { //_connection.Write(JetBusCommands.Software_version , value);
-                this._softwareVersion = value;
-            }
-        }
+        public string OimlCertificationInformation { get; private set; }
+        public string NtepCertificationInformation { get; private set; }
+        public string HardwareVersion { get; private set; }
+        public string FirmwareDate { get; private set; }
+        public string Identification { get; private set; }
+        public string SoftwareIdentification { get; private set; }
+        public string SoftwareVersion { get; private set; }
         #endregion
 
     }

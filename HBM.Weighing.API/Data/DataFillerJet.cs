@@ -46,42 +46,8 @@ namespace Hbm.Weighing.API.Data
     public class DataFillerJet : IDataFiller
     {
 
-        #region privates for filler mode
-        private int _fineFlow;
-        private int _ready;
-        private int _reDosing;
-        private int _maxDosingTime;
-        private int _toleranceErrorPlus;
-        private int _toleranceErrorMinus;
+        #region ================= privates for filler mode =================
 
-        private int _statusInput1;
-        private int _generalScaleError;
-
-        private int _fillingProcessStatus;
-        private int _numberDosingResults;
-        private int _dosingResult;
-        private int _meanValueDosingResults;
-
-        private int _standardDeviation;
-        private int _totalWeight;
-        private int _fineFlowCutOffPoint;
-        private int _coarseFlowCutOffPoint;
-
-        private int _currentDosingTime;
-        private int _currentCoarseFlowTime;
-        private int _currentFineFlowTime;
-        private int _parameterSetProduct;
-
-        private int _weightMemoryDay;
-        private int _weightMemoryMonth;
-        private int _weightMemoryYear;
-        private int _weightMemorySeqNumber;
-        private int _weightMemoryGross;
-        private int _weightMemoryNet;
-
-        private int _weight_storage; 
-        private int _mode_weight_storage;
-        
         // Output words for filler mode: 
 
         private int _residualFlowTime;
@@ -117,98 +83,65 @@ namespace Hbm.Weighing.API.Data
         private int _valveControl;
         private int _emptyingMode;
 
-        private INetConnection _connection;       
+        private INetConnection _connection;
         #endregion
 
-        #region contructor
+        #region =============== constructors & destructors =================
 
-        public DataFillerJet(INetConnection Connection) : base()
+        /// <summary>
+        /// Constructor of class DataFillerJet : Initalizes values and connects 
+        /// the eventhandler from Connection to the interal update method
+        /// </summary>
+        public DataFillerJet(INetConnection Connection)
         {
             _connection = Connection;
-           
+
             _connection.UpdateData += UpdateFillerData;
             Console.WriteLine("DataFillerJet");
 
-            CoarseFlow = 0;
-            _fineFlow=0;
-            _ready=0;
-            _reDosing=0;
+            _residualFlowTime = 0;
+            _targetFillingWeight = 0;
+            _coarseFlowCutOffPointSet = 0;
+            _fineFlowCutOffPointSet = 0;
 
-            Emptying=0;
-            FlowError=0;
-            Alarm=0;
-            AdcOverUnderload=0;
+            _minimumFineFlow = 0;
+            _optimizationOfCutOffPoints = 0;
+            _maximumDosingTime = 0;
+            _startWithFineFlow = 0;
 
-            _fillingProcessStatus=0;
-            _numberDosingResults=0;
-            _dosingResult=0;
-            _meanValueDosingResults=0;
+            _coarseLockoutTime = 0;
+            _fineLockoutTime = 0;
+            _tareMode = 0;
+            _upperToleranceLimit = 0;
 
-            _standardDeviation=0;
-            _totalWeight=0;
-            _currentDosingTime=0;
-            _currentCoarseFlowTime=0;
+            _lowerToleranceLimit = 0;
+            _minimumStartWeight = 0;
+            _emptyWeight = 0;
+            _tareDelay = 0;
 
-            _currentFineFlowTime=0;
-            _toleranceErrorPlus=0;
-            _toleranceErrorMinus=0;
-            _statusInput1=0;
+            _coarseFlowMonitoringTime = 0;
+            _coarseFlowMonitoring = 0;
+            _fineFlowMonitoring = 0;
+            _fineFlowMonitoringTime = 0;
 
-            _generalScaleError=0;
-            _fineFlowCutOffPoint=0;
+            _delayTimeAfterFineFlow = 0;
+            _activationTimeAfterFineFlow = 0;
+            _systematicDifference = 0;
+            _downwardsDosing = 0;
 
-            _coarseFlowCutOffPoint=0;
-            _parameterSetProduct=0;
-            _maxDosingTime=0;
-
-            _residualFlowTime=0;
-            _targetFillingWeight=0;
-            _coarseFlowCutOffPointSet=0;
-            _fineFlowCutOffPointSet=0;
-
-            _minimumFineFlow=0;
-            _optimizationOfCutOffPoints=0;
-            _maximumDosingTime=0;
-            _startWithFineFlow=0;
-
-            _coarseLockoutTime=0;
-            _fineLockoutTime=0;
-            _tareMode=0;
-            _upperToleranceLimit=0;
-
-            _lowerToleranceLimit=0;
-            _minimumStartWeight=0;
-            _emptyWeight=0;
-            _tareDelay=0;
-
-            _coarseFlowMonitoringTime=0;
-            _coarseFlowMonitoring=0;
-            _fineFlowMonitoring=0;
-            _fineFlowMonitoringTime=0;
-
-            _delayTimeAfterFineFlow=0;
-            _activationTimeAfterFineFlow=0;
-            _systematicDifference=0;
-            _downwardsDosing=0;
-
-            _valveControl=0;
-            _emptyingMode=0;
-
-            _weight_storage=0;
-            _mode_weight_storage=0;
-
-            _weightMemoryDay =0;
-            _weightMemoryMonth = 0;
-            _weightMemoryYear = 0;
-            _weightMemorySeqNumber = 0;
-            _weightMemoryGross = 0;
-            _weightMemoryNet = 0;
+            _valveControl = 0;
+            _emptyingMode = 0;
         }
 
         #endregion
 
-        #region Update methods for the filler mode
+        #region =============== Update methods - filler mode ===============
 
+        /// <summary>
+        /// Updates & converts the values from buffer (Dictionary<string,string>) 
+        /// </summary>
+        /// <param name="sender">Connection class</param>
+        /// <param name="e">EventArgs, Event argument</param>
         public void UpdateFillerData(object sender, EventArgs e)
         {
             try
@@ -216,11 +149,11 @@ namespace Hbm.Weighing.API.Data
                 if (Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 2 || Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 3)  // If application mode = filler
                 {
                     // Via Modbus and Jetbus IDs: 
-                    _maxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximal_dosing_time));
-                    _meanValueDosingResults = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Mean_value_dosing_results));
-                    _standardDeviation = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Standard_deviation));
-                    _fineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_cut_off_point));
-                    _coarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_cut_off_point));
+                    MaxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximal_dosing_time));
+                    MeanValueDosingResults = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Mean_value_dosing_results));
+                    StandardDeviation = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Standard_deviation));
+                    FineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_cut_off_point));
+                    CoarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_cut_off_point));
 
                     _residualFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Residual_flow_time));
                     _minimumFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_fine_flow));
@@ -247,8 +180,8 @@ namespace Hbm.Weighing.API.Data
                     _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Delay1_dosing));
                     _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_phase_before_coarse_flow));
 
-                    _weight_storage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight));
-                    _mode_weight_storage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight_mode));
+                    WeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight));
+                    ModeWeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight_mode));
                 }
             }
             catch (KeyNotFoundException)
@@ -259,21 +192,12 @@ namespace Hbm.Weighing.API.Data
         }
         #endregion
 
-        #region Get-properties for input words of filler mode
+        #region === Get/Private set properties - input words filler mode ===
 
         public int CoarseFlow { get; private set; }
-        public int FineFlow
-        {
-            get { return _fineFlow; }
-        }
-        public int Ready
-        {
-            get { return _ready; }
-        }
-        public int ReDosing
-        {
-            get { return _reDosing; }
-        }
+        public int FineFlow { get; }
+        public int Ready { get; }
+        public int ReDosing { get; }
 
         public int Emptying { get; private set; }
 
@@ -283,111 +207,45 @@ namespace Hbm.Weighing.API.Data
 
         public int AdcOverUnderload { get; private set; }
 
-        public int FillingProcessStatus
-        {
-            get { return _fillingProcessStatus; }
-        }
-        public int NumberDosingResults
-        {
-            get { return _numberDosingResults; }
-        }
-        public int DosingResult
-        {
-            get { return _dosingResult; }
-        }
-        public int MeanValueDosingResults
-        {
-            get { return _meanValueDosingResults; }
-        }
-        public int StandardDeviation
-        {
-            get { return _standardDeviation; }
-        }
-        public int TotalWeight
-        {
-            get { return _totalWeight; }
-        }
-        public int CurrentDosingTime
-        {
-            get { return _currentDosingTime; }
-        }
-        public int CurrentCoarseFlowTime
-        {
-            get { return _currentCoarseFlowTime; }
-        }
-        public int CurrentFineFlowTime
-        {
-            get { return _currentFineFlowTime; }
-        }
-        public int ToleranceErrorPlus
-        {
-            get { return _toleranceErrorPlus; }
-        }
-        public int ToleranceErrorMinus
-        {
-            get { return _toleranceErrorMinus; }
-        }
-        public int StatusInput1
-        {
-            get { return _statusInput1; }
-        }
-        public int GeneralScaleError
-        {
-            get { return _generalScaleError; }
-        }
-        public int FineFlowCutOffPoint
-        {
-            get { return _fineFlowCutOffPoint; }
-            set { this._fineFlowCutOffPoint = value; }
-        }
-        public int CoarseFlowCutOffPoint
-        {
-            get { return _coarseFlowCutOffPoint; }
-            set { this._coarseFlowCutOffPoint = value; }
-        }
-        public int ParameterSetProduct
-        {
-            get { return _parameterSetProduct; }
-        }
-        public int MaxDosingTime
-        {
-            get { return _maxDosingTime; }
-        }
-        public int WeightMemDay
-        {
-            get { return _weightMemoryDay; }
-        }
-        public int WeightMemMonth
-        {
-            get { return _weightMemoryMonth; }
-        }
-        public int WeightMemYear
-        {
-            get { return _weightMemoryYear; }
-        }
-        public int WeightMemSeqNumber
-        {
-            get { return _weightMemorySeqNumber; }
-        }
-        public int WeightMemGross
-        {
-            get { return _weightMemoryGross; }
-        }
-        public int WeightMemNet
-        {
-            get { return _weightMemoryNet; }
-        }
+        public int FillingProcessStatus { get; }
+        public int NumberDosingResults { get; }
+        public int DosingResult { get; }
+        public int MeanValueDosingResults { get; private set; }
+        public int StandardDeviation { get; private set; }
+        public int TotalWeight { get; }
+        public int CurrentDosingTime { get; }
+        public int CurrentCoarseFlowTime { get; }
+        public int CurrentFineFlowTime { get; }
+        public int ToleranceErrorPlus { get; }
+        public int ToleranceErrorMinus { get; }
+        public int StatusInput1 { get; }
+        public int GeneralScaleError { get; }
+        public int FineFlowCutOffPoint { get; set; }
+        public int CoarseFlowCutOffPoint { get; set; }
+        public int ParameterSetProduct { get; }
+        public int MaxDosingTime { get; private set; }
+        public int WeightMemDay { get; }
+        public int WeightMemMonth { get; }
+        public int WeightMemYear { get; }
+        public int WeightMemSeqNumber { get; }
+        public int WeightMemGross { get; }
+        public int WeightMemNet { get; }
 
         #endregion
 
-        #region Get/Set-properties for output words of filler mode
+        #region === Get/Private set properties - output words filler mode ==
 
         public int ResidualFlowTime // Type : unsigned integer 16 Bit
         {
-            get { return _residualFlowTime; }
-            set {
+            get
+            {
+                return _residualFlowTime;
+            }
+            set
+            {
                 _connection.Write(JetBusCommands.Residual_flow_time, value);
-                  this._residualFlowTime = value; }
+                this._residualFlowTime = value;
+            }
         }
         public int TargetFillingWeight // Type : signed integer 32 Bit
         {
@@ -524,8 +382,11 @@ namespace Hbm.Weighing.API.Data
         public int DownwardsDosing  // Type : unsigned integer 8 Bit
         {
             get { return _downwardsDosing; }
-            set { //_connection.Write(_connection.IDCommands.DOWNWARDS_DOSING, 0, value); 
-                this._downwardsDosing = value; }
+            set
+            {
+                _connection.Write(JetBusCommands.DOWNWARDS_DOSING, value); 
+                this._downwardsDosing = value;
+            }
         }
         public int ValveControl  // Type : unsigned integer 8 Bit
         {
@@ -540,16 +401,8 @@ namespace Hbm.Weighing.API.Data
             set { _connection.Write(JetBusCommands.Emptying_mode, value);
                 this._emptyingMode = value; }
         }
-        public int WeightStorage
-        {
-            get { return _weight_storage; }
-            set { this._weight_storage = value; }
-        }
-        public int ModeWeightStorage
-        {
-            get { return _mode_weight_storage; }
-            set { this._mode_weight_storage = value; }
-        }
+        public int WeightStorage { get; set; }
+        public int ModeWeightStorage { get; set; }
 
         #endregion
 
