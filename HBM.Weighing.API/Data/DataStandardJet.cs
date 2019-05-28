@@ -215,7 +215,7 @@ namespace Hbm.Weighing.API.Data
                 LimitStatus3 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status3));
                 LimitStatus4 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status4));
 
-                WeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight_mode));
+                WeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.RecordWeightMode));
 
                 if (Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 0 || Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 1)  // If application mode is in standard mode
                 {

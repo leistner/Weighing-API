@@ -50,17 +50,21 @@ namespace Hbm.Weighing.API
         /// Initializes a new instance of the <see cref="BaseWTDevice" /> class.
         /// </summary>
         /// <param name="connection">Target connection of the device</param>
+        /// <param name="timerIntervalms">Interval for updating ProcessData</param>
         public BaseWTDevice(INetConnection connection, int timerIntervalms)
+           
         {
-            this.Connection = connection;
+            Connection = connection;
             _processDataInterval = timerIntervalms;
             _processDataTimer = new Timer(ProcessDataUpdateTick, null, Timeout.Infinite, Timeout.Infinite);
         }
 
-        public BaseWTDevice(INetConnection connection)
-        {            this.Connection = connection;
-            _processDataInterval = 500;
-            _processDataTimer = new Timer(ProcessDataUpdateTick, null, Timeout.Infinite, Timeout.Infinite);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseWTDevice" /> class.
+        /// </summary>
+        /// <param name="connection">Target connection of the device</param>
+        public BaseWTDevice(INetConnection connection) : this(connection, 500)
+        {            
         }
         #endregion
 

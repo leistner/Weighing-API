@@ -180,8 +180,8 @@ namespace Hbm.Weighing.API.Data
                     _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Delay1_dosing));
                     _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_phase_before_coarse_flow));
 
-                    WeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight));
-                    ModeWeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight_mode));
+                    WeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.RecordWeight));
+                    ModeWeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.RecordWeightMode));
                 }
             }
             catch (KeyNotFoundException)
