@@ -62,7 +62,7 @@ namespace Hbm.Weighing.API
 
         #endregion
 
-        #region =============================== Read/Write methods ====================================
+        #region ==================== Read/Write methods ====================
 
         string Read(object command);
 

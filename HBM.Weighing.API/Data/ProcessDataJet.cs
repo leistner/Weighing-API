@@ -45,6 +45,10 @@ namespace Hbm.Weighing.API.Data
         #endregion
 
         #region =============== constructors & destructors =================
+        /// <summary>
+        /// Constructor of class ProcessDataJet : Initalizes values and connects 
+        /// the eventhandler from Connection to the interal update method
+        /// </summary>
         public ProcessDataJet(INetConnection Connection)
         {
             _connection = Connection;

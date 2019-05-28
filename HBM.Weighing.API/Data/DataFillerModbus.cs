@@ -46,50 +46,8 @@ namespace Hbm.Weighing.API.Data
     /// </summary>
     public class DataFillerModbus : IDataFiller
     {
-        #region privates for filler mode
 
-        private int _coarseFlow;
-        private int _fineFlow;
-        private int _ready;
-        private int _reDosing;
-
-        private int _emptying;
-        private int _flowError;
-        private int _alarm;
-        private int _adcOverUnderload;
-
-        private int _maxDosingTime;
-        private int _legalForTradeOperation;
-        private int _toleranceErrorPlus;
-        private int _toleranceErrorMinus;
-
-        private int _statusInput1;
-        private int _generalScaleError;
-
-        private int _fillingProcessStatus;
-        private int _numberDosingResults;
-        private int _dosingResult;
-        private int _meanValueDosingResults;
-
-        private int _standardDeviation;
-        private int _totalWeight;
-        private int _fineFlowCutOffPoint;
-        private int _coarseFlowCutOffPoint;
-
-        private int _currentDosingTime;
-        private int _currentCoarseFlowTime;
-        private int _currentFineFlowTime;
-        private int _parameterSetProduct;
-
-        private int _weightMemoryDay;
-        private int _weightMemoryMonth;
-        private int _weightMemoryYear;
-        private int _weightMemorySeqNumber;
-        private int _weightMemoryGross;
-        private int _weightMemoryNet;
-
-        private int _weight_storage;
-        private int _mode_weight_storage;
+        #region ================== privates - filler mode ==================
 
         // Output words for filler mode: 
 
@@ -130,8 +88,11 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region contructor
-
+        #region =============== constructors & destructors =================
+        /// <summary>
+        /// Constructor of class DataFillerModbus : Initalizes values and connects 
+        /// the eventhandler from Connection to the interal update method
+        /// </summary>
         public DataFillerModbus(INetConnection Connection) : base()
         {
             _connection = Connection;
@@ -139,37 +100,37 @@ namespace Hbm.Weighing.API.Data
             _connection.UpdateData += UpdateFillerData;
             Console.WriteLine("DataFillerModbus");
 
-            _coarseFlow = 0;
-            _fineFlow = 0;
-            _ready = 0;
-            _reDosing = 0;
+            CoarseFlow = 0;
+            FineFlow = 0;
+            Ready = 0;
+            ReDosing = 0;
 
-            _emptying = 0;
-            _flowError = 0;
-            _alarm = 0;
-            _adcOverUnderload = 0;
+            Emptying = 0;
+            FlowError = 0;
+            Alarm = 0;
+            AdcOverUnderload = 0;
 
-            _fillingProcessStatus = 0;
-            _numberDosingResults = 0;
-            _dosingResult = 0;
-            _meanValueDosingResults = 0;
+            FillingProcessStatus = 0;
+            NumberDosingResults = 0;
+            DosingResult = 0;
+            MeanValueDosingResults = 0;
 
-            _standardDeviation = 0;
-            _totalWeight = 0;
-            _currentDosingTime = 0;
-            _currentCoarseFlowTime = 0;
+            StandardDeviation = 0;
+            TotalWeight = 0;
+            CurrentDosingTime = 0;
+            CurrentCoarseFlowTime = 0;
 
-            _currentFineFlowTime = 0;
-            _toleranceErrorPlus = 0;
-            _toleranceErrorMinus = 0;
-            _statusInput1 = 0;
+            CurrentFineFlowTime = 0;
+            ToleranceErrorPlus = 0;
+            ToleranceErrorMinus = 0;
+            StatusInput1 = 0;
 
-            _generalScaleError = 0;
-            _fineFlowCutOffPoint = 0;
+            GeneralScaleError = 0;
+            FineFlowCutOffPoint = 0;
 
-            _coarseFlowCutOffPoint = 0;
-            _parameterSetProduct = 0;
-            _maxDosingTime = 0;
+            CoarseFlowCutOffPoint = 0;
+            ParameterSetProduct = 0;
+            MaxDosingTime = 0;
 
             _residualFlowTime = 0;
             _targetFillingWeight = 0;
@@ -204,14 +165,19 @@ namespace Hbm.Weighing.API.Data
             _valveControl = 0;
             _emptyingMode = 0;
 
-            _weight_storage = 0;
-            _mode_weight_storage = 0;
+            WeightStorage = 0;
+            ModeWeightStorage = 0;
         }
 
         #endregion
 
-        #region Update methods for the filler mode
+        #region ================ Update method - filler mode ===============
 
+        /// <summary>
+        /// Updates & converts the values from buffer (Dictionary<string,string>) 
+        /// </summary>
+        /// <param name="sender">Connection class</param>
+        /// <param name="e">EventArgs, Event argument</param>
         public void UpdateFillerData(object sender, EventArgs e)
         {
             try
@@ -219,9 +185,9 @@ namespace Hbm.Weighing.API.Data
                 if (Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Application_mode)) == 2 || Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Application_mode)) == 3)  // If application mode = filler
                 {
                     // Via Modbus and Jetbus IDs: 
-                    _maxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Maximal_dosing_time));
-                    _fineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point));
-                    _coarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point));
+                    MaxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Maximal_dosing_time));
+                    FineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point));
+                    CoarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point));
 
                     _residualFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Residual_flow_time));
                     _minimumFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Minimum_fine_flow));
@@ -248,41 +214,41 @@ namespace Hbm.Weighing.API.Data
                     _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Delay_time_after_fine_flow));
                     _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Activation_time_after_fine_flow));
 
-                    _adcOverUnderload = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.AdcOverUnderload));
-                    _legalForTradeOperation = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.LegalForTradeOperation));
-                    _statusInput1 = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.StatusInput1));
-                    _generalScaleError = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.GeneralScaleError));
+                    AdcOverUnderload = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.AdcOverUnderload));
+                    LegalForTradeOperation = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.LegalForTradeOperation));
+                    StatusInput1 = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.StatusInput1));
+                    GeneralScaleError = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.GeneralScaleError));
 
-                    _coarseFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CoarseFlow));
-                    _fineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FineFlow));
-                    _ready = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Ready));
-                    _reDosing = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ReDosing));
+                    CoarseFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CoarseFlow));
+                    FineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FineFlow));
+                    Ready = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Ready));
+                    ReDosing = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ReDosing));
 
-                    _emptying = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Emptying));
-                    _flowError = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FlowError));
-                    _alarm = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Alarm));
-                    _toleranceErrorPlus = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ToleranceErrorPlus));
+                    Emptying = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Emptying));
+                    FlowError = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FlowError));
+                    Alarm = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Alarm));
+                    ToleranceErrorPlus = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ToleranceErrorPlus));
 
-                    _toleranceErrorMinus = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ToleranceErrorMinus));
-                    _currentDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Dosing_time));
-                    _currentCoarseFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_time));
-                    _currentFineFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CurrentFineFlowTime));
+                    ToleranceErrorMinus = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ToleranceErrorMinus));
+                    CurrentDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Dosing_time));
+                    CurrentCoarseFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_time));
+                    CurrentFineFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CurrentFineFlowTime));
                     
-                    _parameterSetProduct = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ParameterSetProduct));
+                    ParameterSetProduct = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ParameterSetProduct));
                     _downwardsDosing = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.DownwardsDosing));
-                    _totalWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.TotalWeight));
+                    TotalWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.TotalWeight));
                     
                     _targetFillingWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.TargetFillingWeight));
                     _coarseFlowCutOffPointSet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point));
                     _fineFlowCutOffPointSet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point));
                     _startWithFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Run_start_dosing));  // Command 'Run_start_dosing' right
 
-                    _weightMemoryDay = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemDayStandard));
-                    _weightMemoryMonth = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemMonthStandard));
-                    _weightMemoryYear = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemYearStandard));
-                    _weightMemorySeqNumber = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemSeqNumberStandard));
-                    _weightMemoryGross = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemGrossStandard));
-                    _weightMemoryNet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemNetStandard));
+                    WeightMemDay = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemDayStandard));
+                    WeightMemMonth = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemMonthStandard));
+                    WeightMemYear = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemYearStandard));
+                    WeightMemSeqNumber = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemSeqNumberStandard));
+                    WeightMemGross = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemGrossStandard));
+                    WeightMemNet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemNetStandard));
                 }
             }
             catch (KeyNotFoundException)
@@ -293,142 +259,44 @@ namespace Hbm.Weighing.API.Data
         }
         #endregion
 
-        #region Get-properties for input words of filler mode
+        #region ========= Get-properties - input words filler mode =========
 
-        public int CoarseFlow
-        {
-            get { return _coarseFlow; }
-        }
-        public int FineFlow
-        {
-            get { return _fineFlow; }
-        }
-        public int Ready
-        {
-            get { return _ready; }
-        }
-        public int ReDosing
-        {
-            get { return _reDosing; }
-        }
-        public int Emptying
-        {
-            get { return _emptying; }
-        }
-        public int FlowError
-        {
-            get { return _flowError; }
-        }
-        public int Alarm
-        {
-            get { return _alarm; }
-        }
-        public int AdcOverUnderload
-        {
-            get { return _adcOverUnderload; }
-        }
-        public int FillingProcessStatus
-        {
-            get { return _fillingProcessStatus; }
-        }
-        public int NumberDosingResults
-        {
-            get { return _numberDosingResults; }
-        }
-        public int DosingResult
-        {
-            get { return _dosingResult; }
-        }
-        public int MeanValueDosingResults
-        {
-            get { return _meanValueDosingResults; }
-        }
-        public int StandardDeviation
-        {
-            get { return _standardDeviation; }
-        }
-        public int TotalWeight
-        {
-            get { return _totalWeight; }
-        }
-        public int CurrentDosingTime
-        {
-            get { return _currentDosingTime; }
-        }
-        public int CurrentCoarseFlowTime
-        {
-            get { return _currentCoarseFlowTime; }
-        }
-        public int CurrentFineFlowTime
-        {
-            get { return _currentFineFlowTime; }
-        }
-        public int ToleranceErrorPlus
-        {
-            get { return _toleranceErrorPlus; }
-        }
-        public int ToleranceErrorMinus
-        {
-            get { return _toleranceErrorMinus; }
-        }
-        public int StatusInput1
-        {
-            get { return _statusInput1; }
-        }
-        public int GeneralScaleError
-        {
-            get { return _generalScaleError; }
-        }
-        public int FineFlowCutOffPoint
-        {
-            get { return _fineFlowCutOffPoint; }
-            set { this._fineFlowCutOffPoint = value; }
-        }
-        public int CoarseFlowCutOffPoint
-        {
-            get { return _coarseFlowCutOffPoint; }
-            set { this._coarseFlowCutOffPoint = value; }
-        }
-        public int ParameterSetProduct
-        {
-            get { return _parameterSetProduct; }
-        }
-        public int MaxDosingTime
-        {
-            get { return _maxDosingTime; }
-        }
-        public int LegalForTradeOperation
-        {
-            get { return _legalForTradeOperation; }
-        }
-        public int WeightMemDay
-        {
-            get { return _weightMemoryDay; }
-        }
-        public int WeightMemMonth
-        {
-            get { return _weightMemoryMonth; }
-        }
-        public int WeightMemYear
-        {
-            get { return _weightMemoryYear; }
-        }
-        public int WeightMemSeqNumber
-        {
-            get { return _weightMemorySeqNumber; }
-        }
-        public int WeightMemGross
-        {
-            get { return _weightMemoryGross; }
-        }
-        public int WeightMemNet
-        {
-            get { return _weightMemoryNet; }
-        }
+        public int CoarseFlow { get; private set; }
+        public int FineFlow { get; private set; }
+        public int Ready { get; private set; }
+        public int ReDosing { get; private set; }
+        public int Emptying { get; private set; }
+        public int FlowError { get; private set; }
+        public int Alarm { get; private set; }
+        public int AdcOverUnderload { get; private set; }
+        public int FillingProcessStatus { get; private set; }
+        public int NumberDosingResults { get; private set; }
+        public int DosingResult { get; private set; }
+        public int MeanValueDosingResults { get; private set; }
+        public int StandardDeviation { get; private set; }
+        public int TotalWeight { get; private set; }
+        public int CurrentDosingTime { get; private set; }
+        public int CurrentCoarseFlowTime { get; private set; }
+        public int CurrentFineFlowTime { get; private set; }
+        public int ToleranceErrorPlus { get; private set; }
+        public int ToleranceErrorMinus { get; private set; }
+        public int StatusInput1 { get; private set; }
+        public int GeneralScaleError { get; private set; }
+        public int FineFlowCutOffPoint { get; set; }
+        public int CoarseFlowCutOffPoint { get; set; }
+        public int ParameterSetProduct { get; private set; }
+        public int MaxDosingTime { get; private set; }
+        public int LegalForTradeOperation { get; private set; }
+        public int WeightMemDay { get; private set; }
+        public int WeightMemMonth { get; private set; }
+        public int WeightMemYear { get; private set; }
+        public int WeightMemSeqNumber { get; private set; }
+        public int WeightMemGross { get; private set; }
+        public int WeightMemNet { get; private set; }
 
         #endregion
 
-        #region Get/Set-properties for output words of filler mode
+        #region ======= Get/Set-properties - output words filler mode ======
 
         public int ResidualFlowTime // Type : unsigned integer 16 Bit
         {
@@ -444,7 +312,7 @@ namespace Hbm.Weighing.API.Data
             get { return _targetFillingWeight; }
             set
             {
-                //_connection.Write(ModbusCommands.Reference_value_dosing, value);
+                _connection.Write(ModbusCommands.TargetFillingWeight, value);
                 this._targetFillingWeight = value;
             }
         }
@@ -665,16 +533,8 @@ namespace Hbm.Weighing.API.Data
                 this._emptyingMode = value;
             }
         }
-        public int WeightStorage
-        {
-            get { return _weight_storage; }
-            set { this._weight_storage = value; }
-        }
-        public int ModeWeightStorage
-        {
-            get { return _mode_weight_storage; }
-            set { this._mode_weight_storage = value; }      
-        }
+        public int WeightStorage { get; set; }
+        public int ModeWeightStorage { get; set; }
 
         #endregion
 

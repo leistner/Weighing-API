@@ -46,7 +46,8 @@ namespace Hbm.Weighing.API.Data
     /// </summary>
     public class DataStandardJet : IDataStandard
     {
-        #region privates for standard mode
+
+        #region ================= privates - standard mode =================
 
         // Input words :
 
@@ -59,24 +60,6 @@ namespace Hbm.Weighing.API.Data
         private int _output2;
         private int _output3;
         private int _output4;
-
-        private int _limitStatus1;
-        private int _limitStatus2;
-        private int _limitStatus3;
-        private int _limitStatus4;
-
-        // Modbus only:
-
-        private int _weightMemoryDay;
-        private int _weightMemoryMonth;
-        private int _weightMemoryYear;
-        private int _weightMemorySeqNumber;
-        private int _weightMemoryGross;
-        private int _weightMemoryNet;
-
-        // Jetbus only:
-
-        private int _weight_storage;
 
         // Output words: 
 
@@ -125,8 +108,11 @@ namespace Hbm.Weighing.API.Data
         private INetConnection _connection;
         #endregion
 
-        #region constructor
-
+        #region =============== constructors & destructors =================
+        /// <summary>
+        /// Constructor of class DataStandardJet : Initalizes values and connects 
+        /// the eventhandler from Connection to the interal update method
+        /// </summary>
         public DataStandardJet(INetConnection Connection)
         {
             _connection = Connection;
@@ -144,19 +130,19 @@ namespace Hbm.Weighing.API.Data
             _output3=0;
             _output4=0;
 
-            _limitStatus1 = 0;
-            _limitStatus2 = 0;
-            _limitStatus3 = 0;
-            _limitStatus4 = 0;
+            LimitStatus1 = 0;
+            LimitStatus2 = 0;
+            LimitStatus3 = 0;
+            LimitStatus4 = 0;
 
-            _weightMemoryDay=0;
-            _weightMemoryMonth=0;
-            _weightMemoryYear=0;
-            _weightMemorySeqNumber=0;
-            _weightMemoryGross=0;
-            _weightMemoryNet=0;
+            WeightMemDay=0;
+            WeightMemMonth=0;
+            WeightMemYear=0;
+            WeightMemSeqNumber=0;
+            WeightMemGross=0;
+            WeightMemNet=0;
 
-            _weight_storage=0;
+            WeightStorage=0;
 
             _limitSwitch1Source=0;
             _limitSwitch1Mode=0;
@@ -203,8 +189,13 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region Update methods for standard mode
+        #region =============== Update method - standard mode ==============
 
+        /// <summary>
+        /// Updates & converts the values from buffer (Dictionary<string,string>) 
+        /// </summary>
+        /// <param name="sender">Connection class</param>
+        /// <param name="e">EventArgs, Event argument</param>
         public void UpdateStandardData(object sender, EventArgs e)
         {
             try
@@ -219,12 +210,12 @@ namespace Hbm.Weighing.API.Data
                 _output3 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Status_digital_output_3));
                 _output4 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Status_digital_output_4));
 
-                _limitStatus1 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status1));
-                _limitStatus2 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status2));
-                _limitStatus3 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status3));
-                _limitStatus4 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status4));
+                LimitStatus1 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status1));
+                LimitStatus2 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status2));
+                LimitStatus3 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status3));
+                LimitStatus4 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status4));
 
-                _weight_storage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.RecordWeightMode));
+                WeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight_mode));
 
                 if (Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 0 || Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 1)  // If application mode is in standard mode
                 {
@@ -257,7 +248,7 @@ namespace Hbm.Weighing.API.Data
         }
         #endregion
 
-        #region Get-properties for standard mode
+        #region ============== Get-properties - standard mode ==============
 
         public int Input1
         {
@@ -331,54 +322,20 @@ namespace Hbm.Weighing.API.Data
                 _output4 = value;
             }
         }
-        public int LimitStatus1
-        {
-            get{ return _limitStatus1; }
-        }
-        public int LimitStatus2
-        {
-            get{ return _limitStatus2; }
-        }
-        public int LimitStatus3
-        {
-            get{ return _limitStatus3; }
-        }
-        public int LimitStatus4
-        {
-            get{ return _limitStatus4; }
-        }
-        public int WeightMemDay
-        {
-            get{ return _weightMemoryDay; }
-        }
-        public int WeightMemMonth
-        {
-            get{ return _weightMemoryMonth; }
-        }
-        public int WeightMemYear
-        {
-            get{ return _weightMemoryYear;}
-        }
-        public int WeightMemSeqNumber
-        {
-            get{ return _weightMemorySeqNumber; }
-        }
-        public int WeightMemGross
-        {
-            get{ return _weightMemoryGross; }
-        }
-        public int WeightMemNet
-        {
-            get{ return _weightMemoryNet; }
-        }
-        public int WeightStorage
-        {
-            get { return _weight_storage; }
-            set { this._weight_storage = value; }
-        }
+        public int LimitStatus1 { get; private set; }
+        public int LimitStatus2 { get; private set; }
+        public int LimitStatus3 { get; private set; }
+        public int LimitStatus4 { get; private set; }
+        public int WeightMemDay { get; private set; }
+        public int WeightMemMonth { get; private set; }
+        public int WeightMemYear { get; private set; }
+        public int WeightMemSeqNumber { get; private set; }
+        public int WeightMemGross { get; private set; }
+        public int WeightMemNet { get; private set; }
+        public int WeightStorage { get; set; }
         #endregion
 
-        #region Get-/Set-properties for standard mode 
+        #region ============ Get-/Set-properties - standard mode ===========
 
         public int LimitSwitch1Source // Type : unsigned integer 8 Bit
         {

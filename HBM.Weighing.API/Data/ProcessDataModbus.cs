@@ -44,7 +44,41 @@ namespace Hbm.Weighing.API.Data
         private INetConnection _connection;
         #endregion
 
+        #region =============== constructors & destructors =================
+        /// <summary>
+        /// Constructor of class ProcessDataModbus : Initalizes values and connects 
+        /// the eventhandler from Connection to the interal update method
+        /// </summary>
+        public ProcessDataModbus(INetConnection Connection)
+        {
+            _connection = Connection;
+            _connection.UpdateData += UpdateData;
+
+            PrintableWeight = new PrintableWeightType();
+            Weight = new WeightType();
+            GeneralWeightError = false;
+            ScaleAlarm = false;
+            WeightStable = false;
+            LegalForTrade = false;
+            TareMode = TareMode.None;
+            ScaleRange = 0;
+            ZeroRequired = false;
+            CenterOfZero = false;
+            InsideZero = false;
+            Decimals = 0;
+            Unit = "";
+            Underload = false;
+            Overload = false;
+            HigherSafeLoadLimit = false;
+        }
+        #endregion
+
         #region ==================== events & delegates ====================
+        /// <summary>
+        /// Updates & converts the values from buffer (Dictionary<string,string>) 
+        /// </summary>
+        /// <param name="sender">Connection class</param>
+        /// <param name="e">EventArgs, Event argument</param>
         public void UpdateData(object sender, EventArgs e)
         {
             try
@@ -73,31 +107,6 @@ namespace Hbm.Weighing.API.Data
                 Console.WriteLine("KeyNotFoundException in class ProcessDataModbus, update method");
                 //_connection.CommunicationLog.Invoke(this, new LogEvent((new KeyNotFoundException()).Message));
             }
-        }
-        #endregion
-        
-        #region =============== constructors & destructors =================
-        public ProcessDataModbus(INetConnection Connection)
-        {
-            _connection = Connection;
-            _connection.UpdateData += UpdateData;
-
-            PrintableWeight = new PrintableWeightType();
-            Weight = new WeightType();
-            GeneralWeightError = false;
-            ScaleAlarm = false;
-            WeightStable = false;
-            LegalForTrade = false;
-            TareMode = TareMode.None;
-            ScaleRange = 0;
-            ZeroRequired = false;
-            CenterOfZero = false;
-            InsideZero = false;
-            Decimals = 0;
-            Unit = "";
-            Underload = false;
-            Overload = false;
-            HigherSafeLoadLimit = false;
         }
         #endregion
         
@@ -139,6 +148,12 @@ namespace Hbm.Weighing.API.Data
         #endregion
 
         #region =============== protected & private methods ================
+
+        /// <summary>
+        /// Sets the integer from the wtx device register to the specific unit as a string
+        /// </summary>
+        /// <param name="id">integer from wtx register</param>
+        /// <returns></returns>
         private string UnitIDToString(int id)
         {
             switch (id)
@@ -158,6 +173,12 @@ namespace Hbm.Weighing.API.Data
             }
         }
         
+        /// <summary>
+        /// Sets the tare value
+        /// </summary>
+        /// <param name="tare">tare value as integer</param>
+        /// <param name="presettare">tare value set before as integer</param>
+        /// <returns></returns>
         private TareMode EvaluateTareMode(int tare, int presettare)
         {
             if (tare > 0)

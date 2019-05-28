@@ -45,8 +45,9 @@ namespace Hbm.Weighing.API.Data
     /// </summary>
     public interface IDataFillerExtended : IDataFiller
     {
-        #region Output words for the data of filler extended mode
-        
+
+        #region ======== Output words - data of filler extended mode =======
+
         int ErrorRegister { get; set; }
         int SaveAllParameters { get; set; }
         int RestoreAllDefaultParameters { get; set; }
@@ -112,20 +113,21 @@ namespace Hbm.Weighing.API.Data
         int EmptyWeightTolerance { get; set; }
         int ResidualFlowDosingCycle { get; set; }
 
-        string OimlCertificationInformation { get; set; }
-        string NtepCertificationInformation { get; set; }
-        string HardwareVersion { get; set; }
-        string Identification { get; set; }
-        string FirmwareDate { get; set; }
-        string SoftwareIdentification { get; set; }
-        string SoftwareVersion { get; set; }
+        string OimlCertificationInformation { get; }
+        string NtepCertificationInformation { get; }
+        string HardwareVersion { get; }
+        string Identification { get; }
+        string FirmwareDate { get; }
+        string SoftwareIdentification { get; }
+        string SoftwareVersion { get; }
 
         #endregion
 
-        #region Update methods for the data of filler extended mode
+        #region ============ events & delegates - update method ============
 
         void UpdateFillerExtendedData(object sender, EventArgs e);
 
         #endregion
+
     }
 }

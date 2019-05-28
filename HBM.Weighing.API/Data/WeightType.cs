@@ -30,11 +30,14 @@
 
 namespace Hbm.Weighing.API.Data
 {
+
     /// <summary>
     /// Holds the current weight values (gross, net, tare)
     /// </summary>
     public class WeightType
     {
+
+        #region =============== constructors & destructors =================
         /// <summary>
         /// Constructor of WeightType
         /// </summary>
@@ -44,6 +47,9 @@ namespace Hbm.Weighing.API.Data
             Gross = 0.0;
             Tare  = 0.0;
         }
+        #endregion
+
+        #region ======================== properties ========================
 
         /// <summary>
         /// Gets the gross value of weight
@@ -60,11 +66,23 @@ namespace Hbm.Weighing.API.Data
         /// </summary>
         public double Tare { get; private set; }
 
+        #endregion
+
+        #region ================== public method - update ==================
+
+        /// <summary>
+        /// Updates the value of the class : net, gross and tare value
+        /// </summary>
+        /// <param name="net"></param>
+        /// <param name="gross"></param>
         public void Update(double net, double gross )
         {
             Net = net;
             Gross = gross;
             Tare = net - gross;
         }
+
+        #endregion
+
     }
 }
