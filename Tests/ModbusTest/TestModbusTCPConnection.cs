@@ -798,41 +798,6 @@ namespace Hbm.Weighing.API.WTX.Modbus
             return true;
         }
 
-        public void WriteArray(string index, int value)
-        {
-            _data[0] = (ushort)((value & 0xffff0000) >> 16);
-            _data[1] = (ushort)(value & 0x0000ffff);
-
-            _index = Convert.ToInt16(index);
-
-            switch (this.behavior)
-            {
-                case Behavior.UpdateOutputTestSuccess:
-                        this.arrayElement1 = _data[0];
-                        this.arrayElement2 = _data[1];
-                    break;
-
-                case Behavior.UpdateOutputTestFail:
-                    this.arrayElement1 = 0;
-                    this.arrayElement2 = 0;
-                    break;
-
-                case Behavior.WriteArrayFail:
-                    this.arrayElement1 = 0;
-                    this.arrayElement2 = 0;
-
-                    break;
-
-                case Behavior.WriteArraySuccess:
-                    this.arrayElement1 = _data[0];
-                    this.arrayElement2 = _data[1];
-
-                    break;
-                default:
-                    break; 
-            }
-        }
-
         public void Dispose()
         {
             throw new NotImplementedException();

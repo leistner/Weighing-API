@@ -37,6 +37,8 @@ namespace Hbm.Weighing.API.Utils
     /// </summary>
     public static class MeasurementUtils
     {
+        #region ====================== public methods =======================
+
         /// <summary>
         /// Converts value from int to double, taking the relevant number of decimals into account.
         /// (e.g. 12340 with 2 decimals => returns 123,4)
@@ -60,5 +62,7 @@ namespace Hbm.Weighing.API.Utils
         {
             return (int)(value * Math.Pow(10, decimals));
         }
+
+        #endregion
     }
 }
