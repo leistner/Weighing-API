@@ -31,6 +31,7 @@
 namespace Hbm.Weighing.API.Data
 {
     using System;
+    using System.Collections.Generic;
     using Hbm.Weighing.API.Utils;
     using Hbm.Weighing.API.WTX.Modbus;
 
@@ -46,6 +47,8 @@ namespace Hbm.Weighing.API.Data
         #region ==================== events & delegates ====================
         public void UpdateData(object sender, EventArgs e)
         {
+            try
+            {
             GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.GeneralWeightError)));
             ScaleAlarm = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ScaleAlarmTriggered)));
             int LimitStatus = (Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Limit_status)));
@@ -64,6 +67,12 @@ namespace Hbm.Weighing.API.Data
             Unit = UnitIDToString(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Unit)));
             Weight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Net)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Gross)), Decimals));
             PrintableWeight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Net)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Gross)), Decimals), Decimals);
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine("KeyNotFoundException in class ProcessDataModbus, update method");
+                //_connection.CommunicationLog.Invoke(this, new LogEvent((new KeyNotFoundException()).Message));
+            }
         }
         #endregion
         

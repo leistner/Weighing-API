@@ -211,43 +211,51 @@ namespace Hbm.Weighing.API.Data
 
         public void UpdateFillerData(object sender, EventArgs e)
         {
-            if (Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 2 || Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 3)  // If application mode = filler
+            try
             {
-                // Via Modbus and Jetbus IDs: 
-                _maxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximal_dosing_time));
-                _meanValueDosingResults = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Mean_value_dosing_results));
-                _standardDeviation = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Standard_deviation));
-                _fineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_cut_off_point));
-                _coarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_cut_off_point));
+                if (Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 2 || Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 3)  // If application mode = filler
+                {
+                    // Via Modbus and Jetbus IDs: 
+                    _maxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximal_dosing_time));
+                    _meanValueDosingResults = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Mean_value_dosing_results));
+                    _standardDeviation = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Standard_deviation));
+                    _fineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_cut_off_point));
+                    _coarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_cut_off_point));
 
-                _residualFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Residual_flow_time));
-                _minimumFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_fine_flow));
-                _optimizationOfCutOffPoints = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Optimization));
-                _maximumDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximal_dosing_time));
-                _coarseLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_time));
-                _fineLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_time));
-                _tareMode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Tare_mode));
+                    _residualFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Residual_flow_time));
+                    _minimumFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_fine_flow));
+                    _optimizationOfCutOffPoints = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Optimization));
+                    _maximumDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximal_dosing_time));
+                    _coarseLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_time));
+                    _fineLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_time));
+                    _tareMode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Tare_mode));
 
-                _upperToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Upper_tolerance_limit));
-                _lowerToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Lower_tolerance_limit));
-                _minimumStartWeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_start_weight));
-                _emptyWeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Empty_weight_tolerance));
-                _tareDelay = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Tare_delay));
+                    _upperToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Upper_tolerance_limit));
+                    _lowerToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Lower_tolerance_limit));
+                    _minimumStartWeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_start_weight));
+                    _emptyWeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Empty_weight_tolerance));
+                    _tareDelay = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Tare_delay));
 
-                _coarseFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_monitoring_time));
-                _coarseFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_monitoring));
-                _fineFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_monitoring));
-                _fineFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_monitoring_time));
+                    _coarseFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_monitoring_time));
+                    _coarseFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_monitoring));
+                    _fineFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_monitoring));
+                    _fineFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_monitoring_time));
 
-                _systematicDifference = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Systematic_difference));
-                _valveControl = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Valve_control));
-                _emptyingMode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Emptying_mode));
-                _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Delay1_dosing));
-                _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_phase_before_coarse_flow));
+                    _systematicDifference = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Systematic_difference));
+                    _valveControl = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Valve_control));
+                    _emptyingMode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Emptying_mode));
+                    _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Delay1_dosing));
+                    _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_phase_before_coarse_flow));
 
-                _weight_storage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight));
-                _mode_weight_storage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight_mode));
-              }
+                    _weight_storage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight));
+                    _mode_weight_storage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Storage_weight_mode));
+                }
+            }
+            catch (KeyNotFoundException)
+            {
+                Console.WriteLine("KeyNotFoundException in class DataFillerJet, update method");
+                //_connection.CommunicationLog.Invoke(this, new LogEvent((new KeyNotFoundException()).Message));
+            }
         }
         #endregion
 
