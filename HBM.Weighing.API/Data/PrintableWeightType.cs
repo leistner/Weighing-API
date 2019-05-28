@@ -37,15 +37,30 @@ namespace Hbm.Weighing.API.Data
     /// </summary>
     public class PrintableWeightType
     {
+
+        #region ======================== properties ========================
+
+        private NumberFormatInfo setPrecision;
+
+        #endregion
+
+        #region =============== constructors & destructors =================
+
         /// <summary>
         /// Constructor of class PrintableWeightType
         /// </summary>
         public PrintableWeightType()
         {
+            setPrecision = new NumberFormatInfo();
+
             Net   = "0";
             Gross = "0";
             Tare  = "0";
         }
+
+        #endregion
+
+        #region ======================== properties ========================
 
         /// <summary>
         /// Gets the gross value of weight in string without a unit
@@ -62,15 +77,21 @@ namespace Hbm.Weighing.API.Data
         /// </summary>
         public string Tare { get; private set; }
 
+        #endregion
+
+        #region ====================== public method =======================
+
         public void Update(double net, double gross, int decimals)
-        {
-            NumberFormatInfo setPrecision = new NumberFormatInfo();
+        {          
             setPrecision.NumberDecimalDigits = decimals;
 
             Net = ((decimal)net).ToString("F", setPrecision);
             Gross = ((decimal)gross).ToString("F", setPrecision);
             Tare = ((decimal)net - (decimal)gross).ToString("F", setPrecision);
         }
+
+        #endregion
+
     }
 }
 

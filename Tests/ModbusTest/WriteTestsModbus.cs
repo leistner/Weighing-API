@@ -472,7 +472,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
                 Assert.AreEqual(0x0, testConnection.GetCommand);
 
         }
-        /*
+        
         // Test for method : Adjusting zero
         [Test, TestCaseSource(typeof(WriteTestsModbus), "AdjustingZeroMethodTestCases")]
         public void AdjustingZeroMethodTestModbus(Behavior behavior)
@@ -490,7 +490,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
                 if (behavior == Behavior.TareMethodTestFail)
                 Assert.AreEqual(0x0, testConnection.GetCommand);
         }
-        */
+        
         // Test for method : Adjusting nominal
         [Test, TestCaseSource(typeof(WriteTestsModbus), "AdjustNominalMethodTestCases")]
         public void AdjustingNominalMethodTestModbus(Behavior behavior)
@@ -643,93 +643,6 @@ namespace Hbm.Weighing.API.WTX.Modbus
             return (int)_wtxObj.ProcessDataIntervall;
             //Assert.AreEqual(_wtxObj._aTimer.Interval, 500);
         }
-
-        /*
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "UpdateOutputTestCases")]
-        public bool UpdateOutputTest(Behavior behavior)
-        {
-            bool compareDataWritten = false;
-
-            ushort[] _dataWritten = new ushort[2];
-            ushort[] _outputData = new ushort[43];
-
-            for (int i = 0; i < _outputData.Length; i++)
-                _outputData[i] = 1;
-
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            _wtxObj.UpdateOutputWords(_outputData);
-
-            for (int i = 0; i < _outputData.Length; i++)
-            {
-                _wtxObj.WriteOutputWordS32(_outputData[i], (ushort)(i + 40));
-
-                _dataWritten[0] = (ushort)((_outputData[i] & 0xffff0000) >> 16);
-                _dataWritten[1] = (ushort)(_outputData[i] & 0x0000ffff);
-
-                if (testConnection.getArrElement1 == _dataWritten[0] && testConnection.getArrElement2 == _dataWritten[1])
-                    compareDataWritten = true;
-                else
-                    compareDataWritten = false;
-            }
-
-            _wtxObj.activateData();
-
-            if (compareDataWritten == true)
-
-                return true;
-
-            else
-                return false;
-
-        }
-        */
-        /*
-        [Test, TestCaseSource(typeof(WriteTestsModbus), "UpdateOutputTestCases")]
-        public bool UpdateOutput1Test(Behavior behavior)
-        {
-            bool compareDataWritten = false;
-
-            ushort[] _dataWritten = new ushort[2];
-            ushort[] _outputData = new ushort[43];
-
-            for (int i = 0; i < _outputData.Length; i++)
-                _outputData[i] = 1;
-
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
-            _wtxObj = new WtxModbus(testConnection, 200, Update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            _wtxObj.UpdateOutputWords(_outputData);
-
-            for (int i = 0; i < _outputData.Length; i++)
-            {
-                _wtxObj.WriteOutputWordS32(_outputData[i], (ushort)(i + 40));
-
-                _dataWritten[0] = (ushort)((_outputData[i] & 0xffff0000) >> 16);
-                _dataWritten[1] = (ushort)(_outputData[i] & 0x0000ffff);
-
-                if (testConnection.getArrElement1 == _dataWritten[0] && testConnection.getArrElement2 == _dataWritten[1] && testGetOutputwords() == true)
-                    compareDataWritten = true;
-                else
-                    compareDataWritten = false;
-            }
-
-            _wtxObj.activateData();
-
-            if (compareDataWritten == true) // && testConnection.GetCommand==0x800)
-
-                return true;
-
-            else
-                return false;
-
-        }
-        */
 
         private bool testGetOutputwords()
         {
