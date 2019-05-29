@@ -28,44 +28,76 @@
 //
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Hbm.Weighing.API.WTX.Modbus
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="DataEventArgs" /> class
-    /// </summary>
-    /// <param name="dataDictionaryParam">Dictionary to be injected</param>
     public class ModbusCommand
     {
-        public ModbusCommand(DataType dataType, ushort register, IOType io , ApplicationMode app, int bitIndex, int bitLength)
+        #region =============== constructors & destructors =================
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModbusCommand" /> class
+        /// </summary>
+        /// <param name="dataType">Provide the data type</param>
+        /// <param name="register">Register number of the modbus register</param>
+        /// <param name="io">IO type</param>
+        /// <param name="appMode">Application mode</param>
+        /// <param name="bitIndex">Bit index for a flag</param>
+        /// <param name="bitLength">Bit length for a multi-bit flag</param>
+        public ModbusCommand(DataType dataType, ushort register, IOType io, ApplicationMode appMode, int bitIndex, int bitLength)
         {
             this.DataType  = dataType;
             this.Register  = register;
             this.IO  = io;
-            this.App = app;
+            this.App = appMode;
             this.BitIndex  = bitIndex;
             this.BitLength = bitLength;
 
-            this.Path = register.ToString() + dataType + app + io + bitIndex + bitLength;
+            this.Path = register.ToString() + dataType + appMode + io + bitIndex + bitLength;
         }
-
+        #endregion
+        
+        #region ======================== properties ========================
+        /// <summary>
+        /// Gets the data type 
+        /// </summary>
         public DataType DataType { get; private set; }
 
-        public ushort Register { get; private set; }
-
-        public IOType IO { get; private set; }
-
-        public ApplicationMode App { get; private set; } 
-
+        /// <summary>
+        /// Gets the bit index for flags
+        /// </summary>
         public int BitIndex { get; private set; }
 
+        /// <summary>
+        /// Gets the bit length for multi-bit flags 
+        /// </summary>
         public int BitLength { get; private set; }
 
+        /// <summary>
+        /// Gets the overall path for unique command identification 
+        /// </summary>
         public string Path { get; private set; }
 
+        /// <summary>
+        /// Gets the number of the Modbus register
+        /// </summary>
+        public ushort Register { get; private set; }
+
+        /// <summary>
+        /// Gets a Input or output register
+        /// </summary>
+        public IOType IO { get; private set; }
+
+        /// <summary>
+        /// Gets the application mode
+        /// </summary>
+        public ApplicationMode App { get; private set; }
+        #endregion
+
+        #region ================ public & internal methods =================
+        /// <summary>
+        /// Picks the command from all registers 
+        /// </summary>
+        /// <param name="allRegisters">All available holding register starting from index 0</param>
+        /// <returns>Value as integer</returns>
         public int ToValue(ushort[] allRegisters)
         {
             ushort _bitMask = 0;
@@ -80,20 +112,31 @@ namespace Hbm.Weighing.API.WTX.Modbus
                         {
                             switch (BitLength)
                             {
-                                case 0: _bitMask = 0xFFFF; break;
-                                case 1: _bitMask = 1; break;
-                                case 2: _bitMask = 3; break;
-                                case 3: _bitMask = 7; break;
-                                default: _bitMask = 1; break;
+                                case 0:
+                                    _bitMask = 0xFFFF;
+                                    break;
+                                case 1:
+                                    _bitMask = 1;
+                                    break;
+                                case 2:
+                                    _bitMask = 3;
+                                    break;
+                                case 3:
+                                    _bitMask = 7;
+                                    break;
+                                default:
+                                    _bitMask = 1;
+                                    break;
                             }
+
                             _mask = (ushort)(_bitMask << BitIndex);
-                            _value = ((allRegisters[Register] & _mask) >> BitIndex);
+                            _value = (allRegisters[Register] & _mask) >> BitIndex;
                             break;
                         }
 
                     case DataType.U32:
                     case DataType.S32:
-                        _value = (allRegisters[Register] >> 16) + allRegisters[Register+1];
+                        _value = (allRegisters[Register] >> 16) + allRegisters[Register + 1];
                         break;
 
                     case DataType.S16:
@@ -102,14 +145,15 @@ namespace Hbm.Weighing.API.WTX.Modbus
                     default:
                         _value = allRegisters[Register];
                         break;
-
                 }
             }
             catch
             {
                 _value = 0;
             }
+
             return _value;
         }
+        #endregion
     }
 }

@@ -22,7 +22,7 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | ProcessDataReceivedEventArgs.cs    | :heavy_check_mark:     | 
 | WTXJet.cs                          | :heavy_check_mark:     |
 | WTXModbus.cs                       | :heavy_check_mark:     | 
-| ModbusCommand.cs                   | :large_orange_diamond: |
+| ModbusCommand.cs                   | :heavy_check_mark: |
 | ModbusCommands.cs                  | :large_orange_diamond: |
 | ModbusTCPConnection.cs             | :heavy_check_mark:     |
 | JetBusCommand.cs                   | :large_orange_diamond: |

@@ -471,14 +471,14 @@ namespace Hbm.Weighing.API.WTX.Jet
                this.behavior == Behavior.MeasureZeroFail    || this.behavior == Behavior.CalibratePreloadCapacitySuccess)
                {
                 JValue valueObj = new JValue(data);
-                this.SetData(_command.PathIndex, valueObj);
+                this.SetData(_command.Path, valueObj);
                }
 
 
             if(this.behavior == Behavior.setTestsSuccess || this.behavior == Behavior.setTestsFail)
             {
                 JValue valueObj = new JValue(data);
-                this.SetData(_command.PathIndex, valueObj);
+                this.SetData(_command.Path, valueObj);
             }
 
             return true;

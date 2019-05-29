@@ -28,30 +28,57 @@
 //
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace Hbm.Weighing.API.WTX.Jet
 {
+    using System;
+
     public class JetBusCommand
     {
-        public JetBusCommand(DataType DataTypeParam, string PathIndexParam, int BitIndexParam, int BitLengthParam)
+        #region =============== constructors & destructors =================
+        /// <summary>
+        /// Initializes a new instance of the <see cref="JetBusCommand" /> class
+        /// </summary>
+        /// <param name="dataType">Provide the data type</param>
+        /// <param name="path">Register number of the modbus register</param>
+        /// <param name="bitIndex">Bit index for a flag</param>
+        /// <param name="bitLength">Bit length for a multi-bit flag</param>
+        /// public ModbusCommand(DataType dataTy
+        public JetBusCommand(DataType dataType, string path, int bitIndex, int bitLength)
         {
-            this.DataType  = DataTypeParam;
-            this.PathIndex = PathIndexParam;
-            this.BitIndex  = BitIndexParam;
-            this.BitLength = BitLengthParam;
+            this.DataType  = dataType;
+            this.Path = path;
+            this.BitIndex  = bitIndex;
+            this.BitLength = bitLength;
         }
+        #endregion
 
+        #region ======================== properties ========================
+        /// <summary>
+        /// Gets the data type 
+        /// </summary>
         public DataType DataType { get; private set; }
-
-        public string PathIndex { get; private set; }
-
+        /// <summary>
+        /// Gets the bit index for flags
+        /// </summary>
         public int BitIndex { get; private set; }
 
+        /// <summary>
+        /// Gets the bit length for multi-bit flags 
+        /// </summary>
         public int BitLength { get; private set; }
 
+        /// <summary>
+        /// Gets the overall path for unique command identification 
+        /// </summary>
+        public string Path { get; private set; }
+        #endregion
+
+        #region ================ public & internal methods =================
+        /// <summary>
+        /// Picks the command from all registers 
+        /// </summary>
+        /// <param name="allRegisters">All available holding register starting from index 0</param>
+        /// <returns>Value as integer</returns>
         public string ToValue(string input)
         {
             ushort _bitMask = 0;
@@ -63,32 +90,45 @@ namespace Hbm.Weighing.API.WTX.Jet
                 switch (DataType)
                 {
                     case DataType.BIT:
+                    {
+                        switch (BitLength)
                         {
-                            switch (BitLength)
-                            {
-                                case 0: _bitMask = 0xFFFF; break;
-                                case 1: _bitMask = 1; break; 
-                                case 2: _bitMask = 3; break;
-                                case 3: _bitMask = 7; break;
-                                default: _bitMask = 1; break;
-                            }
-                            _mask = (ushort)(_bitMask << BitIndex);
-                            _value = ((Convert.ToUInt16(input) & _mask) >> BitIndex).ToString();
-                            break;
+                            case 0:
+                                _bitMask = 0xFFFF;
+                                break;
+                            case 1:
+                                _bitMask = 1;
+                                break; 
+                            case 2:
+                                _bitMask = 3;
+                                break;
+                            case 3:
+                                _bitMask = 7;
+                                break;
+                            default:
+                                _bitMask = 1;
+                                break;
                         }
 
+                        _mask = (ushort)(_bitMask << BitIndex);
+                        _value = ((Convert.ToUInt16(input) & _mask) >> BitIndex).ToString();
+                        break;
+                    }
+
                     default:
-                        {
-                            _value = input;
-                            break;
-                        }
+                    {
+                        _value = input;
+                        break;
+                    }
                 }
             }
             catch
             {
                 _value = "0";
             }
+
             return _value;
         }
+        #endregion
     }
 }

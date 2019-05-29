@@ -153,7 +153,7 @@ namespace Hbm.Weighing.API.WTX.Jet
         public string ReadFromBuffer(object command)
         {
             JetBusCommand jetcommand = (JetBusCommand)command;
-            return jetcommand.ToValue(AllData[jetcommand.PathIndex]);
+            return jetcommand.ToValue(AllData[jetcommand.Path]);
         }
 
         /// <inheritdoc />
@@ -161,7 +161,7 @@ namespace Hbm.Weighing.API.WTX.Jet
         {
             JValue jasonValue = new JValue(value);
             JetBusCommand _command = (JetBusCommand)command;
-            SetData(_command.PathIndex, jasonValue);
+            SetData(_command.Path, jasonValue);
             return true; // DDD Exception handling
         }
 
