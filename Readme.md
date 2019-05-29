@@ -25,7 +25,7 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | ModbusCommand.cs                   | :heavy_check_mark: |
 | ModbusCommands.cs                  | :large_orange_diamond: |
 | ModbusTCPConnection.cs             | :heavy_check_mark:     |
-| JetBusCommand.cs                   | :large_orange_diamond: |
+| JetBusCommand.cs                   | :heavy_check_mark: |
 | JetBusCommands.cs                  | :large_orange_diamond: |
 | JetBusConnection.cs                | :heavy_check_mark:     |
 | JetBusException.cs                 | :heavy_check_mark:     |
