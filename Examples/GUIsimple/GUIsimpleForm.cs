@@ -28,95 +28,52 @@
 //
 // </copyright>
 
-using Hbm.Weighing.API;
-using Hbm.Weighing.API.WTX;
-using Hbm.Weighing.API.WTX.Jet;
-using Hbm.Weighing.API.WTX.Modbus;
-
-using System;
-using System.Threading;
-using System.Windows.Forms;
-using WTXModbus;
-/*
-* This application example enables communication and a connection to the WTX120 device via 
-* Modbus and Jetbus.
-*/
+/// <summary>
+/// This application example demonstrates the usage of HBM Weighing-API.
+/// It shows how to connect a WTX device via Modbus and Jetbus, how to get weight values and how to adjust the scale.
+/// </summary>
 namespace GUIsimple
 {
+    using System;
+    using System.Threading;
+    using System.Windows.Forms;
+    using Hbm.Weighing.API;
+    using Hbm.Weighing.API.WTX;
+    using Hbm.Weighing.API.WTX.Jet;
+    using Hbm.Weighing.API.WTX.Modbus;
+
     public partial class GUIsimpleForm : Form
     {
-        #region Locales
+        #region ==================== constants & fields ====================
+        private const string DEFAULT_IP_ADDRESS = "192.168.100.88";
+        private const string MESSAGE_CONNECTION_FAILED = "Connection failed!";
+        private const string MESSAGE_CONNECTING = "Connecting...";
+        private const int WAIT_DISCONNECT = 2000;
 
         private static BaseWTDevice _wtxDevice;
-
         private AdjustmentCalculator _adjustmentCalculator;
         private AdjustmentWeigher _adjustmentWeigher;
         private FunctionIO _functionIOForm;
-
-        private const string DEFAULT_IP_ADDRESS = "192.168.100.88";
-
-        private const string MESSAGE_CONNECTION_FAILED = "Connection failed!";
-        private const string MESSAGE_CONNECTING = "Connecting...";
-
-        private const int WAIT_DISCONNECT = 2000;
-
         private string _ipAddress = DEFAULT_IP_ADDRESS;
-
-        private int _timerInterval = 200;       
+        private int _timerInterval = 200;
         #endregion
-
         
-        #region Constructor
+        #region =============== constructors & destructors =================
         public GUIsimpleForm(string[] args)
         {
             InitializeComponent();
-
-            txtInfo.Text = "To Connect to the WTX device, please enter an IP address, select 'Jet' or 'Modbus/TCP' and press 'connect'.";
-
-            EvaluateCommandLine(args);      
-
+            txtInfo.Text = "Check IP address, select 'Jet' or 'Modbus/TCP' and press 'Connect'.";
+            EvaluateCommandLine(args);    
             txtIPAddress.Text = _ipAddress;
-
             picNE107.Image = Properties.Resources.NE107_DiagnosisPassive;
         }
         #endregion
 
-        
-        #region Command line
-        private void EvaluateCommandLine(string[] args)
-        {
-            if (args.Length > 0)
-            {
-                if (args[0].ToLower() == "modbus")
-                {
-                    rbtConnectionModbus.Checked = true;
-                }
-                if (args[0].ToLower() == "jet")
-                {
-                    rbtConnectionJet.Checked = true;
-                }
-            }
-            else
-            {
-                if (Properties.Settings.Default.IsJetBus)
-                    rbtConnectionJet.Checked = true;
-                else
-                    rbtConnectionModbus.Checked = true;
-            }
-            
-            if (args.Length > 1)
-                _ipAddress = args[1];
-            else
-                _ipAddress = Properties.Settings.Default.IPAddress;
+        #region =============== protected & private methods ================
 
-            if (args.Length > 2)
-                this._timerInterval = Convert.ToInt32(args[2]);
-        }
-        #endregion
-
-
-        #region Connection
-        // This method connects to the given IP address
+        /// <summary>
+        /// vHow to connect
+        /// </summary>
         private void InitializeConnection()
         {
             txtInfo.Text = "Connecting...";
@@ -167,7 +124,11 @@ namespace GUIsimple
 
         }
 
-        //Callback for automatically receiving event based data from the device
+        /// <summary>
+        /// How to get process data automatically
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e">Here you find the current process data (e.g. weight value)</param>
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {           
             txtInfo.BeginInvoke(new Action(() =>
@@ -201,31 +162,54 @@ namespace GUIsimple
                     picNE107.Image = Properties.Resources.NE107_DiagnosisActive;
             }));
         }
-        
-        #endregion
 
+        /// <summary>
+        /// Command line control
+        /// </summary>
+        /// <param name="args">Possible arguments: modbus or jet, ip address</param>
+        private void EvaluateCommandLine(string[] args)
+        {
+            if (args.Length > 0)
+            {
+                if (args[0].ToLower() == "modbus")
+                {
+                    rbtConnectionModbus.Checked = true;
+                }
+                if (args[0].ToLower() == "jet")
+                {
+                    rbtConnectionJet.Checked = true;
+                }
+            }
+            else
+            {
+                if (Properties.Settings.Default.IsJetBus)
+                    rbtConnectionJet.Checked = true;
+                else
+                    rbtConnectionModbus.Checked = true;
+            }
 
-        #region Button & tool strips clicks
+            if (args.Length > 1)
+                _ipAddress = args[1];
+            else
+                _ipAddress = Properties.Settings.Default.IPAddress;
+
+            if (args.Length > 2)
+                this._timerInterval = Convert.ToInt32(args[2]);
+        }
+
         //Connect device
         private void cmdConnect_Click(object sender, EventArgs e)
         {
-            if (_wtxDevice != null)    // Necessary to check if the object of BaseWtDevice have been created and a connection exists. 
-                if (this.rbtConnectionJet.Checked == true && _wtxDevice.ConnectionType == "Jetbus" && txtIPAddress.Text==_wtxDevice.Connection.IpAddress)
-                    return;
-                else
-                if (this.rbtConnectionModbus.Checked == true && _wtxDevice.ConnectionType == "Modbus" && txtIPAddress.Text == _wtxDevice.Connection.IpAddress)
-                    return;
-                else
-                {
-                    _wtxDevice.Connection.Disconnect();
-                    _wtxDevice = null;                    
+            if (_wtxDevice != null)
+            {
+                txtInfo.Text = "Disconnecting...";
+                Application.DoEvents();
+                _wtxDevice.Connection.Disconnect();
+                _wtxDevice = null;
+                Thread.Sleep(WAIT_DISCONNECT);
+            }
 
-                    Thread.Sleep(WAIT_DISCONNECT);     // Wait for 2 seconds till the disconnection request is finished. 
-
-                    txtInfo.Text = "Connecting..." + Environment.NewLine;
-                }
-
-            /* Establish a connection in Method InitializeConnection() */
+            txtInfo.Text = "Connecting...";
             this.InitializeConnection();          
         }
 
@@ -253,14 +237,14 @@ namespace GUIsimple
             _adjustmentCalculator = new AdjustmentCalculator(_wtxDevice);            
             DialogResult res = _adjustmentCalculator.ShowDialog();
         }
-
-
+        
         //Method for adjustment with weight: 
         private void calibrationToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             _adjustmentWeigher = new AdjustmentWeigher(_wtxDevice);
             DialogResult res = _adjustmentWeigher.ShowDialog();
         }
+
         // Toolstrip Click Event for Digital IO : Input & Output
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -275,7 +259,7 @@ namespace GUIsimple
 
                 _wtxDevice.Connect(5000);
 
-                _functionIOForm = new WTXModbus.FunctionIO();
+                _functionIOForm = new FunctionIO();
 
                 _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
                 _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
@@ -285,7 +269,7 @@ namespace GUIsimple
             else
                 if (_wtxDevice.Connection.ConnectionType == ConnectionType.Jetbus)
             {
-                _functionIOForm = new WTXModbus.FunctionIO();
+                _functionIOForm = new FunctionIO();
 
                 _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
                 _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
@@ -295,7 +279,7 @@ namespace GUIsimple
             _wtxDevice.Restart();
         }
 
-        public void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
+        private void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
             int out1 = _wtxDevice.DataStandard.Output1;
             int out2 = _wtxDevice.DataStandard.Output2;
@@ -312,7 +296,8 @@ namespace GUIsimple
                 _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }
-        public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
+
+        private void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
             if ((int)e.FunctionOutputIO1 != (-1))
                 _wtxDevice.DataStandard.Output1 = (int)e.FunctionOutputIO1;
@@ -335,14 +320,18 @@ namespace GUIsimple
                 _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }
+
+        private void Logger(object sender, EventArgs e)
+        {
+            if (toolStripButtonLog.Checked)
+            { 
+                txtLog.BeginInvoke(new Action(() =>
+                {
+                    txtLog.AppendText(((LogEvent)e).Args + Environment.NewLine);
+                }));
+            }
+        } 
         #endregion
 
-        public void Logger(object sender, EventArgs e)
-        {
-            txtLog.BeginInvoke(new Action(() =>
-            {
-                txtLog.Text = txtLog.Text + ((LogEvent)e).Args + Environment.NewLine;
-            }));
-        }
     }
 }

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUIsimpleForm));
             this.txtIPAddress = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.cmdConnect = new System.Windows.Forms.Button();
@@ -37,15 +38,17 @@
             this.cmdGrossNet = new System.Windows.Forms.Button();
             this.cmdTare = new System.Windows.Forms.Button();
             this.cmdZero = new System.Windows.Forms.Button();
-            this.txtInfo = new System.Windows.Forms.TextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.calibrationWithWeightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.logActiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripButtonLog = new System.Windows.Forms.ToolStripButton();
             this.picNE107 = new System.Windows.Forms.PictureBox();
             this.txtLog = new System.Windows.Forms.TextBox();
+            this.txtInfo = new System.Windows.Forms.TextBox();
             this.grrpSetup.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picNE107)).BeginInit();
@@ -144,24 +147,15 @@
             this.cmdZero.UseVisualStyleBackColor = true;
             this.cmdZero.Click += new System.EventHandler(this.cmdZero_Click);
             // 
-            // txtInfo
-            // 
-            this.txtInfo.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtInfo.Location = new System.Drawing.Point(10, 196);
-            this.txtInfo.Multiline = true;
-            this.txtInfo.Name = "txtInfo";
-            this.txtInfo.ReadOnly = true;
-            this.txtInfo.Size = new System.Drawing.Size(364, 105);
-            this.txtInfo.TabIndex = 26;
-            // 
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton1,
-            this.toolStripDropDownButton2});
+            this.toolStripDropDownButton2,
+            this.toolStripButtonLog});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(390, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(384, 25);
             this.toolStrip1.TabIndex = 29;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -170,7 +164,8 @@
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.calibrationWithWeightToolStripMenuItem,
-            this.calibrationToolStripMenuItem});
+            this.calibrationToolStripMenuItem,
+            this.logActiveToolStripMenuItem});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(49, 22);
@@ -190,6 +185,12 @@
             this.calibrationToolStripMenuItem.Text = "Calibration with weight";
             this.calibrationToolStripMenuItem.Click += new System.EventHandler(this.calibrationToolStripMenuItem_Click_1);
             // 
+            // logActiveToolStripMenuItem
+            // 
+            this.logActiveToolStripMenuItem.Name = "logActiveToolStripMenuItem";
+            this.logActiveToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
+            this.logActiveToolStripMenuItem.Text = "Log active";
+            // 
             // toolStripDropDownButton2
             // 
             this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -205,6 +206,16 @@
             this.toolStripMenuItem1.Size = new System.Drawing.Size(203, 22);
             this.toolStripMenuItem1.Text = "Read/Write IO Functions";
             this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // toolStripButtonLog
+            // 
+            this.toolStripButtonLog.CheckOnClick = true;
+            this.toolStripButtonLog.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonLog.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLog.Image")));
+            this.toolStripButtonLog.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonLog.Name = "toolStripButtonLog";
+            this.toolStripButtonLog.Size = new System.Drawing.Size(31, 22);
+            this.toolStripButtonLog.Text = "Log";
             // 
             // picNE107
             // 
@@ -222,27 +233,38 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtLog.Font = new System.Drawing.Font("Consolas", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtLog.Location = new System.Drawing.Point(10, 307);
+            this.txtLog.Location = new System.Drawing.Point(12, 292);
             this.txtLog.Multiline = true;
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtLog.Size = new System.Drawing.Size(364, 94);
+            this.txtLog.Size = new System.Drawing.Size(365, 8);
             this.txtLog.TabIndex = 30;
+            // 
+            // txtInfo
+            // 
+            this.txtInfo.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtInfo.Location = new System.Drawing.Point(10, 196);
+            this.txtInfo.Multiline = true;
+            this.txtInfo.Name = "txtInfo";
+            this.txtInfo.ReadOnly = true;
+            this.txtInfo.Size = new System.Drawing.Size(364, 90);
+            this.txtInfo.TabIndex = 26;
             // 
             // GUIsimpleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(390, 413);
+            this.ClientSize = new System.Drawing.Size(384, 312);
+            this.Controls.Add(this.txtInfo);
             this.Controls.Add(this.txtLog);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.picNE107);
-            this.Controls.Add(this.txtInfo);
             this.Controls.Add(this.cmdGrossNet);
             this.Controls.Add(this.cmdTare);
             this.Controls.Add(this.cmdZero);
             this.Controls.Add(this.grrpSetup);
+            this.MinimumSize = new System.Drawing.Size(400, 350);
             this.Name = "GUIsimpleForm";
             this.Text = "GUIsimple";
             this.grrpSetup.ResumeLayout(false);
@@ -264,7 +286,6 @@
         private System.Windows.Forms.Button cmdGrossNet;
         private System.Windows.Forms.Button cmdTare;
         private System.Windows.Forms.Button cmdZero;
-        private System.Windows.Forms.TextBox txtInfo;
         private System.Windows.Forms.PictureBox picNE107;
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
@@ -275,6 +296,9 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.TextBox txtLog;
+        private System.Windows.Forms.ToolStripMenuItem logActiveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonLog;
+        private System.Windows.Forms.TextBox txtInfo;
     }
 }
 

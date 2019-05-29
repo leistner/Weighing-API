@@ -1,4 +1,4 @@
-﻿namespace WTXModbus
+﻿namespace GUIsimple
 {
     partial class FunctionIO
     {
