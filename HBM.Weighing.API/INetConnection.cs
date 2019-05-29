@@ -31,17 +31,19 @@
 namespace Hbm.Weighing.API
 {
     using System;
-    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Defines the common communication interface
+    /// Connection interfaces for HBM weighing devices 
     /// </summary>
     public interface INetConnection
     {
-        #region ==================== events & delegates ====================
-          
-        event EventHandler CommunicationLog;
+        #region ==================== events & delegates ====================      
+        /// <summary>
+        /// Event handler for communication log messagages
+        /// Receive log messages in LogEventArgs.Args
+        /// </summary>
+        event EventHandler<LogEventArgs> CommunicationLog;
         
         event EventHandler<EventArgs> UpdateData;
         #endregion

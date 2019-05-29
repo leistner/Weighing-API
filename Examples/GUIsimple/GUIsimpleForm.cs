@@ -335,7 +335,7 @@ namespace GUIsimple
             { 
                 txtLog.BeginInvoke(new Action(() =>
                 {
-                    txtLog.AppendText(((LogEvent)e).Args + Environment.NewLine);
+                    txtLog.AppendText(((LogEventArgs)e).Args + Environment.NewLine);
                 }));
             }
         } 

@@ -178,7 +178,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
         public int command;
 
-        public event EventHandler CommunicationLog;
+        public event EventHandler<LogEventArgs> CommunicationLog;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
         public event EventHandler<EventArgs> UpdateData;
         
@@ -193,7 +193,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         private ushort[] _data;
         private int _index;
 
-        public LogEvent _logObj;
+        public LogEventArgs _logObj;
 
         public TestModbusTCPConnection(Behavior behavior,string ipAddress) 
         {
@@ -819,7 +819,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
                         _dataWTX[i] = 0x0000;
                     }
 
-                    _logObj = new LogEvent("Read failed : Registers have not been read");
+                    _logObj = new LogEventArgs("Read failed : Registers have not been read");
 
                     CommunicationLog?.Invoke(this, _logObj);
 
@@ -837,7 +837,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
                     _dataWTX[4] = 0x0000;
                     _dataWTX[5] = 0x0000;
 
-                    _logObj = new LogEvent("Read successful: Registers have been read");
+                    _logObj = new LogEventArgs("Read successful: Registers have been read");
                     CommunicationLog?.Invoke(this, _logObj);
                     break;
 
@@ -998,13 +998,13 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
                 case Behavior.LogEvent_Fail:
 
-                    _logObj = new LogEvent("Read failed : Registers have not been read");
+                    _logObj = new LogEventArgs("Read failed : Registers have not been read");
                     CommunicationLog?.Invoke(this, _logObj);
                     break;
 
                 case Behavior.LogEvent_Success:
 
-                    _logObj = new LogEvent("Read successful: Registers have been read");
+                    _logObj = new LogEventArgs("Read successful: Registers have been read");
                     CommunicationLog?.Invoke(this, _logObj);
                     break;
             }
@@ -1049,7 +1049,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
                             _dataWTX[i] = 0x0000;
                         }
 
-                        _logObj = new LogEvent("Read failed : Registers have not been read");
+                        _logObj = new LogEventArgs("Read failed : Registers have not been read");
 
                         CommunicationLog?.Invoke(this, _logObj);
 
@@ -1067,7 +1067,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
                         _dataWTX[4] = 0x0000;
                         _dataWTX[5] = 0x0000;
 
-                        _logObj = new LogEvent("Read successful: Registers have been read");
+                        _logObj = new LogEventArgs("Read successful: Registers have been read");
                         CommunicationLog?.Invoke(this, _logObj);
                         break;
 
@@ -1228,13 +1228,13 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
                     case Behavior.LogEvent_Fail:
 
-                        _logObj = new LogEvent("Read failed : Registers have not been read");
+                        _logObj = new LogEventArgs("Read failed : Registers have not been read");
                         CommunicationLog?.Invoke(this, _logObj);
                         break;
 
                     case Behavior.LogEvent_Success:
 
-                        _logObj = new LogEvent("Read successful: Registers have been read");
+                        _logObj = new LogEventArgs("Read successful: Registers have been read");
                         CommunicationLog?.Invoke(this, _logObj);
                         break;
                 }

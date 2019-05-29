@@ -54,7 +54,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         #endregion
 
         #region ==================== events & delegates ====================
-        public event EventHandler CommunicationLog;
+        public event EventHandler<LogEventArgs> CommunicationLog;
         public event EventHandler<EventArgs> UpdateData;
         #endregion
                      
@@ -96,12 +96,12 @@ namespace Hbm.Weighing.API.WTX.Modbus
                 var factory = new ModbusFactory();
                 _master = factory.CreateMaster(_client);
                 IsConnected = true;
-                CommunicationLog?.Invoke(this, new LogEvent("Connection successful"));
+                CommunicationLog?.Invoke(this, new LogEventArgs("Connection successful"));
             }
             catch (Exception)
             {
                 IsConnected = false;
-                CommunicationLog?.Invoke(this, new LogEvent("Connection failed"));
+                CommunicationLog?.Invoke(this, new LogEventArgs("Connection failed"));
             }
         }
      
@@ -112,7 +112,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         {
             _client.Close();
             IsConnected = false;
-            CommunicationLog?.Invoke(this, new LogEvent("Disconnected"));
+            CommunicationLog?.Invoke(this, new LogEventArgs("Disconnected"));
         }
 
         /// <summary>
@@ -197,16 +197,16 @@ namespace Hbm.Weighing.API.WTX.Modbus
             {
                 if (DoHandshake())
                 {
-                    CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " to " + value.ToString() + "successful"));
+                    CommunicationLog?.Invoke(this, new LogEventArgs("Write register " + _command.Register + " to " + value.ToString() + "successful"));
                 }
                 else
                 {
-                    CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " to " + value.ToString() + "error"));
+                    CommunicationLog?.Invoke(this, new LogEventArgs("Write register " + _command.Register + " to " + value.ToString() + "error"));
                     result = false;
                 }
             }
             else
-                CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " to " + value.ToString()));
+                CommunicationLog?.Invoke(this, new LogEventArgs("Write register " + _command.Register + " to " + value.ToString()));
 
             return result;
         }
@@ -220,7 +220,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
             await _master.WriteSingleRegisterAsync(0, registerAddress, (ushort)(value << _command.BitIndex));
 
-            CommunicationLog?.Invoke(this, new LogEvent("Write register " + _command.Register + " to " + value.ToString()));
+            CommunicationLog?.Invoke(this, new LogEventArgs("Write register " + _command.Register + " to " + value.ToString()));
 
             return value;
         }
@@ -309,7 +309,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         {
             ushort[] _data = await _master.ReadHoldingRegistersAsync(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
             ModbusRegistersToDictionary(_data);
-            CommunicationLog?.Invoke(this, new LogEvent("Read all: " + string.Join(",", _data.Select(x => x.ToString("X")).ToArray())));
+            CommunicationLog?.Invoke(this, new LogEventArgs("Read all: " + string.Join(",", _data.Select(x => x.ToString("X")).ToArray())));
             return _data;
         }
 
@@ -317,7 +317,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         {
             ushort[] _data = _master.ReadHoldingRegisters(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
             ModbusRegistersToDictionary(_data);
-            CommunicationLog?.Invoke(this, new LogEvent("Read all: " + string.Join(",", _data.Select(x => x.ToString("X")).ToArray())));
+            CommunicationLog?.Invoke(this, new LogEventArgs("Read all: " + string.Join(",", _data.Select(x => x.ToString("X")).ToArray())));
             return _data;
         }
         #endregion

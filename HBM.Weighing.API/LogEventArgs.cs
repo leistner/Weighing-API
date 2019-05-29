@@ -35,14 +35,14 @@ namespace Hbm.Weighing.API
     /// <summary>
     /// Event to describe if a data transfer was  successful
     /// </summary>
-    public class LogEvent : EventArgs
+    public class LogEventArgs : EventArgs
     {
         #region =============== constructors & destructors =================
         /// <summary>
         /// Initializes a string to describe if the data transfer was successful or not
         /// </summary>
         /// <param name="args"></param>
-        public LogEvent(string args)
+        public LogEventArgs(string args)
         {
             Args = args;
         }

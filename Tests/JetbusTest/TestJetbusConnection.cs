@@ -108,7 +108,7 @@ namespace Hbm.Weighing.API.WTX.Jet
         private List<string> messages;
         private bool connected;
 
-        public event EventHandler CommunicationLog;
+        public event EventHandler<LogEventArgs> CommunicationLog;
         public event EventHandler<DataEventArgs> IncomingDataReceived;
         public event EventHandler<EventArgs> UpdateData;
 
@@ -343,7 +343,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             if (this.behavior != Behavior.ReadFail_DataReceived)                
                 IncomingDataReceived?.Invoke(this, null);
 
-            CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - buffersize is " + _dataBuffer.Count));            
+            CommunicationLog?.Invoke(this, new LogEventArgs("Fetch-All success: " + success + " - buffersize is " + _dataBuffer.Count));            
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)
@@ -395,7 +395,7 @@ namespace Hbm.Weighing.API.WTX.Jet
                         break;
                 }
                 
-                CommunicationLog?.Invoke(this, new LogEvent(data.ToString()));
+                CommunicationLog?.Invoke(this, new LogEventArgs(data.ToString()));
             }
         }
 
@@ -446,7 +446,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             */
             _mSuccessEvent.Set();
 
-            CommunicationLog?.Invoke(this, new LogEvent("Set data" + true));
+            CommunicationLog?.Invoke(this, new LogEventArgs("Set data" + true));
         }
 
         private void SetData(object path, JValue value)

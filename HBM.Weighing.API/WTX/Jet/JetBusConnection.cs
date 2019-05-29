@@ -60,7 +60,7 @@ namespace Hbm.Weighing.API.WTX.Jet
         #endregion
 
         #region ==================== events & delegates ====================
-        public event EventHandler CommunicationLog;
+        public event EventHandler<LogEventArgs> CommunicationLog;
 
         public event EventHandler<EventArgs> UpdateData;
         #endregion
@@ -209,7 +209,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             if (connected)
             {
                 _peer.Authenticate(_user, _password, OnAuthenticateFetchAll, _timeoutMs);
-                CommunicationLog?.Invoke(this, new LogEvent("Connection successful"));
+                CommunicationLog?.Invoke(this, new LogEventArgs("Connection successful"));
             }
             else
             {
@@ -222,7 +222,7 @@ namespace Hbm.Weighing.API.WTX.Jet
         {
             if (authenticationSuccess)
             {
-                CommunicationLog?.Invoke(this, new LogEvent("Authentication successful"));
+                CommunicationLog?.Invoke(this, new LogEventArgs("Authentication successful"));
                 FetchAll();
             }
             else
@@ -254,7 +254,7 @@ namespace Hbm.Weighing.API.WTX.Jet
 
             _successEvent.Set();
                         
-            CommunicationLog?.Invoke(this, new LogEvent("Fetch-All success: " + success + " - Buffer size is " + AllData.Count));
+            CommunicationLog?.Invoke(this, new LogEventArgs("Fetch-All success: " + success + " - Buffer size is " + AllData.Count));
         }            
 
         private void WaitOne(int timeoutMultiplier = 1)
@@ -266,7 +266,7 @@ namespace Hbm.Weighing.API.WTX.Jet
                      
             if (_localException != null)
             {
-                CommunicationLog?.Invoke(this, new LogEvent(_localException.Message));
+                CommunicationLog?.Invoke(this, new LogEventArgs(_localException.Message));
                 Exception exception = _localException;
                 _localException = null;
                 throw exception;
@@ -303,7 +303,7 @@ namespace Hbm.Weighing.API.WTX.Jet
                     this.UpdateData?.Invoke(this, new EventArgs());
                 }
 
-                CommunicationLog?.Invoke(this, new LogEvent(data.ToString()));
+                CommunicationLog?.Invoke(this, new LogEventArgs(data.ToString()));
             }
         }
                
@@ -334,7 +334,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             
            _successEvent.Set();
             
-           CommunicationLog?.Invoke(this, new LogEvent("Set data" + success));
+           CommunicationLog?.Invoke(this, new LogEventArgs("Set data" + success));
         }
             
         /// <summary>
