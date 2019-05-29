@@ -40,42 +40,78 @@ namespace Hbm.Weighing.API
     {
         #region ==================== events & delegates ====================      
         /// <summary>
-        /// Event handler for communication log messagages
+        /// Event handler for communication log messages
         /// Receive log messages in LogEventArgs.Args
         /// </summary>
         event EventHandler<LogEventArgs> CommunicationLog;
         
+        /// <summary>
+        /// Event handler called whenever new data is received
+        /// </summary>
         event EventHandler<EventArgs> UpdateData;
         #endregion
 
         #region ======================== properties ========================
+        /// <summary>
+        /// Gets or sets the ip address of the weighing device
+        /// </summary>
         string IpAddress { get; set; }
       
-        ConnectionType ConnectionType { get; }      
-       
+        /// <summary>
+        /// Gets the connection type (e.g. JetBus or Modbus)
+        /// </summary>
+        ConnectionType ConnectionType { get; }
+
+        /// <summary>
+        /// Gets a value indicating whether teh connection is active or not
+        /// </summary>
         bool IsConnected { get; }
         #endregion
 
         #region ================ public & internal methods =================
-
+        /// <summary>
+        /// Opens a new connection
+        /// </summary>
+        /// <param name="timeoutMs">Timeout for setting up the connection</param>
         void Connect(int timeoutMs = 20000);
         
+        /// <summary>
+        /// Closes the connection
+        /// </summary>
         void Disconnect();
-
         #endregion
 
         #region ==================== Read/Write methods ====================
-
+        /// <summary>
+        /// Read data from a device.
+        /// </summary>
+        /// <param name="command">Variable command type, either ModbusCommand or JetbusCommand</param>
+        /// <returns></returns>
         string Read(object command);
 
+        /// <summary>
+        /// Write data to a device.
+        /// </summary>
+        /// <param name="command">Variable command type, either ModbusCommand or JetbusCommand</param>
         bool Write(object command, int value);
 
-        Task<string> ReadAsync(object command);                          
+        /// <summary>
+        /// Read data asynchonously from a device.
+        /// </summary>
+        /// <param name="command">Variable command type, either ModbusCommand or JetbusCommand</param>
+        Task<string> ReadAsync(object command);
 
-        Task<int> WriteAsync(object command, int value); 
-        
+        /// <summary>
+        /// Write data asynchonously to a device.
+        /// </summary>
+        /// <param name="command">Variable command type, either ModbusCommand or JetbusCommand</param>
+        Task<int> WriteAsync(object command, int value);
+
+        /// <summary>
+        /// Read data from a local buffer.
+        /// </summary>
+        /// <param name="command">Variable command type, either ModbusCommand or JetbusCommand</param>
         string ReadFromBuffer(object command);
-
         #endregion
 
     }
