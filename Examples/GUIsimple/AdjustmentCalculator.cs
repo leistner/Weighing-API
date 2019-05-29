@@ -39,9 +39,9 @@ namespace GUIsimple
               
         // Constructor of class 'CalcCalibration' : 
         public AdjustmentCalculator(BaseWTDevice wtxDevice)
-        {
+        { 
             this._wtxDevice = wtxDevice;
-            
+
             _finished = false;
             //Provider for english number format
             _provider = CultureInfo.InvariantCulture;

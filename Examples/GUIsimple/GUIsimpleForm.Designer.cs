@@ -42,7 +42,6 @@
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.calibrationWithWeightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logActiveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripButtonLog = new System.Windows.Forms.ToolStripButton();
@@ -164,8 +163,7 @@
             this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.toolStripDropDownButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.calibrationWithWeightToolStripMenuItem,
-            this.calibrationToolStripMenuItem,
-            this.logActiveToolStripMenuItem});
+            this.calibrationToolStripMenuItem});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
             this.toolStripDropDownButton1.Size = new System.Drawing.Size(49, 22);
@@ -184,12 +182,6 @@
             this.calibrationToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.calibrationToolStripMenuItem.Text = "Calibration with weight";
             this.calibrationToolStripMenuItem.Click += new System.EventHandler(this.calibrationToolStripMenuItem_Click_1);
-            // 
-            // logActiveToolStripMenuItem
-            // 
-            this.logActiveToolStripMenuItem.Name = "logActiveToolStripMenuItem";
-            this.logActiveToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
-            this.logActiveToolStripMenuItem.Text = "Log active";
             // 
             // toolStripDropDownButton2
             // 
@@ -250,6 +242,7 @@
             this.txtInfo.ReadOnly = true;
             this.txtInfo.Size = new System.Drawing.Size(364, 90);
             this.txtInfo.TabIndex = 26;
+            this.txtInfo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // GUIsimpleForm
             // 
@@ -296,7 +289,6 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.TextBox txtLog;
-        private System.Windows.Forms.ToolStripMenuItem logActiveToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButtonLog;
         private System.Windows.Forms.TextBox txtInfo;
     }

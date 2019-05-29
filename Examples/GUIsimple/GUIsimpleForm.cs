@@ -62,7 +62,7 @@ namespace GUIsimple
         public GUIsimpleForm(string[] args)
         {
             InitializeComponent();
-            txtInfo.Text = "Check IP address, select 'Jet' or 'Modbus/TCP' and press 'Connect'.";
+            DisplayText("Check IP address, select 'Jet' or 'Modbus/TCP' and press 'Connect'.");
             EvaluateCommandLine(args);    
             txtIPAddress.Text = _ipAddress;
             picNE107.Image = Properties.Resources.NE107_DiagnosisPassive;
@@ -72,24 +72,23 @@ namespace GUIsimple
         #region =============== protected & private methods ================
 
         /// <summary>
-        /// vHow to connect
+        /// How to connect
         /// </summary>
         private void InitializeConnection()
         {
-            txtInfo.Text = "Connecting...";
             this._ipAddress = txtIPAddress.Text;
 
-            if (this.rbtConnectionModbus.Checked)    // If 'Modbus/Tcp' is selected: 
+            if (this.rbtConnectionModbus.Checked)  
             {
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTCPConnection _modbusConnection = new ModbusTCPConnection(this._ipAddress);
                 _modbusConnection.CommunicationLog += Logger;
-                _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_modbusConnection, this._timerInterval, this.update);
+                _wtxDevice = new WTXModbus(_modbusConnection, this._timerInterval, this.update);
 
             }
             else
             {
-                if (this.rbtConnectionJet.Checked)  // If 'JetBus' is selected: 
+                if (this.rbtConnectionJet.Checked)
                 {
                     // Creating objects of JetBusConnection and WTXJet: 
                     JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
@@ -99,17 +98,17 @@ namespace GUIsimple
                 }
             }
 
-            // Connection establishment via Modbus or Jetbus :            
+            // Connection establishment via Modbus or Jetbus            
             try
             {
                 _wtxDevice.Connect(5000);
             }
             catch (Exception)
             {
-                txtInfo.Text = MESSAGE_CONNECTION_FAILED;
+                DisplayText(MESSAGE_CONNECTION_FAILED);
             }
 
-            if (_wtxDevice.IsConnected == true)
+            if (_wtxDevice.IsConnected)
             {
                 picNE107.Image = Properties.Resources.NE107_DiagnosisActive;
                 Properties.Settings.Default.IPAddress = this._ipAddress;
@@ -119,7 +118,7 @@ namespace GUIsimple
             else
             {
                 picNE107.Image = Properties.Resources.NE107_DiagnosisPassive;
-                txtInfo.Text = MESSAGE_CONNECTION_FAILED;
+                DisplayText(MESSAGE_CONNECTION_FAILED);
             }
 
         }
@@ -131,31 +130,27 @@ namespace GUIsimple
         /// <param name="e">Here you find the current process data (e.g. weight value)</param>
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {           
-            txtInfo.BeginInvoke(new Action(() =>
+            this.BeginInvoke(new Action(() =>
             {
-                txtInfo.Text = "Net:" + _wtxDevice.PrintableWeight.Net + _wtxDevice.Unit + Environment.NewLine
+                DisplayText("Net:" + _wtxDevice.PrintableWeight.Net + _wtxDevice.Unit + Environment.NewLine
                 + "Gross:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit + Environment.NewLine
-                + "Tara:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit;
-                txtInfo.TextAlign = HorizontalAlignment.Right;
+                + "Tara:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit);
 
                 if (e.ProcessData.Underload == true)
                 {
-                    txtInfo.Text = "Underload : Lower than minimum" + Environment.NewLine;
-                    txtInfo.TextAlign = HorizontalAlignment.Right;
+                    DisplayText("Underload : Lower than minimum" + Environment.NewLine);
                     picNE107.Image = Properties.Resources.NE107_OutOfSpecification;
 
                 }
                 else if (e.ProcessData.Overload == true)
                 {
-                    txtInfo.Text = "Overload : Higher than maximum capacity" + Environment.NewLine;
-                    txtInfo.TextAlign = HorizontalAlignment.Right;
+                    DisplayText("Overload : Higher than maximum capacity" + Environment.NewLine);
                     picNE107.Image = Properties.Resources.NE107_OutOfSpecification;
 
                 }
                 else if (e.ProcessData.HigherSafeLoadLimit == true)
                 {
-                    txtInfo.Text = "Higher than safe load limit" + Environment.NewLine;
-                    txtInfo.TextAlign = HorizontalAlignment.Right;
+                    DisplayText("Higher than safe load limit" + Environment.NewLine);
                     picNE107.Image = Properties.Resources.NE107_OutOfSpecification;
                 }
                 else
@@ -197,19 +192,23 @@ namespace GUIsimple
                 this._timerInterval = Convert.ToInt32(args[2]);
         }
 
+        private void DisplayText(string text)
+        {
+            txtInfo.Text = text;
+            Application.DoEvents();
+        }
+        
         //Connect device
         private void cmdConnect_Click(object sender, EventArgs e)
         {
             if (_wtxDevice != null)
             {
-                txtInfo.Text = "Disconnecting...";
-                Application.DoEvents();
+                DisplayText("Disconnecting...");
                 _wtxDevice.Connection.Disconnect();
                 _wtxDevice = null;
-                Thread.Sleep(WAIT_DISCONNECT);
             }
 
-            txtInfo.Text = "Connecting...";
+            DisplayText("Connecting...");
             this.InitializeConnection();          
         }
 
@@ -234,49 +233,58 @@ namespace GUIsimple
         //Method for calculate adjustment with dead load and span: 
         private void calibrationWithWeightToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            _adjustmentCalculator = new AdjustmentCalculator(_wtxDevice);            
-            DialogResult res = _adjustmentCalculator.ShowDialog();
+            if (_wtxDevice != null)
+            {
+                _adjustmentCalculator = new AdjustmentCalculator(_wtxDevice);
+                DialogResult res = _adjustmentCalculator.ShowDialog();
+            }
         }
         
         //Method for adjustment with weight: 
         private void calibrationToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            _adjustmentWeigher = new AdjustmentWeigher(_wtxDevice);
-            DialogResult res = _adjustmentWeigher.ShowDialog();
+            if (_wtxDevice != null)
+            {
+                _adjustmentWeigher = new AdjustmentWeigher(_wtxDevice);
+                DialogResult res = _adjustmentWeigher.ShowDialog();
+            }
         }
 
         // Toolstrip Click Event for Digital IO : Input & Output
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            _wtxDevice.Stop();
-
-            if (_wtxDevice.Connection.ConnectionType == ConnectionType.Modbus)
+            if (_wtxDevice != null)
             {
-                _wtxDevice.Disconnect();
+                _wtxDevice.Stop();
 
-                JetBusConnection _connection = new JetBusConnection(_ipAddress);
-                _wtxDevice = new WTXJet(_connection, 500, update);
+                if (_wtxDevice.Connection.ConnectionType == ConnectionType.Modbus)
+                {
+                    _wtxDevice.Disconnect();
 
-                _wtxDevice.Connect(5000);
+                    JetBusConnection _connection = new JetBusConnection(_ipAddress);
+                    _wtxDevice = new WTXJet(_connection, 500, update);
 
-                _functionIOForm = new FunctionIO();
+                    _wtxDevice.Connect(5000);
 
-                _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
-                _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
+                    _functionIOForm = new FunctionIO();
 
-                DialogResult res = _functionIOForm.ShowDialog();
+                    _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
+                    _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
+
+                    DialogResult res = _functionIOForm.ShowDialog();
+                }
+                else
+                    if (_wtxDevice.Connection.ConnectionType == ConnectionType.Jetbus)
+                {
+                    _functionIOForm = new FunctionIO();
+
+                    _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
+                    _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
+
+                    DialogResult res = _functionIOForm.ShowDialog();
+                }
+                _wtxDevice.Restart();
             }
-            else
-                if (_wtxDevice.Connection.ConnectionType == ConnectionType.Jetbus)
-            {
-                _functionIOForm = new FunctionIO();
-
-                _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
-                _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
-
-                DialogResult res = _functionIOForm.ShowDialog();
-            }
-            _wtxDevice.Restart();
         }
 
         private void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
