@@ -146,42 +146,36 @@ namespace Hbm.Weighing.API.Data
         {
             try
             {
-                if (Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 2 || Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 3)  // If application mode = filler
+                if (Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.IMDApplicationMode)) == 2 || Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.IMDApplicationMode)) == 3)  // If application mode = filler
                 {
-                    // Via Modbus and Jetbus IDs: 
-                    MaxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximal_dosing_time));
-                    MeanValueDosingResults = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Mean_value_dosing_results));
-                    StandardDeviation = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Standard_deviation));
-                    FineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_cut_off_point));
-                    CoarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_cut_off_point));
-
-                    _residualFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Residual_flow_time));
-                    _minimumFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_fine_flow));
-                    _optimizationOfCutOffPoints = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Optimization));
-                    _maximumDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Maximal_dosing_time));
-                    _coarseLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_time));
-                    _fineLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_time));
-                    _tareMode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Tare_mode));
-
-                    _upperToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Upper_tolerance_limit));
-                    _lowerToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Lower_tolerance_limit));
-                    _minimumStartWeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Minimum_start_weight));
-                    _emptyWeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Empty_weight_tolerance));
-                    _tareDelay = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Tare_delay));
-
-                    _coarseFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_monitoring_time));
-                    _coarseFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Coarse_flow_monitoring));
-                    _fineFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_monitoring));
-                    _fineFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_monitoring_time));
-
-                    _systematicDifference = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Systematic_difference));
+                    MaxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.MDTMaximalFillingTime));
+                    MeanValueDosingResults = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.SDMFillingResultMeanValue));
+                    StandardDeviation = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.SDSFillingResultStandardDeviation));
+                    FineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.FFDFineFlowDisconnect));
+                    CoarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CFDCoarseFlowDisconnect));
+                    _residualFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.RFTResidualFlowTime));
+                    _minimumFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.FFMMinimumFineFlow));
+                    _optimizationOfCutOffPoints = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.OSNOptimization));
+                    _maximumDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.MDTMaximalFillingTime));
+                    _coarseLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CFTCoarseFlowTime));
+                    _fineLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.FFTFineFlowTime));
+                    _tareMode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.TMDTareMode));
+                    _upperToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.UTLUpperToleranceLimit));
+                    _lowerToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.LTLLowerToleranceLimit));
+                    _minimumStartWeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.MSWMinimumStartWeight));
+                    _emptyWeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.EWTEmptyWeight));
+                    _tareDelay = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.TADTareDelay));
+                    _coarseFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CBTCoarseFlowMonitoringTime));
+                    _coarseFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CBKCoarseFlowMonitoring));
+                    _fineFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.FBKFineFlowMonitoring));
+                    _fineFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.FBTFineFlowMonitoringTime));
+                    _systematicDifference = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.SYDSystematicDifference));
                     _valveControl = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.VCTValveControl));
-                    _emptyingMode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Emptying_mode));
-                    _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Delay1_dosing));
-                    _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Fine_flow_phase_before_coarse_flow));
-
-                    WeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.RecordWeight));
-                    ModeWeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.RecordWeightMode));
+                    _emptyingMode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.EMDEmptyingMode));
+                    _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.DL1DosingDelay1));
+                    _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.FFLFirstFineFlow));
+                    WeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.STORecordWeight));
+                    ModeWeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.SMDRecordWeightMode));
                 }
             }
             catch (KeyNotFoundException)
@@ -243,122 +237,122 @@ namespace Hbm.Weighing.API.Data
             }
             set
             {
-                _connection.Write(JetBusCommands.Residual_flow_time, value);
+                _connection.Write(JetBusCommands.RFTResidualFlowTime, value);
                 this._residualFlowTime = value;
             }
         }
         public int TargetFillingWeight // Type : signed integer 32 Bit
         {
             get { return _targetFillingWeight; }
-            set { _connection.Write(JetBusCommands.Reference_value_dosing, value);
+            set { _connection.Write(JetBusCommands.FWTFillingTargetWeight, value);
                 this._targetFillingWeight = value; }
         }
         public int CoarseFlowCutOffPointSet // Type : signed integer 32 Bit
         {
             get { return _coarseFlowCutOffPointSet; }
-            set { _connection.Write(JetBusCommands.Coarse_flow_cut_off_point, value);
+            set { _connection.Write(JetBusCommands.CFDCoarseFlowDisconnect, value);
                 this._coarseFlowCutOffPointSet = value; }
         }
         public int FineFlowCutOffPointSet // Type : signed integer 32 Bit
         {
             get { return _fineFlowCutOffPointSet; }
-            set { _connection.Write(JetBusCommands.Fine_flow_cut_off_point, value);
+            set { _connection.Write(JetBusCommands.FFDFineFlowDisconnect, value);
                 this._fineFlowCutOffPointSet = value; }
         }
         public int MinimumFineFlow // Type : signed integer 32 Bit
         {
             get { return _minimumFineFlow; }
-            set { _connection.Write(JetBusCommands.Minimum_fine_flow, value);
+            set { _connection.Write(JetBusCommands.FFMMinimumFineFlow, value);
                 this._minimumFineFlow = value; }
         }
         public int OptimizationOfCutOffPoints // Type : unsigned integer 8 Bit
         {
             get { return _optimizationOfCutOffPoints; }
-            set { _connection.Write(JetBusCommands.Optimization, value);
+            set { _connection.Write(JetBusCommands.OSNOptimization, value);
                 this._optimizationOfCutOffPoints = value; }
         }
         public int MaximumDosingTime // Type : unsigned integer 16 Bit
         {
             get { return _maximumDosingTime; }
-            set { _connection.Write(JetBusCommands.Maximal_dosing_time, value);
+            set { _connection.Write(JetBusCommands.MDTMaximalFillingTime, value);
                 this._maximumDosingTime = value; }
         }
         public int StartWithFineFlow // Type : unsigned integer 16 Bit
         {
             get { return _startWithFineFlow; }
-            set { _connection.Write(JetBusCommands.Run_start_dosing, value);
+            set { _connection.Write(JetBusCommands.RUNStartFilling, value);
                 this._startWithFineFlow = value; }
         }
         public int CoarseLockoutTime // Type : unsigned integer 16 Bit
         {
             get { return _coarseLockoutTime; }
-            set { _connection.Write(JetBusCommands.Lockout_time_coarse_flow, value);
+            set { _connection.Write(JetBusCommands.LTCLockoutTimeCoarseFlow, value);
                 this._coarseLockoutTime = value; }
         }
         public int FineLockoutTime // Type : unsigned integer 16 Bit
         {
             get { return _fineLockoutTime; }
-            set { _connection.Write(JetBusCommands.Lockout_time_fine_flow, value);
+            set { _connection.Write(JetBusCommands.LTFLockoutTimeFineFlow, value);
                 this._fineLockoutTime = value; }
         }
         public int TareMode // Type : unsigned integer 8 Bit
         {
             get { return _tareMode; }
-            set { _connection.Write(JetBusCommands.Tare_mode, value);
+            set { _connection.Write(JetBusCommands.TMDTareMode, value);
                 this._tareMode = value; }
         }
         public int UpperToleranceLimit // Type : signed integer 32 Bit
         {
             get { return _upperToleranceLimit; }
-            set { _connection.Write(JetBusCommands.Upper_tolerance_limit, value);
+            set { _connection.Write(JetBusCommands.UTLUpperToleranceLimit, value);
                 this._upperToleranceLimit = value; }
         }
         public int LowerToleranceLimit // Type : signed integer 32 Bit
         {
             get { return _lowerToleranceLimit; }
-            set { _connection.Write(JetBusCommands.Lower_tolerance_limit, value);
+            set { _connection.Write(JetBusCommands.LTLLowerToleranceLimit, value);
                 this._lowerToleranceLimit = value; }
         }
         public int MinimumStartWeight // Type : signed integer 32 Bit
         {
             get { return _minimumStartWeight; }
-            set { _connection.Write(JetBusCommands.Minimum_start_weight, value);
+            set { _connection.Write(JetBusCommands.MSWMinimumStartWeight, value);
                 this._minimumStartWeight = value; }
         }
         public int EmptyWeight // Type : signed integer 32 Bit
         {
             get { return _emptyWeight; }
-            set { _connection.Write(JetBusCommands.Empty_weight_tolerance, value);
+            set { _connection.Write(JetBusCommands.EWTEmptyWeight, value);
                 this._emptyWeight = value; }
         }
         public int TareDelay // Type : unsigned integer 16 Bit
         {
             get { return _tareDelay; }
-            set { _connection.Write(JetBusCommands.Tare_delay, value);
+            set { _connection.Write(JetBusCommands.TADTareDelay, value);
                 this._tareDelay = value; }
         }
         public int CoarseFlowMonitoringTime // Type : unsigned integer 16 Bit
         {
             get { return _coarseFlowMonitoringTime; }
-            set { _connection.Write(JetBusCommands.Coarse_flow_monitoring_time, value);
+            set { _connection.Write(JetBusCommands.CBTCoarseFlowMonitoringTime, value);
                 this._coarseFlowMonitoringTime = value; }
         }
         public int CoarseFlowMonitoring  // Type : unsigned integer 32 Bit
         {
             get { return _coarseFlowMonitoring; }
-            set { _connection.Write(JetBusCommands.Coarse_flow_monitoring, value);
+            set { _connection.Write(JetBusCommands.CBKCoarseFlowMonitoring, value);
                 this._coarseFlowMonitoring = value; }
         }
         public int FineFlowMonitoring  // Type : unsigned integer 32 Bit
         {
             get { return _fineFlowMonitoring; }
-            set { _connection.Write(JetBusCommands.Fine_flow_monitoring, value);
+            set { _connection.Write(JetBusCommands.FBKFineFlowMonitoring, value);
                 this._fineFlowMonitoring = value; }
         }
         public int FineFlowMonitoringTime // Type : unsigned integer 16 Bit
         {
             get { return _fineFlowMonitoringTime; }
-            set { _connection.Write(JetBusCommands.Fine_flow_monitoring_time, value);
+            set { _connection.Write(JetBusCommands.FBTFineFlowMonitoringTime, value);
                 this._fineFlowMonitoringTime = value; }
         }
         public int DelayTimeAfterFineFlow  // Type : unsigned integer 8 Bit
@@ -376,7 +370,7 @@ namespace Hbm.Weighing.API.Data
         public int SystematicDifference // Type : unsigned integer 32 Bit
         {
             get { return _systematicDifference; }
-            set { _connection.Write(JetBusCommands.Systematic_difference, value);
+            set { _connection.Write(JetBusCommands.SYDSystematicDifference, value);
                 this._systematicDifference = value; }
         }
         public int DownwardsDosing  // Type : unsigned integer 8 Bit
@@ -384,7 +378,7 @@ namespace Hbm.Weighing.API.Data
             get { return _downwardsDosing; }
             set
             {
-                _connection.Write(JetBusCommands.DOWNWARDS_DOSING, value); 
+                _connection.Write(JetBusCommands.DMDDosingMode, value); 
                 this._downwardsDosing = value;
             }
         }
@@ -398,7 +392,7 @@ namespace Hbm.Weighing.API.Data
         public int EmptyingMode  // Type : unsigned integer 8 Bit
         {
             get { return _emptyingMode; }
-            set { _connection.Write(JetBusCommands.Emptying_mode, value);
+            set { _connection.Write(JetBusCommands.EMDEmptyingMode, value);
                 this._emptyingMode = value; }
         }
         public int WeightStorage { get; set; }

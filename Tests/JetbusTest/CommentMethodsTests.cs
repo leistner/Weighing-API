@@ -18,7 +18,7 @@ namespace JetbusTest
         private TestJetbusConnection _jetTestConnection;
         private WTXJet _wtxObj;
 
-        private int value;
+        //private int value;
 
         // Test case source for reading values from the WTX120 device. 
         public static IEnumerable T_UnitValueTestCases
@@ -118,8 +118,9 @@ namespace JetbusTest
         [SetUp]
         public void Setup()
         {
-            value = 0;
+            //value = 0;
         }
+
        /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
         public void test_StatusStringComment_OK(Behavior behavior)

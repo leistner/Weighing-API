@@ -191,7 +191,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         private int numPoints;
 
         private ushort[] _data;
-        private int _index;
+        //private int _index;
 
         public LogEventArgs _logObj;
 
@@ -209,7 +209,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
             this.numPoints = 6;
 
              _data = new ushort[2];
-            _index = 0;
+            //_index = 0;
 
             for (int index = 0; index < _dataWTX.Length; index++)
                 _dataWTX[index] = 0x00;
@@ -240,7 +240,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
                     break; 
             }
 
-            Write(ModbusCommands.Control_word_Taring, 0);
+            Write(ModbusCommands.ControlWordTare, 0);
     }
 
         public bool IsConnected
@@ -296,41 +296,41 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
         private void UpdateDictionary()
         {
-            this.ReadFromBuffer(ModbusCommands.Net);
-            this.ReadFromBuffer(ModbusCommands.Gross);
+            this.ReadFromBuffer(ModbusCommands.CIA461NetValue);
+            this.ReadFromBuffer(ModbusCommands.CIA461GrossValue);
 
-            this.ReadFromBuffer(ModbusCommands.WeightMoving);
-            this.ReadFromBuffer(ModbusCommands.ScaleSealIsOpen);
-            this.ReadFromBuffer(ModbusCommands.ManualTare);
-            this.ReadFromBuffer(ModbusCommands.Tare_mode);
-            this.ReadFromBuffer(ModbusCommands.ScaleRange);
-            this.ReadFromBuffer(ModbusCommands.ZeroRequired);
-            this.ReadFromBuffer(ModbusCommands.WeightinCenterOfZero);
-            this.ReadFromBuffer(ModbusCommands.WeightinZeroRange);
+            this.ReadFromBuffer(ModbusCommands.CIA461WeightStatusWeightMoving);
+            this.ReadFromBuffer(ModbusCommands.CIA461WeightStatusScaleSealIsOpen);
+            this.ReadFromBuffer(ModbusCommands.CIA461WeightStatusManualTare);
+            this.ReadFromBuffer(ModbusCommands.TMDTareMode);
+            this.ReadFromBuffer(ModbusCommands.CIA461WeightStatusScaleRange);
+            this.ReadFromBuffer(ModbusCommands.CIA461WeightStatusZeroRequired);
+            this.ReadFromBuffer(ModbusCommands.CIA461WeightStatusCenterOfZero);
+            this.ReadFromBuffer(ModbusCommands.CIA461WeightStatusInsideZero);
 
-            this.ReadFromBuffer(ModbusCommands.Application_mode);     // application mode 
-            this.ReadFromBuffer(ModbusCommands.Decimals);             // decimals
-            this.ReadFromBuffer(ModbusCommands.Unit);                 // unit
-            this.ReadFromBuffer(ModbusCommands.Handshake);            // handshake
+            this.ReadFromBuffer(ModbusCommands.IMDApplicationMode);     // application mode 
+            this.ReadFromBuffer(ModbusCommands.CIA461Decimals);             // decimals
+            this.ReadFromBuffer(ModbusCommands.CIA461Unit);                 // unit
+            this.ReadFromBuffer(ModbusCommands.PLCComHandshake);            // handshake
 
-            this.ReadFromBuffer(ModbusCommands.Status_digital_input_1);
-            this.ReadFromBuffer(ModbusCommands.Status_digital_output_1);
-            this.ReadFromBuffer(ModbusCommands.Limit_value);
+            this.ReadFromBuffer(ModbusCommands.IS1DigitalInput1);
+            this.ReadFromBuffer(ModbusCommands.OS1DigitalOutput1);
+            this.ReadFromBuffer(ModbusCommands.LVSLimitValueStatus);
 
-            this.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point);
-            this.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point);
-            this.ReadFromBuffer(ModbusCommands.Coarse_flow_monitoring);
-            this.ReadFromBuffer(ModbusCommands.Fine_flow_monitoring);
+            this.ReadFromBuffer(ModbusCommands.FFDFineFlowDisconnect);
+            this.ReadFromBuffer(ModbusCommands.CFDCoarseFlowDisconnect);
+            this.ReadFromBuffer(ModbusCommands.CBKCoarseFlowMonitoring);
+            this.ReadFromBuffer(ModbusCommands.FBKFineFlowMonitoring);
 
-            this.ReadFromBuffer(ModbusCommands.Ready);
-            this.ReadFromBuffer(ModbusCommands.ReDosing);
+            this.ReadFromBuffer(ModbusCommands.FillingStateReady);
+            this.ReadFromBuffer(ModbusCommands.FillingStateReDosing);
 
             //this.GetDataFromDictionary(ModbusCommands.Emptying_mode);
-            this.ReadFromBuffer(ModbusCommands.Maximal_dosing_time);
-            this.ReadFromBuffer(ModbusCommands.Upper_tolerance_limit);
-            this.ReadFromBuffer(ModbusCommands.Lower_tolerance_limit);
-            this.ReadFromBuffer(ModbusCommands.StatusInput1);
-            this.ReadFromBuffer(ModbusCommands.LegalForTradeOperation);
+            this.ReadFromBuffer(ModbusCommands.MDTMaximalFillingTime);
+            this.ReadFromBuffer(ModbusCommands.UTLUpperToleranceLimit);
+            this.ReadFromBuffer(ModbusCommands.LTLLowerToleranceLimit);
+            this.ReadFromBuffer(ModbusCommands.FillingStateStatusInput1);
+            this.ReadFromBuffer(ModbusCommands.FillingStateLegalForTradeOperation);
 
             this.ReadFromBuffer(ModbusCommands.WeightMemDayStandard);
             this.ReadFromBuffer(ModbusCommands.WeightMemMonthStandard);
@@ -339,14 +339,14 @@ namespace Hbm.Weighing.API.WTX.Modbus
             this.ReadFromBuffer(ModbusCommands.WeightMemGrossStandard);
             this.ReadFromBuffer(ModbusCommands.WeightMemNetStandard);
 
-            this.ReadFromBuffer(ModbusCommands.Emptying);
-            this.ReadFromBuffer(ModbusCommands.FlowError);
-            this.ReadFromBuffer(ModbusCommands.Alarm);
-            this.ReadFromBuffer(ModbusCommands.AdcOverUnderload);
+            this.ReadFromBuffer(ModbusCommands.FillingStateEmptying);
+            this.ReadFromBuffer(ModbusCommands.FillingStateFlowError);
+            this.ReadFromBuffer(ModbusCommands.FillingStateAlarm);
+            this.ReadFromBuffer(ModbusCommands.FillingStateAdcOverUnderload);
 
-            this.ReadFromBuffer(ModbusCommands.StatusInput1);
-            this.ReadFromBuffer(ModbusCommands.GeneralScaleError);
-            this.ReadFromBuffer(ModbusCommands.TotalWeight);
+            this.ReadFromBuffer(ModbusCommands.FillingStateStatusInput1);
+            this.ReadFromBuffer(ModbusCommands.FillingStateGeneralScaleError);
+            this.ReadFromBuffer(ModbusCommands.SUMFillingResultSum);
 
             // Undefined IDs:
             /*

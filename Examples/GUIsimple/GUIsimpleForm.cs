@@ -289,14 +289,14 @@ namespace GUIsimple
 
         private void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
+            /*DDD Todo
             int out1 = _wtxDevice.DataStandard.Output1;
             int out2 = _wtxDevice.DataStandard.Output2;
             int out3 = _wtxDevice.DataStandard.Output3;
             int out4 = _wtxDevice.DataStandard.Output4;
-
             int in1 = _wtxDevice.DataStandard.Input1;
             int in2 = _wtxDevice.DataStandard.Input2;
-
+            */
             if (this.rbtConnectionModbus.Checked)    // If 'Modbus/Tcp' is selected, disconnect and reconnect from Jetbus to Modbus
             {
                 _wtxDevice.Disconnect();
@@ -307,6 +307,7 @@ namespace GUIsimple
 
         private void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
+            /*DDD Todo
             if ((int)e.FunctionOutputIO1 != (-1))
                 _wtxDevice.DataStandard.Output1 = (int)e.FunctionOutputIO1;
             if ((int)e.FunctionOutputIO1 != (-1))
@@ -320,7 +321,7 @@ namespace GUIsimple
                 _wtxDevice.DataStandard.Input1 = (int)e.FunctionInputIO1;
             if ((int)e.FunctionOutputIO1 != (-1))
                 _wtxDevice.DataStandard.Input2 = (int)e.FunctionInputIO2;
-
+            */
             if (this.rbtConnectionModbus.Checked)    // If 'Modbus/Tcp' is selected, disconnect and reconnect from Jetbus to Modbus
             {
                 _wtxDevice.Disconnect();

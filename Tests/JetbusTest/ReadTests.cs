@@ -418,7 +418,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.Input1;
+            _testBoolean = _wtxObj.DataStandard.Input1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM1"));
         }
@@ -432,7 +432,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.Input2;
+            _testBoolean = _wtxObj.DataStandard.Input2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM2"));
         }
@@ -446,7 +446,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.Input3;
+            _testBoolean = _wtxObj.DataStandard.Input3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM3"));
         }
@@ -460,7 +460,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.Input4;
+            _testBoolean = _wtxObj.DataStandard.Input4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM4"));
         }
@@ -474,7 +474,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.Output1;
+            _testBoolean = _wtxObj.DataStandard.Output1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM1"));
         }
@@ -488,7 +488,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.Output2;
+            _testBoolean = _wtxObj.DataStandard.Output2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM2"));
         }
@@ -502,7 +502,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.Output3;
+            _testBoolean = _wtxObj.DataStandard.Output3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM3"));
         }
@@ -516,7 +516,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.Output4;
+            _testBoolean = _wtxObj.DataStandard.Output4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM4"));
         }
@@ -530,7 +530,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.LimitStatus1;
+            _testBoolean = _wtxObj.DataStandard.LimitStatus1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS1"));
         }
@@ -544,7 +544,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.LimitStatus2;
+            _testBoolean = _wtxObj.DataStandard.LimitStatus2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS2"));
         }
@@ -558,7 +558,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.LimitStatus3;
+            _testBoolean = _wtxObj.DataStandard.LimitStatus3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS3"));
         }
@@ -573,7 +573,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.DataStandard.LimitStatus4;
+            _testBoolean = _wtxObj.DataStandard.LimitStatus4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS4"));
         }
@@ -953,9 +953,9 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            int LimitSwitch1 = _wtxObj.DataStandard.LimitStatus1;
+            bool LimitSwitch1 = _wtxObj.DataStandard.LimitStatus1;
 
-            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && LimitSwitch1 == 0)
+            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && !LimitSwitch1)
                 testVar = true;
             else
                 testVar = false;

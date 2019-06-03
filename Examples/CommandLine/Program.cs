@@ -552,13 +552,14 @@ namespace WTXModbus
                         Console.WriteLine("Current fine flow time:        " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CurrentFineFlowTime.ToString() +    "\t  As an int/bool:  " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.CurrentFineFlowTime);
 
                         Console.WriteLine("Parameter set (product):       " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ParameterSetProduct.ToString() + "\t  As an int/bool:  " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataFiller.ParameterSetProduct);
+                        /* DDD Todo
                         Console.WriteLine("Weight memory, Day:            " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemDay.ToString() +        "\t  As an int/bool:  " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemDay);
                         Console.WriteLine("Weight memory, Month:          " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemMonth.ToString() +      "\t  As an int/bool:  " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemMonth);
                         Console.WriteLine("Weight memory, Year:           " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemYear.ToString() +       "\t  As an int/bool:  " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemYear);
                         Console.WriteLine("Weight memory, Seq.Number:     " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemSeqNumber.ToString() +  "\t  As an int/bool:  " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemSeqNumber);
                         Console.WriteLine("Weight memory, gross:          " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemGross.ToString() +      "\t  As an int/bool:  " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemGross);
                         Console.WriteLine("Weight memory, net:            " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemNet.ToString() +        "\t  As an int/bool:  " + ((Hbm.Weighing.API.WTX.WTXModbus)_wtxDevice).DataStandard.WeightMemNet);
-
+                        */
                         Console.WriteLine("\nPress 'a' again to hide the input words.");
                     }
                     

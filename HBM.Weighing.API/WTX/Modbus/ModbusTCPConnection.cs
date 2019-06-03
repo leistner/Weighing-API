@@ -230,17 +230,17 @@ namespace Hbm.Weighing.API.WTX.Modbus
         /// This method writes a data word to the WTX120 device synchronously. 
         private bool DoHandshake()
         {
-            while (ReadInteger(ModbusCommands.Handshake) == 0)
+            while (ReadInteger(ModbusCommands.PLCComHandshake) == 0)
             {
                 Thread.Sleep(50);
             }
            _master.WriteSingleRegister(WTX_SLAVE_ADDRESS, WTX_REGISTER_EXECUTION_COMMANDS, 0x00);
 
-            while (ReadInteger(ModbusCommands.Handshake) == 1) 
+            while (ReadInteger(ModbusCommands.PLCComHandshake) == 1) 
             {
                 Thread.Sleep(50);
             }
-            return (ReadInteger(ModbusCommands.Status) == 1);
+            return (ReadInteger(ModbusCommands.PLCComStatus) == 1);
         }
                 
         public string ReadFromBuffer(object command)

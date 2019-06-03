@@ -182,66 +182,66 @@ namespace Hbm.Weighing.API.Data
         {
             try
             {
-                if (Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Application_mode)) == 2 || Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Application_mode)) == 3)  // If application mode = filler
+                if (Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.IMDApplicationMode)) == 2 || Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.IMDApplicationMode)) == 3)  // If application mode = filler
                 {
                     // Via Modbus and Jetbus IDs: 
-                    MaxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Maximal_dosing_time));
-                    FineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point));
-                    CoarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point));
+                    MaxDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.MDTMaximalFillingTime));
+                    FineFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FFDFineFlowDisconnect));
+                    CoarseFlowCutOffPoint = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CFDCoarseFlowDisconnect));
 
-                    _residualFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Residual_flow_time));
-                    _minimumFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Minimum_fine_flow));
-                    _optimizationOfCutOffPoints = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Optimization));
-                    _maximumDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Maximal_dosing_time));
-                    _coarseLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_time));
-                    _fineLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CurrentFineFlowTime));
-                    _tareMode = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Tare_mode));
+                    _residualFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.RFTResidualFlowTime));
+                    _minimumFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FFMMinimumFineFlow));
+                    _optimizationOfCutOffPoints = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.OSNOptimization));
+                    _maximumDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.MDTMaximalFillingTime));
+                    _coarseLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CFTCoarseFlowTime));
+                    _fineLockoutTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FFTFineFlowTime));
+                    _tareMode = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.TMDTareMode));
                     
-                    _upperToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Upper_tolerance_limit));
-                    _lowerToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Lower_tolerance_limit));
-                    _minimumStartWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Minimum_start_weight));
-                    _emptyWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Empty_weight));
-                    _tareDelay = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Tare_delay));
+                    _upperToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.UTLUpperToleranceLimit));
+                    _lowerToleranceLimit = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.LTLLowerToleranceLimit));
+                    _minimumStartWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.MSWMinimumStartWeight));
+                    _emptyWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.EWTEmptyWeight));
+                    _tareDelay = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.TADTareDelay));
                     
-                    _coarseFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_monitoring_time));
-                    _coarseFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_monitoring));
-                    _fineFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_monitoring));
+                    _coarseFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CBTCoarseFlowMonitoringTime));
+                    _coarseFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CBKCoarseFlowMonitoring));
+                    _fineFlowMonitoring = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FBKFineFlowMonitoring));
 
-                    _fineFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_monitoring_time));                 
-                    _systematicDifference = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Systematic_difference));               
-                    _valveControl = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Valve_control));
-                    _emptyingMode = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Emptying_mode));
-                    _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Delay_time_after_fine_flow));
-                    _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Activation_time_after_fine_flow));
+                    _fineFlowMonitoringTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FBTFineFlowMonitoringTime));                 
+                    _systematicDifference = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.SYDSystematicDifference));               
+                    _valveControl = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.VCTValveControl));
+                    _emptyingMode = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.EMDEmptyingMode));
+                    _delayTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.DL1DosingDelay1));
+                    _activationTimeAfterFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.DL2DosingDelay2));
 
-                    AdcOverUnderload = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.AdcOverUnderload));
-                    LegalForTradeOperation = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.LegalForTradeOperation));
-                    StatusInput1 = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.StatusInput1));
-                    GeneralScaleError = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.GeneralScaleError));
+                    AdcOverUnderload = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateAdcOverUnderload));
+                    LegalForTradeOperation = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateLegalForTradeOperation));
+                    StatusInput1 = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateStatusInput1));
+                    GeneralScaleError = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateGeneralScaleError));
 
-                    CoarseFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CoarseFlow));
-                    FineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FineFlow));
-                    Ready = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Ready));
-                    ReDosing = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ReDosing));
+                    CoarseFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateCoarseFlow));
+                    FineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateFineFlow));
+                    Ready = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateReady));
+                    ReDosing = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateReDosing));
 
-                    Emptying = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Emptying));
-                    FlowError = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FlowError));
-                    Alarm = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Alarm));
-                    ToleranceErrorPlus = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ToleranceErrorPlus));
+                    Emptying = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateEmptying));
+                    FlowError = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateFlowError));
+                    Alarm = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateAlarm));
+                    ToleranceErrorPlus = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateToleranceErrorPlus));
 
-                    ToleranceErrorMinus = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ToleranceErrorMinus));
-                    CurrentDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Dosing_time));
-                    CurrentCoarseFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_time));
-                    CurrentFineFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CurrentFineFlowTime));
+                    ToleranceErrorMinus = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FillingStateToleranceErrorMinus));
+                    CurrentDosingTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.DSTDosingTime));
+                    CurrentCoarseFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CFTCoarseFlowTime));
+                    CurrentFineFlowTime = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FFTFineFlowTime));
                     
-                    ParameterSetProduct = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.ParameterSetProduct));
-                    _downwardsDosing = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.DownwardsDosing));
-                    TotalWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.TotalWeight));
+                    ParameterSetProduct = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CurrentProductParameterSet));
+                    _downwardsDosing = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.DMDDosingMode));
+                    TotalWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.SUMFillingResultSum));
                     
-                    _targetFillingWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.TargetFillingWeight));
-                    _coarseFlowCutOffPointSet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Coarse_flow_cut_off_point));
-                    _fineFlowCutOffPointSet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Fine_flow_cut_off_point));
-                    _startWithFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.Run_start_dosing));  // Command 'Run_start_dosing' right
+                    _targetFillingWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FWTFillingTargetWeight));
+                    _coarseFlowCutOffPointSet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CFDCoarseFlowDisconnect));
+                    _fineFlowCutOffPointSet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FFDFineFlowDisconnect));
+                    _startWithFineFlow = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FFLFirstFineFlow));  // Command 'Run_start_dosing' right
 
                     WeightMemDay = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemDayStandard));
                     WeightMemMonth = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.WeightMemMonthStandard));
@@ -303,7 +303,7 @@ namespace Hbm.Weighing.API.Data
             get { return _residualFlowTime; }
             set
             {
-                _connection.Write(ModbusCommands.Residual_flow_time, value);
+                _connection.Write(ModbusCommands.RFTResidualFlowTime, value);
                 this._residualFlowTime = value;
             }
         }
@@ -312,7 +312,7 @@ namespace Hbm.Weighing.API.Data
             get { return _targetFillingWeight; }
             set
             {
-                _connection.Write(ModbusCommands.TargetFillingWeight, value);
+                _connection.Write(ModbusCommands.FWTFillingTargetWeight, value);
                 this._targetFillingWeight = value;
             }
         }
@@ -321,7 +321,7 @@ namespace Hbm.Weighing.API.Data
             get { return _coarseFlowCutOffPointSet; }
             set
             {
-                _connection.Write(ModbusCommands.Coarse_flow_cut_off_point, value);
+                _connection.Write(ModbusCommands.CFDCoarseFlowDisconnect, value);
                 this._coarseFlowCutOffPointSet = value;
             }
         }
@@ -330,7 +330,7 @@ namespace Hbm.Weighing.API.Data
             get { return _fineFlowCutOffPointSet; }
             set
             {
-                _connection.Write(ModbusCommands.Fine_flow_cut_off_point, value);
+                _connection.Write(ModbusCommands.FFDFineFlowDisconnect, value);
                 this._fineFlowCutOffPointSet = value;
             }
         }
@@ -339,7 +339,7 @@ namespace Hbm.Weighing.API.Data
             get { return _minimumFineFlow; }
             set
             {
-                _connection.Write(ModbusCommands.Minimum_fine_flow, value);
+                _connection.Write(ModbusCommands.FFMMinimumFineFlow, value);
                 this._minimumFineFlow = value;
             }
         }
@@ -348,7 +348,7 @@ namespace Hbm.Weighing.API.Data
             get { return _optimizationOfCutOffPoints; }
             set
             {
-                _connection.Write(ModbusCommands.Optimization, value);
+                _connection.Write(ModbusCommands.OSNOptimization, value);
                 this._optimizationOfCutOffPoints = value;
             }
         }
@@ -357,7 +357,7 @@ namespace Hbm.Weighing.API.Data
             get { return _maximumDosingTime; }
             set
             {
-                _connection.Write(ModbusCommands.Maximal_dosing_time, value);
+                _connection.Write(ModbusCommands.MDTMaximalFillingTime, value);
                 this._maximumDosingTime = value;
             }
         }
@@ -366,7 +366,7 @@ namespace Hbm.Weighing.API.Data
             get { return _startWithFineFlow; }
             set
             {
-                _connection.Write(ModbusCommands.Run_start_dosing, value);
+                _connection.Write(ModbusCommands.FFLFirstFineFlow, value);
                 this._startWithFineFlow = value;
             }
         }
@@ -375,7 +375,7 @@ namespace Hbm.Weighing.API.Data
             get { return _coarseLockoutTime; }
             set
             {
-                _connection.Write(ModbusCommands.Lockout_time_coarse_flow, value);
+                _connection.Write(ModbusCommands.LTCLockoutTimeCoarseFlow, value);
                 this._coarseLockoutTime = value;
             }
         }
@@ -384,7 +384,7 @@ namespace Hbm.Weighing.API.Data
             get { return _fineLockoutTime; }
             set
             {
-                _connection.Write(ModbusCommands.Lockout_time_fine_flow, value);
+                _connection.Write(ModbusCommands.LTFLockoutTimeFineFlow, value);
                 this._fineLockoutTime = value;
             }
         }
@@ -393,7 +393,7 @@ namespace Hbm.Weighing.API.Data
             get { return _tareMode; }
             set
             {
-                _connection.Write(ModbusCommands.Tare_mode, value);
+                _connection.Write(ModbusCommands.TMDTareMode, value);
                 this._tareMode = value;
             }
         }
@@ -402,7 +402,7 @@ namespace Hbm.Weighing.API.Data
             get { return _upperToleranceLimit; }
             set
             {
-                _connection.Write(ModbusCommands.Upper_tolerance_limit, value);
+                _connection.Write(ModbusCommands.UTLUpperToleranceLimit, value);
                 this._upperToleranceLimit = value;
             }
         }
@@ -411,7 +411,7 @@ namespace Hbm.Weighing.API.Data
             get { return _lowerToleranceLimit; }
             set
             {
-                _connection.Write(ModbusCommands.Lower_tolerance_limit, value);
+                _connection.Write(ModbusCommands.LTLLowerToleranceLimit, value);
                 this._lowerToleranceLimit = value;
             }
         }
@@ -420,7 +420,7 @@ namespace Hbm.Weighing.API.Data
             get { return _minimumStartWeight; }
             set
             {
-                _connection.Write(ModbusCommands.Minimum_start_weight, value);
+                _connection.Write(ModbusCommands.MSWMinimumStartWeight, value);
                 this._minimumStartWeight = value;
             }
         }
@@ -429,7 +429,7 @@ namespace Hbm.Weighing.API.Data
             get { return _emptyWeight; }
             set
             {
-                _connection.Write(ModbusCommands.Empty_weight, value);
+                _connection.Write(ModbusCommands.EWTEmptyWeight, value);
                 this._emptyWeight = value;
             }
         }
@@ -438,7 +438,7 @@ namespace Hbm.Weighing.API.Data
             get { return _tareDelay; }
             set
             {
-                _connection.Write(ModbusCommands.Tare_delay, value);
+                _connection.Write(ModbusCommands.TADTareDelay, value);
                 this._tareDelay = value;
             }
         }
@@ -447,7 +447,7 @@ namespace Hbm.Weighing.API.Data
             get { return _coarseFlowMonitoringTime; }
             set
             {
-                _connection.Write(ModbusCommands.Coarse_flow_monitoring_time, value);
+                _connection.Write(ModbusCommands.CBTCoarseFlowMonitoringTime, value);
                 this._coarseFlowMonitoringTime = value;
             }
         }
@@ -456,7 +456,7 @@ namespace Hbm.Weighing.API.Data
             get { return _coarseFlowMonitoring; }
             set
             {
-                _connection.Write(ModbusCommands.Coarse_flow_monitoring, value);
+                _connection.Write(ModbusCommands.CBKCoarseFlowMonitoring, value);
                 this._coarseFlowMonitoring = value;
             }
         }
@@ -465,7 +465,7 @@ namespace Hbm.Weighing.API.Data
             get { return _fineFlowMonitoring; }
             set
             {
-                _connection.Write(ModbusCommands.Fine_flow_monitoring, value);
+                _connection.Write(ModbusCommands.FBKFineFlowMonitoring, value);
                 this._fineFlowMonitoring = value;
             }
         }
@@ -474,7 +474,7 @@ namespace Hbm.Weighing.API.Data
             get { return _fineFlowMonitoringTime; }
             set
             {
-                _connection.Write(ModbusCommands.Fine_flow_monitoring_time, value);
+                _connection.Write(ModbusCommands.FBTFineFlowMonitoringTime, value);
                 this._fineFlowMonitoringTime = value;
             }
         }
@@ -483,7 +483,7 @@ namespace Hbm.Weighing.API.Data
             get { return _delayTimeAfterFineFlow; }
             set
             {
-                _connection.Write(ModbusCommands.Delay_time_after_fine_flow, value);
+                _connection.Write(ModbusCommands.DL1DosingDelay1, value);
                 this._delayTimeAfterFineFlow = value;
             }
         }
@@ -492,7 +492,7 @@ namespace Hbm.Weighing.API.Data
             get { return _activationTimeAfterFineFlow; }
             set
             {
-                _connection.Write(ModbusCommands.Activation_time_after_fine_flow, value);
+                _connection.Write(ModbusCommands.DL2DosingDelay2, value);
                 this._activationTimeAfterFineFlow = value;
             }
         }
@@ -501,7 +501,7 @@ namespace Hbm.Weighing.API.Data
             get { return _systematicDifference; }
             set
             {
-                _connection.Write(ModbusCommands.Systematic_difference, value);
+                _connection.Write(ModbusCommands.SYDSystematicDifference, value);
                 this._systematicDifference = value;
             }
         }
@@ -510,7 +510,7 @@ namespace Hbm.Weighing.API.Data
             get { return _downwardsDosing; }
             set
             {
-                _connection.Write(ModbusCommands.DownwardsDosing, value);
+                _connection.Write(ModbusCommands.DMDDosingMode, value);
                 this._downwardsDosing = value;
             }
         }
@@ -519,7 +519,7 @@ namespace Hbm.Weighing.API.Data
             get { return _valveControl; }
             set
             {
-                _connection.Write(ModbusCommands.Valve_control, value);
+                _connection.Write(ModbusCommands.VCTValveControl, value);
                 this._valveControl = value;
             }
         }
@@ -529,7 +529,7 @@ namespace Hbm.Weighing.API.Data
             get { return _emptyingMode; }
             set
             {
-                _connection.Write(ModbusCommands.Emptying_mode, value);
+                _connection.Write(ModbusCommands.EMDEmptyingMode, value);
                 this._emptyingMode = value;
             }
         }

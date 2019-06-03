@@ -22,11 +22,11 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | ProcessDataReceivedEventArgs.cs    | :heavy_check_mark:     | 
 | WTXJet.cs                          | :heavy_check_mark:     |
 | WTXModbus.cs                       | :heavy_check_mark:     | 
-| ModbusCommand.cs                   | :heavy_check_mark: |
-| ModbusCommands.cs                  | :large_orange_diamond: |
+| ModbusCommand.cs                   | :heavy_check_mark:     |
+| ModbusCommands.cs                  | :heavy_check_mark:     |
 | ModbusTCPConnection.cs             | :heavy_check_mark:     |
-| JetBusCommand.cs                   | :heavy_check_mark: |
-| JetBusCommands.cs                  | :large_orange_diamond: |
+| JetBusCommand.cs                   | :heavy_check_mark:     |
+| JetBusCommands.cs                  | :heavy_check_mark:     |
 | JetBusConnection.cs                | :heavy_check_mark:     |
 | JetBusException.cs                 | :heavy_check_mark:     |
 | MeasurementUtils.cs                | :large_orange_diamond: |
@@ -34,15 +34,16 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | DataFillerExtendedJet.cs           | :red_circle:           |
 | DataFillerJet.cs                   | :red_circle:           |
 | DataFillerModbus.cs                | :red_circle:           |
-| DataStandardJet.cs                 | :red_circle:           |
-| DataStandardModbus.cs              | :red_circle:           |
+| DataStandardJet.cs                 | :heavy_check_mark:     |
+| DataStandardModbus.cs              | :heavy_check_mark:     |
 | IDataFiller.cs                     | :red_circle:           |
 | IDataFillerExtended.cs             | :red_circle:           |
-| IDataStandard.cs                   | :red_circle:           |
+| IDataStandard.cs                   | :heavy_check_mark:     |
 | PrintableWeightType.cs             | :large_orange_diamond: |
 | ProcessDataJet.cs                  | :heavy_check_mark:     |
 | ProcessDataModbus.cs               | :heavy_check_mark:     |
 | ProcessDataModbus.cs               | :heavy_check_mark:     |
+| WeightMemory.cs                    | :heavy_check_mark:     |
 
 
 :heavy_check_mark: Well done!   

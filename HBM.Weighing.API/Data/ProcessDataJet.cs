@@ -79,24 +79,24 @@ namespace Hbm.Weighing.API.Data
         {
             try
             {
-                ApplicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode));
-                GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_GeneralWeightError)));
-                ScaleAlarm = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleAlarm)));
-                int LimitStatus = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_LimitStatus));
+                ApplicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.IMDApplicationMode));
+                GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusGeneralWeightError)));
+                ScaleAlarm = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusScaleAlarm)));
+                int LimitStatus = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusLimitStatus));
                 Underload = (LimitStatus == 1);
                 Overload = (LimitStatus == 2);
                 HigherSafeLoadLimit = (LimitStatus == 3);
-                TareMode = EvaluateTareMode(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ManualTare)), Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_WeightType)));
-                WeightStable = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_WeightMoving)));
-                LegalForTrade = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleSealIsOpen)));
-                ScaleRange = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ScaleRange));
-                ZeroRequired = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_ZeroRequired)));
-                CenterOfZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_CenterOfZero)));
-                InsideZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_InsideZero)));
-                Decimals = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Decimals));
-                Unit = UnitIDToString(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.WS_Unit)));
-                Weight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Net_value)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Gross_value)), Decimals));
-                PrintableWeight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Net_value)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Gross_value)), Decimals), Decimals);
+                TareMode = EvaluateTareMode(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusManualTare)), Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusWeightType)));
+                WeightStable = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusWeightMoving)));
+                LegalForTrade = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusScaleSealIsOpen)));
+                ScaleRange = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusScaleRange));
+                ZeroRequired = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusZeroRequired)));
+                CenterOfZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusCenterOfZero)));
+                InsideZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusInsideZero)));
+                Decimals = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461Decimals));
+                Unit = UnitIDToString(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461Unit)));
+                Weight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461NetValue)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461GrossValue)), Decimals));
+                PrintableWeight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461NetValue)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461GrossValue)), Decimals), Decimals);
             }
             catch (KeyNotFoundException)
             {

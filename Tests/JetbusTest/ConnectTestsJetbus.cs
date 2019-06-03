@@ -17,10 +17,10 @@ namespace Hbm.Weighing.API.WTX.Jet
 
         private INetConnection testConnection;
 
-        private bool connectCallbackCalled;
-        private bool connectCompleted;
+        //private bool connectCallbackCalled;
+        //private bool connectCompleted;
 
-        private int testGrossValue;
+        //private int testGrossValue;
 
         public static IEnumerable Connect_TestCases_Jetbus
         {
@@ -43,10 +43,10 @@ namespace Hbm.Weighing.API.WTX.Jet
         [SetUp]
         public void Setup()
         {
-            testGrossValue = 0; 
+            //testGrossValue = 0; 
 
-            this.connectCallbackCalled = false;
-            this.connectCompleted = true;
+            //this.connectCallbackCalled = false;
+            //this.connectCompleted = true;
         }
 
         [Test, TestCaseSource(typeof(ConnectTestsJetbus), "Connect_TestCases_Jetbus")]
@@ -56,7 +56,7 @@ namespace Hbm.Weighing.API.WTX.Jet
 
             WTXJet WTXJetObj = new WTXJet(testConnection, 500, Update);      
 
-            this.connectCallbackCalled = false;
+            //this.connectCallbackCalled = false;
 
             WTXJetObj.Connect(this.OnConnect, 100);
             
@@ -70,7 +70,7 @@ namespace Hbm.Weighing.API.WTX.Jet
 
             WTXJet WTXJetObj = new WTXJet(testConnection, 500, Update);
 
-            this.connectCallbackCalled = false;
+            //this.connectCallbackCalled = false;
             
             WTXJetObj.Connect(this.OnConnect, 100);
 
@@ -86,17 +86,17 @@ namespace Hbm.Weighing.API.WTX.Jet
 
         private void OnConnect(bool completed)
         {
-            this.connectCallbackCalled = true; 
+            //this.connectCallbackCalled = true; 
 
-            this.connectCompleted = completed;
+            //this.connectCompleted = completed;
         }
 
 
         private void OnDisconnect(bool completed)
         {
-            this.connectCallbackCalled = false;
+            //this.connectCallbackCalled = false;
 
-            this.connectCompleted = completed;
+            //this.connectCompleted = completed;
         }
 
     }

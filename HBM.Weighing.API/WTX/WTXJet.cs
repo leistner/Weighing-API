@@ -178,7 +178,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.TareValue, value);
+                Connection.Write(JetBusCommands.CIA461TareValue, value);
                 _manualTareValue = value;
             }
         }
@@ -193,7 +193,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CalibrationWeight, value);
+                Connection.Write(JetBusCommands.CIA461CalibrationWeight, value);
                 _calibrationWeight = value;
             }
         }
@@ -208,7 +208,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.ZeroValue, value);
+                Connection.Write(JetBusCommands.CIA461ZeroValue, value);
                 _zeroLoad = value;
             }
         }
@@ -259,31 +259,31 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         public override void Zero()
         {
-            Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_ZERO);
+            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_ZERO);
         }
         
         /// <inheritdoc />
         public override void SetGross()
         {
-            Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_SET_GROSS);
+            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_SET_GROSS);
         }
         
         /// <inheritdoc />
         public override void Tare()
         {
-            Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_TARE);
+            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_TARE);
         }
         
         /// <inheritdoc />
         public override void TareManually(double manualTareValue)
         {
-            Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_TARE);
+            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_TARE);
         }
         
         /// <inheritdoc />
         public override void RecordWeight()
         {
-            Connection.Write(JetBusCommands.RecordWeight, SCALE_COMMAND_TARE);
+            Connection.Write(JetBusCommands.STORecordWeight, SCALE_COMMAND_TARE);
         }
                 
         /// <inheritdoc />
@@ -302,19 +302,19 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         public override bool AdjustZeroSignal()
         {
-            Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_CALIBRATE_ZERO); 
+            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_ZERO); 
 
-            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) != SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(200);
             }
 
-            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(200);
             }
 
-            if (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_OK)
+            if (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) == SCALE_COMMAND_STATUS_OK)
             {
                 return true;
             }
@@ -325,19 +325,19 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         public override bool AdjustNominalSignal()
         {
-            Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
+            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
 
-            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) != SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
 
-            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
 
-            if (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_OK)
+            if (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) == SCALE_COMMAND_STATUS_OK)
             {
                 return true;
             }
@@ -348,21 +348,21 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         public override bool AdjustNominalSignalWithCalibrationWeight(double calibrationWeight)
         {
-            Connection.Write(JetBusCommands.CalibrationWeight, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));
+            Connection.Write(JetBusCommands.CIA461CalibrationWeight, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));
 
-            Connection.Write(JetBusCommands.ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
+            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
 
-            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) != SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
 
-            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_ONGOING)
+            while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
 
-            if (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.Scale_command_status)) == SCALE_COMMAND_STATUS_OK)
+            if (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) == SCALE_COMMAND_STATUS_OK)
             { 
                 return true;
             }

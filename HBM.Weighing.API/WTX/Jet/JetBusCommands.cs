@@ -28,439 +28,529 @@
 //
 // </copyright>
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Hbm.Weighing.API.WTX.Jet
 {
     /// <summary>
-    /// Class for using commands, respectively indexes/paths, to read/write the 
-    /// registers of the WTX device via Jetbus to get the data.
-    /// ID's/Commands for subscribing values of the WTX device. 
-    /// The ID's are commited as a parameter for the read and/or write method call.  
-    /// This class inherits from interface ICommands. 
-    /// </summary>
+    /// Class with all JetBus commands and additional command information 
     /// </summary>
     public static class JetBusCommands
     {
+        #region =============== constructors & destructors =================
         static JetBusCommands()
         {
-            ResidualFlowTime = new JetBusCommand(DataType.U16, "2220/07", 0, 0);
-            LDWZeroValue = new JetBusCommand(DataType.S32, "2110/06", 0, 0);                // LDW = Nullpunkt
-            LWTNominalValue = new JetBusCommand(DataType.S32, "2110/07", 0, 0);              // LWT = Nennwert
-            CalibrationWeight = new JetBusCommand(DataType.S32, "6152/00", 0, 0);   // LFT = LFT scale calibration weight
-
-            Net_value = new JetBusCommand(DataType.S32, "601A/01", 0, 0);
-            Gross_value = new JetBusCommand(DataType.S32, "6144/00", 0, 0);
-            ZeroValue = new JetBusCommand(DataType.S32, "6142/00", 0, 0);
-
-            TareValue = new JetBusCommand(DataType.S32, "6143/00", 0, 0);
-            Weighing_device_1_weight_status = new JetBusCommand(DataType.U16, "6012/01", 0, 0);
-
-            WS_GeneralWeightError = new JetBusCommand(DataType.U16, "6012/01", 0, 1);
-            WS_ScaleAlarm = new JetBusCommand(DataType.U16, "6012/01", 1, 1);
-            WS_LimitStatus = new JetBusCommand(DataType.U16, "6012/01", 2, 2);
-            WS_WeightMoving = new JetBusCommand(DataType.U16, "6012/01", 4, 1);
-            WS_ScaleSealIsOpen = new JetBusCommand(DataType.U16, "6012/01", 5, 1);
-            WS_ManualTare = new JetBusCommand(DataType.U16, "6012/01", 6, 1);
-            WS_WeightType = new JetBusCommand(DataType.U16, "6012/01", 7, 1);
-            WS_ScaleRange = new JetBusCommand(DataType.U16, "6012/01", 8, 2);
-            WS_ZeroRequired = new JetBusCommand(DataType.U16, "6012/01", 10, 1);
-            WS_CenterOfZero = new JetBusCommand(DataType.U16, "6012/01", 11, 1);
-            WS_InsideZero = new JetBusCommand(DataType.U16, "6012/01", 12, 1);
-            WS_Reserved = new JetBusCommand(DataType.U16, "6012/01", 13, 1);
-            WS_ImplementationSpecificWeightStatus1 = new JetBusCommand(DataType.U16, "6012/01", 14, 1);
-            WS_ImplementationSpecificWeightStatus2 = new JetBusCommand(DataType.U16, "6012/01", 14, 1);
-
-            WS_Unit = new JetBusCommand(DataType.U32, "6014/01", 16, 8);
-            Unit_prefix_fixed_parameter = new JetBusCommand(DataType.U32, "6014/01", 0, 0);
-            Application_mode = new JetBusCommand(DataType.U08, "2010/07", 0, 0); // IMD = Input mode ( Application mode)
-            Decimals = new JetBusCommand(DataType.U08, "6013/01", 0, 0);
-            ScaleCommand = new JetBusCommand(DataType.U32, "6002/01", 0, 0);
-            Scale_command_status = new JetBusCommand(DataType.U32, "6002/02", 0, 0);
-
-            Status_digital_input_1 = new JetBusCommand(DataType.U08, "2020/18", 0, 0);    // IS1
-            Status_digital_input_2 = new JetBusCommand(DataType.U08, "2020/19", 0, 0);    // IS2
-            Status_digital_input_3 = new JetBusCommand(DataType.U08, "2020/1A", 0, 0);    // IS3
-            Status_digital_input_4 = new JetBusCommand(DataType.U08, "2020/1B", 0, 0);    // IS4
-            Status_digital_output_1 = new JetBusCommand(DataType.U08, "2020/1E", 0, 0);   // OS1
-            Status_digital_output_2 = new JetBusCommand(DataType.U08, "2020/1F", 0, 0);   // OS2
-            Status_digital_output_3 = new JetBusCommand(DataType.U08, "2020/20", 0, 0);   // OS3
-            Status_digital_output_4 = new JetBusCommand(DataType.U08, "2020/21", 0, 0);   // OS4
-
-            Limit_value_status1 = new JetBusCommand(DataType.U08, "2020/25", 0, 1);// LVS - limit value status 1
-            Limit_value_status2 = new JetBusCommand(DataType.U08, "2020/25", 1, 1);// LVS - limit value status 2
-            Limit_value_status3 = new JetBusCommand(DataType.U08, "2020/25", 2, 1);// LVS - limit value status 3
-            Limit_value_status4 = new JetBusCommand(DataType.U08, "2020/25", 3, 1);// LVS - limit value status 4
-
-            Coarse_flow_monitoring = new JetBusCommand(DataType.S32, "2210/01", 0, 0);      // CBK = Füllstromüberwachung Grobstrom
-            Coarse_flow_monitoring_time = new JetBusCommand(DataType.U16, "2220/01", 0, 0); // CBT = Überwachungszeit Grobstrom
-            Coarse_flow_cut_off_point = new JetBusCommand(DataType.S32, "2210/02", 0, 0);   // CFD = Grobstromabschaltpunkt
-            Coarse_flow_time = new JetBusCommand(DataType.U16, "2230/01", 0, 0);            // CFT = Grobstromzeit
-            Dosing_mode = new JetBusCommand(DataType.U08, "2200/04", 0, 0);                 // DMD = Dosiermodus
-            Dosing_time = new JetBusCommand(DataType.U16, "2230/03", 0, 0);                 // DST = Dosieristzeit
-            Emptying_mode = new JetBusCommand(DataType.U08, "2200/05", 0, 0);               // EMD = Entleermodus
-            Fine_flow_monitoring = new JetBusCommand(DataType.S32, "2210/04", 0, 0);        // FBK = Füllstromüberwachung Feinstrom
-            Fine_flow_monitoring_time = new JetBusCommand(DataType.U16, "2220/03", 0, 0);   // FBT = Überwachungszeit Feinstrom
-            Fine_flow_cut_off_point = new JetBusCommand(DataType.S32, "2210/05", 0, 0);     // FFD = Feinstromabschaltpunkt
-            Fine_flow_phase_before_coarse_flow = new JetBusCommand(DataType.U16, "2220/0A", 0, 0); // FFL = Feinstromphase vor Grobstrom
-            Minimum_fine_flow = new JetBusCommand(DataType.S32, "2210/06", 0, 0);           // FFM = Minimaler Feinstromanteil
-            Fine_flow_time = new JetBusCommand(DataType.U16, "2230/04", 0, 0);              // FFT = Feinstromzeit
-            Dosing_result = new JetBusCommand(DataType.S32, "2000/05", 0, 0);               // FRS1 = Dosierergebnis
-            dosing_state = new JetBusCommand(DataType.U16, "2000/06", 0, 0);                // FRS2 = Dosierstatus
-            Reference_value_dosing = new JetBusCommand(DataType.S32, "2210/07", 0, 0);      // FWT = Sollwert dosieren
-            Lockout_time_coarse_flow = new JetBusCommand(DataType.U16, "2220/04", 0, 0);    // LTC = Sperrzeit Grobstrom
-            Lockout_time_fine_flow = new JetBusCommand(DataType.U16, "2220/05", 0, 0);      // LTF = Sperrzeit Feinstrom
-            Lower_tolerance_limit = new JetBusCommand(DataType.S32, "2210/08", 0, 0);       // LTL = Untere Toleranz
-            Maximal_dosing_time = new JetBusCommand(DataType.U16, "2220/06", 0, 0);         // MDT = Maximale Dosierzeit
-            Minimum_start_weight = new JetBusCommand(DataType.S32, "2210/0B", 0, 0);        // MSW = Minimum Startgewicht
-            Dosing_counter = new JetBusCommand(DataType.U16, "2230/05", 0, 0);              // NDS = Dosierzähler
-            Optimization = new JetBusCommand(DataType.U08, "2200/07", 0, 0);                // OSN = Optimierung
-            Range_selection_parameter = new JetBusCommand(DataType.U08, "2200/02", 0, 0);   // RDP = Auswahl Dosierparameter
-            Redosing = new JetBusCommand(DataType.U08, "2200/08", 0, 0);                    // RDS = Nachdosieren
-            Residual_flow_time = new JetBusCommand(DataType.U16, "2220/07", 0, 0);          // RFT = Nachstromzeit
-            Run_start_dosing = new JetBusCommand(DataType.NIL, "2240/02", 0, 0);            // RUN = Start Dosieren
-            Mean_value_dosing_results = new JetBusCommand(DataType.S32, "2230/06", 0, 0);         // SDM = Mittelwert Dosieren
-            Dosing_state_filler = new JetBusCommand(DataType.U08, "2D00/02", 0, 0);               // SDO = Dosierstatus
-            Standard_deviation = new JetBusCommand(DataType.S32, "2230/07", 0, 0);                // SDS = Standardabweichung
-            Settling_time_transient_response = new JetBusCommand(DataType.U16, "2220/08", 0, 0);  // STT = Beruhigungszeit
-            Systematic_difference = new JetBusCommand(DataType.S32, "2210/09", 0, 0);             // SYD = Systematische Differenz
-            Tare_delay = new JetBusCommand(DataType.U16, "2220/09", 0, 0);                        // TAD = Tarierverzögerung
-            Tare_mode = new JetBusCommand(DataType.U08, "2200/0B", 0, 0);                         // TMD = Tariermodus
-            Upper_tolerance_limit = new JetBusCommand(DataType.S32, "2210/0A", 0, 0);             // UTL = Obere Toleranz
-            VCTValveControl = new JetBusCommand(DataType.U08, "2200/0C", 0, 0);              
-            WDPWriteDosingParameterSet = new JetBusCommand(DataType.U08, "2200/01", 0, 0);  
-            RecordWeight = new JetBusCommand(DataType.U08, "2040/05", 0, 0);      
-            RecordWeightMode = new JetBusCommand(DataType.U08, "2300/08", 0, 0);         
-
-            // Paths/Commands : Digital input in the extended filler mode, only via Jetbus
-            Function_digital_input_1 = new JetBusCommand(DataType.U08, "2022/01", 0, 0);
-            Function_digital_input_2 = new JetBusCommand(DataType.U08, "2022/02", 0, 0);
-            Function_digital_input_3 = new JetBusCommand(DataType.U08, "2022/03", 0, 0);
-            Function_digital_input_4 = new JetBusCommand(DataType.U08, "2022/04", 0, 0);
-            // Paths/Commands : Digital output in the extended filler mode, only via Jetbus
-            Function_digital_output_1 = new JetBusCommand(DataType.U08, "2021/01", 0, 0);
-            Function_digital_output_2 = new JetBusCommand(DataType.U08, "2021/02", 0, 0);
-            Function_digital_output_3 = new JetBusCommand(DataType.U08, "2021/03", 0, 0);
-            Function_digital_output_4 = new JetBusCommand(DataType.U08, "2021/04", 0, 0);
-
-            Error_register = new JetBusCommand(DataType.U08, "1001/00", 0, 0);
-            Save_all_parameters = new JetBusCommand(DataType.U32, "1010/01", 0, 0);
-            Restore_all_default_parameters = new JetBusCommand(DataType.U32, "1011/01", 0, 0);
-            Vendor_id = new JetBusCommand(DataType.U32, "1018/01", 0, 0);
-            Product_code = new JetBusCommand(DataType.U32, "1018/02", 0, 0);
-            Serial_number = new JetBusCommand(DataType.U32, "1018/04", 0, 0);
-            Implemented_profile_specification = new JetBusCommand(DataType.U32, "1030/01", 0, 0);
-            Lc_capability = new JetBusCommand(DataType.U32, "6000/01", 0, 0);
-            Weighing_device_1_unit_prefix_output_parameter = new JetBusCommand(DataType.U16, "6015/01", 0, 0);
-
-            Weighing_device_1_weight_step = new JetBusCommand(DataType.U08, "6016/01", 0, 0);
+            CIA461CalibrationWeight = new JetBusCommand(DataType.S32, "6152/00", 0, 0);
+            CIA461CertificaitonInfoNTEP = new JetBusCommand(DataType.ASCII, "6138/02", 0, 0);
+            CIA461CertificaitonInfoOIML = new JetBusCommand(DataType.ASCII, "6138/01", 0, 0);
+            CIA461Decimals = new JetBusCommand(DataType.U08, "6013/01", 0, 0);
+            CIA461FilterBesselCutOffFrequency = new JetBusCommand(DataType.U08, "60B1/02", 0, 0);
+            CIA461FilterBesselFilterOrder = new JetBusCommand(DataType.U08, "60B1/01", 0, 0);
+            CIA461FilterButterworthCutOffFrequency = new JetBusCommand(DataType.U08, "60A2/02", 0, 0);
+            CIA461FilterButterworthFilterOrder = new JetBusCommand(DataType.U08, "60A2/01", 0, 0);
+            CIA461FilterCriticallyDampedCutOffFrequency = new JetBusCommand(DataType.U08, "60A1/02", 0, 0);
+            CIA461FilterCriticallyDampedFilterOrder = new JetBusCommand(DataType.U08, "60A1/01", 0, 0);
+            CIA461GrossValue = new JetBusCommand(DataType.S32, "6144/00", 0, 0);
+            CIA461ImplementedProfileSpecification = new JetBusCommand(DataType.U32, "1030/01", 0, 0);
+            CIA461LoadCellCapability = new JetBusCommand(DataType.U32, "6000/01", 0, 0);
+            CIA461LocalGravityFactor = new JetBusCommand(DataType.S32, "6021/01", 0, 0);
+            CIA461MaximumZeroingTime = new JetBusCommand(DataType.U16, "6141/02", 0, 0);
+            CIA461MultiIntervalRangeControl = new JetBusCommand(DataType.U08, "611C/01", 0, 0);
+            CIA461MultiLimit1 = new JetBusCommand(DataType.S32, "611C/02", 0, 0);
+            CIA461MultiLimit2 = new JetBusCommand(DataType.S32, "611C/03", 0, 0);
+            CIA461NetValue = new JetBusCommand(DataType.S32, "601A/01", 0, 0);
+            CIA461OutputWeight = new JetBusCommand(DataType.S32, "601A/01", 0, 0);
+            CIA461PeakValueGrossMax = new JetBusCommand(DataType.S32, "6149/01", 0, 0);
+            CIA461PeakValueGrossMin = new JetBusCommand(DataType.S32, "6149/02", 0, 0);
+            CIA461PeakValueMax = new JetBusCommand(DataType.S32, "6149/03", 0, 0);
+            CIA461PeakValuMin = new JetBusCommand(DataType.S32, "6149/04", 0, 0);
+            CIA461ProductCode = new JetBusCommand(DataType.U32, "1018/02", 0, 0);
+            CIA461RestoreAllDefaultParameters = new JetBusCommand(DataType.U32, "1011/01", 0, 0);
+            CIA461SampleRate = new JetBusCommand(DataType.U32, "6050/01", 0, 0);
+            CIA461SaveAllParameters = new JetBusCommand(DataType.U32, "1010/01", 0, 0);
+            CIA461ScaleAccuracyClass = new JetBusCommand(DataType.U08, "6111/01", 0, 0);
+            CIA461ScaleApportionmentFactor = new JetBusCommand(DataType.U08, "6116/01", 0, 0);
+            CIA461ScaleCommand = new JetBusCommand(DataType.U32, "6002/01", 0, 0);
+            CIA461ScaleCommandStatus = new JetBusCommand(DataType.U32, "6002/02", 0, 0);
+            CIA461ScaleFilter = new JetBusCommand(DataType.U16, "6040/01", 0, 0);
+            CIA461ScaleMaximumCapacity = new JetBusCommand(DataType.S32, "6113/01", 0, 0);
+            CIA461ScaleMaximumNumberOfVerifications = new JetBusCommand(DataType.U32, "6114/01", 0, 0);
+            CIA461ScaleMinimumDeadLoad = new JetBusCommand(DataType.S32, "6112/01", 0, 0);
+            CIA461ScaleMinimumVerificationInterval = new JetBusCommand(DataType.U32, "611B/01", 0, 0);
+            CIA461ScaleOperationTemperatureMaximal = new JetBusCommand(DataType.S16, "6118/03", 0, 0);
+            CIA461ScaleOperationTemperatureMinimal = new JetBusCommand(DataType.S16, "6118/02", 0, 0);
+            CIA461ScaleOperationTemperatureNominal = new JetBusCommand(DataType.S16, "6118/01", 0, 0);
+            CIA461ScaleSafeLoadLimit = new JetBusCommand(DataType.U32, "6117/01", 0, 0);
+            CIA461ScaleSettings = new JetBusCommand(DataType.S32, "6020/01", 0, 0);
+            CIA461SerialNumber = new JetBusCommand(DataType.U32, "1018/04", 0, 0);
+            CIA461SuppyVoltageMaximal = new JetBusCommand(DataType.U08, "6110/03", 0, 0);
+            CIA461SuppyVoltageNominal = new JetBusCommand(DataType.U08, "6110/01", 0, 0);
+            CIA461SuppyVoltageNominalMinimal = new JetBusCommand(DataType.U08, "6110/02", 0, 0);
+            CIA461TareValue = new JetBusCommand(DataType.S32, "6143/00", 0, 0);
+            CIA461Unit = new JetBusCommand(DataType.U32, "6015/01", 16, 8);
+            CIA461UnitPrefixFixedParameters = new JetBusCommand(DataType.U32, "6014/01", 0, 0);
+            CIA461VendorID = new JetBusCommand(DataType.U32, "1018/01", 0, 0);
+            CIA461WeightMovingDetection = new JetBusCommand(DataType.U08, "6153/00", 0, 0);
+            CIA461WeightStatus = new JetBusCommand(DataType.U16, "6012/01", 0, 0);
+            CIA461WeightStatusCenterOfZero = new JetBusCommand(DataType.BIT, "6012/01", 11, 1);
+            CIA461WeightStatusGeneralWeightError = new JetBusCommand(DataType.BIT, "6012/01", 0, 1);
+            CIA461WeightStatusImplementationSpecificWeightStatus1 = new JetBusCommand(DataType.BIT, "6012/01", 14, 1);
+            CIA461WeightStatusImplementationSpecificWeightStatus2 = new JetBusCommand(DataType.BIT, "6012/01", 14, 1);
+            CIA461WeightStatusInsideZero = new JetBusCommand(DataType.BIT, "6012/01", 12, 1);
+            CIA461WeightStatusLimitStatus = new JetBusCommand(DataType.BIT, "6012/01", 2, 2);
+            CIA461WeightStatusManualTare = new JetBusCommand(DataType.BIT, "6012/01", 6, 1);
+            CIA461WeightStatusReserved = new JetBusCommand(DataType.BIT, "6012/01", 13, 1);
+            CIA461WeightStatusScaleAlarm = new JetBusCommand(DataType.BIT, "6012/01", 1, 1);
+            CIA461WeightStatusScaleRange = new JetBusCommand(DataType.BIT, "6012/01", 8, 2);
+            CIA461WeightStatusScaleSealIsOpen = new JetBusCommand(DataType.BIT, "6012/01", 5, 1);
+            CIA461WeightStatusWeightMoving = new JetBusCommand(DataType.BIT, "6012/01", 4, 1);
+            CIA461WeightStatusWeightType = new JetBusCommand(DataType.BIT, "6012/01", 7, 1);
+            CIA461WeightStatusZeroRequired = new JetBusCommand(DataType.BIT, "6012/01", 10, 1);
+            CIA461WeightStep = new JetBusCommand(DataType.U08, "6016/01", 0, 0);
+            CIA461ZeroValue = new JetBusCommand(DataType.S32, "6142/00", 0, 0);
+            ADRDeviceAddress = new JetBusCommand(DataType.U08, "2600/01", 0, 0);
             Alarms = new JetBusCommand(DataType.U16, "6018/01", 0, 0);
-            Weighing_device_1_output_weight = new JetBusCommand(DataType.S32, "601A/01", 0, 0);
-            Weighing_device_1_setting = new JetBusCommand(DataType.S32, "6020/01", 0, 0);
-            Local_gravity_factor = new JetBusCommand(DataType.S32, "6021/01", 0, 0);
-            Scale_filter_setup = new JetBusCommand(DataType.U16, "6040/01", 0, 0);
-            Data_sample_rate = new JetBusCommand(DataType.U32, "6050/01", 0, 0);
-
-            Filter_order_critically_damped = new JetBusCommand(DataType.U08, "60A1/01", 0, 0);
-
-            Cut_off_frequency_critically_damped = new JetBusCommand(DataType.U08, "60A1/02", 0, 0);
-            Filter_order_butterworth = new JetBusCommand(DataType.U08, "60A2/01", 0, 0);
-            Cut_off_frequency_butterworth = new JetBusCommand(DataType.U08, "60A2/02", 0, 0);
-            Filter_order_bessel = new JetBusCommand(DataType.U08, "60B1/01", 0, 0);
-            Cut_off_frequency_bessel = new JetBusCommand(DataType.U08, "60B1/02", 0, 0);
-            Scale_suppy_nominal_voltage = new JetBusCommand(DataType.U08, "6110/01", 0, 0);
-            Scale_suppy_minimum_voltage = new JetBusCommand(DataType.U08, "6110/02", 0, 0);
-            Scale_suppy_maximum_voltage = new JetBusCommand(DataType.U08, "6110/03", 0, 0);
-
-            Scale_accuracy_class = new JetBusCommand(DataType.U08, "6111/01", 0, 0);
-            Scale_minimum_dead_load = new JetBusCommand(DataType.S32, "6112/01", 0, 0);
-            Scale_maximum_capacity = new JetBusCommand(DataType.S32, "6113/01", 0, 0);
-            Scale_maximum_number_of_verification_interval = new JetBusCommand(DataType.U32, "6114/01", 0, 0);
-            Scale_apportionment_factor = new JetBusCommand(DataType.U08, "6116/01", 0, 0);
-            Scale_safe_load_limit = new JetBusCommand(DataType.U32, "6117/01", 0, 0);
-            Scale_operation_nominal_temperature = new JetBusCommand(DataType.S16, "6118/01", 0, 0);
-            Scale_operation_minimum_temperature = new JetBusCommand(DataType.S16, "6118/02", 0, 0);
-            Scale_operation_maximum_temperature = new JetBusCommand(DataType.S16, "6118/03", 0, 0);
-            Scale_relative_minimum_load_cell_verification_interval = new JetBusCommand(DataType.U32, "611B/01", 0, 0);
-            Interval_range_control = new JetBusCommand(DataType.U08, "611C/01", 0, 0);
-            Multi_limit_1 = new JetBusCommand(DataType.S32, "611C/02", 0, 0);
-            Multi_limit_2 = new JetBusCommand(DataType.S32, "611C/03", 0, 0);
-            Oiml_certificaiton_information = new JetBusCommand(DataType.ASCII, "6138/01", 0, 0);
-            Ntep_certificaiton_information = new JetBusCommand(DataType.ASCII, "6138/02", 0, 0);
-            Maximum_zeroing_time = new JetBusCommand(DataType.U16, "6141/02", 0, 0);
-            Maximum_peak_value_gross = new JetBusCommand(DataType.S32, "6149/01", 0, 0);
-            Minimum_peak_value_gross = new JetBusCommand(DataType.S32, "6149/02", 0, 0);
-            Maximum_peak_value = new JetBusCommand(DataType.S32, "6149/03", 0, 0);
-            Minimum_peak_value = new JetBusCommand(DataType.S32, "6149/04", 0, 0);
-            Weight_moving_detection = new JetBusCommand(DataType.U08, "6153/00", 0, 0);
-            Device_address = new JetBusCommand(DataType.U08, "2600/01", 0, 0);
-
-            Hardware_version = new JetBusCommand(DataType.ASCII, "2520/0A", 0, 0); // = Hardware Variante
-            Identification = new JetBusCommand(DataType.ASCII, "2520/01", 0, 0);
-            Limit_value_monitoring_liv11 = new JetBusCommand(DataType.U08, "2030/01", 0, 0); // = Grenzwertüberwachung
-            Signal_source_liv12 = new JetBusCommand(DataType.U08, "2030/02", 0, 0);
-            Switch_on_level_liv13 = new JetBusCommand(DataType.S32, "2030/03", 0, 0);  // = Einschaltpegel
-            Switch_off_level_liv14 = new JetBusCommand(DataType.S32, "2030/04", 0, 0);  // = Ausschaltpegel
-            Limit_value_monitoring_liv21 = new JetBusCommand(DataType.U08, "2030/05", 0, 0);
-            Signal_source_liv22 = new JetBusCommand(DataType.U08, "2030/06", 0, 0);
-            Switch_on_level_liv23 = new JetBusCommand(DataType.S32, "2030/07", 0, 0);
-            Switch_off_level_liv24 = new JetBusCommand(DataType.S32, "2030/08", 0, 0);
-            Limit_value_monitoring_liv31 = new JetBusCommand(DataType.U08, "2030/09", 0, 0);
-            Signal_source_liv32 = new JetBusCommand(DataType.U08, "2030/0A", 0, 0);
-            Switch_on_level_liv33 = new JetBusCommand(DataType.S32, "2030/0B", 0, 0);
-            Switch_off_level_liv34 = new JetBusCommand(DataType.S32, "2030/0C", 0, 0);
-            Limit_value_monitoring_liv41 = new JetBusCommand(DataType.U08, "2030/0D", 0, 0);
-            Signal_source_liv42 = new JetBusCommand(DataType.U08, "2030/0E", 0, 0);
-            Switch_on_level_liv43 = new JetBusCommand(DataType.S32, "2030/0F", 0, 0);
-            Switch_off_level_liv44 = new JetBusCommand(DataType.S32, "2030/10", 0, 0);
-            Output_scale = new JetBusCommand(DataType.S32, "2110/0A", 0, 0);
-            Firmware_date = new JetBusCommand(DataType.ASCII, "2520/05", 0, 0);
-            Reset_trigger = new JetBusCommand(DataType.NIL, "2D00/04", 0, 0);
-            State_digital_io_extended = new JetBusCommand(DataType.U16, "2020/12", 0, 0);  //Zustand Digital-IO(erweitert)
-            Software_identification = new JetBusCommand(DataType.U32, "2600/22", 0, 0);
-            Software_version = new JetBusCommand(DataType.U32, "2600/16", 0, 0);
-            Date_time = new JetBusCommand(DataType.U32, "2E00/02", 0, 0);
-
-            Break_dosing = new JetBusCommand(DataType.NIL, "2240/01", 0, 0);                // BRK = Abbruch Dosierung
-            Delete_dosing_result = new JetBusCommand(DataType.NIL, "2230/02", 0, 0);        // CSN = Löschen Dosierergebniss
-            Material_stream_last_dosing = new JetBusCommand(DataType.S32, "2000/0E", 0, 0); // MFO = Materialstrom des letzten Dosierzyklus
-            Sum = new JetBusCommand(DataType.U32, "2230/08", 0, 0);                         // SUM = Summe
-            Special_dosing_functions = new JetBusCommand(DataType.U08, "2200/0A", 0, 0);    // SDF = Sonderfunktionen
-            Discharge_time = new JetBusCommand(DataType.U16, "2220/02", 0, 0);              // EPT = Entleerzeit
-            Exceeding_weight_break = new JetBusCommand(DataType.U08, "2200/0F", 0, 0);      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
-            Delay1_dosing = new JetBusCommand(DataType.U16, "2220/0B", 0, 0);               // DL1 = Delay 1 für Dosieren
-            Delay2_dosing = new JetBusCommand(DataType.U16, "2220/0C", 0, 0);               // DL2 = Delay 2 für Dosieren
-            Empty_weight_tolerance = new JetBusCommand(DataType.S32, "2210/03", 0, 0);      // EWT = Entleertoleranz
-            Residual_flow_dosing_cycle = new JetBusCommand(DataType.S32, "2000/0F", 0, 0);  // RFO = Nachstrom des letzten Dosierzyklus
+            BRKBreakFilling = new JetBusCommand(DataType.NIL, "2240/01", 0, 0);
+            CBKCoarseFlowMonitoring = new JetBusCommand(DataType.S32, "2210/01", 0, 0);
+            CBTCoarseFlowMonitoringTime = new JetBusCommand(DataType.U16, "2220/01", 0, 0);
+            CFDCoarseFlowDisconnect = new JetBusCommand(DataType.S32, "2210/02", 0, 0);
+            CFTCoarseFlowTime = new JetBusCommand(DataType.U16, "2230/01", 0, 0);
+            CSNClearFillingResult = new JetBusCommand(DataType.NIL, "2230/02", 0, 0);
+            DL1DosingDelay1 = new JetBusCommand(DataType.U16, "2220/0B", 0, 0);
+            DL2DosingDelay2 = new JetBusCommand(DataType.U16, "2220/0C", 0, 0);
+            DMDDosingMode = new JetBusCommand(DataType.U08, "2200/04", 0, 0);
+            DSTDosingTime = new JetBusCommand(DataType.U16, "2230/03", 0, 0);
+            EMDEmptyingMode = new JetBusCommand(DataType.U08, "2200/05", 0, 0);
+            EPTDischargeTime = new JetBusCommand(DataType.U16, "2220/02", 0, 0);
+            ESRErrorRegister = new JetBusCommand(DataType.U08, "1001/00", 0, 0);
+            EWBEmptyWeightBreak = new JetBusCommand(DataType.U08, "2200/0F", 0, 0);
+            EWTEmptyWeight = new JetBusCommand(DataType.S32, "2210/03", 0, 0);
+            FBKFineFlowMonitoring = new JetBusCommand(DataType.S32, "2210/04", 0, 0);
+            FBTFineFlowMonitoringTime = new JetBusCommand(DataType.U16, "2220/03", 0, 0);
+            FFDFineFlowDisconnect = new JetBusCommand(DataType.S32, "2210/05", 0, 0);
+            FFLFirstFineFlow = new JetBusCommand(DataType.U16, "2220/0A", 0, 0);
+            FFMMinimumFineFlow = new JetBusCommand(DataType.S32, "2210/06", 0, 0);
+            FFTFineFlowTime = new JetBusCommand(DataType.U16, "2230/04", 0, 0);
+            FRS1FillingResult = new JetBusCommand(DataType.S32, "2000/05", 0, 0);
+            FRS2FillingResultState = new JetBusCommand(DataType.U16, "2000/06", 0, 0);
+            FWTFillingTargetWeight = new JetBusCommand(DataType.S32, "2210/07", 0, 0);
+            HWVHardwareVersion = new JetBusCommand(DataType.ASCII, "2520/0A", 0, 0);
+            IDNDeviceIdentification = new JetBusCommand(DataType.ASCII, "2520/01", 0, 0);
+            IM1DigitalInput1Mode = new JetBusCommand(DataType.U08, "2022/01", 0, 0);
+            IM2DigitalInput2Mode = new JetBusCommand(DataType.U08, "2022/02", 0, 0);
+            IM3DigitalInput3Mode = new JetBusCommand(DataType.U08, "2022/03", 0, 0);
+            IM4DigitalInput4Mode = new JetBusCommand(DataType.U08, "2022/04", 0, 0);
+            IMDApplicationMode = new JetBusCommand(DataType.U08, "2010/07", 0, 0);
+            IS1DigitalInput1 = new JetBusCommand(DataType.U08, "2020/18", 0, 0);
+            IS2DigitalInput2 = new JetBusCommand(DataType.U08, "2020/19", 0, 0);
+            IS3DigitalInput3 = new JetBusCommand(DataType.U08, "2020/1A", 0, 0);
+            IS4DigitalInput4 = new JetBusCommand(DataType.U08, "2020/1B", 0, 0);
+            LDWZeroValue = new JetBusCommand(DataType.S32, "2110/06", 0, 0);
+            LIV1LimitSwitchHysteresis = new JetBusCommand(DataType.S32, "2030/04", 0, 0);
+            LIV1LimitSwitchLevel = new JetBusCommand(DataType.S32, "2030/03", 0, 0);
+            LIV1LimitSwitchMode = new JetBusCommand(DataType.U08, "2030/01", 0, 0);
+            LIV1LimitSwitchSource = new JetBusCommand(DataType.U08, "2030/02", 0, 0);
+            LIV2LimitSwitchHysteresis = new JetBusCommand(DataType.S32, "2030/08", 0, 0);
+            LIV2LimitSwitchLevel = new JetBusCommand(DataType.S32, "2030/07", 0, 0);
+            LIV2LimitSwitchMode = new JetBusCommand(DataType.U08, "2030/05", 0, 0);
+            LIV2LimitSwitchSource = new JetBusCommand(DataType.U08, "2030/06", 0, 0);
+            LIV3LimitSwitchHysteresis = new JetBusCommand(DataType.S32, "2030/0C", 0, 0);
+            LIV3LimitSwitchLevel = new JetBusCommand(DataType.S32, "2030/0B", 0, 0);
+            LIV3LimitSwitchMode = new JetBusCommand(DataType.U08, "2030/09", 0, 0);
+            LIV3LimitSwitchSource = new JetBusCommand(DataType.U08, "2030/0A", 0, 0);
+            LIV4LimitSwitchHysteresis = new JetBusCommand(DataType.S32, "2030/10", 0, 0);
+            LIV4LimitSwitchLevel = new JetBusCommand(DataType.S32, "2030/0F", 0, 0);
+            LIV4LimitSwitchMode = new JetBusCommand(DataType.U08, "2030/0D", 0, 0);
+            LIV4LimitSwitchSource = new JetBusCommand(DataType.U08, "2030/0E", 0, 0);
+            LTCLockoutTimeCoarseFlow = new JetBusCommand(DataType.U16, "2220/04", 0, 0);
+            LTFLockoutTimeFineFlow = new JetBusCommand(DataType.U16, "2220/05", 0, 0);
+            LTLLowerToleranceLimit = new JetBusCommand(DataType.S32, "2210/08", 0, 0);
+            LVSLimitValueStatus = new JetBusCommand(DataType.U08, "2020/25", 0, 1);
+            LVSLimitValue1Status = new JetBusCommand(DataType.BIT, "2020/25", 0, 1);
+            LVSLimitValue2Status = new JetBusCommand(DataType.BIT, "2020/25", 1, 1);
+            LVSLimitValue3Status = new JetBusCommand(DataType.BIT, "2020/25", 2, 1);
+            LVSLimitValue4Status = new JetBusCommand(DataType.BIT, "2020/25", 3, 1);
+            LWTNominalValue = new JetBusCommand(DataType.S32, "2110/07", 0, 0);
+            MDTMaximalFillingTime = new JetBusCommand(DataType.U16, "2220/06", 0, 0);
+            MFOMaterialFlow = new JetBusCommand(DataType.S32, "2000/0E", 0, 0);
+            MSWMinimumStartWeight = new JetBusCommand(DataType.S32, "2210/0B", 0, 0);
+            NDSFillingCounter = new JetBusCommand(DataType.U16, "2230/05", 0, 0);
+            NOVScaleCapacity = new JetBusCommand(DataType.S32, "2110/0A", 0, 0);
+            OM1DigitalOutput1Mode = new JetBusCommand(DataType.U08, "2021/01", 0, 0);
+            OM2DigitalOutput2Mode = new JetBusCommand(DataType.U08, "2021/02", 0, 0);
+            OM3DigitalOutput3Mode = new JetBusCommand(DataType.U08, "2021/03", 0, 0);
+            OM4DigitalOutput4Mode = new JetBusCommand(DataType.U08, "2021/04", 0, 0);
+            OS1DigitalOutput1 = new JetBusCommand(DataType.U08, "2020/1E", 0, 0);
+            OS2DigitalOutput2 = new JetBusCommand(DataType.U08, "2020/1F", 0, 0);
+            OS3DigitalOutput3 = new JetBusCommand(DataType.U08, "2020/20", 0, 0);
+            OS4DigitalOutput4 = new JetBusCommand(DataType.U08, "2020/21", 0, 0);
+            OSNOptimization = new JetBusCommand(DataType.U08, "2200/07", 0, 0);
+            PDTFirmwareDate = new JetBusCommand(DataType.ASCII, "2520/05", 0, 0);
+            RDPActivateParameterSet = new JetBusCommand(DataType.U08, "2200/02", 0, 0);
+            RDSRedosing = new JetBusCommand(DataType.U08, "2200/08", 0, 0);
+            RESResetDevice = new JetBusCommand(DataType.NIL, "2D00/04", 0, 0);
+            RFOResidualFlow = new JetBusCommand(DataType.S32, "2000/0F", 0, 0);
+            RFTResidualFlowTime = new JetBusCommand(DataType.U16, "2220/07", 0, 0);
+            RIODigitalIOStatus = new JetBusCommand(DataType.U16, "2020/12", 0, 0);
+            RUNStartFilling = new JetBusCommand(DataType.NIL, "2240/02", 0, 0);
+            SDFSpecialDosingFunctions = new JetBusCommand(DataType.U08, "2200/0A", 0, 0);
+            SDMFillingResultMeanValue = new JetBusCommand(DataType.S32, "2230/06", 0, 0);
+            SDOFillingState = new JetBusCommand(DataType.U08, "2D00/02", 0, 0);
+            SDSFillingResultStandardDeviation = new JetBusCommand(DataType.S32, "2230/07", 0, 0);
+            SMDRecordWeightMode = new JetBusCommand(DataType.U08, "2300/08", 0, 0);
+            STORecordWeight = new JetBusCommand(DataType.U08, "2040/05", 0, 0);
+            STTStabilzationTime = new JetBusCommand(DataType.U16, "2220/08", 0, 0);
+            SUMFillingResultSum = new JetBusCommand(DataType.U32, "2230/08", 0, 0);
+            SWISoftwareIdentification = new JetBusCommand(DataType.U32, "2600/22", 0, 0);
+            SWVSoftwareVersion = new JetBusCommand(DataType.U32, "2600/16", 0, 0);
+            SYDSystematicDifference = new JetBusCommand(DataType.S32, "2210/09", 0, 0);
+            TADTareDelay = new JetBusCommand(DataType.U16, "2220/09", 0, 0);
+            TIMCurrentDatetime = new JetBusCommand(DataType.U32, "2E00/02", 0, 0);
+            TMDTareMode = new JetBusCommand(DataType.U08, "2200/0B", 0, 0);
+            UTLUpperToleranceLimit = new JetBusCommand(DataType.S32, "2210/0A", 0, 0);
+            VCTValveControl = new JetBusCommand(DataType.U08, "2200/0C", 0, 0);
+            WDPWriteDosingParameterSet = new JetBusCommand(DataType.U08, "2200/01", 0, 0);
         }
+        #endregion
 
-        public static JetBusCommand ResidualFlowTime { get; private set; }
-        public static JetBusCommand LDWZeroValue { get; private set; }                // LDW = Nullpunkt
-        public static JetBusCommand LWTNominalValue { get; private set; }              // LWT = Nennwert
-        public static JetBusCommand CalibrationWeight { get; private set; }   // LFT = LFT scale calibration weight
+        #region ======================== properties ========================
+        public static JetBusCommand CIA461CalibrationWeight { get; private set; }
 
-        public static JetBusCommand Net_value { get; private set; }
-        public static JetBusCommand Gross_value { get; private set; }
-        public static JetBusCommand ZeroValue { get; private set; }
-        public static JetBusCommand TareValue { get; private set; }
+        public static JetBusCommand CIA461CertificaitonInfoNTEP { get; private set; }
 
-        public static JetBusCommand Weighing_device_1_weight_status { get; private set; }
-        public static JetBusCommand WS_GeneralWeightError { get; private set; }
-        public static JetBusCommand WS_ScaleAlarm { get; private set; }
-        public static JetBusCommand WS_LimitStatus { get; private set; }
-        public static JetBusCommand WS_WeightMoving { get; private set; }
-        public static JetBusCommand WS_ScaleSealIsOpen { get; private set; }
-        public static JetBusCommand WS_ManualTare { get; private set; }
-        public static JetBusCommand WS_WeightType { get; private set; }
-        public static JetBusCommand WS_ScaleRange { get; private set; }
-        public static JetBusCommand WS_ZeroRequired { get; private set; }
-        public static JetBusCommand WS_CenterOfZero { get; private set; }
-        public static JetBusCommand WS_InsideZero { get; private set; }
-        public static JetBusCommand WS_Reserved { get; private set; }
-        public static JetBusCommand WS_ImplementationSpecificWeightStatus1 { get; private set; }
-        public static JetBusCommand WS_ImplementationSpecificWeightStatus2 { get; private set; }
+        public static JetBusCommand CIA461CertificaitonInfoOIML { get; private set; }
 
-        public static JetBusCommand WS_Unit { get; private set; }
-        public static JetBusCommand Unit_prefix_fixed_parameter { get; private set; }
+        public static JetBusCommand CIA461Decimals { get; private set; }
 
-        public static JetBusCommand Application_mode { get; private set; } // IMD = Input mode ( Application mode)
+        public static JetBusCommand CIA461FilterBesselCutOffFrequency { get; private set; }
 
-        public static JetBusCommand Decimals { get; private set; }
-        public static JetBusCommand ScaleCommand { get; private set; }
-        public static JetBusCommand Scale_command_status { get; private set; }
+        public static JetBusCommand CIA461FilterBesselFilterOrder { get; private set; }
 
-        public static JetBusCommand Status_digital_input_1 { get; private set; }    // IS1
-        public static JetBusCommand Status_digital_input_2 { get; private set; }    // IS2
-        public static JetBusCommand Status_digital_input_3 { get; private set; }    // IS3
-        public static JetBusCommand Status_digital_input_4 { get; private set; }    // IS4
+        public static JetBusCommand CIA461FilterButterworthCutOffFrequency { get; private set; }
 
-        public static JetBusCommand Status_digital_output_1 { get; private set; }   // OS1
-        public static JetBusCommand Status_digital_output_2 { get; private set; }   // OS2
-        public static JetBusCommand Status_digital_output_3 { get; private set; }   // OS3
-        public static JetBusCommand Status_digital_output_4 { get; private set; }   // OS4
+        public static JetBusCommand CIA461FilterButterworthFilterOrder { get; private set; }
 
-        public static JetBusCommand Limit_value_status1 { get; private set; }   // LVS - limit value status 1
-        public static JetBusCommand Limit_value_status2 { get; private set; }   // LVS - limit value status 2
-        public static JetBusCommand Limit_value_status3 { get; private set; }   // LVS - limit value status 3
-        public static JetBusCommand Limit_value_status4 { get; private set; }   // LVS - limit value status 4
+        public static JetBusCommand CIA461FilterCriticallyDampedCutOffFrequency { get; private set; }
 
-        //private string[] _weightMemArray = new string[2] { _storage_weight, _storage_weight_mode };
+        public static JetBusCommand CIA461FilterCriticallyDampedFilterOrder { get; private set; }
 
-        public static JetBusCommand Coarse_flow_monitoring { get; private set; }      // CBK = Füllstromüberwachung Grobstrom
-        public static JetBusCommand Coarse_flow_monitoring_time { get; private set; } // CBT = Überwachungszeit Grobstrom
-        public static JetBusCommand Coarse_flow_cut_off_point { get; private set; }   // CFD = Grobstromabschaltpunkt
-        public static JetBusCommand Coarse_flow_time { get; private set; }            // CFT = Grobstromzeit
-        public static JetBusCommand Dosing_mode { get; private set; }                 // DMD = Dosiermodus
-        public static JetBusCommand Dosing_time { get; private set; }                 // DST = Dosieristzeit
-        public static JetBusCommand Emptying_mode { get; private set; }               // EMD = Entleermodus
+        public static JetBusCommand CIA461GrossValue { get; private set; }
 
-        public static JetBusCommand Fine_flow_monitoring { get; private set; }        // FBK = Füllstromüberwachung Feinstrom
-        public static JetBusCommand Fine_flow_monitoring_time { get; private set; }   // FBT = Überwachungszeit Feinstrom
-        public static JetBusCommand Fine_flow_cut_off_point { get; private set; }     // FFD = Feinstromabschaltpunkt
-        public static JetBusCommand Fine_flow_phase_before_coarse_flow { get; private set; } // FFL = Feinstromphase vor Grobstrom
-        public static JetBusCommand Minimum_fine_flow { get; private set; }           // FFM = Minimaler Feinstromanteil
+        public static JetBusCommand CIA461ImplementedProfileSpecification { get; private set; }
 
-        public static JetBusCommand Fine_flow_time { get; private set; }              // FFT = Feinstromzeit
-        public static JetBusCommand Dosing_result { get; private set; }               // FRS1 = Dosierergebnis
-        public static JetBusCommand dosing_state { get; private set; }                // FRS2 = Dosierstatus
-        public static JetBusCommand Reference_value_dosing { get; private set; }      // FWT = Sollwert dosieren
-        public static JetBusCommand Lockout_time_coarse_flow { get; private set; }    // LTC = Sperrzeit Grobstrom
-        public static JetBusCommand Lockout_time_fine_flow { get; private set; }      // LTF = Sperrzeit Feinstrom
-        public static JetBusCommand Lower_tolerance_limit { get; private set; }       // LTL = Untere Toleranz
-        public static JetBusCommand Maximal_dosing_time { get; private set; }         // MDT = Maximale Dosierzeit
-        public static JetBusCommand Minimum_start_weight { get; private set; }        // MSW = Minimum Startgewicht
-        public static JetBusCommand Dosing_counter { get; private set; }              // NDS = Dosierzähler
-        public static JetBusCommand Optimization { get; private set; }                // OSN = Optimierung
-        public static JetBusCommand Range_selection_parameter { get; private set; }   // RDP = Auswahl Dosierparameter
-        public static JetBusCommand Redosing { get; private set; }                    // RDS = Nachdosieren
-        public static JetBusCommand Residual_flow_time { get; private set; }          // RFT = Nachstromzeit
-        public static JetBusCommand Run_start_dosing { get; private set; }            // RUN = Start Dosieren
+        public static JetBusCommand CIA461LoadCellCapability { get; private set; }
 
-        public static JetBusCommand Mean_value_dosing_results { get; private set; }         // SDM = Mittelwert Dosieren
-        public static JetBusCommand Dosing_state_filler { get; private set; }               // SDO = Dosierstatus
-        public static JetBusCommand Standard_deviation { get; private set; }                // SDS = Standardabweichung
-        public static JetBusCommand Settling_time_transient_response { get; private set; }  // STT = Beruhigungszeit
-        public static JetBusCommand Systematic_difference { get; private set; }             // SYD = Systematische Differenz
-        public static JetBusCommand Tare_delay { get; private set; }                        // TAD = Tarierverzögerung
-        public static JetBusCommand Tare_mode { get; private set; }                         // TMD = Tariermodus
-        public static JetBusCommand Upper_tolerance_limit { get; private set; }             // UTL = Obere Toleranz
-        public static JetBusCommand VCTValveControl { get; private set; }                    // VCT = Ventilsteuerung
-        public static JetBusCommand WDPWriteDosingParameterSet { get; private set; }      // WDP = Dosierparametersatz schreiben
-        public static JetBusCommand RecordWeight { get; private set; }                   // STO = Gewichtsspeicherung
-        public static JetBusCommand RecordWeightMode { get; private set; }              // SMD = Modus Gewichtsspeicherung
+        public static JetBusCommand CIA461LocalGravityFactor { get; private set; }
 
+        public static JetBusCommand CIA461MaximumZeroingTime { get; private set; }
 
+        public static JetBusCommand CIA461MultiIntervalRangeControl { get; private set; }
 
-        // Paths/Commands : Digital input in the extended filler mode, only via Jetbus
-        public static JetBusCommand Function_digital_input_1 { get; private set; }
-        public static JetBusCommand Function_digital_input_2 { get; private set; }
-        public static JetBusCommand Function_digital_input_3 { get; private set; }
-        public static JetBusCommand Function_digital_input_4 { get; private set; }
-        // Paths/Commands : Digital output in the extended filler mode, only via Jetbus
-        public static JetBusCommand Function_digital_output_1 { get; private set; }
-        public static JetBusCommand Function_digital_output_2 { get; private set; }
-        public static JetBusCommand Function_digital_output_3 { get; private set; }
-        public static JetBusCommand Function_digital_output_4 { get; private set; }
+        public static JetBusCommand CIA461MultiLimit1 { get; private set; }
 
-        public static JetBusCommand Error_register { get; private set; }
-        public static JetBusCommand Save_all_parameters { get; private set; }
-        public static JetBusCommand Restore_all_default_parameters { get; private set; }
-        public static JetBusCommand Vendor_id { get; private set; }
-        public static JetBusCommand Product_code { get; private set; }
-        public static JetBusCommand Serial_number { get; private set; }
-        public static JetBusCommand Implemented_profile_specification { get; private set; }
-        public static JetBusCommand Lc_capability { get; private set; }
-        public static JetBusCommand Weighing_device_1_unit_prefix_output_parameter { get; private set; }
+        public static JetBusCommand CIA461MultiLimit2 { get; private set; }
 
-        public static JetBusCommand Weighing_device_1_weight_step { get; private set; }
+        public static JetBusCommand CIA461NetValue { get; private set; }
+
+        public static JetBusCommand CIA461OutputWeight { get; private set; }
+
+        public static JetBusCommand CIA461PeakValueGrossMax { get; private set; }
+
+        public static JetBusCommand CIA461PeakValueGrossMin { get; private set; }
+
+        public static JetBusCommand CIA461PeakValueMax { get; private set; }
+
+        public static JetBusCommand CIA461PeakValuMin { get; private set; }
+
+        public static JetBusCommand CIA461ProductCode { get; private set; }
+
+        public static JetBusCommand CIA461RestoreAllDefaultParameters { get; private set; }
+
+        public static JetBusCommand CIA461SampleRate { get; private set; }
+
+        public static JetBusCommand CIA461SaveAllParameters { get; private set; }
+
+        public static JetBusCommand CIA461ScaleAccuracyClass { get; private set; }
+
+        public static JetBusCommand CIA461ScaleApportionmentFactor { get; private set; }
+
+        public static JetBusCommand CIA461ScaleCommand { get; private set; }
+
+        public static JetBusCommand CIA461ScaleCommandStatus { get; private set; }
+
+        public static JetBusCommand CIA461ScaleFilter { get; private set; }
+
+        public static JetBusCommand CIA461ScaleMaximumCapacity { get; private set; }
+
+        public static JetBusCommand CIA461ScaleMaximumNumberOfVerifications { get; private set; }
+
+        public static JetBusCommand CIA461ScaleMinimumDeadLoad { get; private set; }
+
+        public static JetBusCommand CIA461ScaleMinimumVerificationInterval { get; private set; }
+
+        public static JetBusCommand CIA461ScaleOperationTemperatureMaximal { get; private set; }
+
+        public static JetBusCommand CIA461ScaleOperationTemperatureMinimal { get; private set; }
+
+        public static JetBusCommand CIA461ScaleOperationTemperatureNominal { get; private set; }
+
+        public static JetBusCommand CIA461ScaleSafeLoadLimit { get; private set; }
+
+        public static JetBusCommand CIA461ScaleSettings { get; private set; }
+
+        public static JetBusCommand CIA461SerialNumber { get; private set; }
+
+        public static JetBusCommand CIA461SuppyVoltageMaximal { get; private set; }
+
+        public static JetBusCommand CIA461SuppyVoltageNominal { get; private set; }
+
+        public static JetBusCommand CIA461SuppyVoltageNominalMinimal { get; private set; }
+
+        public static JetBusCommand CIA461TareValue { get; private set; }
+
+        public static JetBusCommand CIA461Unit { get; private set; }
+
+        public static JetBusCommand CIA461UnitPrefixFixedParameters { get; private set; }
+
+        public static JetBusCommand CIA461VendorID { get; private set; }
+
+        public static JetBusCommand CIA461WeightMovingDetection { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatus { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusCenterOfZero { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusGeneralWeightError { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusImplementationSpecificWeightStatus1 { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusImplementationSpecificWeightStatus2 { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusInsideZero { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusLimitStatus { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusManualTare { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusReserved { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusScaleAlarm { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusScaleRange { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusScaleSealIsOpen { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusWeightMoving { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusWeightType { get; private set; }
+
+        public static JetBusCommand CIA461WeightStatusZeroRequired { get; private set; }
+
+        public static JetBusCommand CIA461WeightStep { get; private set; }
+
+        public static JetBusCommand CIA461ZeroValue { get; private set; }
+
+        public static JetBusCommand ADRDeviceAddress { get; private set; }
+
         public static JetBusCommand Alarms { get; private set; }
-        public static JetBusCommand Weighing_device_1_output_weight { get; private set; }
-        public static JetBusCommand Weighing_device_1_setting { get; private set; }
-        public static JetBusCommand Local_gravity_factor { get; private set; }
-        public static JetBusCommand Scale_filter_setup { get; private set; }
-        public static JetBusCommand Data_sample_rate { get; private set; }
 
-        public static JetBusCommand Filter_order_critically_damped { get; private set; }
+        public static JetBusCommand BRKBreakFilling { get; private set; }
 
-        public static JetBusCommand Cut_off_frequency_critically_damped { get; private set; }
-        public static JetBusCommand Filter_order_butterworth { get; private set; }
-        public static JetBusCommand Cut_off_frequency_butterworth { get; private set; }
-        public static JetBusCommand Filter_order_bessel { get; private set; }
-        public static JetBusCommand Cut_off_frequency_bessel { get; private set; }
-        public static JetBusCommand Scale_suppy_nominal_voltage { get; private set; }
-        public static JetBusCommand Scale_suppy_minimum_voltage { get; private set; }
-        public static JetBusCommand Scale_suppy_maximum_voltage { get; private set; }
+        public static JetBusCommand CBKCoarseFlowMonitoring { get; private set; }
 
-        public static JetBusCommand Scale_accuracy_class { get; private set; }
-        public static JetBusCommand Scale_minimum_dead_load { get; private set; }
-        public static JetBusCommand Scale_maximum_capacity { get; private set; }
-        public static JetBusCommand Scale_maximum_number_of_verification_interval { get; private set; }
-        public static JetBusCommand Scale_apportionment_factor { get; private set; }
-        public static JetBusCommand Scale_safe_load_limit { get; private set; }
-        public static JetBusCommand Scale_operation_nominal_temperature { get; private set; }
-        public static JetBusCommand Scale_operation_minimum_temperature { get; private set; }
-        public static JetBusCommand Scale_operation_maximum_temperature { get; private set; }
-        public static JetBusCommand Scale_relative_minimum_load_cell_verification_interval { get; private set; }
-        public static JetBusCommand Interval_range_control { get; private set; }
-        public static JetBusCommand Multi_limit_1 { get; private set; }
-        public static JetBusCommand Multi_limit_2 { get; private set; }
-        public static JetBusCommand Oiml_certificaiton_information { get; private set; }
-        public static JetBusCommand Ntep_certificaiton_information { get; private set; }
-        public static JetBusCommand Maximum_zeroing_time { get; private set; }
-        public static JetBusCommand Maximum_peak_value_gross { get; private set; }
-        public static JetBusCommand Minimum_peak_value_gross { get; private set; }
-        public static JetBusCommand Maximum_peak_value { get; private set; }
-        public static JetBusCommand Minimum_peak_value { get; private set; }
-        public static JetBusCommand Weight_moving_detection { get; private set; }
-        public static JetBusCommand Device_address { get; private set; }
+        public static JetBusCommand CBTCoarseFlowMonitoringTime { get; private set; }
 
-        public static JetBusCommand Hardware_version { get; private set; } // = Hardware Variante
-        public static JetBusCommand Identification { get; private set; }
-        public static JetBusCommand Limit_value_monitoring_liv11 { get; private set; } // = Grenzwertüberwachung
-        public static JetBusCommand Signal_source_liv12 { get; private set; }
-        public static JetBusCommand Switch_on_level_liv13 { get; private set; }  // = Einschaltpegel
-        public static JetBusCommand Switch_off_level_liv14 { get; private set; }  // = Ausschaltpegel
-        public static JetBusCommand Limit_value_monitoring_liv21 { get; private set; }
-        public static JetBusCommand Signal_source_liv22 { get; private set; }
-        public static JetBusCommand Switch_on_level_liv23 { get; private set; }
-        public static JetBusCommand Switch_off_level_liv24 { get; private set; }
-        public static JetBusCommand Limit_value_monitoring_liv31 { get; private set; }
-        public static JetBusCommand Signal_source_liv32 { get; private set; }
-        public static JetBusCommand Switch_on_level_liv33 { get; private set; }
-        public static JetBusCommand Switch_off_level_liv34 { get; private set; }
-        public static JetBusCommand Limit_value_monitoring_liv41 { get; private set; }
-        public static JetBusCommand Signal_source_liv42 { get; private set; }
-        public static JetBusCommand Switch_on_level_liv43 { get; private set; }
-        public static JetBusCommand Switch_off_level_liv44 { get; private set; }
-        public static JetBusCommand Output_scale { get; private set; }
-        public static JetBusCommand Firmware_date { get; private set; }
-        public static JetBusCommand Reset_trigger { get; private set; }
-        public static JetBusCommand State_digital_io_extended { get; private set; }  //Zustand Digital-IO(erweitert)
-        public static JetBusCommand Software_identification { get; private set; }
-        public static JetBusCommand Software_version { get; private set; }
-        public static JetBusCommand Date_time { get; private set; }
+        public static JetBusCommand CFDCoarseFlowDisconnect { get; private set; }
 
-        public static JetBusCommand Break_dosing { get; private set; }                // BRK = Abbruch Dosierung
-        public static JetBusCommand Delete_dosing_result { get; private set; }        // CSN = Löschen Dosierergebniss
-        public static JetBusCommand Material_stream_last_dosing { get; private set; } // MFO = Materialstrom des letzten Dosierzyklus
-        public static JetBusCommand Sum { get; private set; }                         // SUM = Summe
-        public static JetBusCommand Special_dosing_functions { get; private set; }    // SDF = Sonderfunktionen
-        public static JetBusCommand Discharge_time { get; private set; }              // EPT = Entleerzeit
-        public static JetBusCommand Exceeding_weight_break { get; private set; }      // EWB = Dosierabbruch bei Leergewichtsüberschreitung
-        public static JetBusCommand Delay1_dosing { get; private set; }               // DL1 = Delay 1 für Dosieren
-        public static JetBusCommand Delay2_dosing { get; private set; }               // DL2 = Delay 2 für Dosieren
-        public static JetBusCommand Empty_weight_tolerance { get; private set; }      // EWT = Entleertoleranz
-        public static JetBusCommand Residual_flow_dosing_cycle { get; private set; }  // RFO = Nachstrom des letzten Dosierzyklus
+        public static JetBusCommand CFTCoarseFlowTime { get; private set; }
 
+        public static JetBusCommand CSNClearFillingResult { get; private set; }
 
-        // Missing IDs (so far : Modbus only - look at ModbusCommands)
-        public static JetBusCommand ADC_OVER_UNDERLOAD { get; private set; }
-        public static JetBusCommand LEGAL_FOR_TRADE_OPERATION { get; private set; }
-        public static JetBusCommand STATUS_INPUT_1 { get; private set; }
-        public static JetBusCommand GENERAL_SCALE_ERROR { get; private set; }
-        public static JetBusCommand COARSE_FLOW { get; private set; }
-        public static JetBusCommand FINE_FLOW { get; private set; }
-        public static JetBusCommand READY { get; private set; }
-        public static JetBusCommand EMPTYING { get; private set; }
-        public static JetBusCommand FLOW_ERROR { get; private set; }
-        public static JetBusCommand ALARM { get; private set; }
-        public static JetBusCommand TOLERANCE_ERROR_PLUS { get; private set; }
-        public static JetBusCommand TOLERANCE_ERROR_MINUS { get; private set; }
-        public static JetBusCommand CURRENT_DOSING_TIME { get; private set; }
-        public static JetBusCommand CURRENT_COARSE_FLOW_TIME { get; private set; }
-        public static JetBusCommand CURRENT_FINE_FLOW_TIME { get; private set; }
-        public static JetBusCommand PARAMETER_SET_PRODUCT { get; private set; }
-        public static JetBusCommand DELAY_TIME_AFTER_FINE_FLOW { get; private set; }
-        public static JetBusCommand ACTIVATION_TIME_AFTER_FINE_FLOW { get; private set; }
-        public static JetBusCommand DOWNWARDS_DOSING { get; private set; }
-        public static JetBusCommand TOTAL_WEIGHT { get; private set; }
-        public static JetBusCommand TARGET_FILLING_WEIGHT { get; private set; }
-        public static JetBusCommand COARSE_FLOW_CUT_OFF_POINT_SET { get; private set; }
-        public static JetBusCommand FINE_FLOW_CUT_OFF_POINT_SET { get; private set; }
-        public static JetBusCommand START_WITH_FINE_FLOW { get; private set; }
+        public static JetBusCommand DL1DosingDelay1 { get; private set; }
+
+        public static JetBusCommand DL2DosingDelay2 { get; private set; }
+
+        public static JetBusCommand DMDDosingMode { get; private set; }
+
+        public static JetBusCommand DSTDosingTime { get; private set; }
+
+        public static JetBusCommand EMDEmptyingMode { get; private set; }
+
+        public static JetBusCommand EPTDischargeTime { get; private set; }
+
+        public static JetBusCommand ESRErrorRegister { get; private set; }
+
+        public static JetBusCommand EWBEmptyWeightBreak { get; private set; }
+
+        public static JetBusCommand EWTEmptyWeight { get; private set; }
+
+        public static JetBusCommand FBKFineFlowMonitoring { get; private set; }
+
+        public static JetBusCommand FBTFineFlowMonitoringTime { get; private set; }
+
+        public static JetBusCommand FFDFineFlowDisconnect { get; private set; }
+
+        public static JetBusCommand FFLFirstFineFlow { get; private set; }
+
+        public static JetBusCommand FFMMinimumFineFlow { get; private set; }
+
+        public static JetBusCommand FFTFineFlowTime { get; private set; }
+
+        public static JetBusCommand FRS1FillingResult { get; private set; }
+
+        public static JetBusCommand FRS2FillingResultState { get; private set; }
+
+        public static JetBusCommand FWTFillingTargetWeight { get; private set; }
+
+        public static JetBusCommand HWVHardwareVersion { get; private set; }
+
+        public static JetBusCommand IDNDeviceIdentification { get; private set; }
+
+        public static JetBusCommand IM1DigitalInput1Mode { get; private set; }
+
+        public static JetBusCommand IM2DigitalInput2Mode { get; private set; }
+
+        public static JetBusCommand IM3DigitalInput3Mode { get; private set; }
+
+        public static JetBusCommand IM4DigitalInput4Mode { get; private set; }
+
+        public static JetBusCommand IMDApplicationMode { get; private set; }
+
+        public static JetBusCommand IS1DigitalInput1 { get; private set; }
+
+        public static JetBusCommand IS2DigitalInput2 { get; private set; }
+
+        public static JetBusCommand IS3DigitalInput3 { get; private set; }
+
+        public static JetBusCommand IS4DigitalInput4 { get; private set; }
+
+        public static JetBusCommand LDWZeroValue { get; private set; }
+
+        public static JetBusCommand LIV1LimitSwitchHysteresis { get; private set; }
+
+        public static JetBusCommand LIV1LimitSwitchLevel { get; private set; }
+
+        public static JetBusCommand LIV1LimitSwitchMode { get; private set; }
+
+        public static JetBusCommand LIV1LimitSwitchSource { get; private set; }
+
+        public static JetBusCommand LIV2LimitSwitchHysteresis { get; private set; }
+
+        public static JetBusCommand LIV2LimitSwitchLevel { get; private set; }
+
+        public static JetBusCommand LIV2LimitSwitchMode { get; private set; }
+
+        public static JetBusCommand LIV2LimitSwitchSource { get; private set; }
+
+        public static JetBusCommand LIV3LimitSwitchHysteresis { get; private set; }
+
+        public static JetBusCommand LIV3LimitSwitchLevel { get; private set; }
+
+        public static JetBusCommand LIV3LimitSwitchMode { get; private set; }
+
+        public static JetBusCommand LIV3LimitSwitchSource { get; private set; }
+
+        public static JetBusCommand LIV4LimitSwitchHysteresis { get; private set; }
+
+        public static JetBusCommand LIV4LimitSwitchLevel { get; private set; }
+
+        public static JetBusCommand LIV4LimitSwitchMode { get; private set; }
+
+        public static JetBusCommand LIV4LimitSwitchSource { get; private set; }
+
+        public static JetBusCommand LTCLockoutTimeCoarseFlow { get; private set; }
+
+        public static JetBusCommand LTFLockoutTimeFineFlow { get; private set; }
+
+        public static JetBusCommand LTLLowerToleranceLimit { get; private set; }
+
+        public static JetBusCommand LVSLimitValueStatus { get; private set; }
+
+        public static JetBusCommand LVSLimitValue1Status { get; private set; }
+
+        public static JetBusCommand LVSLimitValue2Status { get; private set; }
+
+        public static JetBusCommand LVSLimitValue3Status { get; private set; }
+
+        public static JetBusCommand LVSLimitValue4Status { get; private set; }
+
+        public static JetBusCommand LWTNominalValue { get; private set; }
+
+        public static JetBusCommand MDTMaximalFillingTime { get; private set; }
+
+        public static JetBusCommand MFOMaterialFlow { get; private set; }
+
+        public static JetBusCommand MSWMinimumStartWeight { get; private set; }
+
+        public static JetBusCommand NDSFillingCounter { get; private set; }
+
+        public static JetBusCommand NOVScaleCapacity { get; private set; }
+
+        public static JetBusCommand OM1DigitalOutput1Mode { get; private set; }
+
+        public static JetBusCommand OM2DigitalOutput2Mode { get; private set; }
+
+        public static JetBusCommand OM3DigitalOutput3Mode { get; private set; }
+
+        public static JetBusCommand OM4DigitalOutput4Mode { get; private set; }
+
+        public static JetBusCommand OS1DigitalOutput1 { get; private set; }
+
+        public static JetBusCommand OS2DigitalOutput2 { get; private set; }
+
+        public static JetBusCommand OS3DigitalOutput3 { get; private set; }
+
+        public static JetBusCommand OS4DigitalOutput4 { get; private set; }
+
+        public static JetBusCommand OSNOptimization { get; private set; }
+
+        public static JetBusCommand PDTFirmwareDate { get; private set; }
+
+        public static JetBusCommand RDPActivateParameterSet { get; private set; }
+
+        public static JetBusCommand RDSRedosing { get; private set; }
+
+        public static JetBusCommand RESResetDevice { get; private set; }
+
+        public static JetBusCommand RFOResidualFlow { get; private set; }
+
+        public static JetBusCommand RFTResidualFlowTime { get; private set; }
+
+        public static JetBusCommand RIODigitalIOStatus { get; private set; }
+
+        public static JetBusCommand RUNStartFilling { get; private set; }
+
+        public static JetBusCommand SDFSpecialDosingFunctions { get; private set; }
+
+        public static JetBusCommand SDMFillingResultMeanValue { get; private set; }
+
+        public static JetBusCommand SDOFillingState { get; private set; }
+
+        public static JetBusCommand SDSFillingResultStandardDeviation { get; private set; }
+
+        public static JetBusCommand SMDRecordWeightMode { get; private set; }
+
+        public static JetBusCommand STORecordWeight { get; private set; }
+
+        public static JetBusCommand STTStabilzationTime { get; private set; }
+
+        public static JetBusCommand SUMFillingResultSum { get; private set; }
+
+        public static JetBusCommand SWISoftwareIdentification { get; private set; }
+
+        public static JetBusCommand SWVSoftwareVersion { get; private set; }
+
+        public static JetBusCommand SYDSystematicDifference { get; private set; }
+
+        public static JetBusCommand TADTareDelay { get; private set; }
+
+        public static JetBusCommand TIMCurrentDatetime { get; private set; }
+
+        public static JetBusCommand TMDTareMode { get; private set; }
+
+        public static JetBusCommand UTLUpperToleranceLimit { get; private set; }
+
+        public static JetBusCommand VCTValveControl { get; private set; }
+
+        public static JetBusCommand WDPWriteDosingParameterSet { get; private set; }
+        #endregion
     }
 }

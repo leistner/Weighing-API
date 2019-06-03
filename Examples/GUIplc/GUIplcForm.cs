@@ -613,23 +613,23 @@ namespace GUIplc
                         {
                             case 8: _wtxDevice.ManualTareValue = value; break;
 
-                            case 9: _wtxDevice.DataStandard.LimitSwitch1Source = value; break;
-                            case 10: _wtxDevice.DataStandard.LimitSwitch1Mode = value; break;
+                            case 9: _wtxDevice.DataStandard.LimitSwitch1Source = (LimitSwitchSource)value; break;
+                            case 10: _wtxDevice.DataStandard.LimitSwitch1Mode = (LimitSwitchMode)value; break;
                             case 11: _wtxDevice.DataStandard.LimitSwitch1Level = value; break;
                             case 12: _wtxDevice.DataStandard.LimitSwitch1Hysteresis = value; break;
 
-                            case 13: _wtxDevice.DataStandard.LimitSwitch2Source = value; break;
-                            case 14: _wtxDevice.DataStandard.LimitSwitch2Mode = value; break;
+                            case 13: _wtxDevice.DataStandard.LimitSwitch2Source = (LimitSwitchSource)value; break;
+                            case 14: _wtxDevice.DataStandard.LimitSwitch2Mode = (LimitSwitchMode)value; break;
                             case 15: _wtxDevice.DataStandard.LimitSwitch2Level = value; break;
                             case 16: _wtxDevice.DataStandard.LimitSwitch2Hysteresis = value; break;
 
-                            case 17: _wtxDevice.DataStandard.LimitSwitch3Source = value; break;
-                            case 18: _wtxDevice.DataStandard.LimitSwitch3Mode = value; break;
-                            case 19: _wtxDevice.DataStandard.LimitSwitch3ActivationLevelLowerBandLimit = value; break;
+                            case 17: _wtxDevice.DataStandard.LimitSwitch3Source = (LimitSwitchSource)value; break;
+                            case 18: _wtxDevice.DataStandard.LimitSwitch3Mode = (LimitSwitchMode)value; break;
+                            case 19: _wtxDevice.DataStandard.LimitSwitch3Level = value; break;
                             case 20: _wtxDevice.DataStandard.LimitSwitch3Hysteresis = value; break;
 
-                            case 21: _wtxDevice.DataStandard.LimitSwitch4Source = value; break;
-                            case 22: _wtxDevice.DataStandard.LimitSwitch4Mode = value; break;
+                            case 21: _wtxDevice.DataStandard.LimitSwitch4Source = (LimitSwitchSource)value; break;
+                            case 22: _wtxDevice.DataStandard.LimitSwitch4Mode = (LimitSwitchMode)value; break;
                             case 23: _wtxDevice.DataStandard.LimitSwitch4Level = value; break;
                             case 24: _wtxDevice.DataStandard.LimitSwitch4Hysteresis = value; break;
 
@@ -746,12 +746,14 @@ namespace GUIplc
                         dataGridView1.Rows[27].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus2;
                         dataGridView1.Rows[28].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus3;
                         dataGridView1.Rows[29].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus4;
+                    /* DDD ToDo: Ändern auf Klasse WeightMemory
                         dataGridView1.Rows[30].Cells[6].Value = _wtxDevice.DataStandard.WeightMemDay;
                         dataGridView1.Rows[31].Cells[6].Value = _wtxDevice.DataStandard.WeightMemMonth;
                         dataGridView1.Rows[32].Cells[6].Value = _wtxDevice.DataStandard.WeightMemYear;
                         dataGridView1.Rows[33].Cells[6].Value = _wtxDevice.DataStandard.WeightMemSeqNumber;
                         dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.DataStandard.WeightMemGross;
                         dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.DataStandard.WeightMemNet;
+                    */
                 }
                     catch (Exception) { }
                 }
@@ -788,12 +790,14 @@ namespace GUIplc
                     dataGridView1.Rows[50].Cells[6].Value = _wtxDevice.DataFiller.CurrentFineFlowTime ;
                     dataGridView1.Rows[51].Cells[6].Value = _wtxDevice.DataFiller.ParameterSetProduct;
 
+                    /* DDD ToDo: Ändern auf Klasse WeightMemory
                     dataGridView1.Rows[52].Cells[6].Value = _wtxDevice.DataStandard.WeightMemDay;
                     dataGridView1.Rows[53].Cells[6].Value = _wtxDevice.DataStandard.WeightMemMonth;
                     dataGridView1.Rows[54].Cells[6].Value = _wtxDevice.DataStandard.WeightMemYear;
                     dataGridView1.Rows[55].Cells[6].Value = _wtxDevice.DataStandard.WeightMemSeqNumber;
                     dataGridView1.Rows[56].Cells[6].Value = _wtxDevice.DataStandard.WeightMemGross;
                     dataGridView1.Rows[57].Cells[6].Value = _wtxDevice.DataStandard.WeightMemNet;
+                    */
                 }
                     catch (Exception) { }
                 }           
@@ -909,7 +913,7 @@ namespace GUIplc
          *  This method is called once the tool item "Calculate Calibration" is clicked. It creates a windows form for
          *  the calibration with a dead load and a nominal span. 
          */
-        private void calculateCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
+                    private void calculateCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _wtxDevice.Stop();
 
@@ -990,13 +994,13 @@ namespace GUIplc
 
         public void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
-            int out1 = _wtxDevice.DataStandard.Output1;
-            int out2 = _wtxDevice.DataStandard.Output2;
-            int out3 = _wtxDevice.DataStandard.Output3;
-            int out4 = _wtxDevice.DataStandard.Output4;
+            bool out1 = _wtxDevice.DataStandard.Output1;
+            bool out2 = _wtxDevice.DataStandard.Output2;
+            bool out3 = _wtxDevice.DataStandard.Output3;
+            bool out4 = _wtxDevice.DataStandard.Output4;
 
-            int in1 = _wtxDevice.DataStandard.Input1;
-            int in2 = _wtxDevice.DataStandard.Input2;
+            bool in1 = _wtxDevice.DataStandard.Input1;
+            bool in2 = _wtxDevice.DataStandard.Input2;
 
             _wtxDevice.Disconnect();
 
@@ -1005,6 +1009,8 @@ namespace GUIplc
         }
         public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
+
+            /*DDD ToDo IO-Funktion implementieren (evtl. DataStandardExtended?)
             if((int)e.FunctionOutputIO1!=(-1))
                 _wtxDevice.DataStandard.Output1 = (int)e.FunctionOutputIO1;
             if ((int)e.FunctionOutputIO1 != (-1))
@@ -1018,7 +1024,7 @@ namespace GUIplc
                 _wtxDevice.DataStandard.Input1 = (int)e.FunctionInputIO1;
             if ((int)e.FunctionOutputIO1 != (-1))
                 _wtxDevice.DataStandard.Input2 = (int)e.FunctionInputIO2;
-
+            */
             _wtxDevice.Disconnect();
 
             ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);

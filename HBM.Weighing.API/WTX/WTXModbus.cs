@@ -165,7 +165,7 @@ namespace Hbm.Weighing.API.WTX
             }
             set
             {
-                Connection.Write(ModbusCommands.ManualTareValue, value);
+                Connection.Write(ModbusCommands.CIA461TareValue, value);
                 _manualTareValue = value;
             }
         }
@@ -225,7 +225,7 @@ namespace Hbm.Weighing.API.WTX
         {
             Stop();                        
             Connection.Write(ModbusCommands.LDWZeroSignal, 0x7FFFFFFF);
-            return Connection.Write(ModbusCommands.Control_word_AdjustZero, 1);
+            return Connection.Write(ModbusCommands.ControlWordAdjustZero, 1);
         }
 
         /// <inheritdoc />
@@ -233,7 +233,7 @@ namespace Hbm.Weighing.API.WTX
         {
             this.Stop();
             Connection.Write(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);
-            return Connection.Write(ModbusCommands.Control_word_AdjustZero, 1);
+            return Connection.Write(ModbusCommands.ControlWordAdjustZero, 1);
         }
 
         /// <inheritdoc />
@@ -241,7 +241,7 @@ namespace Hbm.Weighing.API.WTX
         {
             Connection.Write(ModbusCommands.CWTScaleCalibrationWeight, MeasurementUtils.DoubleToDigit(adjustmentWeight,ProcessData.Decimals));    
             Connection.Write(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);          
-            bool result = Connection.Write(ModbusCommands.Control_word_AdjustNominal, 1);
+            bool result = Connection.Write(ModbusCommands.ControlWordAdjustNominal, 1);
             this.Restart();
             return result;
         }
@@ -255,28 +255,28 @@ namespace Hbm.Weighing.API.WTX
                                        
             Stop();       
             Connection.Write(ModbusCommands.LDWZeroSignal, _preLoad);
-            Connection.Write(ModbusCommands.Control_word_AdjustZero, 1);  
+            Connection.Write(ModbusCommands.ControlWordAdjustZero, 1);  
             Connection.Write(ModbusCommands.LWTNominalSignal, _nominalLoad);
-            Connection.Write(ModbusCommands.Control_word_AdjustNominal, 1);
+            Connection.Write(ModbusCommands.ControlWordAdjustNominal, 1);
             Restart();
         }
 
         /// <inheritdoc />
         public async override void SetGross()
         {
-            await Connection.WriteAsync(ModbusCommands.Control_word_GrossNet, 1);
+            await Connection.WriteAsync(ModbusCommands.ControlWordGrossNet, 1);
         }
 
         /// <inheritdoc />
         public async override void Tare()
         {
-            await Connection.WriteAsync(ModbusCommands.Control_word_Taring, 1);
+            await Connection.WriteAsync(ModbusCommands.ControlWordTare, 1);
         }
 
         /// <inheritdoc />
         public async override void Zero()
         {
-            await Connection.WriteAsync(ModbusCommands.Control_word_Zeroing, 1);
+            await Connection.WriteAsync(ModbusCommands.ControlWordZeroing, 1);
         }
         
         /// <summary>
@@ -284,19 +284,19 @@ namespace Hbm.Weighing.API.WTX
         /// </summary>
         public async void ActivateData()
         {
-            await Connection.WriteAsync(ModbusCommands.Control_word_ActivateData, 1);
+            await Connection.WriteAsync(ModbusCommands.ControlWordActivateData, 1);
         }
 
         /// <inheritdoc />
         public async override void TareManually(double manualTareValue)
         {
-            await Connection.WriteAsync(ModbusCommands.Control_word_Taring, 1);
+            await Connection.WriteAsync(ModbusCommands.ControlWordTare, 1);
         }
 
         /// <inheritdoc />
         public async override void RecordWeight()
         {
-            await Connection.WriteAsync(ModbusCommands.Control_word_RecordWeight, 1);
+            await Connection.WriteAsync(ModbusCommands.ControlWordRecordWeight, 1);
         }
         #endregion
 

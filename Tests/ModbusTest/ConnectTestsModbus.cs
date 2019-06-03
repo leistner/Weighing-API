@@ -12,10 +12,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
     public class ConnectTestsModbus 
     {
 
-        private bool connectCallbackCalled;
-        private bool connectCompleted;
+        //private bool connectCallbackCalled;
+        //private bool connectCompleted;
 
-        private bool disconnectCallbackCalled;
+        //private bool disconnectCallbackCalled;
         private bool disconnectCompleted;
 
         private static ushort[] _dataReadSuccess;
@@ -47,8 +47,8 @@ namespace Hbm.Weighing.API.WTX.Modbus
         [SetUp]
         public void Setup()
         {
-            this.connectCallbackCalled = true;
-            this.connectCompleted = true;
+            //this.connectCallbackCalled = true;
+            //this.connectCompleted = true;
 
             //Array size for standard mode of the WTX120 device: 
             _dataReadFail     = new ushort[59];
@@ -87,7 +87,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
             testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
             WTXModbusObj = new WTXModbus(testConnection, 200, update);
 
-            this.connectCallbackCalled = false;
+            //this.connectCallbackCalled = false;
 
             WTXModbusObj.Connect(this.OnConnect, 100);
             
@@ -96,8 +96,8 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
         private void OnConnect(bool connectCompleted)
         {
-            this.connectCallbackCalled = true;
-            this.connectCompleted = connectCompleted;
+            //this.connectCallbackCalled = true;
+            //this.connectCompleted = connectCompleted;
         }
        
         [Test, TestCaseSource(typeof(ConnectTestsModbus), "DisconnectTestCases")]
@@ -120,7 +120,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
         private void OnDisconnect(bool disonnectCompleted)
         {
-            this.disconnectCallbackCalled = true;
+            //this.disconnectCallbackCalled = true;
             this.disconnectCompleted = disonnectCompleted;
         }
     }

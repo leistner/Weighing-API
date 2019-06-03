@@ -28,83 +28,39 @@
 //
 // </copyright>
 
-using Hbm.Weighing.API.WTX.Jet;
-using Hbm.Weighing.API.WTX.Modbus;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
 namespace Hbm.Weighing.API.Data
 {
+    using Hbm.Weighing.API.WTX.Jet;
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
-    /// Implementation of the interface IDataStandard for the standard mode.
-    /// The class DataStandard contains the data input word and data output words for the filler mode
-    /// of WTX device 120 and 110.
+    /// Jetbus implementation of the interface IDataStandard for the standard mode.
     /// </summary>
     public class DataStandardJet : IDataStandard
     {
 
-        #region ================= privates - standard mode =================
-
-        // Input words :
-
-        private int _input1;
-        private int _input2;
-        private int _input3;
-        private int _input4;
-
-        private int _output1;
-        private int _output2;
-        private int _output3;
-        private int _output4;
-
-        // Output words: 
-
-        private int _limitSwitch1Source;
-        private int _limitSwitch1Mode;
-        private int _limitSwitch1ActivationLevelLowerBandLimit;
-        private int _limitSwitch1HysteresisBandHeight;
-
-        private int _limitSwitch2Source;
-        private int _limitSwitch2Mode;
-        private int _limitSwitch2ActivationLevelLowerBandLimit;
-        private int _limitSwitch2HysteresisBandHeight;
-
-        private int _limitSwitch3Source;
-        private int _limitSwitch3Mode;
-        private int _limitSwitch3ActivationLevelLowerBandLimit;
-        private int _limitSwitch3HysteresisBandHeight;
-
-        private int _limitSwitch4Source;
-        private int _limitSwitch4Mode;
-        private int _limitSwitch4ActivationLevelLowerBandLimit;
-        private int _limitSwitch4HysteresisBandHeight;
-
-        private int _manualTareValue;
-        private int _limitValue1Input;
-        private int _limitValue1Mode;
-        private int _limitValue1ActivationLevelLowerBandLimit;
-        private int _limitValue1HysteresisBandHeight;
-        private int _limitValue2Source;
-        private int _limitValue2Mode;
-        private int _limitValue2ActivationLevelLowerBandLimit;
-        private int _limitValue2HysteresisBandHeight;
-
-        private int _limitValue3Source;
-        private int _limitValue3Mode;
-        private int _limitValue3ActivationLevelLowerBandLimit;
-        private int _limitValue3HysteresisBandHeight;
-        private int _limitValue4Source;
-        private int _limitValue4Mode;
-        private int _limitValue4ActivationLevelLowerBandLimit;
-        private int _limitValue4HysteresisBandHeight;
-        private int _calibrationWeight;
-        private int _zeroLoad;
-        private int _nominalLoad;
-
+        #region ==================== constants & fields ====================
+        private bool _output1;
+        private bool _output2;
+        private bool _output3;
+        private bool _output4;
+        private LimitSwitchSource _limitSwitch1Source;
+        private LimitSwitchMode _limitSwitch1Mode;
+        private int _limitSwitch1LevelAndLowerBandValue;
+        private int _limitSwitch1HysteresisAndBandHeight;
+        private LimitSwitchSource _limitSwitch2Source;
+        private LimitSwitchMode _limitSwitch2Mode;
+        private int _limitSwitch2LevelAndLowerBandValue;
+        private int _limitSwitch2HysteresisAndBandHeight;
+        private LimitSwitchSource _limitSwitch3Source;
+        private LimitSwitchMode _limitSwitch3Mode;
+        private int _limitSwitch3LevelAndLowerBandValue;
+        private int _limitSwitch3HysteresisAndBandHeight;
+        private LimitSwitchSource _limitSwitch4Source;
+        private LimitSwitchMode _limitSwitch4Mode;
+        private int _limitSwitch4LevelAndLowerBandValue;
+        private int _limitSwitch4HysteresisAndBandHeight;
         private INetConnection _connection;
         #endregion
 
@@ -116,80 +72,40 @@ namespace Hbm.Weighing.API.Data
         public DataStandardJet(INetConnection Connection)
         {
             _connection = Connection;
-
             _connection.UpdateData += UpdateStandardData;
-            Console.WriteLine("DataStandardJet");
-
-            _input1 = 0;
-            _input2=0;
-            _input3=0;
-            _input4=0;
-
-            _output1=0;
-            _output2=0;
-            _output3=0;
-            _output4=0;
-
-            LimitStatus1 = 0;
-            LimitStatus2 = 0;
-            LimitStatus3 = 0;
-            LimitStatus4 = 0;
-
-            WeightMemDay=0;
-            WeightMemMonth=0;
-            WeightMemYear=0;
-            WeightMemSeqNumber=0;
-            WeightMemGross=0;
-            WeightMemNet=0;
-
-            WeightStorage=0;
-
+            WeightMemory = new WeightMemory();
+            Input1 = false;
+            Input2 = false;
+            Input3 = false;
+            Input4 = false;
+            _output1 = false;
+            _output2 = false;
+            _output3 = false;
+            _output4 = false;
+            LimitStatus1 = false;
+            LimitStatus2 = false;
+            LimitStatus3 = false;
+            LimitStatus4 = false;
             _limitSwitch1Source=0;
             _limitSwitch1Mode=0;
-            _limitSwitch1ActivationLevelLowerBandLimit=0;
-            _limitSwitch1HysteresisBandHeight=0;
-
+            _limitSwitch1LevelAndLowerBandValue = 0;
+            _limitSwitch1HysteresisAndBandHeight=0;
             _limitSwitch2Source=0;
             _limitSwitch2Mode=0;
-            _limitSwitch2ActivationLevelLowerBandLimit=0;
-            _limitSwitch2HysteresisBandHeight=0;
-
-            _limitSwitch3Source=0;
+            _limitSwitch2LevelAndLowerBandValue = 0;
+            _limitSwitch2HysteresisAndBandHeight = 0;
+            _limitSwitch3Source =0;
             _limitSwitch3Mode=0;
-            _limitSwitch3ActivationLevelLowerBandLimit=0;
-            _limitSwitch3HysteresisBandHeight=0;
-
-            _limitSwitch4Source=0;
+            _limitSwitch3LevelAndLowerBandValue = 0;
+            _limitSwitch3HysteresisAndBandHeight = 0;
+            _limitSwitch4Source =0;
             _limitSwitch4Mode=0;
-            _limitSwitch4ActivationLevelLowerBandLimit=0;
-            _limitSwitch4HysteresisBandHeight=0;
-
-            _manualTareValue = 0;
-            _limitValue1Input = 0;
-            _limitValue1Mode = 0;
-            _limitValue1ActivationLevelLowerBandLimit = 0;
-            _limitValue1HysteresisBandHeight = 0;
-            _limitValue2Source = 0;
-            _limitValue2Mode = 0;
-            _limitValue2ActivationLevelLowerBandLimit = 0;
-            _limitValue2HysteresisBandHeight = 0;
-
-            _limitValue3Source = 0;
-            _limitValue3Mode = 0;
-            _limitValue3ActivationLevelLowerBandLimit = 0;
-            _limitValue3HysteresisBandHeight = 0;
-            _limitValue4Source = 0;
-            _limitValue4Mode = 0;
-            _limitValue4ActivationLevelLowerBandLimit = 0;
-            _limitValue4HysteresisBandHeight = 0;
-            _calibrationWeight = 0;
-            _zeroLoad = 0;
-            _nominalLoad = 0;
-    }
-
+            _limitSwitch4LevelAndLowerBandValue = 0;
+            _limitSwitch4HysteresisAndBandHeight = 0;
+        }
         #endregion
 
-        #region =============== Update method - standard mode ==============
+        #region ================ public & internal methods =================
 
         /// <summary>
         /// Updates & converts the values from buffer (Dictionary<string,string>) 
@@ -200,361 +116,485 @@ namespace Hbm.Weighing.API.Data
         {
             try
             {
-                _input1 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Status_digital_input_1));
-                _input2 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Status_digital_input_2));
-                _input3 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Status_digital_input_3));
-                _input4 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Status_digital_input_4));
+                Input1 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.IS1DigitalInput1));
+                Input2 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.IS2DigitalInput2));
+                Input3 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.IS3DigitalInput3));
+                Input4 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.IS4DigitalInput4));
+                _output1 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.OS1DigitalOutput1));
+                _output2 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.OS2DigitalOutput2));
+                _output3 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.OS3DigitalOutput3));
+                _output4 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.OS4DigitalOutput4));
+                LimitStatus1 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue1Status));
+                LimitStatus2 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue2Status));
+                LimitStatus3 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue3Status));
+                LimitStatus4 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue4Status));
 
-                _output1 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Status_digital_output_1));
-                _output2 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Status_digital_output_2));
-                _output3 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Status_digital_output_3));
-                _output4 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Status_digital_output_4));
+                WeightMemory = ExtractWeightMemory();
 
-                LimitStatus1 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status1));
-                LimitStatus2 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status2));
-                LimitStatus3 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status3));
-                LimitStatus4 = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_status4));
-
-                WeightStorage = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.RecordWeightMode));
-
-                if (Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 0 || Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Application_mode)) == 1)  // If application mode is in standard mode
+                ApplicationMode _applicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.IMDApplicationMode));
+                if (_applicationMode == ApplicationMode.Standard)
                 {
-                    _limitSwitch1Source = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_monitoring_liv11));
-                    _limitSwitch1Mode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Signal_source_liv12));
-                    _limitSwitch1ActivationLevelLowerBandLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Switch_on_level_liv13));
-                    _limitSwitch1HysteresisBandHeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Switch_off_level_liv14));
-
-                    _limitSwitch2Source = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_monitoring_liv21));
-                    _limitSwitch2Mode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Signal_source_liv22));
-                    _limitSwitch2ActivationLevelLowerBandLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Switch_on_level_liv23));
-                    _limitSwitch2HysteresisBandHeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Switch_off_level_liv24));
-
-                    _limitSwitch3Source = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_monitoring_liv31));
-                    _limitSwitch3Mode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Signal_source_liv32));
-                    _limitSwitch3ActivationLevelLowerBandLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Switch_on_level_liv33));
-                    _limitSwitch3HysteresisBandHeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Switch_off_level_liv34));
-
-                    _limitSwitch4Source = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Limit_value_monitoring_liv41));
-                    _limitSwitch4Mode = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Signal_source_liv42));
-                    _limitSwitch4ActivationLevelLowerBandLimit = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Switch_on_level_liv43));
-                    _limitSwitch4HysteresisBandHeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.Switch_off_level_liv44));
+                    _limitSwitch1Mode = StringToLimitSwitchMode(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchMode));
+                    _limitSwitch1Source = StringToLimitSwitchSource(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchSource));
+                    _limitSwitch1LevelAndLowerBandValue = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchLevel));
+                    _limitSwitch1HysteresisAndBandHeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchHysteresis));
+                    _limitSwitch2Mode = StringToLimitSwitchMode(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchMode));
+                    _limitSwitch2Source = StringToLimitSwitchSource(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchSource));
+                    _limitSwitch2LevelAndLowerBandValue = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchLevel));
+                    _limitSwitch2HysteresisAndBandHeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchHysteresis));
+                    _limitSwitch3Mode = StringToLimitSwitchMode(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchMode));
+                    _limitSwitch3Source = StringToLimitSwitchSource(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchSource));
+                    _limitSwitch3LevelAndLowerBandValue = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchLevel));
+                    _limitSwitch3HysteresisAndBandHeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchHysteresis));
+                    _limitSwitch4Mode = StringToLimitSwitchMode(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchMode));
+                    _limitSwitch4Source = StringToLimitSwitchSource(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchSource));
+                    _limitSwitch4LevelAndLowerBandValue = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchLevel));
+                    _limitSwitch4HysteresisAndBandHeight = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.LIV1LimitSwitchHysteresis));
                 }
             }
             catch (KeyNotFoundException)
             {
                 Console.WriteLine("KeyNotFoundException in class DataStandardJet, update method");
-                //_connection.CommunicationLog.Invoke(this, new LogEvent((new KeyNotFoundException()).Message));
             }
         }
         #endregion
 
-        #region ============== Get-properties - standard mode ==============
+        #region ======================== properties ========================
+        /// <inheritdoc />
+        public bool Input1 { get; private set; }
 
-        public int Input1
-        {
-            get{ return _input1; }
-            set
-            {
-                _connection.Write(JetBusCommands.Status_digital_input_1, value);
-                _input1 = value;
-            }
-        }
-        public int Input2
-        {
-            get{ return _input2; }
-            set
-            {
-                _connection.Write(JetBusCommands.Status_digital_input_2, value);
-                _input2 = value;
-            }
-        }
-        public int Input3
-        {
-            get{ return _input3; }
-            set
-            {
-                _connection.Write(JetBusCommands.Status_digital_input_3, value);
-                _input3 = value;
-            }
-        }
-        public int Input4
-        {
-            get{ return _input4; }
-            set
-            {
-                _connection.Write(JetBusCommands.Status_digital_input_4, value);
-                _input4 = value;
-            }
-        }
-        public int Output1
+        /// <inheritdoc />
+        public bool Input2 { get; private set; }
+
+        /// <inheritdoc />
+        public bool Input3 { get; private set; }
+
+        /// <inheritdoc />
+        public bool Input4 { get; private set; }
+
+        /// <inheritdoc />
+        public bool Output1
         {
             get{ return _output1; }
             set
             {
-                _connection.Write(JetBusCommands.Status_digital_output_1, value);
+                _connection.Write(JetBusCommands.OS1DigitalOutput1, Convert.ToInt32(value));
                 _output1 = value;
             }
         }
-        public int Output2
+
+        /// <inheritdoc />
+        public bool Output2
         {
             get{ return _output2; }
             set
             {
-                _connection.Write(JetBusCommands.Status_digital_output_2, value);
+                _connection.Write(JetBusCommands.OS2DigitalOutput2, Convert.ToInt32(value));
                 _output2 = value;
             }
         }
-        public int Output3
+
+        /// <inheritdoc />
+        public bool Output3
         {
             get{ return _output3; }
             set
             {
-                _connection.Write(JetBusCommands.Status_digital_output_3, value);
+                _connection.Write(JetBusCommands.OS3DigitalOutput3, Convert.ToInt32(value));
                 _output3 = value;
             }
         }
-        public int Output4
+
+        /// <inheritdoc />
+        public bool Output4
         {
             get{ return _output4; }
             set
             {
-                _connection.Write(JetBusCommands.Status_digital_output_4, value);
+                _connection.Write(JetBusCommands.OS4DigitalOutput4, Convert.ToInt32(value));
                 _output4 = value;
             }
         }
-        public int LimitStatus1 { get; private set; }
-        public int LimitStatus2 { get; private set; }
-        public int LimitStatus3 { get; private set; }
-        public int LimitStatus4 { get; private set; }
-        public int WeightMemDay { get; private set; }
-        public int WeightMemMonth { get; private set; }
-        public int WeightMemYear { get; private set; }
-        public int WeightMemSeqNumber { get; private set; }
-        public int WeightMemGross { get; private set; }
-        public int WeightMemNet { get; private set; }
-        public int WeightStorage { get; set; }
-        #endregion
 
-        #region ============ Get-/Set-properties - standard mode ===========
+        /// <inheritdoc />
+        public bool LimitStatus1 { get; private set; }
 
-        public int LimitSwitch1Source // Type : unsigned integer 8 Bit
+        /// <inheritdoc />
+        public bool LimitStatus2 { get; private set; }
+
+        /// <inheritdoc />
+        public bool LimitStatus3 { get; private set; }
+
+        /// <inheritdoc />
+        public bool LimitStatus4 { get; private set; }
+
+        /// <inheritdoc />
+        public WeightMemory WeightMemory { get; private set; }
+        
+        /// <inheritdoc />
+        public LimitSwitchSource LimitSwitch1Source
         {
-            get { return _limitSwitch1Source; }
+            get
+            {
+                return _limitSwitch1Source;
+            }
             set
             {
-                  _connection.Write(JetBusCommands.TareValue, value);
-                  _manualTareValue = value;
+                  _connection.Write(JetBusCommands.LIV1LimitSwitchSource, LimitSwitchSouceToInt(value));
+                _limitSwitch1Source = value;
             }
         }
-        public int LimitSwitch1Mode // Type : unsigned integer 8 Bit
+
+        /// <inheritdoc />
+        public LimitSwitchMode LimitSwitch1Mode
         {
-            get { return _limitSwitch1Mode; }
+            get
+            {
+                return _limitSwitch1Mode;
+            }
             set
             {
-                _connection.Write(JetBusCommands.Signal_source_liv12, value);
-                _limitValue1Input = value;
+                _connection.Write(JetBusCommands.LIV1LimitSwitchMode, LimitSwitchModeToInt(value));
+                _limitSwitch1Mode = value;
             }
         }
-        public int LimitSwitch1Level // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch1Level
         {
-            get { return _limitSwitch1ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch1LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.Limit_value_monitoring_liv11, value);
-                _limitValue1Mode = value;
+                _connection.Write(JetBusCommands.LIV1LimitSwitchLevel, value);
+                _limitSwitch1LevelAndLowerBandValue = value;
             }
         }
-        public int LimitSwitch1Hysteresis // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch1Hysteresis
         {
-            get { return _limitSwitch1HysteresisBandHeight; }
+            get { return _limitSwitch1HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.Switch_off_level_liv14, value);
-                _limitSwitch1HysteresisBandHeight = value;
+                _connection.Write(JetBusCommands.LIV1LimitSwitchHysteresis, value);
+                _limitSwitch1HysteresisAndBandHeight = value;
             }
         }
-        public int LimitSwitch1LowerBandValue // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch1LowerBandValue
         {
-            get { return _limitSwitch1ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch1LevelAndLowerBandValue; }
             set
             {
-                this._connection.Write(JetBusCommands.Switch_on_level_liv13, value);
-                _limitValue1ActivationLevelLowerBandLimit = value;
+                this._connection.Write(JetBusCommands.LIV1LimitSwitchLevel, value);
+                _limitSwitch1LevelAndLowerBandValue = value;
             }
         }
-        public int LimitSwitch1BandHeight // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch1BandHeight
         {
-            get { return _limitSwitch1HysteresisBandHeight; }
+            get { return _limitSwitch1HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.Switch_off_level_liv14, value);
-                _limitValue1HysteresisBandHeight = value;
+                _connection.Write(JetBusCommands.LIV1LimitSwitchHysteresis, value);
+                _limitSwitch1HysteresisAndBandHeight = value;
             }
         }
-        public int LimitSwitch2Source // Type : unsigned integer 8 Bit
+
+        /// <inheritdoc />
+        public LimitSwitchSource LimitSwitch2Source 
         {
             get { return _limitSwitch2Source; }
             set
             {
-                _connection.Write(JetBusCommands.Signal_source_liv22, value);
-                _limitValue2Source = value;
+                _connection.Write(JetBusCommands.LIV2LimitSwitchSource, LimitSwitchSouceToInt(value));
+                _limitSwitch2Source = value;
             }
         }
-        public int LimitSwitch2Mode // Type : unsigned integer 8 Bit
+        
+        /// <inheritdoc />
+        public LimitSwitchMode LimitSwitch2Mode
         {
-            get { return _limitSwitch2Mode; }
+            get
+            {
+                return _limitSwitch2Mode;
+            }
             set
             {
-                _connection.Write(JetBusCommands.Limit_value_monitoring_liv21, value);
-                _limitValue2Mode = value;
+                _connection.Write(JetBusCommands.LIV2LimitSwitchSource, LimitSwitchModeToInt(value));
+                _limitSwitch2Mode = value;
             }
         }
-        public int LimitSwitch2Level // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch2Level 
         {
-            get { return _limitSwitch2ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch2LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.Switch_on_level_liv23, value);
-                _limitValue2ActivationLevelLowerBandLimit = value;
+                _connection.Write(JetBusCommands.LIV2LimitSwitchLevel, value);
+                _limitSwitch2LevelAndLowerBandValue = value;
             }
         }
-        public int LimitSwitch2Hysteresis // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch2Hysteresis
         {
-            get { return _limitSwitch2HysteresisBandHeight; }
+            get { return _limitSwitch2HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.Switch_off_level_liv24, value);
-                _limitValue2HysteresisBandHeight = value;
+                _connection.Write(JetBusCommands.LIV2LimitSwitchHysteresis, value);
+                _limitSwitch2HysteresisAndBandHeight = value;
             }
         }
-        public int LimitSwitch2LowerBandValue // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch2LowerBandValue
         {
-            get { return _limitSwitch1ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch2LevelAndLowerBandValue; }
             set
             {
-                this._connection.Write(JetBusCommands.Switch_on_level_liv13, value);
-                _limitSwitch1ActivationLevelLowerBandLimit = value;
+                this._connection.Write(JetBusCommands.LIV2LimitSwitchLevel, value);
+                _limitSwitch2LevelAndLowerBandValue = value;
             }
         }
-        public int LimitSwitch2BandHeight // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch2BandHeight
         {
-            get { return _limitSwitch1HysteresisBandHeight; }
+            get { return _limitSwitch2HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.Switch_off_level_liv14, value);
-                _limitSwitch1HysteresisBandHeight = value;
+                _connection.Write(JetBusCommands.LIV2LimitSwitchHysteresis, value);
+                _limitSwitch2HysteresisAndBandHeight = value;
             }
         }
-        public int LimitSwitch3Source // Type : unsigned integer 8 Bit
+
+        /// <inheritdoc />
+        public LimitSwitchSource LimitSwitch3Source
         {
             get { return _limitSwitch3Source; }
             set
             {
-                _connection.Write(JetBusCommands.Signal_source_liv32, value);
-                _limitValue3Source = value;
+                _connection.Write(JetBusCommands.LIV3LimitSwitchSource, LimitSwitchSouceToInt(value));
+                _limitSwitch3Source = value;
+            }
+        }
+        
+        /// <inheritdoc />
+        public LimitSwitchMode LimitSwitch3Mode
+        {
+            get
+            {
+                return _limitSwitch3Mode;
+            }
+            set
+            {
+                _connection.Write(JetBusCommands.LIV3LimitSwitchSource, LimitSwitchModeToInt(value));
+                _limitSwitch3Mode = value;
             }
         }
 
-        public int LimitSwitch3Mode // Type : unsigned integer 8 Bit
+        /// <inheritdoc />
+        public int LimitSwitch3Level
         {
-            get { return _limitSwitch3Mode; }
+            get { return _limitSwitch3LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.Limit_value_monitoring_liv31, value);
-                _limitValue3Mode = value;
+                _connection.Write(JetBusCommands.LIV3LimitSwitchLevel, value);
+                _limitSwitch3LevelAndLowerBandValue = value;
             }
         }
-        public int LimitSwitch3ActivationLevelLowerBandLimit // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch3Hysteresis
         {
-            get { return _limitSwitch3ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch3HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.Switch_on_level_liv33, value);
-                _limitValue3ActivationLevelLowerBandLimit = value;
+                _connection.Write(JetBusCommands.LIV3LimitSwitchHysteresis, value);
+                _limitSwitch3HysteresisAndBandHeight = value;
             }
         }
-        public int LimitSwitch3Hysteresis // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch3LowerBandValue
         {
-            get { return _limitSwitch3HysteresisBandHeight; }
+            get { return _limitSwitch3LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.Switch_off_level_liv34, value);
-                _limitValue3HysteresisBandHeight = value;
+                _connection.Write(JetBusCommands.LIV3LimitSwitchLevel, value);
+                _limitSwitch3LevelAndLowerBandValue = value;
             }
         }
-        public int LimitSwitch3LowerBandValue // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch3BandHeight
         {
-            get { return _limitSwitch1ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch3HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.Signal_source_liv42, value);
-                _limitValue4Source = value;
+                _connection.Write(JetBusCommands.LIV3LimitSwitchHysteresis, value);
+                _limitSwitch3HysteresisAndBandHeight = value;
             }
         }
-        public int LimitSwitch3BandHeight // Type : signed integer 32 Bit
-        {
-            get { return _limitSwitch1HysteresisBandHeight; }
-            set
-            {
-                _connection.Write(JetBusCommands.Limit_value_monitoring_liv41, value);
-                _limitValue4Mode = value;
-            }
-        }
-        public int LimitSwitch4Source // Type : unsigned integer 8 Bit
+
+        /// <inheritdoc />
+        public LimitSwitchSource LimitSwitch4Source
         {
             get { return _limitSwitch4Source; }
             set
             {
-                _connection.Write(JetBusCommands.Switch_on_level_liv43, value);
-                _limitValue4ActivationLevelLowerBandLimit = value;
+                _connection.Write(JetBusCommands.LIV4LimitSwitchSource, LimitSwitchSouceToInt(value));
+                _limitSwitch4Source = value;
             }
         }
-        public int LimitSwitch4Mode // Type : unsigned integer 8 Bit
+        
+        /// <inheritdoc />
+        public LimitSwitchMode LimitSwitch4Mode
         {
-            get { return _limitSwitch4Mode; }
+            get
+            {
+                return _limitSwitch4Mode;
+            }
             set
             {
-                _connection.Write(JetBusCommands.Switch_off_level_liv44, value);
-                _limitValue4HysteresisBandHeight = value;
+                _connection.Write(JetBusCommands.LIV4LimitSwitchMode, LimitSwitchModeToInt(value));
+                _limitSwitch4Mode = value;
             }
         }
-        public int LimitSwitch4Level // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch4Level
         {
-            get { return _limitSwitch4ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch4LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.CalibrationWeight, value);
-                _calibrationWeight = value;
+                _connection.Write(JetBusCommands.LIV4LimitSwitchLevel, value);
+                _limitSwitch4LevelAndLowerBandValue = value;
             }
         }
-        public int LimitSwitch4Hysteresis // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch4Hysteresis 
         {
-            get { return _limitSwitch4HysteresisBandHeight; }
+            get { return _limitSwitch4HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.LDWZeroValue, value);
-                _zeroLoad = value;
+                _connection.Write(JetBusCommands.LIV4LimitSwitchSource, value);
+                _limitSwitch4HysteresisAndBandHeight = value;
             }
         }
-        public int LimitSwitch4LowerBandValue // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch4LowerBandValue
         {
-            get { return _limitSwitch1ActivationLevelLowerBandLimit; }
+            get { return _limitSwitch1LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.LWTNominalValue, value);
-                _nominalLoad = value;
+                _connection.Write(JetBusCommands.LIV4LimitSwitchLevel, value);
+                _limitSwitch1LevelAndLowerBandValue = value;
             }
         }
-        public int LimitSwitch4BandHeight // Type : signed integer 32 Bit
+
+        /// <inheritdoc />
+        public int LimitSwitch4BandHeight
         {
-            get { return _limitSwitch1HysteresisBandHeight; }
+            get { return _limitSwitch4HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.Switch_off_level_liv14, value);
-                _limitSwitch1HysteresisBandHeight = value;
+                _connection.Write(JetBusCommands.LIV4LimitSwitchHysteresis, value);
+                _limitSwitch4HysteresisAndBandHeight = value;
             }
         }
         #endregion
 
+        #region =============== protected & private methods ================
+        /// <summary>
+        /// Convert limt switch mode from enum to int
+        /// </summary>
+        /// <param name="mode">Limit switch mode</param>
+        /// <returns></returns>
+        private int LimitSwitchModeToInt(LimitSwitchMode mode)
+        {
+            int result = 0;
+            switch (mode)
+            {
+                case LimitSwitchMode.AboveLevel: result = 0; break;
+                case LimitSwitchMode.BelowLevel: result = 1; break;
+                case LimitSwitchMode.InsideBand: result = 2; break;
+                case LimitSwitchMode.OutsideBand: result = 3; break;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Convert limt switch mode from int to enum
+        /// </summary>
+        /// <param name="mode">Limit switch mode from wtx device</param>
+        /// <returns></returns>
+        private LimitSwitchMode StringToLimitSwitchMode(string mode)
+        {
+            LimitSwitchMode result = LimitSwitchMode.AboveLevel;
+            switch (mode)
+            {
+                case "0": result = LimitSwitchMode.AboveLevel; break;
+                case "2": result = LimitSwitchMode.BelowLevel; break;
+                case "3": result = LimitSwitchMode.InsideBand; break;
+                case "4": result = LimitSwitchMode.OutsideBand; break;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Convert limt switch source from enum to int
+        /// </summary>
+        /// <param name="source">Limit switch source</param>
+        /// <returns></returns>
+        private int LimitSwitchSouceToInt(LimitSwitchSource source)
+        {
+            int result = 0;
+            switch (source)
+            {
+                case LimitSwitchSource.Gross: result = 0; break;
+                case LimitSwitchSource.Net: result = 1; break;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Convert limt switch source from string to enum
+        /// </summary>
+        /// <param name="mode">Limit switch source from wtx device</param>
+        /// <returns></returns>
+        private LimitSwitchSource StringToLimitSwitchSource(string mode)
+        {
+            LimitSwitchSource result = LimitSwitchSource.Gross;
+            switch (mode)
+            {
+                case "0": result = LimitSwitchSource.Gross; break;
+                case "1": result = LimitSwitchSource.Net; break;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Convert string to bool ("0"=False, "1"=True)
+        /// </summary>
+        /// <param name="boolAsString">Sring representing a boolean</param>
+        /// <returns></returns>
+        private bool StringToBool(string boolAsString)
+        {
+            return boolAsString != "0";
+        }
+
+        private WeightMemory ExtractWeightMemory()
+        {
+            //ddd to be done
+            return new WeightMemory();
+        }
+        #endregion
     }
 }
