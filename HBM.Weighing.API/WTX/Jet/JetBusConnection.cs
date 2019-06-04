@@ -123,11 +123,6 @@ namespace Hbm.Weighing.API.WTX.Jet
             //      OnAuthenticateFetchAll
             //          FetchAll   
             WaitOne(3);
-
-            if (IsConnected)
-            {
-                this.UpdateData?.Invoke(this, new EventArgs());
-            }
         }
 
         /// <inheritdoc />
@@ -253,7 +248,9 @@ namespace Hbm.Weighing.API.WTX.Jet
             }
 
             _successEvent.Set();
-                        
+
+            this.UpdateData?.Invoke(this, new EventArgs());
+
             CommunicationLog?.Invoke(this, new LogEventArgs("Fetch-All success: " + success + " - Buffer size is " + AllData.Count));
         }            
 
@@ -297,12 +294,12 @@ namespace Hbm.Weighing.API.WTX.Jet
                         AllData[path] = data["value"].ToString();
                         break;
                 }
-
+      
                 if (IsConnected)
                 {
                     this.UpdateData?.Invoke(this, new EventArgs());
                 }
-
+         
                 CommunicationLog?.Invoke(this, new LogEventArgs(data.ToString()));
             }
         }

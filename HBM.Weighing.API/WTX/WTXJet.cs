@@ -373,13 +373,10 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         protected override void ProcessDataUpdateTick(object info)
         {
-            Stop();
             if (IsConnected)
             {
                 ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
             }
-
-            Restart();
         }
         #endregion
     }
