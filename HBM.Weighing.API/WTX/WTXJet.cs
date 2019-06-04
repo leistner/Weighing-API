@@ -35,12 +35,13 @@ namespace Hbm.Weighing.API.WTX
     using Hbm.Weighing.API.Data;
     using Hbm.Weighing.API.Utils;
     using Hbm.Weighing.API.WTX.Jet;
+    using HBM.Weighing.API;
 
     /// <summary>
     /// This class represents a WTX device with the Jet ethernet interface.
     /// Subscribe to ProcessDataReceived over the constructor to automatically get weight values.
     /// </summary>
-    public class WTXJet : BaseWTDevice
+    public class WTXJet : ExtendedWtDevice
     {
         #region ==================== constants & fields ====================
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000;  
@@ -84,6 +85,8 @@ namespace Hbm.Weighing.API.WTX
             DataStandard = new DataStandardJet(Connection);
             DataFiller = new DataFillerExtendedJet(Connection);
             ProcessDataReceived += onProcessData;
+
+            //DataFillerExtended = new DataFillerExtendedJet(Connection);
         }
         #endregion
 
@@ -227,6 +230,47 @@ namespace Hbm.Weighing.API.WTX
                 _nominalLoad = value;
             }
         }
+
+        public override int VendorID
+        {
+            get
+            {
+                return DataFillerExtended.VendorID;
+            }
+
+            set
+            {
+                DataFillerExtended.VendorID = value;
+            }
+        }
+        public override int ProductCode
+        {
+            get
+            {
+                return DataFillerExtended.ProductCode;
+            }
+
+            set
+            {
+                DataFillerExtended.ProductCode = value;
+            }
+        }
+        public override int SerialNumber
+        {
+            get
+            {
+                return DataFillerExtended.SerialNumber;
+            }
+
+            set
+            {
+                DataFillerExtended.SerialNumber = value;
+            }
+        }
+
+        public override InputFunction InputIO { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public override InputFunction OutputIO { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         #endregion
 
         #region ================ public & internal methods ================= 
@@ -307,13 +351,12 @@ namespace Hbm.Weighing.API.WTX
             while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(200);
-            }
-
+            }     
             while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(200);
             }
-
+            
             if (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) == SCALE_COMMAND_STATUS_OK)
             {
                 return true;
@@ -377,6 +420,16 @@ namespace Hbm.Weighing.API.WTX
             {
                 ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
             }
+        }
+
+        public override void setIOInputFunction(InputFunction IOFunction)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void setIOOutputFunction(OutputFunction IOFunction)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
