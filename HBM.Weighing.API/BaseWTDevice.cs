@@ -269,7 +269,7 @@ namespace Hbm.Weighing.API
         /// </summary>        
         public void Restart()
         {
-            _processDataTimer.Change(_processDataInterval, _processDataInterval);
+            _processDataTimer.Change(0, _processDataInterval);
         }
 
         /// <summary>
