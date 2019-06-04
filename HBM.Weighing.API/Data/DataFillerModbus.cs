@@ -41,13 +41,13 @@ namespace Hbm.Weighing.API.Data
 {
     /// <summary>
     /// Implementation of the interface IDataFiller for the filler mode.
-    /// The class DataFiller contains the data input word and data output words for the filler mode
-    /// of WTX device 120 and 110.
+    /// The class DataFillerModbus contains the data input word and data output words for the filler mode
+    /// of WTX device 120 and 110 via Modbus.
     /// </summary>
     public class DataFillerModbus : IDataFiller
     {
 
-        #region ================== privates - filler mode ==================
+        #region ==================== constants & fields ====================
 
         // Output words for filler mode: 
 
@@ -171,7 +171,7 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region ================ Update method - filler mode ===============
+        #region ==================== events & delegates ====================
 
         /// <summary>
         /// Updates & converts the values from buffer (Dictionary<string,string>) 
@@ -259,7 +259,9 @@ namespace Hbm.Weighing.API.Data
         }
         #endregion
 
-        #region ========= Get-properties - input words filler mode =========
+        #region ======================== properties ========================
+
+        // Get-properties - input words filler mode
 
         public int CoarseFlow { get; private set; }
         public int FineFlow { get; private set; }
@@ -294,9 +296,7 @@ namespace Hbm.Weighing.API.Data
         public int WeightMemGross { get; private set; }
         public int WeightMemNet { get; private set; }
 
-        #endregion
-
-        #region ======= Get/Set-properties - output words filler mode ======
+        // Get/Set-properties - output words filler mode:
 
         public int ResidualFlowTime // Type : unsigned integer 16 Bit
         {

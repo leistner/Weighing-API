@@ -36,10 +36,12 @@ namespace Hbm.Weighing.API.Data
     using Hbm.Weighing.API.WTX.Jet;
 
     /// <summary>
-    /// The class ProcessData contains all provess data like net weight, gross weight or tare value.
+    /// The class ProcessData contains all process data like net weight, gross weight or tare value.
+    /// Jetbus implementation of the interface IProcessData for the process data.
     /// </summary>
     public class ProcessDataJet : IProcessData
     {
+
         #region ==================== constants & fields ====================
         private INetConnection _connection;
         #endregion
@@ -192,5 +194,6 @@ namespace Hbm.Weighing.API.Data
                 return TareMode.None;
         } 
         #endregion
+
     }
 }
