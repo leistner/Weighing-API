@@ -38,7 +38,7 @@ namespace Hbm.Weighing.API.Data
     public class PrintableWeightType
     {
 
-        #region ======================== properties ========================
+        #region ==================== constants & fields ====================
 
         private NumberFormatInfo setPrecision;
 
@@ -60,7 +60,7 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region ================ Get-/Private set properties ===============
+        #region ======================== properties ========================
 
         /// <summary>
         /// Gets the gross value of weight in string without a unit
@@ -79,7 +79,7 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region ================== public method - update ==================
+        #region ================ public & internal methods =================
 
         public void Update(double net, double gross, int decimals)
         {          

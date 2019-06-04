@@ -37,6 +37,7 @@ namespace Hbm.Weighing.API.Data
     /// </summary>
     public interface IDataStandard 
     {
+
         #region ==================== events & delegates ====================
         void UpdateStandardData(object sender, EventArgs e);
         #endregion
@@ -227,5 +228,6 @@ namespace Hbm.Weighing.API.Data
         /// </summary>
         WeightMemory WeightMemory { get; }
         #endregion
+
     }
 }

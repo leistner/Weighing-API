@@ -36,6 +36,8 @@ namespace Hbm.Weighing.API.Data
 
     /// <summary>
     /// Jetbus implementation of the interface IDataStandard for the standard mode.
+    /// The class DataStandardJet contains the data input word and data output words for the standard mode
+    /// of WTX device 120 and 110 via Jetbus.
     /// </summary>
     public class DataStandardJet : IDataStandard
     {
@@ -105,7 +107,7 @@ namespace Hbm.Weighing.API.Data
         }
         #endregion
 
-        #region ================ public & internal methods =================
+        #region ==================== events & delegates ====================
 
         /// <summary>
         /// Updates & converts the values from buffer (Dictionary<string,string>) 

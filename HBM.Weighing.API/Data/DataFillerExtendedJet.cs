@@ -40,14 +40,14 @@ namespace Hbm.Weighing.API.Data
     /// <summary>
     /// Implementation of the interface IDataFillerExtended for the filler extended mode.
     /// The class DataFillerExtended contains the data input word and data output words for the filler extended mode
-    /// of WTX device 120 and 110. 
+    /// of WTX device 120 and 110 via Jetbus. 
     /// 
-    /// This is only available via a JetBus Ethernet connection, not via Modbus. 
+    /// This is only available via a JetBus Ethernet connection as an extension to DataFillerJet, not via Modbus. 
     /// </summary>
     public class DataFillerExtendedJet : DataFillerJet, IDataFillerExtended
     {
 
-        #region ========================= privates =========================
+        #region ==================== constants & fields ====================
 
         private int _errorRegister;
         private int _saveAllParameters;
@@ -198,7 +198,7 @@ namespace Hbm.Weighing.API.Data
 
         #endregion
 
-        #region ========== update method - filler extended data ============
+        #region ==================== events & delegates ====================
 
         /// <summary>
         /// Updates & converts the values from buffer (Dictionary<string,string>) 
@@ -303,7 +303,9 @@ namespace Hbm.Weighing.API.Data
         }
         #endregion
 
-        #region ======== Get-/Set properties - filler extended data ========
+        #region ======================== properties ========================
+
+        // Get-/Set properties - filler extended data
 
         public int ErrorRegister
         {

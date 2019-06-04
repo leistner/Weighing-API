@@ -37,9 +37,11 @@ namespace Hbm.Weighing.API.Data
 
     /// <summary>
     /// The class ProcessData contains all process data like net weight, gross weight or tare value.
+    /// Modbus implementation of the interface IProcessData for the process data.
     /// </summary>
     public class ProcessDataModbus : IProcessData
     {
+
         #region ==================== constants & fields ====================
         private INetConnection _connection;
         #endregion
@@ -190,5 +192,6 @@ namespace Hbm.Weighing.API.Data
                 return TareMode.None;
         }
         #endregion
+
     }
 }
