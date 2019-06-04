@@ -39,6 +39,7 @@ namespace Hbm.Weighing.API.Data
     /// </summary>
     public interface IDataFiller
     {
+
         #region ==================== events & delegates ====================
         void UpdateFillerData(object sender, EventArgs e);
         #endregion
@@ -162,5 +163,6 @@ namespace Hbm.Weighing.API.Data
 
         int ModeWeightStorage { get; set; }
         #endregion
+
     }
 }
