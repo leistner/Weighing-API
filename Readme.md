@@ -30,7 +30,7 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | JetBusCommands.cs                  | :heavy_check_mark:     |
 | JetBusConnection.cs                | :heavy_check_mark:     |
 | JetBusException.cs                 | :heavy_check_mark:     |
-| MeasurementUtils.cs                | :large_orange_diamond: |
+| MeasurementUtils.cs                | :heavy_check_mark:     |
 | AssemblyInfo.cs                    | :heavy_check_mark:     |
 | DataFillerExtendedJet.cs           | :heavy_check_mark:     |
 | DataFillerJet.cs                   | :heavy_check_mark:     |
@@ -44,8 +44,8 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | ProcessDataJet.cs                  | :heavy_check_mark:     |
 | ProcessDataModbus.cs               | :heavy_check_mark:     |
 | ProcessDataModbus.cs               | :heavy_check_mark:     |
-| WeightMemory.cs                    | :large_orange_diamond: |
-| WeightType.cs                      | :large_orange_diamond: |
+| WeightMemory.cs                    | :heavy_check_mark:     |
+| WeightType.cs                      | :heavy_check_mark:     |
 
 
 :heavy_check_mark: Well done!   
