@@ -30,16 +30,14 @@
 
 namespace Hbm.Weighing.API.Data
 {
-
     /// <summary>
     /// Holds the current weight values (gross, net, tare)
     /// </summary>
     public class WeightType
     {
-
         #region =============== constructors & destructors =================
         /// <summary>
-        /// Constructor of WeightType
+        /// Initializes a new instance of the <see cref="WeightType" /> class.
         /// </summary>
         public WeightType()
         {
@@ -73,9 +71,9 @@ namespace Hbm.Weighing.API.Data
         /// <summary>
         /// Updates the value of the class : net, gross and tare value
         /// </summary>
-        /// <param name="net"></param>
-        /// <param name="gross"></param>
-        public void Update(double net, double gross )
+        /// <param name="net">Net value </param>
+        /// <param name="gross">Gross value</param>
+        public void Update(double net, double gross)
         {
             Net = net;
             Gross = gross;
@@ -83,6 +81,5 @@ namespace Hbm.Weighing.API.Data
         }
 
         #endregion
-
     }
 }

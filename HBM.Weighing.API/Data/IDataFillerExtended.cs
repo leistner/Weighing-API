@@ -45,72 +45,8 @@ namespace Hbm.Weighing.API.Data
     /// </summary>
     public interface IDataFillerExtended : IDataFiller
     {
-
-        #region ==================== events & delegates ====================
-
-        void UpdateFillerExtendedData(object sender, EventArgs e);
-
-        #endregion
-
-        #region ======================== properties ========================
-
-        int ErrorRegister { get; set; }
-        int SaveAllParameters { get; set; }
-        int RestoreAllDefaultParameters { get; set; }
-        int VendorID { get; set; }
-        int ProductCode { get; set; }
-        int SerialNumber { get; set; }
-        int ImplementedProfileSpecification { get; set; }
-        int LcCapability { get; set; }
-        int WeighingDevice1UnitPrefixOutputParameter{ get; set; }
-        
-        int WeighingDevice1WeightStep { get; set; }
-        int Alarms { get; set; }
-        int WeighingDevice1OutputWeight { get; set; }
-        int WeighingDevice1Setting { get; set; }
-        int LocalGravityFactor { get; set; }
-        int ScaleFilterSetup { get; set; }
-        int DataSampleRate { get; set; }
-        int FilterOrderCriticallyDamped { get; set; }
-        int CutOffFrequencyCriticallyDamped { get; set; }
-        int FilterOrderButterworth { get; set; }
-        int CutOffFrequencyButterWorth { get; set; }
-        int FilterOrderBessel { get; set; }
-        int CutOffFrequencyBessel { get; set; }
-        int ScaleSupplyNominalVoltage { get; set; }
-        int ScaleSupplyMinimumVoltage { get; set; }
-        int ScaleSupplyMaximumVoltage { get; set; }
-        int ScaleAccuracyClass { get; set; }
-        int ScaleMinimumDeadLoad { get; set; }
-        int ScaleMaximumCapacity { get; set; }
-        
-        int ScaleMaximumNumberVerificationInterval { get; set; }
-        int ScaleApportionmentFactor { get; set; }
-        int ScaleSafeLoadLimit { get; set; }
-        int ScaleOperationNominalTemperature { get; set; }
-        int ScaleOperationMinimumTemperature { get; set; }
-        int ScaleOperationMaximumTemperature { get; set; }
-        int ScaleRelativeMinimumLoadCellVerficationInterval { get; set; }
-        int IntervalRangeControl { get; set; }
-        int MultiLimit1 { get; set; }
-        int MultiLimit2 { get; set; }
-        int MaximumZeroingTime { get; set; }
-        int MaximumPeakValueGross { get; set; }
-        int MinimumPeakValueGross { get; set; }
-
-        int MaximumPeakValue { get; set; }
-        int MinimumPeakValue { get; set; }
-        int WeightMovingDetection{ get; set; }
-        int DeviceAddress { get; set; }
-
-        int OutputScale { get; set; }
-        int ResetTrigger { get; set; }
-        int StateDigital_IO_Extended { get; set; }  
-        int DateTime { get; set; }
-        int BreakDosing { get; set; }
-        int DeleteDosingResult { get; set; }
+        #region ======================== properties ========================                    
         int MaterialStreamLastDosing { get; set; }
-        int Sum { get; set; }
         int SpecialDosingFunctions { get; set; }
         int DischargeTime { get; set; }
         int ExceedingWeightBreak { get; set; }
@@ -118,15 +54,7 @@ namespace Hbm.Weighing.API.Data
         int Delay2Dosing { get; set; }
         int EmptyWeightTolerance { get; set; }
         int ResidualFlowDosingCycle { get; set; }
-
-        string OimlCertificationInformation { get; }
-        string NtepCertificationInformation { get; }
-        string HardwareVersion { get; }
-        string Identification { get; }
-        string FirmwareDate { get; }
-        string SoftwareIdentification { get; }
-        string SoftwareVersion { get; }
-
+        new int ParameterSetProduct { get; set; }
         #endregion
 
     }

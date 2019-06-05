@@ -15,6 +15,7 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | File                               | Status                 |
 | ---------------------------------- | ---------------------- |
 | BaseWTDevice.cs                    | :heavy_check_mark:     |
+| ExtendedWTDevice.cs                | :heavy_check_mark:     |
 | DataEventArgs.cs                   | :heavy_check_mark:     |
 | Enums.cs                           | :heavy_check_mark:     |
 | INetConnection.cs                  | :heavy_check_mark:     |
@@ -31,19 +32,20 @@ Contains API and 3 templates (Console application, Simple GUI, PLC view).
 | JetBusException.cs                 | :heavy_check_mark:     |
 | MeasurementUtils.cs                | :large_orange_diamond: |
 | AssemblyInfo.cs                    | :heavy_check_mark:     |
-| DataFillerExtendedJet.cs           | :red_circle:           |
-| DataFillerJet.cs                   | :red_circle:           |
-| DataFillerModbus.cs                | :red_circle:           |
+| DataFillerExtendedJet.cs           | :heavy_check_mark:     |
+| DataFillerJet.cs                   | :heavy_check_mark:     |
+| DataFillerModbus.cs                | :heavy_check_mark:     |
 | DataStandardJet.cs                 | :heavy_check_mark:     |
 | DataStandardModbus.cs              | :heavy_check_mark:     |
-| IDataFiller.cs                     | :red_circle:           |
-| IDataFillerExtended.cs             | :red_circle:           |
+| IDataFiller.cs                     | :heavy_check_mark:     |
+| IDataFillerExtended.cs             | :heavy_check_mark:     |
 | IDataStandard.cs                   | :heavy_check_mark:     |
-| PrintableWeightType.cs             | :large_orange_diamond: |
+| PrintableWeightType.cs             | :heavy_check_mark:     |
 | ProcessDataJet.cs                  | :heavy_check_mark:     |
 | ProcessDataModbus.cs               | :heavy_check_mark:     |
 | ProcessDataModbus.cs               | :heavy_check_mark:     |
-| WeightMemory.cs                    | :heavy_check_mark:     |
+| WeightMemory.cs                    | :large_orange_diamond: |
+| WeightType.cs                      | :large_orange_diamond: |
 
 
 :heavy_check_mark: Well done!   

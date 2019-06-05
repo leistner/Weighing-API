@@ -112,6 +112,8 @@ namespace Hbm.Weighing.API
         /// </summary>
         /// <param name="command">Variable command type, either ModbusCommand or JetbusCommand</param>
         string ReadFromBuffer(object command);
+
+        int ReadIntegerFromBuffer(object command);
         #endregion
 
     }

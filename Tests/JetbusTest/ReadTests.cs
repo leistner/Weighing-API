@@ -373,7 +373,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).DosingResult;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).FillingResult;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FRS1"));
         }
@@ -388,7 +388,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).NumberDosingResults;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).FillingResultCount;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("NDS"));
         }
@@ -587,7 +587,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).MaxDosingTime;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).MaxFillingTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("MDT"));
         }
@@ -601,7 +601,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).MeanValueDosingResults;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).FillingResultMeanValue;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SDM"));
         }
@@ -615,7 +615,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).StandardDeviation;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).FillingResultStandardDeviation;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SDS"));
         }
@@ -629,7 +629,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).FineFlowCutOffPoint;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).FineFlowCutOffLevel;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFD"));
         }
@@ -643,7 +643,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).CoarseFlowCutOffPoint;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).CoarseFlowCutOffLevel;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CFD"));
         }
@@ -685,7 +685,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).OptimizationOfCutOffPoints;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).OptimizationMode;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OSN"));
         }
@@ -699,7 +699,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).MaximumDosingTime;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).MaxFillingTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("MDT"));
         }
@@ -923,7 +923,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).DelayTimeAfterFineFlow;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).DelayTimeAfterFilling;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("DL1"));
         }
@@ -937,7 +937,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).ActivationTimeAfterFineFlow;
+            _testInteger = ((IDataFillerExtended)_wtxObj.DataFiller).ActivationTimeAfterFilling;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFL"));
         }

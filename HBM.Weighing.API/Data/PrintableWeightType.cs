@@ -28,16 +28,15 @@
 //
 // </copyright>
 
-using System.Globalization;
-
 namespace Hbm.Weighing.API.Data
 {
+    using System.Globalization;
+
     /// <summary>
     /// Holds the current weight values (gross, net, tare)
     /// </summary>
     public class PrintableWeightType
     {
-
         #region ==================== constants & fields ====================
 
         private NumberFormatInfo setPrecision;
@@ -47,7 +46,7 @@ namespace Hbm.Weighing.API.Data
         #region =============== constructors & destructors =================
 
         /// <summary>
-        /// Constructor of class PrintableWeightType
+        /// Initializes a new instance of the <see cref="PrintableWeightType" /> class.
         /// </summary>
         public PrintableWeightType()
         {
@@ -91,7 +90,5 @@ namespace Hbm.Weighing.API.Data
         }
 
         #endregion
-
     }
 }
-

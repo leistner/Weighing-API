@@ -20,11 +20,13 @@ namespace Hbm.Weighing.API.WTX.Modbus
         private TestModbusTCPConnection testConnection;
         private WTXModbus _wtxDevice;
 
+        /*
         private bool connectCallbackCalled;
         private bool connectCompleted;
 
         private bool disconnectCallbackCalled;
         private bool disconnectCompleted;
+        */
 
         // Test case source for reading values from the WTX120 device. 
         public static IEnumerable ReadTestCases
@@ -84,8 +86,8 @@ namespace Hbm.Weighing.API.WTX.Modbus
         [SetUp]
         public void Setup()
         {
-            this.connectCallbackCalled = true;
-            this.connectCompleted = true;
+            //this.connectCallbackCalled = true;
+            //this.connectCompleted = true;
         }
 
         ushort _testValue = 0;

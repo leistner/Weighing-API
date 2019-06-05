@@ -28,17 +28,11 @@
 //
 // </copyright>
 
-using Hbm.Weighing.API.WTX.Jet;
-using Hbm.Weighing.API.WTX.Modbus;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Hbm.Weighing.API.Data
 {
+    using Hbm.Weighing.API.WTX.Modbus;
+    using System;
+    using System.Collections.Generic;
     /// <summary>
     /// Implementation of the interface IDataFiller for the filler mode.
     /// The class DataFillerModbus contains the data input word and data output words for the filler mode
@@ -48,44 +42,33 @@ namespace Hbm.Weighing.API.Data
     {
 
         #region ==================== constants & fields ====================
-
-        // Output words for filler mode: 
-
         private int _residualFlowTime;
         private int _targetFillingWeight;
         private int _coarseFlowCutOffPointSet;
         private int _fineFlowCutOffPointSet;
-
         private int _minimumFineFlow;
         private int _optimizationOfCutOffPoints;
         private int _maximumDosingTime;
         private int _startWithFineFlow;
-
         private int _coarseLockoutTime;
         private int _fineLockoutTime;
         private int _tareMode;
         private int _upperToleranceLimit;
-
         private int _lowerToleranceLimit;
         private int _minimumStartWeight;
         private int _emptyWeight;
         private int _tareDelay;
-
         private int _coarseFlowMonitoringTime;
         private int _coarseFlowMonitoring;
         private int _fineFlowMonitoring;
         private int _fineFlowMonitoringTime;
-
         private int _delayTimeAfterFineFlow;
         private int _activationTimeAfterFineFlow;
         private int _systematicDifference;
         private int _downwardsDosing;
-
         private int _valveControl;
         private int _emptyingMode;
-
         private INetConnection _connection;
-
         #endregion
 
         #region =============== constructors & destructors =================
@@ -98,77 +81,59 @@ namespace Hbm.Weighing.API.Data
             _connection = Connection;
 
             _connection.UpdateData += UpdateFillerData;
-            Console.WriteLine("DataFillerModbus");
 
             CoarseFlow = 0;
             FineFlow = 0;
             Ready = 0;
             ReDosing = 0;
-
             Emptying = 0;
             FlowError = 0;
             Alarm = 0;
             AdcOverUnderload = 0;
-
             FillingProcessStatus = 0;
-            NumberDosingResults = 0;
-            DosingResult = 0;
-            MeanValueDosingResults = 0;
-
-            StandardDeviation = 0;
-            TotalWeight = 0;
+            FillingResultCount = 0;
+            FillingResult = 0;
+            FillingResultMeanValue = 0;
+            FillingResultStandardDeviation = 0;
+            FillingResultTotalSum = 0;
             CurrentDosingTime = 0;
             CurrentCoarseFlowTime = 0;
-
             CurrentFineFlowTime = 0;
             ToleranceErrorPlus = 0;
             ToleranceErrorMinus = 0;
             StatusInput1 = 0;
-
             GeneralScaleError = 0;
             FineFlowCutOffPoint = 0;
-
             CoarseFlowCutOffPoint = 0;
             ParameterSetProduct = 0;
             MaxDosingTime = 0;
-
             _residualFlowTime = 0;
             _targetFillingWeight = 0;
             _coarseFlowCutOffPointSet = 0;
             _fineFlowCutOffPointSet = 0;
-
             _minimumFineFlow = 0;
             _optimizationOfCutOffPoints = 0;
             _maximumDosingTime = 0;
             _startWithFineFlow = 0;
-
             _coarseLockoutTime = 0;
             _fineLockoutTime = 0;
             _tareMode = 0;
             _upperToleranceLimit = 0;
-
             _lowerToleranceLimit = 0;
             _minimumStartWeight = 0;
             _emptyWeight = 0;
             _tareDelay = 0;
-
             _coarseFlowMonitoringTime = 0;
             _coarseFlowMonitoring = 0;
             _fineFlowMonitoring = 0;
             _fineFlowMonitoringTime = 0;
-
             _delayTimeAfterFineFlow = 0;
             _activationTimeAfterFineFlow = 0;
             _systematicDifference = 0;
             _downwardsDosing = 0;
-
             _valveControl = 0;
             _emptyingMode = 0;
-
-            WeightStorage = 0;
-            ModeWeightStorage = 0;
         }
-
         #endregion
 
         #region ==================== events & delegates ====================
@@ -236,7 +201,7 @@ namespace Hbm.Weighing.API.Data
                     
                     ParameterSetProduct = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CurrentProductParameterSet));
                     _downwardsDosing = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.DMDDosingMode));
-                    TotalWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.SUMFillingResultSum));
+                    FillingResultTotalSum = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.SUMFillingResultSum));
                     
                     _targetFillingWeight = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.FWTFillingTargetWeight));
                     _coarseFlowCutOffPointSet = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CFDCoarseFlowDisconnect));
@@ -272,11 +237,11 @@ namespace Hbm.Weighing.API.Data
         public int Alarm { get; private set; }
         public int AdcOverUnderload { get; private set; }
         public int FillingProcessStatus { get; private set; }
-        public int NumberDosingResults { get; private set; }
-        public int DosingResult { get; private set; }
-        public int MeanValueDosingResults { get; private set; }
-        public int StandardDeviation { get; private set; }
-        public int TotalWeight { get; private set; }
+        public int FillingResultCount { get; private set; }
+        public int FillingResult { get; private set; }
+        public int FillingResultMeanValue { get; private set; }
+        public int FillingResultStandardDeviation { get; private set; }
+        public int FillingResultTotalSum { get; private set; }
         public int CurrentDosingTime { get; private set; }
         public int CurrentCoarseFlowTime { get; private set; }
         public int CurrentFineFlowTime { get; private set; }
@@ -316,7 +281,7 @@ namespace Hbm.Weighing.API.Data
                 this._targetFillingWeight = value;
             }
         }
-        public int CoarseFlowCutOffPointSet // Type : signed integer 32 Bit
+        public int CoarseFlowCutOffLevel // Type : signed integer 32 Bit
         {
             get { return _coarseFlowCutOffPointSet; }
             set
@@ -325,7 +290,7 @@ namespace Hbm.Weighing.API.Data
                 this._coarseFlowCutOffPointSet = value;
             }
         }
-        public int FineFlowCutOffPointSet // Type : signed integer 32 Bit
+        public int FineFlowCutOffLevel // Type : signed integer 32 Bit
         {
             get { return _fineFlowCutOffPointSet; }
             set
@@ -343,7 +308,7 @@ namespace Hbm.Weighing.API.Data
                 this._minimumFineFlow = value;
             }
         }
-        public int OptimizationOfCutOffPoints // Type : unsigned integer 8 Bit
+        public int OptimizationMode // Type : unsigned integer 8 Bit
         {
             get { return _optimizationOfCutOffPoints; }
             set
@@ -352,7 +317,7 @@ namespace Hbm.Weighing.API.Data
                 this._optimizationOfCutOffPoints = value;
             }
         }
-        public int MaximumDosingTime // Type : unsigned integer 16 Bit
+        public int MaxFillingTime // Type : unsigned integer 16 Bit
         {
             get { return _maximumDosingTime; }
             set
@@ -478,7 +443,7 @@ namespace Hbm.Weighing.API.Data
                 this._fineFlowMonitoringTime = value;
             }
         }
-        public int DelayTimeAfterFineFlow  // Type : unsigned integer 8 Bit
+        public int DelayTimeAfterFilling  // Type : unsigned integer 8 Bit
         {
             get { return _delayTimeAfterFineFlow; }
             set
@@ -487,7 +452,7 @@ namespace Hbm.Weighing.API.Data
                 this._delayTimeAfterFineFlow = value;
             }
         }
-        public int ActivationTimeAfterFineFlow  // Type : unsigned integer 8 Bit
+        public int ActivationTimeAfterFilling  // Type : unsigned integer 8 Bit
         {
             get { return _activationTimeAfterFineFlow; }
             set
@@ -505,7 +470,7 @@ namespace Hbm.Weighing.API.Data
                 this._systematicDifference = value;
             }
         }
-        public int DownwardsDosing  // Type : unsigned integer 8 Bit
+        public int FillingMode
         {
             get { return _downwardsDosing; }
             set
@@ -533,10 +498,21 @@ namespace Hbm.Weighing.API.Data
                 this._emptyingMode = value;
             }
         }
-        public int WeightStorage { get; set; }
-        public int ModeWeightStorage { get; set; }
-
         #endregion
 
+        #region ================ public & internal methods ================= 
+        public void StartFilling()
+        {
+        }
+
+        public void BreakFilling()
+        {
+        }
+
+
+        public void ClearFillingResult()
+        {
+        }
+        #endregion
     }
 }

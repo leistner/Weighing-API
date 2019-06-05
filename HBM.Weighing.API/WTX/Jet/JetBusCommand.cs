@@ -79,10 +79,8 @@ namespace Hbm.Weighing.API.WTX.Jet
         /// </summary>
         /// <param name="allRegisters">All available holding register starting from index 0</param>
         /// <returns>Value as integer</returns>
-        public string ToValue(string input)
+        public string ToString(string input)
         {
-            ushort _bitMask = 0;
-            ushort _mask = 0;
             string _value;
 
             try
@@ -91,28 +89,8 @@ namespace Hbm.Weighing.API.WTX.Jet
                 {
                     case DataType.BIT:
                     {
-                        switch (BitLength)
-                        {
-                            case 0:
-                                _bitMask = 0xFFFF;
-                                break;
-                            case 1:
-                                _bitMask = 1;
-                                break; 
-                            case 2:
-                                _bitMask = 3;
-                                break;
-                            case 3:
-                                _bitMask = 7;
-                                break;
-                            default:
-                                _bitMask = 1;
-                                break;
-                        }
-
-                        _mask = (ushort)(_bitMask << BitIndex);
-                        _value = ((Convert.ToUInt16(input) & _mask) >> BitIndex).ToString();
-                        break;
+                            _value = ExtractBit(Convert.ToInt32(input)).ToString();
+                            break;
                     }
 
                     default:
@@ -128,6 +106,68 @@ namespace Hbm.Weighing.API.WTX.Jet
             }
 
             return _value;
+        }
+
+        /// <summary>
+        /// Picks the command from all registers 
+        /// </summary>
+        /// <param name="allRegisters">All available holding register starting from index 0</param>
+        /// <returns>Value as integer</returns>
+        public int ToSValue(string input)
+        {
+            int _value;
+
+            try
+            {
+                switch (DataType)
+                {
+                    case DataType.BIT:
+                        {
+                            _value = ExtractBit(Convert.ToInt32(input));
+                            break;
+                        }
+                    default:
+                        {
+                            _value = Convert.ToInt32(input);
+                            break;
+                        }
+                }
+            }
+            catch
+            {
+                _value = 0;
+            }
+
+            return _value;
+        }
+        #endregion
+
+        #region =============== protected & private methods ================
+        private int ExtractBit(int input)
+        {
+            int _bitMask = 0;
+            int _mask = 0;
+
+            switch (BitLength)
+            {
+                case 0:
+                    _bitMask = 0xFFFF;
+                    break;
+                case 1:
+                    _bitMask = 1;
+                    break;
+                case 2:
+                    _bitMask = 3;
+                    break;
+                case 3:
+                    _bitMask = 7;
+                    break;
+                default:
+                    _bitMask = 1;
+                    break;
+            }
+            _mask = _bitMask << BitIndex;
+            return (input & _mask) >> BitIndex;
         }
         #endregion
     }

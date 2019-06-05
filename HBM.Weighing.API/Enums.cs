@@ -72,11 +72,11 @@ namespace Hbm.Weighing.API
         Off,
         Tare,
         Trigger,        // Only ApplicationMode.Checkweigher
-        reserved,
         BreakFilling,   // Only ApplicationMode.Filler
         RunFilling,     // Only ApplicationMode.Filler
         Redosing,       // Only ApplicationMode.Filler
-        WeightDetection,
+        RecordWeight,
+        Zero,
         Sum             // Only ApplicationMode.Count
     }
 
@@ -91,7 +91,6 @@ namespace Hbm.Weighing.API
         LimitSwitch2,               // Only ApplicationMode.Standard
         LimitSwitch3,               // Only ApplicationMode.Standard
         LimitSwitch4,               // Only ApplicationMode.Standard
-        reserved,
         StopMaterial,               // Only ApplicationMode.Filler
         CoarseFlow,                 // Only ApplicationMode.Filler
         FineFlow,                   // Only ApplicationMode.Filler
@@ -100,7 +99,9 @@ namespace Hbm.Weighing.API
         ToleranceUnderrun,          // Only ApplicationMode.Filler
         ToleranceExceededUnderrun,  // Only ApplicationMode.Filler
         Alert,                      // Only ApplicationMode.Filler
-        DL1DL2                      // Only ApplicationMode.Filler
+        DL1DL2,                     // Only ApplicationMode.Filler
+        Empty,
+        DeviceStatus
     }
 
     /// <summary>
@@ -142,4 +143,17 @@ namespace Hbm.Weighing.API
         Tare,
         PresetTare
     }
+
+    /// <summary>
+    /// Multi range/interval scale type
+    /// </summary>
+    public enum ScaleRangeMode
+    {
+        None,
+        MultiRange,
+        MultiInterval
+    }
+
+
+    
 }

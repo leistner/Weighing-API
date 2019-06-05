@@ -63,15 +63,15 @@ namespace Hbm.Weighing.API.Data
 
         int FillingProcessStatus { get; }
 
-        int NumberDosingResults { get; }
+        int FillingResult { get; }
 
-        int DosingResult { get; }
+        int FillingResultCount { get; }
 
-        int MeanValueDosingResults { get; }
+        int FillingResultMeanValue { get; }
 
-        int StandardDeviation { get; }
+        int FillingResultStandardDeviation { get; }
 
-        int TotalWeight { get; }
+        int FillingResultTotalSum { get; }
 
         int CurrentDosingTime { get; }
 
@@ -83,47 +83,27 @@ namespace Hbm.Weighing.API.Data
 
         int ToleranceErrorMinus { get; }
 
-        int StatusInput1 { get; }
-
-        int GeneralScaleError { get; }
-
         int ParameterSetProduct { get; }
-
-        int MaxDosingTime { get; }
-
-        int WeightMemDay { get; }
-
-        int WeightMemMonth { get; }
-
-        int WeightMemYear { get; }
-
-        int WeightMemSeqNumber { get; }
-
-        int WeightMemGross { get; }
-
-        int WeightMemNet { get; }
-
+        
         int ResidualFlowTime { get; set; }
 
         int TargetFillingWeight { get;  set; }
 
-        int CoarseFlowCutOffPointSet { get;  set; }
+        int CoarseFlowCutOffLevel { get;  set; }
 
-        int FineFlowCutOffPointSet { get;  set; }
+        int FineFlowCutOffLevel { get;  set; }
 
         int MinimumFineFlow { get;  set; }
 
-        int OptimizationOfCutOffPoints { get;  set; }
+        int OptimizationMode { get;  set; }
 
-        int MaximumDosingTime { get;  set; }
+        int MaxFillingTime { get;  set; }
 
         int StartWithFineFlow { get;  set; }
-
-        int CoarseLockoutTime { get;  set; }
-
-        int FineLockoutTime { get;  set; }
-
+        
         int TareMode { get;  set; }
+
+        int TareDelay { get;  set; }
 
         int UpperToleranceLimit { get;  set; }
 
@@ -133,36 +113,37 @@ namespace Hbm.Weighing.API.Data
 
         int EmptyWeight { get;  set; }
 
-        int TareDelay { get;  set; }
+        int CoarseLockoutTime { get;  set; }
 
-        int CoarseFlowMonitoringTime { get;  set; }
+        int FineLockoutTime { get;  set; }
 
         int CoarseFlowMonitoring { get;  set; }
+
+        int CoarseFlowMonitoringTime { get;  set; }
 
         int FineFlowMonitoring { get;  set; }
 
         int FineFlowMonitoringTime { get;  set; }
 
-        int DelayTimeAfterFineFlow { get;  set; }
+        int DelayTimeAfterFilling { get;  set; }
 
-        int ActivationTimeAfterFineFlow { get;  set; }
+        int ActivationTimeAfterFilling { get;  set; }
 
         int SystematicDifference { get;  set; }
 
-        int DownwardsDosing { get;  set; }
+        int FillingMode { get;  set; }
 
         int ValveControl { get;  set; }
 
         int EmptyingMode { get;  set; }
-
-        int FineFlowCutOffPoint { get; set; }
-
-        int CoarseFlowCutOffPoint { get; set; }
-
-        int WeightStorage { get; set; }
-
-        int ModeWeightStorage { get; set; }
         #endregion
 
+        #region ================ public & internal methods ================= 
+        void StartFilling();
+
+        void BreakFilling();
+
+        void ClearFillingResult();
+        #endregion
     }
 }

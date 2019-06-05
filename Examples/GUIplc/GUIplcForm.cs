@@ -646,12 +646,12 @@ namespace GUIplc
                         {
                             case 11: _wtxDevice.DataFiller.ResidualFlowTime = value;           break;
                             case 12: _wtxDevice.DataFiller.TargetFillingWeight = value;        break;
-                            case 13: _wtxDevice.DataFiller.CoarseFlowCutOffPointSet = value;   break;
-                            case 14: _wtxDevice.DataFiller.FineFlowCutOffPointSet = value;     break;
+                            case 13: _wtxDevice.DataFiller.CoarseFlowCutOffLevel = value;   break;
+                            case 14: _wtxDevice.DataFiller.FineFlowCutOffLevel = value;     break;
                             case 15: _wtxDevice.DataFiller.MinimumFineFlow = value;            break;
-                            case 16: _wtxDevice.DataFiller.OptimizationOfCutOffPoints = value; break;
+                            case 16: _wtxDevice.DataFiller.OptimizationMode = value; break;
 
-                            case 17: _wtxDevice.DataFiller.MaximumDosingTime = value;   break;
+                            case 17: _wtxDevice.DataFiller.MaxFillingTime = value;   break;
                             case 18: _wtxDevice.DataFiller.StartWithFineFlow = value;   break;
                             case 19: _wtxDevice.DataFiller.CoarseLockoutTime = value;   break;
                             case 20: _wtxDevice.DataFiller.FineLockoutTime = value;     break;
@@ -667,10 +667,10 @@ namespace GUIplc
                             case 29: _wtxDevice.DataFiller.FineFlowMonitoring = value;       break;
                             case 30: _wtxDevice.DataFiller.FineFlowMonitoringTime = value;   break;
 
-                            case 31: _wtxDevice.DataFiller.DelayTimeAfterFineFlow = value;      break;
-                            case 32: _wtxDevice.DataFiller.ActivationTimeAfterFineFlow = value; break;
+                            case 31: _wtxDevice.DataFiller.DelayTimeAfterFilling = value;      break;
+                            case 32: _wtxDevice.DataFiller.ActivationTimeAfterFilling = value; break;
                             case 33: _wtxDevice.DataFiller.SystematicDifference = value;        break;
-                            case 34: _wtxDevice.DataFiller.DownwardsDosing = value; break;
+                            case 34: _wtxDevice.DataFiller.FillingMode = value; break;
                             case 35: _wtxDevice.DataFiller.ValveControl = value;    break;
                             case 36: _wtxDevice.DataFiller.EmptyingMode = value;    break;
                         }
@@ -771,20 +771,18 @@ namespace GUIplc
                     dataGridView1.Rows[31].Cells[6].Value = _wtxDevice.DataFiller.FlowError;
                     dataGridView1.Rows[32].Cells[6].Value = _wtxDevice.DataFiller.Alarm;
                     dataGridView1.Rows[33].Cells[6].Value = _wtxDevice.DataFiller.AdcOverUnderload;
-                    dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.DataFiller.MaximumDosingTime;
+                    dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.DataFiller.MaxFillingTime;
                     //dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.DataFiller.LegalForTradeOperation;
                     dataGridView1.Rows[36].Cells[6].Value = _wtxDevice.DataFiller.ToleranceErrorPlus;
                     dataGridView1.Rows[37].Cells[6].Value = _wtxDevice.DataFiller.ToleranceErrorMinus;
-                    dataGridView1.Rows[38].Cells[6].Value = _wtxDevice.DataFiller.StatusInput1;
-                    dataGridView1.Rows[39].Cells[6].Value = _wtxDevice.DataFiller.GeneralScaleError;
                     dataGridView1.Rows[40].Cells[6].Value = _wtxDevice.DataFiller.FillingProcessStatus;
-                    dataGridView1.Rows[41].Cells[6].Value = _wtxDevice.DataFiller.NumberDosingResults;
-                    dataGridView1.Rows[42].Cells[6].Value = _wtxDevice.DataFiller.DosingResult;
-                    dataGridView1.Rows[43].Cells[6].Value = _wtxDevice.DataFiller.MeanValueDosingResults;
-                    dataGridView1.Rows[44].Cells[6].Value = _wtxDevice.DataFiller.StandardDeviation;
-                    dataGridView1.Rows[45].Cells[6].Value = _wtxDevice.DataFiller.TotalWeight;
-                    dataGridView1.Rows[46].Cells[6].Value = _wtxDevice.DataFiller.FineFlowCutOffPoint;
-                    dataGridView1.Rows[47].Cells[6].Value = _wtxDevice.DataFiller.CoarseFlowCutOffPoint;
+                    dataGridView1.Rows[41].Cells[6].Value = _wtxDevice.DataFiller.FillingResultCount;
+                    dataGridView1.Rows[42].Cells[6].Value = _wtxDevice.DataFiller.FillingResult;
+                    dataGridView1.Rows[43].Cells[6].Value = _wtxDevice.DataFiller.FillingResultMeanValue;
+                    dataGridView1.Rows[44].Cells[6].Value = _wtxDevice.DataFiller.FillingResultStandardDeviation;
+                    dataGridView1.Rows[45].Cells[6].Value = _wtxDevice.DataFiller.FillingResultTotalSum;
+                    dataGridView1.Rows[46].Cells[6].Value = _wtxDevice.DataFiller.FineFlowCutOffLevel;
+                    dataGridView1.Rows[47].Cells[6].Value = _wtxDevice.DataFiller.CoarseFlowCutOffLevel;
                     dataGridView1.Rows[48].Cells[6].Value = _wtxDevice.DataFiller.CurrentDosingTime;
                     dataGridView1.Rows[49].Cells[6].Value = _wtxDevice.DataFiller.CurrentCoarseFlowTime;
                     dataGridView1.Rows[50].Cells[6].Value = _wtxDevice.DataFiller.CurrentFineFlowTime ;

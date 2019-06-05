@@ -540,6 +540,11 @@ namespace Hbm.Weighing.API.WTX.Jet
             throw new NotImplementedException();
         }
 
+        public int ReadIntegerFromBuffer(object command)
+        {
+            throw new NotImplementedException();
+        }
+
         public void WriteSync(ushort wordNumber, ushort commandParam)
         {
             throw new NotImplementedException();

@@ -179,7 +179,6 @@ namespace Hbm.Weighing.API.WTX.Modbus
         public int command;
 
         public event EventHandler<LogEventArgs> CommunicationLog;
-        public event EventHandler<DataEventArgs> IncomingDataReceived;
         public event EventHandler<EventArgs> UpdateData;
         
         private Dictionary<string, string> _dataBuffer;
@@ -1325,6 +1324,11 @@ namespace Hbm.Weighing.API.WTX.Modbus
             }
 
             return _dataBuffer[ConvertedFrame.Path];
+        }
+        
+        public int ReadIntegerFromBuffer(object command)
+        {
+            throw new NotImplementedException();
         }
 
         public Dictionary<string, string> AllData

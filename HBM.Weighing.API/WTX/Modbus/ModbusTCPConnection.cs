@@ -80,7 +80,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         public string IpAddress { get; set; }
 
         /// <inheritdoc />
-        public Dictionary<int, int> AllData { get; private set; } = new Dictionary<int, int>();
+        public ushort[] AllData { get; private set; }
         #endregion
 
         #region ================ public & internal methods =================
@@ -245,80 +245,34 @@ namespace Hbm.Weighing.API.WTX.Modbus
                 
         public string ReadFromBuffer(object command)
         {
-            ushort _bitMask = 0;
-            ushort _mask = 0;
-            string _value = "0";
+            ModbusCommand modBusCommand = (ModbusCommand)command;
+            return (modBusCommand.ToValue(AllData)).ToString();
+        }
 
-            try
-            {
-                ModbusCommand modBusCommand = (ModbusCommand)command;
-                    
-                switch (modBusCommand.DataType)
-                {
-                    case DataType.BIT:
-                        switch (modBusCommand.BitLength)
-                        {
-                            case 0: _bitMask = 0xFFFF; break;
-                            case 1: _bitMask = 1; break;
-                            case 2: _bitMask = 3; break;
-                            case 3: _bitMask = 7; break;
-                            default: _bitMask = 1; break;
-                        }
-                        _mask = (ushort)(_bitMask << modBusCommand.BitIndex);                     
-
-                        _value = ((AllData[modBusCommand.Register] & _mask) >> modBusCommand.BitIndex).ToString();                        
-                        break;
-         
-                    case DataType.U32:
-                    case DataType.S32:
-                    
-                        _value = (AllData[modBusCommand.Register + 1] + (AllData[modBusCommand.Register] << 16)).ToString();
-                        break;
-
-                    default:
-                        _value = AllData[modBusCommand.Register].ToString();                       
-                        break;
-                }
-            }
-            catch
-            {
-                _value = "0";
-            }
-
-            return _value;
-        }      
+        /// <inheritdoc />
+        public int ReadIntegerFromBuffer(object command)
+        {
+            ModbusCommand modbuscommand = (ModbusCommand)command;
+            return modbuscommand.ToValue(AllData);
+        }
 
         private void CreateDictionary()
         {
-            AllData = new Dictionary<int, int>();           
-            for (int i = 0; i<WTX_REGISTER_DATAWORD_COUNT; i++)
-            {
-                AllData.Add(i, 0);
-            }
+            AllData = new ushort[WTX_REGISTER_DATAWORD_COUNT];
         }
-
-        private void ModbusRegistersToDictionary(ushort[] data)
-        {
-            for (int i = 0; i<WTX_REGISTER_DATAWORD_COUNT; i++)
-            {
-                AllData[i] = data[i];
-            }
-        }   
         
         private async Task<ushort[]> ReadModbusRegistersAsync()
         {
-            ushort[] _data = await _master.ReadHoldingRegistersAsync(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
-            ModbusRegistersToDictionary(_data);
-            CommunicationLog?.Invoke(this, new LogEventArgs("Read all: " + string.Join(",", _data.Select(x => x.ToString("X")).ToArray())));
-            return _data;
+            AllData = await _master.ReadHoldingRegistersAsync(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
+            CommunicationLog?.Invoke(this, new LogEventArgs("Read all: " + string.Join(",", AllData.Select(x => x.ToString("X")).ToArray())));
+            return AllData;
         }
 
         private ushort[] ReadModbusRegisters()
         {
-            ushort[] _data = _master.ReadHoldingRegisters(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
-            ModbusRegistersToDictionary(_data);
-            CommunicationLog?.Invoke(this, new LogEventArgs("Read all: " + string.Join(",", _data.Select(x => x.ToString("X")).ToArray())));
-            return _data;
+            AllData = _master.ReadHoldingRegisters(WTX_SLAVE_ADDRESS, WTX_REGISTER_START_ADDRESS, WTX_REGISTER_DATAWORD_COUNT);
+            CommunicationLog?.Invoke(this, new LogEventArgs("Read all: " + string.Join(",", AllData.Select(x => x.ToString("X")).ToArray())));
+            return AllData;
         }
         #endregion
     }

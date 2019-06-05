@@ -667,11 +667,11 @@ namespace Hbm.Weighing.API.WTX.Modbus
             _wtxObj.DataFiller.ResidualFlowTime == 1 && 
             _wtxObj.DataFiller.TargetFillingWeight == 1 && 
             _wtxObj.DataFiller.EmptyingMode == 1 &&
-            _wtxObj.DataFiller.CoarseFlowCutOffPointSet == 1 && 
-            _wtxObj.DataFiller.FineFlowCutOffPointSet == 1 && 
+            _wtxObj.DataFiller.CoarseFlowCutOffLevel == 1 && 
+            _wtxObj.DataFiller.FineFlowCutOffLevel == 1 && 
             _wtxObj.DataFiller.MinimumFineFlow == 1 && 
-            _wtxObj.DataFiller.OptimizationOfCutOffPoints == 1 && 
-            _wtxObj.DataFiller.MaximumDosingTime == 1 && 
+            _wtxObj.DataFiller.OptimizationMode == 1 && 
+            _wtxObj.DataFiller.MaxFillingTime == 1 && 
             _wtxObj.DataFiller.ValveControl == 1 &&
             _wtxObj.DataFiller.StartWithFineFlow == 1 && 
             _wtxObj.DataFiller.CoarseLockoutTime == 1 && 
@@ -686,10 +686,10 @@ namespace Hbm.Weighing.API.WTX.Modbus
             _wtxObj.DataFiller.FineFlowMonitoring == 1 && 
             _wtxObj.DataFiller.EmptyWeight == 1 &&
             _wtxObj.DataFiller.FineFlowMonitoringTime == 1 && 
-            _wtxObj.DataFiller.DelayTimeAfterFineFlow == 1 && 
-            _wtxObj.DataFiller.ActivationTimeAfterFineFlow == 1 && 
+            _wtxObj.DataFiller.DelayTimeAfterFilling == 1 && 
+            _wtxObj.DataFiller.ActivationTimeAfterFilling == 1 && 
             _wtxObj.DataFiller.SystematicDifference == 1 && 
-            _wtxObj.DataFiller.DownwardsDosing == 1
+            _wtxObj.DataFiller.FillingMode == 1
             )
                 return true;
 

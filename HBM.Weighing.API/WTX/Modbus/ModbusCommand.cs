@@ -155,5 +155,34 @@ namespace Hbm.Weighing.API.WTX.Modbus
             return _value;
         }
         #endregion
+
+        #region =============== protected & private methods ================
+        private int ExtractBit(int input)
+        {
+            int _bitMask = 0;
+            int _mask = 0;
+
+            switch (BitLength)
+            {
+                case 0:
+                    _bitMask = 0xFFFF;
+                    break;
+                case 1:
+                    _bitMask = 1;
+                    break;
+                case 2:
+                    _bitMask = 3;
+                    break;
+                case 3:
+                    _bitMask = 7;
+                    break;
+                default:
+                    _bitMask = 1;
+                    break;
+            }
+            _mask = _bitMask << BitIndex;
+            return (input & _mask) >> BitIndex;
+        }
+        #endregion
     }
 }

@@ -116,7 +116,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             CSNClearFillingResult = new JetBusCommand(DataType.NIL, "2230/02", 0, 0);
             DL1DosingDelay1 = new JetBusCommand(DataType.U16, "2220/0B", 0, 0);
             DL2DosingDelay2 = new JetBusCommand(DataType.U16, "2220/0C", 0, 0);
-            DMDDosingMode = new JetBusCommand(DataType.U08, "2200/04", 0, 0);
+            DMDFillingMode = new JetBusCommand(DataType.U08, "2200/04", 0, 0);
             DSTDosingTime = new JetBusCommand(DataType.U16, "2230/03", 0, 0);
             EMDEmptyingMode = new JetBusCommand(DataType.U08, "2200/05", 0, 0);
             EPTDischargeTime = new JetBusCommand(DataType.U16, "2220/02", 0, 0);
@@ -169,7 +169,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             LVSLimitValue3Status = new JetBusCommand(DataType.BIT, "2020/25", 2, 1);
             LVSLimitValue4Status = new JetBusCommand(DataType.BIT, "2020/25", 3, 1);
             LWTNominalValue = new JetBusCommand(DataType.S32, "2110/07", 0, 0);
-            MDTMaximalFillingTime = new JetBusCommand(DataType.U16, "2220/06", 0, 0);
+            MDTMaxFillingTime = new JetBusCommand(DataType.U16, "2220/06", 0, 0);
             MFOMaterialFlow = new JetBusCommand(DataType.S32, "2000/0E", 0, 0);
             MSWMinimumStartWeight = new JetBusCommand(DataType.S32, "2210/0B", 0, 0);
             NDSFillingCounter = new JetBusCommand(DataType.U16, "2230/05", 0, 0);
@@ -368,7 +368,7 @@ namespace Hbm.Weighing.API.WTX.Jet
 
         public static JetBusCommand DL2DosingDelay2 { get; private set; }
 
-        public static JetBusCommand DMDDosingMode { get; private set; }
+        public static JetBusCommand DMDFillingMode { get; private set; }
 
         public static JetBusCommand DSTDosingTime { get; private set; }
 
@@ -474,7 +474,7 @@ namespace Hbm.Weighing.API.WTX.Jet
 
         public static JetBusCommand LWTNominalValue { get; private set; }
 
-        public static JetBusCommand MDTMaximalFillingTime { get; private set; }
+        public static JetBusCommand MDTMaxFillingTime { get; private set; }
 
         public static JetBusCommand MFOMaterialFlow { get; private set; }
 
