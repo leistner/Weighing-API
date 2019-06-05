@@ -39,7 +39,7 @@ namespace Hbm.Weighing.API.Data
     public interface IProcessData
     {
 
-        #region ============ events & delegates - update method ============
+        #region ==================== events & delegates ====================
         /// <summary>
         /// Use this Method to update all properties of this interface.
         /// </summary>
@@ -48,7 +48,7 @@ namespace Hbm.Weighing.API.Data
         void UpdateData(object sender, EventArgs e);
         #endregion
 
-        #region ====================== Get-properties ======================
+        #region ======================== properties ========================
         /// <summary>
         /// Gets the application mode (e.g. Standard/Filler)
         /// </summary>
@@ -134,6 +134,7 @@ namespace Hbm.Weighing.API.Data
         /// </summary>
         bool ScaleAlarm { get; }
         #endregion
+
 
     }
 }

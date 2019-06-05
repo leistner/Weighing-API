@@ -1,4 +1,4 @@
-﻿// <copyright file="PrintableWeightType.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="ExtendedWtDevice.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
 //
@@ -28,70 +28,52 @@
 //
 // </copyright>
 
-using System.Globalization;
+using Hbm.Weighing.API;
+using Hbm.Weighing.API.Data;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace Hbm.Weighing.API.Data
+namespace HBM.Weighing.API
 {
     /// <summary>
-    /// Holds the current weight values (gross, net, tare)
+    /// Class containing extended data and functionality to BaseWtDevice.
+    /// Inherited from BaseWtDevice, class WtxJet inherits from ExtendedBaseWtDevice
     /// </summary>
-    public class PrintableWeightType
+    public abstract class ExtendedWtDevice : BaseWTDevice
     {
-
-        #region ==================== constants & fields ====================
-
-        private NumberFormatInfo setPrecision;
-
-        #endregion
 
         #region =============== constructors & destructors =================
 
-        /// <summary>
-        /// Constructor of class PrintableWeightType
-        /// </summary>
-        public PrintableWeightType()
+        public ExtendedWtDevice(INetConnection connection, int timerIntervalms) : base(connection, timerIntervalms)
         {
-            setPrecision = new NumberFormatInfo();
+        }
 
-            Net   = "0";
-            Gross = "0";
-            Tare  = "0";
+        public ExtendedWtDevice(INetConnection connection) : base(connection)
+        {
         }
 
         #endregion
 
         #region ======================== properties ========================
 
-        /// <summary>
-        /// Gets the gross value of weight in string without a unit
-        /// </summary>
-        public string Gross { get; private set; }
+        public abstract InputFunction InputIO { get; set; }
+        public abstract InputFunction OutputIO { get; set; }
 
-        /// <summary>
-        /// Gets the net value of weight in string without a unit
-        /// </summary>
-        public string Net { get; private set; }
-
-        /// <summary>
-        /// Gets the tare value of weight in string without a unit
-        /// </summary>
-        public string Tare { get; private set; }
+        public abstract int VendorID { get; set; }
+        public abstract int ProductCode { get; set; }
+        public abstract int SerialNumber { get; set; }
 
         #endregion
 
         #region ================ public & internal methods =================
 
-        public void Update(double net, double gross, int decimals)
-        {          
-            setPrecision.NumberDecimalDigits = decimals;
-
-            Net = ((decimal)net).ToString("F", setPrecision);
-            Gross = ((decimal)gross).ToString("F", setPrecision);
-            Tare = ((decimal)net - (decimal)gross).ToString("F", setPrecision);
-        }
+        public abstract void setIOInputFunction(InputFunction IOFunction);
+        public abstract void setIOOutputFunction(OutputFunction IOFunction);
 
         #endregion
 
+
+
     }
 }
-
