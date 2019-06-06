@@ -67,22 +67,18 @@ namespace GUIplc
         #region Locales
 
         private static BaseWTDevice _wtxDevice;
-        
+      
         private SettingsForm _settings;
-
         private AdjustmentCalculator _adjustmentCalculator;
         private AdjustmentWeigher _adjustmentWeigher;
         private FunctionIO _functionIOForm;
 
-        private string _ApplicationModeStr;
-        
+        private LimitSwitchMode _limitMode;
+        private LimitSwitchSource _limitSource;
+
+        private string _ApplicationModeStr;     
         private string _ipAddress;
         private int _timerInterval;
-
-        private int _startIndex ;   // Default setting for standard mode. 
-        private int _i;
-        private int _arrayLength;
-
         #endregion
 
         // Constructor of class GUI for the initialisation: 
@@ -129,7 +125,6 @@ namespace GUIplc
             if (_args.Length<=2)
                 MessageBox.Show("Bitte geben sie unter 'Edit->Settings' die IP-Adresse ein und auf 'File->Start' für einen Verbindungsaufbau. Es wird mit der 'Default IP-Adresse' fortgefahren." +
                                 "Kein Timer-Intervall in der Kommandozeile gegeben, bitte unter Edit->Settings einfügen. Es wird einem Timer-Intervall von 100 msec. fortgefahren.");
-
         }
 
         public void setTimerInterval(int timerIntervalParam)
@@ -152,10 +147,6 @@ namespace GUIplc
                 _ApplicationModeStr = "Standard";
 
                 startToolStripMenuItem_Click(this, new EventArgs());
-
-                _startIndex = 8;   // Default setting for standard mode. 
-                _i = 0;
-                _arrayLength = 0;
         }
         
         // This method is called from the constructor and sets the columns and the rows of the data grid.
@@ -343,8 +334,7 @@ namespace GUIplc
         {
             this.Close();
         }
-
-        
+    
         // This method sends a command to the device : Taring. Command : 0x1       
         // For standard and filler application.
         private void button4_Click(object sender, EventArgs e)
@@ -361,8 +351,7 @@ namespace GUIplc
             _wtxDevice.SetGross();
 
         }
-
-        
+     
         // This method sends a command to the device : Zeroing. Command : 0x40
         // For standard and filler application.
         private void button5_Click(object sender, EventArgs e)
@@ -388,46 +377,8 @@ namespace GUIplc
         }
 
         // This method sends a command to the device : Activate data. Command : 0x800
-        // For standard and filler application.
-        // If the button 'Activate data' is clicked the output words are entered into the datagrid in column ...
-        // ... 'Output:value' from word 2 to 26 (standard mode) and from word 9 to 44 are written into the WTX device. 
         private void button8_Click(object sender, EventArgs e)
         {
-            // Activate data :
-            int maximumIndex = 0;
-
-            if (_wtxDevice.ApplicationMode == ApplicationMode.Standard)     // if in standard mode: 
-            {
-                _startIndex = 8;
-                _arrayLength = 17;
-                maximumIndex = 25;
-            }
-            else
-            {
-                _startIndex  = 11;
-                _arrayLength = 26;
-                maximumIndex = 36;
-            }
-
-            ushort[] valueArr = new ushort[_arrayLength];
-
-            for (int index = _startIndex; index < maximumIndex; index++)  // In Filler mode: From index 11 to the maximum row number.In Standard mode: From index 8 to the maximum row number.
-            {
-                _i = index - _startIndex;
-                
-                var input= dataGridView1.Rows[index].Cells[12].Value;
-                valueArr[_i] = (ushort)Convert.ToInt16(input);
-
-                string inputStr = input.ToString();
-
-                // Writing values to the WTX according to the data type : S32 or U08 or U16 (given in the GUI datagrid).
-                if (inputStr != "0")
-                {
-                    valueArr[_i] = (ushort)Convert.ToInt32(dataGridView1.Rows[index].Cells[6].Value);
-                }
-            }
-            //_wtxDevice.UpdateOutputWords(valueArr);
-
             ((WTXModbus)_wtxDevice).ActivateData(); 
         }       
 
@@ -495,7 +446,7 @@ namespace GUIplc
             _wtxDevice.Connection.IpAddress = this._ipAddress;
 
             // The connection to the device is established. 
-            _wtxDevice.Connection.Connect();     // Alternative : _wtxObj.Connect();    
+            _wtxDevice.Connect(5000);
 
             // For the application mode(standard or filler) and the printing on the GUI the WTX registers are read out first.      
             dataGridView1.Rows.Clear();
@@ -506,21 +457,17 @@ namespace GUIplc
             //_wtxDevice.ProcessDataReceived += ValuesOnConsole;
 
             // New eventhandler for a change in a data grid cell : 
-            //dataGridView1.CellValueChanged += new DataGridViewCellEventHandler(GridValueChangedMethod);
+            dataGridView1.CellValueChanged += new DataGridViewCellEventHandler(GridValueChangedMethod);
 
         }
-
-
-        private LimitSwitchMode _limitMode;
-        private LimitSwitchSource _limitSource;
 
         // This method is set if the output value in column 13 has changed - For writing output words the standard and filler mode: 
         private void GridValueChangedMethod(object sender, DataGridViewCellEventArgs e)
         {
             if (e.ColumnIndex == 12)
             {
-                ushort value = 0;
                 ushort index = 0;
+                ushort value = 0;
 
                 string valueStr = "";
                 
@@ -545,13 +492,13 @@ namespace GUIplc
                             case "Inside Band":
                                 _limitMode = LimitSwitchMode.InsideBand;
                                 value = 3; break;
-                            case "Net=1":
+                            case "Net=0":
                                 _limitSource = LimitSwitchSource.Net;
-                                value = 1;
+                                value = 0;
                                 break;
-                            case "Gross=2":
+                            case "Gross=1":
                                 _limitSource = LimitSwitchSource.Gross;
-                                value = 2;
+                                value = 1;
                                 break;
                             default:
                                 if (valueStr.Contains("."))
@@ -592,17 +539,17 @@ namespace GUIplc
                         // For mode 1, 2 : 
                         if (e.RowIndex == 10 || e.RowIndex == 14 || e.RowIndex == 18 || e.RowIndex == 22)
                         {
-                            if (value == 1)
+                            if (value == 0)
                                 _limitSource = LimitSwitchSource.Net;
                             else 
-                                if(value == 2)
+                                if(value == 1)
                                     _limitSource = LimitSwitchSource.Gross;
 
                             if (_limitSource == LimitSwitchSource.Net)
-                                dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Net=1";
+                                dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Net=0";
                             else
                                 if (_limitSource == LimitSwitchSource.Gross)
-                                    dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Gross=2";
+                                    dataGridView1[e.ColumnIndex, e.RowIndex].Value = "Gross=1";
                         }
                     }
                     else
@@ -634,25 +581,25 @@ namespace GUIplc
 
                         switch (e.RowIndex)
                         {
-                            case 8: _wtxDevice.ManualTareValue = value; break;
+                            case 8:  _wtxDevice.ManualTareValue = value; break;
 
-                            case 9: _wtxDevice.DataStandard.LimitSwitch1Source = (LimitSwitchSource)value; break;
-                            case 10: _wtxDevice.DataStandard.LimitSwitch1Mode = (LimitSwitchMode)value; break;
+                            case 9: _wtxDevice.DataStandard.LimitSwitch1Mode = (LimitSwitchMode)value; break; 
+                            case 10: _wtxDevice.DataStandard.LimitSwitch1Source = (LimitSwitchSource)value; break;
                             case 11: _wtxDevice.DataStandard.LimitSwitch1Level = value; break;
                             case 12: _wtxDevice.DataStandard.LimitSwitch1Hysteresis = value; break;
 
-                            case 13: _wtxDevice.DataStandard.LimitSwitch2Source = (LimitSwitchSource)value; break;
-                            case 14: _wtxDevice.DataStandard.LimitSwitch2Mode = (LimitSwitchMode)value; break;
+                            case 13: _wtxDevice.DataStandard.LimitSwitch2Mode = (LimitSwitchMode)value; break; 
+                            case 14: _wtxDevice.DataStandard.LimitSwitch2Source = (LimitSwitchSource)value; break;
                             case 15: _wtxDevice.DataStandard.LimitSwitch2Level = value; break;
                             case 16: _wtxDevice.DataStandard.LimitSwitch2Hysteresis = value; break;
 
-                            case 17: _wtxDevice.DataStandard.LimitSwitch3Source = (LimitSwitchSource)value; break;
-                            case 18: _wtxDevice.DataStandard.LimitSwitch3Mode = (LimitSwitchMode)value; break;
+                            case 17: _wtxDevice.DataStandard.LimitSwitch3Mode = (LimitSwitchMode)value; break; 
+                            case 18: _wtxDevice.DataStandard.LimitSwitch3Source = (LimitSwitchSource)value; break;
                             case 19: _wtxDevice.DataStandard.LimitSwitch3Level = value; break;
                             case 20: _wtxDevice.DataStandard.LimitSwitch3Hysteresis = value; break;
 
-                            case 21: _wtxDevice.DataStandard.LimitSwitch4Source = (LimitSwitchSource)value; break;
-                            case 22: _wtxDevice.DataStandard.LimitSwitch4Mode = (LimitSwitchMode)value; break;
+                            case 21: _wtxDevice.DataStandard.LimitSwitch4Mode = (LimitSwitchMode)value; break; 
+                            case 22: _wtxDevice.DataStandard.LimitSwitch4Source = (LimitSwitchSource)value; break;
                             case 23: _wtxDevice.DataStandard.LimitSwitch4Level = value; break;
                             case 24: _wtxDevice.DataStandard.LimitSwitch4Hysteresis = value; break;
 
@@ -667,14 +614,14 @@ namespace GUIplc
                     {
                         switch (e.RowIndex)
                         {
-                            case 11: _wtxDevice.DataFiller.ResidualFlowTime = value;           break;
-                            case 12: _wtxDevice.DataFiller.TargetFillingWeight = value;        break;
-                            case 13: _wtxDevice.DataFiller.CoarseFlowCutOffLevel = value;   break;
-                            case 14: _wtxDevice.DataFiller.FineFlowCutOffLevel = value;     break;
-                            case 15: _wtxDevice.DataFiller.MinimumFineFlow = value;            break;
-                            case 16: _wtxDevice.DataFiller.OptimizationMode = value; break;
+                            case 11: _wtxDevice.DataFiller.ResidualFlowTime = value;      break;
+                            case 12: _wtxDevice.DataFiller.TargetFillingWeight = value;   break;
+                            case 13: _wtxDevice.DataFiller.CoarseFlowCutOffLevel = value; break;
+                            case 14: _wtxDevice.DataFiller.FineFlowCutOffLevel = value;   break;
+                            case 15: _wtxDevice.DataFiller.MinimumFineFlow = value;       break;
 
-                            case 17: _wtxDevice.DataFiller.MaxFillingTime = value;   break;
+                            case 16: _wtxDevice.DataFiller.OptimizationMode = value;    break;
+                            case 17: _wtxDevice.DataFiller.MaxFillingTime = value;      break;
                             case 18: _wtxDevice.DataFiller.StartWithFineFlow = value;   break;
                             case 19: _wtxDevice.DataFiller.CoarseLockoutTime = value;   break;
                             case 20: _wtxDevice.DataFiller.FineLockoutTime = value;     break;
@@ -693,14 +640,13 @@ namespace GUIplc
                             case 31: _wtxDevice.DataFiller.DelayTimeAfterFilling = value;      break;
                             case 32: _wtxDevice.DataFiller.ActivationTimeAfterFilling = value; break;
                             case 33: _wtxDevice.DataFiller.SystematicDifference = value;        break;
-                            case 34: _wtxDevice.DataFiller.FillingMode = value; break;
+                            case 34: _wtxDevice.DataFiller.FillingMode = value;     break;
                             case 35: _wtxDevice.DataFiller.ValveControl = value;    break;
                             case 36: _wtxDevice.DataFiller.EmptyingMode = value;    break;
                         }
                     }
                 }
-                if (_wtxDevice.Connection.GetType() == typeof(WTXModbus) )
-                    ((WTXModbus)_wtxDevice).ActivateData();
+                ((WTXModbus)_wtxDevice).ActivateData();
             }
         }     
 
@@ -828,7 +774,6 @@ namespace GUIplc
         // Afterwards the timer and the application can be restarted.
         private void stopToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //_wtxDevice.ProcessDataReceived -= ValuesOnConsole;
             toolStripStatusLabel1.Text = "Disconnected";    
         }
 
@@ -837,8 +782,7 @@ namespace GUIplc
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             toolStripStatusLabel1.Text = "Disconnected";
-
-            //_wtxDevice.ProcessDataReceived -= ValuesOnConsole;
+            
             this.Close();
             
             Application.Exit();
@@ -869,7 +813,6 @@ namespace GUIplc
                         dataGridView1.CurrentCell = dataGridView1.Rows[x].Cells[y];    // Writes the descriptions and values into a word file.
                         System.IO.File.AppendAllText(fullPath, "\n" + dataGridView1.CurrentCell.Value.ToString());
                     }
-                
             }
         }
 
@@ -903,9 +846,7 @@ namespace GUIplc
             {
                 this.timer1.Interval = e.TimerInterval;
                 _wtxDevice.Restart();
-                //_wtxDevice.ResetTimer(timerIntervalParam);
             }
-            // timer update missing
         }
 
         // This method changes the GUI concerning the application mode.
@@ -934,7 +875,7 @@ namespace GUIplc
          *  This method is called once the tool item "Calculate Calibration" is clicked. It creates a windows form for
          *  the calibration with a dead load and a nominal span. 
          */
-                    private void calculateCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
+        private void calculateCalibrationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _wtxDevice.Stop();
 

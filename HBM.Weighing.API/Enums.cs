@@ -121,8 +121,8 @@ namespace Hbm.Weighing.API
     {
         AboveLevel = 0,
         BelowLevel = 1,
-        OutsideBand = 2,
-        InsideBand = 3
+        InsideBand = 2,
+        OutsideBand = 3
     }
 
     /// <summary>
@@ -130,8 +130,8 @@ namespace Hbm.Weighing.API
     /// </summary>
     public enum LimitSwitchSource
     {
-        Net = 1,
-        Gross = 2
+        Net = 0,
+        Gross = 1
     }
 
     /// <summary>

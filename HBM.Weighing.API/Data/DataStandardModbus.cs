@@ -257,7 +257,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1Mode; }
             set
             {
-                _connection.Write(ModbusCommands.LIV1LimitSwitchSource, LimitSwitchModeToInt(value));
+                _connection.Write(ModbusCommands.LIV1LimitSwitchMode, LimitSwitchModeToInt(value));
                 _limitSwitch1Mode = value;
             }
         }
@@ -268,7 +268,18 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(ModbusCommands.LIV1LimitSwitchMode, value);
+                _connection.Write(ModbusCommands.LIV1LimitSwitchLevel, value);
+                _limitSwitch1LevelAndLowerBandValue = value;
+            }
+        }
+
+        /// <inheritdoc />
+        public int LimitSwitch1LowerBandValue
+        {
+            get { return _limitSwitch1LevelAndLowerBandValue; }
+            set
+            {
+                this._connection.Write(ModbusCommands.LIV2LimitSwitchLevel, value);
                 _limitSwitch1LevelAndLowerBandValue = value;
             }
         }
@@ -281,17 +292,6 @@ namespace Hbm.Weighing.API.Data
             {
                 _connection.Write(ModbusCommands.LIV1LimitSwitchHysteresis, value);
                 _limitSwitch1HysteresisAndBandHeight = value;
-            }
-        }
-
-        /// <inheritdoc />
-        public int LimitSwitch1LowerBandValue
-        {
-            get { return _limitSwitch1LevelAndLowerBandValue; }
-            set
-            {
-                this._connection.Write(ModbusCommands.LIV2LimitSwitchLevel, value);
-                _limitSwitch1LevelAndLowerBandValue = value;
             }
         }
 
@@ -445,7 +445,7 @@ namespace Hbm.Weighing.API.Data
             set
             {
                 _connection.Write(ModbusCommands.LIV4LimitSwitchSource, LimitSwitchSouceToInt(value));
-                _limitSwitch4Source = value;
+               _limitSwitch4Source = value;
             }
         }
 
@@ -520,6 +520,8 @@ namespace Hbm.Weighing.API.Data
                 case LimitSwitchMode.BelowLevel: result = 1; break;
                 case LimitSwitchMode.InsideBand: result = 2; break;
                 case LimitSwitchMode.OutsideBand: result = 3; break;
+                default:
+                    result = 0; break;
             }
             return result;
         }
@@ -535,9 +537,11 @@ namespace Hbm.Weighing.API.Data
             switch (mode)
             {
                 case "0": result = LimitSwitchMode.AboveLevel; break;
-                case "2": result = LimitSwitchMode.BelowLevel; break;
-                case "3": result = LimitSwitchMode.InsideBand; break;
-                case "4": result = LimitSwitchMode.OutsideBand; break;
+                case "1": result = LimitSwitchMode.BelowLevel; break;
+                case "2": result = LimitSwitchMode.InsideBand; break;
+                case "3": result = LimitSwitchMode.OutsideBand; break;
+                default:
+                    result = LimitSwitchMode.AboveLevel; break;
             }
             return result;
         }
@@ -554,6 +558,9 @@ namespace Hbm.Weighing.API.Data
             {
                 case LimitSwitchSource.Gross: result = 0; break;
                 case LimitSwitchSource.Net: result = 1; break;
+                default:
+                    result = 0;
+                    break;
             }
             return result;
         }
@@ -570,6 +577,9 @@ namespace Hbm.Weighing.API.Data
             {
                 case "0": result = LimitSwitchSource.Gross; break;
                 case "1": result = LimitSwitchSource.Net; break;
+                default:
+                    result = LimitSwitchSource.Net;
+                    break;
             }
             return result;
         }
