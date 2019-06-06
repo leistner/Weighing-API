@@ -128,14 +128,11 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         protected override void ProcessDataUpdateTick(object info)
         {
-            Stop();
             if (IsConnected)
             {
                 ((ModbusTCPConnection)Connection).SyncData();
                 ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
             }
-
-            Restart();
         }
 
         /// <inheritdoc />
