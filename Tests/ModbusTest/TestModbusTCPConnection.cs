@@ -799,7 +799,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
         public bool Write(object command, string data)
         {
-            throw new NotImplementedException();
+            return this.WriteInteger(command, Convert.ToInt32(data));
         }
 
         public void Dispose()
