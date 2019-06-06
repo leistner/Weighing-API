@@ -1,4 +1,4 @@
-﻿// <copyright file="GUIsimple.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="GUIsimpleForm.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // WTXGUIsimple, a demo application for HBM Weighing-API  
 //
@@ -35,9 +35,9 @@
 namespace GUIsimple
 {
     using System;
-    using System.Threading;
     using System.Windows.Forms;
     using Hbm.Weighing.API;
+    using Hbm.Weighing.API.Data;
     using Hbm.Weighing.API.WTX;
     using Hbm.Weighing.API.WTX.Jet;
     using Hbm.Weighing.API.WTX.Modbus;

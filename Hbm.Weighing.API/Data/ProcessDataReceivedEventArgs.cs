@@ -28,10 +28,9 @@
 //
 // </copyright>
 
-namespace Hbm.Weighing.API
+namespace Hbm.Weighing.API.Data
 {
     using System;
-    using Hbm.Weighing.API.Data;
 
     /// <summary>
     /// Event to extend the event based call with an interface containing real-time process data.
