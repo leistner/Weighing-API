@@ -240,7 +240,6 @@ namespace Hbm.Weighing.API.WTX.Jet
             
         }
 
-
         private void ConvertJTokenToStringArray()
         {
             JTokenArray = _dataBuffer.Values.ToArray();
@@ -328,7 +327,6 @@ namespace Hbm.Weighing.API.WTX.Jet
 
         public void FetchAll()
         {
-
             //this.OnFetchData(this.simulateJTokenInstance("123", "add", 123));
 
             Matcher matcher = new Matcher();
@@ -394,7 +392,12 @@ namespace Hbm.Weighing.API.WTX.Jet
 
                         break;
                 }
-                
+
+                if (IsConnected)
+                {
+                    this.UpdateData?.Invoke(this, new EventArgs());
+                }
+
                 CommunicationLog?.Invoke(this, new LogEventArgs(data.ToString()));
             }
         }

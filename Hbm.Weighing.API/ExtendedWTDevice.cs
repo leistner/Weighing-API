@@ -47,7 +47,6 @@ namespace HBM.Weighing.API
         }
         #endregion
 
-
         #region ======================== properties ========================
         public abstract int MaximumPeakValueGross { get; }
 
@@ -119,8 +118,6 @@ namespace HBM.Weighing.API
 
         public abstract void RestoreAllDefaultParameters();
         #endregion
-
-
 
     }
 }

@@ -103,14 +103,14 @@ namespace GUIsimple
                     }
                     
                     txtInfo.Text = "Unload Scale!";
-                    cmdAdjust.Text = "Measure Zero";
+                    cmdAdjust.Text = "Adjust Zero";
                     cmdCancel.Text = "<Back";
                     _state = 1;
                     break;
 
                 case 1: // measure zero
 
-                    txtInfo.Text = "Measure zero in progess.";
+                    txtInfo.Text = "Adjusting zero in progess.";
                     Application.DoEvents(); 
 
                     _wtxDevice.AdjustZeroSignal();
@@ -205,7 +205,7 @@ namespace GUIsimple
                 case 2:
                     _state = 1;
                     txtInfo.Text = "Unload Scale!";
-                    cmdAdjust.Text = "Measure Zero";
+                    cmdAdjust.Text = "Adjust Zero";
                     break;
                 default:
                     _state = 2;

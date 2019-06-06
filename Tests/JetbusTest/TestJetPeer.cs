@@ -21,7 +21,7 @@ namespace JetbusTest
         private TestJetbusConnection _connection;
         private Behavior behavior;
 
-        private string path = "";
+        private string path;
         private string Event;
         private int data;
 
@@ -33,16 +33,14 @@ namespace JetbusTest
             path = "";
             Event= "";
             data = 0;
-
-
         }
 
         // Method to simulate the fetching of data from the wtx device : By adding and changing paths to the data buffer(='_databuffer') and by calling an event in TestJetbusConnection with invoke.  
         public JObject Fetch(out FetchId id, Matcher matcher, Action<JToken> fetchCallback, Action<bool, JToken> responseCallback, double responseTimeoutMs)
         {
-            string path = "";
-            string Event = "";
-            int data = 0;
+            path = "";
+            Event = "";
+            data = 0;
 
             //if (!_connection._dataBuffer.ContainsKey("6014/01")) // Only if the dictionary does not contain a path(for example "6014/01") the dictionary will be filled: 
             _connection._dataBuffer.Add("6144/00", simulateJTokenInstance("6144/00", "add", 1)["value"]);   // Read 'gross value'
