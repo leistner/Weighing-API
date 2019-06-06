@@ -257,11 +257,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1Mode; }
             set
             {
-<<<<<<< HEAD
-                _connection.Write(ModbusCommands.LIV1LimitSwitchMode, LimitSwitchModeToInt(value));
-=======
-                _connection.WriteInteger(ModbusCommands.LIV1LimitSwitchSource, LimitSwitchModeToInt(value));
->>>>>>> 88c9b0b9a18cc654a010c6c7e7250d58a83c1d56
+                _connection.WriteInteger(ModbusCommands.LIV1LimitSwitchMode, LimitSwitchModeToInt(value));
                 _limitSwitch1Mode = value;
             }
         }
@@ -272,11 +268,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1LevelAndLowerBandValue; }
             set
             {
-<<<<<<< HEAD
-                _connection.Write(ModbusCommands.LIV1LimitSwitchLevel, value);
-=======
-                _connection.WriteInteger(ModbusCommands.LIV1LimitSwitchMode, value);
->>>>>>> 88c9b0b9a18cc654a010c6c7e7250d58a83c1d56
+                _connection.WriteInteger(ModbusCommands.LIV1LimitSwitchLevel, value);
                 _limitSwitch1LevelAndLowerBandValue = value;
             }
         }
@@ -287,13 +279,8 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1LevelAndLowerBandValue; }
             set
             {
-<<<<<<< HEAD
-                this._connection.Write(ModbusCommands.LIV2LimitSwitchLevel, value);
-                _limitSwitch1LevelAndLowerBandValue = value;
-=======
                 _connection.WriteInteger(ModbusCommands.LIV1LimitSwitchHysteresis, value);
                 _limitSwitch1HysteresisAndBandHeight = value;
->>>>>>> 88c9b0b9a18cc654a010c6c7e7250d58a83c1d56
             }
         }
 
@@ -303,13 +290,8 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1HysteresisAndBandHeight; }
             set
             {
-<<<<<<< HEAD
-                _connection.Write(ModbusCommands.LIV1LimitSwitchHysteresis, value);
-                _limitSwitch1HysteresisAndBandHeight = value;
-=======
-                this._connection.WriteInteger(ModbusCommands.LIV2LimitSwitchLevel, value);
+                this._connection.WriteInteger(ModbusCommands.LIV1LimitSwitchHysteresis, value);
                 _limitSwitch1LevelAndLowerBandValue = value;
->>>>>>> 88c9b0b9a18cc654a010c6c7e7250d58a83c1d56
             }
         }
 
@@ -462,13 +444,8 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch4Source; }
             set
             {
-<<<<<<< HEAD
-                _connection.Write(ModbusCommands.LIV4LimitSwitchSource, LimitSwitchSouceToInt(value));
-               _limitSwitch4Source = value;
-=======
                 _connection.WriteInteger(ModbusCommands.LIV4LimitSwitchSource, LimitSwitchSouceToInt(value));
                 _limitSwitch4Source = value;
->>>>>>> 88c9b0b9a18cc654a010c6c7e7250d58a83c1d56
             }
         }
 

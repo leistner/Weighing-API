@@ -522,7 +522,7 @@ namespace GUIplc
                                 case 3:
                                     _limitMode = LimitSwitchMode.InsideBand; break;
 
-                                default: break;
+                                default: _limitMode = LimitSwitchMode.AboveLevel; break;
                             }
 
                             switch (_limitMode)

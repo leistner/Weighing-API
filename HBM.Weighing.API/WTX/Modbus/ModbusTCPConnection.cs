@@ -167,6 +167,8 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
         public bool Write(object command, string value)
         {
+            this.WriteInteger(command, Convert.ToInt32(value));
+
             return true;
         }
 

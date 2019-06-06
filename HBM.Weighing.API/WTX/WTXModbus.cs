@@ -273,19 +273,19 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         public override void SetGross()
         {
-            Connection.Write(ModbusCommands.ControlWordGrossNet, 1);
+            Connection.Write(ModbusCommands.ControlWordGrossNet, "1");
         }
 
         /// <inheritdoc />
         public override void Tare()
         {
-            Connection.Write(ModbusCommands.ControlWordTare, 1);
+            Connection.Write(ModbusCommands.ControlWordTare, "1");
         }
 
         /// <inheritdoc />
         public override void Zero()
         {
-            Connection.Write(ModbusCommands.ControlWordZeroing, 1);
+            Connection.Write(ModbusCommands.ControlWordZeroing, "1");
         }
         
         /// <summary>
@@ -293,19 +293,19 @@ namespace Hbm.Weighing.API.WTX
         /// </summary>
         public void ActivateData()
         {
-            Connection.Write(ModbusCommands.ControlWordActivateData, 1);
+            Connection.Write(ModbusCommands.ControlWordActivateData, "1");
         }
 
         /// <inheritdoc />
         public override void TareManually(double manualTareValue)
         {
-            Connection.Write(ModbusCommands.ControlWordTare, 1);
+            Connection.Write(ModbusCommands.ControlWordTare, "1");
         }
 
         /// <inheritdoc />
         public override void RecordWeight()
         {
-            Connection.Write(ModbusCommands.ControlWordRecordWeight, 1);
+            Connection.Write(ModbusCommands.ControlWordRecordWeight, "1");
         }
         #endregion
 
