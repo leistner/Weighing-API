@@ -140,7 +140,17 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461Unit, value);
+                int _unit=0;
+                switch (value)
+                {
+                    case "kg": _unit = 0x00020000; break;
+                    case "g": _unit = 0x004B0000; break;
+                    case "lb": _unit = 0x00A60000; break;
+                    case "t": _unit = 0x004C0000; break;
+                    case "N": _unit = 0x00210000; break;
+                    default: throw new NotSupportedException();
+                }
+                Connection.WriteInteger(JetBusCommands.CIA461Unit, _unit);
             }
         }
 
