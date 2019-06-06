@@ -194,7 +194,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
 
             _wtxDevice.Connect(this.OnConnect, 100);
 
-            testConnection.Write(ModbusCommands.ControlWordActivateData, 0);
+            testConnection.WriteInteger(ModbusCommands.ControlWordActivateData, 0);
 
             testConnection.Read(0);
 

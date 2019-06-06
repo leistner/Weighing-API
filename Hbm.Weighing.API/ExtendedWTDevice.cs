@@ -31,8 +31,6 @@
 namespace HBM.Weighing.API
 {
     using Hbm.Weighing.API;
-    using Hbm.Weighing.API.WTX.Jet;
-    using System;
 
     /// <summary>
     /// Class containing extended data and functionality to BaseWtDevice.

@@ -165,7 +165,7 @@ namespace Hbm.Weighing.API.WTX
             }
             set
             {
-                Connection.Write(ModbusCommands.CIA461TareValue, value);
+                Connection.WriteInteger(ModbusCommands.CIA461TareValue, value);
                 _manualTareValue = value;
             }
         }
@@ -207,6 +207,12 @@ namespace Hbm.Weighing.API.WTX
             {
                 return ProcessData.Unit;
             }
+
+            set
+            {
+                throw new NotSupportedException();
+            }
+
         }
 
         /// <inheritdoc />
@@ -224,24 +230,24 @@ namespace Hbm.Weighing.API.WTX
         public override bool AdjustZeroSignal()
         {
             Stop();                        
-            Connection.Write(ModbusCommands.LDWZeroSignal, 0x7FFFFFFF);
-            return Connection.Write(ModbusCommands.ControlWordAdjustZero, 1);
+            Connection.WriteInteger(ModbusCommands.LDWZeroSignal, 0x7FFFFFFF);
+            return Connection.WriteInteger(ModbusCommands.ControlWordAdjustZero, 1);
         }
 
         /// <inheritdoc />
         public override bool AdjustNominalSignal()
         {
             this.Stop();
-            Connection.Write(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);
-            return Connection.Write(ModbusCommands.ControlWordAdjustZero, 1);
+            Connection.WriteInteger(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);
+            return Connection.WriteInteger(ModbusCommands.ControlWordAdjustZero, 1);
         }
 
         /// <inheritdoc />
         public override bool AdjustNominalSignalWithCalibrationWeight(double adjustmentWeight)
         {
-            Connection.Write(ModbusCommands.CWTScaleCalibrationWeight, MeasurementUtils.DoubleToDigit(adjustmentWeight,ProcessData.Decimals));    
-            Connection.Write(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);          
-            bool result = Connection.Write(ModbusCommands.ControlWordAdjustNominal, 1);
+            Connection.WriteInteger(ModbusCommands.CWTScaleCalibrationWeight, MeasurementUtils.DoubleToDigit(adjustmentWeight,ProcessData.Decimals));    
+            Connection.WriteInteger(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);          
+            bool result = Connection.WriteInteger(ModbusCommands.ControlWordAdjustNominal, 1);
             this.Restart();
             return result;
         }
@@ -254,10 +260,10 @@ namespace Hbm.Weighing.API.WTX
             int _nominalLoad = (int)(preload + (capacity * multiplierMv2D));
                                        
             Stop();       
-            Connection.Write(ModbusCommands.LDWZeroSignal, _preLoad);
-            Connection.Write(ModbusCommands.ControlWordAdjustZero, 1);  
-            Connection.Write(ModbusCommands.LWTNominalSignal, _nominalLoad);
-            Connection.Write(ModbusCommands.ControlWordAdjustNominal, 1);
+            Connection.WriteInteger(ModbusCommands.LDWZeroSignal, _preLoad);
+            Connection.WriteInteger(ModbusCommands.ControlWordAdjustZero, 1);  
+            Connection.WriteInteger(ModbusCommands.LWTNominalSignal, _nominalLoad);
+            Connection.WriteInteger(ModbusCommands.ControlWordAdjustNominal, 1);
             Restart();
         }
 

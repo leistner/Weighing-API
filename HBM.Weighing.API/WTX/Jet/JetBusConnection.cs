@@ -159,7 +159,16 @@ namespace Hbm.Weighing.API.WTX.Jet
         }
 
         /// <inheritdoc />
-        public bool Write(object command, int value)
+        public bool WriteInteger(object command, int value)
+        {
+            JValue jasonValue = new JValue(value);
+            JetBusCommand _command = (JetBusCommand)command;
+            SetData(_command.Path, jasonValue);
+            return true; // DDD Exception handling
+        }
+
+        /// <inheritdoc />
+        public bool Write(object command, string value)
         {
             JValue jasonValue = new JValue(value);
             JetBusCommand _command = (JetBusCommand)command;

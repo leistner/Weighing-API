@@ -461,7 +461,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             }
         }
 
-        public bool Write(object command, int data)
+        public bool WriteInteger(object command, int data)
         {
 
             JetBusCommand _command = (JetBusCommand)command;
@@ -483,6 +483,12 @@ namespace Hbm.Weighing.API.WTX.Jet
 
             return true;
         }
+
+        public bool Write(object command, string data)
+        {
+            throw new NotImplementedException();
+        }
+        
 
         public JToken simulateJTokenInstance(string pathParam, string eventParam, int data)
         {

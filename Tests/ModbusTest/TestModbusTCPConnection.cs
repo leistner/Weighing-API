@@ -239,7 +239,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
                     break; 
             }
 
-            Write(ModbusCommands.ControlWordTare, 0);
+            WriteInteger(ModbusCommands.ControlWordTare, 0);
     }
 
         public bool IsConnected
@@ -518,7 +518,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         
         }
 
-        public bool Write(object command, int data)
+        public bool WriteInteger(object command, int data)
         {
             ModbusCommand _command = (ModbusCommand)command;
 
@@ -795,6 +795,11 @@ namespace Hbm.Weighing.API.WTX.Modbus
                     break;
             }
             return true;
+        }
+
+        public bool Write(object command, string data)
+        {
+            throw new NotImplementedException();
         }
 
         public void Dispose()
