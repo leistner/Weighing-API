@@ -44,6 +44,7 @@ namespace Hbm.Weighing.API.WTX
     {
         #region ==================== constants & fields ====================        
         private int _manualTareValue;
+        private bool _result;
         #endregion
 
         #region ==================== events & delegates ====================
@@ -128,14 +129,11 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         protected override void ProcessDataUpdateTick(object info)
         {
-            Stop();
             if (IsConnected)
             {
                 ((ModbusTCPConnection)Connection).SyncData();
                 ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
             }
-
-            Restart();
         }
 
         /// <inheritdoc />
@@ -230,26 +228,31 @@ namespace Hbm.Weighing.API.WTX
         public override bool AdjustZeroSignal()
         {
             Stop();                        
-            Connection.WriteInteger(ModbusCommands.LDWZeroSignal, 0x7FFFFFFF);
-            return Connection.WriteInteger(ModbusCommands.ControlWordAdjustZero, 1);
+            Connection.Write(ModbusCommands.LDWZeroSignal, 0x7FFFFFFF);
+            _result = Connection.Write(ModbusCommands.ControlWordAdjustZero, 1);
+            Restart();
+            return _result;
         }
 
         /// <inheritdoc />
         public override bool AdjustNominalSignal()
         {
             this.Stop();
-            Connection.WriteInteger(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);
-            return Connection.WriteInteger(ModbusCommands.ControlWordAdjustZero, 1);
+            Connection.Write(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);
+            _result = Connection.Write(ModbusCommands.ControlWordAdjustZero, 1);
+            this.Restart();
+            return _result;
         }
 
         /// <inheritdoc />
         public override bool AdjustNominalSignalWithCalibrationWeight(double adjustmentWeight)
         {
-            Connection.WriteInteger(ModbusCommands.CWTScaleCalibrationWeight, MeasurementUtils.DoubleToDigit(adjustmentWeight,ProcessData.Decimals));    
-            Connection.WriteInteger(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);          
-            bool result = Connection.WriteInteger(ModbusCommands.ControlWordAdjustNominal, 1);
+            Stop();
+            Connection.Write(ModbusCommands.CWTScaleCalibrationWeight, MeasurementUtils.DoubleToDigit(adjustmentWeight,ProcessData.Decimals));    
+            Connection.Write(ModbusCommands.LWTNominalSignal, 0x7FFFFFFF);          
+            _result = Connection.Write(ModbusCommands.ControlWordAdjustNominal, 1);
             this.Restart();
-            return result;
+            return _result;
         }
 
         /// <inheritdoc />
