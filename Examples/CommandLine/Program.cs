@@ -28,17 +28,17 @@
 //
 // </copyright>
 
-using System;
-using System.Threading;
-using System.Globalization;
-
-using Hbm.Weighing.API;
-using Hbm.Weighing.API.WTX;
-using Hbm.Weighing.API.WTX.Jet;
-using Hbm.Weighing.API.WTX.Modbus;
-
 namespace WTXModbus
 {
+    using System;
+    using System.Threading;
+    using System.Globalization;
+    using Hbm.Weighing.API;
+    using Hbm.Weighing.API.Data;
+    using Hbm.Weighing.API.WTX;
+    using Hbm.Weighing.API.WTX.Jet;
+    using Hbm.Weighing.API.WTX.Modbus;
+
     /// <summary>
     /// This class implements a console application. An Object of the class 'ModbusTcpConnection' or 'JetBusConnection' and 'BaseWTDevice'('WTXJet' or WTXModbus') 
     /// are initialized as a publisher and subscriber. Afterwards a connection to the device is established and the timer/sending interval is set. 
