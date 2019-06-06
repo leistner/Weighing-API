@@ -195,7 +195,6 @@ namespace GUIsimple
         private void DisplayText(string text)
         {
             txtInfo.Text = text;
-            Application.DoEvents();
         }
         
         //Connect device
