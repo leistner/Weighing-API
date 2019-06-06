@@ -805,7 +805,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         public async Task<ushort[]> SyncData()
         {
             ushort[] value = new ushort[1];
-            await Task.Run(async () =>
+            await Task.Run( () =>
             {
             switch (behavior)
             {
@@ -1035,7 +1035,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
         public async Task<string> ReadAsync(object index)
         {
             ushort[] value = new ushort[1];
-            await Task.Run(async () =>
+            await Task.Run( () =>
             {
                 switch (behavior)
                 {
@@ -1266,31 +1266,33 @@ namespace Hbm.Weighing.API.WTX.Modbus
         {
             this.command = value;
 
-            switch (behavior)
+            await Task.Run(() =>
             {
-                case Behavior.ZeroMethodTestSuccess:
-                    this.command = value;
-                    break;
-                case Behavior.ZeroMethodTestFail:
-                    this.command = 0x00;
-                    break;
+                switch (behavior)
+                {
+                    case Behavior.ZeroMethodTestSuccess:
+                        this.command = value;
+                        break;
+                    case Behavior.ZeroMethodTestFail:
+                        this.command = 0x00;
+                        break;
 
-                case Behavior.AbortDosingMethodTestSuccess:
-                    this.command = value;
-                    break;
-                case Behavior.AbortDosingMethodTestFail:
-                    this.command = 0;
-                    break;
-            }
-            // Change the handshake bit : bit .14 from 0 to 1.
-            if (_dataWTX[5] == 0x0000)
-                _dataWTX[5] = 0x4000;
-            else
-                if (_dataWTX[5] == 0x4000)
-                _dataWTX[5] = 0x0000;
+                    case Behavior.AbortDosingMethodTestSuccess:
+                        this.command = value;
+                        break;
+                    case Behavior.AbortDosingMethodTestFail:
+                        this.command = 0;
+                        break;
+                }
+                // Change the handshake bit : bit .14 from 0 to 1.
+                if (_dataWTX[5] == 0x0000)
+                    _dataWTX[5] = 0x4000;
+                else
+                    if (_dataWTX[5] == 0x4000)
+                    _dataWTX[5] = 0x0000;
 
-            this.command = value;
-
+                this.command = value;
+            });
             return this.command;
         }
         
