@@ -19,9 +19,7 @@ namespace JetbusTest
     [TestFixture]
     public class SetTests
     {
-        private TestJetbusConnection _jetTestConnection;
-        private WTXJet _wtxObj;
-        
+
         // Test case source for writing values to the WTX120 device : Zeroing
         public static IEnumerable setTests
         {

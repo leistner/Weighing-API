@@ -21,7 +21,7 @@ namespace JetbusTest
         private TestJetbusConnection _connection;
         private Behavior behavior;
 
-        private string path;
+        private string path = "";
         private string Event;
         private int data;
 
