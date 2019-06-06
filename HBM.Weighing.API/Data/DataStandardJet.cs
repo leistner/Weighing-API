@@ -180,7 +180,7 @@ namespace Hbm.Weighing.API.Data
             get{ return _output1; }
             set
             {
-                _connection.Write(JetBusCommands.OS1DigitalOutput1, Convert.ToInt32(value));
+                _connection.WriteInteger(JetBusCommands.OS1DigitalOutput1, Convert.ToInt32(value));
                 _output1 = value;
             }
         }
@@ -191,7 +191,7 @@ namespace Hbm.Weighing.API.Data
             get{ return _output2; }
             set
             {
-                _connection.Write(JetBusCommands.OS2DigitalOutput2, Convert.ToInt32(value));
+                _connection.WriteInteger(JetBusCommands.OS2DigitalOutput2, Convert.ToInt32(value));
                 _output2 = value;
             }
         }
@@ -202,7 +202,7 @@ namespace Hbm.Weighing.API.Data
             get{ return _output3; }
             set
             {
-                _connection.Write(JetBusCommands.OS3DigitalOutput3, Convert.ToInt32(value));
+                _connection.WriteInteger(JetBusCommands.OS3DigitalOutput3, Convert.ToInt32(value));
                 _output3 = value;
             }
         }
@@ -213,7 +213,7 @@ namespace Hbm.Weighing.API.Data
             get{ return _output4; }
             set
             {
-                _connection.Write(JetBusCommands.OS4DigitalOutput4, Convert.ToInt32(value));
+                _connection.WriteInteger(JetBusCommands.OS4DigitalOutput4, Convert.ToInt32(value));
                 _output4 = value;
             }
         }
@@ -242,7 +242,7 @@ namespace Hbm.Weighing.API.Data
             }
             set
             {
-                  _connection.Write(JetBusCommands.LIV1LimitSwitchSource, LimitSwitchSouceToInt(value));
+                  _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchSource, LimitSwitchSouceToInt(value));
                 _limitSwitch1Source = value;
             }
         }
@@ -256,7 +256,7 @@ namespace Hbm.Weighing.API.Data
             }
             set
             {
-                _connection.Write(JetBusCommands.LIV1LimitSwitchMode, LimitSwitchModeToInt(value));
+                _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchMode, LimitSwitchModeToInt(value));
                 _limitSwitch1Mode = value;
             }
         }
@@ -267,7 +267,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.LIV1LimitSwitchLevel, value);
+                _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchLevel, value);
                 _limitSwitch1LevelAndLowerBandValue = value;
             }
         }
@@ -278,7 +278,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.LIV1LimitSwitchHysteresis, value);
+                _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchHysteresis, value);
                 _limitSwitch1HysteresisAndBandHeight = value;
             }
         }
@@ -289,7 +289,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1LevelAndLowerBandValue; }
             set
             {
-                this._connection.Write(JetBusCommands.LIV1LimitSwitchLevel, value);
+                this._connection.WriteInteger(JetBusCommands.LIV1LimitSwitchLevel, value);
                 _limitSwitch1LevelAndLowerBandValue = value;
             }
         }
@@ -300,7 +300,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.LIV1LimitSwitchHysteresis, value);
+                _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchHysteresis, value);
                 _limitSwitch1HysteresisAndBandHeight = value;
             }
         }
@@ -311,7 +311,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch2Source; }
             set
             {
-                _connection.Write(JetBusCommands.LIV2LimitSwitchSource, LimitSwitchSouceToInt(value));
+                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchSource, LimitSwitchSouceToInt(value));
                 _limitSwitch2Source = value;
             }
         }
@@ -325,7 +325,7 @@ namespace Hbm.Weighing.API.Data
             }
             set
             {
-                _connection.Write(JetBusCommands.LIV2LimitSwitchSource, LimitSwitchModeToInt(value));
+                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchSource, LimitSwitchModeToInt(value));
                 _limitSwitch2Mode = value;
             }
         }
@@ -336,7 +336,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch2LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.LIV2LimitSwitchLevel, value);
+                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchLevel, value);
                 _limitSwitch2LevelAndLowerBandValue = value;
             }
         }
@@ -347,7 +347,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch2HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.LIV2LimitSwitchHysteresis, value);
+                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchHysteresis, value);
                 _limitSwitch2HysteresisAndBandHeight = value;
             }
         }
@@ -358,7 +358,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch2LevelAndLowerBandValue; }
             set
             {
-                this._connection.Write(JetBusCommands.LIV2LimitSwitchLevel, value);
+                this._connection.WriteInteger(JetBusCommands.LIV2LimitSwitchLevel, value);
                 _limitSwitch2LevelAndLowerBandValue = value;
             }
         }
@@ -369,7 +369,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch2HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.LIV2LimitSwitchHysteresis, value);
+                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchHysteresis, value);
                 _limitSwitch2HysteresisAndBandHeight = value;
             }
         }
@@ -380,7 +380,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch3Source; }
             set
             {
-                _connection.Write(JetBusCommands.LIV3LimitSwitchSource, LimitSwitchSouceToInt(value));
+                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchSource, LimitSwitchSouceToInt(value));
                 _limitSwitch3Source = value;
             }
         }
@@ -394,7 +394,7 @@ namespace Hbm.Weighing.API.Data
             }
             set
             {
-                _connection.Write(JetBusCommands.LIV3LimitSwitchSource, LimitSwitchModeToInt(value));
+                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchSource, LimitSwitchModeToInt(value));
                 _limitSwitch3Mode = value;
             }
         }
@@ -405,7 +405,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch3LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.LIV3LimitSwitchLevel, value);
+                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchLevel, value);
                 _limitSwitch3LevelAndLowerBandValue = value;
             }
         }
@@ -416,7 +416,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch3HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.LIV3LimitSwitchHysteresis, value);
+                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchHysteresis, value);
                 _limitSwitch3HysteresisAndBandHeight = value;
             }
         }
@@ -427,7 +427,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch3LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.LIV3LimitSwitchLevel, value);
+                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchLevel, value);
                 _limitSwitch3LevelAndLowerBandValue = value;
             }
         }
@@ -438,7 +438,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch3HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.LIV3LimitSwitchHysteresis, value);
+                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchHysteresis, value);
                 _limitSwitch3HysteresisAndBandHeight = value;
             }
         }
@@ -449,7 +449,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch4Source; }
             set
             {
-                _connection.Write(JetBusCommands.LIV4LimitSwitchSource, LimitSwitchSouceToInt(value));
+                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchSource, LimitSwitchSouceToInt(value));
                 _limitSwitch4Source = value;
             }
         }
@@ -463,7 +463,7 @@ namespace Hbm.Weighing.API.Data
             }
             set
             {
-                _connection.Write(JetBusCommands.LIV4LimitSwitchMode, LimitSwitchModeToInt(value));
+                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchMode, LimitSwitchModeToInt(value));
                 _limitSwitch4Mode = value;
             }
         }
@@ -474,7 +474,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch4LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.LIV4LimitSwitchLevel, value);
+                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchLevel, value);
                 _limitSwitch4LevelAndLowerBandValue = value;
             }
         }
@@ -485,7 +485,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch4HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.LIV4LimitSwitchSource, value);
+                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchSource, value);
                 _limitSwitch4HysteresisAndBandHeight = value;
             }
         }
@@ -496,7 +496,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch1LevelAndLowerBandValue; }
             set
             {
-                _connection.Write(JetBusCommands.LIV4LimitSwitchLevel, value);
+                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchLevel, value);
                 _limitSwitch1LevelAndLowerBandValue = value;
             }
         }
@@ -507,7 +507,7 @@ namespace Hbm.Weighing.API.Data
             get { return _limitSwitch4HysteresisAndBandHeight; }
             set
             {
-                _connection.Write(JetBusCommands.LIV4LimitSwitchHysteresis, value);
+                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchHysteresis, value);
                 _limitSwitch4HysteresisAndBandHeight = value;
             }
         }

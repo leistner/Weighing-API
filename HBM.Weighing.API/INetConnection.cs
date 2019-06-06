@@ -93,7 +93,13 @@ namespace Hbm.Weighing.API
         /// Write data to a device.
         /// </summary>
         /// <param name="command">Variable command type, either ModbusCommand or JetbusCommand</param>
-        bool Write(object command, int value);
+        bool WriteInteger(object command, int value);
+
+        /// <summary>
+        /// Write data to a device.
+        /// </summary>
+        /// <param name="command">Variable command type, either ModbusCommand or JetbusCommand</param>
+        bool Write(object command, string value);
 
         /// <summary>
         /// Read data asynchonously from a device.

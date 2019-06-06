@@ -137,6 +137,21 @@ namespace Hbm.Weighing.API.WTX
             {
                 return ProcessData.Unit;
             }
+
+            set
+            {
+                int _unit=0;
+                switch (value)
+                {
+                    case "kg": _unit = 0x00020000; break;
+                    case "g": _unit = 0x004B0000; break;
+                    case "lb": _unit = 0x00A60000; break;
+                    case "t": _unit = 0x004C0000; break;
+                    case "N": _unit = 0x00210000; break;
+                    default: throw new NotSupportedException();
+                }
+                Connection.WriteInteger(JetBusCommands.CIA461Unit, _unit);
+            }
         }
 
         /// <inheritdoc />
@@ -192,7 +207,8 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461TareValue, value); }
+                Connection.WriteInteger(JetBusCommands.CIA461TareValue, value);
+            }
         }
 
         /// <inheritdoc />
@@ -205,7 +221,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461CalibrationWeight, value);
+                Connection.WriteInteger(JetBusCommands.CIA461CalibrationWeight, value);
             }
         }
 
@@ -219,7 +235,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461ZeroValue, value);
+                Connection.WriteInteger(JetBusCommands.CIA461ZeroValue, value);
             }
         }
 
@@ -233,7 +249,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.LWTNominalValue, value);
+                Connection.WriteInteger(JetBusCommands.LWTNominalValue, value);
             }
         }
 
@@ -337,7 +353,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461LocalGravityFactor, value);
+                Connection.WriteInteger(JetBusCommands.CIA461LocalGravityFactor, value);
             }
         }
 
@@ -351,7 +367,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461WeightStep, value);
+                Connection.WriteInteger(JetBusCommands.CIA461WeightStep, value);
             }
         }
 
@@ -365,7 +381,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461WeightMovingDetection, value);
+                Connection.WriteInteger(JetBusCommands.CIA461WeightMovingDetection, value);
             }
         }
 
@@ -393,7 +409,7 @@ namespace Hbm.Weighing.API.WTX
                     case ScaleRangeMode.MultiInterval: setValue = 1; break;
                     case ScaleRangeMode.MultiRange: setValue =  2; break;
                 }
-                Connection.Write(JetBusCommands.CIA461MultiLimit1, setValue);
+                Connection.WriteInteger(JetBusCommands.CIA461MultiLimit1, setValue);
             }
         }
 
@@ -407,7 +423,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461MultiLimit1, value);
+                Connection.WriteInteger(JetBusCommands.CIA461MultiLimit1, value);
             }
         }
 
@@ -421,7 +437,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461MultiLimit2, value);
+                Connection.WriteInteger(JetBusCommands.CIA461MultiLimit2, value);
             }
         }
 
@@ -436,7 +452,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461SampleRate, value);
+                Connection.WriteInteger(JetBusCommands.CIA461SampleRate, value);
             }
         }
 
@@ -450,7 +466,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461ScaleFilter, value);
+                Connection.WriteInteger(JetBusCommands.CIA461ScaleFilter, value);
             }
         }
 
@@ -472,9 +488,9 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461FilterCriticallyDampedCutOffFrequency, value);
-                Connection.Write(JetBusCommands.CIA461FilterBesselCutOffFrequency, value);
-                Connection.Write(JetBusCommands.CIA461FilterButterworthCutOffFrequency, value);
+                Connection.WriteInteger(JetBusCommands.CIA461FilterCriticallyDampedCutOffFrequency, value);
+                Connection.WriteInteger(JetBusCommands.CIA461FilterBesselCutOffFrequency, value);
+                Connection.WriteInteger(JetBusCommands.CIA461FilterButterworthCutOffFrequency, value);
             }
         }
 
@@ -496,9 +512,9 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.CIA461FilterCriticallyDampedFilterOrder, value);
-                Connection.Write(JetBusCommands.CIA461FilterBesselFilterOrder, value);
-                Connection.Write(JetBusCommands.CIA461FilterButterworthFilterOrder, value);
+                Connection.WriteInteger(JetBusCommands.CIA461FilterCriticallyDampedFilterOrder, value);
+                Connection.WriteInteger(JetBusCommands.CIA461FilterBesselFilterOrder, value);
+                Connection.WriteInteger(JetBusCommands.CIA461FilterButterworthFilterOrder, value);
             }
         }
 
@@ -512,7 +528,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.IM1DigitalInput1Mode, InputFunctionToInt(value));
+                Connection.WriteInteger(JetBusCommands.IM1DigitalInput1Mode, InputFunctionToInt(value));
             }
         }
 
@@ -525,7 +541,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.IM2DigitalInput2Mode, InputFunctionToInt(value));
+                Connection.WriteInteger(JetBusCommands.IM2DigitalInput2Mode, InputFunctionToInt(value));
             }
         }
 
@@ -538,7 +554,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.IM2DigitalInput2Mode, InputFunctionToInt(value));
+                Connection.WriteInteger(JetBusCommands.IM2DigitalInput2Mode, InputFunctionToInt(value));
             }
         }
 
@@ -551,7 +567,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.IM4DigitalInput4Mode, InputFunctionToInt(value));
+                Connection.WriteInteger(JetBusCommands.IM4DigitalInput4Mode, InputFunctionToInt(value));
             }
         }
 
@@ -564,7 +580,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.OM1DigitalOutput1Mode, OutputFunctionToInt(value));
+                Connection.WriteInteger(JetBusCommands.OM1DigitalOutput1Mode, OutputFunctionToInt(value));
             }
         }
 
@@ -577,7 +593,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.OM2DigitalOutput2Mode, OutputFunctionToInt(value));
+                Connection.WriteInteger(JetBusCommands.OM2DigitalOutput2Mode, OutputFunctionToInt(value));
             }
         }
 
@@ -590,7 +606,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.OM3DigitalOutput3Mode, OutputFunctionToInt(value));
+                Connection.WriteInteger(JetBusCommands.OM3DigitalOutput3Mode, OutputFunctionToInt(value));
             }
         }
 
@@ -603,7 +619,7 @@ namespace Hbm.Weighing.API.WTX
 
             set
             {
-                Connection.Write(JetBusCommands.OM4DigitalOutput4Mode, OutputFunctionToInt(value));
+                Connection.WriteInteger(JetBusCommands.OM4DigitalOutput4Mode, OutputFunctionToInt(value));
             }
         }
 
@@ -649,43 +665,43 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         public override void SaveAllParameters()
         {
-            Connection.Write(JetBusCommands.CIA461SaveAllParameters, 0);
+            Connection.WriteInteger(JetBusCommands.CIA461SaveAllParameters, 0);
         }
 
         /// <inheritdoc />
         public override void RestoreAllDefaultParameters()
         {
-            Connection.Write(JetBusCommands.CIA461RestoreAllDefaultParameters, 0);
+            Connection.WriteInteger(JetBusCommands.CIA461RestoreAllDefaultParameters, 0);
         }
 
         /// <inheritdoc />
         public override void Zero()
         {
-            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_ZERO);
+            Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_ZERO);
         }
         
         /// <inheritdoc />
         public override void SetGross()
         {
-            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_SET_GROSS);
+            Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_SET_GROSS);
         }
         
         /// <inheritdoc />
         public override void Tare()
         {
-            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_TARE);
+            Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_TARE);
         }
         
         /// <inheritdoc />
         public override void TareManually(double manualTareValue)
         {
-            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_TARE);
+            Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_TARE);
         }
         
         /// <inheritdoc />
         public override void RecordWeight()
         {
-            Connection.Write(JetBusCommands.STORecordWeight, SCALE_COMMAND_TARE);
+            Connection.WriteInteger(JetBusCommands.STORecordWeight, SCALE_COMMAND_TARE);
         }
                 
         /// <inheritdoc />
@@ -697,14 +713,14 @@ namespace Hbm.Weighing.API.WTX
             scalZeroLoad_d = (int)(scaleZeroLoad_mVV * CONVERISION_FACTOR_MVV_TO_D);
             scaleCapacity_d = (int)(scalZeroLoad_d + (scaleCapacity_mVV * CONVERISION_FACTOR_MVV_TO_D));
                         
-            Connection.Write(JetBusCommands.LDWZeroValue, scalZeroLoad_d); 
-            Connection.Write(JetBusCommands.LWTNominalValue, Convert.ToInt32(scaleCapacity_d)); 
+            Connection.WriteInteger(JetBusCommands.LDWZeroValue, scalZeroLoad_d); 
+            Connection.WriteInteger(JetBusCommands.LWTNominalValue, Convert.ToInt32(scaleCapacity_d)); 
         }
 
         /// <inheritdoc />
         public override bool AdjustZeroSignal()
         {
-            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_ZERO); 
+            Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_ZERO); 
 
             while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) != SCALE_COMMAND_STATUS_ONGOING)
             {
@@ -726,7 +742,7 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         public override bool AdjustNominalSignal()
         {
-            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
+            Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
 
             while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) != SCALE_COMMAND_STATUS_ONGOING)
             {
@@ -749,9 +765,9 @@ namespace Hbm.Weighing.API.WTX
         /// <inheritdoc />
         public override bool AdjustNominalSignalWithCalibrationWeight(double calibrationWeight)
         {
-            Connection.Write(JetBusCommands.CIA461CalibrationWeight, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));
+            Connection.WriteInteger(JetBusCommands.CIA461CalibrationWeight, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));
 
-            Connection.Write(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
+            Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
 
             while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) != SCALE_COMMAND_STATUS_ONGOING)
             {

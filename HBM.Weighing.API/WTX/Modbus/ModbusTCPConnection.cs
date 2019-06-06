@@ -165,8 +165,13 @@ namespace Hbm.Weighing.API.WTX.Modbus
             return _value.ToString();
         }
 
+        public bool Write(object command, string value)
+        {
+            return true;
+        }
+
         /// <inheritdoc />
-        public bool Write(object command, int value)
+        public bool WriteInteger(object command, int value)
         {
             bool result = true;
 

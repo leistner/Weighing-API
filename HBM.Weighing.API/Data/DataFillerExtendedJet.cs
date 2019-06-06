@@ -68,61 +68,61 @@ namespace Hbm.Weighing.API.Data
         public int MaterialStreamLastDosing
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.MFOMaterialFlow); }
-            set { _connection.Write(JetBusCommands.MFOMaterialFlow , value); }
+            set { _connection.WriteInteger(JetBusCommands.MFOMaterialFlow , value); }
         }
 
         public int SpecialDosingFunctions
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.SDFSpecialDosingFunctions); }
-            set { _connection.Write(JetBusCommands.SDFSpecialDosingFunctions , value);}
+            set { _connection.WriteInteger(JetBusCommands.SDFSpecialDosingFunctions , value);}
         }
 
         public int DischargeTime
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.EPTDischargeTime); }
-            set { _connection.Write(JetBusCommands.EPTDischargeTime , value); }
+            set { _connection.WriteInteger(JetBusCommands.EPTDischargeTime , value); }
         }
 
         public int ExceedingWeightBreak
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.EWBEmptyWeightBreak); }
-            set { _connection.Write(JetBusCommands.EWBEmptyWeightBreak , value); }
+            set { _connection.WriteInteger(JetBusCommands.EWBEmptyWeightBreak , value); }
         }
 
         public int Delay1Dosing
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.DL1DosingDelay1); }
-            set { _connection.Write(JetBusCommands.DL1DosingDelay1 , value); }
+            set { _connection.WriteInteger(JetBusCommands.DL1DosingDelay1 , value); }
         }
 
         public int Delay2Dosing
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.DL2DosingDelay2); }
-            set { _connection.Write(JetBusCommands.DL2DosingDelay2 , value); }
+            set { _connection.WriteInteger(JetBusCommands.DL2DosingDelay2 , value); }
         }
 
         public int EmptyWeightTolerance
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.EWTEmptyWeight); }
-            set { _connection.Write(JetBusCommands.EWTEmptyWeight , value); }
+            set { _connection.WriteInteger(JetBusCommands.EWTEmptyWeight , value); }
         }
 
         public int ResidualFlowDosingCycle
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.RFOResidualFlow); }
-            set { _connection.Write(JetBusCommands.RFOResidualFlow , value); }
+            set { _connection.WriteInteger(JetBusCommands.RFOResidualFlow , value); }
         }
 
         public new int ParameterSetProduct
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.RDPActivateParameterSet); }
-            set { _connection.Write(JetBusCommands.RDPActivateParameterSet, value); }
+            set { _connection.WriteInteger(JetBusCommands.RDPActivateParameterSet, value); }
         }
 
         public int WeightStorageMode
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.SMDRecordWeightMode); }
-            set { _connection.Write(JetBusCommands.SMDRecordWeightMode, value); }
+            set { _connection.WriteInteger(JetBusCommands.SMDRecordWeightMode, value); }
         }
         #endregion
     }

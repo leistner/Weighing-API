@@ -135,10 +135,10 @@ namespace Hbm.Weighing.API
         public abstract PrintableWeightType PrintableWeight { get; }
 
         /// <summary>
-        /// Gets the engineering unit (e.g. "g", "kg", "t") 
+        /// Gets or sets the engineering unit (e.g. "g", "kg", "t") 
         /// </summary>
         /// <returns></returns>
-        public abstract string Unit { get; }
+        public abstract string Unit { get; set; }
 
         /// <summary>
         /// Gets the weight type, Gross or Net
