@@ -165,12 +165,7 @@ namespace GUIsimple
 
             expCalibrationWeight = _calibrationWeight * potency;
 
-            return (int) expCalibrationWeight;
-
-            /*
-            int _noDecimalFactor = (int) Math.Pow(10, _wtxDeviceDecimals);
-            return _calibrationWeight * _noDecimalFactor;
-            */    
+            return (int) expCalibrationWeight;   
         }
 
         // Limits the input of the textbox to digits, ',' and '.'

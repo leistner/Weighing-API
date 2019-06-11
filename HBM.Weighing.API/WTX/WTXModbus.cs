@@ -271,41 +271,41 @@ namespace Hbm.Weighing.API.WTX
         }
 
         /// <inheritdoc />
-        public async override void SetGross()
+        public override void SetGross()
         {
-            await Connection.WriteAsync(ModbusCommands.ControlWordGrossNet, 1);
+            Connection.Write(ModbusCommands.ControlWordGrossNet, "1");
         }
 
         /// <inheritdoc />
-        public async override void Tare()
+        public override void Tare()
         {
-            await Connection.WriteAsync(ModbusCommands.ControlWordTare, 1);
+            Connection.Write(ModbusCommands.ControlWordTare, "1");
         }
 
         /// <inheritdoc />
-        public async override void Zero()
+        public override void Zero()
         {
-            await Connection.WriteAsync(ModbusCommands.ControlWordZeroing, 1);
+            Connection.Write(ModbusCommands.ControlWordZeroing, "1");
         }
         
         /// <summary>
         /// Activate data after transmitting ober Modbus
         /// </summary>
-        public async void ActivateData()
+        public void ActivateData()
         {
-            await Connection.WriteAsync(ModbusCommands.ControlWordActivateData, 1);
+            Connection.Write(ModbusCommands.ControlWordActivateData, "1");
         }
 
         /// <inheritdoc />
-        public async override void TareManually(double manualTareValue)
+        public override void TareManually(double manualTareValue)
         {
-            await Connection.WriteAsync(ModbusCommands.ControlWordTare, 1);
+            Connection.Write(ModbusCommands.ControlWordTare, "1");
         }
 
         /// <inheritdoc />
-        public async override void RecordWeight()
+        public override void RecordWeight()
         {
-            await Connection.WriteAsync(ModbusCommands.ControlWordRecordWeight, 1);
+            Connection.Write(ModbusCommands.ControlWordRecordWeight, "1");
         }
         #endregion
 
