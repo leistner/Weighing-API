@@ -64,7 +64,7 @@ namespace Hbm.Weighing.API.WTX
         /// <summary>
         /// Event handler to raise whenever new process data from the device is available
         /// </summary>
-        public event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
         #endregion
 
         #region =============== constructors & destructors =================
