@@ -109,7 +109,6 @@ namespace Hbm.Weighing.API.WTX.Jet
         private bool connected;
 
         public event EventHandler<LogEventArgs> CommunicationLog;
-        public event EventHandler<DataEventArgs> IncomingDataReceived;
         public event EventHandler<EventArgs> UpdateData;
 
         private int _mTimeoutMs;
@@ -230,11 +229,13 @@ namespace Hbm.Weighing.API.WTX.Jet
                 default:
                     break;               
             }
-           
-            this.ConvertJTokenToStringArray();
 
-            if (this.behavior != Behavior.ReadFail_DataReceived)
-                IncomingDataReceived?.Invoke(this, null /*new ProcessDataReceivedEventArgs(new ProcessData())*/);
+            if (IsConnected)
+            {
+                this.UpdateData?.Invoke(this, new EventArgs());
+            }
+
+            CommunicationLog?.Invoke(this, new LogEventArgs(index.ToString()));
 
             return _dataBuffer[index.ToString()];
             
@@ -327,21 +328,9 @@ namespace Hbm.Weighing.API.WTX.Jet
 
         public void FetchAll()
         {
-            //this.OnFetchData(this.simulateJTokenInstance("123", "add", 123));
-
             Matcher matcher = new Matcher();
             FetchId id;
-
-            _peer.Fetch(out id, matcher, OnFetchData, null, 500); // Onfetch = null (given by 'JetBusConnection'), timeoutms=500;
-
-            bool success = true;
-
-            this.ConvertJTokenToStringArray();
-
-            if (this.behavior != Behavior.ReadFail_DataReceived)                
-                IncomingDataReceived?.Invoke(this, null);
-
-            CommunicationLog?.Invoke(this, new LogEventArgs("Fetch-All success: " + success + " - buffersize is " + _dataBuffer.Count));            
+            _peer.Fetch(out id, matcher, OnFetchData, null, 500); // Onfetch = null (given by 'JetBusConnection'), timeoutms=500;         
         }
 
         protected virtual void WaitOne(int timeoutMultiplier = 1)
