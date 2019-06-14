@@ -535,12 +535,15 @@ namespace Hbm.Weighing.API.WTX.Jet
 
         public string ReadFromBuffer(object command)
         {
-            throw new NotImplementedException();
+            JetBusCommand jetcommand = (JetBusCommand)command;
+            return jetcommand.ToString(AllData[jetcommand.Path]);
         }
 
+        /// <inheritdoc />
         public int ReadIntegerFromBuffer(object command)
         {
-            throw new NotImplementedException();
+            JetBusCommand jetcommand = (JetBusCommand)command;
+            return jetcommand.ToSValue(AllData[jetcommand.Path]);
         }
 
         public void WriteSync(ushort wordNumber, ushort commandParam)

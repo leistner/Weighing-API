@@ -694,6 +694,8 @@ namespace GUIplc
                     dataGridView1.Rows[13].Cells[6].Value = _wtxDevice.ApplicationMode.ToString();
                     dataGridView1.Rows[14].Cells[6].Value = e.ProcessData.Decimals;
                     dataGridView1.Rows[15].Cells[6].Value = _wtxDevice.Unit;
+                    dataGridView1.Rows[16].Cells[6].Value = _wtxDevice.Connection.ReadFromBuffer(ModbusCommands.PLCComHandshake);
+                    dataGridView1.Rows[17].Cells[6].Value = _wtxDevice.Connection.ReadFromBuffer(ModbusCommands.PLCComStatus);
 
                     dataGridView1.Rows[18].Cells[6].Value = _wtxDevice.DataStandard.Input1;
                     dataGridView1.Rows[19].Cells[6].Value = _wtxDevice.DataStandard.Input2;

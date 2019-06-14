@@ -1,4 +1,5 @@
 ﻿using Hbm.Weighing.API;
+using Hbm.Weighing.API.Data;
 using Hbm.Weighing.API.WTX;
 using Hbm.Weighing.API.WTX.Jet;
 
@@ -15,9 +16,9 @@ namespace JetbusTest
     [TestFixture]
     public class CalibrationTests
     {
-        //private INetConnection _jetTestConnection;
-        //private WTXJet _wtxObj;
-        //private int testGrossValue;
+        private INetConnection _jetTestConnection;
+        private WTXJet _wtxObj;
+        private int testGrossValue;
 
 
         // Test case source for writing values to the WTX120 device: Taring 
@@ -63,15 +64,16 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,Update);
+            _wtxObj = new WTXJet(_jetTestConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
            
-            _wtxObj.AdjustNominalSignalWithAdjustmentWeight(15000);
+            _wtxObj.AdjustNominalSignalWithCalibrationWeight(15000);
 
-            if (_jetTestConnection.getDataBuffer.ContainsKey("6152/00") && _jetTestConnection.getDataBuffer.ContainsValue(15000) &&       // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
-                _jetTestConnection.getDataBuffer.ContainsKey("6002/01") && _jetTestConnection.getDataBuffer.ContainsValue(1852596579) &&  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
-                _jetTestConnection.getDataBuffer.ContainsKey("6002/02") && _jetTestConnection.getDataBuffer.ContainsValue(1801543519)
+            if (
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461CalibrationWeight) == 15000 &&       // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommand) == 1852596579 &&  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommandStatus) == 1801543519
                 )
 
                 return true;
@@ -91,23 +93,22 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,Update);
+            _wtxObj = new WTXJet(_jetTestConnection, 200,Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
             _wtxObj.AdjustZeroSignal();
 
             if (
-                _jetTestConnection.getDataBuffer.ContainsKey("6002/01") && _jetTestConnection.getDataBuffer.ContainsValue(2053923171) &&
-                _jetTestConnection.getDataBuffer.ContainsKey("6002/02") && _jetTestConnection.getDataBuffer.ContainsValue(1801543519)
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommand) == 2053923171 &&
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommandStatus) == 1801543519
                 )
                 return true;
 
             else
                 return false;
         }
-        */
-        /*
+        
         [Test, TestCaseSource(typeof(CalibrationTests), "CalibrationPreloadCapacityTestCases")]
         public bool CalibrationPreloadCapacityTest(Behavior behavior)
         {
@@ -123,7 +124,7 @@ namespace JetbusTest
 
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,Update);
+            _wtxObj = new WTXJet(_jetTestConnection,200,Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -136,8 +137,8 @@ namespace JetbusTest
             testIntNominalLoad = Convert.ToInt32(testdPreload);
 
             if (
-                _jetTestConnection.getDataBuffer.ContainsKey("2110/06") && _jetTestConnection.getDataBuffer.ContainsValue(testIntPreload) &&
-                _jetTestConnection.getDataBuffer.ContainsKey("2110/07") && _jetTestConnection.getDataBuffer.ContainsValue(testIntNominalLoad) 
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.LDWZeroValue) == testIntPreload &&
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.LWTNominalValue) == testIntNominalLoad
                 )
 
                 return true;
@@ -145,11 +146,12 @@ namespace JetbusTest
             else
                 return false;
         }
-        */
+        
 
         private void OnConnect(bool obj)
         {
             //Callback, do something ... 
         }
+        */
     }
 }
