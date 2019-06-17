@@ -41,9 +41,16 @@ namespace Hbm.Weighing.API
     /// </summary>
     public abstract class BaseWTDevice
     {
+        #region ==================== constants & fields ====================
 
         protected Timer _processDataTimer;
         private int _processDataInterval = 500;
+
+        #endregion
+
+        #region ==================== events & delegates ====================
+        public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        #endregion
 
         #region =============== constructors & destructors =================
         /// <summary>
