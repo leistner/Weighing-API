@@ -34,6 +34,7 @@ namespace HBM.Weighing.API
 
     /// <summary>
     /// Class containing extended data and functionality to BaseWtDevice.
+    /// It inherits from BaseWtdevice. Used by a Jetbus connection and application.
     /// </summary>
     public abstract class ExtendedWTDevice : BaseWTDevice
     {

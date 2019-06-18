@@ -219,7 +219,6 @@ namespace Hbm.Weighing.API.Data
             catch (KeyNotFoundException)
             {
                 Console.WriteLine("KeyNotFoundException in class DataFillerModbus, update method");
-                //_connection.CommunicationLog.Invoke(this, new LogEvent((new KeyNotFoundException()).Message));
             }
         }
         #endregion

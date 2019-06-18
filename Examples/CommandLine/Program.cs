@@ -40,19 +40,20 @@ namespace WTXModbus
     using Hbm.Weighing.API.WTX.Modbus;
 
     /// <summary>
-    /// This class implements a console application. An Object of the class 'ModbusTcpConnection' or 'JetBusConnection' and 'BaseWTDevice'('WTXJet' or WTXModbus') 
+    /// This class implements a console application. An Object of the class 'ModbusTcpConnection' or 'JetBusConnection' and 'BaseWTDevice'('WTXJet' or WTXModbus') or 'ExtendedBaseWtDevice'-
     /// are initialized as a publisher and subscriber. Afterwards a connection to the device is established and the timer/sending interval is set. 
-    /// A timer with for example 200ms is created. After 500ms an event is triggered, which executes the method "Update" reading the register of the device
+    /// A timer with for example 200ms is created. After the timer intercal an event is triggered, which executes the method "Update" reading the register of the device
     /// by an asynchronous call. 
-    /// The data is also printed on the console in the callback method "update". 
-    /// Being in the while-loop it is possible to select commands to the device. For example taring, change from gross to net value, stop dosing, zeroing and so on. 
+    /// The data is printed on the console in the callback method "Update". 
+    /// You can select commands to the device. For example taring, change from gross to net value, stop dosing, zeroing and so on. 
     /// 
     /// This is overall just a simple application as an example, but for starters it is recommended. 
     /// </summary>
 
     static class Program
     {
-        #region Locales
+
+        #region ==================== constants & fields ==================== 
         private const string DEFAULT_IP_ADDRESS = "192.168.100.88";
 
         private static ConnectionType connectiontype;
@@ -79,7 +80,7 @@ namespace WTXModbus
 
         #endregion
 
-        #region Define inputs & main function
+        #region ================ public & internal methods =================
         static void Main(string[] args)
         {
             // Input for the ip adress, the timer interval and the input mode: 
@@ -136,9 +137,7 @@ namespace WTXModbus
                 _timerInterval = 200;
 
         }
-        #endregion
 
-        #region Connection establishment
         // This method connects to the given IP address
         private static void InitializeConnection()
         {
@@ -188,9 +187,6 @@ namespace WTXModbus
 
         } // End method Connect() 
 
-        #endregion
-
-        #region menu cases
         private static void MenuCases()
         {
             // This while loop is repeated till the user enters 'e' (=e meaning exit). After the timer interval the register of the device is read out. 
@@ -251,7 +247,7 @@ namespace WTXModbus
         /*
          * This method calcutes the values for a dead load and a nominal load(span) in a ratio in mV/V and write in into the WTX registers. 
          */
-         
+      
         private static void CalculateCalibration()
         {
             _wtxDevice.Stop();
@@ -296,9 +292,7 @@ namespace WTXModbus
             _strCommaDot = _calibrationWeight.Replace(".", ","); // Transformation into a floating-point number.Thereby commas and dots can be used as input for the calibration weight.                         
             return double.Parse(_strCommaDot);                                                                                                                
         }
-        #endregion
 
-        #region callback
         // This method prints the values of the device (as a integer and the interpreted string) as well as the description of each bit. 
         private static void Update(object sender, ProcessDataReceivedEventArgs e)
         {
@@ -358,9 +352,7 @@ namespace WTXModbus
                 }
             }
         }
-        #endregion
 
-        #region comment methods
         private static string limitCommentMethod()
         {
             if (_wtxDevice.ProcessData.Overload)
@@ -392,5 +384,6 @@ namespace WTXModbus
 
         }
         #endregion
+
     }
 }

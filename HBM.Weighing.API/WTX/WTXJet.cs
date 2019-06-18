@@ -795,13 +795,11 @@ namespace Hbm.Weighing.API.WTX
                 ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
             }
         }
-        #endregion
 
-        #region ===
         private InputFunction IntToInputFunction(int inputMode)
         {
             InputFunction _result = InputFunction.Off;
-            switch (inputMode)                
+            switch (inputMode)
             {
                 case 0: _result = InputFunction.Off; break;
                 case 1: _result = InputFunction.Tare; break;
@@ -880,6 +878,7 @@ namespace Hbm.Weighing.API.WTX
             }
             return _result;
         }
+
         #endregion
     }
 }

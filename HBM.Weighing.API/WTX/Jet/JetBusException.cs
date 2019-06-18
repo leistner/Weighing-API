@@ -33,12 +33,20 @@ namespace Hbm.Weighing.API.WTX.Jet
     using System;
     using Newtonsoft.Json.Linq;
 
+    /// <summary>
+    /// Class for exception handling
+    /// </summary>
     public class JetBusException : Exception
     {
         #region ==================== constants & fields ====================
         private string message;
         #endregion
 
+        /// <summary>
+        /// Constructor defining the information of an exception by extracting the token (type JToken)
+        /// Information is error code and its message
+        /// </summary>
+        /// <param name="token"></param>
         #region =============== constructors & destructors =================
         public JetBusException(JToken token)
         {

@@ -16,9 +16,9 @@ namespace JetbusTest
     [TestFixture]
     public class CalibrationTests
     {
-        private INetConnection _jetTestConnection;
-        private WTXJet _wtxObj;
-        private int testGrossValue;
+        //private INetConnection _jetTestConnection;
+        //private WTXJet _wtxObj;
+        //private int testGrossValue;
 
 
         // Test case source for writing values to the WTX120 device: Taring 
