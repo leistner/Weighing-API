@@ -25,27 +25,17 @@ namespace JetbusTest
         private TestJetbusConnection _jetTestConnection;
         private WTXJet _wtxObj;
         private int _testInteger;
+        private double _testDouble;
         private bool _testBoolean;
 
 
         // Test case source for reading values from the WTX120 device. 
-        public static IEnumerable ReadGrossValueTestCases
+        public static IEnumerable NetGrossTareValuesTest
         {
             get
             {
-                yield return new TestCaseData(Behavior.ReadGrossValueFail).Returns(0);
-                yield return new TestCaseData(Behavior.ReadGrossValueSuccess).Returns(1);
-            }
-        }
-
-        // Test case source for reading values from the WTX120 device. 
-        public static IEnumerable ReadNetValueTestCases
-        {
-            get
-            {
-
-                yield return new TestCaseData(Behavior.ReadNetValueFail).Returns(0);
-                yield return new TestCaseData(Behavior.ReadNetValueSuccess).Returns(1);
+                yield return new TestCaseData(Behavior.NetGrossTareValues_Fail).Returns(false);
+                yield return new TestCaseData(Behavior.NetGrossTareValues_Success).Returns(true);
             }
         }
 
@@ -146,49 +136,24 @@ namespace JetbusTest
             _testBoolean = false;
         }
       
-        /*
-        [Test, TestCaseSource(typeof(ReadTests), "ReadGrossValueTestCases")]
-        public bool testReadGrossValue(Behavior behavior)
+        
+        [Test, TestCaseSource(typeof(ReadTests), "NetGrossTareValuesTest")]
+        public bool testNetGrossTareValues(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
             
-            _wtxObj.Connect(this.OnConnect, 100);        
-
-            _testInteger = _wtxObj.GrossValue;
-
-            //Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6144/00"));
-
-            
-            if (_jetTestConnection.getDataBuffer.ContainsKey("6144/00"))
-                return true;
-            else
-                if (_jetTestConnection.getDataBuffer.ContainsKey(""))
-                return false;
-            return false;
-           
-
-        }
-        */
-        /*
-        [Test, TestCaseSource(typeof(ReadTests), "ReadNetValueTestCases")]
-        public void testReadNetValue(Behavior behavior)
-        {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
-
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.NetValue;
+            _wtxObj.ProcessData.UpdateData(this, new EventArgs());
 
-            Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("601A/01"));
-
-            //Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("601A/01"));
+            if (_wtxObj.ProcessData.Weight.Net == 0.0011 && _wtxObj.ProcessData.Weight.Tare == 0.0011 && _wtxObj.ProcessData.Weight.Gross == 0)
+                return true;
+            else
+                return false;
         }
-        */
-
+              
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testWeightMovingValue(Behavior behavior)
         {
@@ -202,8 +167,7 @@ namespace JetbusTest
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
-
-        
+     
         private void OnConnect(bool obj)
         {
             throw new NotImplementedException();

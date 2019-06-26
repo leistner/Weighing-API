@@ -43,7 +43,7 @@ namespace GUIplc
     /// First, objects of class 'ModbusTcpConnection' and 'WTXModbus'(implements BaseWtDevice) are created to establish a connection and data transfer to the device. 
     /// Class 'ModbusTcpConnection' has the purpose to establish a connection, to read from the device (its register)
     /// and to write to the device. Class 'WTXModbus' processes data, creates a timer to read and update periodically the values of the WTX in a certain timer
-    /// interval given in the constructor of class 'WTXModbus'.class 'WTXModbus' manages the asynchronous data transfer to the GUI. The data is stored by a event-based 
+    /// interval given in the constructor of class 'WTXModbus'.Class 'WTXModbus' manages the asynchronous data transfer to the GUI. The data is stored by a event-based 
     /// call in the data classes, ProcessDataModbus, DataStandardModbus and DataFillerModbus f.e. .
     ///  
     /// This class 'GUI' represents a window or a dialog box that makes up the application's user interface for the values and their description of the device.
@@ -51,7 +51,7 @@ namespace GUIplc
     /// the datagrid is based on the manual (see page manual PLC link on page 154-161). 
     /// Futhermore the data is only displayed, if the values have changed to save reconstruction time on the GUI Form. 
     /// 
-    /// Beside a form the GUI could also be a console application by applying the API in program.cs instead of a windows form (see on Git "CommandLine").
+    /// Beside a form the GUI could also be a console application by applying the API in program.cs instead of a windows form.
     /// Therefore the design of the classes and its relations are seperated in 
     /// connection specific classes and interfaces (class ModbusTcpConnection, inherits from interface "INetConnection")
     /// and in a device specific class and in a device specific interface (class "WTXModbus", inherits from abstract class "BaseWtDevice").

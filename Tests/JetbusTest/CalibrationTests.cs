@@ -16,10 +16,8 @@ namespace JetbusTest
     [TestFixture]
     public class CalibrationTests
     {
-        //private INetConnection _jetTestConnection;
-        //private WTXJet _wtxObj;
-        //private int testGrossValue;
-
+        private INetConnection _jetTestConnection;
+        private WTXJet _wtxObj;
 
         // Test case source for writing values to the WTX120 device: Taring 
         public static IEnumerable CalibrationTestCases
@@ -57,23 +55,22 @@ namespace JetbusTest
         {
             //testGrossValue = 0;
         }
-    
-        /*
+   
         [Test, TestCaseSource(typeof(CalibrationTests), "CalibrationTestCases")]
         public bool CalibrationTest(Behavior behavior)
         {
+
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
            
-            _wtxObj.AdjustNominalSignalWithCalibrationWeight(15000);
-
+            _wtxObj.AdjustNominalSignalWithCalibrationWeight(1.5);
+            
             if (
                 _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461CalibrationWeight) == 15000 &&       // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
-                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommand) == 1852596579 &&  // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
-                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommandStatus) == 1801543519
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommand) == 1852596579          // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
                 )
 
                 return true;
@@ -88,6 +85,7 @@ namespace JetbusTest
             //throw new NotImplementedException();
         }
 
+        
         [Test, TestCaseSource(typeof(CalibrationTests), "MeasureZeroTestCases")]
         public bool MeasureZeroTest(Behavior behavior)
         {
@@ -98,10 +96,11 @@ namespace JetbusTest
             _wtxObj.Connect(this.OnConnect, 100);
 
             _wtxObj.AdjustZeroSignal();
-
+            
             if (
-                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommand) == 2053923171 &&
-                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommandStatus) == 1801543519
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommand) == 2053923171  &&
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461GrossValue) == 0 &&
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461NetValue) == 0
                 )
                 return true;
 
@@ -134,7 +133,7 @@ namespace JetbusTest
             testdNominalLoad = testdPreload + (capacity * multiplierMv2D);
 
             testIntPreload = Convert.ToInt32(testdPreload);
-            testIntNominalLoad = Convert.ToInt32(testdPreload);
+            testIntNominalLoad = Convert.ToInt32(testdNominalLoad);
 
             if (
                 _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.LDWZeroValue) == testIntPreload &&
@@ -147,11 +146,10 @@ namespace JetbusTest
                 return false;
         }
         
-
         private void OnConnect(bool obj)
         {
             //Callback, do something ... 
         }
-        */
+        
     }
 }

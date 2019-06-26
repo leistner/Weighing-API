@@ -42,7 +42,7 @@ namespace WTXModbus
     /// <summary>
     /// This class implements a console application. An Object of the class 'ModbusTcpConnection' or 'JetBusConnection' and 'BaseWTDevice'('WTXJet' or WTXModbus') or 'ExtendedBaseWtDevice'-
     /// are initialized as a publisher and subscriber. Afterwards a connection to the device is established and the timer/sending interval is set. 
-    /// A timer with for example 200ms is created. After the timer intercal an event is triggered, which executes the method "Update" reading the register of the device
+    /// A timer with for example 200ms is created. After the timer interval an event is triggered, which executes the method "Update" reading the register of the device
     /// by an asynchronous call. 
     /// The data is printed on the console in the callback method "Update". 
     /// You can select commands to the device. For example taring, change from gross to net value, stop dosing, zeroing and so on. 

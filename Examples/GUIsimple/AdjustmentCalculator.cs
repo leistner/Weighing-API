@@ -26,7 +26,7 @@ namespace GUIsimple
 {
     /// <summary>
     /// This class provides a window to perform a calibration without a calibration weight,
-    /// based on know values for dead load and nominal load in mV/V
+    /// based on known values for dead load and nominal load in mV/V
     /// </summary>
     public partial class AdjustmentCalculator : Form
     {

@@ -1,5 +1,6 @@
 ﻿
 using Hbm.Weighing.API;
+using Hbm.Weighing.API.Data;
 using Hbm.Weighing.API.WTX;
 using Hbm.Weighing.API.WTX.Jet;
 
@@ -60,13 +61,15 @@ namespace JetbusTest
             //testGrossValue = 0;
         }
 
-        /*
+        private TestJetbusConnection _jetTestConnection;
+        private WTXJet _wtxObj;
+
         [Test, TestCaseSource(typeof(WriteTests), "WriteTareTestCases")]
         public bool WriteTareTest(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 200, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
           
@@ -85,12 +88,11 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 200, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
             _wtxObj.SetGross();     // Write in index(address) "6002/01" value 1936683623
-
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("6002/01") && _jetTestConnection.getDataBuffer.ContainsValue(1936683623))
                 return true;
@@ -100,16 +102,12 @@ namespace JetbusTest
 
         }
 
-        private void update(object sender, ProcessDataReceivedEventArgs e)
-        {
-        }
-
         [Test, TestCaseSource(typeof(WriteTests), "WriteZeroTestCases")]
         public bool WriteZeroTest(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 200, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -122,7 +120,12 @@ namespace JetbusTest
                 return false;          
 
         }
-        */
+
+        private void update(object sender, ProcessDataReceivedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         private void OnConnect(bool obj)
         {
         }
