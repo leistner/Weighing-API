@@ -32,6 +32,10 @@ namespace Hbm.Weighing.API.WTX.Jet
 {
     using System;
 
+    /// <summary>
+    /// Class to define the frame specifing data type, path, bit offset(for bit addressing) of the data to be read or write via the jet ethernet interface.
+    /// A frame consists of a datatype, path, bit index, bit length.
+    /// </summary>
     public class JetBusCommand
     {
         #region =============== constructors & destructors =================
@@ -143,6 +147,11 @@ namespace Hbm.Weighing.API.WTX.Jet
         #endregion
 
         #region =============== protected & private methods ================
+        /// <summary>
+        /// Masks and shifts the integer value to get a specific bit according to bit length and bit index
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         private int ExtractBit(int input)
         {
             int _bitMask = 0;

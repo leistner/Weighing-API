@@ -75,9 +75,9 @@ namespace Hbm.Weighing.API.Data
         /// <param name="gross">Gross value</param>
         public void Update(double net, double gross)
         {
-            Net = net;
+            Net   = net;
             Gross = gross;
-            Tare = net - gross;
+            Tare  = net - gross;
         }
 
         #endregion

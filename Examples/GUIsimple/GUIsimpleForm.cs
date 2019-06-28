@@ -28,10 +28,6 @@
 //
 // </copyright>
 
-/// <summary>
-/// This application example demonstrates the usage of HBM Weighing-API.
-/// It shows how to connect a WTX device via Modbus and Jetbus, how to get weight values and how to adjust the scale.
-/// </summary>
 namespace GUIsimple
 {
     using System;
@@ -42,9 +38,14 @@ namespace GUIsimple
     using Hbm.Weighing.API.WTX.Jet;
     using Hbm.Weighing.API.WTX.Modbus;
 
+    /// <summary>
+    /// This application example demonstrates the usage of HBM Weighing-API.
+    /// It shows how to connect a WTX device via Modbus and Jetbus, how to get weight values, to calibrate and how to adjust the scale.
+    /// </summary>
     public partial class GUIsimpleForm : Form
     {
         #region ==================== constants & fields ====================
+
         private const string DEFAULT_IP_ADDRESS = "192.168.100.88";
         private const string MESSAGE_CONNECTION_FAILED = "Connection failed!";
         private const string MESSAGE_CONNECTING = "Connecting...";
@@ -56,9 +57,15 @@ namespace GUIsimple
         private FunctionIO _functionIOForm;
         private string _ipAddress = DEFAULT_IP_ADDRESS;
         private int _timerInterval = 200;
+
         #endregion
         
         #region =============== constructors & destructors =================
+
+        /// <summary>
+        /// Constructor of GUIsimpleForm
+        /// </summary>
+        /// <param name="args">Parameter from command line</param>
         public GUIsimpleForm(string[] args)
         {
             InitializeComponent();
@@ -72,7 +79,7 @@ namespace GUIsimple
         #region =============== protected & private methods ================
 
         /// <summary>
-        /// How to connect
+        /// Initialze a Jetbus or Modbus/Tcp connection, creates objects of INetConnection derivations, BaseWtDevice derivations
         /// </summary>
         private void InitializeConnection()
         {
@@ -192,13 +199,21 @@ namespace GUIsimple
                 this._timerInterval = Convert.ToInt32(args[2]);
         }
 
+        /// <summary>
+        /// Displays the string, the measured values, unit etc. 
+        /// </summary>
+        /// <param name="text"></param>
         private void DisplayText(string text)
         {
             txtInfo.Text = text;
             Application.DoEvents();
         }
         
-        //Connect device
+        /// <summary>
+        /// Connects to wtx device
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmdConnect_Click(object sender, EventArgs e)
         {
             if (_wtxDevice != null)
@@ -212,19 +227,31 @@ namespace GUIsimple
             this.InitializeConnection();          
         }
 
-        // button click event for switching to gross or net value. 
+        /// <summary>
+        /// button click event for switching to gross or net value. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmdGrossNet_Click(object sender, EventArgs e)
         {
                 _wtxDevice.SetGross();
         }
 
-        // button click event for zeroing
+        /// <summary>
+        /// button click event for zeroing
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmdZero_Click(object sender, EventArgs e)
         {
                 _wtxDevice.Zero();
         }
 
-        // button click event for taring 
+        /// <summary>
+        /// button click event for taring 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmdTare_Click(object sender, EventArgs e)
         {
             _wtxDevice.Tare();
@@ -239,8 +266,12 @@ namespace GUIsimple
                 DialogResult res = _adjustmentCalculator.ShowDialog();
             }
         }
-        
-        //Method for adjustment with weight: 
+
+        /// <summary>
+        /// Adjustment with weight
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void calibrationToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             if (_wtxDevice != null)
@@ -250,7 +281,11 @@ namespace GUIsimple
             }
         }
 
-        // Toolstrip Click Event for Digital IO : Input & Output
+        /// <summary>
+        /// Toolstrip Click Event for Digital IO funcion settings: Input & Output functions
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             if (_wtxDevice != null)
@@ -330,6 +365,11 @@ namespace GUIsimple
             }
         }
 
+        /// <summary>
+        /// To log and show the messages and frames send via the connection interface (via Modbus/Tcp or a jet ethernet interface)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Logger(object sender, EventArgs e)
         {
             if (toolStripButtonLog.Checked)

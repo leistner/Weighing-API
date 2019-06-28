@@ -33,14 +33,24 @@ namespace GUIsimple
     using System;
     using System.Windows.Forms;
     using Hbm.Weighing.API;
+
     /// <summary>
     /// A form to select IO input and output functions listed in a checkedlistbox
     /// </summary>
     public partial class FunctionIO : Form
     {
+        #region ==================== constants & fields ====================
+
         public EventHandler<IOFunctionEventArgs> ReadButtonClicked_IOFunctions;
         public EventHandler<IOFunctionEventArgs> WriteButtonClicked_IOFunctions;
 
+        #endregion
+
+        #region =============== constructors & destructors =================
+
+        /// <summary>
+        /// Constructor of FunctionIO. Sets the eventHandler of the checked lists to ItemCheck_methods, adds initial values.
+        /// </summary>
         public FunctionIO()
         {
             InitializeComponent();
@@ -65,8 +75,18 @@ namespace GUIsimple
                 checkedListOutputIO3.Items.Add(e.ToString(), false);
                 checkedListOutputIO4.Items.Add(e.ToString(), false);
             }
-        }      
-        // Button Read : 
+        }
+
+        #endregion
+
+        #region ==================== events & delegates ====================
+
+        /// <summary>
+        /// Gets the input and output functions. Used in instances of the enums 'OutputFunction', 'InputFunction'. 
+        /// Triggers the event to commit the values (output, input functions) to the eventHandler in GuiSimpleForm.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button1_Click(object sender, EventArgs e)
         {
             OutputFunction Out1 = (OutputFunction)checkedListOutputIO1.SelectedIndex;
@@ -81,7 +101,13 @@ namespace GUIsimple
 
             this.Close();
         }
-        // Button Write :
+
+        /// <summary>
+        /// Sets the input and output functions. Used in instances of the enums 'OutputFunction', 'InputFunction'. 
+        /// Triggers the event to commit the values (output, input functions) to the eventHandler in GuiSimpleForm.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void button2_Click(object sender, EventArgs e)
         {
             OutputFunction Out1 = (OutputFunction)checkedListOutputIO1.SelectedIndex;
@@ -97,6 +123,11 @@ namespace GUIsimple
             this.Close();
         }
 
+        /// <summary>
+        /// Sets the input function of checkList 1 to the event argument InputArg
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="InputArg"></param>
         private void checkedListInputIO1_ItemCheck(object sender, ItemCheckEventArgs InputArg)
         {
             if (checkedListInputIO1.CheckedItems.Count >= 1 && InputArg.CurrentValue != CheckState.Checked)
@@ -105,6 +136,12 @@ namespace GUIsimple
                 MessageBox.Show("You can only check one item in one box");
             }
         }
+
+        /// <summary>
+        /// Sets the input function of checkList 2 to the event argument InputArg
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="InputArg"></param>
         private void checkedListInputIO2_ItemCheck(object sender, ItemCheckEventArgs InputArg)
         {
             if (checkedListInputIO2.CheckedItems.Count >= 1 && InputArg.CurrentValue != CheckState.Checked)
@@ -113,6 +150,12 @@ namespace GUIsimple
                 MessageBox.Show("You can only check one item in one box");
             }
         }
+
+        /// <summary>
+        /// Sets the output function of checkList 1 to the event argument OutputArg
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="OutputArg"></param>
         private void checkedListOutputIO1_ItemCheck(object sender, ItemCheckEventArgs OutputArg)
         {
             if (checkedListOutputIO1.CheckedItems.Count >= 1 && OutputArg.CurrentValue != CheckState.Checked)
@@ -121,6 +164,12 @@ namespace GUIsimple
                 MessageBox.Show("You can only check one item in one box");
             }
         }
+
+        /// <summary>
+        /// Sets the output function of checkList 2 to the event argument OutputArg
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="OutputArg"></param>
         private void checkedListOutputIO2_ItemCheck(object sender, ItemCheckEventArgs OutputArg)
         {
             if (checkedListOutputIO2.CheckedItems.Count >= 1 && OutputArg.CurrentValue != CheckState.Checked)
@@ -129,6 +178,12 @@ namespace GUIsimple
                 MessageBox.Show("You can only check one item in one box");
             }
         }
+
+        /// <summary>
+        /// Sets the output function of checkList 3 to the event argument OutputArg
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="OutputArg"></param>
         private void checkedListOutputIO3_ItemCheck(object sender, ItemCheckEventArgs OutputArg)
         {
             if (checkedListOutputIO3.CheckedItems.Count >= 1 && OutputArg.CurrentValue != CheckState.Checked)
@@ -137,6 +192,12 @@ namespace GUIsimple
                 MessageBox.Show("You can only check one item in one box");
             }
         }
+
+        /// <summary>
+        /// Sets the output function of checkList 4 to the event argument OutputArg
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="OutputArg"></param>
         private void checkedListOutputIO4_ItemCheck(object sender, ItemCheckEventArgs OutputArg)
         {
             if (checkedListOutputIO4.CheckedItems.Count >= 1 && OutputArg.CurrentValue != CheckState.Checked)
@@ -168,5 +229,8 @@ namespace GUIsimple
         {
 
         }
+
+        #endregion
+
     }
 }

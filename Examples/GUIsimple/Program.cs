@@ -32,11 +32,11 @@ using System.Windows.Forms;
 
 namespace GUIsimple
 {
+    /// <summary>
+    /// Main entry point for the application
+    /// </summary>
     static class Program
     {
-        /// <summary>
-        /// Main entry point for the application
-        /// </summary>
         [STAThread]
         static void Main(string[] args)
         {

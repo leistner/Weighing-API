@@ -8,16 +8,23 @@ using System.Threading.Tasks;
 namespace GUIsimple
 {
     /// <summary>
-    /// Event argument for the selected input and output function. Used by the event ''.
+    /// Event argument for the selected input and output function.
     /// </summary>
     public class IOFunctionEventArgs : EventArgs
     {
+
+        #region ==================== constants & fields ====================
+
         private OutputFunction _out1;
         private OutputFunction _out2;
         private OutputFunction _out3;
         private OutputFunction _out4;
         private InputFunction _in1;
         private InputFunction _in2;
+
+        #endregion
+
+        #region =============== constructors & destructors =================
 
         public IOFunctionEventArgs(OutputFunction Out1, OutputFunction Out2, OutputFunction Out3, OutputFunction Out4, InputFunction In1, InputFunction In2)
         {
@@ -29,6 +36,11 @@ namespace GUIsimple
             _in1 = In1;
             _in2 = In2;
         }
+
+        #endregion
+
+        #region ======================== properties ========================
+
         public OutputFunction FunctionOutputIO1
         {
             get
@@ -95,6 +107,8 @@ namespace GUIsimple
                 _in2 = value;
             }
         }
+
+        #endregion
 
     }
 }

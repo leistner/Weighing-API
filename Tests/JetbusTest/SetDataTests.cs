@@ -17,7 +17,7 @@ namespace JetbusTest
 {
     // Class for testing the set properties the class WTXJet:
     [TestFixture]
-    public class SetTests
+    public class SetDataTests
     {
 
         // Test case source for writing values to the WTX120 device : Zeroing
@@ -35,26 +35,25 @@ namespace JetbusTest
         {
         }
 
-        /*
-        [Test, TestCaseSource(typeof(SetTests), "setTests")]
+        
+        [Test, TestCaseSource(typeof(SetDataTests), "setTests")]
         public bool SetActivationTimeTest(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            TestJetbusConnection _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,update);
+            WTXJet _wtxObj = new WTXJet(_jetTestConnection, 200, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.DataStandard.LimitSwitch1Source = 10000;
-            _wtxObj.DataStandard.LimitSwitch2Source = 10001;
-            _wtxObj.DataStandard.LimitSwitch3Source = 10010;
-            _wtxObj.DataStandard.LimitSwitch4Source = 10100;
+            
+            _wtxObj.DataStandard.LimitSwitch1Source = LimitSwitchSource.Gross;
+            _wtxObj.DataStandard.LimitSwitch2Source = LimitSwitchSource.Net;
+            _wtxObj.DataStandard.LimitSwitch3Source = LimitSwitchSource.Gross;
+            _wtxObj.DataStandard.LimitSwitch4Source = LimitSwitchSource.Net;
 
-            ((IDataFillerExtended)_wtxObj.DataFiller).ActivationTimeAfterFineFlow = 1;
             ((IDataFillerExtended)_wtxObj.DataFiller).CoarseFlowMonitoring = 10;
             ((IDataFillerExtended)_wtxObj.DataFiller).CoarseFlowMonitoringTime = 101;
             ((IDataFillerExtended)_wtxObj.DataFiller).CoarseLockoutTime = 110;
-            ((IDataFillerExtended)_wtxObj.DataFiller).DelayTimeAfterFineFlow = 111;
             ((IDataFillerExtended)_wtxObj.DataFiller).EmptyingMode = 1000;
             ((IDataFillerExtended)_wtxObj.DataFiller).EmptyWeight = 1001;
             ((IDataFillerExtended)_wtxObj.DataFiller).FineFlowMonitoring = 1011;
@@ -62,10 +61,8 @@ namespace JetbusTest
             ((IDataFillerExtended)_wtxObj.DataFiller).FineLockoutTime = 1111;
 
             ((IDataFillerExtended)_wtxObj.DataFiller).LowerToleranceLimit = 11000;
-            ((IDataFillerExtended)_wtxObj.DataFiller).MaximumDosingTime = 11001;
             ((IDataFillerExtended)_wtxObj.DataFiller).MinimumFineFlow = 11001;
             ((IDataFillerExtended)_wtxObj.DataFiller).MinimumStartWeight = 11010;
-            ((IDataFillerExtended)_wtxObj.DataFiller).OptimizationOfCutOffPoints = 11100;
             ((IDataFillerExtended)_wtxObj.DataFiller).ResidualFlowTime = 11101;
             ((IDataFillerExtended)_wtxObj.DataFiller).SystematicDifference = 11110;
             ((IDataFillerExtended)_wtxObj.DataFiller).TareDelay = 11111;
@@ -91,6 +88,6 @@ namespace JetbusTest
         {
             throw new NotImplementedException();
         }
-        */
+        
     }
 }

@@ -36,22 +36,31 @@ using System.Windows.Forms;
 
 namespace GUIsimple
 {
-    // This class provides a window to calibrate the WTX with a calibration weight.
-    // First ´the dead load is measured and after that the calibration weight is measured.
-    // You can step back with button2 (Back).
-
+    /// <summary>
+    /// This class provides a window to calibrate the WTX with a calibration weight.
+    /// First the dead load is set and second the calibration weight is set by the application.
+    /// You can step back with button2.
+    /// </summary>
     public partial class AdjustmentWeigher : Form
     {
+
+        #region ==================== constants & fields ==================== 
+
         private BaseWTDevice _wtxDevice;
         private int _state = 0;
         
         private double _calibrationWeight = 0.0;
-        private int _wtxDeviceDecimals = 1;
-
-        private double potency, expCalibrationWeight;
+        private int _wtxDeviceDecimals = 1;      
         private string _calibrationWeightWithComma;
 
-        // Constructor of class WeightCalibration: 
+        #endregion
+
+        #region =============== constructors & destructors =================
+
+        /// <summary>
+        /// Constructor of class WeightCalibration
+        /// </summary>
+        /// <param name="wtxDevice"></param>
         public AdjustmentWeigher(BaseWTDevice wtxDevice)
         {
             this._wtxDevice = wtxDevice;
@@ -74,7 +83,16 @@ namespace GUIsimple
             txtInfo.Text = "Enter a calibration weight";
         }
 
+        #endregion
 
+        #region ================ public & internal methods =================
+
+        /// <summary>
+        /// Finite state machine to go through the calibration process having 3 states 
+        /// State 0 : Start
+        /// State 1 : Adjust/set zero 
+        /// State 2 : Do calibration/Write calibration weight to WTX
+        /// </summary>
         private void AdjustmentStateMachine()
         {
 
@@ -108,7 +126,7 @@ namespace GUIsimple
                     _state = 1;
                     break;
 
-                case 1: // measure zero
+                case 1: // Adjust/set zero
 
                     txtInfo.Text = "Adjusting zero in progess.";
                     Application.DoEvents(); 
@@ -121,7 +139,7 @@ namespace GUIsimple
 
                     break;
 
-                case 2: // start calibration   
+                case 2: // Do calibration/Write calibration weight to WTX 
 
                     txtInfo.Text = "Calibration in progress.";
                     Application.DoEvents();            
@@ -141,12 +159,18 @@ namespace GUIsimple
                     Close();
                     break;
             }
-        } 
+        }
 
+        #endregion
 
-        // Calls the correct method depending on the current calibration state "State" and 
-        // adapts respectively the text on the button "Start".
-        // The states are start, measure zero, measure calibration weight, close.
+        #region ==================== events & delegates ====================
+
+        /// <summary>
+        /// Calls the correct method depending on the current calibration state "State" and 
+        /// adapts respectively the text on the button "Start".
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmdAdjust_Click(object sender, EventArgs e)
         {
             cmdAdjust.Enabled = false;
@@ -157,18 +181,12 @@ namespace GUIsimple
             cmdAdjust.Enabled = true;
             this.Cursor = Cursors.Default;
         }
-        
 
-        private int CalibrationWeightWithoutDecimals()
-        {
-            potency = Math.Pow(10, _wtxDevice.ProcessData.Decimals);
-
-            expCalibrationWeight = _calibrationWeight * potency;
-
-            return (int) expCalibrationWeight;   
-        }
-
-        // Limits the input of the textbox to digits, ',' and '.'
+        /// <summary>
+        /// Limits the input of the textbox to digits, ',' and '.'
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void txtCakibrationWeight_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsDigit(e.KeyChar) || Char.IsControl(e.KeyChar) || e.KeyChar == '.' || e.KeyChar == ',')
@@ -181,8 +199,12 @@ namespace GUIsimple
             }
         }
 
-        // Choose the action of the cancel/back button, depending on the current
-        // calibration state
+        /// <summary>
+        /// Choose the action of the cancel/back button, depending on the current
+        /// calibration state
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cmdCancel_Click(object sender, EventArgs e)
         {
             switch (_state)
@@ -214,5 +236,8 @@ namespace GUIsimple
         {
 
         }
+
+        #endregion
+
     }
 }

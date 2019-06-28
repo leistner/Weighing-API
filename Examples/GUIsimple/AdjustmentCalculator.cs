@@ -24,10 +24,15 @@ using Hbm.Weighing.API;
 
 namespace GUIsimple
 {
-    // This class provides a window to perform a calibration without a calibration weight,
-    // based on know values for dead load and nominal load in mV/V
+    /// <summary>
+    /// This class provides a window to perform a calibration without a calibration weight,
+    /// based on known values for dead load and nominal load in mV/V
+    /// </summary>
     public partial class AdjustmentCalculator : Form
     {
+        
+        #region ==================== constants & fields ==================== 
+
         private BaseWTDevice _wtxDevice;
 
         private bool _finished;
@@ -36,8 +41,15 @@ namespace GUIsimple
         private IFormatProvider _provider;
         private const double MULTIPLIER_MV2_D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)
         private string _strCommaDot;
-              
-        // Constructor of class 'CalcCalibration' : 
+
+        #endregion
+
+        #region =============== constructors & destructors =================
+
+        /// <summary>
+        /// Constructor of class 'CalcCalibration' : Initialze values
+        /// </summary>
+        /// <param name="wtxDevice"></param>
         public AdjustmentCalculator(BaseWTDevice wtxDevice)
         { 
             this._wtxDevice = wtxDevice;
@@ -61,8 +73,16 @@ namespace GUIsimple
             }
         }
 
-        // Checks the input values of the textboxes and start the calibration calculation.
-        // If the caluclation is finished, the window can be closed with the button.
+        #endregion
+
+        #region ==================== events & delegates ====================
+
+        /// <summary>
+        /// Checks the input values of the textboxes and start the calibration calculation.
+        /// If the caluclation is finished, the window can be closed with the button.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void buttonCalculate_Click(object sender, EventArgs e)
         {
             if (!_finished)
@@ -118,7 +138,11 @@ namespace GUIsimple
             }
         }
 
-        // Limits the input of the textbox 1/2 to digits, ',' and '.'
+        /// <summary>
+        /// Limits the input of the textbox 1/2 to digits, ',' and '.'
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (Char.IsDigit(e.KeyChar) || Char.IsControl(e.KeyChar) || e.KeyChar == '.' || e.KeyChar == ',')
@@ -130,6 +154,8 @@ namespace GUIsimple
                 e.Handled = true;
             }
         }
+
+        #endregion
 
     }
 }
