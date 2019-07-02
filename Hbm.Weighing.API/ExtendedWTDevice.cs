@@ -65,7 +65,9 @@ namespace HBM.Weighing.API
         public abstract int ProductCode { get; }
 
         public abstract int SerialNumber { get; }
-        
+
+        public abstract int MaximumCapacity { get; set; }
+
         public abstract int WeightStep { get; set; }
 
         public abstract int LocalGravityFactor { get; set; }

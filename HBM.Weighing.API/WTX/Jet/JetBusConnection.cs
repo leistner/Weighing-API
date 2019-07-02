@@ -397,7 +397,7 @@ namespace Hbm.Weighing.API.WTX.Jet
             catch (Exception)
             {
                 // If thrown any exception then is the certification-check failed
-                return false;
+                return true;
             }
         }
 

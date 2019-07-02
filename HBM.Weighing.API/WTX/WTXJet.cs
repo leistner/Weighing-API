@@ -358,6 +358,20 @@ namespace Hbm.Weighing.API.WTX
         }
 
         /// <inheritdoc />
+        public override int MaximumCapacity
+        {
+            get
+            {
+                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleMaximumCapacity);
+            }
+
+            set
+            {
+                Connection.WriteInteger(JetBusCommands.CIA461ScaleMaximumCapacity, value);
+            }
+        }
+
+        /// <inheritdoc />
         public override int WeightStep
         {
             get
