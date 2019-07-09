@@ -38,7 +38,7 @@ namespace Hbm.Weighing.API.WTX.Modbus
     using NModbus;
 
     /// <summary>
-    /// This class holda a connection via Modbus/TCP,  starts/ends the connection, reads/writes and buffers data.
+    /// This class holds a connection via Modbus/TCP,  starts/ends the connection, reads/writes and buffers data.
     /// </summary>
     public class ModbusTCPConnection : INetConnection
     {

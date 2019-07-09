@@ -22,11 +22,8 @@ namespace Hbm.Weighing.API.WTX.Jet
         DisconnectionFail,
         DisconnectionSuccess,
 
-        ReadGrossValueFail,
-        ReadGrossValueSuccess,
-
-        ReadNetValueFail,
-        ReadNetValueSuccess,
+        NetGrossTareValues_Fail,
+        NetGrossTareValues_Success,
 
         ReadFail_WEIGHING_DEVICE_1_WEIGHT_STATUS,
         ReadSuccess_WEIGHING_DEVICE_1_WEIGHT_STATUS,
@@ -76,6 +73,9 @@ namespace Hbm.Weighing.API.WTX.Jet
         lb_UnitValue_Fail,
         lb_UnitValue_Success,
 
+        N_UnitValue_Fail,
+        N_UnitValue_Success,
+
         NetGrossValueStringComment_4D_Fail,
         NetGrossValueStringComment_4D_Success,
 
@@ -91,8 +91,10 @@ namespace Hbm.Weighing.API.WTX.Jet
         ReadFail_Attributes,
         ReadSuccess_Attributes,
 
-        StatusStringComment_Fail,
-        StatusStringComment_Success,
+        LimitValues_WeightWithinLimits,
+        LimitValues_Underload,
+        LimitValues_Overload,
+        LimitValues_HigherSafeLoadLimit,
 
         ReadFail_DataReceived,
         ReadSuccess_DataReceived,
@@ -259,8 +261,6 @@ namespace Hbm.Weighing.API.WTX.Jet
         {
             get
             {
-                //this.FetchAll();
-
                 Dictionary<string, string> newDict = new Dictionary<string, string>();
 
                 foreach (var element in _dataBuffer)
@@ -481,7 +481,6 @@ namespace Hbm.Weighing.API.WTX.Jet
             throw new NotImplementedException();
         }
         
-
         public JToken simulateJTokenInstance(string pathParam, string eventParam, int data)
         {
 
@@ -535,12 +534,82 @@ namespace Hbm.Weighing.API.WTX.Jet
 
         public string ReadFromBuffer(object command)
         {
-            throw new NotImplementedException();
+            this.DoHandshake();
+
+            switch (this.behavior)
+            {
+                case Behavior.t_UnitValue_Success:
+                    _dataBuffer["6015/01"] = Convert.ToString(0x004C0000);  // Unit, prefix or fixed parameters - for unit 't'.
+                    break;
+                case Behavior.kg_UnitValue_Success:
+                    _dataBuffer["6015/01"] = Convert.ToString(0x00020000);  // Unit, prefix or fixed parameters - for unit 'kg'.
+                    break;
+                case Behavior.g_UnitValue_Success:
+                    _dataBuffer["6015/01"] = Convert.ToString(0x004B0000);  // Unit, prefix or fixed parameters - for unit 'g'.
+                    break;
+                case Behavior.lb_UnitValue_Success:
+                    _dataBuffer["6015/01"] = Convert.ToString(0X00A60000);  // Unit, prefix or fixed parameters - for unit 'lb'.
+                    break;
+                case Behavior.N_UnitValue_Success:
+                    _dataBuffer["6015/01"] = Convert.ToString(0x00210000);  // Read Unit, prefix or fixed parameters - for unit 'N'.
+                    break;
+
+                case Behavior.LimitValues_WeightWithinLimits:
+                    _dataBuffer["6012/01"] = Convert.ToString(0x00);
+                    break;
+                case Behavior.LimitValues_Underload:
+                    _dataBuffer["6012/01"] = Convert.ToString(0x4);  // For limit values
+                    break;
+                case Behavior.LimitValues_Overload:
+                    _dataBuffer["6012/01"] = Convert.ToString(0x8);
+                    break;
+                case Behavior.LimitValues_HigherSafeLoadLimit:
+                    _dataBuffer["6012/01"] = Convert.ToString(0xC); 
+                    break;
+                case Behavior.NetGrossTareValues_Success:
+                    _dataBuffer["601A/01"] = Convert.ToString(11);
+                    break;
+
+                default:
+                    _dataBuffer["6015/01"] = Convert.ToString(0x00);  // Unit, prefix or fixed parameters - for default value 
+                    _dataBuffer["601A/01"] = Convert.ToString(0);
+                    break;
+            }
+
+            JetBusCommand jetcommand = (JetBusCommand)command;
+                 
+            return jetcommand.ToString(AllData[jetcommand.Path]);
         }
 
+        /// <inheritdoc />
         public int ReadIntegerFromBuffer(object command)
+        {       
+            JetBusCommand jetcommand = (JetBusCommand)command;
+
+            return jetcommand.ToSValue(AllData[jetcommand.Path]);
+        }
+
+        private int state = 0;
+
+        private void DoHandshake()
         {
-            throw new NotImplementedException();
+            if (this.behavior == Behavior.CalibrationSuccess || this.behavior == Behavior.CalibrationFail || this.behavior == Behavior.MeasureZeroSuccess || this.behavior == Behavior.MeasureZeroFail)
+            {
+                switch(state)
+                {
+                    case 0:
+                        if (_dataBuffer.ContainsValue(1801543519))
+                            _dataBuffer["6002/02"] = 1634168417;  // = command 'on go', in exection.
+                        state = 1;
+                        break;
+
+                    case 1:
+                        if (_dataBuffer.ContainsValue(1634168417))
+                            _dataBuffer["6002/02"] = 1801543519;  // = command ok, done. 
+                        state = 0;
+                        break;
+                }
+            }
         }
 
         public void WriteSync(ushort wordNumber, ushort commandParam)
@@ -549,3 +618,4 @@ namespace Hbm.Weighing.API.WTX.Jet
         }
     }
 }
+ 

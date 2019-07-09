@@ -64,7 +64,7 @@ namespace Hbm.Weighing.API.WTX
         /// <summary>
         /// Event handler to raise whenever new process data from the device is available
         /// </summary>
-        public event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
         #endregion
 
         #region =============== constructors & destructors =================
@@ -782,12 +782,13 @@ namespace Hbm.Weighing.API.WTX
             Connection.WriteInteger(JetBusCommands.CIA461CalibrationWeight, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));
 
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
-
+           
+            
             while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
             }
-
+            
             while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) == SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(100);
@@ -809,13 +810,11 @@ namespace Hbm.Weighing.API.WTX
                 ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
             }
         }
-        #endregion
 
-        #region ===
         private InputFunction IntToInputFunction(int inputMode)
         {
             InputFunction _result = InputFunction.Off;
-            switch (inputMode)                
+            switch (inputMode)
             {
                 case 0: _result = InputFunction.Off; break;
                 case 1: _result = InputFunction.Tare; break;
@@ -894,6 +893,7 @@ namespace Hbm.Weighing.API.WTX
             }
             return _result;
         }
+
         #endregion
     }
 }

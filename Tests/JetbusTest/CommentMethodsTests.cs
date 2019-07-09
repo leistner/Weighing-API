@@ -42,15 +42,15 @@ namespace JetbusTest
         private TestJetbusConnection _jetTestConnection;
         private WTXJet _wtxObj;
 
-        //private int value;
-
+        private string value;
+        
         // Test case source for reading values from the WTX120 device. 
         public static IEnumerable T_UnitValueTestCases
         {
             get
             {
-                //yield return new TestCaseData(Behavior.t_UnitValue_Fail).ExpectedResult = "";
-                yield return new TestCaseData(Behavior.t_UnitValue_Success).ExpectedResult = "t";
+                yield return new TestCaseData(Behavior.t_UnitValue_Fail).Returns(false);
+                yield return new TestCaseData(Behavior.t_UnitValue_Success).Returns(true);
 
             }
         }
@@ -60,9 +60,8 @@ namespace JetbusTest
         {
             get
             {
-                yield return new TestCaseData(Behavior.kg_UnitValue_Fail).ExpectedResult = "";
-                yield return new TestCaseData(Behavior.kg_UnitValue_Success).ExpectedResult = "kg";
-
+                yield return new TestCaseData(Behavior.kg_UnitValue_Fail).Returns(false);
+                yield return new TestCaseData(Behavior.kg_UnitValue_Success).Returns(true);
             }
         }
 
@@ -71,8 +70,8 @@ namespace JetbusTest
         {
             get
             {
-                yield return new TestCaseData(Behavior.g_UnitValue_Fail).ExpectedResult = "";
-                yield return new TestCaseData(Behavior.g_UnitValue_Success).ExpectedResult = "g";
+                yield return new TestCaseData(Behavior.g_UnitValue_Fail).Returns(false);
+                yield return new TestCaseData(Behavior.g_UnitValue_Success).Returns(true);
 
             }
         }
@@ -82,12 +81,23 @@ namespace JetbusTest
         {
             get
             {
-                yield return new TestCaseData(Behavior.lb_UnitValue_Fail).ExpectedResult = "";
-                yield return new TestCaseData(Behavior.lb_UnitValue_Success).ExpectedResult = "lb";
+                yield return new TestCaseData(Behavior.lb_UnitValue_Fail).Returns(false);
+                yield return new TestCaseData(Behavior.lb_UnitValue_Success).Returns(true);
 
             }
         }
-        
+
+        // Test case source for reading values from the WTX120 device. 
+        public static IEnumerable N_UnitValueTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(Behavior.N_UnitValue_Fail).Returns(false);
+                yield return new TestCaseData(Behavior.N_UnitValue_Success).Returns(true);
+
+            }
+        }
+
 
         // Test case source for reading values from the WTX120 device. 
         public static IEnumerable NetGrossValueStringComment_1D_TestCase
@@ -130,153 +140,80 @@ namespace JetbusTest
         }
 
         // Test case source for reading values from the WTX120 device. 
-        public static IEnumerable StatusStringComment_TestCases
+        public static IEnumerable LimitValues_TestCases
         {
             get
             {
-                yield return new TestCaseData(Behavior.StatusStringComment_Fail).ExpectedResult = 0;
-                yield return new TestCaseData(Behavior.StatusStringComment_Success).ExpectedResult = 1;
+                yield return new TestCaseData(Behavior.LimitValues_Underload).Returns("Underload");
+                yield return new TestCaseData(Behavior.LimitValues_Overload).Returns("Overload");
+                yield return new TestCaseData(Behavior.LimitValues_WeightWithinLimits).Returns("WeightWithinLimits");
+                yield return new TestCaseData(Behavior.LimitValues_HigherSafeLoadLimit).Returns("HigherSafeLoadLimit");
             }
         }
 
         [SetUp]
         public void Setup()
         {
-            //value = 0;
+            value = "0";
         }
 
-       /*
-        [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
-        public void test_StatusStringComment_OK(Behavior behavior)
+       
+        [Test, TestCaseSource(typeof(CommentMethodsTests), "LimitValues_TestCases")]
+        public string test_LimitValues(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection,update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-            
-            value = _wtxObj.ProcessData.Status;
-
-            string Strvalue = _wtxObj.StatusStringComment();
-            
-            Assert.AreEqual("Execution OK!", Strvalue);
-        }
-        */
-        /*
-        [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
-        public void test_StatusStringComment_ONGO(Behavior behavior)
-        {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WtxJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            value = 1634168417;
+            _wtxObj.ProcessData.UpdateData(this, new EventArgs());
 
-            string Strvalue = _wtxObj.StatusStringComment(value);
-
-            Assert.AreEqual("Execution on go!", Strvalue);
+            if (_wtxObj.ProcessData.Underload == false && _wtxObj.ProcessData.Overload == false && _wtxObj.ProcessData.HigherSafeLoadLimit == false)
+                return "WeightWithinLimits";
+                else
+                    if (_wtxObj.ProcessData.Underload == true && _wtxObj.ProcessData.Overload == false && _wtxObj.ProcessData.HigherSafeLoadLimit == false)
+                    return "Underload";
+                    else
+                        if (_wtxObj.ProcessData.Underload == false && _wtxObj.ProcessData.Overload == true && _wtxObj.ProcessData.HigherSafeLoadLimit == false)
+                            return "Overload";
+                        else
+                            if (_wtxObj.ProcessData.Underload == false && _wtxObj.ProcessData.Overload == false && _wtxObj.ProcessData.HigherSafeLoadLimit == true)
+                                return "HigherSafeLoadLimit";
+                                else
+                                    return "";
         }
 
-        [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
-        public void test_StatusStringComment_ErrorE1(Behavior behavior)
-        {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WtxJet(_jetTestConnection,update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            value = 826629983;
-
-            string Strvalue = _wtxObj.StatusStringComment(value);
-
-            Assert.AreEqual("Error 1, E1", Strvalue);
-        }
-
-        [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
-        public void test_StatusStringComment_ErrorE2(Behavior behavior)
-        {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WtxJet(_jetTestConnection,update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            value = 843407199;
-
-            string Strvalue = _wtxObj.StatusStringComment(value);
-
-            Assert.AreEqual("Error 2, E2", Strvalue);
-        }
-
-        [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
-        public void test_StatusStringComment_ErrorE3(Behavior behavior)
-        {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WtxJet(_jetTestConnection,update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            value = 860184415;
-
-            string Strvalue = _wtxObj.ProcessData.StatusStringComment(value);
-
-            Assert.AreEqual("Error 3, E3", Strvalue);
-        }
-
-        [Test, TestCaseSource(typeof(CommentMethodsTests), "StatusStringComment_TestCases")]
-        public void test_StatusStringComment_Default(Behavior behavior)
-        {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WtxJet(_jetTestConnection,update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            value = 111199990;
-
-            string Strvalue = _wtxObj.StatusStringComment(value);
-
-            Assert.AreEqual("Invalid status", Strvalue);
-        }
-        */
-
-        private double _grossValue = 0.0;
-        private double _decimals = 0.0;
-
-        /*
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_4D_TestCase")]
         public void test_NetGrossValueStringComment_4Decimals(Behavior behavior)
         {
              TestJetbusConnection _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-             WtxJet _wtxObj = new WtxJet(_jetTestConnection, update);
+            WTXJet _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-            
-            string strValue=_wtxObj.CurrentWeight(_grossValue, _decimals);
 
-            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, _wtxObj.ProcessData.Decimals);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 4);
 
-            Assert.AreEqual(dValue.ToString("0.0000"), strValue);
+            double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 4);
+
+            Assert.AreEqual(dValue.ToString("0.0000"), _wtxObj.PrintableWeight.Net.Replace(".", ","));
         }
-        */
-        /*
+        
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_3D_TestCase")]
         public void test_NetGrossValueStringComment_3Decimals(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-            
-            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 3);
 
-            Assert.AreEqual(dValue.ToString("0.000"), _wtxObj.PrintableWeight.Net);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 3);
+
+            double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 3);
+
+            Assert.AreEqual(dValue.ToString("0.000"), _wtxObj.PrintableWeight.Net.Replace(".", ","));
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_2D_TestCase")]
@@ -284,13 +221,15 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-            
-            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 2);
 
-            Assert.AreEqual(dValue.ToString("0.00"), _wtxObj.PrintableWeight.Net);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 2);
+
+            double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 2);
+
+            Assert.AreEqual(dValue.ToString("0.00"), _wtxObj.PrintableWeight.Net.Replace(".", ","));
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -298,13 +237,15 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100,update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-            
-            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 1);
 
-            Assert.AreEqual(dValue.ToString("0.0"), _wtxObj.PrintableWeight.Net);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 1);
+
+            double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 1);
+
+            Assert.AreEqual(dValue.ToString("0.0"), _wtxObj.PrintableWeight.Net.Replace(".", ","));
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -312,13 +253,15 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-            
-            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 5);
 
-            Assert.AreEqual(dValue.ToString("0.00000"), _wtxObj.PrintableWeight.Net);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 5);
+
+            double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 5);
+
+            Assert.AreEqual(dValue.ToString("0.00000"), _wtxObj.PrintableWeight.Net.Replace(".", ","));
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -326,15 +269,17 @@ namespace JetbusTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-            
-            double dValue = _wtxObj.ProcessData.Weight.Gross / Math.Pow(10, 6);
 
-            Assert.AreEqual(dValue.ToString("0.000000"), _wtxObj.PrintableWeight.Net);
+            _wtxObj.ProcessData.PrintableWeight.Update(0,0, 6);
+
+            double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 6);
+
+            Assert.AreEqual(dValue.ToString("0.000000"), _wtxObj.PrintableWeight.Net.Replace(".", ","));
         }
-        */
+ 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
         public void test_NetGrossValueStringComment_Default(Behavior behavior)
         {
@@ -362,14 +307,13 @@ namespace JetbusTest
 
             Assert.AreEqual(dValue.ToString(), _wtxObj.PrintableWeight.Net);
         }
-
-        /*
+        
         [Test, TestCaseSource(typeof(CommentMethodsTests), "T_UnitValueTestCases")]
-        public void testUnit_t(Behavior behavior)
+        public bool testUnit_t(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
             
@@ -377,83 +321,94 @@ namespace JetbusTest
 
             value = _wtxObj.ProcessData.Unit;
 
-            Assert.AreEqual("t", _wtxObj.Unit);
+            if (value.Equals("t"))
+                return true;
+            else
+                return false;
         }
-        */
-
-        private void update(object sender, ProcessDataReceivedEventArgs e)
-        {
-            _grossValue = e.ProcessData.Weight.Gross;
-            _decimals =   e.ProcessData.Decimals;
-        }
-        /*
+    
         [Test, TestCaseSource(typeof(CommentMethodsTests), "KG_UnitValueTestCases")]
-        public void testUnit_kg(Behavior behavior)
+        public bool testUnit_kg(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(_jetTestConnection.AllData));
+            _wtxObj.ProcessData.UpdateData(this, new EventArgs());
 
             value = _wtxObj.ProcessData.Unit;
 
-            Assert.AreEqual("kg", _wtxObj.Unit);
+            if (value.Equals("kg"))
+                return true;
+            else
+                return false;
         }
         
         [Test, TestCaseSource(typeof(CommentMethodsTests), "G_UnitValueTestCases")]
-        public void testUnit_g(Behavior behavior)
+        public bool testUnit_g(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(_jetTestConnection.AllData));
+            _wtxObj.ProcessData.UpdateData(this, new EventArgs());
 
             value = _wtxObj.ProcessData.Unit;
 
-            Assert.AreEqual("g", _wtxObj.Unit);
+            if (value.Equals("g"))
+                return true;
+            else
+                return false;
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "LB_UnitValueTestCases")]
-        public void testUnit_lb(Behavior behavior)
+        public bool testUnit_lb(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(_jetTestConnection.AllData));
+            _wtxObj.ProcessData.UpdateData(this, new EventArgs());
 
             value = _wtxObj.ProcessData.Unit;
 
-            Assert.AreEqual("lb", _wtxObj.Unit);
+            if (value.Equals("lb"))
+                return true;
+            else
+                return false;
         }
         
-        [Test, TestCaseSource(typeof(CommentMethodsTests), "LB_UnitValueTestCases")]
-        public void testUnit_default(Behavior behavior)
+        [Test, TestCaseSource(typeof(CommentMethodsTests), "N_UnitValueTestCases")]
+        public bool testUnit_N(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WtxJet(_jetTestConnection,update);
+            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.UpdateProcessData(this, new DataEventArgs(_jetTestConnection.AllData));
+            _wtxObj.ProcessData.UpdateData(this, new EventArgs());
 
             value = _wtxObj.ProcessData.Unit;
 
-            Assert.AreEqual("error", _wtxObj.Unit);
+            if (value.Equals("N"))
+                return true;
+            else
+                return false;
         }
-        */
+       
+        private void update(object sender, ProcessDataReceivedEventArgs e)
+        {
+        }
+
         private void OnConnect(bool obj)
         {
-            throw new NotImplementedException();
         }
     }
 }

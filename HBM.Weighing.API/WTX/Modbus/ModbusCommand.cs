@@ -30,6 +30,10 @@
 
 namespace Hbm.Weighing.API.WTX.Modbus
 {
+    /// <summary>
+    /// Class to define the frame specifing data type, register, bit offset(for bit addressing) of the data to be read or write via the Modbus/TCP interface. 
+    /// A command consists of a datatype, register, input or output type, application mode type bit index, bit length.
+    /// </summary>
     public class ModbusCommand
     {
         #region =============== constructors & destructors =================

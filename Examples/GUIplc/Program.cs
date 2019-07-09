@@ -20,6 +20,9 @@ namespace GUIplc
 
     static class Program
     {
+        /// <summary>
+        /// Main entry point for the application
+        /// </summary>
         [STAThread]
         static void Main(string[] args) // arguments from the command line of the VS project arguments : IP address and timer interval. 
         {
