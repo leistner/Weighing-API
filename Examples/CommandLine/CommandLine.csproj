@@ -77,9 +77,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\HBM.Weighing.API\HBM.Weighing.API.csproj">
-      <Project>{f8fb1d85-0fba-4905-a559-a1c654675662}</Project>
-      <Name>HBM.Weighing.API</Name>
+    <ProjectReference Include="..\..\Hbm.Weighing.Api\Hbm.Weighing.Api.csproj">
+      <Project>{50ACED6F-3CC8-4D0A-B902-F4543DAAD58D}</Project>
+      <Name>Hbm.Weighing.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -28,13 +28,13 @@
 //
 // </copyright>
 
-namespace Hbm.Weighing.API.WTX.Modbus
+namespace Hbm.Weighing.Api.WTX.Modbus
 {
     using System;
     using System.Collections;
     using System.Threading.Tasks;
     using NUnit.Framework;
-    using Hbm.Weighing.API.Data;
+    using Hbm.Weighing.Api.Data;
 
     [TestFixture]
     public class ReadTestsModbus

@@ -32,9 +32,9 @@ namespace JetbusTest
 {
     using System;
     using System.Collections;
-    using Hbm.Weighing.API.Data;
-    using Hbm.Weighing.API.WTX;
-    using Hbm.Weighing.API.WTX.Jet;
+    using Hbm.Weighing.Api.Data;
+    using Hbm.Weighing.Api.WTX;
+    using Hbm.Weighing.Api.WTX.Jet;
     using NUnit.Framework;
     [TestFixture]
     public class CommentMethodsTests

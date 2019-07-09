@@ -32,7 +32,7 @@ namespace GUIsimple
 {
     using System;
     using System.Windows.Forms;
-    using Hbm.Weighing.API;
+    using Hbm.Weighing.Api;
 
     /// <summary>
     /// A form to select IO input and output functions listed in a checkedlistbox

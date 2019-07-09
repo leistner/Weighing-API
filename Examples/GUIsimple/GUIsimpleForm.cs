@@ -32,11 +32,11 @@ namespace GUIsimple
 {
     using System;
     using System.Windows.Forms;
-    using Hbm.Weighing.API;
-    using Hbm.Weighing.API.Data;
-    using Hbm.Weighing.API.WTX;
-    using Hbm.Weighing.API.WTX.Jet;
-    using Hbm.Weighing.API.WTX.Modbus;
+    using Hbm.Weighing.Api;
+    using Hbm.Weighing.Api.Data;
+    using Hbm.Weighing.Api.WTX;
+    using Hbm.Weighing.Api.WTX.Jet;
+    using Hbm.Weighing.Api.WTX.Modbus;
 
     /// <summary>
     /// This application example demonstrates the usage of HBM Weighing-API.
@@ -336,7 +336,7 @@ namespace GUIsimple
             {
                 _wtxDevice.Disconnect();
                 ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-                _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
+                _wtxDevice = new Hbm.Weighing.Api.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }
 
@@ -361,7 +361,7 @@ namespace GUIsimple
             {
                 _wtxDevice.Disconnect();
                 ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-                _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
+                _wtxDevice = new Hbm.Weighing.Api.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }
 

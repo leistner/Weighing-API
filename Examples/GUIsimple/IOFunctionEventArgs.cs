@@ -1,4 +1,4 @@
-﻿using Hbm.Weighing.API;
+﻿using Hbm.Weighing.Api;
 using System;
 using System.Collections.Generic;
 using System.Linq;

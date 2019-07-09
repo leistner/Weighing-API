@@ -1,6 +1,6 @@
 ﻿// <copyright file="GUIplcForm.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// Example application for Hbm.Weighing.API, a library to communicate with HBM weighing technology devices  
+// Example application for Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -34,11 +34,11 @@ namespace GUIplc
     using System.Windows.Forms;
     using System.IO;
     using GUIsimple;
-    using Hbm.Weighing.API;
-    using Hbm.Weighing.API.Data;
-    using Hbm.Weighing.API.WTX;
-    using Hbm.Weighing.API.WTX.Modbus;
-    using Hbm.Weighing.API.WTX.Jet;
+    using Hbm.Weighing.Api;
+    using Hbm.Weighing.Api.Data;
+    using Hbm.Weighing.Api.WTX;
+    using Hbm.Weighing.Api.WTX.Modbus;
+    using Hbm.Weighing.Api.WTX.Jet;
     /// <summary>
     /// First, objects of class 'ModbusTcpConnection' and 'WTXModbus'(implements BaseWtDevice) are created to establish a connection and data transfer to the device. 
     /// Class 'ModbusTcpConnection' has the purpose to establish a connection, to read from the device (its register)
@@ -859,7 +859,7 @@ namespace GUIplc
             _wtxDevice.Disconnect();
 
             ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-            _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
+            _wtxDevice = new Hbm.Weighing.Api.WTX.WTXModbus(_connection, this._timerInterval, this.update);
         }
         public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
@@ -882,7 +882,7 @@ namespace GUIplc
             _wtxDevice.Disconnect();
 
             ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-            _wtxDevice = new Hbm.Weighing.API.WTX.WTXModbus(_connection, this._timerInterval, this.update);
+            _wtxDevice = new Hbm.Weighing.Api.WTX.WTXModbus(_connection, this._timerInterval, this.update);
         }
 
         /// <summary>

@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2047
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{88A9A036-C2E9-4BB5-A757-DF2164D246A4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HBM.Weighing.API", "HBM.Weighing.API\HBM.Weighing.API.csproj", "{F8FB1D85-0FBA-4905-A559-A1C654675662}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hbm.Weighing.Api", "Hbm.Weighing.Api\Hbm.Weighing.Api.csproj", "{F8FB1D85-0FBA-4905-A559-A1C654675662}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JetbusTest", "Tests\JetbusTest\JetbusTest.csproj", "{14D04D6D-F209-446C-B440-D2447ABA9102}"
 EndProject
@@ -116,6 +116,6 @@ Global
 		SolutionGuid = {0DFD5B88-96A3-4B7C-AA27-675E748F5775}
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = HBM.Weighing.API.vsmdi
+		CategoryFile = Hbm.Weighing.Api.vsmdi
 	EndGlobalSection
 EndGlobal

@@ -1,7 +1,7 @@
 ﻿
-namespace Hbm.Weighing.API.WTX.Modbus
+namespace Hbm.Weighing.Api.WTX.Modbus
 {
-    using Hbm.Weighing.API;
+    using Hbm.Weighing.Api;
     using System;
     using System.Collections.Generic;
     using System.Reflection;
