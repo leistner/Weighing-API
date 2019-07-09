@@ -32,6 +32,7 @@ namespace JetbusTest
 {
     using System;
     using System.Collections;
+    using System.Globalization;
     using Hbm.Weighing.Api.Data;
     using Hbm.Weighing.Api.WTX;
     using Hbm.Weighing.Api.WTX.Jet;
@@ -197,7 +198,7 @@ namespace JetbusTest
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 4);
 
-            Assert.AreEqual(dValue.ToString("0.0000", System.Globalization.CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(".", ","));
+            Assert.AreEqual(dValue.ToString("0.0000", CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
         }
         
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_3D_TestCase")]
@@ -213,7 +214,7 @@ namespace JetbusTest
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 3);
 
-            Assert.AreEqual(dValue.ToString("0.000", System.Globalization.CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
+            Assert.AreEqual(dValue.ToString("0.000", CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_2D_TestCase")]
@@ -229,7 +230,7 @@ namespace JetbusTest
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 2);
 
-            Assert.AreEqual(dValue.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
+            Assert.AreEqual(dValue.ToString("0.00", CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -245,7 +246,7 @@ namespace JetbusTest
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 1);
 
-            Assert.AreEqual(dValue.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
+            Assert.AreEqual(dValue.ToString("0.0", CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -261,7 +262,7 @@ namespace JetbusTest
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 5);
 
-            Assert.AreEqual(dValue.ToString("0.00000", System.Globalization.CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
+            Assert.AreEqual(dValue.ToString("0.00000", CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
         }
 
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
@@ -277,7 +278,7 @@ namespace JetbusTest
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 6);
 
-            Assert.AreEqual(dValue.ToString("0.000000", System.Globalization.CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
+            Assert.AreEqual(dValue.ToString("0.000000", CultureInfo.InvariantCulture), _wtxObj.PrintableWeight.Net.Replace(",", "."));
         }
  
         [Test, TestCaseSource(typeof(CommentMethodsTests), "NetGrossValueStringComment_1D_TestCase")]
