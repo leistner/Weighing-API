@@ -89,7 +89,6 @@ namespace GUIsimple
             {
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTCPConnection _modbusConnection = new ModbusTCPConnection(this._ipAddress);
-                _modbusConnection.CommunicationLog += Logger;
                 _wtxDevice = new WTXModbus(_modbusConnection, this._timerInterval, this.update);
 
             }
@@ -99,8 +98,6 @@ namespace GUIsimple
                 {
                     // Creating objects of JetBusConnection and WTXJet: 
                     JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
-                    _jetConnection.CommunicationLog += Logger;
-
                     _wtxDevice = new WTXJet(_jetConnection,500, update);
                 }
             }
@@ -364,22 +361,6 @@ namespace GUIsimple
                 _wtxDevice = new Hbm.Weighing.Api.WTX.WTXModbus(_connection, this._timerInterval, this.update);
             }
         }
-
-        /// <summary>
-        /// To log and show the messages and frames send via the connection interface (via Modbus/Tcp or a jet ethernet interface)
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Logger(object sender, EventArgs e)
-        {
-            if (toolStripButtonLog.Checked)
-            { 
-                txtLog.BeginInvoke(new Action(() =>
-                {
-                    txtLog.AppendText(((LogEventArgs)e).Args + Environment.NewLine);
-                }));
-            }
-        } 
         #endregion
 
     }

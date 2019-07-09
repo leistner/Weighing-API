@@ -87,15 +87,6 @@
     <Compile Include="AdjustmentWeigher.Designer.cs">
       <DependentUpon>AdjustmentWeigher.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="AdjustmentCalculator.resx">
-      <DependentUpon>AdjustmentCalculator.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FunctionIO.resx">
-      <DependentUpon>FunctionIO.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUIsimpleForm.resx">
-      <DependentUpon>GUIsimpleForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -106,9 +97,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="AdjustmentWeigher.resx">
-      <DependentUpon>AdjustmentWeigher.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

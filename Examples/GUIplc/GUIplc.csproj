@@ -88,20 +88,6 @@
       <DependentUpon>Settings.cs</DependentUpon>
     </Compile>
     <Compile Include="SettingsEventArgs.cs" />
-    <EmbeddedResource Include="..\GUIsimple\AdjustmentCalculator.resx">
-      <Link>AdjustmentCalculator.resx</Link>
-      <DependentUpon>AdjustmentCalculator.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="..\GUIsimple\AdjustmentWeigher.resx">
-      <Link>AdjustmentWeigher.resx</Link>
-      <DependentUpon>AdjustmentWeigher.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FunctionIO.resx">
-      <DependentUpon>FunctionIO.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="GUIplcForm.resx">
-      <DependentUpon>GUIplcForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -112,9 +98,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="Settings.resx">
-      <DependentUpon>Settings.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
