@@ -25,7 +25,6 @@ namespace JetbusTest
         private TestJetbusConnection _jetTestConnection;
         private WTXJet _wtxObj;
         private int _testInteger;
-        private double _testDouble;
         private bool _testBoolean;
 
 
