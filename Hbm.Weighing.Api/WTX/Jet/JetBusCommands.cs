@@ -208,6 +208,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
             UTLUpperToleranceLimit = new JetBusCommand(DataType.S32, "2210/0A", 0, 0);
             VCTValveControl = new JetBusCommand(DataType.U08, "2200/0C", 0, 0);
             WDPWriteDosingParameterSet = new JetBusCommand(DataType.U08, "2200/01", 0, 0);
+            WRSWeightMemoryEntry = new JetBusCommand(DataType.ASCII, "2040/06", 0, 0);
         }
         #endregion
 
@@ -551,6 +552,9 @@ namespace Hbm.Weighing.Api.WTX.Jet
         public static JetBusCommand VCTValveControl { get; private set; }
 
         public static JetBusCommand WDPWriteDosingParameterSet { get; private set; }
+
+        public static JetBusCommand WRSWeightMemoryEntry { get; private set; }
+        
         #endregion
     }
 }

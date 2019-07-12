@@ -594,8 +594,26 @@ namespace Hbm.Weighing.Api.Data
 
         private WeightMemory ExtractWeightMemory()
         {
-            //ddd to be done
-            return new WeightMemory();
+             WeightMemory _wm = new WeightMemory();
+            string _currentweight = _connection.ReadFromBuffer(JetBusCommands.WRSWeightMemoryEntry);
+            if (_currentweight.Length>61)
+            {
+                try
+                {
+                    int _year = Convert.ToInt32(_currentweight.Substring(10, 2)) + 2000;
+                    int _month = Convert.ToInt32(_currentweight.Substring(7, 2));
+                    int _day = Convert.ToInt32(_currentweight.Substring(4, 2));
+                    int _id = Convert.ToInt32(_currentweight.Substring(17, 4).Trim());
+                    int _gross = Convert.ToInt32(_currentweight.Substring(22, 8).Trim());
+                    int _net = Convert.ToInt32(_currentweight.Substring(38, 8).Trim());
+                    _wm.Update(_year, _month, _day, _net, _gross, _id);
+                }
+                catch
+                {
+                    _wm.Update(0, 0, 0, 0, 0, -1);
+                }
+            }
+            return _wm;
         }
         #endregion
     }
