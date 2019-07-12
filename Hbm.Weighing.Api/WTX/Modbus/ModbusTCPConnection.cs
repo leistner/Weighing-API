@@ -110,7 +110,8 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         /// </summary>
         public void Disconnect()
         {
-            _client.Close();
+            if (_client!=null)
+                _client.Close();
             IsConnected = false;
             CommunicationLog?.Invoke(this, new LogEventArgs("Disconnected"));
         }
