@@ -241,7 +241,14 @@ namespace GUIsimple
         /// <param name="e"></param>
         private void cmdZero_Click(object sender, EventArgs e)
         {
+            try
+            {
                 _wtxDevice.Zero();
+            }
+            catch (JetBusException ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         /// <summary>

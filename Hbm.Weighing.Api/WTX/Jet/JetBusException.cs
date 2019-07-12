@@ -62,7 +62,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
         {
             get
             {
-                return message + " [ 0x" + ErrorCode.ToString("X") + " ]";
+                return message;
             }
         }
         #endregion

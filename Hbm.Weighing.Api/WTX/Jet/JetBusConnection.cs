@@ -161,19 +161,25 @@ namespace Hbm.Weighing.Api.WTX.Jet
         /// <inheritdoc />
         public bool WriteInteger(object command, int value)
         {
+            bool result = false;
             JValue jasonValue = new JValue(value);
             JetBusCommand _command = (JetBusCommand)command;
             SetData(_command.Path, jasonValue);
-            return true; // DDD Exception handling
+            WaitOne(1);
+            result = true;
+            return result;
         }
 
         /// <inheritdoc />
         public bool Write(object command, string value)
         {
+            bool result = false;
             JValue jasonValue = new JValue(value);
             JetBusCommand _command = (JetBusCommand)command;
             SetData(_command.Path, jasonValue);
-            return true; // DDD Exception handling
+            WaitOne(1);
+            result = true;
+            return result;
         }
 
         /// <inheritdoc />
@@ -327,13 +333,15 @@ namespace Hbm.Weighing.Api.WTX.Jet
         /// <param name="value">The new value for the path</param>
         private void SetData(string path, JValue value)
         {
+            _localException = null; 
             try
             {
                 JObject request = _peer.Set(path.ToString(), value, OnSet, this._timeoutMs);
             }
             catch (Exception e)
             {
-                throw new Exception(e.ToString());
+                _successEvent.Set();
+                _localException = e;
             }
         }
 
@@ -341,9 +349,8 @@ namespace Hbm.Weighing.Api.WTX.Jet
         {
            if (!success)
            {
-                JetBusException exception = new JetBusException(token);
-                _localException = new Exception(exception.ErrorCode.ToString());
-           }
+                _localException = new JetBusException(token);
+            }
             
            _successEvent.Set();
             
