@@ -32,8 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.cmdConnect = new System.Windows.Forms.Button();
             this.grrpSetup = new System.Windows.Forms.GroupBox();
-            this.rbtConnectionModbus = new System.Windows.Forms.RadioButton();
-            this.rbtConnectionJet = new System.Windows.Forms.RadioButton();
+            this.cboDeviceType = new System.Windows.Forms.ComboBox();
             this.cmdGrossNet = new System.Windows.Forms.Button();
             this.cmdTare = new System.Windows.Forms.Button();
             this.cmdZero = new System.Windows.Forms.Button();
@@ -41,10 +40,8 @@
             this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
             this.calibrationWithWeightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.calibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripDropDownButton2 = new System.Windows.Forms.ToolStripDropDownButton();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.picNE107 = new System.Windows.Forms.PictureBox();
             this.txtInfo = new System.Windows.Forms.TextBox();
+            this.picNE107 = new System.Windows.Forms.PictureBox();
             this.grrpSetup.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picNE107)).BeginInit();
@@ -78,8 +75,7 @@
             // 
             // grrpSetup
             // 
-            this.grrpSetup.Controls.Add(this.rbtConnectionModbus);
-            this.grrpSetup.Controls.Add(this.rbtConnectionJet);
+            this.grrpSetup.Controls.Add(this.cboDeviceType);
             this.grrpSetup.Controls.Add(this.txtIPAddress);
             this.grrpSetup.Controls.Add(this.label1);
             this.grrpSetup.Controls.Add(this.cmdConnect);
@@ -90,28 +86,18 @@
             this.grrpSetup.TabStop = false;
             this.grrpSetup.Text = "Connection";
             // 
-            // rbtConnectionModbus
+            // cboDeviceType
             // 
-            this.rbtConnectionModbus.AutoSize = true;
-            this.rbtConnectionModbus.Location = new System.Drawing.Point(147, 54);
-            this.rbtConnectionModbus.Name = "rbtConnectionModbus";
-            this.rbtConnectionModbus.Size = new System.Drawing.Size(89, 17);
-            this.rbtConnectionModbus.TabIndex = 4;
-            this.rbtConnectionModbus.TabStop = true;
-            this.rbtConnectionModbus.Text = "Modbus/TCP";
-            this.rbtConnectionModbus.UseVisualStyleBackColor = true;
-            // 
-            // rbtConnectionJet
-            // 
-            this.rbtConnectionJet.AutoSize = true;
-            this.rbtConnectionJet.Checked = true;
-            this.rbtConnectionJet.Location = new System.Drawing.Point(102, 54);
-            this.rbtConnectionJet.Name = "rbtConnectionJet";
-            this.rbtConnectionJet.Size = new System.Drawing.Size(39, 17);
-            this.rbtConnectionJet.TabIndex = 3;
-            this.rbtConnectionJet.TabStop = true;
-            this.rbtConnectionJet.Text = "Jet";
-            this.rbtConnectionJet.UseVisualStyleBackColor = true;
+            this.cboDeviceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cboDeviceType.FormattingEnabled = true;
+            this.cboDeviceType.Items.AddRange(new object[] {
+            "WTX (Jet)",
+            "WTX (Modbus/TCP)",
+            "DSE (Jet)"});
+            this.cboDeviceType.Location = new System.Drawing.Point(111, 54);
+            this.cboDeviceType.Name = "cboDeviceType";
+            this.cboDeviceType.Size = new System.Drawing.Size(100, 21);
+            this.cboDeviceType.TabIndex = 3;
             // 
             // cmdGrossNet
             // 
@@ -146,8 +132,7 @@
             // toolStrip1
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripDropDownButton1,
-            this.toolStripDropDownButton2});
+            this.toolStripDropDownButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(384, 25);
@@ -179,32 +164,6 @@
             this.calibrationToolStripMenuItem.Text = "Calibration with weight";
             this.calibrationToolStripMenuItem.Click += new System.EventHandler(this.calibrationToolStripMenuItem_Click_1);
             // 
-            // toolStripDropDownButton2
-            // 
-            this.toolStripDropDownButton2.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
-            this.toolStripDropDownButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripDropDownButton2.Name = "toolStripDropDownButton2";
-            this.toolStripDropDownButton2.Size = new System.Drawing.Size(82, 22);
-            this.toolStripDropDownButton2.Text = "Function IO";
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(203, 22);
-            this.toolStripMenuItem1.Text = "Read/Write IO Functions";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
-            // picNE107
-            // 
-            this.picNE107.Image = global::GUIsimple.Properties.Resources.NE107_OutOfSpecification;
-            this.picNE107.Location = new System.Drawing.Point(290, 118);
-            this.picNE107.Name = "picNE107";
-            this.picNE107.Size = new System.Drawing.Size(84, 72);
-            this.picNE107.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picNE107.TabIndex = 27;
-            this.picNE107.TabStop = false;
-            // 
             // txtInfo
             // 
             this.txtInfo.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -215,6 +174,16 @@
             this.txtInfo.Size = new System.Drawing.Size(364, 104);
             this.txtInfo.TabIndex = 26;
             this.txtInfo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // picNE107
+            // 
+            this.picNE107.Image = global::GUIsimple.Properties.Resources.NE107_OutOfSpecification;
+            this.picNE107.Location = new System.Drawing.Point(290, 118);
+            this.picNE107.Name = "picNE107";
+            this.picNE107.Size = new System.Drawing.Size(84, 72);
+            this.picNE107.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picNE107.TabIndex = 27;
+            this.picNE107.TabStop = false;
             // 
             // GUIsimpleForm
             // 
@@ -255,11 +224,8 @@
         private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
         private System.Windows.Forms.ToolStripMenuItem calibrationWithWeightToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem calibrationToolStripMenuItem;
-        private System.Windows.Forms.RadioButton rbtConnectionModbus;
-        private System.Windows.Forms.RadioButton rbtConnectionJet;
-        private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.TextBox txtInfo;
+        private System.Windows.Forms.ComboBox cboDeviceType;
     }
 }
 

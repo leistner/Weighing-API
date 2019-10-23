@@ -37,13 +37,13 @@ namespace GUIsimple.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool IsJetBus {
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int DeviceType {
             get {
-                return ((bool)(this["IsJetBus"]));
+                return ((int)(this["DeviceType"]));
             }
             set {
-                this["IsJetBus"] = value;
+                this["DeviceType"] = value;
             }
         }
     }
