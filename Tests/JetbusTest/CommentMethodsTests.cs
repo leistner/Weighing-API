@@ -194,7 +194,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 4);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 0, 4);
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 4);
 
@@ -210,7 +210,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 3);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 0, 3);
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 3);
 
@@ -226,7 +226,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 2);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 0, 2);
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 2);
 
@@ -242,7 +242,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 1);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 0, 1);
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 1);
 
@@ -258,7 +258,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 5);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 0, 5);
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 5);
 
@@ -274,7 +274,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.PrintableWeight.Update(0,0, 6);
+            _wtxObj.ProcessData.PrintableWeight.Update(0, 0, 0, 6);
 
             double dValue = _wtxObj.ProcessData.Weight.Net / Math.Pow(10, 6);
 

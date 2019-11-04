@@ -52,8 +52,6 @@ namespace Hbm.Weighing.Api.DSE.Jet
         private JetPeer _peer;
         private AutoResetEvent _successEvent = new AutoResetEvent(false);
         private Exception _localException = null;
-        private string _password;
-        private string _user;
         private int _timeoutMs;
         private bool _disposedValue = false;
         #endregion
@@ -234,74 +232,23 @@ namespace Hbm.Weighing.Api.DSE.Jet
 
         string[] DSEFetchTargets = new string[]
         {
-            "6152/00",
-            "6138/02",
-            "6138/01",
-            "6013/01",
-            "60B1/02",
-            "60B1/01",
-            "60A2/02",
-            "60A2/01",
-            "60A1/02",
-            "60A1/01",
-            "6144/00",
-            "1030/01",
-            "6000/01",
-            "6021/01",
-            "6141/02",
-            "611C/01",
-            "611C/02",
-            "611C/03",
-            "601A/01",
-            "601A/01",
-            "6149/01",
-            "6149/02",
-            "6149/03",
-            "6149/04",
-            "1018/02",
-            "1011/01",
-            "6050/01",
-            "1010/01",
-            "6111/01",
-            "6116/01",
-            "6002/01",
-            "6002/02",
-            "6040/01",
-            "6113/01",
-            "6114/01",
-            "6112/01",
-            "611B/01",
-            "6118/03",
-            "6118/02",
-            "6118/01",
-            "6117/01",
-            "6020/01",
-            "1018/04",
-            "6110/03",
-            "6110/01",
-            "6110/02",
-            "6143/00",
-            "6015/01",
-            "6014/01",
-            "1018/01",
-            "6153/00",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6012/01",
-            "6016/01",
-            "6142/00"
+
+            "6002/02",   //Scale Status: OK: 6b6f5f5f | ONGO: 6f676e6f
+            "6012/01",   //6012.1 = Weighing device 1 (scale) weight status
+            "6013/01",   //6013.1 = Scale1 decimal point
+            "6015/01",   //6015.1 = Weighing Device 1 (scale) unit and prefix output weight
+            "6016/01",   //6016.1 = weight step. 1=1
+            "601A/01",   //601a.1 = output weight    
+            "6113/01",   //scale maximum capacity
+            "611C/01",   //611c.1 = control
+            "611C/02",   //611c.2 = limit1
+            "611C/03",   //611c.3 = limit2
+            "6141/02",   //6142.0 = Zero value
+            "6143/00",   //6143.0 = Tare value
+            "6144/00",   //6144.0 = Gross value
+            "6152/00",   //Scale calibration weight
+            "6153/00",   //6153.0 = Weight movement detection
+
         };
 
         private void FetchSelective()
@@ -413,80 +360,8 @@ namespace Hbm.Weighing.Api.DSE.Jet
            _successEvent.Set();
             
            CommunicationLog?.Invoke(this, new LogEventArgs("Set data" + success));
-        }
-            
-        /// <summary>
-        /// Callback-Method wich is called from SslStream for SSL certificate validation
-        /// </summary>
-        /// <param name="sender">Sender holding the SSL stream</param>
-        /// <param name="certificate">The SSL certificate to be validated</param>
-        /// <param name="chain">SSL certification chain</param>
-        /// <param name="sslPolicyErrors">Any policy violations</param>
-        /// <returns>Indicates if validation was successful or not</returns>
-        private bool RemoteCertificationCheck(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {            
-            try
-            {
-                X509Certificate2 clientCertificate = new X509Certificate2(CertificateToByteArray(), string.Empty);                
-                SslStream sslStream = sender as SslStream;
-                if (sslPolicyErrors == SslPolicyErrors.None || sslPolicyErrors == SslPolicyErrors.RemoteCertificateChainErrors)
-                {
-                    foreach (X509ChainElement item in chain.ChainElements)
-                    {
-                        item.Certificate.Export(X509ContentType.Cert);
-
-                        // If one of the included status-flags is not posiv then the cerficate-check
-                        // failed. Except the "untrusted root" because it is a self-signed certificate
-                        foreach (X509ChainStatus status in item.ChainElementStatus)
-                        {
-                            if (status.Status != X509ChainStatusFlags.NoError
-                                && status.Status != X509ChainStatusFlags.UntrustedRoot
-                                 && status.Status != X509ChainStatusFlags.NotTimeValid)
-                            {
-                                return false;
-                            }
-                        }
-
-                        // compare the certificate in the chain-collection. If on of the certificate at
-                        // the path to root equal, are the check ist positive
-                        if (clientCertificate.Equals(item.Certificate))
-                        {
-                            return true;
-                        }
-                    }
-                }
-
-                // TODO: to reactivate the hostename-check returning false.
-                return true;
-            }
-            catch (Exception)
-            {
-                // If thrown any exception then is the certification-check failed
-                return true;
-            }
-        }
-
-        private byte[] CertificateToByteArray()
-        {
-            const string CERTIFICATE =
-                "MIIECzCCAvOgAwIBAgIJAPTJN5RGpzbRMA0GCSqGSIb3DQEBBQUAMIGbMQswCQYDVQQGEwJERTELMAkGA1UECAw" +
-                "CSEUxEjAQBgNVBAcMCURhcm1zdGFkdDErMCkGA1UECgwiSG90dGluZ2VyIEJhbGR3aW4gTWVzc3RlY2huaWsgR21iSDELMAkGA1UECwwCV" +
-                "1QxFDASBgNVBAMMC3d3dy5oYm0uY29tMRswGQYJKoZIhvcNAQkBFgxpbmZvQGhibS5jb20wHhcNMTcwNDA2MTU1NzQzWhcNMjcwNDA0MTU1N" +
-                "zQzWjCBmzELMAkGA1UEBhMCREUxCzAJBgNVBAgMAkhFMRIwEAYDVQQHDAlEYXJtc3RhZHQxKzApBgNVBAoMIkhvdHRpbmdlciBCYWxkd2luIE1" +
-                "lc3N0ZWNobmlrIEdtYkgxCzAJBgNVBAsMAldUMRQwEgYDVQQDDAt3d3cuaGJtLmNvbTEbMBkGCSqGSIb3DQEJARYMaW5mb0BoYm0uY29tMIIBIjA" +
-                "NBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAr + 51SnSoQX1M3aOUwaD8dcFIoac9peaiRsIOUqwJGn58g + n53aevw54sFyvffcJnzZVAFEP" +
-                "Ech1oQCNowsNDnNr4UL / NaO4C4GsJX5bmdia6nGj7IWLMeQzs + 0gfqPWmO / OsJVnwrp9h6 / SxuIz5n04l7ESupSBnXfifb9RGA0encHt" +
-                "ZK0LxHRD9sxyhNYKDKW76hgDK / EZ5HU2YjKS0y58 + PU15AV + vQ5srJFMC + KNHveWF4xgj528r3C25FWpVtW5Dqd937OrSAS5truGxPBz" +
-                "enWx3PHw6zRPvBbOApTNWLfbcp90mF8 / 9wFi94PG + EokaYSoF0xyT2G6fAVs3qQIDAQABo1AwTjAdBgNVHQ4EFgQUZC39SAkffhRee1x / 7" +
-                "TbnrQJQ / jMwHwYDVR0jBBgwFoAUZC39SAkffhRee1x / 7TbnrQJQ / jMwDAYDVR0TBAUwAwEB / zANBgkqhkiG9w0BAQUFAAOCAQEACRI28" +
-                "UaB6KNtDVee + waz + SfNd3tm / RspwRarJBlf9dcbpcxolvp9UxCoWkyf9hkmJPEyJzJltuan08DkqmschD36saOJcVRh6BfLNBD8DkFTavP" +
-                "0Q2BKb8FvJpdacNTRK542sJHSk5gr6imwnD5EAj + OT24UpH5rwq5Esu5TYFLdSuYfRXw6puTION / fqqTKVK9Au0TdFPgZ4Fppym4fInQ0jJQ" +
-                "hcGSWMs3yomPqftwitRwv5 / p8hLtf3yNIkk9OnBwPpT7QxXxw4Zs0Jvl / VBFuNwbeD12ur3RKbMyCn9W0RjaMrYpKnAjik3IlSqDYZ0XDMwZ" +
-                "0oQiOFy / a6bR4Vw ==";
-            byte[] _byteArray = Encoding.ASCII.GetBytes(CERTIFICATE);
-
-            return _byteArray;
-        }
+        }      
+ 
         #endregion
     }
 }

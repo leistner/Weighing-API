@@ -101,8 +101,16 @@ namespace Hbm.Weighing.Api.Data
             ApplicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.IMDApplicationMode));
             Decimals = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461Decimals));
             Unit = UnitIDToString(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461Unit)));
-            Weight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461NetValue)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461GrossValue)), Decimals));
-            PrintableWeight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461NetValue)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461GrossValue)), Decimals), Decimals);
+            int tareValue = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461GrossValue)) - Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461NetValue));
+            Weight.Update(
+                MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461NetValue)), Decimals), 
+                MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461GrossValue)), Decimals),
+                MeasurementUtils.DigitToDouble(tareValue, Decimals));
+            PrintableWeight.Update(
+                MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461NetValue)), Decimals), 
+                MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461GrossValue)), Decimals),
+                MeasurementUtils.DigitToDouble(tareValue, Decimals),
+                Decimals);
             }
             catch (KeyNotFoundException)
             {
