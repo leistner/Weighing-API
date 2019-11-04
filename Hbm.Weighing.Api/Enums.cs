@@ -36,7 +36,8 @@ namespace Hbm.Weighing.Api
     public enum ConnectionType
     {
         Modbus = 0,
-        Jetbus = 1
+        Jetbus = 1,
+        DSEJet = 2
     }
 
     /// <summary>

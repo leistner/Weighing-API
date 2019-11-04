@@ -80,13 +80,13 @@ namespace Hbm.Weighing.Api.Data
 
         #region ================ public & internal methods =================
 
-        public void Update(double net, double gross, int decimals)
+        public void Update(double net, double gross, double tare, int decimals)
         {          
             setPrecision.NumberDecimalDigits = decimals;
 
             Net = ((decimal)net).ToString("F", setPrecision);
             Gross = ((decimal)gross).ToString("F", setPrecision);
-            Tare = ((decimal)net - (decimal)gross).ToString("F", setPrecision);
+            Tare = ((decimal)tare).ToString("F", setPrecision);
         }
 
         #endregion

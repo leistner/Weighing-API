@@ -34,6 +34,8 @@ namespace GUIsimple
     using System.Windows.Forms;
     using Hbm.Weighing.Api;
     using Hbm.Weighing.Api.Data;
+    using Hbm.Weighing.Api.DSE;
+    using Hbm.Weighing.Api.DSE.Jet;
     using Hbm.Weighing.Api.WTX;
     using Hbm.Weighing.Api.WTX.Jet;
     using Hbm.Weighing.Api.WTX.Modbus;
@@ -54,7 +56,6 @@ namespace GUIsimple
         private static BaseWTDevice _wtxDevice;
         private AdjustmentCalculator _adjustmentCalculator;
         private AdjustmentWeigher _adjustmentWeigher;
-        private FunctionIO _functionIOForm;
         private string _ipAddress = DEFAULT_IP_ADDRESS;
         private int _timerInterval = 200;
 
@@ -85,7 +86,13 @@ namespace GUIsimple
         {
             this._ipAddress = txtIPAddress.Text;
 
-            if (this.rbtConnectionModbus.Checked)  
+            if (this.cboDeviceType.SelectedIndex == 0)
+            {
+                // Creating objects of JetBusConnection and WTXJet: 
+                JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
+                _wtxDevice = new WTXJet(_jetConnection,500, update);
+            }
+            else if (this.cboDeviceType.SelectedIndex==1)  
             {
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTCPConnection _modbusConnection = new ModbusTCPConnection(this._ipAddress);
@@ -94,12 +101,9 @@ namespace GUIsimple
             }
             else
             {
-                if (this.rbtConnectionJet.Checked)
-                {
-                    // Creating objects of JetBusConnection and WTXJet: 
-                    JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
-                    _wtxDevice = new WTXJet(_jetConnection,500, update);
-                }
+                // Creating objects of DSEJetConnection: 
+                DSEJetConnection _jetConnection = new DSEJetConnection(_ipAddress);
+                _wtxDevice = new DSEJet(_jetConnection, 500, update);
             }
 
             // Connection establishment via Modbus or Jetbus            
@@ -116,7 +120,7 @@ namespace GUIsimple
             {
                 picNE107.Image = Properties.Resources.NE107_DiagnosisActive;
                 Properties.Settings.Default.IPAddress = this._ipAddress;
-                Properties.Settings.Default.IsJetBus = rbtConnectionJet.Checked;
+                Properties.Settings.Default.DeviceType = cboDeviceType.SelectedIndex;
                 Properties.Settings.Default.Save();
             }
             else
@@ -138,7 +142,7 @@ namespace GUIsimple
             {
                 DisplayText("Net:" + _wtxDevice.PrintableWeight.Net + _wtxDevice.Unit + Environment.NewLine
                 + "Gross:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit + Environment.NewLine
-                + "Tara:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit);
+                + "Tara:" + _wtxDevice.PrintableWeight.Tare + _wtxDevice.Unit);
 
                 if (e.ProcessData.Underload == true)
                 {
@@ -170,21 +174,22 @@ namespace GUIsimple
         {
             if (args.Length > 0)
             {
-                if (args[0].ToLower() == "modbus")
-                {
-                    rbtConnectionModbus.Checked = true;
-                }
                 if (args[0].ToLower() == "jet")
                 {
-                    rbtConnectionJet.Checked = true;
+                    cboDeviceType.SelectedIndex = 0;
+                }
+                else if (args[0].ToLower() == "modbus")
+                {
+                    cboDeviceType.SelectedIndex = 1;
+                }
+                else if (args[0].ToLower() == "dse")
+                {
+                    cboDeviceType.SelectedIndex = 2;
                 }
             }
             else
             {
-                if (Properties.Settings.Default.IsJetBus)
-                    rbtConnectionJet.Checked = true;
-                else
-                    rbtConnectionModbus.Checked = true;
+                cboDeviceType.SelectedIndex = Properties.Settings.Default.DeviceType;
             }
 
             if (args.Length > 1)
@@ -283,91 +288,8 @@ namespace GUIsimple
                 _adjustmentWeigher = new AdjustmentWeigher(_wtxDevice);
                 DialogResult res = _adjustmentWeigher.ShowDialog();
             }
-        }
+        }    
 
-        /// <summary>
-        /// Toolstrip Click Event for Digital IO funcion settings: Input & Output functions
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void toolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            if (_wtxDevice != null)
-            {
-                _wtxDevice.Stop();
-
-                if (_wtxDevice.Connection.ConnectionType == ConnectionType.Modbus)
-                {
-                    _wtxDevice.Disconnect();
-
-                    JetBusConnection _connection = new JetBusConnection(_ipAddress);
-                    _wtxDevice = new WTXJet(_connection, 500, update);
-
-                    _wtxDevice.Connect(5000);
-
-                    _functionIOForm = new FunctionIO();
-
-                    _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
-                    _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
-
-                    DialogResult res = _functionIOForm.ShowDialog();
-                }
-                else
-                    if (_wtxDevice.Connection.ConnectionType == ConnectionType.Jetbus)
-                {
-                    _functionIOForm = new FunctionIO();
-
-                    _functionIOForm.ReadButtonClicked_IOFunctions += ReadDigitalIOFunctions;
-                    _functionIOForm.WriteButtonClicked_IOFunctions += WriteDigitalIOFunctions;
-
-                    DialogResult res = _functionIOForm.ShowDialog();
-                }
-                _wtxDevice.Restart();
-            }
-        }
-
-        private void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
-        {
-            /*DDD Todo
-            int out1 = _wtxDevice.DataStandard.Output1;
-            int out2 = _wtxDevice.DataStandard.Output2;
-            int out3 = _wtxDevice.DataStandard.Output3;
-            int out4 = _wtxDevice.DataStandard.Output4;
-            int in1 = _wtxDevice.DataStandard.Input1;
-            int in2 = _wtxDevice.DataStandard.Input2;
-            */
-            if (this.rbtConnectionModbus.Checked)    // If 'Modbus/Tcp' is selected, disconnect and reconnect from Jetbus to Modbus
-            {
-                _wtxDevice.Disconnect();
-                ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-                _wtxDevice = new Hbm.Weighing.Api.WTX.WTXModbus(_connection, this._timerInterval, this.update);
-            }
-        }
-
-        private void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
-        {
-            /*DDD Todo
-            if ((int)e.FunctionOutputIO1 != (-1))
-                _wtxDevice.DataStandard.Output1 = (int)e.FunctionOutputIO1;
-            if ((int)e.FunctionOutputIO1 != (-1))
-                _wtxDevice.DataStandard.Output2 = (int)e.FunctionOutputIO2;
-            if ((int)e.FunctionOutputIO1 != (-1))
-                _wtxDevice.DataStandard.Output3 = (int)e.FunctionOutputIO3;
-            if ((int)e.FunctionOutputIO1 != (-1))
-                _wtxDevice.DataStandard.Output4 = (int)e.FunctionOutputIO4;
-
-            if ((int)e.FunctionOutputIO1 != (-1))
-                _wtxDevice.DataStandard.Input1 = (int)e.FunctionInputIO1;
-            if ((int)e.FunctionOutputIO1 != (-1))
-                _wtxDevice.DataStandard.Input2 = (int)e.FunctionInputIO2;
-            */
-            if (this.rbtConnectionModbus.Checked)    // If 'Modbus/Tcp' is selected, disconnect and reconnect from Jetbus to Modbus
-            {
-                _wtxDevice.Disconnect();
-                ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-                _wtxDevice = new Hbm.Weighing.Api.WTX.WTXModbus(_connection, this._timerInterval, this.update);
-            }
-        }
         #endregion
 
     }
