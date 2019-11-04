@@ -568,6 +568,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
                     break;
                 case Behavior.NetGrossTareValues_Success:
                     _dataBuffer["601A/01"] = Convert.ToString(11);
+                    _dataBuffer["6143/00"] = Convert.ToString(11);
                     break;
 
                 default:
