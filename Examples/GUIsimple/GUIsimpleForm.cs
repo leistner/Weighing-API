@@ -86,18 +86,18 @@ namespace GUIsimple
         {
             this._ipAddress = txtIPAddress.Text;
 
-            if (this.cboDeviceType.SelectedIndex==0)  
+            if (this.cboDeviceType.SelectedIndex == 0)
+            {
+                // Creating objects of JetBusConnection and WTXJet: 
+                JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
+                _wtxDevice = new WTXJet(_jetConnection,500, update);
+            }
+            else if (this.cboDeviceType.SelectedIndex==1)  
             {
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTCPConnection _modbusConnection = new ModbusTCPConnection(this._ipAddress);
                 _wtxDevice = new WTXModbus(_modbusConnection, this._timerInterval, this.update);
 
-            }
-            else if (this.cboDeviceType.SelectedIndex == 1)
-            {
-                // Creating objects of JetBusConnection and WTXJet: 
-                JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
-                _wtxDevice = new WTXJet(_jetConnection,500, update);
             }
             else
             {
@@ -142,7 +142,7 @@ namespace GUIsimple
             {
                 DisplayText("Net:" + _wtxDevice.PrintableWeight.Net + _wtxDevice.Unit + Environment.NewLine
                 + "Gross:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit + Environment.NewLine
-                + "Tara:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit);
+                + "Tara:" + _wtxDevice.PrintableWeight.Tare + _wtxDevice.Unit);
 
                 if (e.ProcessData.Underload == true)
                 {
