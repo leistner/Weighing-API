@@ -97,8 +97,15 @@ namespace Hbm.Weighing.Api.Data
                 InsideZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusInsideZero)));
                 Decimals = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461Decimals));
                 Unit = UnitIDToString(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461Unit)));
-                Weight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461NetValue)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461GrossValue)), Decimals));
-                PrintableWeight.Update(MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461NetValue)), Decimals), MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461GrossValue)), Decimals), Decimals);
+                Weight.Update(
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461NetValue)), Decimals), 
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461GrossValue)), Decimals),
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461TareValue)), Decimals));
+                PrintableWeight.Update(
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461NetValue)), Decimals), 
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461GrossValue)), Decimals),
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461TareValue)), Decimals),
+                    Decimals);
             }
             catch (KeyNotFoundException)
             {
