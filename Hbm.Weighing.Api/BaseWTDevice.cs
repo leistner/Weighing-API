@@ -168,12 +168,12 @@ namespace Hbm.Weighing.Api
         /// <summary>
         /// Gets or sets the manual tare value
         /// </summary>
-        public abstract int ManualTareValue { get; set; }
+        public abstract double ManualTareValue { get; set; }
 
         /// <summary>
         /// Gets or sets the calibration weight for the next adjustment
         /// </summary>
-        public abstract int CalibrationWeight { get; set; }
+        public abstract double CalibrationWeight { get; set; }
 
         /// <summary>
         /// Gets or sets the zero signal

@@ -43,7 +43,7 @@ namespace Hbm.Weighing.Api.WTX
     public class WTXModbus : BaseWTDevice
     {
         #region ==================== constants & fields ====================        
-        private int _manualTareValue;
+        private double _manualTareValue;
         private bool _result;
         #endregion
 
@@ -155,7 +155,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         /// <inheritdoc />
-        public override int ManualTareValue 
+        public override double ManualTareValue 
         {
             get
             {
@@ -163,8 +163,8 @@ namespace Hbm.Weighing.Api.WTX
             }
             set
             {
-                Connection.WriteInteger(ModbusCommands.CIA461TareValue, value);
                 _manualTareValue = value;
+                Connection.WriteInteger(ModbusCommands.CIA461TareValue, MeasurementUtils.DoubleToDigit(value, ProcessData.Decimals));                
             }
         }
 
@@ -214,7 +214,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         /// <inheritdoc />
-        public override int CalibrationWeight { get; set; }
+        public override double CalibrationWeight { get; set; }
 
         /// <inheritdoc />
         public override int ZeroSignal { get; set; }

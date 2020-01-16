@@ -198,30 +198,32 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         /// <inheritdoc />
-        public override int ManualTareValue
+        public override double ManualTareValue
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461TareValue);
+                int readValue = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461CalibrationWeight);
+                return MeasurementUtils.DigitToDouble(readValue, ProcessData.Decimals);
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461TareValue, value);
+                Connection.WriteInteger(JetBusCommands.CIA461CalibrationWeight, MeasurementUtils.DoubleToDigit(value, ProcessData.Decimals));
             }
         }
 
         /// <inheritdoc />
-        public override int CalibrationWeight
+        public override double CalibrationWeight
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461CalibrationWeight);
+                int readValue = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461CalibrationWeight);
+                return MeasurementUtils.DigitToDouble(readValue, ProcessData.Decimals);
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461CalibrationWeight, value);
+                Connection.WriteInteger(JetBusCommands.CIA461CalibrationWeight, MeasurementUtils.DoubleToDigit(value,ProcessData.Decimals));
             }
         }
 
@@ -709,7 +711,7 @@ namespace Hbm.Weighing.Api.WTX
         /// <inheritdoc />
         public override void TareManually(double manualTareValue)
         {
-            Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_TARE);
+            Connection.WriteInteger(JetBusCommands.CIA461TareValue, MeasurementUtils.DoubleToDigit(manualTareValue, ProcessData.Decimals));
         }
         
         /// <inheritdoc />
