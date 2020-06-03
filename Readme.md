@@ -8,11 +8,8 @@ Connect your own application to weighing terminals WTX110-A and WTX120 from HBM.
 
 Contains API and 3 templates (Console application, Simple GUI, PLC view). 
 
-\begin{center} <br>
-\includegraphics[width=8in]{Doc/QuickStartGuide_WeighingAPI.pdf} <br>
-\end{center}
 
-
+[![Quick start guide Weighing API](Doc/QuickStartGuide_WeighingAPI.PNG)](Doc/QuickStartGuide_WeighingAPI.PDF)
 
 ## License
 
