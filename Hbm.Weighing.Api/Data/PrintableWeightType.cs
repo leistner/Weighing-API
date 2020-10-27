@@ -80,6 +80,13 @@ namespace Hbm.Weighing.Api.Data
 
         #region ================ public & internal methods =================
 
+        /// <summary>
+        /// Updates the device properties net, gross and tare from external
+        /// </summary>
+        /// <param name="net"></param>
+        /// <param name="gross"></param>
+        /// <param name="tare"></param>
+        /// <param name="decimals"></param>
         public void Update(double net, double gross, double tare, int decimals)
         {          
             setPrecision.NumberDecimalDigits = decimals;

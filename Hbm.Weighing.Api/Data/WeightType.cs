@@ -73,6 +73,7 @@ namespace Hbm.Weighing.Api.Data
         /// </summary>
         /// <param name="net">Net value </param>
         /// <param name="gross">Gross value</param>
+        /// <param name="tare">Tare value</param>
         public void Update(double net, double gross, double tare)
         {
             Net   = net;

@@ -45,15 +45,51 @@ namespace Hbm.Weighing.Api.Data
     /// </summary>
     public interface IDataFillerExtended : IDataFiller
     {
-        #region ======================== properties ========================                    
-        int MaterialStreamLastDosing { get; set; }
-        int SpecialDosingFunctions { get; set; }
+        #region ======================== properties ========================    
+
+        /// <summary>
+        /// Gets the material stream of the last filling cycle
+        /// </summary>                 
+        int MaterialStreamLastFilling { get; }
+
+        /// <summary>
+        /// Gets or sets the special filling functions
+        /// </summary>
+        int SpecialFillingFunctions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the discharge time in ma
+        /// </summary>
         int DischargeTime { get; set; }
-        int ExceedingWeightBreak { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mode empty weight underflow
+        /// </summary>
+        bool EmptyWeightBreak { get; set; }
+
+        /// <summary>
+        /// Gets or sets the delay 1 after filling complete in ms
+        /// </summary>
         int Delay1Dosing { get; set; }
+
+        /// <summary>
+        /// Gets or sets the delay 2 after filling complete in ms
+        /// </summary>
         int Delay2Dosing { get; set; }
+
+        /// <summary>
+        /// Gets or sets the minimum emtpy weight in weight unit
+        /// </summary>
         int EmptyWeightTolerance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the residual flow from last filling in weight unit
+        /// </summary>
         int ResidualFlowDosingCycle { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current product (= parameter set) 
+        /// </summary>
         new int ParameterSetProduct { get; set; }
         #endregion
 

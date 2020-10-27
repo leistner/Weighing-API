@@ -39,6 +39,11 @@ namespace Hbm.Weighing.Api.Data
     {
 
         #region ==================== events & delegates ====================
+        /// <summary>
+        /// Updates the data from external
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         void UpdateStandardData(object sender, EventArgs e);
         #endregion
 

@@ -1,4 +1,4 @@
-﻿// <copyright file="DataFillerExtended.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="DataFillerExtendedJet.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -65,60 +65,70 @@ namespace Hbm.Weighing.Api.Data
         #endregion
 
         #region ======================== properties ========================
-        public int MaterialStreamLastDosing
+       
+        ///<inhertifdoc/>
+        public int MaterialStreamLastFilling
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.MFOMaterialFlow); }
-            set { _connection.WriteInteger(JetBusCommands.MFOMaterialFlow , value); }
         }
 
-        public int SpecialDosingFunctions
+        ///<inhertifdoc/>
+        public int SpecialFillingFunctions
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.SDFSpecialDosingFunctions); }
             set { _connection.WriteInteger(JetBusCommands.SDFSpecialDosingFunctions , value);}
         }
 
+        ///<inhertifdoc/>
         public int DischargeTime
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.EPTDischargeTime); }
             set { _connection.WriteInteger(JetBusCommands.EPTDischargeTime , value); }
         }
 
+        ///<inhertifdoc/>
         public int ExceedingWeightBreak
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.EWBEmptyWeightBreak); }
             set { _connection.WriteInteger(JetBusCommands.EWBEmptyWeightBreak , value); }
         }
 
+        ///<inhertifdoc/>
         public int Delay1Dosing
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.DL1DosingDelay1); }
             set { _connection.WriteInteger(JetBusCommands.DL1DosingDelay1 , value); }
         }
 
+        ///<inhertifdoc/>
         public int Delay2Dosing
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.DL2DosingDelay2); }
             set { _connection.WriteInteger(JetBusCommands.DL2DosingDelay2 , value); }
         }
 
+        ///<inhertifdoc/>
         public int EmptyWeightTolerance
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.EWTEmptyWeight); }
             set { _connection.WriteInteger(JetBusCommands.EWTEmptyWeight , value); }
         }
 
+        ///<inhertifdoc/>
         public int ResidualFlowDosingCycle
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.RFOResidualFlow); }
             set { _connection.WriteInteger(JetBusCommands.RFOResidualFlow , value); }
         }
 
+        ///<inhertifdoc/>
         public new int ParameterSetProduct
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.RDPActivateParameterSet); }
             set { _connection.WriteInteger(JetBusCommands.RDPActivateParameterSet, value); }
         }
 
+        ///<inhertifdoc/>
         public int WeightStorageMode
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.SMDRecordWeightMode); }

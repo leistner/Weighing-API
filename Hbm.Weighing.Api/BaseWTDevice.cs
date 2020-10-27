@@ -52,6 +52,9 @@ namespace Hbm.Weighing.Api
         #endregion
 
         #region ==================== events & delegates ====================
+        /// <summary>
+        /// Event for receiving process data in the desired interval (<see cref="ProcessDataInterval"/>
+        /// </summary>
         public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
         #endregion
 

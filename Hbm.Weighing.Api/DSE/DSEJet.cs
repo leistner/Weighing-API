@@ -408,7 +408,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// < inheritdoc />
+        ///<inheritdoc/>
         public override ScaleRangeMode ScaleRangeMode
         {
             get
@@ -436,7 +436,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// < inheritdoc />
+        ///<inheritdoc/>
         public override int MultiScaleLimit1
         { 
             get
@@ -450,7 +450,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// < inheritdoc />
+        ///<inheritdoc/>
         public override int MultiScaleLimit2
         {
             get

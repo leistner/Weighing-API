@@ -12,3 +12,5 @@ TestResults/
 Weighing-API-Doc/Help/
 Doc/log.log
 Weighing-API-Doc/debug.log
+Examples/CommandLine/StyleCop.Cache
+StyleCop.Cache
