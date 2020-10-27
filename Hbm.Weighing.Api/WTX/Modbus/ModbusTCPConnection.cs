@@ -67,19 +67,19 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         #endregion
 
         #region ======================== properties ========================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool IsConnected { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public ConnectionType ConnectionType
         {
             get { return ConnectionType.Modbus; }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public string IpAddress { get; set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public ushort[] AllData { get; private set; }
         #endregion
 
@@ -155,7 +155,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             return _value;
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public async Task<string> ReadAsync(object command)
         {
             int _value = 0;
@@ -171,7 +171,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             return this.WriteInteger(command, Convert.ToInt32(value));
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool WriteInteger(object command, int value)
         {
             bool result = true;
@@ -217,7 +217,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             return result;
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public async Task<int> WriteAsync(object command, int value)
         {
             ModbusCommand _command = (ModbusCommand)command;
@@ -255,7 +255,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             return (modBusCommand.ToValue(AllData)).ToString();
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int ReadIntegerFromBuffer(object command)
         {
             ModbusCommand modbuscommand = (ModbusCommand)command;

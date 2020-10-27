@@ -114,7 +114,7 @@ namespace Hbm.Weighing.Api.Data
 
         #region ==================== events & delegates ====================
         /// <summary>
-        /// Updates & converts the values from buffer (Dictionary<string,string>) 
+        /// Updates and converts the values from buffer
         /// </summary>
         /// <param name="sender">Connection class</param>
         /// <param name="e">EventArgs, Event argument</param>
@@ -166,19 +166,19 @@ namespace Hbm.Weighing.Api.Data
         #endregion
 
         #region ======================== properties ========================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Input1 { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Input2 { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Input3 { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Input4 { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Output1
         {
             get { return _output1; }
@@ -189,7 +189,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Output2
         {
             get { return _output2; }
@@ -200,7 +200,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Output3
         {
             get { return _output3; }
@@ -211,7 +211,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Output4
         {
             get { return _output4; }
@@ -222,22 +222,22 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool LimitStatus1 { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool LimitStatus2 { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool LimitStatus3 { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool LimitStatus4 { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public WeightMemory WeightMemory { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public LimitSwitchSource LimitSwitch1Source
         { 
             get
@@ -251,7 +251,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public LimitSwitchMode LimitSwitch1Mode
         {
             get { return _limitSwitch1Mode; }
@@ -262,7 +262,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch1Level
         {
             get { return _limitSwitch1LevelAndLowerBandValue; }
@@ -273,7 +273,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch1LowerBandValue
         {
             get { return _limitSwitch1LevelAndLowerBandValue; }
@@ -284,7 +284,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch1Hysteresis
         {
             get { return _limitSwitch1HysteresisAndBandHeight; }
@@ -295,7 +295,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch1BandHeight
         {
             get { return _limitSwitch1HysteresisAndBandHeight; }
@@ -306,7 +306,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public LimitSwitchSource LimitSwitch2Source
         {
             get { return _limitSwitch2Source; }
@@ -317,7 +317,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public LimitSwitchMode LimitSwitch2Mode 
         {
             get { return _limitSwitch2Mode; }
@@ -328,7 +328,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch2Level 
         {
             get { return _limitSwitch2LevelAndLowerBandValue; }
@@ -339,7 +339,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch2Hysteresis
         {
             get { return _limitSwitch2HysteresisAndBandHeight; }
@@ -350,7 +350,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch2LowerBandValue 
         {
             get { return _limitSwitch2LevelAndLowerBandValue; }
@@ -361,7 +361,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch2BandHeight
         { 
             get { return _limitSwitch2HysteresisAndBandHeight; }
@@ -372,7 +372,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public LimitSwitchSource LimitSwitch3Source
         {
             get { return _limitSwitch3Source; }
@@ -383,7 +383,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public LimitSwitchMode LimitSwitch3Mode
         {
             get { return _limitSwitch3Mode; }
@@ -394,7 +394,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch3Level
         {
             get { return _limitSwitch3LevelAndLowerBandValue; }
@@ -405,7 +405,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch3Hysteresis
         {
             get { return _limitSwitch3HysteresisAndBandHeight; }
@@ -416,7 +416,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch3LowerBandValue
         {
             get { return _limitSwitch3LevelAndLowerBandValue; }
@@ -427,7 +427,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch3BandHeight
         {
             get { return _limitSwitch3HysteresisAndBandHeight; }
@@ -438,7 +438,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public LimitSwitchSource LimitSwitch4Source
         {
             get { return _limitSwitch4Source; }
@@ -449,7 +449,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public LimitSwitchMode LimitSwitch4Mode
         {
             get { return _limitSwitch4Mode; }
@@ -460,7 +460,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch4Level 
         {
             get { return _limitSwitch4LevelAndLowerBandValue; }
@@ -471,7 +471,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch4Hysteresis
         {
             get { return _limitSwitch4HysteresisAndBandHeight; }
@@ -482,7 +482,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch4LowerBandValue
         {
             get { return _limitSwitch4LevelAndLowerBandValue; }
@@ -493,7 +493,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int LimitSwitch4BandHeight
         {
             get { return _limitSwitch4HysteresisAndBandHeight; }

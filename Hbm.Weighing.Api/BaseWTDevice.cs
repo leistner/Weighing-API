@@ -43,6 +43,9 @@ namespace Hbm.Weighing.Api
     {
         #region ==================== constants & fields ====================
 
+        /// <summary>
+        /// Internal timer for sending <see cref="ProcessDataReceived"/>  event
+        /// </summary>
         protected Timer _processDataTimer;
         private int _processDataInterval = 500;
 

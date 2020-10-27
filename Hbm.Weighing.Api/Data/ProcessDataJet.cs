@@ -76,7 +76,7 @@ namespace Hbm.Weighing.Api.Data
         #endregion
 
         #region ==================== events & delegates ====================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public void UpdateData(object sender, EventArgs e)
         {
             try
@@ -115,60 +115,60 @@ namespace Hbm.Weighing.Api.Data
         #endregion
 
         #region ======================== properties ========================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public ApplicationMode ApplicationMode { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public WeightType Weight { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public PrintableWeightType PrintableWeight { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public string Unit { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int Decimals { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public TareMode TareMode { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool WeightStable { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool CenterOfZero { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool InsideZero { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool ZeroRequired { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int ScaleRange { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool LegalForTrade { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Underload { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Overload { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool HigherSafeLoadLimit { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool GeneralWeightError { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool ScaleAlarm { get; private set; }
         #endregion
 
         #region =============== protected & private methods ================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         private string UnitIDToString(int id)
         {
             switch (id)
@@ -188,7 +188,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         private TareMode EvaluateTareMode(int tare, int presettare)
         {
             if (tare > 0)

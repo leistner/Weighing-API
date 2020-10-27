@@ -104,7 +104,7 @@ namespace Hbm.Weighing.Api.Data
         /// </summary>
         int ScaleRange { get; }
 
-        /// <summary
+        /// <summary>
         /// Gets a value indicating whether the scale is in legal-for-trade mode
         /// </summary>
         bool LegalForTrade { get; }

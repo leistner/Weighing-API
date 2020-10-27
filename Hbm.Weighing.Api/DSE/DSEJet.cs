@@ -91,7 +91,7 @@ namespace Hbm.Weighing.Api.DSE
         /// </summary>
         public IDataFillerExtended DataFillerExtended { get; protected set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override string ConnectionType
         {
             get
@@ -100,7 +100,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override bool IsConnected
         {
             get
@@ -109,7 +109,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override WeightType Weight
         {
             get
@@ -118,7 +118,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override PrintableWeightType PrintableWeight
         {
             get
@@ -127,10 +127,10 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override ApplicationMode ApplicationMode { get; set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override string Unit
         {
             get
@@ -154,7 +154,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override TareMode TareMode
         {
             get
@@ -163,6 +163,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
+        ///<inheritdoc/>
         public override bool GeneralScaleError
         {
             get
@@ -171,6 +172,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
+        ///<inheritdoc/>
         public override int ErrorCode
         {
             get
@@ -179,7 +181,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override bool WeightStable
         {
             get
@@ -188,7 +190,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int ScaleRange
         {
             get
@@ -197,7 +199,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override double ManualTareValue
         {
             get
@@ -212,7 +214,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override double CalibrationWeight
         {
             get
@@ -227,7 +229,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int ZeroSignal
         {
             get
@@ -241,7 +243,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int NominalSignal
         {
             get
@@ -311,6 +313,11 @@ namespace Hbm.Weighing.Api.DSE
             {
                 return Connection.ReadFromBuffer(JetBusCommands.HWVHardwareVersion);
             }
+
+            set
+            {
+                Connection.Write(JetBusCommands.IDNDeviceIdentification, value);
+            }
         }
 
         public override string HardwareVersion
@@ -345,7 +352,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int LocalGravityFactor 
         {
             get
@@ -359,7 +366,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int MaximumCapacity
         {
             get
@@ -373,7 +380,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int WeightStep
         {
             get
@@ -387,7 +394,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int WeightMovementDetection
         {
             get
@@ -458,7 +465,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int DataRate
         {
             get
@@ -472,7 +479,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int LowPassFilterMode
         {
             get
@@ -486,7 +493,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int LowPasCutOffFrequency
         {
             get
@@ -510,7 +517,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int LowPassFilterOrder
         {
             get
@@ -534,7 +541,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override InputFunction Input1Function
         {
             get
@@ -652,76 +659,76 @@ namespace Hbm.Weighing.Api.DSE
         #endregion
 
         #region ================ public & internal methods ================= 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Connect(double timeoutMs = 20000)
         {
             Connection.Connect();
             _processDataTimer.Change(0, ProcessDataInterval);
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Connect(Action<bool> completed, double timeoutMs)
         {
             Connection.Connect();
             _processDataTimer.Change(0, ProcessDataInterval);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Disconnect(Action<bool> disconnectCompleted)
         {
             Connection.Disconnect();
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Disconnect()
         {
             Connection.Disconnect();
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void SaveAllParameters()
         {
             Connection.WriteInteger(JetBusCommands.CIA461SaveAllParameters, 0);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void RestoreAllDefaultParameters()
         {
             Connection.WriteInteger(JetBusCommands.CIA461RestoreAllDefaultParameters, 0);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Zero()
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_ZERO);
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void SetGross()
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_SET_GROSS);
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Tare()
         {
             if (Connection.IsConnected)
                 Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_TARE);
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void TareManually(double manualTareValue)
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_TARE);
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void RecordWeight()
         {
             Connection.WriteInteger(JetBusCommands.STORecordWeight, SCALE_COMMAND_TARE);
         }
                 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void CalculateAdjustment(double scaleZeroLoad_mVV, double scaleCapacity_mVV)
         {
             int scalZeroLoad_d;
@@ -734,7 +741,7 @@ namespace Hbm.Weighing.Api.DSE
             Connection.WriteInteger(JetBusCommands.LWTNominalValue, Convert.ToInt32(scaleCapacity_d)); 
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override bool AdjustZeroSignal()
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_ZERO); 
@@ -756,7 +763,7 @@ namespace Hbm.Weighing.Api.DSE
             return false;
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override bool AdjustNominalSignal()
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
@@ -779,7 +786,7 @@ namespace Hbm.Weighing.Api.DSE
             return false;
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override bool AdjustNominalSignalWithCalibrationWeight(double calibrationWeight)
         {
             Connection.WriteInteger(JetBusCommands.CIA461CalibrationWeight, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));
@@ -805,7 +812,7 @@ namespace Hbm.Weighing.Api.DSE
             return false;
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         protected override void ProcessDataUpdateTick(object info)
         {
             if (IsConnected)
