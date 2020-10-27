@@ -9,3 +9,6 @@ TestResults/
 .vs/
 
 /Examples/NETStandard2TestLib
+Weighing-API-Doc/Help/
+Doc/log.log
+Weighing-API-Doc/debug.log
