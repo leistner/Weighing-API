@@ -60,7 +60,7 @@ namespace GUIsimple
         private int _timerInterval = 200;
 
         #endregion
-        
+
         #region =============== constructors & destructors =================
 
         /// <summary>
@@ -71,11 +71,14 @@ namespace GUIsimple
         {
             InitializeComponent();
             DisplayText("Check IP address, select 'Jet' or 'Modbus/TCP' and press 'Connect'.");
-            EvaluateCommandLine(args);    
+            EvaluateCommandLine(args);
             txtIPAddress.Text = _ipAddress;
             picNE107.Image = Properties.Resources.NE107_DiagnosisPassive;
         }
         #endregion
+
+        private double calwei = 0;
+        private string hwversion = "Hallo";
 
         #region =============== protected & private methods ================
 
@@ -90,9 +93,9 @@ namespace GUIsimple
             {
                 // Creating objects of JetBusConnection and WTXJet: 
                 JetBusConnection _jetConnection = new JetBusConnection(_ipAddress, "Administrator", "wtx");
-                _wtxDevice = new WTXJet(_jetConnection,500, update);
+                _wtxDevice = new WTXJet(_jetConnection, 500, update);
             }
-            else if (this.cboDeviceType.SelectedIndex==1)  
+            else if (this.cboDeviceType.SelectedIndex == 1)
             {
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTCPConnection _modbusConnection = new ModbusTCPConnection(this._ipAddress);
@@ -137,12 +140,13 @@ namespace GUIsimple
         /// <param name="sender"></param>
         /// <param name="e">Here you find the current process data (e.g. weight value)</param>
         private void update(object sender, ProcessDataReceivedEventArgs e)
-        {           
+        {
             this.BeginInvoke(new Action(() =>
             {
                 DisplayText("Net:" + _wtxDevice.PrintableWeight.Net + _wtxDevice.Unit + Environment.NewLine
                 + "Gross:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit + Environment.NewLine
-                + "Tara:" + _wtxDevice.PrintableWeight.Tare + _wtxDevice.Unit);
+                + "Tara:" + _wtxDevice.PrintableWeight.Tare + _wtxDevice.Unit + Environment.NewLine
+                + "Hardware Version:" + this.hwversion); //+ _wtxDevice.Unit);
 
                 if (e.ProcessData.Underload == true)
                 {
@@ -210,7 +214,7 @@ namespace GUIsimple
             txtInfo.Text = text;
             Application.DoEvents();
         }
-        
+
         /// <summary>
         /// Connects to wtx device
         /// </summary>
@@ -226,7 +230,7 @@ namespace GUIsimple
             }
 
             DisplayText("Connecting...");
-            this.InitializeConnection();          
+            this.InitializeConnection();
         }
 
         /// <summary>
@@ -236,7 +240,7 @@ namespace GUIsimple
         /// <param name="e"></param>
         private void cmdGrossNet_Click(object sender, EventArgs e)
         {
-                _wtxDevice.SetGross();
+            _wtxDevice.SetGross();
         }
 
         /// <summary>
@@ -288,9 +292,20 @@ namespace GUIsimple
                 _adjustmentWeigher = new AdjustmentWeigher(_wtxDevice);
                 DialogResult res = _adjustmentWeigher.ShowDialog();
             }
-        }    
+        }
 
         #endregion
 
+        private void GUIsimpleForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            //this.calwei = _wtxDevice.CalibrationWeight;
+            //this.calwei = _wtxDevice.ZeroSignal;
+            this.hwversion = ((DSEJet)_wtxDevice).HardwareVersion;
+        }
     }
 }

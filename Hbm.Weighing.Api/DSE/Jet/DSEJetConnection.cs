@@ -32,6 +32,7 @@ namespace Hbm.Weighing.Api.DSE.Jet
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Net.Security;
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
@@ -130,13 +131,32 @@ namespace Hbm.Weighing.Api.DSE.Jet
             throw new NotImplementedException();
         }
 
+        JetBusCommand[] oneFetch = new JetBusCommand[]
+        {
+            JetBusCommands.HWVHardwareVersion,
+            JetBusCommands.SWVSoftwareVersion,
+            //new JetBusCommand(String, "1008,00"
+        };
+
         /// <inheritdoc />
         public string ReadFromBuffer(object command)
         {
             string result = "0";
             JetBusCommand jetcommand = (JetBusCommand)command;
-            if (AllData.ContainsKey(jetcommand.Path))
+            if (oneFetch.Contains(jetcommand))
+            {
+                FetchId id;
+                Matcher matcher = new Matcher();
+                matcher.EqualsTo = jetcommand.Path;
+                _peer.Fetch(out id, matcher, OnFetchData, OnFetch, this._timeoutMs);
+                if(!AllData.ContainsKey(jetcommand.Path)) System.Threading.Thread.Sleep(100);
                 result = jetcommand.ToString(AllData[jetcommand.Path]);
+                _peer.Unfetch(id, OnFetch, this._timeoutMs);
+            }
+            else if(AllData.ContainsKey(jetcommand.Path))
+            {
+                result = jetcommand.ToString(AllData[jetcommand.Path]);
+            }
             return result;
         }
 
@@ -144,7 +164,22 @@ namespace Hbm.Weighing.Api.DSE.Jet
         public int ReadIntegerFromBuffer(object command)
         {
             JetBusCommand jetcommand = (JetBusCommand)command;
-            return jetcommand.ToSValue(AllData[jetcommand.Path]);
+
+            if(!DSEFetchTargets.Contains(jetcommand.Path))
+            {
+                FetchId id;
+                Matcher matcher = new Matcher();
+                matcher.EqualsTo = jetcommand.Path;
+                _peer.Fetch(out id, matcher, OnFetchData, OnFetch, this._timeoutMs);
+                System.Threading.Thread.Sleep(100);
+                int ret = jetcommand.ToSValue(AllData[jetcommand.Path]);
+                _peer.Unfetch(id, OnFetch, this._timeoutMs);
+                return ret;
+            }
+            else
+            {
+                return jetcommand.ToSValue(AllData[jetcommand.Path]);
+            }
         }
 
         /// <inheritdoc />
@@ -246,9 +281,8 @@ namespace Hbm.Weighing.Api.DSE.Jet
             "6141/02",   //6142.0 = Zero value
             "6143/00",   //6143.0 = Tare value
             "6144/00",   //6144.0 = Gross value
-            "6152/00",   //Scale calibration weight
+            //"6152/00",   //Scale calibration weight
             "6153/00",   //6153.0 = Weight movement detection
-
         };
 
         private void FetchSelective()

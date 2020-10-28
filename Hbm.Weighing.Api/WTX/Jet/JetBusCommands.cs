@@ -132,7 +132,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
             FRS1FillingResult = new JetBusCommand(DataType.S32, "2000/05", 0, 0);
             FRS2FillingResultState = new JetBusCommand(DataType.U16, "2000/06", 0, 0);
             FWTFillingTargetWeight = new JetBusCommand(DataType.S32, "2210/07", 0, 0);
-            HWVHardwareVersion = new JetBusCommand(DataType.ASCII, "2520/0A", 0, 0);
+            HWVHardwareVersion = new JetBusCommand(DataType.ASCII, "1008/00", 0, 0);        //"2520/0A
             IDNDeviceIdentification = new JetBusCommand(DataType.ASCII, "2520/01", 0, 0);
             IM1DigitalInput1Mode = new JetBusCommand(DataType.U08, "2022/01", 0, 0);
             IM2DigitalInput2Mode = new JetBusCommand(DataType.U08, "2022/02", 0, 0);

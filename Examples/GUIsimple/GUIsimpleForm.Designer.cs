@@ -42,6 +42,7 @@
             this.calibrationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.txtInfo = new System.Windows.Forms.TextBox();
             this.picNE107 = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.grrpSetup.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picNE107)).BeginInit();
@@ -147,7 +148,7 @@
             this.calibrationToolStripMenuItem});
             this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
-            this.toolStripDropDownButton1.Size = new System.Drawing.Size(49, 22);
+            this.toolStripDropDownButton1.Size = new System.Drawing.Size(48, 22);
             this.toolStripDropDownButton1.Text = "Tools";
             // 
             // calibrationWithWeightToolStripMenuItem
@@ -185,11 +186,22 @@
             this.picNE107.TabIndex = 27;
             this.picNE107.TabStop = false;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(252, 141);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(31, 21);
+            this.button1.TabIndex = 30;
+            this.button1.Text = "TB";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
             // GUIsimpleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 312);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.txtInfo);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.picNE107);
@@ -226,6 +238,7 @@
         private System.Windows.Forms.ToolStripMenuItem calibrationToolStripMenuItem;
         private System.Windows.Forms.TextBox txtInfo;
         private System.Windows.Forms.ComboBox cboDeviceType;
+        private System.Windows.Forms.Button button1;
     }
 }
 
