@@ -41,7 +41,7 @@ namespace Hbm.Weighing.Api.WTX
     /// This class represents a WTX device with the Jet ethernet interface.
     /// Subscribe to ProcessDataReceived over the constructor to automatically get weight values.
     /// </summary>
-    public class WTXJet : ExtendedWTDevice
+    public class WTXJet : BaseWTXDevice, IDataScale, IDataDigitalFilter
     {
         #region ==================== constants & fields ====================
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000;  
@@ -78,9 +78,10 @@ namespace Hbm.Weighing.Api.WTX
             : base(connection, timerIntervalms)
         {
             _connection = connection;
-            ProcessData = new ProcessDataJet(Connection);
-            DataStandard = new DataStandardJet(Connection);
-            DataFiller = new DataFillerExtendedJet(Connection);
+            ProcessData = new JetProcessData(Connection);
+            IO = new JetDataIO(Connection);
+            Filler = new JetDataFillerExtended(Connection);
+            LimitSwitch = new JetDataLimitSwitch(Connection);
             ProcessDataReceived += onProcessData;
         }
         #endregion
@@ -89,7 +90,17 @@ namespace Hbm.Weighing.Api.WTX
         /// <summary>
         /// Gets or sets the extended filler data 
         /// </summary>
-        public IDataFillerExtended DataFillerExtended { get; protected set; }
+        public IDataFillerExtended Filler { get; set; }
+
+        /// <summary>
+        /// Gets or sets the digital IO data 
+        /// </summary>
+        public override IDataIO IO { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extended limit switch data 
+        /// </summary>
+        public override IDataLimitSwitch LimitSwitch { get; set; }
 
         ///<inheritdoc/>
         public override string ConnectionType
@@ -172,8 +183,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override int ErrorCode
+        /// <summary>
+        /// Gets last error code
+        /// </summary>
+        public int ErrorCode
         {
             get
             {
@@ -257,8 +270,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override int MaximumPeakValueGross
+        /// <summary>
+        /// Gets the gross maximum peak value
+        /// </summary>
+        public int MaximumPeakValueGross
         {
             get
             {
@@ -266,8 +281,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override int MinimumPeakValueGross
+        /// <summary>
+        /// Gets the the gross minimum peak value
+        /// </summary>
+        public int MinimumPeakValueGross
         {
             get
             {
@@ -275,20 +292,26 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override int MaximumPeakValue
+        /// <summary>
+        /// Gets the net maximum peak value
+        /// </summary>
+        public int MaximumPeakValue
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461PeakValueMax); }
         }
 
-        ///<inheritdoc/>
-        public override int MinimumPeakValue
+        /// <summary>
+        /// Gets the net minimum peak value
+        /// </summary>
+        public int MinimumPeakValue
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461PeakValuMin); }
         }
 
-        ///<inheritdoc/>
-        public override int VendorID
+        /// <summary>
+        /// Gets the vendor id
+        /// </summary>
+        public int VendorID
         {
             get
             {
@@ -296,8 +319,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override int ProductCode
+        /// <summary>
+        /// Gets the product code 
+        /// </summary>
+        public int ProductCode
         {
             get
             {
@@ -306,11 +331,11 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public override int SerialNumber
+        public override string SerialNumber
         {
             get
             {
-                return Connection.ReadIntegerFromBuffer(JetBusCommands.CIA461SerialNumber);
+                return Connection.ReadFromBuffer(JetBusCommands.CIA461SerialNumber);
             }
         }
 
@@ -328,8 +353,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override string HardwareVersion
+        /// <summary>
+        /// Gets the hardware version (e.g. WTX120)
+        /// </summary>
+        public string HardwareVersion
         {
             get
             {
@@ -338,7 +365,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public override string SoftwareVersion
+        public override string FirmwareVersion
         {
             get
             {
@@ -346,8 +373,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override string SoftwareIdentification 
+        /// <summary>
+        /// Gets the legal-for-trade software identification  
+        /// </summary>
+        public string SoftwareIdentification 
         {
             get
             {
@@ -355,17 +384,21 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override string FirmwareDate
+        /// <summary>
+        /// Gets the firmware date
+        /// </summary>
+        public string FirmwareDate
         {
             get
             {
                 return Connection.ReadFromBuffer(JetBusCommands.PDTFirmwareDate);
             }
         }
-        
-        ///<inheritdoc/>
-        public override int LocalGravityFactor 
+
+        /// <summary>
+        /// Gets or sets the local gravity factor
+        /// </summary>
+        public int LocalGravityFactor 
         {
             get
             {
@@ -393,7 +426,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public override int WeightStep
+        public int WeightStep
         {
             get
             {
@@ -407,7 +440,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public override int WeightMovementDetection
+        public int WeightMovementDetection
         {
             get
             {
@@ -421,7 +454,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public override ScaleRangeMode ScaleRangeMode
+        public ScaleRangeMode ScaleRangeMode
         {
             get
             {
@@ -449,7 +482,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public override int MultiScaleLimit1
+        public int MultiScaleLimit1
         { 
             get
             {
@@ -463,7 +496,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public override int MultiScaleLimit2
+        public int MultiScaleLimit2
         {
             get
             {
@@ -478,7 +511,7 @@ namespace Hbm.Weighing.Api.WTX
 
 
         ///<inheritdoc/>
-        public override int DataRate
+        public int DataRate
         {
             get
             {
@@ -492,7 +525,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public override int LowPassFilterMode
+        public int LowPassFilterMode
         {
             get
             {
@@ -506,7 +539,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public override int LowPasCutOffFrequency
+        public int LowPasCutOffFrequency
         {
             get
             {
@@ -530,7 +563,7 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public override int LowPassFilterOrder
+        public int LowPassFilterOrder
         {
             get
             {
@@ -553,8 +586,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override InputFunction Input1Function
+        /// <summary>
+        /// Gets or sets the input function of digital input 1
+        /// </summary>
+        public InputFunction Input1Function
         {
             get
             {
@@ -567,8 +602,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override InputFunction Input2Function
+        /// <summary>
+        /// Gets or sets the input function of digital input 2
+        /// </summary>
+        public InputFunction Input2Function
         {
             get
             {
@@ -581,8 +618,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override InputFunction Input3Function
+        /// <summary>
+        /// Gets or sets the input function of digital input 3
+        /// </summary>
+        public InputFunction Input3Function
         {
             get
             {
@@ -595,8 +634,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override InputFunction Input4Function
+        /// <summary>
+        /// Gets or sets the input function of digital input 4
+        /// </summary>
+        public InputFunction Input4Function
         {
             get
             {
@@ -609,8 +650,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override OutputFunction Output1Function
+        /// <summary>
+        /// Gets or sets the output function of digital output 1
+        /// </summary>
+        public OutputFunction Output1Function
         { 
             get
             {
@@ -623,8 +666,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override OutputFunction Output2Function
+        /// <summary>
+        /// Gets or sets the output function of output 2
+        /// </summary>
+        public OutputFunction Output2Function
         {
             get
             {
@@ -637,8 +682,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override OutputFunction Output3Function
+        /// <summary>
+        /// Gets or sets the output function of digital output 3
+        /// </summary>
+        public OutputFunction Output3Function
         {
             get
             {
@@ -651,8 +698,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        ///<inheritdoc/>
-        public override OutputFunction Output4Function
+        /// <summary>
+        /// Gets or sets the output function of digital output 4
+        /// </summary>
+        public OutputFunction Output4Function
         {
             get
             {

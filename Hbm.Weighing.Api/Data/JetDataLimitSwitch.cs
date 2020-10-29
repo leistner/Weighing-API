@@ -1,4 +1,4 @@
-﻿// <copyright file="DataStandard.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="JetDataLimitSwitch.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -30,6 +30,7 @@
 
 namespace Hbm.Weighing.Api.Data
 {
+    using Hbm.Weighing.Api.Utils;
     using Hbm.Weighing.Api.WTX.Jet;
     using System;
     using System.Collections.Generic;
@@ -39,14 +40,10 @@ namespace Hbm.Weighing.Api.Data
     /// The class DataStandardJet contains the data input word and data output words for the standard mode
     /// of WTX device 120 and 110 via Jetbus.
     /// </summary>
-    public class DataStandardJet : IDataIO, IDataLimitSwitch
+    public class JetDataLimitSwitch: IDataLimitSwitch
     {
 
         #region ==================== constants & fields ====================
-        private bool _output1;
-        private bool _output2;
-        private bool _output3;
-        private bool _output4;
         private LimitSwitchSource _limitSwitch1Source;
         private LimitSwitchMode _limitSwitch1Mode;
         private int _limitSwitch1LevelAndLowerBandValue;
@@ -68,24 +65,12 @@ namespace Hbm.Weighing.Api.Data
 
         #region =============== constructors & destructors =================
         /// <summary>
-        /// Constructor of class DataStandardJet : Initalizes values and connects 
-        /// the eventhandler from Connection to the interal update method
+        /// Constructor of class JetDataLimitSwitch
         /// </summary>
-        public DataStandardJet(INetConnection Connection)
+        public JetDataLimitSwitch(INetConnection Connection)
         {
             _connection = Connection;
-            _connection.UpdateData += UpdateData;
-            _connection.UpdateData += UpdateDataIO;
             _connection.UpdateData += UpdateDataLimitSwitch;
-            WeightMemory = new WeightMemory();
-            Input1 = false;
-            Input2 = false;
-            Input3 = false;
-            Input4 = false;
-            _output1 = false;
-            _output2 = false;
-            _output3 = false;
-            _output4 = false;
             LimitStatus1 = false;
             LimitStatus2 = false;
             LimitStatus3 = false;
@@ -116,31 +101,14 @@ namespace Hbm.Weighing.Api.Data
         /// </summary>
         /// <param name="sender">Connection class</param>
         /// <param name="e">EventArgs, Event argument</param>
-        public void UpdateData(object sender, EventArgs e)
-        {
-            try
-            {
-                WeightMemory = ExtractWeightMemory();
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine("KeyNotFoundException in class DataStandardJet, update method");
-            }
-        }
-
-        /// <summary>
-        /// Updates and converts the values from buffer
-        /// </summary>
-        /// <param name="sender">Connection class</param>
-        /// <param name="e">EventArgs, Event argument</param>
         public void UpdateDataLimitSwitch(object sender, EventArgs e)
         {
             try
             {
-                LimitStatus1 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue1Status));
-                LimitStatus2 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue2Status));
-                LimitStatus3 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue3Status));
-                LimitStatus4 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue4Status));
+                LimitStatus1 = MeasurementUtils.StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue1Status));
+                LimitStatus2 = MeasurementUtils.StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue2Status));
+                LimitStatus3 = MeasurementUtils.StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue3Status));
+                LimitStatus4 = MeasurementUtils.StringToBool(_connection.ReadFromBuffer(JetBusCommands.LVSLimitValue4Status));
 
                 ApplicationMode _applicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.IMDApplicationMode));
                 if (_applicationMode == ApplicationMode.Standard)
@@ -168,87 +136,9 @@ namespace Hbm.Weighing.Api.Data
                 Console.WriteLine("KeyNotFoundException in class DataStandardJet, update method");
             }
         }
-        /// <summary>
-        /// Updates and converts the values from buffer
-        /// </summary>
-        /// <param name="sender">Connection class</param>
-        /// <param name="e">EventArgs, Event argument</param>
-        public void UpdateDataIO(object sender, EventArgs e)
-        {
-            try
-            {
-                Input1 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.IS1DigitalInput1));
-                Input2 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.IS2DigitalInput2));
-                Input3 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.IS3DigitalInput3));
-                Input4 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.IS4DigitalInput4));
-                _output1 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.OS1DigitalOutput1));
-                _output2 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.OS2DigitalOutput2));
-                _output3 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.OS3DigitalOutput3));
-                _output4 = StringToBool(_connection.ReadFromBuffer(JetBusCommands.OS4DigitalOutput4));
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine("KeyNotFoundException in class DataStandardJet, update method");
-            }
-        }
         #endregion
 
         #region ======================== properties ========================
-        ///<inheritdoc/>
-        public bool Input1 { get; private set; }
-
-        ///<inheritdoc/>
-        public bool Input2 { get; private set; }
-
-        ///<inheritdoc/>
-        public bool Input3 { get; private set; }
-
-        ///<inheritdoc/>
-        public bool Input4 { get; private set; }
-
-        ///<inheritdoc/>
-        public bool Output1
-        {
-            get{ return _output1; }
-            set
-            {
-                _connection.WriteInteger(JetBusCommands.OS1DigitalOutput1, Convert.ToInt32(value));
-                _output1 = value;
-            }
-        }
-
-        ///<inheritdoc/>
-        public bool Output2
-        {
-            get{ return _output2; }
-            set
-            {
-                _connection.WriteInteger(JetBusCommands.OS2DigitalOutput2, Convert.ToInt32(value));
-                _output2 = value;
-            }
-        }
-
-        ///<inheritdoc/>
-        public bool Output3
-        {
-            get{ return _output3; }
-            set
-            {
-                _connection.WriteInteger(JetBusCommands.OS3DigitalOutput3, Convert.ToInt32(value));
-                _output3 = value;
-            }
-        }
-
-        ///<inheritdoc/>
-        public bool Output4
-        {
-            get{ return _output4; }
-            set
-            {
-                _connection.WriteInteger(JetBusCommands.OS4DigitalOutput4, Convert.ToInt32(value));
-                _output4 = value;
-            }
-        }
 
         ///<inheritdoc/>
         public bool LimitStatus1 { get; private set; }
@@ -261,10 +151,7 @@ namespace Hbm.Weighing.Api.Data
 
         ///<inheritdoc/>
         public bool LimitStatus4 { get; private set; }
-
-        ///<inheritdoc/>
-        public WeightMemory WeightMemory { get; private set; }
-        
+                
         ///<inheritdoc/>
         public LimitSwitchSource LimitSwitch1Source
         {
@@ -614,39 +501,6 @@ namespace Hbm.Weighing.Api.Data
             return result;
         }
 
-        /// <summary>
-        /// Convert string to bool ("0"=False, "1"=True)
-        /// </summary>
-        /// <param name="boolAsString">Sring representing a boolean</param>
-        /// <returns></returns>
-        private bool StringToBool(string boolAsString)
-        {
-            return boolAsString != "0";
-        }
-
-        private WeightMemory ExtractWeightMemory()
-        {
-             WeightMemory _wm = new WeightMemory();
-            string _currentweight = _connection.ReadFromBuffer(JetBusCommands.WRSWeightMemoryEntry);
-            if (_currentweight.Length>61)
-            {
-                try
-                {
-                    int _year = Convert.ToInt32(_currentweight.Substring(10, 2)) + 2000;
-                    int _month = Convert.ToInt32(_currentweight.Substring(7, 2));
-                    int _day = Convert.ToInt32(_currentweight.Substring(4, 2));
-                    int _id = Convert.ToInt32(_currentweight.Substring(17, 4).Trim());
-                    int _gross = Convert.ToInt32(_currentweight.Substring(22, 8).Trim());
-                    int _net = Convert.ToInt32(_currentweight.Substring(38, 8).Trim());
-                    _wm.Update(_year, _month, _day, _net, _gross, _id);
-                }
-                catch
-                {
-                    _wm.Update(0, 0, 0, 0, 0, -1);
-                }
-            }
-            return _wm;
-        }
         #endregion
     }
 }

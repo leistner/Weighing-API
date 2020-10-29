@@ -1,4 +1,4 @@
-﻿// <copyright file="DataFillerExtendedJet.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="JetDataFillerExtended.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -29,11 +29,6 @@
 // </copyright>
 
 using Hbm.Weighing.Api.WTX.Jet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Hbm.Weighing.Api.Data
 {
@@ -44,7 +39,7 @@ namespace Hbm.Weighing.Api.Data
     /// 
     /// This is only available via a JetBus Ethernet connection as an extension to DataFillerJet, not via Modbus. 
     /// </summary>
-    public class DataFillerExtendedJet : DataFillerJet, IDataFillerExtended
+    public class JetDataFillerExtended : JetDataFiller, IDataFillerExtended
     {
         #region ==================== constants & fields ====================        
         private INetConnection _connection;
@@ -55,7 +50,7 @@ namespace Hbm.Weighing.Api.Data
         /// Constructor of class DataFillerExtendedJet : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
-        public DataFillerExtendedJet(INetConnection Connection):base(Connection)          
+        public JetDataFillerExtended(INetConnection Connection):base(Connection)          
         {
             _connection = Connection;        
         }
@@ -87,10 +82,16 @@ namespace Hbm.Weighing.Api.Data
         }
 
         ///<inhertifdoc/>
-        public int ExceedingWeightBreak
+        public bool EmptyWeightBreak
         {
-            get { return _connection.ReadIntegerFromBuffer(JetBusCommands.EWBEmptyWeightBreak); }
-            set { _connection.WriteInteger(JetBusCommands.EWBEmptyWeightBreak , value); }
+            get { return (_connection.ReadIntegerFromBuffer(JetBusCommands.EWBEmptyWeightBreak)==1); }
+            set 
+            { 
+                if (value) 
+                    _connection.WriteInteger(JetBusCommands.EWBEmptyWeightBreak, 1);
+                else
+                    _connection.WriteInteger(JetBusCommands.EWBEmptyWeightBreak, 0);
+            }
         }
 
         ///<inhertifdoc/>

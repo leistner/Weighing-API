@@ -89,7 +89,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
 
             _dataReadSuccess[0] = 16448;       // Net value
             _dataReadSuccess[1] = 16448;       // Gross value
-            _dataReadSuccess[2] = 0;           // General weight error
+            _dataReadSuccess[2] = 0;           // General scale error
             _dataReadSuccess[3] = 0;           // Scale alarm triggered
             _dataReadSuccess[4] = 0;           // Limit status
             _dataReadSuccess[5] = 0;           // Weight moving

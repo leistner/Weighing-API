@@ -24,7 +24,7 @@
       <DocumentationSource sourceFile="Weighing-API-Doc.csproj" xmlns="" />
     </DocumentationSources>
     <VisibleItems>InheritedMembers, ProtectedInternalAsProtected, NonBrowsable</VisibleItems>
-    <HelpFileFormat>Website</HelpFileFormat>
+    <HelpFileFormat>HtmlHelp1, MSHelpViewer, Website</HelpFileFormat>
     <SyntaxFilters>Standard</SyntaxFilters>
     <PresentationStyle>VS2013</PresentationStyle>
     <CleanIntermediates>True</CleanIntermediates>
@@ -33,6 +33,17 @@
     <IndentHtml>False</IndentHtml>
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
+    <NamespaceSummaries>
+      <NamespaceSummaryItem name="(global)" isDocumented="True">An API for connecting HBM weighing devices (e.g. WTX or DSE) via ethernet</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Hbm.Weighing.Api" isDocumented="True">An API for connecting HBM weighing devices (e.g. WTX or DSE) via ethernet</NamespaceSummaryItem>
+      <NamespaceSummaryItem name="Hbm.Weighing.Api.Data" isDocumented="True" />
+      <NamespaceSummaryItem name="Hbm.Weighing.Api.DSE" isDocumented="True" />
+      <NamespaceSummaryItem name="Hbm.Weighing.Api.DSE.Jet" isDocumented="True" />
+      <NamespaceSummaryItem name="Hbm.Weighing.Api.Utils" isDocumented="True" />
+      <NamespaceSummaryItem name="Hbm.Weighing.Api.WTX" isDocumented="True" />
+      <NamespaceSummaryItem name="Hbm.Weighing.Api.WTX.Jet" isDocumented="True" />
+      <NamespaceSummaryItem name="Hbm.Weighing.Api.WTX.Modbus" isDocumented="True" />
+    </NamespaceSummaries>
   </PropertyGroup>
   <!-- There are no properties for these groups.  AnyCPU needs to appear in order for Visual Studio to perform
 			 the build.  The others are optional common platform types that may appear. -->

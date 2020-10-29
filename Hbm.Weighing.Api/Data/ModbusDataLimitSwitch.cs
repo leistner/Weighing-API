@@ -1,4 +1,4 @@
-﻿// <copyright file="DataStandard.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="ModbusDataLimitSwitch.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -28,14 +28,10 @@
 //
 // </copyright>
 
-using Hbm.Weighing.Api.WTX.Jet;
+using Hbm.Weighing.Api.Utils;
 using Hbm.Weighing.Api.WTX.Modbus;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Hbm.Weighing.Api.Data
 {
@@ -44,14 +40,10 @@ namespace Hbm.Weighing.Api.Data
     /// The class DataStandardModbus contains the data input word and data output words for the standard mode
     /// of WTX device 120 and 110 via Modbus.
     /// </summary>
-    public class DataStandardModbus : IDataIO, IDataLimitSwitch
+    public class ModbusDataLimitSwitch : IDataLimitSwitch
     {
 
         #region ==================== constants & fields ====================
-        private bool _output1;
-        private bool _output2;
-        private bool _output3;
-        private bool _output4;
         private LimitSwitchSource _limitSwitch1Source;
         private LimitSwitchMode _limitSwitch1Mode;
         private int _limitSwitch1LevelAndLowerBandValue;
@@ -76,21 +68,10 @@ namespace Hbm.Weighing.Api.Data
         /// Constructor of class DataStandardModbus : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
-        public DataStandardModbus(INetConnection Connection)
+        public ModbusDataLimitSwitch(INetConnection Connection)
         {
             _connection = Connection;
-            _connection.UpdateData += UpdateData;
-            _connection.UpdateData += UpdateDataIO;
             _connection.UpdateData += UpdateDataLimitSwitch;
-            WeightMemory = new WeightMemory();
-            Input1 = false;
-            Input2 = false;
-            Input3 = false;
-            Input4 = false;
-            _output1 = false;
-            _output2 = false;
-            _output3 = false;
-            _output4 = false;
             LimitStatus1 = false;
             LimitStatus2 = false;
             LimitStatus3 = false;
@@ -115,15 +96,6 @@ namespace Hbm.Weighing.Api.Data
         #endregion
 
         #region ==================== events & delegates ====================
-        /// <summary>
-        /// Updates and converts the values from buffer
-        /// </summary>
-        /// <param name="sender">Connection class</param>
-        /// <param name="e">EventArgs, Event argument</param>
-        public void UpdateData(object sender, EventArgs e)
-        {
-            WeightMemory = ExtractWeightMemory();
-        }
 
         /// <summary>
         /// Updates and converts the values from buffer
@@ -134,10 +106,10 @@ namespace Hbm.Weighing.Api.Data
         {
             try
             {
-                LimitStatus1 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.LVSLimitValueStatus));
-                LimitStatus2 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.LVSLimitValueStatus));
-                LimitStatus3 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.LVSLimitValueStatus));
-                LimitStatus4 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.LVSLimitValueStatus));
+                LimitStatus1 = MeasurementUtils.StringToBool(_connection.ReadFromBuffer(ModbusCommands.LVSLimitValueStatus));
+                LimitStatus2 = MeasurementUtils.StringToBool(_connection.ReadFromBuffer(ModbusCommands.LVSLimitValueStatus));
+                LimitStatus3 = MeasurementUtils.StringToBool(_connection.ReadFromBuffer(ModbusCommands.LVSLimitValueStatus));
+                LimitStatus4 = MeasurementUtils.StringToBool(_connection.ReadFromBuffer(ModbusCommands.LVSLimitValueStatus));
   
                 ApplicationMode _applicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.IMDApplicationMode));
                 if (_applicationMode == ApplicationMode.Standard)
@@ -166,87 +138,9 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <summary>
-        /// Updates and converts the values from buffer
-        /// </summary>
-        /// <param name="sender">Connection class</param>
-        /// <param name="e">EventArgs, Event argument</param>
-        public void UpdateDataIO(object sender, EventArgs e)
-        {
-            try
-            {
-                Input1 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.IS1DigitalInput1));
-                Input2 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.IS2DigitalInput2));
-                Input3 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.IS3DigitalInput3));
-                Input4 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.IS4DigitalInput4));
-                _output1 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.OS1DigitalOutput1));
-                _output2 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.OS2DigitalOutput2));
-                _output3 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.OS3DigitalOutput3));
-                _output4 = StringToBool(_connection.ReadFromBuffer(ModbusCommands.OS4DigitalOutput4));
-            }
-            catch (KeyNotFoundException)
-            {
-                Console.WriteLine("KeyNotFoundException in class DataStandardModbus, update method");
-            }
-        }
         #endregion
 
         #region ======================== properties ========================
-        ///<inheritdoc/>
-        public bool Input1 { get; private set; }
-
-        ///<inheritdoc/>
-        public bool Input2 { get; private set; }
-
-        ///<inheritdoc/>
-        public bool Input3 { get; private set; }
-
-        ///<inheritdoc/>
-        public bool Input4 { get; private set; }
-
-        ///<inheritdoc/>
-        public bool Output1
-        {
-            get { return _output1; }
-            set
-            {
-                _connection.WriteInteger(ModbusCommands.OS1DigitalOutput1, Convert.ToInt32(value));
-                _output1 = value;
-            }
-        }
-
-        ///<inheritdoc/>
-        public bool Output2
-        {
-            get { return _output2; }
-            set
-            {
-                _connection.WriteInteger(ModbusCommands.OS2DigitalOutput2, Convert.ToInt32(value));
-                _output2 = value;
-            }
-        }
-
-        ///<inheritdoc/>
-        public bool Output3
-        {
-            get { return _output3; }
-            set
-            {
-                _connection.WriteInteger(ModbusCommands.OS3DigitalOutput3, Convert.ToInt32(value));
-                _output3 = value;
-            }
-        }
-
-        ///<inheritdoc/>
-        public bool Output4
-        {
-            get { return _output4; }
-            set
-            {
-                _connection.WriteInteger(ModbusCommands.OS4DigitalOutput4, Convert.ToInt32(value));
-                _output4 = value;
-            }
-        }
 
         ///<inheritdoc/>
         public bool LimitStatus1 { get; private set; }
@@ -259,9 +153,6 @@ namespace Hbm.Weighing.Api.Data
 
         ///<inheritdoc/>
         public bool LimitStatus4 { get; private set; }
-
-        ///<inheritdoc/>
-        public WeightMemory WeightMemory { get; private set; }
 
         ///<inheritdoc/>
         public LimitSwitchSource LimitSwitch1Source
@@ -610,21 +501,6 @@ namespace Hbm.Weighing.Api.Data
             return result;
         }
 
-        /// <summary>
-        /// Convert string to bool ("0"=False, "1"=True)
-        /// </summary>
-        /// <param name="boolAsString">Sring representing a boolean</param>
-        /// <returns></returns>
-        private bool StringToBool(string boolAsString)
-        {
-            return boolAsString != "0";
-        }
-
-        private WeightMemory ExtractWeightMemory()
-        {
-            //ddd to be done
-            return new WeightMemory();
-        }
         #endregion
 
     }

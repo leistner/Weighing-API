@@ -41,7 +41,7 @@ namespace Hbm.Weighing.Api.DSE
     /// This class represents a DSE device with the Jet ethernet interface.
     /// Subscribe to ProcessDataReceived over the constructor to automatically get weight values.
     /// </summary>
-    public class DSEJet : ExtendedWTDevice
+    public class DSEJet : BaseWTDevice, IDataScale, IDataDigitalFilter
     {
         #region ==================== constants & fields ====================
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000;  
@@ -78,18 +78,12 @@ namespace Hbm.Weighing.Api.DSE
             : base(connection, timerIntervalms)
         {
             _connection = connection;
-            ProcessData = new ProcessDataJet(Connection);
-            DataStandard = new DataStandardJet(Connection);
-            DataFiller = new DataFillerExtendedJet(Connection);
+            ProcessData = new JetProcessData(Connection);
             ProcessDataReceived += onProcessData;
         }
         #endregion
 
         #region ======================== Properties ========================
-        /// <summary>
-        /// Gets or sets the extended filler data 
-        /// </summary>
-        public IDataFillerExtended DataFillerExtended { get; protected set; }
 
         ///<inheritdoc/>
         public override string ConnectionType
@@ -106,6 +100,38 @@ namespace Hbm.Weighing.Api.DSE
             get
             {
                 return Connection.IsConnected;
+            }
+        }
+
+        ///<inheritdoc/>
+        public override string SerialNumber
+        {
+            get
+            {
+                return Connection.ReadFromBuffer(JetBusCommands.CIA461SerialNumber);
+            }
+        }
+
+        ///<inheritdoc/>
+        public override string Identification
+        {
+            get
+            {
+                return Connection.ReadFromBuffer(JetBusCommands.IDNDeviceIdentification);
+            }
+
+            set
+            {
+                Connection.Write(JetBusCommands.IDNDeviceIdentification, value);
+            }
+        }
+
+        ///<inheritdoc/>
+        public override string FirmwareVersion
+        {
+            get
+            {
+                return Connection.ReadFromBuffer(JetBusCommands.SWVSoftwareVersion);
             }
         }
 
@@ -173,7 +199,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public override int ErrorCode
+        public int ErrorCode
         {
             get
             {
@@ -211,6 +237,20 @@ namespace Hbm.Weighing.Api.DSE
             set
             {
                 Connection.WriteInteger(JetBusCommands.CIA461TareValue, MeasurementUtils.DoubleToDigit(value, ProcessData.Decimals));
+            }
+        }
+
+        ///<inheritdoc/>
+        public override int MaximumCapacity
+        {
+            get
+            {
+                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleMaximumCapacity);
+            }
+
+            set
+            {
+                Connection.WriteInteger(JetBusCommands.CIA461ScaleMaximumCapacity, value);
             }
         }
 
@@ -257,7 +297,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override int MaximumPeakValueGross
+        public int MaximumPeakValueGross
         {
             get
             {
@@ -265,7 +305,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override int MinimumPeakValueGross
+        public int MinimumPeakValueGross
         {
             get
             {
@@ -273,17 +313,17 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override int MaximumPeakValue
+        public int MaximumPeakValue
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461PeakValueMax); }
         }
 
-        public override int MinimumPeakValue
+        public int MinimumPeakValue
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461PeakValuMin); }
         }
 
-        public override int VendorID
+        public int VendorID
         {
             get
             {
@@ -291,7 +331,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override int ProductCode
+        public int ProductCode
         {
             get
             {
@@ -299,28 +339,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override int SerialNumber
-        {
-            get
-            {
-                return Connection.ReadIntegerFromBuffer(JetBusCommands.CIA461SerialNumber);
-            }
-        }
-
-        public override string Identification
-        { 
-            get
-            {
-                return Connection.ReadFromBuffer(JetBusCommands.HWVHardwareVersion);
-            }
-
-            set
-            {
-                Connection.Write(JetBusCommands.IDNDeviceIdentification, value);
-            }
-        }
-
-        public override string HardwareVersion
+        public string HardwareVersion
         {
             get
             {
@@ -328,7 +347,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override string SoftwareVersion
+        public string SoftwareVersion
         {
             get
             {
@@ -336,7 +355,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override string SoftwareIdentification 
+        public string SoftwareIdentification 
         {
             get
             {
@@ -344,7 +363,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override string FirmwareDate
+        public string FirmwareDate
         {
             get
             {
@@ -353,7 +372,7 @@ namespace Hbm.Weighing.Api.DSE
         }
         
         ///<inheritdoc/>
-        public override int LocalGravityFactor 
+        public int LocalGravityFactor 
         {
             get
             {
@@ -367,21 +386,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public override int MaximumCapacity
-        {
-            get
-            {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleMaximumCapacity);
-            }
-
-            set
-            {
-                Connection.WriteInteger(JetBusCommands.CIA461ScaleMaximumCapacity, value);
-            }
-        }
-
-        ///<inheritdoc/>
-        public override int WeightStep
+        public int WeightStep
         {
             get
             {
@@ -395,7 +400,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public override int WeightMovementDetection
+        public int WeightMovementDetection
         {
             get
             {
@@ -409,7 +414,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public override ScaleRangeMode ScaleRangeMode
+        public ScaleRangeMode ScaleRangeMode
         {
             get
             {
@@ -437,7 +442,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public override int MultiScaleLimit1
+        public int MultiScaleLimit1
         { 
             get
             {
@@ -451,7 +456,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public override int MultiScaleLimit2
+        public int MultiScaleLimit2
         {
             get
             {
@@ -466,7 +471,7 @@ namespace Hbm.Weighing.Api.DSE
 
 
         ///<inheritdoc/>
-        public override int DataRate
+        public int DataRate
         {
             get
             {
@@ -480,7 +485,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public override int LowPassFilterMode
+        public int LowPassFilterMode
         {
             get
             {
@@ -494,7 +499,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public override int LowPasCutOffFrequency
+        public int LowPasCutOffFrequency
         {
             get
             {
@@ -518,7 +523,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public override int LowPassFilterOrder
+        public int LowPassFilterOrder
         {
             get
             {
@@ -538,111 +543,6 @@ namespace Hbm.Weighing.Api.DSE
                 Connection.WriteInteger(JetBusCommands.CIA461FilterCriticallyDampedFilterOrder, value);
                 Connection.WriteInteger(JetBusCommands.CIA461FilterBesselFilterOrder, value);
                 Connection.WriteInteger(JetBusCommands.CIA461FilterButterworthFilterOrder, value);
-            }
-        }
-
-        ///<inheritdoc/>
-        public override InputFunction Input1Function
-        {
-            get
-            {
-                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.IM1DigitalInput1Mode)));
-             }
-
-            set
-            {
-                Connection.WriteInteger(JetBusCommands.IM1DigitalInput1Mode, InputFunctionToInt(value));
-            }
-        }
-
-        public override InputFunction Input2Function
-        {
-            get
-            {
-                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.IM2DigitalInput2Mode)));
-            }
-
-            set
-            {
-                Connection.WriteInteger(JetBusCommands.IM2DigitalInput2Mode, InputFunctionToInt(value));
-            }
-        }
-
-        public override InputFunction Input3Function
-        {
-            get
-            {
-                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.IM3DigitalInput3Mode)));
-            }
-
-            set
-            {
-                Connection.WriteInteger(JetBusCommands.IM2DigitalInput2Mode, InputFunctionToInt(value));
-            }
-        }
-
-        public override InputFunction Input4Function
-        {
-            get
-            {
-                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.IM4DigitalInput4Mode)));
-            }
-
-            set
-            {
-                Connection.WriteInteger(JetBusCommands.IM4DigitalInput4Mode, InputFunctionToInt(value));
-            }
-        }
-
-        public override OutputFunction Output1Function
-        { 
-            get
-            {
-                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.OM1DigitalOutput1Mode)));
-            }
-
-            set
-            {
-                Connection.WriteInteger(JetBusCommands.OM1DigitalOutput1Mode, OutputFunctionToInt(value));
-            }
-        }
-
-        public override OutputFunction Output2Function
-        {
-            get
-            {
-                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.OM2DigitalOutput2Mode)));
-            }
-
-            set
-            {
-                Connection.WriteInteger(JetBusCommands.OM2DigitalOutput2Mode, OutputFunctionToInt(value));
-            }
-        }
-
-        public override OutputFunction Output3Function
-        {
-            get
-            {
-                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.OM3DigitalOutput3Mode)));
-            }
-
-            set
-            {
-                Connection.WriteInteger(JetBusCommands.OM3DigitalOutput3Mode, OutputFunctionToInt(value));
-            }
-        }
-
-        public override OutputFunction Output4Function
-        {
-            get
-            {
-                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.OM4DigitalOutput4Mode)));
-            }
-
-            set
-            {
-                Connection.WriteInteger(JetBusCommands.OM4DigitalOutput4Mode, OutputFunctionToInt(value));
             }
         }
 
@@ -686,13 +586,13 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public override void SaveAllParameters()
+        public void SaveAllParameters()
         {
             Connection.WriteInteger(JetBusCommands.CIA461SaveAllParameters, 0);
         }
 
         ///<inheritdoc/>
-        public override void RestoreAllDefaultParameters()
+        public void RestoreAllDefaultParameters()
         {
             Connection.WriteInteger(JetBusCommands.CIA461RestoreAllDefaultParameters, 0);
         }

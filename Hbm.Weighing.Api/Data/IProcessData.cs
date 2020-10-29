@@ -127,7 +127,7 @@ namespace Hbm.Weighing.Api.Data
         /// <summary>
         /// Gets a value indicating whether the scale is in error status
         /// </summary>
-        bool GeneralWeightError { get; }
+        bool GeneralScaleError { get; }
 
         /// <summary>
         /// Gets a value indicating whether the scale alarm is active

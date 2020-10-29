@@ -63,6 +63,16 @@ namespace Hbm.Weighing.Api.Utils
             return (int)(value * Math.Pow(10, decimals));
         }
 
+        /// <summary>
+        /// Convert string to bool ("0"=False, "1"=True)
+        /// </summary>
+        /// <param name="boolAsString">Sring representing a boolean</param>
+        /// <returns></returns>
+        public static bool StringToBool(string boolAsString)
+        {
+            return boolAsString != "0";
+        }
+
         #endregion
     }
 }

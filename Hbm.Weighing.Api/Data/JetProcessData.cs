@@ -1,4 +1,4 @@
-﻿// <copyright file="ProcessDataModbus.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="JetProcessData.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -33,13 +33,13 @@ namespace Hbm.Weighing.Api.Data
     using System;
     using System.Collections.Generic;
     using Hbm.Weighing.Api.Utils;
-    using Hbm.Weighing.Api.WTX.Modbus;
+    using Hbm.Weighing.Api.WTX.Jet;
 
     /// <summary>
     /// The class ProcessData contains all process data like net weight, gross weight or tare value.
-    /// Modbus implementation of the interface IProcessData for the process data.
+    /// Jetbus implementation of the interface IProcessData for the process data.
     /// </summary>
-    public class ProcessDataModbus : IProcessData
+    public class JetProcessData : IProcessData
     {
 
         #region ==================== constants & fields ====================
@@ -48,17 +48,17 @@ namespace Hbm.Weighing.Api.Data
 
         #region =============== constructors & destructors =================
         /// <summary>
-        /// Constructor of class ProcessDataModbus : Initalizes values and connects 
+        /// Constructor of class ProcessDataJet : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
-        public ProcessDataModbus(INetConnection Connection)
+        public JetProcessData(INetConnection Connection)
         {
             _connection = Connection;
             _connection.UpdateData += UpdateData;
 
             PrintableWeight = new PrintableWeightType();
             Weight = new WeightType();
-            GeneralWeightError = false;
+            GeneralScaleError = false;
             ScaleAlarm = false;
             WeightStable = false;
             LegalForTrade = false;
@@ -76,118 +76,119 @@ namespace Hbm.Weighing.Api.Data
         #endregion
 
         #region ==================== events & delegates ====================
-        /// <summary>
-        /// Updates and converts the values from buffer 
-        /// </summary>
-        /// <param name="sender">Connection class</param>
-        /// <param name="e">EventArgs, Event argument</param>
+        ///<inheritdoc/>
         public void UpdateData(object sender, EventArgs e)
         {
             try
             {
-            GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461WeightStatusGeneralWeightError)));
-            ScaleAlarm = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461WeightStatusScaleAlarm)));
-            int LimitStatus = (Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461WeightStatusLimitStatus)));
-            Underload = (LimitStatus == 1);
-            Overload = (LimitStatus == 2);
-            HigherSafeLoadLimit = (LimitStatus == 3);
-            WeightStable = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461WeightStatusWeightMoving)));
-            LegalForTrade = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461WeightStatusScaleSealIsOpen)));
-            TareMode = EvaluateTareMode(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.TMDTareMode)), Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461WeightStatusManualTare)));
-            ScaleRange = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461WeightStatusScaleRange));
-            ZeroRequired = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461WeightStatusZeroRequired)));
-            CenterOfZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461WeightStatusCenterOfZero)));
-            InsideZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461WeightStatusInsideZero)));
-            ApplicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.IMDApplicationMode));
-            Decimals = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461Decimals));
-            Unit = UnitIDToString(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461Unit)));
-            int tareValue = Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461GrossValue)) - Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461NetValue));
-            Weight.Update(
-                MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461NetValue)), Decimals), 
-                MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461GrossValue)), Decimals),
-                MeasurementUtils.DigitToDouble(tareValue, Decimals));
-            PrintableWeight.Update(
-                MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461NetValue)), Decimals), 
-                MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(ModbusCommands.CIA461GrossValue)), Decimals),
-                MeasurementUtils.DigitToDouble(tareValue, Decimals),
-                Decimals);
+                ApplicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.IMDApplicationMode));
+                GeneralScaleError = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusGeneralWeightError)));
+                ScaleAlarm = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusScaleAlarm)));
+                int LimitStatus = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusLimitStatus));
+                Underload = (LimitStatus == 1);
+                Overload = (LimitStatus == 2);
+                HigherSafeLoadLimit = (LimitStatus == 3);
+                TareMode = EvaluateTareMode(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusManualTare)), Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusWeightType)));
+                WeightStable = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusWeightMoving)));
+                LegalForTrade = !Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusScaleSealIsOpen)));
+                ScaleRange = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusScaleRange));
+                ZeroRequired = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusZeroRequired)));
+                CenterOfZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusCenterOfZero)));
+                InsideZero = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusInsideZero)));
+                Decimals = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461Decimals));
+                Unit = UnitIDToString(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461Unit)));
+                Weight.Update(
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461NetValue)), Decimals), 
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461GrossValue)), Decimals),
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461TareValue)), Decimals));
+                PrintableWeight.Update(
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461NetValue)), Decimals), 
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461GrossValue)), Decimals),
+                    MeasurementUtils.DigitToDouble(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461TareValue)), Decimals),
+                    Decimals);
             }
             catch (KeyNotFoundException)
             {
-                Console.WriteLine("KeyNotFoundException in class ProcessDataModbus, update method");
+                Console.WriteLine("KeyNotFoundException in class ProcessDataJet, update method");
             }
         }
         #endregion
-        
-        #region ======================== properties ========================
 
+        #region ======================== properties ========================
+        ///<inheritdoc/>
         public ApplicationMode ApplicationMode { get; private set; }
 
+        ///<inheritdoc/>
         public WeightType Weight { get; private set; }
 
+        ///<inheritdoc/>
         public PrintableWeightType PrintableWeight { get; private set; }
 
+        ///<inheritdoc/>
         public string Unit { get; private set; }
 
+        ///<inheritdoc/>
         public int Decimals { get; private set; }
 
+        ///<inheritdoc/>
         public TareMode TareMode { get; private set; }
 
+        ///<inheritdoc/>
         public bool WeightStable { get; private set; }
 
+        ///<inheritdoc/>
         public bool CenterOfZero { get; private set; }
 
+        ///<inheritdoc/>
         public bool InsideZero { get; private set; }
 
+        ///<inheritdoc/>
         public bool ZeroRequired { get; private set; }
-        
+
+        ///<inheritdoc/>
         public int ScaleRange { get; private set; }
 
+        ///<inheritdoc/>
         public bool LegalForTrade { get; private set; }
 
+        ///<inheritdoc/>
         public bool Underload { get; private set; }
 
+        ///<inheritdoc/>
         public bool Overload { get; private set; }
 
+        ///<inheritdoc/>
         public bool HigherSafeLoadLimit { get; private set; }
-        
-        public bool GeneralWeightError { get; private set; }
 
+        ///<inheritdoc/>
+        public bool GeneralScaleError { get; private set; }
+
+        ///<inheritdoc/>
         public bool ScaleAlarm { get; private set; }
         #endregion
 
         #region =============== protected & private methods ================
-
-        /// <summary>
-        /// Sets the integer from the wtx device register to the specific unit as a string
-        /// </summary>
-        /// <param name="id">integer from wtx register</param>
-        /// <returns></returns>
+        ///<inheritdoc/>
         private string UnitIDToString(int id)
         {
             switch (id)
             {
-                case 0:
+                case 0x00020000:
                     return "kg";
-                case 1:
+                case 0x004B0000:
                     return "g";
-                case 2:
+                case 0x004C0000:
                     return "t";
-                case 3:
+                case 0X00A60000:
                     return "lb";
-                case 4:
+                case 0x00210000:
                     return "N";
                 default:
                     return "";
             }
         }
-        
-        /// <summary>
-        /// Sets the tare value
-        /// </summary>
-        /// <param name="tare">tare value as integer</param>
-        /// <param name="presettare">tare value set before as integer</param>
-        /// <returns></returns>
+
+        ///<inheritdoc/>
         private TareMode EvaluateTareMode(int tare, int presettare)
         {
             if (tare > 0)
@@ -197,7 +198,7 @@ namespace Hbm.Weighing.Api.Data
                     return TareMode.Tare;
             else
                 return TareMode.None;
-        }
+        } 
         #endregion
 
     }

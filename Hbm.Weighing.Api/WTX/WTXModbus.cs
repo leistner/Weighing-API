@@ -40,9 +40,10 @@ namespace Hbm.Weighing.Api.WTX
     /// Subscribe to ProcessDataReceived over the constructor to automatically get weight values.
     /// </summary>
     ///
-    public class WTXModbus : BaseWTDevice
+    public class WTXModbus : BaseWTXDevice
     {
         #region ==================== constants & fields ====================        
+        private const string NOT_AVAILABLE_VIA_MODBUS = "Not available via WTX Modbus interface";
         private double _manualTareValue;
         private bool _result;
         #endregion
@@ -63,9 +64,9 @@ namespace Hbm.Weighing.Api.WTX
         public WTXModbus(INetConnection connection, int timerIntervalms, EventHandler<ProcessDataReceivedEventArgs> onProcessData)
             : base(connection, timerIntervalms)
         {
-            ProcessData = new ProcessDataModbus(base.Connection);
-            DataStandard = new DataStandardModbus(base.Connection);
-            DataFiller = new DataFillerModbus(base.Connection);
+            ProcessData = new ModbusDataProcess(base.Connection);
+            LimitSwitch = new ModbusDataLimitSwitch(base.Connection);
+            IO = new ModbusDataIO(base.Connection);
             ProcessDataReceived += onProcessData;
         }
 
@@ -75,13 +76,30 @@ namespace Hbm.Weighing.Api.WTX
         /// <param name="connection"></param>
         public WTXModbus(INetConnection connection) : base(connection)
         {
-            ProcessData = new ProcessDataModbus(base.Connection);
-            DataStandard = new DataStandardModbus(base.Connection);
-            DataFiller = new DataFillerModbus(base.Connection);
+            ProcessData = new ModbusDataProcess(base.Connection);
+            Filler = new ModbusDataFiller(base.Connection);
+            IO = new ModbusDataIO(base.Connection);
+            LimitSwitch = new ModbusDataLimitSwitch(base.Connection);
         }
         #endregion
 
         #region ======================== properties ========================
+
+        /// <summary>
+        /// Gets or sets the current limit switch data 
+        /// </summary>
+        public override IDataLimitSwitch LimitSwitch { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current digital IO data 
+        /// </summary>
+        public override IDataIO IO { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current filler data 
+        /// </summary>
+        public IDataFiller Filler { get; set; }
+
         ///<inheritdoc/>
         public override bool IsConnected
         {
@@ -137,6 +155,30 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
+        public override string SerialNumber => throw new NotImplementedException(NOT_AVAILABLE_VIA_MODBUS);
+
+        ///<inheritdoc/>
+        public override string Identification { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        ///<inheritdoc/>
+        public override string FirmwareVersion => throw new NotImplementedException(NOT_AVAILABLE_VIA_MODBUS);
+
+        ///<inheritdoc/>
+        public override int MaximumCapacity { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        ///<inheritdoc/>
+        public override void RestoreAllDefaultParameters()
+        {
+            throw new NotImplementedException(NOT_AVAILABLE_VIA_MODBUS);
+        }
+
+        ///<inheritdoc/>
+        public override void SaveAllParameters()
+        {
+            throw new NotImplementedException(NOT_AVAILABLE_VIA_MODBUS);
+        }
+
+        ///<inheritdoc/>
         public override WeightType Weight
         {
             get
@@ -165,6 +207,15 @@ namespace Hbm.Weighing.Api.WTX
             {
                 _manualTareValue = value;
                 Connection.WriteInteger(ModbusCommands.CIA461TareValue, MeasurementUtils.DoubleToDigit(value, ProcessData.Decimals));                
+            }
+        }
+
+        ///<inheritdoc/>
+        public override bool GeneralScaleError
+        {
+            get
+            {
+                return ProcessData.GeneralScaleError;
             }
         }
 

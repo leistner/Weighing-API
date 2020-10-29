@@ -1,4 +1,4 @@
-﻿// <copyright file="IDataStandard.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="IDataLimitSwitch.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -35,7 +35,7 @@ namespace Hbm.Weighing.Api.Data
     /// Interface containing the data for the standard mode of your WTX device.
     /// (e.g. settings for limit switches and digital I/O)
     /// </summary>
-    public interface IDataStandard 
+    public interface IDataLimitSwitch
     {
 
         #region ==================== events & delegates ====================
@@ -44,50 +44,10 @@ namespace Hbm.Weighing.Api.Data
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void UpdateStandardData(object sender, EventArgs e);
+        void UpdateDataLimitSwitch(object sender, EventArgs e);
         #endregion
 
         #region ======================== properties ========================
-        /// <summary>
-        /// Gets a value indicating whether the digital input 1 is active or not
-        /// </summary>
-        bool Input1 { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the digital input 2 is active or not
-        /// </summary>
-        bool Input2 { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the digital input 3 is active or not
-        /// </summary>
-        bool Input3 { get; }
-
-        /// <summary>
-        /// Gets a value indicating whether the digital input 4 is active or not
-        /// </summary>
-        bool Input4 { get; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the digital output 1 is active or not
-        /// </summary>
-        bool Output1 { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the digital output 2 is active or not
-        /// </summary>
-        bool Output2 { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the digital output 3 is active or not
-        /// </summary>
-        bool Output3 { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the digital output 4 is active or not
-        /// </summary>
-        bool Output4 { get; set; }
-
         /// <summary>
         /// Gets a value indicating whether the limit switch 1 is active or not
         /// </summary>
@@ -227,11 +187,6 @@ namespace Hbm.Weighing.Api.Data
         /// Gets or sets the band height of limit switch 4 for modes OutsideBand and InsideBand
         /// </summary>
         int LimitSwitch4BandHeight { get; set; }
-
-        /// <summary>
-        /// Gets the last recording from the weight memory
-        /// </summary>
-        WeightMemory WeightMemory { get; }
         #endregion
 
     }
