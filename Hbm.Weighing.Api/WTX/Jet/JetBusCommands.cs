@@ -133,6 +133,10 @@ namespace Hbm.Weighing.Api.WTX.Jet
             FRS2FillingResultState = new JetBusCommand(DataType.U16, "2000/06", 0, 0);
             FWTFillingTargetWeight = new JetBusCommand(DataType.S32, "2210/07", 0, 0);
             HWVHardwareVersion = new JetBusCommand(DataType.ASCII, "2520/0A", 0, 0);
+            DSEHWRevision = new JetBusCommand(DataType.ASCII, "1009/00", 0, 0);
+            DSEIDNDeviceIdentification = new JetBusCommand(DataType.ASCII, "1008/00", 0, 0);
+            DSESerialNumber = new JetBusCommand(DataType.U32, "4280/04", 0, 0);
+            DSEFirmwareVersion = new JetBusCommand(DataType.ASCII, "100A/00", 0, 0);
             IDNDeviceIdentification = new JetBusCommand(DataType.ASCII, "2520/01", 0, 0);
             IM1DigitalInput1Mode = new JetBusCommand(DataType.U08, "2022/01", 0, 0);
             IM2DigitalInput2Mode = new JetBusCommand(DataType.U08, "2022/02", 0, 0);
@@ -402,6 +406,14 @@ namespace Hbm.Weighing.Api.WTX.Jet
         public static JetBusCommand FWTFillingTargetWeight { get; private set; }
 
         public static JetBusCommand HWVHardwareVersion { get; private set; }
+
+        public static JetBusCommand DSEHWRevision { get; private set; }
+
+        public static JetBusCommand DSEIDNDeviceIdentification { get; private set; }
+
+        public static JetBusCommand DSESerialNumber { get; private set; }
+
+        public static JetBusCommand DSEFirmwareVersion { get; private set; }
 
         public static JetBusCommand IDNDeviceIdentification { get; private set; }
 

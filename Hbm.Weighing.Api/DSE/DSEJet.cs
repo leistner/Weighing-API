@@ -281,15 +281,15 @@ namespace Hbm.Weighing.Api.DSE
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461PeakValuMin); }
         }
 
-        public override int VendorID
+        public override int VendorID //nicht lesbar
         {
             get
             {
-                return Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461VendorID));
+                return Convert.ToInt32(Connection.ReadFromDevice(JetBusCommands.CIA461VendorID));
             }
         }
 
-        public override int ProductCode
+        public override int ProductCode //nicht lesbar --> WinJet "HERE SOON"
         {
             get
             {
@@ -297,11 +297,11 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override int SerialNumber
+        public override string SerialNumber //müsste string sein
         {
             get
             {
-                return Connection.ReadIntegerFromBuffer(JetBusCommands.CIA461SerialNumber);
+                return Connection.ReadFromDevice(JetBusCommands.DSESerialNumber);
             }
         }
 
@@ -309,7 +309,7 @@ namespace Hbm.Weighing.Api.DSE
         { 
             get
             {
-                return Connection.ReadFromBuffer(JetBusCommands.HWVHardwareVersion);
+                return Connection.ReadFromDevice(JetBusCommands.DSEIDNDeviceIdentification);
             }
         }
 
@@ -317,7 +317,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return Connection.ReadFromBuffer(JetBusCommands.HWVHardwareVersion);
+                return Connection.ReadFromDevice(JetBusCommands.DSEHWRevision);
             }
         }
 
@@ -325,7 +325,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return Connection.ReadFromBuffer(JetBusCommands.SWVSoftwareVersion);
+                return Connection.ReadFromDevice(JetBusCommands.DSEFirmwareVersion);
             }
         }
 
@@ -333,15 +333,15 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return Connection.ReadFromBuffer(JetBusCommands.SWISoftwareIdentification);
+                return Connection.ReadFromDevice(JetBusCommands.SWISoftwareIdentification);
             }
         }
 
-        public override string FirmwareDate
+        public override string FirmwareDate //welcher Parameter
         {
             get
             {
-                return Connection.ReadFromBuffer(JetBusCommands.PDTFirmwareDate);
+                return Connection.ReadFromDevice(JetBusCommands.PDTFirmwareDate);
             }
         }
         
@@ -539,7 +539,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.IM1DigitalInput1Mode)));
+                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromDevice(JetBusCommands.IM1DigitalInput1Mode)));
              }
 
             set
@@ -552,7 +552,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.IM2DigitalInput2Mode)));
+                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromDevice(JetBusCommands.IM2DigitalInput2Mode)));
             }
 
             set
@@ -565,7 +565,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.IM3DigitalInput3Mode)));
+                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromDevice(JetBusCommands.IM3DigitalInput3Mode)));
             }
 
             set
@@ -578,7 +578,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.IM4DigitalInput4Mode)));
+                return IntToInputFunction(Convert.ToInt32(Connection.ReadFromDevice(JetBusCommands.IM4DigitalInput4Mode)));
             }
 
             set
@@ -591,7 +591,7 @@ namespace Hbm.Weighing.Api.DSE
         { 
             get
             {
-                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.OM1DigitalOutput1Mode)));
+                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromDevice(JetBusCommands.OM1DigitalOutput1Mode)));
             }
 
             set
@@ -604,7 +604,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.OM2DigitalOutput2Mode)));
+                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromDevice(JetBusCommands.OM2DigitalOutput2Mode)));
             }
 
             set
@@ -617,7 +617,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.OM3DigitalOutput3Mode)));
+                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromDevice(JetBusCommands.OM3DigitalOutput3Mode)));
             }
 
             set
@@ -630,7 +630,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.OM4DigitalOutput4Mode)));
+                return IntToOutputFunction(Convert.ToInt32(Connection.ReadFromDevice(JetBusCommands.OM4DigitalOutput4Mode)));
             }
 
             set
@@ -687,7 +687,7 @@ namespace Hbm.Weighing.Api.DSE
         /// <inheritdoc />
         public override void RestoreAllDefaultParameters()
         {
-            Connection.WriteInteger(JetBusCommands.CIA461RestoreAllDefaultParameters, 0);
+            Connection.Write(JetBusCommands.CIA461RestoreAllDefaultParameters, "6c6f6164");       //command missing int.Parse("6c6f6164", System.Globalization.NumberStyles.HexNumber)
         }
 
         /// <inheritdoc />
@@ -738,7 +738,7 @@ namespace Hbm.Weighing.Api.DSE
         public override bool AdjustZeroSignal()
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_ZERO); 
-
+            
             while (Convert.ToInt32(Connection.ReadFromBuffer(JetBusCommands.CIA461ScaleCommandStatus)) != SCALE_COMMAND_STATUS_ONGOING)
             {
                 Thread.Sleep(200);
