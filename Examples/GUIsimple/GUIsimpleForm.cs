@@ -79,6 +79,7 @@ namespace GUIsimple
 
         private double calwei = 0;
         private string hwversion = "Hallo";
+        private string actopt = "";
 
         #region =============== protected & private methods ================
 
@@ -146,7 +147,7 @@ namespace GUIsimple
                 DisplayText("Net:" + _wtxDevice.PrintableWeight.Net + _wtxDevice.Unit + Environment.NewLine
                 + "Gross:" + _wtxDevice.PrintableWeight.Gross + _wtxDevice.Unit + Environment.NewLine
                 + "Tara:" + _wtxDevice.PrintableWeight.Tare + _wtxDevice.Unit + Environment.NewLine
-                + "Hardware Version:" + this.hwversion); //+ _wtxDevice.Unit);
+                + actopt + ":" + this.hwversion); //+ _wtxDevice.Unit);
 
                 if (e.ProcessData.Underload == true)
                 {
@@ -305,7 +306,36 @@ namespace GUIsimple
         {
             //this.calwei = _wtxDevice.CalibrationWeight;
             //this.calwei = _wtxDevice.ZeroSignal;
-            this.hwversion = ((DSEJet)_wtxDevice).HardwareVersion;
+            switch (comboBox1.SelectedIndex)
+            {
+                case 0:
+                    calwei = ((DSEJet)_wtxDevice).SerialNumber;
+                    hwversion = ((DSEJet)_wtxDevice).SerialNumber.ToString();
+                    break;
+                case 1:
+                    hwversion = ((DSEJet)_wtxDevice).Identification;
+                    break;
+                case 2:
+                    hwversion = ((DSEJet)_wtxDevice).HardwareVersion;
+                    break;
+                case 3:
+                    hwversion = ((DSEJet)_wtxDevice).SoftwareVersion;
+                    break;
+                case 4:
+                    string[] comm = textBox1.Text.Split(',');
+                    switch (comm[0])
+                    {
+                        case "i":
+                            hwversion = ((DSEJet)_wtxDevice).Connection.ReadIntegerFromBuffer(new JetBusCommand(DataType.U32, comm[1], 0, 0)).ToString();
+                            break;
+                        case "s":
+                            hwversion = ((DSEJet)_wtxDevice).Connection.ReadFromBuffer(new JetBusCommand(DataType.ASCII, comm[1], 0, 0));
+                            break;
+                    }
+                    break;
+            }
+            actopt = comboBox1.SelectedItem.ToString();
         }
+
     }
 }

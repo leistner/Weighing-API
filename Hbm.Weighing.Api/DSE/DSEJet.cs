@@ -281,7 +281,7 @@ namespace Hbm.Weighing.Api.DSE
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461PeakValuMin); }
         }
 
-        public override int VendorID
+        public override int VendorID //nicht lesbar
         {
             get
             {
@@ -289,7 +289,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override int ProductCode
+        public override int ProductCode //nicht lesbar --> WinJet "HERE SOON"
         {
             get
             {
@@ -297,11 +297,11 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override int SerialNumber
+        public override int SerialNumber //müsste string sein
         {
             get
             {
-                return Connection.ReadIntegerFromBuffer(JetBusCommands.CIA461SerialNumber);
+                return Connection.ReadIntegerFromBuffer(JetBusCommands.DSESerialNumber);
             }
         }
 
@@ -309,7 +309,7 @@ namespace Hbm.Weighing.Api.DSE
         { 
             get
             {
-                return Connection.ReadFromBuffer(JetBusCommands.HWVHardwareVersion);
+                return Connection.ReadFromBuffer(JetBusCommands.DSEIDNDeviceIdentification);
             }
         }
 
@@ -317,7 +317,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return Connection.ReadFromBuffer(JetBusCommands.HWVHardwareVersion);
+                return Connection.ReadFromBuffer(JetBusCommands.DSEHWRevision);
             }
         }
 
@@ -325,7 +325,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return Connection.ReadFromBuffer(JetBusCommands.SWVSoftwareVersion);
+                return Connection.ReadFromBuffer(JetBusCommands.DSEFirmwareVersion);
             }
         }
 
@@ -337,7 +337,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        public override string FirmwareDate
+        public override string FirmwareDate //welcher Parameter
         {
             get
             {

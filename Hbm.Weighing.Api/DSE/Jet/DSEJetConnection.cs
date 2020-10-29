@@ -135,7 +135,12 @@ namespace Hbm.Weighing.Api.DSE.Jet
         {
             JetBusCommands.HWVHardwareVersion,
             JetBusCommands.SWVSoftwareVersion,
-            //new JetBusCommand(String, "1008,00"
+            JetBusCommands.DSEIDNDeviceIdentification,
+            JetBusCommands.DSEHWRevision,
+            JetBusCommands.DSESerialNumber,
+            JetBusCommands.DSEFirmwareVersion,
+            JetBusCommands.ESRErrorRegister,
+
         };
 
         /// <inheritdoc />
@@ -145,18 +150,26 @@ namespace Hbm.Weighing.Api.DSE.Jet
             JetBusCommand jetcommand = (JetBusCommand)command;
             if (oneFetch.Contains(jetcommand))
             {
-                FetchId id;
-                Matcher matcher = new Matcher();
-                matcher.EqualsTo = jetcommand.Path;
-                _peer.Fetch(out id, matcher, OnFetchData, OnFetch, this._timeoutMs);
-                if(!AllData.ContainsKey(jetcommand.Path)) System.Threading.Thread.Sleep(100);
-                result = jetcommand.ToString(AllData[jetcommand.Path]);
-                _peer.Unfetch(id, OnFetch, this._timeoutMs);
+                result = jetcommand.ToString(OneTimeFetch(jetcommand));
             }
             else if(AllData.ContainsKey(jetcommand.Path))
             {
                 result = jetcommand.ToString(AllData[jetcommand.Path]);
             }
+            return result;
+        }
+
+        public string OneTimeFetch(JetBusCommand jetcommand)
+        {
+            string result = "-1";
+            FetchId id;
+            Matcher matcher = new Matcher();
+            matcher.EqualsTo = jetcommand.Path;
+            _peer.Fetch(out id, matcher, OnFetchData, OnFetch, this._timeoutMs);
+            while (!AllData.ContainsKey(jetcommand.Path)) { }
+            result = jetcommand.ToString(AllData[jetcommand.Path]);
+            _peer.Unfetch(id, OnFetch, this._timeoutMs);
+            AllData.Remove(jetcommand.Path);
             return result;
         }
 
@@ -167,14 +180,7 @@ namespace Hbm.Weighing.Api.DSE.Jet
 
             if(!DSEFetchTargets.Contains(jetcommand.Path))
             {
-                FetchId id;
-                Matcher matcher = new Matcher();
-                matcher.EqualsTo = jetcommand.Path;
-                _peer.Fetch(out id, matcher, OnFetchData, OnFetch, this._timeoutMs);
-                System.Threading.Thread.Sleep(100);
-                int ret = jetcommand.ToSValue(AllData[jetcommand.Path]);
-                _peer.Unfetch(id, OnFetch, this._timeoutMs);
-                return ret;
+                return jetcommand.ToSValue(OneTimeFetch(jetcommand));
             }
             else
             {

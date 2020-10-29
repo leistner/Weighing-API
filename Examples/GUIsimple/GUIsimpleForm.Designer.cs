@@ -1,4 +1,6 @@
-﻿namespace GUIsimple
+﻿using System;
+
+namespace GUIsimple
 {
     partial class GUIsimpleForm
     {
@@ -43,6 +45,8 @@
             this.txtInfo = new System.Windows.Forms.TextBox();
             this.picNE107 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.grrpSetup.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picNE107)).BeginInit();
@@ -190,17 +194,41 @@
             // 
             this.button1.Location = new System.Drawing.Point(252, 141);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(31, 21);
+            this.button1.Size = new System.Drawing.Size(32, 23);
             this.button1.TabIndex = 30;
             this.button1.Text = "TB";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Serial number",
+            "Device identification",
+            "Hardware version",
+            "Software version",
+            "User defined command"});
+            this.comboBox1.Location = new System.Drawing.Point(13, 118);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(234, 21);
+            this.comboBox1.TabIndex = 31;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(13, 166);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(234, 20);
+            this.textBox1.TabIndex = 32;
             // 
             // GUIsimpleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(384, 312);
+            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.txtInfo);
             this.Controls.Add(this.toolStrip1);
@@ -222,6 +250,10 @@
 
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+        }
+
         #endregion
 
         private System.Windows.Forms.TextBox txtIPAddress;
@@ -239,6 +271,8 @@
         private System.Windows.Forms.TextBox txtInfo;
         private System.Windows.Forms.ComboBox cboDeviceType;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
