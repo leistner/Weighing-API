@@ -151,6 +151,11 @@ namespace Hbm.Weighing.Api.WTX.Jet
             return jetcommand.ToString(AllData[jetcommand.Path]);
         }
 
+        public string ReadFromDevice(object command)
+        {
+            return "";
+        }
+
         /// <inheritdoc />
         public int ReadIntegerFromBuffer(object command)
         {

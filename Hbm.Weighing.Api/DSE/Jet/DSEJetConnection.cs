@@ -148,11 +148,20 @@ namespace Hbm.Weighing.Api.DSE.Jet
         {
             string result = "0";
             JetBusCommand jetcommand = (JetBusCommand)command;
-            if (oneFetch.Contains(jetcommand))
+            if (AllData.ContainsKey(jetcommand.Path))
+                result = jetcommand.ToString(AllData[jetcommand.Path]);
+            return result;
+        }
+
+        public string ReadFromDevice(object command)
+        {
+            string result = "0";
+            JetBusCommand jetcommand = (JetBusCommand)command;
+            if(!DSEFetchTargets.Contains(jetcommand.Path))
             {
                 result = jetcommand.ToString(OneTimeFetch(jetcommand));
             }
-            else if(AllData.ContainsKey(jetcommand.Path))
+            else if (AllData.ContainsKey(jetcommand.Path))
             {
                 result = jetcommand.ToString(AllData[jetcommand.Path]);
             }

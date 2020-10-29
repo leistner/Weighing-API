@@ -297,11 +297,11 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override int SerialNumber
+        public override string SerialNumber
         {
             get
             {
-                return Connection.ReadIntegerFromBuffer(JetBusCommands.CIA461SerialNumber);
+                return Connection.ReadFromBuffer(JetBusCommands.CIA461SerialNumber);
             }
         }
 

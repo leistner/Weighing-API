@@ -65,7 +65,7 @@ namespace Hbm.Weighing.Api
 
         public abstract int ProductCode { get; }
 
-        public abstract int SerialNumber { get; }
+        public abstract string SerialNumber { get; }
 
         public abstract int MaximumCapacity { get; set; }
 

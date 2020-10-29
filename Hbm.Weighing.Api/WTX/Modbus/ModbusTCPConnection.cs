@@ -255,6 +255,11 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             return (modBusCommand.ToValue(AllData)).ToString();
         }
 
+        public string ReadFromDevice(object command)
+        {
+            return "";
+        }
+
         /// <inheritdoc />
         public int ReadIntegerFromBuffer(object command)
         {

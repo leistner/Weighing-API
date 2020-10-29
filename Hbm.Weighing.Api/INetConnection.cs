@@ -119,6 +119,12 @@ namespace Hbm.Weighing.Api
         /// <param name="command">Variable command type, either ModbusCommand or JetbusCommand</param>
         string ReadFromBuffer(object command);
 
+        /// <summary>
+        /// Read data from the device without permanently fetching the command (DSE).
+        /// </summary>
+        /// <param name="command">Variable command type, either ModbusCommand or JetbusCommand</param>
+        string ReadFromDevice(object command);
+
         int ReadIntegerFromBuffer(object command);
         #endregion
 
