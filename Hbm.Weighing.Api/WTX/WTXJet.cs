@@ -41,7 +41,7 @@ namespace Hbm.Weighing.Api.WTX
     /// This class represents a WTX device with the Jet ethernet interface.
     /// Subscribe to ProcessDataReceived over the constructor to automatically get weight values.
     /// </summary>
-    public class WTXJet : ExtendedWTDevice
+    public class WTXJet : BaseWTXDevice, IDataScale, IDataDigitalFilter
     {
         #region ==================== constants & fields ====================
         private const int CONVERISION_FACTOR_MVV_TO_D = 500000;  
@@ -78,9 +78,10 @@ namespace Hbm.Weighing.Api.WTX
             : base(connection, timerIntervalms)
         {
             _connection = connection;
-            ProcessData = new ProcessDataJet(Connection);
-            DataStandard = new DataStandardJet(Connection);
-            DataFiller = new DataFillerExtendedJet(Connection);
+            ProcessData = new JetProcessData(Connection);
+            IO = new JetDataIO(Connection);
+            Filler = new JetDataFillerExtended(Connection);
+            LimitSwitch = new JetDataLimitSwitch(Connection);
             ProcessDataReceived += onProcessData;
         }
         #endregion
@@ -89,9 +90,19 @@ namespace Hbm.Weighing.Api.WTX
         /// <summary>
         /// Gets or sets the extended filler data 
         /// </summary>
-        public IDataFillerExtended DataFillerExtended { get; protected set; }
+        public IDataFillerExtended Filler { get; set; }
 
-        /// <inheritdoc />
+        /// <summary>
+        /// Gets or sets the digital IO data 
+        /// </summary>
+        public override IDataIO IO { get; set; }
+
+        /// <summary>
+        /// Gets or sets the extended limit switch data 
+        /// </summary>
+        public override IDataLimitSwitch LimitSwitch { get; set; }
+
+        ///<inheritdoc/>
         public override string ConnectionType
         {
             get
@@ -100,7 +111,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override bool IsConnected
         {
             get
@@ -109,7 +120,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override WeightType Weight
         {
             get
@@ -118,7 +129,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override PrintableWeightType PrintableWeight
         {
             get
@@ -127,10 +138,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override ApplicationMode ApplicationMode { get; set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override string Unit
         {
             get
@@ -154,7 +165,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override TareMode TareMode
         {
             get
@@ -163,6 +174,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
+        ///<inheritdoc/>
         public override bool GeneralScaleError
         {
             get
@@ -171,7 +183,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override int ErrorCode
+        /// <summary>
+        /// Gets last error code
+        /// </summary>
+        public int ErrorCode
         {
             get
             {
@@ -179,7 +194,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override bool WeightStable
         {
             get
@@ -188,7 +203,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int ScaleRange
         {
             get
@@ -197,7 +212,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override double ManualTareValue
         {
             get
@@ -212,7 +227,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override double CalibrationWeight
         {
             get
@@ -227,7 +242,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int ZeroSignal
         {
             get
@@ -241,7 +256,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int NominalSignal
         {
             get
@@ -255,7 +270,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override int MaximumPeakValueGross
+        /// <summary>
+        /// Gets the gross maximum peak value
+        /// </summary>
+        public int MaximumPeakValueGross
         {
             get
             {
@@ -263,7 +281,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override int MinimumPeakValueGross
+        /// <summary>
+        /// Gets the the gross minimum peak value
+        /// </summary>
+        public int MinimumPeakValueGross
         {
             get
             {
@@ -271,17 +292,26 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override int MaximumPeakValue
+        /// <summary>
+        /// Gets the net maximum peak value
+        /// </summary>
+        public int MaximumPeakValue
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461PeakValueMax); }
         }
 
-        public override int MinimumPeakValue
+        /// <summary>
+        /// Gets the net minimum peak value
+        /// </summary>
+        public int MinimumPeakValue
         {
             get { return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461PeakValuMin); }
         }
 
-        public override int VendorID
+        /// <summary>
+        /// Gets the vendor id
+        /// </summary>
+        public int VendorID
         {
             get
             {
@@ -289,7 +319,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override int ProductCode
+        /// <summary>
+        /// Gets the product code 
+        /// </summary>
+        public int ProductCode
         {
             get
             {
@@ -297,6 +330,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
+        ///<inheritdoc/>
         public override string SerialNumber
         {
             get
@@ -305,15 +339,24 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
+        ///<inheritdoc/>
         public override string Identification
         { 
             get
             {
                 return Connection.ReadFromBuffer(JetBusCommands.HWVHardwareVersion);
             }
+
+            set
+            {
+                Connection.Write(JetBusCommands.IDNDeviceIdentification, value);
+            }
         }
 
-        public override string HardwareVersion
+        /// <summary>
+        /// Gets the hardware version (e.g. WTX120)
+        /// </summary>
+        public string HardwareVersion
         {
             get
             {
@@ -321,7 +364,8 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override string SoftwareVersion
+        ///<inheritdoc/>
+        public override string FirmwareVersion
         {
             get
             {
@@ -329,7 +373,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override string SoftwareIdentification 
+        /// <summary>
+        /// Gets the legal-for-trade software identification  
+        /// </summary>
+        public string SoftwareIdentification 
         {
             get
             {
@@ -337,16 +384,21 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override string FirmwareDate
+        /// <summary>
+        /// Gets the firmware date
+        /// </summary>
+        public string FirmwareDate
         {
             get
             {
                 return Connection.ReadFromBuffer(JetBusCommands.PDTFirmwareDate);
             }
         }
-        
-        /// <inheritdoc />
-        public override int LocalGravityFactor 
+
+        /// <summary>
+        /// Gets or sets the local gravity factor
+        /// </summary>
+        public int LocalGravityFactor 
         {
             get
             {
@@ -359,7 +411,7 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override int MaximumCapacity
         {
             get
@@ -373,8 +425,8 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
-        public override int WeightStep
+        ///<inheritdoc/>
+        public int WeightStep
         {
             get
             {
@@ -387,8 +439,8 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
-        public override int WeightMovementDetection
+        ///<inheritdoc/>
+        public int WeightMovementDetection
         {
             get
             {
@@ -401,8 +453,8 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// < inheritdoc />
-        public override ScaleRangeMode ScaleRangeMode
+        ///<inheritdoc/>
+        public ScaleRangeMode ScaleRangeMode
         {
             get
             {
@@ -429,8 +481,8 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// < inheritdoc />
-        public override int MultiScaleLimit1
+        ///<inheritdoc/>
+        public int MultiScaleLimit1
         { 
             get
             {
@@ -443,8 +495,8 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// < inheritdoc />
-        public override int MultiScaleLimit2
+        ///<inheritdoc/>
+        public int MultiScaleLimit2
         {
             get
             {
@@ -458,8 +510,8 @@ namespace Hbm.Weighing.Api.WTX
         }
 
 
-        /// <inheritdoc />
-        public override int DataRate
+        ///<inheritdoc/>
+        public int DataRate
         {
             get
             {
@@ -472,8 +524,8 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
-        public override int LowPassFilterMode
+        ///<inheritdoc/>
+        public int LowPassFilterMode
         {
             get
             {
@@ -486,8 +538,8 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
-        public override int LowPasCutOffFrequency
+        ///<inheritdoc/>
+        public int LowPasCutOffFrequency
         {
             get
             {
@@ -510,8 +562,8 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
-        public override int LowPassFilterOrder
+        ///<inheritdoc/>
+        public int LowPassFilterOrder
         {
             get
             {
@@ -534,8 +586,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        /// <inheritdoc />
-        public override InputFunction Input1Function
+        /// <summary>
+        /// Gets or sets the input function of digital input 1
+        /// </summary>
+        public InputFunction Input1Function
         {
             get
             {
@@ -548,7 +602,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override InputFunction Input2Function
+        /// <summary>
+        /// Gets or sets the input function of digital input 2
+        /// </summary>
+        public InputFunction Input2Function
         {
             get
             {
@@ -561,7 +618,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override InputFunction Input3Function
+        /// <summary>
+        /// Gets or sets the input function of digital input 3
+        /// </summary>
+        public InputFunction Input3Function
         {
             get
             {
@@ -574,7 +634,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override InputFunction Input4Function
+        /// <summary>
+        /// Gets or sets the input function of digital input 4
+        /// </summary>
+        public InputFunction Input4Function
         {
             get
             {
@@ -587,7 +650,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override OutputFunction Output1Function
+        /// <summary>
+        /// Gets or sets the output function of digital output 1
+        /// </summary>
+        public OutputFunction Output1Function
         { 
             get
             {
@@ -600,7 +666,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override OutputFunction Output2Function
+        /// <summary>
+        /// Gets or sets the output function of output 2
+        /// </summary>
+        public OutputFunction Output2Function
         {
             get
             {
@@ -613,7 +682,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override OutputFunction Output3Function
+        /// <summary>
+        /// Gets or sets the output function of digital output 3
+        /// </summary>
+        public OutputFunction Output3Function
         {
             get
             {
@@ -626,7 +698,10 @@ namespace Hbm.Weighing.Api.WTX
             }
         }
 
-        public override OutputFunction Output4Function
+        /// <summary>
+        /// Gets or sets the output function of digital output 4
+        /// </summary>
+        public OutputFunction Output4Function
         {
             get
             {
@@ -652,75 +727,75 @@ namespace Hbm.Weighing.Api.WTX
         #endregion
 
         #region ================ public & internal methods ================= 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Connect(double timeoutMs = 20000)
         {
             Connection.Connect();
             _processDataTimer.Change(0, ProcessDataInterval);
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Connect(Action<bool> completed, double timeoutMs)
         {
             Connection.Connect();
             _processDataTimer.Change(0, ProcessDataInterval);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Disconnect(Action<bool> disconnectCompleted)
         {
             Connection.Disconnect();
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Disconnect()
         {
             Connection.Disconnect();
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void SaveAllParameters()
         {
             Connection.WriteInteger(JetBusCommands.CIA461SaveAllParameters, 0);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void RestoreAllDefaultParameters()
         {
             Connection.WriteInteger(JetBusCommands.CIA461RestoreAllDefaultParameters, 0);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Zero()
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_ZERO);
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void SetGross()
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_SET_GROSS);
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void Tare()
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_TARE);
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void TareManually(double manualTareValue)
         {
             Connection.WriteInteger(JetBusCommands.CIA461TareValue, MeasurementUtils.DoubleToDigit(manualTareValue, ProcessData.Decimals));
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void RecordWeight()
         {
             Connection.WriteInteger(JetBusCommands.STORecordWeight, SCALE_COMMAND_TARE);
         }
                 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override void CalculateAdjustment(double scaleZeroLoad_mVV, double scaleCapacity_mVV)
         {
             int scalZeroLoad_d;
@@ -733,7 +808,7 @@ namespace Hbm.Weighing.Api.WTX
             Connection.WriteInteger(JetBusCommands.LWTNominalValue, Convert.ToInt32(scaleCapacity_d)); 
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override bool AdjustZeroSignal()
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_ZERO); 
@@ -755,7 +830,7 @@ namespace Hbm.Weighing.Api.WTX
             return false;
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override bool AdjustNominalSignal()
         {
             Connection.WriteInteger(JetBusCommands.CIA461ScaleCommand, SCALE_COMMAND_CALIBRATE_NOMINAL);
@@ -778,7 +853,7 @@ namespace Hbm.Weighing.Api.WTX
             return false;
         }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public override bool AdjustNominalSignalWithCalibrationWeight(double calibrationWeight)
         {
             Connection.WriteInteger(JetBusCommands.CIA461CalibrationWeight, MeasurementUtils.DoubleToDigit(calibrationWeight, ProcessData.Decimals));
@@ -804,7 +879,7 @@ namespace Hbm.Weighing.Api.WTX
             return false;
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         protected override void ProcessDataUpdateTick(object info)
         {
             if (IsConnected)

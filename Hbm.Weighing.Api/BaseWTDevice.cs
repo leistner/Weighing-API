@@ -43,12 +43,18 @@ namespace Hbm.Weighing.Api
     {
         #region ==================== constants & fields ====================
 
+        /// <summary>
+        /// Internal timer for sending <see cref="ProcessDataReceived"/>  event
+        /// </summary>
         protected Timer _processDataTimer;
         private int _processDataInterval = 500;
 
         #endregion
 
         #region ==================== events & delegates ====================
+        /// <summary>
+        /// Event for receiving process data in the desired interval (<see cref="ProcessDataInterval"/>
+        /// </summary>
         public abstract event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
         #endregion
 
@@ -81,16 +87,6 @@ namespace Hbm.Weighing.Api
         /// </summary>
         public IProcessData ProcessData { get; protected set; }
 
-        /// <summary>
-        /// Gets or sets the limit switch data
-        /// </summary>
-        public IDataStandard DataStandard { get; protected set; }
-
-        /// <summary>
-        /// Gets or sets the basic filler data
-        /// </summary>
-        public IDataFiller DataFiller { get; protected set; }
-        
         /// <summary>
         /// Gets or sets the current application of the device
         /// </summary>
@@ -130,6 +126,21 @@ namespace Hbm.Weighing.Api
         }
 
         /// <summary>
+        /// Gets or sets the device identification
+        /// </summary>
+        public abstract string Identification { get; set; }
+
+        /// <summary>
+        /// Gets the serial number
+        /// </summary>
+        public abstract string SerialNumber { get; }
+
+        /// <summary>
+        /// Gets the firmware version
+        /// </summary>
+        public abstract string FirmwareVersion { get; }
+
+        /// <summary>
         /// Gets the current weight of the device depending as double
         /// </summary>
         /// <returns>Current weight</returns>
@@ -146,6 +157,11 @@ namespace Hbm.Weighing.Api
         /// </summary>
         /// <returns></returns>
         public abstract string Unit { get; set; }
+
+        /// <summary>
+        /// Gets the general scale error status (e.g. if no sensor is connected)
+        /// </summary>
+        public abstract bool GeneralScaleError { get; }
 
         /// <summary>
         /// Gets the weight type, Gross or Net
@@ -169,6 +185,11 @@ namespace Hbm.Weighing.Api
         /// Gets or sets the manual tare value
         /// </summary>
         public abstract double ManualTareValue { get; set; }
+
+        /// <summary>
+        /// Gets or sets the maximum capacity
+        /// </summary>
+        public abstract int MaximumCapacity { get; set; }
 
         /// <summary>
         /// Gets or sets the calibration weight for the next adjustment

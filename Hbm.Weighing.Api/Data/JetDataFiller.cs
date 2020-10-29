@@ -39,7 +39,7 @@ namespace Hbm.Weighing.Api.Data
     /// The class DataFillerJet contains the data input word and data output words for the filler mode
     /// of WTX device 120 and 110 via Jetbus.
     /// </summary>
-    public class DataFillerJet : IDataFiller
+    public class JetDataFiller : IDataFiller
     {
 
         #region ==================== constants & fields ====================
@@ -78,7 +78,7 @@ namespace Hbm.Weighing.Api.Data
         /// Constructor of class DataFillerJet : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
-        public DataFillerJet(INetConnection Connection)
+        public JetDataFiller(INetConnection Connection)
         {
             _connection = Connection;
             _connection.UpdateData += UpdateFillerData;
@@ -115,7 +115,7 @@ namespace Hbm.Weighing.Api.Data
         #region ==================== events & delegates ====================
 
         /// <summary>
-        /// Updates & converts the values from buffer (Dictionary<string,string>) 
+        /// Updates and converts the values from buffer 
         /// </summary>
         /// <param name="sender">Connection class</param>
         /// <param name="e">EventArgs, Event argument</param>

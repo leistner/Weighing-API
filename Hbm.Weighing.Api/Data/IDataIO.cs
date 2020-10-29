@@ -1,4 +1,4 @@
-﻿// <copyright file="IDataFillerExtended.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="IDataIO.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -27,70 +27,66 @@
 // SOFTWARE.
 //
 // </copyright>
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Hbm.Weighing.Api.Data
 {
+    using System;
+
     /// <summary>
-    /// Interface containing the data for the filler extended mode of your WTX device.
-    /// A class inheriting from interface IDataFillerExtended contains the input word 
-    /// and output words for the extended filler mode of WTX device 120 and 110.
-    /// 
-    /// This is only available via a JetBus Ethernet connection, not via Modbus. 
+    /// Interface containing the data for the standard mode of your WTX device.
+    /// (e.g. settings for limit switches and digital I/O)
     /// </summary>
-    public interface IDataFillerExtended : IDataFiller
+    public interface IDataIO
     {
-        #region ======================== properties ========================    
 
+        #region ==================== events & delegates ====================
         /// <summary>
-        /// Gets the material stream of the last filling cycle
-        /// </summary>                 
-        int MaterialStreamLastFilling { get; }
-
-        /// <summary>
-        /// Gets or sets the special filling functions
+        /// Updates the data from external
         /// </summary>
-        int SpecialFillingFunctions { get; set; }
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void UpdateDataIO(object sender, EventArgs e);
+        #endregion
+
+        #region ======================== properties ========================
+        /// <summary>
+        /// Gets a value indicating whether the digital input 1 is active or not
+        /// </summary>
+        bool Input1 { get; }
 
         /// <summary>
-        /// Gets or sets the discharge time in ma
+        /// Gets a value indicating whether the digital input 2 is active or not
         /// </summary>
-        int DischargeTime { get; set; }
+        bool Input2 { get; }
 
         /// <summary>
-        /// Gets or sets the mode empty weight underflow
+        /// Gets a value indicating whether the digital input 3 is active or not
         /// </summary>
-        bool EmptyWeightBreak { get; set; }
+        bool Input3 { get; }
 
         /// <summary>
-        /// Gets or sets the delay 1 after filling complete in ms
+        /// Gets a value indicating whether the digital input 4 is active or not
         /// </summary>
-        int Delay1Dosing { get; set; }
+        bool Input4 { get; }
 
         /// <summary>
-        /// Gets or sets the delay 2 after filling complete in ms
+        /// Gets or sets a value indicating whether the digital output 1 is active or not
         /// </summary>
-        int Delay2Dosing { get; set; }
+        bool Output1 { get; set; }
 
         /// <summary>
-        /// Gets or sets the minimum emtpy weight in weight unit
+        /// Gets or sets a value indicating whether the digital output 2 is active or not
         /// </summary>
-        int EmptyWeightTolerance { get; set; }
+        bool Output2 { get; set; }
 
         /// <summary>
-        /// Gets or sets the residual flow from last filling in weight unit
+        /// Gets or sets a value indicating whether the digital output 3 is active or not
         /// </summary>
-        int ResidualFlowDosingCycle { get; set; }
+        bool Output3 { get; set; }
 
         /// <summary>
-        /// Gets or sets the current product (= parameter set) 
+        /// Gets or sets a value indicating whether the digital output 4 is active or not
         /// </summary>
-        new int ParameterSetProduct { get; set; }
+        bool Output4 { get; set; }      
         #endregion
 
     }

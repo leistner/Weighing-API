@@ -96,21 +96,21 @@ namespace Hbm.Weighing.Api.WTX.Jet
         #endregion
 
         #region ======================== properties ========================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public ConnectionType ConnectionType => ConnectionType.Jetbus;
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool IsConnected { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public string IpAddress { get; set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public Dictionary<string, string> AllData { get; } = new Dictionary<string, string>();
         #endregion
 
         #region ================ public & internal methods =================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public void Connect(int timeoutMs = 20000)
         {
             IsConnected = false;
@@ -125,45 +125,46 @@ namespace Hbm.Weighing.Api.WTX.Jet
             WaitOne(3);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public void Disconnect()
         {
             _peer.Disconnect();
             this.IsConnected = false;
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public string Read(object command)
         {
             return ReadFromBuffer(command);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public Task<string> ReadAsync(object command)
         {
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public string ReadFromBuffer(object command)
         {
             JetBusCommand jetcommand = (JetBusCommand)command;
             return jetcommand.ToString(AllData[jetcommand.Path]);
         }
 
+        ///<inheritdoc/>
         public string ReadFromDevice(object command)
         {
             return "";
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int ReadIntegerFromBuffer(object command)
         {
             JetBusCommand jetcommand = (JetBusCommand)command;
             return jetcommand.ToSValue(AllData[jetcommand.Path]);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool WriteInteger(object command, int value)
         {
             bool result = false;
@@ -175,7 +176,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
             return result;
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Write(object command, string value)
         {
             bool result = false;
@@ -187,13 +188,13 @@ namespace Hbm.Weighing.Api.WTX.Jet
             return result;
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public Task<int> WriteAsync(object command, int commandParam)
         {
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.

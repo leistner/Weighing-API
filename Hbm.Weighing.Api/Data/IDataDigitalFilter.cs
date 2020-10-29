@@ -1,4 +1,4 @@
-﻿// <copyright file="WeightType.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="IDataDigitalFilter.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -31,56 +31,34 @@
 namespace Hbm.Weighing.Api.Data
 {
     /// <summary>
-    /// Holds the current weight values (gross, net, tare)
+    /// Class containing extended data and functionality to BaseWtDevice.
+    /// It inherits from BaseWtdevice. Used by a Jetbus connection and application.
     /// </summary>
-    public class WeightType
+    public interface IDataDigitalFilter
     {
-        #region =============== constructors & destructors =================
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WeightType" /> class.
-        /// </summary>
-        public WeightType()
-        {
-            Net   = 0.0;
-            Gross = 0.0;
-            Tare  = 0.0;
-        }
-        #endregion
 
         #region ======================== properties ========================
+        
+        /// Gets or sets the data rate
+        /// </summary>
+        int DataRate { get; set; }
 
         /// <summary>
-        /// Gets the gross value of weight
+        /// Gets or sets the mode of the low-pass filter
         /// </summary>
-        public double Gross { get; private set; }
+        int LowPassFilterMode { get; set; }
 
         /// <summary>
-        /// Gets the net value of weight
+        /// Gets or sets the order of the low-pass filter
         /// </summary>
-        public double Net { get; private set; }
+        int LowPassFilterOrder { get; set; }
 
         /// <summary>
-        /// Gets the tare value of weight
+        /// Gets or sets the cut-off frequency of the low-pass filter
         /// </summary>
-        public double Tare { get; private set; }
+        int LowPasCutOffFrequency { get; set; }
 
         #endregion
 
-        #region ================== public method - update ==================
-
-        /// <summary>
-        /// Updates the value of the class : net, gross and tare value
-        /// </summary>
-        /// <param name="net">Net value </param>
-        /// <param name="gross">Gross value</param>
-        /// <param name="tare">Tare value</param>
-        public void Update(double net, double gross, double tare)
-        {
-            Net   = net;
-            Gross = gross;
-            Tare  = tare;
-        }
-
-        #endregion
     }
 }

@@ -310,9 +310,9 @@ namespace Hbm.Weighing.Api.WTX.Modbus
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.DataStandard.LimitSwitch1Mode = LimitSwitchMode.AboveLevel;
+            _wtxObj.LimitSwitch.LimitSwitch1Mode = LimitSwitchMode.AboveLevel;
 
-            if (testConnection.GetCommand == 4 && _wtxObj.DataStandard.LimitSwitch1Mode == LimitSwitchMode.AboveLevel)
+            if (testConnection.GetCommand == 4 && _wtxObj.LimitSwitch.LimitSwitch1Mode == LimitSwitchMode.AboveLevel)
                 return true;
 
             else
@@ -327,9 +327,9 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             _wtxObj = new WTXModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.DataStandard.LimitSwitch2Mode = LimitSwitchMode.BelowLevel;
+            _wtxObj.LimitSwitch.LimitSwitch2Mode = LimitSwitchMode.BelowLevel;
 
-            if (testConnection.GetCommand == 11 && _wtxObj.DataStandard.LimitSwitch2Mode == LimitSwitchMode.BelowLevel)
+            if (testConnection.GetCommand == 11 && _wtxObj.LimitSwitch.LimitSwitch2Mode == LimitSwitchMode.BelowLevel)
                 return true;
 
             else
@@ -344,9 +344,9 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             _wtxObj = new WTXModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.DataStandard.LimitSwitch3Mode = LimitSwitchMode.InsideBand;
+            _wtxObj.LimitSwitch.LimitSwitch3Mode = LimitSwitchMode.InsideBand;
 
-            if (testConnection.GetCommand == 17 && _wtxObj.DataStandard.LimitSwitch3Mode == LimitSwitchMode.InsideBand)
+            if (testConnection.GetCommand == 17 && _wtxObj.LimitSwitch.LimitSwitch3Mode == LimitSwitchMode.InsideBand)
                 return true;
 
             else
@@ -361,9 +361,9 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             _wtxObj = new WTXModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.DataStandard.LimitSwitch4Mode = LimitSwitchMode.OutsideBand;
+            _wtxObj.LimitSwitch.LimitSwitch4Mode = LimitSwitchMode.OutsideBand;
 
-            if (testConnection.GetCommand == 23 && _wtxObj.DataStandard.LimitSwitch4Mode == LimitSwitchMode.OutsideBand)
+            if (testConnection.GetCommand == 23 && _wtxObj.LimitSwitch.LimitSwitch4Mode == LimitSwitchMode.OutsideBand)
                 return true;
             else
                 return false;
@@ -675,48 +675,48 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             if
              (
             _wtxObj.ManualTareValue == 1 && 
-            _wtxObj.DataStandard.LimitSwitch1Source == LimitSwitchSource.Gross && 
-            _wtxObj.DataStandard.LimitSwitch1Mode == LimitSwitchMode.AboveLevel && 
-            _wtxObj.DataStandard.LimitSwitch1Level == 1 && 
-            _wtxObj.DataStandard.LimitSwitch1Hysteresis == 1 &&
-            _wtxObj.DataStandard.LimitSwitch2Source == LimitSwitchSource.Gross &&
-            _wtxObj.DataStandard.LimitSwitch2Mode == LimitSwitchMode.AboveLevel &&
-            _wtxObj.DataStandard.LimitSwitch2Level == 1 && 
-            _wtxObj.DataStandard.LimitSwitch2Hysteresis == 1 && 
-            _wtxObj.DataStandard.LimitSwitch3Source == LimitSwitchSource.Gross &&
-            _wtxObj.DataStandard.LimitSwitch3Mode == LimitSwitchMode.AboveLevel &&
-            _wtxObj.DataStandard.LimitSwitch3Level == 1 && 
-            _wtxObj.DataStandard.LimitSwitch3Hysteresis == 1 && 
-            _wtxObj.DataStandard.LimitSwitch4Source == LimitSwitchSource.Gross &&
-            _wtxObj.DataStandard.LimitSwitch4Mode == LimitSwitchMode.AboveLevel &&
-            _wtxObj.DataStandard.LimitSwitch4Level == 1 && 
-            _wtxObj.DataStandard.LimitSwitch4Hysteresis == 1 && 
-            _wtxObj.DataFiller.ResidualFlowTime == 1 && 
-            _wtxObj.DataFiller.TargetFillingWeight == 1 && 
-            _wtxObj.DataFiller.EmptyingMode == 1 &&
-            _wtxObj.DataFiller.CoarseFlowCutOffLevel == 1 && 
-            _wtxObj.DataFiller.FineFlowCutOffLevel == 1 && 
-            _wtxObj.DataFiller.MinimumFineFlow == 1 && 
-            _wtxObj.DataFiller.OptimizationMode == 1 && 
-            _wtxObj.DataFiller.MaxFillingTime == 1 && 
-            _wtxObj.DataFiller.ValveControl == 1 &&
-            _wtxObj.DataFiller.StartWithFineFlow == 1 && 
-            _wtxObj.DataFiller.CoarseLockoutTime == 1 && 
-            _wtxObj.DataFiller.FineLockoutTime == 1 && 
-            _wtxObj.DataFiller.TareMode == 1 && 
-            _wtxObj.DataFiller.UpperToleranceLimit == 1 && 
-            _wtxObj.DataFiller.LowerToleranceLimit == 1 &&
-            _wtxObj.DataFiller.MinimumStartWeight == 1 && 
-            _wtxObj.DataFiller.TareDelay == 1 && 
-            _wtxObj.DataFiller.CoarseFlowMonitoringTime == 1 && 
-            _wtxObj.DataFiller.CoarseFlowMonitoring == 1 && 
-            _wtxObj.DataFiller.FineFlowMonitoring == 1 && 
-            _wtxObj.DataFiller.EmptyWeight == 1 &&
-            _wtxObj.DataFiller.FineFlowMonitoringTime == 1 && 
-            _wtxObj.DataFiller.DelayTimeAfterFilling == 1 && 
-            _wtxObj.DataFiller.ActivationTimeAfterFilling == 1 && 
-            _wtxObj.DataFiller.SystematicDifference == 1 && 
-            _wtxObj.DataFiller.FillingMode == 1
+            _wtxObj.LimitSwitch.LimitSwitch1Source == LimitSwitchSource.Gross && 
+            _wtxObj.LimitSwitch.LimitSwitch1Mode == LimitSwitchMode.AboveLevel && 
+            _wtxObj.LimitSwitch.LimitSwitch1Level == 1 && 
+            _wtxObj.LimitSwitch.LimitSwitch1Hysteresis == 1 &&
+            _wtxObj.LimitSwitch.LimitSwitch2Source == LimitSwitchSource.Gross &&
+            _wtxObj.LimitSwitch.LimitSwitch2Mode == LimitSwitchMode.AboveLevel &&
+            _wtxObj.LimitSwitch.LimitSwitch2Level == 1 && 
+            _wtxObj.LimitSwitch.LimitSwitch2Hysteresis == 1 && 
+            _wtxObj.LimitSwitch.LimitSwitch3Source == LimitSwitchSource.Gross &&
+            _wtxObj.LimitSwitch.LimitSwitch3Mode == LimitSwitchMode.AboveLevel &&
+            _wtxObj.LimitSwitch.LimitSwitch3Level == 1 && 
+            _wtxObj.LimitSwitch.LimitSwitch3Hysteresis == 1 && 
+            _wtxObj.LimitSwitch.LimitSwitch4Source == LimitSwitchSource.Gross &&
+            _wtxObj.LimitSwitch.LimitSwitch4Mode == LimitSwitchMode.AboveLevel &&
+            _wtxObj.LimitSwitch.LimitSwitch4Level == 1 && 
+            _wtxObj.LimitSwitch.LimitSwitch4Hysteresis == 1 && 
+            _wtxObj.Filler.ResidualFlowTime == 1 && 
+            _wtxObj.Filler.TargetFillingWeight == 1 && 
+            _wtxObj.Filler.EmptyingMode == 1 &&
+            _wtxObj.Filler.CoarseFlowCutOffLevel == 1 && 
+            _wtxObj.Filler.FineFlowCutOffLevel == 1 && 
+            _wtxObj.Filler.MinimumFineFlow == 1 && 
+            _wtxObj.Filler.OptimizationMode == 1 && 
+            _wtxObj.Filler.MaxFillingTime == 1 && 
+            _wtxObj.Filler.ValveControl == 1 &&
+            _wtxObj.Filler.StartWithFineFlow == 1 && 
+            _wtxObj.Filler.CoarseLockoutTime == 1 && 
+            _wtxObj.Filler.FineLockoutTime == 1 && 
+            _wtxObj.Filler.TareMode == 1 && 
+            _wtxObj.Filler.UpperToleranceLimit == 1 && 
+            _wtxObj.Filler.LowerToleranceLimit == 1 &&
+            _wtxObj.Filler.MinimumStartWeight == 1 && 
+            _wtxObj.Filler.TareDelay == 1 && 
+            _wtxObj.Filler.CoarseFlowMonitoringTime == 1 && 
+            _wtxObj.Filler.CoarseFlowMonitoring == 1 && 
+            _wtxObj.Filler.FineFlowMonitoring == 1 && 
+            _wtxObj.Filler.EmptyWeight == 1 &&
+            _wtxObj.Filler.FineFlowMonitoringTime == 1 && 
+            _wtxObj.Filler.DelayTimeAfterFilling == 1 && 
+            _wtxObj.Filler.ActivationTimeAfterFilling == 1 && 
+            _wtxObj.Filler.SystematicDifference == 1 && 
+            _wtxObj.Filler.FillingMode == 1
             )
                 return true;
 

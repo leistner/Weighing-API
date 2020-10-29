@@ -66,7 +66,7 @@ namespace GUIplc
 
         #region ==================== constants & fields ==================== 
 
-        private static BaseWTDevice _wtxDevice;
+        private static BaseWTXDevice _wtxDevice;
       
         private SettingsForm _settings;
         private AdjustmentCalculator _adjustmentCalculator;
@@ -444,25 +444,25 @@ namespace GUIplc
                         {
                             case 8:  _wtxDevice.ManualTareValue = value; break;
 
-                            case 9: _wtxDevice.DataStandard.LimitSwitch1Mode = (LimitSwitchMode)value; break; 
-                            case 10: _wtxDevice.DataStandard.LimitSwitch1Source = (LimitSwitchSource)value; break;
-                            case 11: _wtxDevice.DataStandard.LimitSwitch1Level = value; break;
-                            case 12: _wtxDevice.DataStandard.LimitSwitch1Hysteresis = value; break;
+                            case 9: _wtxDevice.LimitSwitch.LimitSwitch1Mode = (LimitSwitchMode)value; break; 
+                            case 10: _wtxDevice.LimitSwitch.LimitSwitch1Source = (LimitSwitchSource)value; break;
+                            case 11: _wtxDevice.LimitSwitch.LimitSwitch1Level = value; break;
+                            case 12: _wtxDevice.LimitSwitch.LimitSwitch1Hysteresis = value; break;
 
-                            case 13: _wtxDevice.DataStandard.LimitSwitch2Mode = (LimitSwitchMode)value; break; 
-                            case 14: _wtxDevice.DataStandard.LimitSwitch2Source = (LimitSwitchSource)value; break;
-                            case 15: _wtxDevice.DataStandard.LimitSwitch2Level = value; break;
-                            case 16: _wtxDevice.DataStandard.LimitSwitch2Hysteresis = value; break;
+                            case 13: _wtxDevice.LimitSwitch.LimitSwitch2Mode = (LimitSwitchMode)value; break; 
+                            case 14: _wtxDevice.LimitSwitch.LimitSwitch2Source = (LimitSwitchSource)value; break;
+                            case 15: _wtxDevice.LimitSwitch.LimitSwitch2Level = value; break;
+                            case 16: _wtxDevice.LimitSwitch.LimitSwitch2Hysteresis = value; break;
 
-                            case 17: _wtxDevice.DataStandard.LimitSwitch3Mode = (LimitSwitchMode)value; break; 
-                            case 18: _wtxDevice.DataStandard.LimitSwitch3Source = (LimitSwitchSource)value; break;
-                            case 19: _wtxDevice.DataStandard.LimitSwitch3Level = value; break;
-                            case 20: _wtxDevice.DataStandard.LimitSwitch3Hysteresis = value; break;
+                            case 17: _wtxDevice.LimitSwitch.LimitSwitch3Mode = (LimitSwitchMode)value; break; 
+                            case 18: _wtxDevice.LimitSwitch.LimitSwitch3Source = (LimitSwitchSource)value; break;
+                            case 19: _wtxDevice.LimitSwitch.LimitSwitch3Level = value; break;
+                            case 20: _wtxDevice.LimitSwitch.LimitSwitch3Hysteresis = value; break;
 
-                            case 21: _wtxDevice.DataStandard.LimitSwitch4Mode = (LimitSwitchMode)value; break; 
-                            case 22: _wtxDevice.DataStandard.LimitSwitch4Source = (LimitSwitchSource)value; break;
-                            case 23: _wtxDevice.DataStandard.LimitSwitch4Level = value; break;
-                            case 24: _wtxDevice.DataStandard.LimitSwitch4Hysteresis = value; break;
+                            case 21: _wtxDevice.LimitSwitch.LimitSwitch4Mode = (LimitSwitchMode)value; break; 
+                            case 22: _wtxDevice.LimitSwitch.LimitSwitch4Source = (LimitSwitchSource)value; break;
+                            case 23: _wtxDevice.LimitSwitch.LimitSwitch4Level = value; break;
+                            case 24: _wtxDevice.LimitSwitch.LimitSwitch4Hysteresis = value; break;
 
                             default: break;
                         }
@@ -475,35 +475,35 @@ namespace GUIplc
                     {
                         switch (e.RowIndex)
                         {
-                            case 11: _wtxDevice.DataFiller.ResidualFlowTime = value;      break;
-                            case 12: _wtxDevice.DataFiller.TargetFillingWeight = value;   break;
-                            case 13: _wtxDevice.DataFiller.CoarseFlowCutOffLevel = value; break;
-                            case 14: _wtxDevice.DataFiller.FineFlowCutOffLevel = value;   break;
-                            case 15: _wtxDevice.DataFiller.MinimumFineFlow = value;       break;
+                            case 11: ((WTXModbus)_wtxDevice).Filler.ResidualFlowTime = value;      break;
+                            case 12: ((WTXModbus)_wtxDevice).Filler.TargetFillingWeight = value;   break;
+                            case 13: ((WTXModbus)_wtxDevice).Filler.CoarseFlowCutOffLevel = value; break;
+                            case 14: ((WTXModbus)_wtxDevice).Filler.FineFlowCutOffLevel = value;   break;
+                            case 15: ((WTXModbus)_wtxDevice).Filler.MinimumFineFlow = value;       break;
 
-                            case 16: _wtxDevice.DataFiller.OptimizationMode = value;    break;
-                            case 17: _wtxDevice.DataFiller.MaxFillingTime = value;      break;
-                            case 18: _wtxDevice.DataFiller.StartWithFineFlow = value;   break;
-                            case 19: _wtxDevice.DataFiller.CoarseLockoutTime = value;   break;
-                            case 20: _wtxDevice.DataFiller.FineLockoutTime = value;     break;
-                            case 21: _wtxDevice.DataFiller.TareMode = value;            break;
-                            case 22: _wtxDevice.DataFiller.UpperToleranceLimit = value; break;
-                            case 23: _wtxDevice.DataFiller.LowerToleranceLimit = value; break;
-                            case 24: _wtxDevice.DataFiller.MinimumStartWeight = value;  break;
+                            case 16: ((WTXModbus)_wtxDevice).Filler.OptimizationMode = value;    break;
+                            case 17: ((WTXModbus)_wtxDevice).Filler.MaxFillingTime = value;      break;
+                            case 18: ((WTXModbus)_wtxDevice).Filler.StartWithFineFlow = value;   break;
+                            case 19: ((WTXModbus)_wtxDevice).Filler.CoarseLockoutTime = value;   break;
+                            case 20: ((WTXModbus)_wtxDevice).Filler.FineLockoutTime = value;     break;
+                            case 21: ((WTXModbus)_wtxDevice).Filler.TareMode = value;            break;
+                            case 22: ((WTXModbus)_wtxDevice).Filler.UpperToleranceLimit = value; break;
+                            case 23: ((WTXModbus)_wtxDevice).Filler.LowerToleranceLimit = value; break;
+                            case 24: ((WTXModbus)_wtxDevice).Filler.MinimumStartWeight = value;  break;
 
-                            case 25: _wtxDevice.DataFiller.EmptyWeight = value; break;
-                            case 26: _wtxDevice.DataFiller.TareDelay = value;   break;
-                            case 27: _wtxDevice.DataFiller.CoarseFlowMonitoringTime = value; break;
-                            case 28: _wtxDevice.DataFiller.CoarseFlowMonitoring = value;     break;
-                            case 29: _wtxDevice.DataFiller.FineFlowMonitoring = value;       break;
-                            case 30: _wtxDevice.DataFiller.FineFlowMonitoringTime = value;   break;
+                            case 25: ((WTXModbus)_wtxDevice).Filler.EmptyWeight = value; break;
+                            case 26: ((WTXModbus)_wtxDevice).Filler.TareDelay = value;   break;
+                            case 27: ((WTXModbus)_wtxDevice).Filler.CoarseFlowMonitoringTime = value; break;
+                            case 28: ((WTXModbus)_wtxDevice).Filler.CoarseFlowMonitoring = value;     break;
+                            case 29: ((WTXModbus)_wtxDevice).Filler.FineFlowMonitoring = value;       break;
+                            case 30: ((WTXModbus)_wtxDevice).Filler.FineFlowMonitoringTime = value;   break;
 
-                            case 31: _wtxDevice.DataFiller.DelayTimeAfterFilling = value;      break;
-                            case 32: _wtxDevice.DataFiller.ActivationTimeAfterFilling = value; break;
-                            case 33: _wtxDevice.DataFiller.SystematicDifference = value;        break;
-                            case 34: _wtxDevice.DataFiller.FillingMode = value;     break;
-                            case 35: _wtxDevice.DataFiller.ValveControl = value;    break;
-                            case 36: _wtxDevice.DataFiller.EmptyingMode = value;    break;
+                            case 31: ((WTXModbus)_wtxDevice).Filler.DelayTimeAfterFilling = value;      break;
+                            case 32: ((WTXModbus)_wtxDevice).Filler.ActivationTimeAfterFilling = value; break;
+                            case 33: ((WTXModbus)_wtxDevice).Filler.SystematicDifference = value;        break;
+                            case 34: ((WTXModbus)_wtxDevice).Filler.FillingMode = value;     break;
+                            case 35: ((WTXModbus)_wtxDevice).Filler.ValveControl = value;    break;
+                            case 36: ((WTXModbus)_wtxDevice).Filler.EmptyingMode = value;    break;
                         }
                     }
                 }
@@ -542,7 +542,7 @@ namespace GUIplc
                 {
                     dataGridView1.Rows[0].Cells[6].Value = _wtxDevice.Weight.Net;
                     dataGridView1.Rows[1].Cells[6].Value = _wtxDevice.Weight.Gross;
-                    dataGridView1.Rows[2].Cells[6].Value = e.ProcessData.GeneralWeightError;
+                    dataGridView1.Rows[2].Cells[6].Value = e.ProcessData.GeneralScaleError;
                     dataGridView1.Rows[3].Cells[6].Value = e.ProcessData.ScaleAlarm;
                     dataGridView1.Rows[4].Cells[6].Value = e.ProcessData.Overload;
                     dataGridView1.Rows[5].Cells[6].Value = e.ProcessData.WeightStable;
@@ -558,14 +558,14 @@ namespace GUIplc
                     dataGridView1.Rows[16].Cells[6].Value = _wtxDevice.Connection.ReadFromBuffer(ModbusCommands.PLCComHandshake);
                     dataGridView1.Rows[17].Cells[6].Value = _wtxDevice.Connection.ReadFromBuffer(ModbusCommands.PLCComStatus);
 
-                    dataGridView1.Rows[18].Cells[6].Value = _wtxDevice.DataStandard.Input1;
-                    dataGridView1.Rows[19].Cells[6].Value = _wtxDevice.DataStandard.Input2;
-                    dataGridView1.Rows[20].Cells[6].Value = _wtxDevice.DataStandard.Input3;
-                    dataGridView1.Rows[21].Cells[6].Value = _wtxDevice.DataStandard.Input4;
-                    dataGridView1.Rows[22].Cells[6].Value = _wtxDevice.DataStandard.Output1;
-                    dataGridView1.Rows[23].Cells[6].Value = _wtxDevice.DataStandard.Output2;
-                    dataGridView1.Rows[24].Cells[6].Value = _wtxDevice.DataStandard.Output3;
-                    dataGridView1.Rows[25].Cells[6].Value = _wtxDevice.DataStandard.Output4;
+                    dataGridView1.Rows[18].Cells[6].Value = _wtxDevice.IO.Input1;
+                    dataGridView1.Rows[19].Cells[6].Value = _wtxDevice.IO.Input2;
+                    dataGridView1.Rows[20].Cells[6].Value = _wtxDevice.IO.Input3;
+                    dataGridView1.Rows[21].Cells[6].Value = _wtxDevice.IO.Input4;
+                    dataGridView1.Rows[22].Cells[6].Value = _wtxDevice.IO.Output1;
+                    dataGridView1.Rows[23].Cells[6].Value = _wtxDevice.IO.Output2;
+                    dataGridView1.Rows[24].Cells[6].Value = _wtxDevice.IO.Output3;
+                    dataGridView1.Rows[25].Cells[6].Value = _wtxDevice.IO.Output4;
             }
                 catch (Exception) { }
 
@@ -574,17 +574,17 @@ namespace GUIplc
                     try
                     {
                         // Index 27 bis 35:
-                        dataGridView1.Rows[26].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus1;
-                        dataGridView1.Rows[27].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus2;
-                        dataGridView1.Rows[28].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus3;
-                        dataGridView1.Rows[29].Cells[6].Value = _wtxDevice.DataStandard.LimitStatus4;
+                        dataGridView1.Rows[26].Cells[6].Value = _wtxDevice.LimitSwitch.LimitStatus1;
+                        dataGridView1.Rows[27].Cells[6].Value = _wtxDevice.LimitSwitch.LimitStatus2;
+                        dataGridView1.Rows[28].Cells[6].Value = _wtxDevice.LimitSwitch.LimitStatus3;
+                        dataGridView1.Rows[29].Cells[6].Value = _wtxDevice.LimitSwitch.LimitStatus4;
                     /* DDD ToDo: Ändern auf Klasse WeightMemory
-                        dataGridView1.Rows[30].Cells[6].Value = _wtxDevice.DataStandard.WeightMemDay;
-                        dataGridView1.Rows[31].Cells[6].Value = _wtxDevice.DataStandard.WeightMemMonth;
-                        dataGridView1.Rows[32].Cells[6].Value = _wtxDevice.DataStandard.WeightMemYear;
-                        dataGridView1.Rows[33].Cells[6].Value = _wtxDevice.DataStandard.WeightMemSeqNumber;
-                        dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.DataStandard.WeightMemGross;
-                        dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.DataStandard.WeightMemNet;
+                        dataGridView1.Rows[30].Cells[6].Value = _wtxDevice.WeightMemDay;
+                        dataGridView1.Rows[31].Cells[6].Value = _wtxDevice.WeightMemMonth;
+                        dataGridView1.Rows[32].Cells[6].Value = _wtxDevice.WeightMemYear;
+                        dataGridView1.Rows[33].Cells[6].Value = _wtxDevice.WeightMemSeqNumber;
+                        dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.WeightMemGross;
+                        dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.WeightMemNet;
                     */
                 }
                     catch (Exception) { }
@@ -595,30 +595,30 @@ namespace GUIplc
                     try
                     {
                     // Index 27 bis 55: 
-                    dataGridView1.Rows[26].Cells[6].Value = _wtxDevice.DataFiller.CoarseFlow;
-                    dataGridView1.Rows[27].Cells[6].Value = _wtxDevice.DataFiller.FineFlow;
-                    dataGridView1.Rows[28].Cells[6].Value = _wtxDevice.DataFiller.Ready;
-                    dataGridView1.Rows[29].Cells[6].Value = _wtxDevice.DataFiller.ReDosing;
-                    dataGridView1.Rows[30].Cells[6].Value = _wtxDevice.DataFiller.Emptying;
-                    dataGridView1.Rows[31].Cells[6].Value = _wtxDevice.DataFiller.FlowError;
-                    dataGridView1.Rows[32].Cells[6].Value = _wtxDevice.DataFiller.Alarm;
-                    dataGridView1.Rows[33].Cells[6].Value = _wtxDevice.DataFiller.AdcOverUnderload;
-                    dataGridView1.Rows[34].Cells[6].Value = _wtxDevice.DataFiller.MaxFillingTime;
-                    //dataGridView1.Rows[35].Cells[6].Value = _wtxDevice.DataFiller.LegalForTradeOperation;
-                    dataGridView1.Rows[36].Cells[6].Value = _wtxDevice.DataFiller.ToleranceErrorPlus;
-                    dataGridView1.Rows[37].Cells[6].Value = _wtxDevice.DataFiller.ToleranceErrorMinus;
-                    dataGridView1.Rows[40].Cells[6].Value = _wtxDevice.DataFiller.FillingProcessStatus;
-                    dataGridView1.Rows[41].Cells[6].Value = _wtxDevice.DataFiller.FillingResultCount;
-                    dataGridView1.Rows[42].Cells[6].Value = _wtxDevice.DataFiller.FillingResult;
-                    dataGridView1.Rows[43].Cells[6].Value = _wtxDevice.DataFiller.FillingResultMeanValue;
-                    dataGridView1.Rows[44].Cells[6].Value = _wtxDevice.DataFiller.FillingResultStandardDeviation;
-                    dataGridView1.Rows[45].Cells[6].Value = _wtxDevice.DataFiller.FillingResultTotalSum;
-                    dataGridView1.Rows[46].Cells[6].Value = _wtxDevice.DataFiller.FineFlowCutOffLevel;
-                    dataGridView1.Rows[47].Cells[6].Value = _wtxDevice.DataFiller.CoarseFlowCutOffLevel;
-                    dataGridView1.Rows[48].Cells[6].Value = _wtxDevice.DataFiller.CurrentDosingTime;
-                    dataGridView1.Rows[49].Cells[6].Value = _wtxDevice.DataFiller.CurrentCoarseFlowTime;
-                    dataGridView1.Rows[50].Cells[6].Value = _wtxDevice.DataFiller.CurrentFineFlowTime ;
-                    dataGridView1.Rows[51].Cells[6].Value = _wtxDevice.DataFiller.ParameterSetProduct;
+                    dataGridView1.Rows[26].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.CoarseFlow;
+                    dataGridView1.Rows[27].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.FineFlow;
+                    dataGridView1.Rows[28].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.Ready;
+                    dataGridView1.Rows[29].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.ReDosing;
+                    dataGridView1.Rows[30].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.Emptying;
+                    dataGridView1.Rows[31].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.FlowError;
+                    dataGridView1.Rows[32].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.Alarm;
+                    dataGridView1.Rows[33].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.AdcOverUnderload;
+                    dataGridView1.Rows[34].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.MaxFillingTime;
+                    //dataGridView1.Rows[35].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.LegalForTradeOperation;
+                    dataGridView1.Rows[36].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.ToleranceErrorPlus;
+                    dataGridView1.Rows[37].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.ToleranceErrorMinus;
+                    dataGridView1.Rows[40].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.FillingProcessStatus;
+                    dataGridView1.Rows[41].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.FillingResultCount;
+                    dataGridView1.Rows[42].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.FillingResult;
+                    dataGridView1.Rows[43].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.FillingResultMeanValue;
+                    dataGridView1.Rows[44].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.FillingResultStandardDeviation;
+                    dataGridView1.Rows[45].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.FillingResultTotalSum;
+                    dataGridView1.Rows[46].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.FineFlowCutOffLevel;
+                    dataGridView1.Rows[47].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.CoarseFlowCutOffLevel;
+                    dataGridView1.Rows[48].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.CurrentDosingTime;
+                    dataGridView1.Rows[49].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.CurrentCoarseFlowTime;
+                    dataGridView1.Rows[50].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.CurrentFineFlowTime ;
+                    dataGridView1.Rows[51].Cells[6].Value = ((WTXModbus)_wtxDevice).Filler.ParameterSetProduct;
 
                     /* DDD ToDo: Ändern auf Klasse WeightMemory
                     dataGridView1.Rows[52].Cells[6].Value = _wtxDevice.DataStandard.WeightMemDay;
@@ -848,13 +848,13 @@ namespace GUIplc
 
         public void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
-            bool out1 = _wtxDevice.DataStandard.Output1;
-            bool out2 = _wtxDevice.DataStandard.Output2;
-            bool out3 = _wtxDevice.DataStandard.Output3;
-            bool out4 = _wtxDevice.DataStandard.Output4;
+            bool out1 = _wtxDevice.IO.Output1;
+            bool out2 = _wtxDevice.IO.Output2;
+            bool out3 = _wtxDevice.IO.Output3;
+            bool out4 = _wtxDevice.IO.Output4;
 
-            bool in1 = _wtxDevice.DataStandard.Input1;
-            bool in2 = _wtxDevice.DataStandard.Input2;
+            bool in1 = _wtxDevice.IO.Input1;
+            bool in2 = _wtxDevice.IO.Input2;
 
             _wtxDevice.Disconnect();
 
@@ -929,7 +929,7 @@ namespace GUIplc
             {
                 dataGridView1.Rows.Add("0", "Measured Value", "Int32", "32Bit", "ProcessData.Weight.Net", "Net measured", "0", "0", "Control word", "Bit", ".0", "Taring", "Button taring");                                        // row 1 ; dataStr[1]      
                 dataGridView1.Rows.Add("2", "Measured Value", "Int32", "32Bit", "ProcessData.Weight.Gross", "Gross measured", "0", "0", "Control word", "Bit", ".1", "Gross/Net", "Button Gross/Net");                              // row 2 ; dataStr[2]      
-                dataGridView1.Rows.Add("4", "DS461-Weight status", "Bit", ".0", "ProcessData.GeneralWeightError", "General weight error", "0", "0", "Control word", "Bit", ".6", "Zeroing", "Button Zeroing");                      // row 3 ; dataStr[3]
+                dataGridView1.Rows.Add("4", "DS461-Weight status", "Bit", ".0", "ProcessData.GeneralWeightError", "General scale error", "0", "0", "Control word", "Bit", ".6", "Zeroing", "Button Zeroing");                      // row 3 ; dataStr[3]
 
                 dataGridView1.Rows.Add("4", "DS461-Weight status", "Bit", ".1", "ProcessData.ScaleAlarmTriggered", "Scale alarm(s) triggered", "0", "0", "Control word", "Bit", ".7", "Adjust zero", "Button Adjust zero");         // row 4 ; dataStr[4]
                 dataGridView1.Rows.Add("4", "DS461-Weight status", "Bits", ".2-3", "ProcessData.LimitStatus", "Limit status", "0", "0", "Control word", "Bit", ".8", "Adjust nominal", "Button Adjust nominal");                    // row 5 ; dataStr[5]
@@ -977,7 +977,7 @@ namespace GUIplc
                 dataGridView1.Rows.Add("0", "Measured Value", "Int32", "32Bit", "ProcessData.Weight.Net", "Net measured", "0", "0", "Control word", "Bit", ".0", "Taring", "Button Taring");                               // row 1 ; dataStr[1]      
                 dataGridView1.Rows.Add("2", "Measured Value", "Int32", "32Bit", "ProcessData.Weight.Gross", "Gross measured", "0", "0", "Control word", "Bit", ".1", "Gross/Net", "Button Gross/Net");                      // row 2 ; dataStr[2]
 
-                dataGridView1.Rows.Add("4", "DS461-Weight status", "Bit", ".0", "ProcessData.GeneralWeightError", "General weight error", "0", "0", "Control word", "Bit", ".2", "Clear dosing results", "Button Clear dosing results");         // row 3 ; dataStr[3]        
+                dataGridView1.Rows.Add("4", "DS461-Weight status", "Bit", ".0", "ProcessData.GeneralWeightError", "General scale error", "0", "0", "Control word", "Bit", ".2", "Clear dosing results", "Button Clear dosing results");         // row 3 ; dataStr[3]        
                 dataGridView1.Rows.Add("4", "DS461-Weight status", "Bit", ".1", "ProcessData.ScaleAlarmTriggered", "Scale alarm(s) triggered", "0", "0", "Control word", "Bit", ".3", "Abort dosing", "Button Abort dosing");                    // row 4 ; dataStr[4]
 
                 dataGridView1.Rows.Add("4", "DS461-Weight status", "Bits", ".2-3", "ProcessData.LimitStatus", "Limit status", "0", "0", "Control word", "Bit", ".4", "Start dosing", "Button Start dosing");              // row 5 ; dataStr[5]

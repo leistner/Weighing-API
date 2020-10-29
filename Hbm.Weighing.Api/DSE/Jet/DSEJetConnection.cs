@@ -86,21 +86,21 @@ namespace Hbm.Weighing.Api.DSE.Jet
         #endregion
 
         #region ======================== properties ========================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public ConnectionType ConnectionType => ConnectionType.DSEJet;
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool IsConnected { get; private set; }
         
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public string IpAddress { get; set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public Dictionary<string, string> AllData { get; } = new Dictionary<string, string>();
         #endregion
 
         #region ================ public & internal methods =================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public void Connect(int timeoutMs = 20000)
         {
             IsConnected = false;
@@ -109,7 +109,7 @@ namespace Hbm.Weighing.Api.DSE.Jet
             WaitOne(3);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public void Disconnect()
         {
             if (this.IsConnected)
@@ -119,13 +119,13 @@ namespace Hbm.Weighing.Api.DSE.Jet
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public string Read(object command)
         {
             return ReadFromBuffer(command);
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public Task<string> ReadAsync(object command)
         {
             throw new NotImplementedException();
@@ -143,7 +143,7 @@ namespace Hbm.Weighing.Api.DSE.Jet
 
         };
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public string ReadFromBuffer(object command)
         {
             string result = "0";
@@ -153,6 +153,7 @@ namespace Hbm.Weighing.Api.DSE.Jet
             return result;
         }
 
+        ///<inheritdoc/>
         public string ReadFromDevice(object command)
         {
             string result = "0";
@@ -168,7 +169,8 @@ namespace Hbm.Weighing.Api.DSE.Jet
             return result;
         }
 
-        public string OneTimeFetch(JetBusCommand jetcommand)
+        ///<inheritdoc/>
+        private string OneTimeFetch(JetBusCommand jetcommand)
         {
             string result = "-1";
             FetchId id;
@@ -197,7 +199,7 @@ namespace Hbm.Weighing.Api.DSE.Jet
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool WriteInteger(object command, int value)
         {
             bool result = false;
@@ -209,7 +211,7 @@ namespace Hbm.Weighing.Api.DSE.Jet
             return result;
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Write(object command, string value)
         {
             bool result = false;
@@ -221,13 +223,13 @@ namespace Hbm.Weighing.Api.DSE.Jet
             return result;
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public Task<int> WriteAsync(object command, int commandParam)
         {
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public void Dispose()
         {
             // Do not change this code. Put cleanup code in Dispose(bool disposing) above.

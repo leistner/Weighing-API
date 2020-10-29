@@ -1,4 +1,4 @@
-﻿// <copyright file="ProcessDataJet.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="JetProcessData.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -39,7 +39,7 @@ namespace Hbm.Weighing.Api.Data
     /// The class ProcessData contains all process data like net weight, gross weight or tare value.
     /// Jetbus implementation of the interface IProcessData for the process data.
     /// </summary>
-    public class ProcessDataJet : IProcessData
+    public class JetProcessData : IProcessData
     {
 
         #region ==================== constants & fields ====================
@@ -51,14 +51,14 @@ namespace Hbm.Weighing.Api.Data
         /// Constructor of class ProcessDataJet : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
-        public ProcessDataJet(INetConnection Connection)
+        public JetProcessData(INetConnection Connection)
         {
             _connection = Connection;
             _connection.UpdateData += UpdateData;
 
             PrintableWeight = new PrintableWeightType();
             Weight = new WeightType();
-            GeneralWeightError = false;
+            GeneralScaleError = false;
             ScaleAlarm = false;
             WeightStable = false;
             LegalForTrade = false;
@@ -76,13 +76,13 @@ namespace Hbm.Weighing.Api.Data
         #endregion
 
         #region ==================== events & delegates ====================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public void UpdateData(object sender, EventArgs e)
         {
             try
             {
                 ApplicationMode = (ApplicationMode)Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.IMDApplicationMode));
-                GeneralWeightError = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusGeneralWeightError)));
+                GeneralScaleError = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusGeneralWeightError)));
                 ScaleAlarm = Convert.ToBoolean(Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusScaleAlarm)));
                 int LimitStatus = Convert.ToInt32(_connection.ReadFromBuffer(JetBusCommands.CIA461WeightStatusLimitStatus));
                 Underload = (LimitStatus == 1);
@@ -115,60 +115,60 @@ namespace Hbm.Weighing.Api.Data
         #endregion
 
         #region ======================== properties ========================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public ApplicationMode ApplicationMode { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public WeightType Weight { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public PrintableWeightType PrintableWeight { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public string Unit { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int Decimals { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public TareMode TareMode { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool WeightStable { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool CenterOfZero { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool InsideZero { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool ZeroRequired { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public int ScaleRange { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool LegalForTrade { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Underload { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool Overload { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool HigherSafeLoadLimit { get; private set; }
 
-        /// <inheritdoc />
-        public bool GeneralWeightError { get; private set; }
+        ///<inheritdoc/>
+        public bool GeneralScaleError { get; private set; }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         public bool ScaleAlarm { get; private set; }
         #endregion
 
         #region =============== protected & private methods ================
-        /// <inheritdoc />
+        ///<inheritdoc/>
         private string UnitIDToString(int id)
         {
             switch (id)
@@ -188,7 +188,7 @@ namespace Hbm.Weighing.Api.Data
             }
         }
 
-        /// <inheritdoc />
+        ///<inheritdoc/>
         private TareMode EvaluateTareMode(int tare, int presettare)
         {
             if (tare > 0)

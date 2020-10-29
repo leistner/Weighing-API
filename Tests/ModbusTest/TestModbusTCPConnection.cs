@@ -1332,7 +1332,12 @@ namespace Hbm.Weighing.Api.WTX.Modbus
 
             return _dataBuffer[ConvertedFrame.Path];
         }
-        
+
+        public string ReadFromDevice(object command)
+        {
+            return null; //tbd
+        }
+
         public int ReadIntegerFromBuffer(object command)
         {
             throw new NotImplementedException();

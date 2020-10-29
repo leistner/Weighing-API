@@ -1,4 +1,4 @@
-﻿// <copyright file="DataFiller.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="ModbusDataFiller.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -38,7 +38,7 @@ namespace Hbm.Weighing.Api.Data
     /// The class DataFillerModbus contains the data input word and data output words for the filler mode
     /// of WTX device 120 and 110 via Modbus.
     /// </summary>
-    public class DataFillerModbus : IDataFiller
+    public class ModbusDataFiller : IDataFiller
     {
 
         #region ==================== constants & fields ====================
@@ -76,7 +76,7 @@ namespace Hbm.Weighing.Api.Data
         /// Constructor of class DataFillerModbus : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
-        public DataFillerModbus(INetConnection Connection) : base()
+        public ModbusDataFiller(INetConnection Connection) : base()
         {
             _connection = Connection;
 
@@ -139,7 +139,7 @@ namespace Hbm.Weighing.Api.Data
         #region ==================== events & delegates ====================
 
         /// <summary>
-        /// Updates & converts the values from buffer (Dictionary<string,string>) 
+        /// Updates and converts the values from buffer
         /// </summary>
         /// <param name="sender">Connection class</param>
         /// <param name="e">EventArgs, Event argument</param>

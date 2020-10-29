@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2047
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30611.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{88A9A036-C2E9-4BB5-A757-DF2164D246A4}"
 EndProject
@@ -18,6 +18,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommandLine", "Examples\CommandLine\CommandLine.csproj", "{8241DD4F-A40A-4E8D-8BAC-8CD878BC1ABF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUIplc", "Examples\GUIplc\GUIplc.csproj", "{1B8BDE86-5015-40A3-B364-5716EC95B932}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Doc", "Doc", "{26CE75B6-EADA-4F18-8808-FBACAE9BF20F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Weighing-API-Doc", "Weighing-API-Doc\Weighing-API-Doc.csproj", "{AA97796C-5C31-400B-96E2-DCA098659D79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +105,18 @@ Global
 		{1B8BDE86-5015-40A3-B364-5716EC95B932}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{1B8BDE86-5015-40A3-B364-5716EC95B932}.Release|x86.ActiveCfg = Release|Any CPU
 		{1B8BDE86-5015-40A3-B364-5716EC95B932}.Release|x86.Build.0 = Release|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Debug|x86.Build.0 = Debug|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Release|x86.ActiveCfg = Release|Any CPU
+		{AA97796C-5C31-400B-96E2-DCA098659D79}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -111,6 +127,7 @@ Global
 		{BD4E877B-0A77-4976-8FE6-53D9450B9CA0} = {88A9A036-C2E9-4BB5-A757-DF2164D246A4}
 		{8241DD4F-A40A-4E8D-8BAC-8CD878BC1ABF} = {88A9A036-C2E9-4BB5-A757-DF2164D246A4}
 		{1B8BDE86-5015-40A3-B364-5716EC95B932} = {88A9A036-C2E9-4BB5-A757-DF2164D246A4}
+		{AA97796C-5C31-400B-96E2-DCA098659D79} = {26CE75B6-EADA-4F18-8808-FBACAE9BF20F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0DFD5B88-96A3-4B7C-AA27-675E748F5775}
