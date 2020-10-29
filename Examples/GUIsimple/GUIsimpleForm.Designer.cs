@@ -208,7 +208,9 @@ namespace GUIsimple
             "Device identification",
             "Hardware version",
             "Software version",
-            "User defined command"});
+            "User defined command",
+            "Restore default parameters",
+            "Write Command"});
             this.comboBox1.Location = new System.Drawing.Point(13, 118);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(234, 21);

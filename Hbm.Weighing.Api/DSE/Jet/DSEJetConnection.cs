@@ -298,6 +298,7 @@ namespace Hbm.Weighing.Api.DSE.Jet
             "6144/00",   //6144.0 = Gross value
             //"6152/00",   //Scale calibration weight
             "6153/00",   //6153.0 = Weight movement detection
+            "6002/00",     //Scale command status
         };
 
         private void FetchSelective()
