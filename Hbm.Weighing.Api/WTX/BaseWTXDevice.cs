@@ -63,17 +63,5 @@ namespace Hbm.Weighing.Api.WTX
 
         #endregion
 
-        #region ================ public & internal methods =================
-        /// <summary>
-        /// Saves all parameters in non-volatile memory
-        /// </summary>
-        public abstract void SaveAllParameters();
-
-        /// <summary>
-        /// Restores all parameters from non-volatile memory
-        /// </summary>
-        public abstract void RestoreAllDefaultParameters();
-        #endregion
-
     }
 }

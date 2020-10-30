@@ -122,14 +122,14 @@ namespace Hbm.Weighing.Api.WTX
         public override void Connect(double timeoutMs = 2000)
         {
             this.Connection.Connect();
-            _processDataTimer.Change(0, ProcessDataInterval);
+            ProcessDataTimer.Change(0, ProcessDataInterval);
         }
 
         ///<inheritdoc/>
         public override void Connect(Action<bool> ConnectCompleted, double timeoutMs)
         {
             this.Connection.Connect();
-            _processDataTimer.Change(0, ProcessDataInterval);
+            ProcessDataTimer.Change(0, ProcessDataInterval);
         }
 
         ///<inheritdoc/>

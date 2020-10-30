@@ -54,6 +54,7 @@ namespace Hbm.Weighing.Api.Data
         /// Constructor of class DataStandardJet : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
+        /// <param name="Connection">Target connection</param>
         public JetDataIO(INetConnection Connection)
         {
             _connection = Connection;
