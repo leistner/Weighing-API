@@ -558,14 +558,14 @@ namespace GUIplc
                     dataGridView1.Rows[16].Cells[6].Value = _wtxDevice.Connection.ReadFromBuffer(ModbusCommands.PLCComHandshake);
                     dataGridView1.Rows[17].Cells[6].Value = _wtxDevice.Connection.ReadFromBuffer(ModbusCommands.PLCComStatus);
 
-                    dataGridView1.Rows[18].Cells[6].Value = _wtxDevice.IO.Input1;
-                    dataGridView1.Rows[19].Cells[6].Value = _wtxDevice.IO.Input2;
-                    dataGridView1.Rows[20].Cells[6].Value = _wtxDevice.IO.Input3;
-                    dataGridView1.Rows[21].Cells[6].Value = _wtxDevice.IO.Input4;
-                    dataGridView1.Rows[22].Cells[6].Value = _wtxDevice.IO.Output1;
-                    dataGridView1.Rows[23].Cells[6].Value = _wtxDevice.IO.Output2;
-                    dataGridView1.Rows[24].Cells[6].Value = _wtxDevice.IO.Output3;
-                    dataGridView1.Rows[25].Cells[6].Value = _wtxDevice.IO.Output4;
+                    dataGridView1.Rows[18].Cells[6].Value = _wtxDevice.DigitalIO.Input1;
+                    dataGridView1.Rows[19].Cells[6].Value = _wtxDevice.DigitalIO.Input2;
+                    dataGridView1.Rows[20].Cells[6].Value = _wtxDevice.DigitalIO.Input3;
+                    dataGridView1.Rows[21].Cells[6].Value = _wtxDevice.DigitalIO.Input4;
+                    dataGridView1.Rows[22].Cells[6].Value = _wtxDevice.DigitalIO.Output1;
+                    dataGridView1.Rows[23].Cells[6].Value = _wtxDevice.DigitalIO.Output2;
+                    dataGridView1.Rows[24].Cells[6].Value = _wtxDevice.DigitalIO.Output3;
+                    dataGridView1.Rows[25].Cells[6].Value = _wtxDevice.DigitalIO.Output4;
             }
                 catch (Exception) { }
 
@@ -848,13 +848,13 @@ namespace GUIplc
 
         public void ReadDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
-            bool out1 = _wtxDevice.IO.Output1;
-            bool out2 = _wtxDevice.IO.Output2;
-            bool out3 = _wtxDevice.IO.Output3;
-            bool out4 = _wtxDevice.IO.Output4;
+            bool out1 = _wtxDevice.DigitalIO.Output1;
+            bool out2 = _wtxDevice.DigitalIO.Output2;
+            bool out3 = _wtxDevice.DigitalIO.Output3;
+            bool out4 = _wtxDevice.DigitalIO.Output4;
 
-            bool in1 = _wtxDevice.IO.Input1;
-            bool in2 = _wtxDevice.IO.Input2;
+            bool in1 = _wtxDevice.DigitalIO.Input1;
+            bool in2 = _wtxDevice.DigitalIO.Input2;
 
             _wtxDevice.Disconnect();
 

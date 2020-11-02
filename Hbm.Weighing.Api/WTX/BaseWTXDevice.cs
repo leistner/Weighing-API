@@ -52,12 +52,12 @@ namespace Hbm.Weighing.Api.WTX
         #region ======================== properties ========================
 
         /// <summary>
-        /// Gets or sets the current IO data
+        /// Gets or sets the current digital IO status
         /// </summary>
-        public abstract IDataDigitalIO IO { get; set; }
+        public abstract IDataDigitalIO DigitalIO { get; set; }
 
         /// <summary>
-        /// Gets or sets the current limit switch data
+        /// Gets or sets the current limit switch config & status
         /// </summary>
         public abstract IDataLimitSwitch LimitSwitch { get; set; }
 
