@@ -181,46 +181,58 @@ namespace Hbm.Weighing.Api.Data
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch1Level
+        public double LimitSwitch1Level
         {
-            get { return _limitSwitch1LevelAndLowerBandValue; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch1LevelAndLowerBandValue, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchLevel, value);
-                _limitSwitch1LevelAndLowerBandValue = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchLevel, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch1LevelAndLowerBandValue = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch1Hysteresis
+        public double LimitSwitch1Hysteresis
         {
-            get { return _limitSwitch1HysteresisAndBandHeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch1HysteresisAndBandHeight, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchHysteresis, value);
-                _limitSwitch1HysteresisAndBandHeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchHysteresis, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch1HysteresisAndBandHeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch1LowerBandValue
+        public double LimitSwitch1LowerBandValue
         {
-            get { return _limitSwitch1LevelAndLowerBandValue; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch1LevelAndLowerBandValue, decimals); }
             set
             {
-                this._connection.WriteInteger(JetBusCommands.LIV1LimitSwitchLevel, value);
-                _limitSwitch1LevelAndLowerBandValue = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                this._connection.WriteInteger(JetBusCommands.LIV1LimitSwitchLevel, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch1LevelAndLowerBandValue = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch1BandHeight
+        public double LimitSwitch1BandHeight
         {
-            get { return _limitSwitch1HysteresisAndBandHeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch1HysteresisAndBandHeight, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchHysteresis, value);
-                _limitSwitch1HysteresisAndBandHeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV1LimitSwitchHysteresis, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch1HysteresisAndBandHeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
@@ -250,46 +262,58 @@ namespace Hbm.Weighing.Api.Data
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch2Level 
+        public double LimitSwitch2Level 
         {
-            get { return _limitSwitch2LevelAndLowerBandValue; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch2LevelAndLowerBandValue, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchLevel, value);
-                _limitSwitch2LevelAndLowerBandValue = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchLevel, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch2LevelAndLowerBandValue = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch2Hysteresis
+        public double LimitSwitch2Hysteresis
         {
-            get { return _limitSwitch2HysteresisAndBandHeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch2HysteresisAndBandHeight, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchHysteresis, value);
-                _limitSwitch2HysteresisAndBandHeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchHysteresis, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch2HysteresisAndBandHeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch2LowerBandValue
+        public double LimitSwitch2LowerBandValue
         {
-            get { return _limitSwitch2LevelAndLowerBandValue; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch2LevelAndLowerBandValue, decimals); }
             set
             {
-                this._connection.WriteInteger(JetBusCommands.LIV2LimitSwitchLevel, value);
-                _limitSwitch2LevelAndLowerBandValue = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                this._connection.WriteInteger(JetBusCommands.LIV2LimitSwitchLevel, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch2LevelAndLowerBandValue = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch2BandHeight
+        public double LimitSwitch2BandHeight
         {
-            get { return _limitSwitch2HysteresisAndBandHeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch2HysteresisAndBandHeight, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchHysteresis, value);
-                _limitSwitch2HysteresisAndBandHeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV2LimitSwitchHysteresis, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch2HysteresisAndBandHeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
@@ -319,46 +343,58 @@ namespace Hbm.Weighing.Api.Data
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch3Level
+        public double LimitSwitch3Level
         {
-            get { return _limitSwitch3LevelAndLowerBandValue; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch3LevelAndLowerBandValue, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchLevel, value);
-                _limitSwitch3LevelAndLowerBandValue = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchLevel, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch3LevelAndLowerBandValue = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch3Hysteresis
+        public double LimitSwitch3Hysteresis
         {
-            get { return _limitSwitch3HysteresisAndBandHeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch3HysteresisAndBandHeight, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchHysteresis, value);
-                _limitSwitch3HysteresisAndBandHeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchHysteresis, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch3HysteresisAndBandHeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch3LowerBandValue
+        public double LimitSwitch3LowerBandValue
         {
-            get { return _limitSwitch3LevelAndLowerBandValue; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch3LevelAndLowerBandValue, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchLevel, value);
-                _limitSwitch3LevelAndLowerBandValue = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchLevel, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch3LevelAndLowerBandValue = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch3BandHeight
+        public double LimitSwitch3BandHeight
         {
-            get { return _limitSwitch3HysteresisAndBandHeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch3HysteresisAndBandHeight, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchHysteresis, value);
-                _limitSwitch3HysteresisAndBandHeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV3LimitSwitchHysteresis, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch3HysteresisAndBandHeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
@@ -388,46 +424,58 @@ namespace Hbm.Weighing.Api.Data
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch4Level
+        public double LimitSwitch4Level
         {
-            get { return _limitSwitch4LevelAndLowerBandValue; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch4LevelAndLowerBandValue, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchLevel, value);
-                _limitSwitch4LevelAndLowerBandValue = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchLevel, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch4LevelAndLowerBandValue = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch4Hysteresis 
+        public double LimitSwitch4Hysteresis 
         {
-            get { return _limitSwitch4HysteresisAndBandHeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch4HysteresisAndBandHeight, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchSource, value);
-                _limitSwitch4HysteresisAndBandHeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchSource, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch4HysteresisAndBandHeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch4LowerBandValue
+        public double LimitSwitch4LowerBandValue
         {
-            get { return _limitSwitch1LevelAndLowerBandValue; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch1LevelAndLowerBandValue, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchLevel, value);
-                _limitSwitch1LevelAndLowerBandValue = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchLevel, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch1LevelAndLowerBandValue = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
 
         ///<inheritdoc/>
-        public int LimitSwitch4BandHeight
+        public double LimitSwitch4BandHeight
         {
-            get { return _limitSwitch4HysteresisAndBandHeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_limitSwitch4HysteresisAndBandHeight, decimals); }
             set
             {
-                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchHysteresis, value);
-                _limitSwitch4HysteresisAndBandHeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LIV4LimitSwitchHysteresis, MeasurementUtils.DoubleToDigit(value, decimals));
+                _limitSwitch4HysteresisAndBandHeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
         #endregion

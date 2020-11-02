@@ -31,6 +31,7 @@
 namespace Hbm.Weighing.Api.Data
 {
     using Hbm.Weighing.Api.WTX.Jet;
+    using Hbm.Weighing.Api.Utils;
     using System;
     using System.Collections.Generic;
 
@@ -178,10 +179,10 @@ namespace Hbm.Weighing.Api.Data
 
         public int FillingProcessStatus { get; }
         public int FillingResultCount { get; }
-        public int FillingResult { get; }
-        public int FillingResultMeanValue { get; private set; }
-        public int FillingResultStandardDeviation { get; private set; }
-        public int FillingResultTotalSum { get; }
+        public double FillingResult { get; }
+        public double FillingResultMeanValue { get; private set; }
+        public double FillingResultStandardDeviation { get; private set; }
+        public double FillingResultTotalSum { get; }
         public int CurrentDosingTime { get; }
         public int CurrentCoarseFlowTime { get; }
         public int CurrentFineFlowTime { get; }
@@ -214,29 +215,38 @@ namespace Hbm.Weighing.Api.Data
                 this._residualFlowTime = value;
             }
         }
-        public int TargetFillingWeight // Type : signed integer 32 Bit
+        public double TargetFillingWeight // Type : double value in weight unit
         {
-            get { return _targetFillingWeight; }
-            set { _connection.WriteInteger(JetBusCommands.FWTFillingTargetWeight, value);
-                this._targetFillingWeight = value; }
+            get { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_targetFillingWeight, decimals); }
+            set { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.FWTFillingTargetWeight, MeasurementUtils.DoubleToDigit(value,decimals));
+                this._targetFillingWeight = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
-        public int CoarseFlowCutOffLevel // Type : signed integer 32 Bit
+        public double CoarseFlowCutOffLevel // Type : double value in weight unit
         {
-            get { return _coarseFlowCutOffPointSet; }
-            set { _connection.WriteInteger(JetBusCommands.CFDCoarseFlowDisconnect, value);
-                this._coarseFlowCutOffPointSet = value; }
+            get { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_coarseFlowCutOffPointSet, decimals); }
+            set { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.CFDCoarseFlowDisconnect, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._coarseFlowCutOffPointSet = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
-        public int FineFlowCutOffLevel // Type : signed integer 32 Bit
+        public double FineFlowCutOffLevel // Type : double value in weight unit
         {
-            get { return _fineFlowCutOffPointSet; }
-            set { _connection.WriteInteger(JetBusCommands.FFDFineFlowDisconnect, value);
-                this._fineFlowCutOffPointSet = value; }
+            get { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals); 
+                return MeasurementUtils.DigitToDouble(_fineFlowCutOffPointSet, decimals); }
+            set { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals); 
+                _connection.WriteInteger(JetBusCommands.FFDFineFlowDisconnect, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._fineFlowCutOffPointSet = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
-        public int MinimumFineFlow // Type : signed integer 32 Bit
+        public double MinimumFineFlow // Type : double value in weight unit
         {
-            get { return _minimumFineFlow; }
-            set { _connection.WriteInteger(JetBusCommands.FFMMinimumFineFlow, value);
-                this._minimumFineFlow = value; }
+            get { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_minimumFineFlow, decimals); }
+            set {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals); 
+                _connection.WriteInteger(JetBusCommands.FFMMinimumFineFlow, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._minimumFineFlow = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
         public int OptimizationMode // Type : unsigned integer 8 Bit
         {
@@ -274,29 +284,47 @@ namespace Hbm.Weighing.Api.Data
             set { _connection.WriteInteger(JetBusCommands.TMDTareMode, value);
                 this._tareMode = value; }
         }
-        public int UpperToleranceLimit // Type : signed integer 32 Bit
+        public double UpperToleranceLimit // Type : double value in weight unit
         {
-            get { return _upperToleranceLimit; }
-            set { _connection.WriteInteger(JetBusCommands.UTLUpperToleranceLimit, value);
-                this._upperToleranceLimit = value; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals); 
+                return _upperToleranceLimit; }
+            set
+            {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals); 
+                _connection.WriteInteger(JetBusCommands.UTLUpperToleranceLimit, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._upperToleranceLimit = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
-        public int LowerToleranceLimit // Type : signed integer 32 Bit
+        public double LowerToleranceLimit // Type : double value in weight unit
         {
-            get { return _lowerToleranceLimit; }
-            set { _connection.WriteInteger(JetBusCommands.LTLLowerToleranceLimit, value);
-                this._lowerToleranceLimit = value; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_lowerToleranceLimit, decimals); }
+            set
+            {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.LTLLowerToleranceLimit, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._lowerToleranceLimit = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
-        public int MinimumStartWeight // Type : signed integer 32 Bit
+        public double MinimumStartWeight // Type : double value in weight unit
         {
-            get { return _minimumStartWeight; }
-            set { _connection.WriteInteger(JetBusCommands.MSWMinimumStartWeight, value);
-                this._minimumStartWeight = value; }
+            get
+            {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_minimumStartWeight, decimals); }
+            set
+            {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.MSWMinimumStartWeight, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._minimumStartWeight = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
-        public int EmptyWeight // Type : signed integer 32 Bit
+        public double EmptyWeight // Type : double value in weight unit
         {
-            get { return _emptyWeight; }
-            set { _connection.WriteInteger(JetBusCommands.EWTEmptyWeight, value);
-                this._emptyWeight = value; }
+            get { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals); 
+                return MeasurementUtils.DigitToDouble(_emptyWeight, decimals); }
+            set { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.EWTEmptyWeight, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._emptyWeight = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
         public int TareDelay // Type : unsigned integer 16 Bit
         {
@@ -310,17 +338,24 @@ namespace Hbm.Weighing.Api.Data
             set { _connection.WriteInteger(JetBusCommands.CBTCoarseFlowMonitoringTime, value);
                 this._coarseFlowMonitoringTime = value; }
         }
-        public int CoarseFlowMonitoring  // Type : unsigned integer 32 Bit
+        public double CoarseFlowMonitoring  // Type : double value in weight unit
         {
-            get { return _coarseFlowMonitoring; }
-            set { _connection.WriteInteger(JetBusCommands.CBKCoarseFlowMonitoring, value);
-                this._coarseFlowMonitoring = value; }
+            get { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return _coarseFlowMonitoring; }
+            set { 
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals); 
+                _connection.WriteInteger(JetBusCommands.CBKCoarseFlowMonitoring, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._coarseFlowMonitoring = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
-        public int FineFlowMonitoring  // Type : unsigned integer 32 Bit
+        public double FineFlowMonitoring  // Type : double value in weight unit
         {
-            get { return _fineFlowMonitoring; }
-            set { _connection.WriteInteger(JetBusCommands.FBKFineFlowMonitoring, value);
-                this._fineFlowMonitoring = value; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return _fineFlowMonitoring; }
+            set {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals); 
+                _connection.WriteInteger(JetBusCommands.FBKFineFlowMonitoring, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._fineFlowMonitoring = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
         public int FineFlowMonitoringTime // Type : unsigned integer 16 Bit
         {
@@ -340,11 +375,15 @@ namespace Hbm.Weighing.Api.Data
             set { _connection.WriteInteger("", value);
                 this._activationTimeAfterFineFlow = value; }
         }
-        public int SystematicDifference // Type : unsigned integer 32 Bit
+        public double SystematicDifference // Type : double value in weight unit
         {
-            get { return _systematicDifference; }
-            set { _connection.WriteInteger(JetBusCommands.SYDSystematicDifference, value);
-                this._systematicDifference = value; }
+            get { int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_systematicDifference, decimals); }
+            set
+            {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.SYDSystematicDifference, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._systematicDifference = MeasurementUtils.DoubleToDigit(value, decimals); }
         }
         public int FillingMode  // Type : unsigned integer 8 Bit
         {

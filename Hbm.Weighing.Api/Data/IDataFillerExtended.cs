@@ -50,7 +50,7 @@ namespace Hbm.Weighing.Api.Data
         /// <summary>
         /// Gets the material stream of the last filling cycle
         /// </summary>                 
-        int MaterialStreamLastFilling { get; }
+        double MaterialStreamLastFilling { get; }
 
         /// <summary>
         /// Gets or sets the special filling functions
@@ -80,12 +80,12 @@ namespace Hbm.Weighing.Api.Data
         /// <summary>
         /// Gets or sets the minimum emtpy weight in weight unit
         /// </summary>
-        int EmptyWeightTolerance { get; set; }
+        double EmptyWeightTolerance { get; set; }
 
         /// <summary>
         /// Gets or sets the residual flow from last filling in weight unit
         /// </summary>
-        int ResidualFlowDosingCycle { get; set; }
+        double ResidualFlowDosingCycle { get; set; }
 
         /// <summary>
         /// Gets or sets the current product (= parameter set) 

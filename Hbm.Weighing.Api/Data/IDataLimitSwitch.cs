@@ -79,24 +79,24 @@ namespace Hbm.Weighing.Api.Data
         LimitSwitchMode LimitSwitch1Mode { get;  set; }
 
         /// <summary>
-        /// Gets or sets the level of limit switch 1 for modes AboveLevel and BelowLevel
+        /// Gets or sets the level of limit switch 1 for modes AboveLevel and BelowLevel in weight unit
         /// </summary>
-        int LimitSwitch1Level { get;  set; }
+        double LimitSwitch1Level { get;  set; }
 
         /// <summary>
-        /// Gets or sets the hysteresis of limit switch 1 for modes AboveLevel and BelowLevel
+        /// Gets or sets the hysteresis of limit switch 1 for modes AboveLevel and BelowLevel in weight unit
         /// </summary>
-        int LimitSwitch1Hysteresis { get;  set; }
+        double LimitSwitch1Hysteresis { get;  set; }
 
         /// <summary>
-        /// Gets or sets the lower band value of limit switch 1 for modes OutsideBand and InsideBand
+        /// Gets or sets the lower band value of limit switch 1 for modes OutsideBand and InsideBand in weight unit
         /// </summary>
-        int LimitSwitch1LowerBandValue { get; set; }
+        double LimitSwitch1LowerBandValue { get; set; }
 
         /// <summary>
-        /// Gets or sets the band height of limit switch 1 for modes OutsideBand and InsideBand
+        /// Gets or sets the band height of limit switch 1 for modes OutsideBand and InsideBand in weight unit
         /// </summary>
-        int LimitSwitch1BandHeight { get; set; }
+        double LimitSwitch1BandHeight { get; set; }
 
         /// <summary>
         /// Gets or sets the source of limit switch 2 (gross or net)
@@ -109,24 +109,24 @@ namespace Hbm.Weighing.Api.Data
         LimitSwitchMode LimitSwitch2Mode { get;  set; }
 
         /// <summary>
-        /// Gets or sets the level of limit switch 2 for modes AboveLevel and BelowLevel
+        /// Gets or sets the level of limit switch 2 for modes AboveLevel and BelowLevel in weight unit
         /// </summary>
-        int LimitSwitch2Level { get;  set; }
+        double LimitSwitch2Level { get;  set; }
 
         /// <summary>
-        /// Gets or sets the hysteresis of limit switch 2 for modes AboveLevel and BelowLevel
+        /// Gets or sets the hysteresis of limit switch 2 for modes AboveLevel and BelowLevel in weight unit
         /// </summary>
-        int LimitSwitch2Hysteresis { get;  set; }
+        double LimitSwitch2Hysteresis { get;  set; }
 
         /// <summary>
-        /// Gets or sets the lower band value of limit switch 2 for modes OutsideBand and InsideBand
+        /// Gets or sets the lower band value of limit switch 2 for modes OutsideBand and InsideBand in weight unit
         /// </summary>
-        int LimitSwitch2LowerBandValue { get; set; }
+        double LimitSwitch2LowerBandValue { get; set; }
 
         /// <summary>
-        /// Gets or sets the band height of limit switch 2 for modes OutsideBand and InsideBand
+        /// Gets or sets the band height of limit switch 2 for modes OutsideBand and InsideBand in weight unit
         /// </summary>
-        int LimitSwitch2BandHeight { get; set; }
+        double LimitSwitch2BandHeight { get; set; }
 
         /// <summary>
         /// Gets or sets the source of limit switch 3 (gross or net)
@@ -139,24 +139,24 @@ namespace Hbm.Weighing.Api.Data
         LimitSwitchMode LimitSwitch3Mode { get;  set; }
 
         /// <summary>
-        /// Gets or sets the level of limit switch 3 for modes AboveLevel and BelowLevel
+        /// Gets or sets the level of limit switch 3 for modes AboveLevel and BelowLevel in weight unit
         /// </summary>
-        int LimitSwitch3Level { get;  set; }
+        double LimitSwitch3Level { get;  set; }
 
         /// <summary>
-        /// Gets or sets the hysteresis of limit switch 3 for modes AboveLevel and BelowLevel
+        /// Gets or sets the hysteresis of limit switch 3 for modes AboveLevel and BelowLevel in weight unit
         /// </summary>
-        int LimitSwitch3Hysteresis { get;  set; }
+        double LimitSwitch3Hysteresis { get;  set; }
 
         /// <summary>
-        /// Gets or sets the lower band value of limit switch 3 for modes OutsideBand and InsideBand
+        /// Gets or sets the lower band value of limit switch 3 for modes OutsideBand and InsideBand in weight unit
         /// </summary>
-        int LimitSwitch3LowerBandValue { get; set; }
+        double LimitSwitch3LowerBandValue { get; set; }
 
         /// <summary>
-        /// Gets or sets the band height of limit switch 3 for modes OutsideBand and InsideBand
+        /// Gets or sets the band height of limit switch 3 for modes OutsideBand and InsideBand in weight unit
         /// </summary>
-        int LimitSwitch3BandHeight { get; set; }
+        double LimitSwitch3BandHeight { get; set; }
 
         /// <summary>
         /// Gets or sets the source of limit switch 4 (gross or net)
@@ -169,24 +169,24 @@ namespace Hbm.Weighing.Api.Data
         LimitSwitchMode LimitSwitch4Mode { get;  set; }
 
         /// <summary>
-        /// Gets or sets the level of limit switch 4 for modes AboveLevel and BelowLevel
+        /// Gets or sets the level of limit switch 4 for modes AboveLevel and BelowLevel in weight unit
         /// </summary>
-        int LimitSwitch4Level { get;  set; }
+        double LimitSwitch4Level { get;  set; }
 
         /// <summary>
-        /// Gets or sets the hysteresis of limit switch 4 for modes AboveLevel and BelowLevel
+        /// Gets or sets the hysteresis of limit switch 4 for modes AboveLevel and BelowLevel in weight unit
         /// </summary>
-        int LimitSwitch4Hysteresis { get;  set; }
+        double LimitSwitch4Hysteresis { get;  set; }
 
         /// <summary>
-        /// Gets or sets the lower band value of limit switch 4 for modes OutsideBand and InsideBand
+        /// Gets or sets the lower band value of limit switch 4 for modes OutsideBand and InsideBand in weight unit
         /// </summary>
-        int LimitSwitch4LowerBandValue { get; set; }
+        double LimitSwitch4LowerBandValue { get; set; }
 
         /// <summary>
-        /// Gets or sets the band height of limit switch 4 for modes OutsideBand and InsideBand
+        /// Gets or sets the band height of limit switch 4 for modes OutsideBand and InsideBand in weight unit
         /// </summary>
-        int LimitSwitch4BandHeight { get; set; }
+        double LimitSwitch4BandHeight { get; set; }
         #endregion
 
     }

@@ -63,15 +63,15 @@ namespace Hbm.Weighing.Api.Data
 
         int FillingProcessStatus { get; }
 
-        int FillingResult { get; }
+        double FillingResult { get; }
 
         int FillingResultCount { get; }
 
-        int FillingResultMeanValue { get; }
+        double FillingResultMeanValue { get; }
 
-        int FillingResultStandardDeviation { get; }
+        double FillingResultStandardDeviation { get; }
 
-        int FillingResultTotalSum { get; }
+        double FillingResultTotalSum { get; }
 
         int CurrentDosingTime { get; }
 
@@ -87,13 +87,13 @@ namespace Hbm.Weighing.Api.Data
         
         int ResidualFlowTime { get; set; }
 
-        int TargetFillingWeight { get;  set; }
+        double TargetFillingWeight { get;  set; }
 
-        int CoarseFlowCutOffLevel { get;  set; }
+        double CoarseFlowCutOffLevel { get;  set; }
 
-        int FineFlowCutOffLevel { get;  set; }
+        double FineFlowCutOffLevel { get;  set; }
 
-        int MinimumFineFlow { get;  set; }
+        double MinimumFineFlow { get;  set; }
 
         int OptimizationMode { get;  set; }
 
@@ -105,23 +105,23 @@ namespace Hbm.Weighing.Api.Data
 
         int TareDelay { get;  set; }
 
-        int UpperToleranceLimit { get;  set; }
+        double UpperToleranceLimit { get;  set; }
 
-        int LowerToleranceLimit { get;  set; }
+        double LowerToleranceLimit { get;  set; }
 
-        int MinimumStartWeight { get;  set; }
+        double MinimumStartWeight { get;  set; }
 
-        int EmptyWeight { get;  set; }
+        double EmptyWeight { get;  set; }
 
         int CoarseLockoutTime { get;  set; }
 
         int FineLockoutTime { get;  set; }
 
-        int CoarseFlowMonitoring { get;  set; }
+        double CoarseFlowMonitoring { get;  set; }
 
         int CoarseFlowMonitoringTime { get;  set; }
 
-        int FineFlowMonitoring { get;  set; }
+        double FineFlowMonitoring { get;  set; }
 
         int FineFlowMonitoringTime { get;  set; }
 
@@ -129,7 +129,7 @@ namespace Hbm.Weighing.Api.Data
 
         int ActivationTimeAfterFilling { get;  set; }
 
-        int SystematicDifference { get;  set; }
+        double SystematicDifference { get;  set; }
 
         int FillingMode { get;  set; }
 
