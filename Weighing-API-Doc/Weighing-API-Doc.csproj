@@ -65,14 +65,14 @@
     <Compile Include="..\Hbm.Weighing.Api\Data\IDataDigitalFilter.cs">
       <Link>Data\IDataDigitalFilter.cs</Link>
     </Compile>
+    <Compile Include="..\Hbm.Weighing.Api\Data\IDataDigitalIO.cs">
+      <Link>Data\IDataDigitalIO.cs</Link>
+    </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\IDataFiller.cs">
       <Link>Data\IDataFiller.cs</Link>
     </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\IDataFillerExtended.cs">
       <Link>Data\IDataFillerExtended.cs</Link>
-    </Compile>
-    <Compile Include="..\Hbm.Weighing.Api\Data\IDataIO.cs">
-      <Link>Data\IDataIO.cs</Link>
     </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\IDataLimitSwitch.cs">
       <Link>Data\IDataLimitSwitch.cs</Link>
@@ -83,14 +83,14 @@
     <Compile Include="..\Hbm.Weighing.Api\Data\IProcessData.cs">
       <Link>Data\IProcessData.cs</Link>
     </Compile>
+    <Compile Include="..\Hbm.Weighing.Api\Data\JetDataDigitalIO.cs">
+      <Link>Data\JetDataDigitalIO.cs</Link>
+    </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\JetDataFiller.cs">
       <Link>Data\JetDataFiller.cs</Link>
     </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\JetDataFillerExtended.cs">
       <Link>Data\JetDataFillerExtended.cs</Link>
-    </Compile>
-    <Compile Include="..\Hbm.Weighing.Api\Data\JetDataIO.cs">
-      <Link>Data\JetDataIO.cs</Link>
     </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\JetDataLimitSwitch.cs">
       <Link>Data\JetDataLimitSwitch.cs</Link>
@@ -98,11 +98,11 @@
     <Compile Include="..\Hbm.Weighing.Api\Data\JetProcessData.cs">
       <Link>Data\JetProcessData.cs</Link>
     </Compile>
+    <Compile Include="..\Hbm.Weighing.Api\Data\ModbusDataDigitalIO.cs">
+      <Link>Data\ModbusDataDigitalIO.cs</Link>
+    </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\ModbusDataFiller.cs">
       <Link>Data\ModbusDataFiller.cs</Link>
-    </Compile>
-    <Compile Include="..\Hbm.Weighing.Api\Data\ModbusDataIO.cs">
-      <Link>Data\ModbusDataIO.cs</Link>
     </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\ModbusDataLimitSwitch.cs">
       <Link>Data\ModbusDataLimitSwitch.cs</Link>

@@ -1,4 +1,4 @@
-﻿// <copyright file="IDataIO.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="IDataDigitalIO.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -35,7 +35,7 @@ namespace Hbm.Weighing.Api.Data
     /// Interface containing the data for the standard mode of your WTX device.
     /// (e.g. settings for limit switches and digital I/O)
     /// </summary>
-    public interface IDataIO
+    public interface IDataDigitalIO
     {
 
         #region ==================== events & delegates ====================

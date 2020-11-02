@@ -54,7 +54,7 @@ namespace Hbm.Weighing.Api.WTX
         /// <summary>
         /// Gets or sets the current IO data
         /// </summary>
-        public abstract IDataIO IO { get; set; }
+        public abstract IDataDigitalIO IO { get; set; }
 
         /// <summary>
         /// Gets or sets the current limit switch data

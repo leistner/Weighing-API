@@ -79,7 +79,7 @@ namespace Hbm.Weighing.Api.WTX
         {
             _connection = connection;
             ProcessData = new JetProcessData(Connection);
-            IO = new JetDataIO(Connection);
+            IO = new JetDataDigitalIO(Connection);
             Filler = new JetDataFillerExtended(Connection);
             LimitSwitch = new JetDataLimitSwitch(Connection);
             ProcessDataReceived += onProcessData;
@@ -95,7 +95,7 @@ namespace Hbm.Weighing.Api.WTX
         /// <summary>
         /// Gets or sets the digital IO data 
         /// </summary>
-        public override IDataIO IO { get; set; }
+        public override IDataDigitalIO IO { get; set; }
 
         /// <summary>
         /// Gets or sets the extended limit switch data 
