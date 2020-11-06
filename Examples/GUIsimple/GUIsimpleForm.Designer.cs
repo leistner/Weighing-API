@@ -70,7 +70,7 @@ namespace GUIsimple
             // 
             // cmdConnect
             // 
-            this.cmdConnect.Location = new System.Drawing.Point(280, 19);
+            this.cmdConnect.Location = new System.Drawing.Point(292, 25);
             this.cmdConnect.Name = "cmdConnect";
             this.cmdConnect.Size = new System.Drawing.Size(84, 36);
             this.cmdConnect.TabIndex = 2;
@@ -86,7 +86,7 @@ namespace GUIsimple
             this.grrpSetup.Controls.Add(this.cmdConnect);
             this.grrpSetup.Location = new System.Drawing.Point(10, 31);
             this.grrpSetup.Name = "grrpSetup";
-            this.grrpSetup.Size = new System.Drawing.Size(376, 81);
+            this.grrpSetup.Size = new System.Drawing.Size(390, 81);
             this.grrpSetup.TabIndex = 13;
             this.grrpSetup.TabStop = false;
             this.grrpSetup.Text = "Connection";
@@ -106,7 +106,7 @@ namespace GUIsimple
             // 
             // cmdGrossNet
             // 
-            this.cmdGrossNet.Location = new System.Drawing.Point(172, 141);
+            this.cmdGrossNet.Location = new System.Drawing.Point(172, 118);
             this.cmdGrossNet.Name = "cmdGrossNet";
             this.cmdGrossNet.Size = new System.Drawing.Size(75, 23);
             this.cmdGrossNet.TabIndex = 24;
@@ -116,7 +116,7 @@ namespace GUIsimple
             // 
             // cmdTare
             // 
-            this.cmdTare.Location = new System.Drawing.Point(10, 141);
+            this.cmdTare.Location = new System.Drawing.Point(10, 118);
             this.cmdTare.Name = "cmdTare";
             this.cmdTare.Size = new System.Drawing.Size(75, 23);
             this.cmdTare.TabIndex = 22;
@@ -126,7 +126,7 @@ namespace GUIsimple
             // 
             // cmdZero
             // 
-            this.cmdZero.Location = new System.Drawing.Point(91, 141);
+            this.cmdZero.Location = new System.Drawing.Point(91, 118);
             this.cmdZero.Name = "cmdZero";
             this.cmdZero.Size = new System.Drawing.Size(75, 23);
             this.cmdZero.TabIndex = 23;
@@ -140,7 +140,7 @@ namespace GUIsimple
             this.toolStripDropDownButton1});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(384, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(412, 25);
             this.toolStrip1.TabIndex = 29;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -172,18 +172,18 @@ namespace GUIsimple
             // txtInfo
             // 
             this.txtInfo.Font = new System.Drawing.Font("Consolas", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtInfo.Location = new System.Drawing.Point(10, 196);
+            this.txtInfo.Location = new System.Drawing.Point(10, 218);
             this.txtInfo.Multiline = true;
             this.txtInfo.Name = "txtInfo";
             this.txtInfo.ReadOnly = true;
-            this.txtInfo.Size = new System.Drawing.Size(364, 104);
+            this.txtInfo.Size = new System.Drawing.Size(386, 104);
             this.txtInfo.TabIndex = 26;
             this.txtInfo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // picNE107
             // 
             this.picNE107.Image = global::GUIsimple.Properties.Resources.NE107_OutOfSpecification;
-            this.picNE107.Location = new System.Drawing.Point(290, 118);
+            this.picNE107.Location = new System.Drawing.Point(314, 118);
             this.picNE107.Name = "picNE107";
             this.picNE107.Size = new System.Drawing.Size(84, 72);
             this.picNE107.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -192,12 +192,13 @@ namespace GUIsimple
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(252, 141);
+            this.button1.Location = new System.Drawing.Point(252, 150);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(32, 23);
+            this.button1.Size = new System.Drawing.Size(56, 21);
             this.button1.TabIndex = 30;
-            this.button1.Text = "TB";
+            this.button1.Text = "Read";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // comboBox1
             // 
@@ -205,12 +206,12 @@ namespace GUIsimple
             this.comboBox1.Items.AddRange(new object[] {
             "Serial number",
             "Device identification",
-            "Hardware version",
-            "Software version",
-            "User defined command",
+            "Firmware version",
+            "Weight step",
             "Restore default parameters",
+            "User defined command",
             "Write Command"});
-            this.comboBox1.Location = new System.Drawing.Point(13, 118);
+            this.comboBox1.Location = new System.Drawing.Point(12, 150);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(234, 21);
             this.comboBox1.TabIndex = 31;
@@ -218,16 +219,18 @@ namespace GUIsimple
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 166);
+            this.textBox1.Enabled = false;
+            this.textBox1.Location = new System.Drawing.Point(11, 181);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(234, 20);
+            this.textBox1.Size = new System.Drawing.Size(236, 20);
             this.textBox1.TabIndex = 32;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // GUIsimpleForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(384, 312);
+            this.ClientSize = new System.Drawing.Size(412, 331);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.button1);
@@ -253,6 +256,8 @@ namespace GUIsimple
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (comboBox1.SelectedIndex == 6) textBox1.Enabled = true;
+            else textBox1.Enabled = false;
         }
 
         #endregion

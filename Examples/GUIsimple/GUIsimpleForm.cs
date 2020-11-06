@@ -292,5 +292,55 @@ namespace GUIsimple
 
         #endregion
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string display = "";
+            switch (comboBox1.SelectedIndex)
+            {
+                /**
+                 *  Serial number
+                    Device identification
+                    Firmware version
+                    Weight step
+                    Restore default parameters
+                    User defined command
+                    Write Command
+                 * **/
+
+                case 0:
+                    display = ((DSEJet)_wtxDevice).SerialNumber;
+                    break;
+                case 1:
+                    display = ((DSEJet)_wtxDevice).Identification;
+                    break;
+                case 2:
+                    display = ((DSEJet)_wtxDevice).FirmwareVersion;
+                    break;
+                case 3:
+                    display = ((DSEJet)_wtxDevice).WeightStep.ToString();
+                    break;
+                case 4:
+                    ((DSEJet)_wtxDevice).RestoreAllDefaultParameters();
+                    display = "Restored the default Parameters!";
+                    break;
+                case 5:
+                    display = ((DSEJet)_wtxDevice).Connection.ReadFromDevice(new JetBusCommand(DataType.ASCII, textBox1.Text, 0, 0));
+                    break;
+                case 6:
+                    string[] comm = textBox1.Text.Split(',');
+                    ((DSEJet)_wtxDevice).Connection.Write(new JetBusCommand(DataType.ASCII, comm[0], 0, 0), comm[1]);
+                    display = "Command: " + comm[0] + " ,Value: " + comm[1] + " written!";
+                    break;
+                case 7:
+                    display = ((DSEJet)_wtxDevice).Identification;
+                    break;
+            }
+            textBox1.Text = display;
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -265,6 +265,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
+        ///<inheritdoc/>
         public override string SerialNumber //müsste string sein
         {
             get
@@ -273,6 +274,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
+        ///<inheritdoc/>
         public override string Identification
         { 
             get
@@ -287,6 +289,7 @@ namespace Hbm.Weighing.Api.DSE
         }
 
 
+        ///<inheritdoc/>
         public override string FirmwareVersion
         {
             get
@@ -295,6 +298,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
+        ///<inheritdoc/>
         public string SoftwareIdentification 
         {
             get
@@ -303,6 +307,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
+        ///<inheritdoc/>
         public string FirmwareDate //welcher Parameter ?
         {
             get
