@@ -381,7 +381,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.IO.Input1;
+            _testBoolean = _wtxObj.DigitalIO.Input1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM1"));
         }
@@ -395,7 +395,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.IO.Input2;
+            _testBoolean = _wtxObj.DigitalIO.Input2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM2"));
         }
@@ -409,7 +409,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.IO.Input3;
+            _testBoolean = _wtxObj.DigitalIO.Input3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM3"));
         }
@@ -423,7 +423,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.IO.Input4;
+            _testBoolean = _wtxObj.DigitalIO.Input4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM4"));
         }
@@ -437,7 +437,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.IO.Output1;
+            _testBoolean = _wtxObj.DigitalIO.Output1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM1"));
         }
@@ -451,7 +451,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.IO.Output2;
+            _testBoolean = _wtxObj.DigitalIO.Output2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM2"));
         }
@@ -465,7 +465,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.IO.Output3;
+            _testBoolean = _wtxObj.DigitalIO.Output3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM3"));
         }
@@ -479,7 +479,7 @@ namespace JetbusTest
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.IO.Output4;
+            _testBoolean = _wtxObj.DigitalIO.Output4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM4"));
         }

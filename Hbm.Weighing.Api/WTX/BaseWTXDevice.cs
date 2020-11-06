@@ -52,27 +52,15 @@ namespace Hbm.Weighing.Api.WTX
         #region ======================== properties ========================
 
         /// <summary>
-        /// Gets or sets the current IO data
+        /// Gets or sets the current digital IO status
         /// </summary>
-        public abstract IDataIO IO { get; set; }
+        public abstract IDataDigitalIO DigitalIO { get; set; }
 
         /// <summary>
-        /// Gets or sets the current limit switch data
+        /// Gets or sets the current limit switch config & status
         /// </summary>
         public abstract IDataLimitSwitch LimitSwitch { get; set; }
 
-        #endregion
-
-        #region ================ public & internal methods =================
-        /// <summary>
-        /// Saves all parameters in non-volatile memory
-        /// </summary>
-        public abstract void SaveAllParameters();
-
-        /// <summary>
-        /// Restores all parameters from non-volatile memory
-        /// </summary>
-        public abstract void RestoreAllDefaultParameters();
         #endregion
 
     }

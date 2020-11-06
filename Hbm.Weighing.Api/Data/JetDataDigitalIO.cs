@@ -1,4 +1,4 @@
-﻿// <copyright file="JetDataIO.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="JetDataDigitalIO.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -38,7 +38,7 @@ namespace Hbm.Weighing.Api.Data
     /// <summary>
     /// Jetbus implementation of the interface IDataIO for the digital I/O status
     /// </summary>
-    public class JetDataIO : IDataIO
+    public class JetDataDigitalIO : IDataDigitalIO
     {
 
         #region ==================== constants & fields ====================
@@ -54,7 +54,8 @@ namespace Hbm.Weighing.Api.Data
         /// Constructor of class DataStandardJet : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
-        public JetDataIO(INetConnection Connection)
+        /// <param name="Connection">Target connection</param>
+        public JetDataDigitalIO(INetConnection Connection)
         {
             _connection = Connection;
             _connection.UpdateData += UpdateDataIO;

@@ -67,6 +67,7 @@ namespace Hbm.Weighing.Api.Data
         /// <summary>
         /// Constructor of class JetDataLimitSwitch
         /// </summary>
+        /// <param name="Connection">Target connection</param>
         public JetDataLimitSwitch(INetConnection Connection)
         {
             _connection = Connection;

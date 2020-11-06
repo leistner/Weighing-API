@@ -66,7 +66,7 @@ namespace Hbm.Weighing.Api.WTX
         {
             ProcessData = new ModbusDataProcess(base.Connection);
             LimitSwitch = new ModbusDataLimitSwitch(base.Connection);
-            IO = new ModbusDataIO(base.Connection);
+            DigitalIO = new ModbusDataDigitalIO(base.Connection);
             ProcessDataReceived += onProcessData;
         }
 
@@ -78,7 +78,7 @@ namespace Hbm.Weighing.Api.WTX
         {
             ProcessData = new ModbusDataProcess(base.Connection);
             Filler = new ModbusDataFiller(base.Connection);
-            IO = new ModbusDataIO(base.Connection);
+            DigitalIO = new ModbusDataDigitalIO(base.Connection);
             LimitSwitch = new ModbusDataLimitSwitch(base.Connection);
         }
         #endregion
@@ -93,7 +93,7 @@ namespace Hbm.Weighing.Api.WTX
         /// <summary>
         /// Gets or sets the current digital IO data 
         /// </summary>
-        public override IDataIO IO { get; set; }
+        public override IDataDigitalIO DigitalIO { get; set; }
 
         /// <summary>
         /// Gets or sets the current filler data 
@@ -122,14 +122,14 @@ namespace Hbm.Weighing.Api.WTX
         public override void Connect(double timeoutMs = 2000)
         {
             this.Connection.Connect();
-            _processDataTimer.Change(0, ProcessDataInterval);
+            ProcessDataTimer.Change(0, ProcessDataInterval);
         }
 
         ///<inheritdoc/>
         public override void Connect(Action<bool> ConnectCompleted, double timeoutMs)
         {
             this.Connection.Connect();
-            _processDataTimer.Change(0, ProcessDataInterval);
+            ProcessDataTimer.Change(0, ProcessDataInterval);
         }
 
         ///<inheritdoc/>

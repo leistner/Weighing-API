@@ -51,6 +51,7 @@ namespace Hbm.Weighing.Api.Data
         /// Constructor of class ProcessDataModbus : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
+        /// <param name="Connection">Target connection</param>
         public ModbusDataProcess(INetConnection Connection)
         {
             _connection = Connection;
