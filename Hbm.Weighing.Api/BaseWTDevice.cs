@@ -46,12 +46,12 @@ namespace Hbm.Weighing.Api
         /// <summary>
         /// Internal timer for sending <see cref="ProcessDataReceived"/>  event
         /// </summary>
-        protected Timer _processDataTimer;
         private int _processDataInterval = 500;
 
         #endregion
 
         #region ==================== events & delegates ====================
+
         /// <summary>
         /// Event for receiving process data in the desired interval (<see cref="ProcessDataInterval"/>
         /// </summary>
@@ -64,12 +64,11 @@ namespace Hbm.Weighing.Api
         /// </summary>
         /// <param name="connection">Target connection of the device</param>
         /// <param name="timerIntervalms">Interval for updating ProcessData</param>
-        public BaseWTDevice(INetConnection connection, int timerIntervalms)
-           
+        public BaseWTDevice(INetConnection connection, int timerIntervalms)           
         {
             Connection = connection;
             _processDataInterval = timerIntervalms;
-            _processDataTimer = new Timer(ProcessDataUpdateTick, null, Timeout.Infinite, Timeout.Infinite);
+            ProcessDataTimer = new Timer(ProcessDataUpdateTick, null, Timeout.Infinite, Timeout.Infinite);
         }
 
         /// <summary>
@@ -88,9 +87,8 @@ namespace Hbm.Weighing.Api
         public IProcessData ProcessData { get; protected set; }
 
         /// <summary>
-        /// Gets or sets the current application of the device
+        /// Gets or sets the current application mode of the device (e.g. Standard or filler)
         /// </summary>
-        /// <returns></returns>
         public abstract ApplicationMode ApplicationMode { get; set; }
 
         /// <summary>
@@ -126,7 +124,7 @@ namespace Hbm.Weighing.Api
         }
 
         /// <summary>
-        /// Gets or sets the device identification
+        /// Gets or sets the device identification (e.g. "WTX120")
         /// </summary>
         public abstract string Identification { get; set; }
 
@@ -141,15 +139,15 @@ namespace Hbm.Weighing.Api
         public abstract string FirmwareVersion { get; }
 
         /// <summary>
-        /// Gets the current weight of the device depending as double
+        /// Gets the current weight values (net, gross and tare) of the device depending as double
         /// </summary>
-        /// <returns>Current weight</returns>
+        /// <returns>Current weight values</returns>
         public abstract WeightType Weight { get; }
 
         /// <summary>
-        /// Gets the current weight of the device depending as string
+        /// Gets the current weight values (net, gross and tare) of the device depending as string (e.g. "12,3")
         /// </summary>
-        /// <returns>Current weight</returns>
+        /// <returns>Current weight values</returns>
         public abstract PrintableWeightType PrintableWeight { get; }
 
         /// <summary>
@@ -159,7 +157,7 @@ namespace Hbm.Weighing.Api
         public abstract string Unit { get; set; }
 
         /// <summary>
-        /// Gets the general scale error status (e.g. if no sensor is connected)
+        /// Gets a value indicating whether a general scale error is active or not (e.g. if no sensor is connected)
         /// </summary>
         public abstract bool GeneralScaleError { get; }
 
@@ -170,7 +168,7 @@ namespace Hbm.Weighing.Api
         public abstract TareMode TareMode { get; }
 
         /// <summary>
-        /// Gets the weight stable condition
+        /// Gets a value indicating whether the weight is in stable condition or not
         /// </summary>
         /// <returns></returns>
         public abstract bool WeightStable { get;  }
@@ -210,7 +208,12 @@ namespace Hbm.Weighing.Api
         /// Gets or sets the nominal signal
         /// </summary>
         public abstract int NominalSignal { get; set; }
-            
+
+        /// <summary>
+        /// Gets or sets the process data timer 
+        /// </summary>
+        protected Timer ProcessDataTimer { get; set; }
+
         #endregion
 
         #region ================ public & internal methods =================
@@ -257,44 +260,46 @@ namespace Hbm.Weighing.Api
         /// <summary>
         /// Tares the device manually
         /// </summary>
-        /// <param name="manualTareValue">Tare value</param>
+        /// <param name="manualTareValue">Tare value in weight unit (e.g. 2.0)</param>
         public abstract void TareManually(double manualTareValue);
 
         /// <summary>
         /// Records the weight to legal-for-trade memory
         /// </summary>
         public abstract void RecordWeight();
-        
+
         /// <summary>
-        /// Adjust the zero load 
+        /// Adjust the zero signal 
         /// </summary>
+        /// <returns>Adjustment success status</returns>
         public abstract bool AdjustZeroSignal();
 
         /// <summary>
-        /// Adjust the nominal load 
+        /// Adjust the nominal signal 
         /// </summary>
+        /// <returns>Adjustment success status</returns>
         public abstract bool AdjustNominalSignal();
-        
+
         /// <summary>
-        /// Adjust with an individual adjustment weight. 
+        /// Adjust the nominal signal with an individual adjustment weight. 
         /// </summary>
         /// <param name="adjustmentWeight">Weight for the next adjustment</param>
+        /// <returns>Adjustment success status</returns>
         public abstract bool AdjustNominalSignalWithCalibrationWeight(double adjustmentWeight);
 
         /// <summary>
-        /// Calibration with zero load and span. 
+        /// Adjust manually with calculated zero signal and span in weight unit. 
         /// </summary>
         /// <param name="scaleZeroSingal">Zero load for calculating the adjustment</param>
         /// <param name="scaleCapacity">Scale capacity for calculating the adjustment</param>
         public abstract void CalculateAdjustment(double scaleZeroSingal, double scaleCapacity);
 
-
         /// <summary>
-        /// Stop update process data
+        /// Stop updating process data
         /// </summary>
         public void Stop()
         {
-            _processDataTimer.Change(Timeout.Infinite, Timeout.Infinite);
+            ProcessDataTimer.Change(Timeout.Infinite, Timeout.Infinite);
         }
         
         /// <summary>
@@ -302,14 +307,25 @@ namespace Hbm.Weighing.Api
         /// </summary>        
         public void Restart()
         {
-            _processDataTimer.Change(0, _processDataInterval);
+            ProcessDataTimer.Change(0, _processDataInterval);
         }
 
         /// <summary>
-        /// Tcik for the PreocessData timer
+        /// Saves all parameters in non-volatile memory
+        /// </summary>
+        public abstract void SaveAllParameters();
+
+        /// <summary>
+        /// Restores all parameters from non-volatile memory
+        /// </summary>
+        public abstract void RestoreAllDefaultParameters();
+
+        /// <summary>
+        /// Tick handler for the ProcessData timer
         /// </summary>
         /// <param name="info">Unused info for timer</param>
         protected abstract void ProcessDataUpdateTick(object info);
+
         #endregion
     }
 }

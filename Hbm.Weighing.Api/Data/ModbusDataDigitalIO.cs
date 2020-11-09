@@ -1,4 +1,4 @@
-﻿// <copyright file="ModbusDataIO.cs" company="Hottinger Baldwin Messtechnik GmbH">
+﻿// <copyright file="ModbusDataDigitalIO.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
 // Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
 //
@@ -40,7 +40,7 @@ namespace Hbm.Weighing.Api.Data
     /// The class DataStandardModbus contains the data input word and data output words for the standard mode
     /// of WTX device 120 and 110 via Modbus.
     /// </summary>
-    public class ModbusDataIO : IDataIO
+    public class ModbusDataDigitalIO : IDataDigitalIO
     {
 
         #region ==================== constants & fields ====================
@@ -56,7 +56,8 @@ namespace Hbm.Weighing.Api.Data
         /// Constructor of class DataStandardModbus : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
-        public ModbusDataIO(INetConnection Connection)
+        /// <param name="Connection">Target connection</param>
+        public ModbusDataDigitalIO(INetConnection Connection)
         {
             _connection = Connection;
             _connection.UpdateData += UpdateDataIO;

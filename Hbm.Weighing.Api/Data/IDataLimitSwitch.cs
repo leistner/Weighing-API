@@ -42,8 +42,8 @@ namespace Hbm.Weighing.Api.Data
         /// <summary>
         /// Updates the data from external
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">Sending object</param>
+        /// <param name="e">EventArgs</param>
         void UpdateDataLimitSwitch(object sender, EventArgs e);
         #endregion
 

@@ -69,8 +69,6 @@ namespace Hbm.Weighing.Api.DSE.Jet
         /// Use this constructor for individual authentication
         /// </summary>
         /// <param name="ipAddress">IP address of the target device</param>
-        /// <param name="user">User for device authentication</param>
-        /// <param name="password">Password for device authentication</param>
         public DSEJetConnection(string ipAddress)
         {
             string _uri;

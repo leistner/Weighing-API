@@ -190,7 +190,6 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         private int numPoints;
 
         private ushort[] _data;
-        //private int _index;
 
         public LogEventArgs _logObj;
 

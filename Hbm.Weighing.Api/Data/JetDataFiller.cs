@@ -79,6 +79,7 @@ namespace Hbm.Weighing.Api.Data
         /// Constructor of class DataFillerJet : Initalizes values and connects 
         /// the eventhandler from Connection to the interal update method
         /// </summary>
+        /// <param name="Connection">Target connection</param>
         public JetDataFiller(INetConnection Connection)
         {
             _connection = Connection;

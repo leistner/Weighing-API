@@ -7,11 +7,13 @@
     <ProjectGuid>{AA97796C-5C31-400B-96E2-DCA098659D79}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Weighing_API_Doc</RootNamespace>
-    <AssemblyName>Weighing-API-Doc</AssemblyName>
+    <RootNamespace>Hbm.Weighing.Api</RootNamespace>
+    <AssemblyName>Hbm.Weighing.Api</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Weighing-API-Doc.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Hbm.Weighing.Api.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -63,14 +65,14 @@
     <Compile Include="..\Hbm.Weighing.Api\Data\IDataDigitalFilter.cs">
       <Link>Data\IDataDigitalFilter.cs</Link>
     </Compile>
+    <Compile Include="..\Hbm.Weighing.Api\Data\IDataDigitalIO.cs">
+      <Link>Data\IDataDigitalIO.cs</Link>
+    </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\IDataFiller.cs">
       <Link>Data\IDataFiller.cs</Link>
     </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\IDataFillerExtended.cs">
       <Link>Data\IDataFillerExtended.cs</Link>
-    </Compile>
-    <Compile Include="..\Hbm.Weighing.Api\Data\IDataIO.cs">
-      <Link>Data\IDataIO.cs</Link>
     </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\IDataLimitSwitch.cs">
       <Link>Data\IDataLimitSwitch.cs</Link>
@@ -81,14 +83,14 @@
     <Compile Include="..\Hbm.Weighing.Api\Data\IProcessData.cs">
       <Link>Data\IProcessData.cs</Link>
     </Compile>
+    <Compile Include="..\Hbm.Weighing.Api\Data\JetDataDigitalIO.cs">
+      <Link>Data\JetDataDigitalIO.cs</Link>
+    </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\JetDataFiller.cs">
       <Link>Data\JetDataFiller.cs</Link>
     </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\JetDataFillerExtended.cs">
       <Link>Data\JetDataFillerExtended.cs</Link>
-    </Compile>
-    <Compile Include="..\Hbm.Weighing.Api\Data\JetDataIO.cs">
-      <Link>Data\JetDataIO.cs</Link>
     </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\JetDataLimitSwitch.cs">
       <Link>Data\JetDataLimitSwitch.cs</Link>
@@ -96,11 +98,11 @@
     <Compile Include="..\Hbm.Weighing.Api\Data\JetProcessData.cs">
       <Link>Data\JetProcessData.cs</Link>
     </Compile>
+    <Compile Include="..\Hbm.Weighing.Api\Data\ModbusDataDigitalIO.cs">
+      <Link>Data\ModbusDataDigitalIO.cs</Link>
+    </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\ModbusDataFiller.cs">
       <Link>Data\ModbusDataFiller.cs</Link>
-    </Compile>
-    <Compile Include="..\Hbm.Weighing.Api\Data\ModbusDataIO.cs">
-      <Link>Data\ModbusDataIO.cs</Link>
     </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Data\ModbusDataLimitSwitch.cs">
       <Link>Data\ModbusDataLimitSwitch.cs</Link>
@@ -135,6 +137,9 @@
     <Compile Include="..\Hbm.Weighing.Api\LogEventArgs.cs">
       <Link>LogEventArgs.cs</Link>
     </Compile>
+    <Compile Include="..\Hbm.Weighing.Api\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="..\Hbm.Weighing.Api\Utils\MeasurementUtils.cs">
       <Link>Utils\MeasurementUtils.cs</Link>
     </Compile>
@@ -168,10 +173,16 @@
     <Compile Include="..\Hbm.Weighing.Api\WTX\WTXModbus.cs">
       <Link>WTX\WTXModbus.cs</Link>
     </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\GitInfo.2.1.2\build\GitInfo.targets" Condition="Exists('..\packages\GitInfo.2.1.2\build\GitInfo.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\GitInfo.2.1.2\build\GitInfo.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GitInfo.2.1.2\build\GitInfo.targets'))" />
+  </Target>
 </Project>

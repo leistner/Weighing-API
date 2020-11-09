@@ -30,6 +30,8 @@
 
 namespace Hbm.Weighing.Api.Data
 {
+    using System;
+
     /// <summary>
     /// Class containing extended data and functionality to BaseWtDevice.
     /// It inherits from BaseWtdevice. Used by a Jetbus connection and application.
@@ -37,9 +39,13 @@ namespace Hbm.Weighing.Api.Data
     public interface IDataDigitalFilter
     {
 
+        #region ==================== events & delegates ====================
+        #endregion
+
         #region ======================== properties ========================
-        
-        /// Gets or sets the data rate
+
+        /// <summary>
+        /// Gets or sets the data rate in Hz
         /// </summary>
         int DataRate { get; set; }
 

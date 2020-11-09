@@ -128,7 +128,17 @@ namespace Hbm.Weighing.Api.WTX.Jet
         ///<inheritdoc/>
         public void Disconnect()
         {
-            _peer.Disconnect();
+            if (_peer != null)
+            {
+                try
+                {
+                    _peer.Disconnect();
+                }
+                catch (JetPeerException)
+                {
+
+                }
+            }
             this.IsConnected = false;
         }
 

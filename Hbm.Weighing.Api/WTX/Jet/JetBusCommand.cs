@@ -61,6 +61,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
         /// Gets the data type 
         /// </summary>
         public DataType DataType { get; private set; }
+
         /// <summary>
         /// Gets the bit index for flags
         /// </summary>
@@ -81,7 +82,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
         /// <summary>
         /// Picks the command from all registers 
         /// </summary>
-        /// <param name="allRegisters">All available holding register starting from index 0</param>
+        /// <param name="input">All available holding register starting from index 0</param>
         /// <returns>Value as integer</returns>
         public string ToString(string input)
         {
@@ -115,7 +116,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
         /// <summary>
         /// Picks the command from all registers 
         /// </summary>
-        /// <param name="allRegisters">All available holding register starting from index 0</param>
+        /// <param name="input">All available holding register starting from index 0</param>
         /// <returns>Value as integer</returns>
         public int ToSValue(string input)
         {

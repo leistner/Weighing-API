@@ -64,7 +64,7 @@ namespace Hbm.Weighing.Api.DSE
         /// <summary>
         /// Event handler to raise whenever new process data from the device is available
         /// </summary>
-        public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived;
+        public override event EventHandler<ProcessDataReceivedEventArgs> ProcessDataReceived; 
         #endregion
 
         #region =============== constructors & destructors =================
@@ -163,15 +163,6 @@ namespace Hbm.Weighing.Api.DSE
             get
             {
                 return Connection.ReadIntegerFromBuffer(JetBusCommands.CIA461WeightStatusGeneralWeightError) != 0;
-            }
-        }
-
-        ///<inheritdoc/>
-        public int ErrorCode
-        {
-            get
-            {
-                return Connection.ReadIntegerFromBuffer(JetBusCommands.ESRErrorRegister);
             }
         }
 
@@ -275,8 +266,8 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        ///<inheritdoc/>
-        public override string SerialNumber //müsste string sein
+
+        public override string SerialNumber 
         {
             get
             {
@@ -308,39 +299,7 @@ namespace Hbm.Weighing.Api.DSE
             }
         }
 
-        ///<inheritdoc/>
-        public string SoftwareIdentification 
-        {
-            get
-            {
-                return Connection.ReadFromDevice(JetBusCommands.SWISoftwareIdentification);
-            }
-        }
-
-        ///<inheritdoc/>
-        public string FirmwareDate //welcher Parameter ?
-        {
-            get
-            {
-                return Connection.ReadFromDevice(JetBusCommands.PDTFirmwareDate);
-            }
-        }
-        
-        ///<inheritdoc/>
-        public int LocalGravityFactor 
-        {
-            get
-            {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461LocalGravityFactor);
-            }
-
-            set
-            {
-                Connection.WriteInteger(JetBusCommands.CIA461LocalGravityFactor, value);
-            }
-        }
-
-        ///<inheritdoc/>
+       ///<inheritdoc/>
         public double WeightStep
         {
             get
@@ -431,17 +390,19 @@ namespace Hbm.Weighing.Api.DSE
         }
 
 
-        ///<inheritdoc/>
+        /// <summary>
+        /// Gets the data rate in Hz (DSE is 2000Hz fix)
+        /// </summary>
         public int DataRate
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461SampleRate);
+                return 2000;
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461SampleRate, value);
+                
             }
         }
 
@@ -524,14 +485,14 @@ namespace Hbm.Weighing.Api.DSE
         public override void Connect(double timeoutMs = 20000)
         {
             Connection.Connect();
-            _processDataTimer.Change(0, ProcessDataInterval);
+            ProcessDataTimer.Change(0, ProcessDataInterval);
         }
         
         ///<inheritdoc/>
         public override void Connect(Action<bool> completed, double timeoutMs)
         {
             Connection.Connect();
-            _processDataTimer.Change(0, ProcessDataInterval);
+            ProcessDataTimer.Change(0, ProcessDataInterval);
         }
 
         ///<inheritdoc/>
@@ -547,13 +508,13 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
-        public void SaveAllParameters()
+        public override void SaveAllParameters()
         {
             Connection.WriteInteger(JetBusCommands.CIA461SaveAllParameters, 0);
         }
 
         ///<inheritdoc/>
-        public void RestoreAllDefaultParameters()
+        public override void RestoreAllDefaultParameters()
         {
             Connection.Write(JetBusCommands.CIA461RestoreAllDefaultParameters, "6c6f6164");       //command missing int.Parse("6c6f6164", System.Globalization.NumberStyles.HexNumber)
         }
@@ -680,89 +641,6 @@ namespace Hbm.Weighing.Api.DSE
             {
                 ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
             }
-        }
-
-        private InputFunction IntToInputFunction(int inputMode)
-        {
-            InputFunction _result = InputFunction.Off;
-            switch (inputMode)
-            {
-                case 0: _result = InputFunction.Off; break;
-                case 1: _result = InputFunction.Tare; break;
-                case 2: _result = InputFunction.Trigger; break;
-                case 4: _result = InputFunction.BreakFilling; break;
-                case 5: _result = InputFunction.RunFilling; break;
-                case 6: _result = InputFunction.Redosing; break;
-                case 7: _result = InputFunction.RecordWeight; break;
-                case 8: _result = InputFunction.Zero; break;
-            }
-            return _result;
-        }
-
-        private int InputFunctionToInt(InputFunction inputMode)
-        {
-            int _result = 0;
-            switch (inputMode)
-            {
-                case InputFunction.Off: _result = 0; break;
-                case InputFunction.Tare: _result = 1; break;
-                case InputFunction.Trigger: _result = 2; break;
-                case InputFunction.BreakFilling: _result = 4; break;
-                case InputFunction.RunFilling: _result = 5; break;
-                case InputFunction.Redosing: _result = 6; break;
-                case InputFunction.RecordWeight: _result = 7; break;
-                case InputFunction.Zero: _result = 8; break;
-            }
-            return _result;
-        }
-        private OutputFunction IntToOutputFunction(int outputMode)
-        {
-            OutputFunction _result = OutputFunction.Off;
-            switch (outputMode)
-            {
-                case 0: _result = OutputFunction.Off; break;
-                case 1: _result = OutputFunction.Manually; break;
-                case 2: _result = OutputFunction.LimitSwitch1; break;
-                case 3: _result = OutputFunction.LimitSwitch2; break;
-                case 4: _result = OutputFunction.LimitSwitch3; break;
-                case 5: _result = OutputFunction.LimitSwitch4; break;
-                case 7: _result = OutputFunction.CoarseFlow; break;
-                case 8: _result = OutputFunction.FineFlow; break;
-                case 9: _result = OutputFunction.Ready; break;
-                case 10: _result = OutputFunction.ToleranceExceeded; break;
-                case 11: _result = OutputFunction.ToleranceUnderrun; break;
-                case 12: _result = OutputFunction.ToleranceExceededUnderrun; break;
-                case 13: _result = OutputFunction.Alert; break;
-                case 14: _result = OutputFunction.DL1DL2; break;
-                case 21: _result = OutputFunction.Empty; break;
-                case 22: _result = OutputFunction.DeviceStatus; break;
-            }
-            return _result;
-        }
-
-        private int OutputFunctionToInt(OutputFunction outputMode)
-        {
-            int _result = 0;
-            switch (outputMode)
-            {
-                case OutputFunction.Off: _result = 0; break;
-                case OutputFunction.Manually: _result = 1; break;
-                case OutputFunction.LimitSwitch1: _result = 2; break;
-                case OutputFunction.LimitSwitch2: _result = 3; break;
-                case OutputFunction.LimitSwitch3: _result = 4; break;
-                case OutputFunction.LimitSwitch4: _result = 5; break;
-                case OutputFunction.CoarseFlow: _result = 7; break;
-                case OutputFunction.FineFlow: _result = 8; break;
-                case OutputFunction.Ready: _result = 9; break;
-                case OutputFunction.ToleranceExceeded: _result = 10; break;
-                case OutputFunction.ToleranceUnderrun: _result = 11; break;
-                case OutputFunction.ToleranceExceededUnderrun: _result = 12; break;
-                case OutputFunction.Alert: _result = 13; break;
-                case OutputFunction.DL1DL2: _result = 14; break;
-                case OutputFunction.Empty: _result = 21; break;
-                case OutputFunction.DeviceStatus: _result = 22; break;
-            }
-            return _result;
         }
 
         #endregion
