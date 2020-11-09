@@ -38,11 +38,11 @@ namespace Hbm.Weighing.Api.Data
     {
 
         #region ======================== properties ========================
-        
+
         /// <summary>
-        /// Gets or sets the weight step
+        /// Gets or sets the weight step in weight unit
         /// </summary>
-        int WeightStep { get; set; }
+        double WeightStep { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="ScaleRangeMode"/>
@@ -50,14 +50,14 @@ namespace Hbm.Weighing.Api.Data
         ScaleRangeMode ScaleRangeMode { get; set; }
 
         /// <summary>
-        /// Gets or sets the lower limit of a scale with 2 or 3 ranges/intervals
+        /// Gets or sets the lower limit of a scale with 2 or 3 ranges/intervals in weight unit
         /// </summary>
-        int MultiScaleLimit1 { get; set; }
+        double MultiScaleLimit1 { get; set; }
 
         /// <summary>
-        /// Gets or sets the upper limit of a scale with 3 ranges/intervals
+        /// Gets or sets the upper limit of a scale with 3 ranges/intervals in weight unit
         /// </summary>
-        int MultiScaleLimit2 { get; set; }
+        double MultiScaleLimit2 { get; set; }
 
         /// <summary>
         /// Gets or sets the weight movement detection

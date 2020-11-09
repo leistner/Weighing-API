@@ -195,6 +195,11 @@ namespace Hbm.Weighing.Api
         public abstract double CalibrationWeight { get; set; }
 
         /// <summary>
+        /// Gets the zero value in nV/V
+        /// </summary>
+        public abstract double ZeroValue { get; }
+
+        /// <summary>
         /// Gets or sets the zero signal
         /// </summary>
         public abstract int ZeroSignal { get; set; }

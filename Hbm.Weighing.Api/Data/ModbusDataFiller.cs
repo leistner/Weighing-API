@@ -30,7 +30,9 @@
 
 namespace Hbm.Weighing.Api.Data
 {
+    using Hbm.Weighing.Api.WTX.Jet;
     using Hbm.Weighing.Api.WTX.Modbus;
+    using Hbm.Weighing.Api.Utils;
     using System;
     using System.Collections.Generic;
     /// <summary>
@@ -238,10 +240,10 @@ namespace Hbm.Weighing.Api.Data
         public int AdcOverUnderload { get; private set; }
         public int FillingProcessStatus { get; private set; }
         public int FillingResultCount { get; private set; }
-        public int FillingResult { get; private set; }
-        public int FillingResultMeanValue { get; private set; }
-        public int FillingResultStandardDeviation { get; private set; }
-        public int FillingResultTotalSum { get; private set; }
+        public double FillingResult { get; private set; }
+        public double FillingResultMeanValue { get; private set; }
+        public double FillingResultStandardDeviation { get; private set; }
+        public double FillingResultTotalSum { get; private set; }
         public int CurrentDosingTime { get; private set; }
         public int CurrentCoarseFlowTime { get; private set; }
         public int CurrentFineFlowTime { get; private set; }
@@ -272,40 +274,52 @@ namespace Hbm.Weighing.Api.Data
                 this._residualFlowTime = value;
             }
         }
-        public int TargetFillingWeight // Type : signed integer 32 Bit
+        public double TargetFillingWeight // Type : double value in weight unit
         {
-            get { return _targetFillingWeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_targetFillingWeight, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.FWTFillingTargetWeight, value);
-                this._targetFillingWeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.FWTFillingTargetWeight, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._targetFillingWeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
-        public int CoarseFlowCutOffLevel // Type : signed integer 32 Bit
+        public double CoarseFlowCutOffLevel // Type : double value in weight unit
         {
-            get { return _coarseFlowCutOffPointSet; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_coarseFlowCutOffPointSet, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.CFDCoarseFlowDisconnect, value);
-                this._coarseFlowCutOffPointSet = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.CFDCoarseFlowDisconnect, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._coarseFlowCutOffPointSet = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
-        public int FineFlowCutOffLevel // Type : signed integer 32 Bit
+        public double FineFlowCutOffLevel // Type : double value in weight unit
         {
-            get { return _fineFlowCutOffPointSet; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_fineFlowCutOffPointSet, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.FFDFineFlowDisconnect, value);
-                this._fineFlowCutOffPointSet = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.FFDFineFlowDisconnect, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._fineFlowCutOffPointSet = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
-        public int MinimumFineFlow // Type : signed integer 32 Bit
+        public double MinimumFineFlow // Type : double value in weight unit
         {
-            get { return _minimumFineFlow; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_minimumFineFlow, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.FFMMinimumFineFlow, value);
-                this._minimumFineFlow = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.FFMMinimumFineFlow, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._minimumFineFlow = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
         public int OptimizationMode // Type : unsigned integer 8 Bit
@@ -362,40 +376,52 @@ namespace Hbm.Weighing.Api.Data
                 this._tareMode = value;
             }
         }
-        public int UpperToleranceLimit // Type : signed integer 32 Bit
+        public double UpperToleranceLimit // Type : double value in weight unit
         {
-            get { return _upperToleranceLimit; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_upperToleranceLimit, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.UTLUpperToleranceLimit, value);
-                this._upperToleranceLimit = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.UTLUpperToleranceLimit, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._upperToleranceLimit = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
-        public int LowerToleranceLimit // Type : signed integer 32 Bit
+        public double LowerToleranceLimit // Type : double value in weight unit
         {
-            get { return _lowerToleranceLimit; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_lowerToleranceLimit, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.LTLLowerToleranceLimit, value);
-                this._lowerToleranceLimit = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.LTLLowerToleranceLimit, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._lowerToleranceLimit = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
-        public int MinimumStartWeight // Type : signed integer 32 Bit
+        public double MinimumStartWeight // Type : double value in weight unit
         {
-            get { return _minimumStartWeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_minimumStartWeight, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.MSWMinimumStartWeight, value);
-                this._minimumStartWeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.MSWMinimumStartWeight, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._minimumStartWeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
-        public int EmptyWeight // Type : signed integer 32 Bit
+        public double EmptyWeight // Type : double value in weight unit
         {
-            get { return _emptyWeight; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_emptyWeight, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.EWTEmptyWeight, value);
-                this._emptyWeight = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.EWTEmptyWeight, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._emptyWeight = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
         public int TareDelay // Type : unsigned integer 16 Bit
@@ -416,22 +442,28 @@ namespace Hbm.Weighing.Api.Data
                 this._coarseFlowMonitoringTime = value;
             }
         }
-        public int CoarseFlowMonitoring  // Type : unsigned integer 32 Bit
+        public double CoarseFlowMonitoring  // Type : double value in weight unit
         {
-            get { return _coarseFlowMonitoring; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_coarseFlowMonitoring, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.CBKCoarseFlowMonitoring, value);
-                this._coarseFlowMonitoring = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.CBKCoarseFlowMonitoring, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._coarseFlowMonitoring = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
-        public int FineFlowMonitoring  // Type : unsigned integer 32 Bit
+        public double FineFlowMonitoring  // Type : double value in weight unit
         {
-            get { return _fineFlowMonitoring; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_fineFlowMonitoring, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.FBKFineFlowMonitoring, value);
-                this._fineFlowMonitoring = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.FBKFineFlowMonitoring, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._fineFlowMonitoring = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
         public int FineFlowMonitoringTime // Type : unsigned integer 16 Bit
@@ -461,13 +493,16 @@ namespace Hbm.Weighing.Api.Data
                 this._activationTimeAfterFineFlow = value;
             }
         }
-        public int SystematicDifference // Type : unsigned integer 32 Bit
+        public double SystematicDifference // Type : double value in weight unit
         {
-            get { return _systematicDifference; }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_systematicDifference, decimals); }
             set
             {
-                _connection.WriteInteger(ModbusCommands.SYDSystematicDifference, value);
-                this._systematicDifference = value;
+                int decimals = _connection.ReadIntegerFromBuffer(ModbusCommands.CIA461Decimals);
+                _connection.WriteInteger(ModbusCommands.SYDSystematicDifference, MeasurementUtils.DoubleToDigit(value, decimals));
+                this._systematicDifference = MeasurementUtils.DoubleToDigit(value, decimals);
             }
         }
         public int FillingMode

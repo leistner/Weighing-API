@@ -41,6 +41,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
 
         private TestModbusTCPConnection testConnection;
         private WTXModbus _wtxObj;
+        private string ipaddress = "172.19.103.8";
 
         //private bool connectCallbackCalled;
         //private bool connectCompleted;
@@ -305,7 +306,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitSwitch1ModeTestCases")]
         public bool LimitSwitch1ModeWriteTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -323,7 +324,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitSwitch2ModeTestCases")]
         public bool LimitSwitch2ModeWriteTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -340,7 +341,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitSwitch3ModeTestCases")]
         public bool LimitSwitch3ModeWriteTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -357,7 +358,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "WriteLimitSwitch4ModeTestCases")]
         public bool LimitSwitch4ModeWriteTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -373,7 +374,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "ZeroMethodTestCases")]
         public void ZeroMethodTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -437,7 +438,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "TareTestCases")]
         public void TareAsyncTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -466,7 +467,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "GrosMethodTestCases")]
         public void GrosMethodTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -484,7 +485,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "TareMethodTestCases")]
         public void TareMethodTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -503,7 +504,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "AdjustingZeroMethodTestCases")]
         public void AdjustingZeroMethodTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -521,7 +522,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "AdjustNominalMethodTestCases")]
         public void AdjustingNominalMethodTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -539,7 +540,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "ActivateDataMethodTestCases")]
         public void /*int*/ ActivateDataMethodTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -557,7 +558,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "ManualTaringMethodTestCases")]
         public void ManualTaringTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -575,7 +576,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "RecordWeightMethodTestCases")]
         public void RecordweightMethodTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -598,7 +599,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             _data[0] = (ushort)((0x7FFFFFFF & 0xFFFF0000) >> 16);
             _data[1] = (ushort)(0x7FFFFFFF & 0x0000FFFF);
 
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -620,7 +621,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
             _data[0] = (ushort)((0x7fffffff & 0xffff0000) >> 16);
             _data[1] = (ushort)(0x7fffffff & 0x0000ffff);
 
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -642,7 +643,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
 
             _data[0] = (ushort)(0xA1 & 0xFF);
 
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
@@ -659,7 +660,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(WriteTestsModbus), "ResetTimerTestCases")]
         public int ResetTimerTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxObj = new WTXModbus(testConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);

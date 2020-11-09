@@ -292,5 +292,76 @@ namespace GUIsimple
 
         #endregion
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            string display = "";
+            switch (comboBox1.SelectedItem)
+            {
+                /**
+                 *  Serial number
+                    Device identification
+                    Firmware version
+                    Weight step
+                    Scale range
+                    Tare mode
+                    Weight stable
+                    Manual tare value
+                    Maximum capacity
+                    Calibration weight
+                    Zero signal
+                    Nominal signal
+                    Connection
+                    Connection type
+                    Application mode
+                 * **/
+
+                case "Serial number":
+                    display = _wtxDevice.SerialNumber;
+                    break;
+                case "Device identification":
+                    display = _wtxDevice.Identification;
+                    break;
+                case "Firmware version":
+                    display = _wtxDevice.FirmwareVersion;
+                    break;
+                case "Weight step (DSE)":
+                    display = ((DSEJet)_wtxDevice).WeightStep.ToString() + " " + _wtxDevice.Unit;
+                    break;
+                case "Scale range":
+                    display = _wtxDevice.ScaleRange.ToString();
+                    break;
+                case "Tare mode":
+                    display = _wtxDevice.TareMode.ToString();
+                    break;
+                case "Weight stable":
+                    display = _wtxDevice.WeightStable.ToString();
+                    break;
+                case "Manual tare value":
+                    display = _wtxDevice.ManualTareValue.ToString() + " " + _wtxDevice.Unit;
+                    break;
+                case "Maximum capacity":
+                    display = _wtxDevice.MaximumCapacity.ToString() + " " + _wtxDevice.Unit;
+                    break;
+                case "Calibration weight":
+                    display = _wtxDevice.CalibrationWeight.ToString() + " " + _wtxDevice.Unit;
+                    break;
+                case "LDW - Zero signal":
+                    display = _wtxDevice.ZeroSignal.ToString() + " nV/V";
+                    break;
+                case "LWT - Nominal signal":
+                    display = _wtxDevice.NominalSignal.ToString() + " nV/V";
+                    break;
+                case "Connection type":
+                    display = _wtxDevice.ConnectionType;
+                    break;
+                case "Application mode":
+                    display = _wtxDevice.ApplicationMode.ToString();
+                    break;
+                case "Zero value":
+                    display = _wtxDevice.ZeroValue.ToString() + " " + _wtxDevice.Unit;
+                    break;
+            }
+            textBox1.Text = display;
+        }
     }
 }

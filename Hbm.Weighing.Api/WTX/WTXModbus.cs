@@ -267,6 +267,8 @@ namespace Hbm.Weighing.Api.WTX
         ///<inheritdoc/>
         public override double CalibrationWeight { get; set; }
 
+        public override double ZeroValue { get; }
+
         ///<inheritdoc/>
         public override int ZeroSignal { get; set; }
 

@@ -41,7 +41,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
     {
 
         private INetConnection testConnection;
-
+        private string ipaddress = "wss://172.19.103.8:443/jet/canopen";
         //private bool connectCallbackCalled;
         //private bool connectCompleted;
 
@@ -77,7 +77,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
         [Test, TestCaseSource(typeof(ConnectTestsJetbus), "Connect_TestCases_Jetbus")]
         public bool TestConnectJetbus(Behavior behaviour)
         {        
-            testConnection = new TestJetbusConnection(behaviour, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; },1000);
+            testConnection = new TestJetbusConnection(behaviour, ipaddress, "Administrator", "wtx", delegate { return true; },1000);
 
             WTXJet WTXJetObj = new WTXJet(testConnection, 500, Update);      
 
@@ -91,7 +91,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
         [Test, TestCaseSource(typeof(ConnectTestsJetbus), "Disconnect_Testcases_Jetbus")]
         public bool TestDisconnectJetbus(Behavior behaviour)
         {
-            testConnection = new TestJetbusConnection(behaviour, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            testConnection = new TestJetbusConnection(behaviour, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             WTXJet WTXJetObj = new WTXJet(testConnection, 500, Update);
 

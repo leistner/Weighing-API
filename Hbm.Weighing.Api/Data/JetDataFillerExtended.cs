@@ -29,6 +29,7 @@
 // </copyright>
 
 using Hbm.Weighing.Api.WTX.Jet;
+using Hbm.Weighing.Api.Utils;
 
 namespace Hbm.Weighing.Api.Data
 {
@@ -63,9 +64,11 @@ namespace Hbm.Weighing.Api.Data
         #region ======================== properties ========================
        
         ///<inhertifdoc/>
-        public int MaterialStreamLastFilling
+        public double MaterialStreamLastFilling
         {
-            get { return _connection.ReadIntegerFromBuffer(JetBusCommands.MFOMaterialFlow); }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_connection.ReadIntegerFromBuffer(JetBusCommands.MFOMaterialFlow), decimals); }
         }
 
         ///<inhertifdoc/>
@@ -110,17 +113,25 @@ namespace Hbm.Weighing.Api.Data
         }
 
         ///<inhertifdoc/>
-        public int EmptyWeightTolerance
+        public double EmptyWeightTolerance
         {
-            get { return _connection.ReadIntegerFromBuffer(JetBusCommands.EWTEmptyWeight); }
-            set { _connection.WriteInteger(JetBusCommands.EWTEmptyWeight , value); }
+            get { 
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_connection.ReadIntegerFromBuffer(JetBusCommands.EWTEmptyWeight), decimals); }
+            set {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.EWTEmptyWeight , MeasurementUtils.DoubleToDigit(value, decimals)); }
         }
 
         ///<inhertifdoc/>
-        public int ResidualFlowDosingCycle
+        public double ResidualFlowDosingCycle
         {
-            get { return _connection.ReadIntegerFromBuffer(JetBusCommands.RFOResidualFlow); }
-            set { _connection.WriteInteger(JetBusCommands.RFOResidualFlow , value); }
+            get {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_connection.ReadIntegerFromBuffer(JetBusCommands.RFOResidualFlow), decimals); }
+            set {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                _connection.WriteInteger(JetBusCommands.RFOResidualFlow , MeasurementUtils.DoubleToDigit(value, decimals)); }
         }
 
         ///<inhertifdoc/>

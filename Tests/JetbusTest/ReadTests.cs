@@ -25,7 +25,9 @@ namespace JetbusTest
         private TestJetbusConnection _jetTestConnection;
         private WTXJet _wtxObj;
         private int _testInteger;
+        private double _testDouble;
         private bool _testBoolean;
+        private string ipaddress = "wss://172.19.103.8:443/jet/canopen";
 
 
         // Test case source for reading values from the WTX120 device. 
@@ -139,7 +141,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "NetGrossTareValuesTest")]
         public bool testNetGrossTareValues(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
             
@@ -156,7 +158,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testWeightMovingValue(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -175,7 +177,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testGeneralWeightError(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -189,7 +191,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testScaleAlarmTriggered(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -203,7 +205,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testOverload(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -217,7 +219,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testScaleSealIsOpen(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -231,7 +233,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testWeightType(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -245,7 +247,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testScaleRange(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100,  update);
 
@@ -259,7 +261,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testZeroRequired(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -273,7 +275,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testWeightWithinTheCenterOfZero(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -287,7 +289,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testWeightInZeroRange(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -303,7 +305,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Decimals")]
         public void testDecimals(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -317,7 +319,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_FillingProcessSatus")]
         public void testFillingProcessStatus(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -330,13 +332,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_DosingResult")]
         public void testDosingResult(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).FillingResult;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).FillingResult;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FRS1"));
         }
@@ -345,7 +347,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_NumberDosingResults")]
         public void testNumberDosingResults(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -375,7 +377,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testInput1(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -389,7 +391,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testInput2(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -403,7 +405,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testInput3(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -417,7 +419,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testInput4(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -431,7 +433,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testOutput1(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -445,7 +447,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testOutput2(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -459,7 +461,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testOutput3(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -473,7 +475,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testOutput4(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -487,7 +489,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testLimitStatus1(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -501,7 +503,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testLimitStatus2(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -515,7 +517,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testLimitStatus3(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -530,7 +532,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testLimitStatus4(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -544,7 +546,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testMaxDosingTime(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -558,13 +560,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testMeanValueDosingResults(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).FillingResultMeanValue;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).FillingResultMeanValue;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SDM"));
         }
@@ -572,13 +574,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testStandardDeviation(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).FillingResultStandardDeviation;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).FillingResultStandardDeviation;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SDS"));
         }
@@ -586,13 +588,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testFineFlowCutOffPoint(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).FineFlowCutOffLevel;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).FineFlowCutOffLevel;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFD"));
         }
@@ -600,13 +602,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testCoarseFlowCutOffPoint(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).CoarseFlowCutOffLevel;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).CoarseFlowCutOffLevel;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CFD"));
         }
@@ -614,7 +616,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testResidualFlowTime(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -628,13 +630,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testMinimumFineFlow(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).MinimumFineFlow;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).MinimumFineFlow;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFM"));
         }
@@ -642,7 +644,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testOptimizationOfCutOffPoints(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -656,7 +658,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testMaximumDosingTime(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -670,7 +672,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testCoarseLockoutTime(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -684,7 +686,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testFineLockoutTime(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -698,7 +700,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testTareMode(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -712,13 +714,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testUpperToleranceLimit(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).UpperToleranceLimit;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).UpperToleranceLimit;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("UTL"));
         }
@@ -726,13 +728,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testLowerToleranceLimit(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).LowerToleranceLimit;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).LowerToleranceLimit;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("LTL"));
         }
@@ -740,13 +742,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testMinimumStartWeight(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).MinimumStartWeight;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).MinimumStartWeight;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("MSW"));
         }
@@ -754,13 +756,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testEmptyWeight(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).EmptyWeight;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).EmptyWeight;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("EWT"));
         }
@@ -768,7 +770,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testTareDelay(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -782,7 +784,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testCoarseFlowMonitoringTime(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -796,13 +798,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testCoarseFlowMonitoring(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).CoarseFlowMonitoring;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).CoarseFlowMonitoring;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CBK"));
         }
@@ -810,13 +812,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testFineFlowMonitoring(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).FineFlowMonitoring;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).FineFlowMonitoring;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FBK"));
         }
@@ -824,7 +826,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testFineFlowMonitoringTime(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -838,13 +840,13 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testSystematicDifference(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).SystematicDifference;
+            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).SystematicDifference;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SYD"));
         }
@@ -852,7 +854,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testValveControl(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -866,7 +868,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testEmptyingMode(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -880,7 +882,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testDelayTimeAfterFineFlow(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -894,7 +896,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testActivationTimeAfterFineFlow(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 
@@ -910,7 +912,7 @@ namespace JetbusTest
         {
             bool testVar = false;
 
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 100, update);
 

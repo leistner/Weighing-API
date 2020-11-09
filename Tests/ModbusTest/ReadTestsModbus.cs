@@ -41,6 +41,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
     {
         private TestModbusTCPConnection testConnection;
         private WTXModbus _wtxDevice;
+        private string ipaddress = "172.19.103.8";
 
         /*
         private bool connectCallbackCalled;
@@ -118,7 +119,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(ReadTestsModbus), "ReadTestCases")]
         public async Task<ushort> ReadTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxDevice = new WTXModbus(testConnection, 200, UpdateReadTest);
 
             _wtxDevice.Connect(this.OnConnect, 100);
@@ -160,7 +161,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(ReadTestsModbus), "MeasureZeroTestCases")]
         public bool MeasureZeroTest(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxDevice = new WTXModbus(testConnection, 200,UpdateMeasureZeroTest);
 
             _wtxDevice.Connect(this.OnConnect, 100);
@@ -188,7 +189,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(ReadTestsModbus), "ApplicationModeTestCases")]
         public int ApplicationModeTest(Behavior behavior)
         {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, ipaddress);
 
             WTXModbus _wtxDevice = new WTXModbus(testConnection, 200,UpdateApplicationModeTest);
 
@@ -208,7 +209,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(ReadTestsModbus), "LogEventTestCases")]
         public async Task<bool> LogEventGetTest(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxDevice = new WTXModbus(testConnection, 200,UpdateLogEventGetTest);
 
             _wtxDevice.Connect(this.OnConnect, 100);
@@ -235,7 +236,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(ReadTestsModbus), "LogEventTestCases")]
         public async Task<bool> LogEventSetTest(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             _wtxDevice = new WTXModbus(testConnection, 200, UpdateLogEventSetTest);
 
             _wtxDevice.Connect(this.OnConnect, 100);

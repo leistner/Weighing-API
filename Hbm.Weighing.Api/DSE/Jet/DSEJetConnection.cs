@@ -129,18 +129,6 @@ namespace Hbm.Weighing.Api.DSE.Jet
             throw new NotImplementedException();
         }
 
-        JetBusCommand[] oneFetch = new JetBusCommand[]
-        {
-            JetBusCommands.HWVHardwareVersion,
-            JetBusCommands.SWVSoftwareVersion,
-            JetBusCommands.DSEIDNDeviceIdentification,
-            JetBusCommands.DSEHWRevision,
-            JetBusCommands.DSESerialNumber,
-            JetBusCommands.DSEFirmwareVersion,
-            JetBusCommands.ESRErrorRegister,
-
-        };
-
         ///<inheritdoc/>
         public string ReadFromBuffer(object command)
         {

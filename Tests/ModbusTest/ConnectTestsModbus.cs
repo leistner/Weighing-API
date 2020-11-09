@@ -38,7 +38,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
     [TestFixture]
     public class ConnectTestsModbus 
     {
-
+        private string ipaddress = "172.19.103.8";
         //private bool connectCallbackCalled;
         //private bool connectCompleted;
 
@@ -111,7 +111,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(ConnectTestsModbus), "ConnectTestCases")]
         public bool ConnectTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             WTXModbusObj = new WTXModbus(testConnection, 200, update);
 
             //this.connectCallbackCalled = false;
@@ -130,7 +130,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(ConnectTestsModbus), "DisconnectTestCases")]
         public bool DisconnectTestModbus(Behavior behavior)
         {
-            testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             WTXModbusObj = new WTXModbus(testConnection, 200, update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);

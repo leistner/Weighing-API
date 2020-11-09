@@ -243,16 +243,26 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
+        public override double ZeroValue
+        {
+            get
+            {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_connection.ReadIntegerFromBuffer(JetBusCommands.CIA461ZeroValue), decimals);
+            }
+        }
+
+        ///<inheritdoc/>
         public override int ZeroSignal
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461ZeroValue);
+                return _connection.ReadIntegerFromBuffer(JetBusCommands.LDWZeroValue)*2;
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461ZeroValue, value);
+                Connection.WriteInteger(JetBusCommands.LDWZeroValue, value);
             }
         }
 
@@ -261,7 +271,7 @@ namespace Hbm.Weighing.Api.WTX
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.LWTNominalValue);
+                return _connection.ReadIntegerFromBuffer(JetBusCommands.LWTNominalValue)*2;
             }
 
             set
@@ -426,16 +436,18 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public int WeightStep
+        public double WeightStep
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461WeightStep);
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_connection.ReadIntegerFromBuffer(JetBusCommands.CIA461WeightStep), decimals);
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461WeightStep, value);
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                Connection.WriteInteger(JetBusCommands.CIA461WeightStep, MeasurementUtils.DoubleToDigit(value, decimals));
             }
         }
 
@@ -482,30 +494,34 @@ namespace Hbm.Weighing.Api.WTX
         }
 
         ///<inheritdoc/>
-        public int MultiScaleLimit1
-        { 
+        public double MultiScaleLimit1
+        {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461MultiLimit1);
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_connection.ReadIntegerFromBuffer(JetBusCommands.CIA461MultiLimit1), decimals);
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461MultiLimit1, value);
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                Connection.WriteInteger(JetBusCommands.CIA461MultiLimit1, MeasurementUtils.DoubleToDigit(value, decimals));
             }
         }
 
         ///<inheritdoc/>
-        public int MultiScaleLimit2
+        public double MultiScaleLimit2
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461MultiLimit2);
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_connection.ReadIntegerFromBuffer(JetBusCommands.CIA461MultiLimit2), decimals);
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461MultiLimit2, value);
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                Connection.WriteInteger(JetBusCommands.CIA461MultiLimit2, MeasurementUtils.DoubleToDigit(value, decimals));
             }
         }
 
