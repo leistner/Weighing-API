@@ -38,7 +38,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
     [TestFixture]
     public class CommentMethodsModbusTests
     {
-
+        private string ipaddress = "172.19.103.8";
         // Test case source for reading values from the WTX120 device. 
         public static IEnumerable T_UnitValueTestCases
         {
@@ -221,7 +221,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [TestCaseSource(typeof(CommentMethodsModbusTests), "NetGrossValueStringComment_6D_TestCase_Modbus")]
         public async Task<string> testModbus_NetGrossValueStringComment(Behavior behavior)
         {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             WTXModbus _wtxObj = new WTXModbus(testConnection, 200, update);
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -241,7 +241,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [TestCaseSource(typeof(CommentMethodsModbusTests), "LB_UnitValueTestCases")]
         public async Task<string> testModbus_Unit(Behavior behavior)
         {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, ipaddress);
 
             WTXModbus _wtxObj = new WTXModbus(testConnection, 200, update);
 
@@ -260,7 +260,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [TestCaseSource(typeof(CommentMethodsModbusTests), "WeightMovingStringComment_Case1_TestCase_Modbus")]
         public async Task<string> testModbus_WeightMovingStringComment(Behavior behavior)
         {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             WTXModbus _wtxObj = new WTXModbus(testConnection, 200,update);
             _wtxObj.Connect(this.OnConnect, 100);
 

@@ -18,6 +18,7 @@ namespace JetbusTest
     {
         private INetConnection _jetTestConnection;
         private WTXJet _wtxObj;
+        private string ipaddress = "wss://172.19.103.8:443/jet/canopen";
 
         // Test case source for writing values to the WTX120 device: Taring 
         public static IEnumerable CalibrationTestCases
@@ -60,7 +61,7 @@ namespace JetbusTest
         public bool CalibrationTest(Behavior behavior)
         {
 
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 200, Update);
 
@@ -89,7 +90,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(CalibrationTests), "MeasureZeroTestCases")]
         public bool MeasureZeroTest(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 200,Update);
 
@@ -121,7 +122,7 @@ namespace JetbusTest
 
             double multiplierMv2D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)
 
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection,200,Update);
 

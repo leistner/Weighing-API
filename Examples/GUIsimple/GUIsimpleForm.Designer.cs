@@ -204,13 +204,21 @@ namespace GUIsimple
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
-            "Serial number",
+            "Application mode",
+            "Calibration weight",
+            "Connection type",
             "Device identification",
             "Firmware version",
-            "Weight step",
-            "Restore default parameters",
-            "User defined command",
-            "Write Command"});
+            "LDW - Zero signal",
+            "LWT - Nominal signal",
+            "Scale range",
+            "Serial number",
+            "Tare mode",
+            "Manual tare value",
+            "Maximum capacity",
+            "Weight stable",
+            "Weight step (DSE)",
+            "Zero value"});
             this.comboBox1.Location = new System.Drawing.Point(12, 150);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(234, 21);
@@ -256,8 +264,6 @@ namespace GUIsimple
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox1.SelectedIndex == 6) textBox1.Enabled = true;
-            else textBox1.Enabled = false;
         }
 
         #endregion

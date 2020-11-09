@@ -238,16 +238,26 @@ namespace Hbm.Weighing.Api.DSE
         }
 
         ///<inheritdoc/>
+        public override double ZeroValue
+        {
+            get
+            {
+                int decimals = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461Decimals);
+                return MeasurementUtils.DigitToDouble(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEZeroValue), decimals);
+            }
+        }
+
+        ///<inheritdoc/>
         public override int ZeroSignal
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461ZeroValue);
+                return _connection.ReadIntegerFromBuffer(JetBusCommands.SDLScaleZeroSignal);
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461ZeroValue, value);
+                Connection.WriteInteger(JetBusCommands.SDLScaleZeroSignal, value);
             }
         }
 
@@ -256,12 +266,12 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.LWTNominalValue);
+                return _connection.ReadIntegerFromBuffer(JetBusCommands.SNLScaleNominalSignal);
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.LWTNominalValue, value);
+                Connection.WriteInteger(JetBusCommands.SNLScaleNominalSignal, value);
             }
         }
 

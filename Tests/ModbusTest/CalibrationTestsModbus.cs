@@ -39,6 +39,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
     {
 
         // Test case source for writing values to the WTX120 device : Calibrating
+        private string ipaddress = "172.19.103.8";
         public static IEnumerable CalculateCalibrationTestCases
         {
             get
@@ -53,7 +54,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(CalibrationTestsModbus), "CalculateCalibrationTestCases")]
         public bool CalculateCalibrationTest(Behavior behavior)
         {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, ipaddress);
             WTXModbus WTXModbusObj = new WTXModbus(testConnection, 200,update);
 
             WTXModbusObj.Connect(this.OnConnect, 100);
@@ -85,7 +86,7 @@ namespace Hbm.Weighing.Api.WTX.Modbus
         [Test, TestCaseSource(typeof(CalibrationTestsModbus), "CalculateCalibrationTestCases")]
         public bool CalibrationTest(Behavior behavior)
         {
-            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, "172.19.103.8");
+            TestModbusTCPConnection testConnection = new TestModbusTCPConnection(behavior, ipaddress);
 
             WTXModbus WTXModbusObj = new WTXModbus(testConnection, 200,update);
 

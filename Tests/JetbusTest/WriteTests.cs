@@ -23,6 +23,7 @@ namespace JetbusTest
         //private TestJetbusConnection _jetTestConnection;
         //private WTXJet _wtxObj;
         //private int testGrossValue;
+        private string ipaddress = "wss://172.19.103.8:443/jet/canopen";
 
 
         // Test case source for writing values to the WTX120 device: Taring 
@@ -67,7 +68,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(WriteTests), "WriteTareTestCases")]
         public bool WriteTareTest(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 200, update);
 
@@ -86,7 +87,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(WriteTests), "WriteGrossTestCases")]
         public bool WriteGrossTest(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 200, update);
 
@@ -105,7 +106,7 @@ namespace JetbusTest
         [Test, TestCaseSource(typeof(WriteTests), "WriteZeroTestCases")]
         public bool WriteZeroTest(Behavior behavior)
         {
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
             _wtxObj = new WTXJet(_jetTestConnection, 200, update);
 
