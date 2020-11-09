@@ -363,10 +363,5 @@ namespace GUIsimple
             }
             textBox1.Text = display;
         }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
-        }
     }
 }
