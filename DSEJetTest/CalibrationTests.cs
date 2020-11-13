@@ -1,6 +1,6 @@
-﻿using Hbm.Weighing.Api;
+using Hbm.Weighing.Api;
 using Hbm.Weighing.Api.Data;
-using Hbm.Weighing.Api.WTX;
+using Hbm.Weighing.Api.DSE;
 using Hbm.Weighing.Api.WTX.Jet;
 
 using NUnit.Framework;
@@ -17,7 +17,7 @@ namespace JetbusTest
     public class CalibrationTests
     {
         private INetConnection _jetTestConnection;
-        private WTXJet _wtxObj;
+        private DSEJet _wtxObj;
         private string ipaddress = "wss://172.20.41.120:443/jet/canopen";
 
         // Test case source for writing values to the WTX120 device: Taring 
@@ -30,7 +30,7 @@ namespace JetbusTest
             }
         }
 
-        
+
         // Test case source for writing values to the WTX120 device: Taring 
         public static IEnumerable CalibrationPreloadCapacityTestCases
         {
@@ -56,19 +56,19 @@ namespace JetbusTest
         {
             //testGrossValue = 0;
         }
-   
+
         [Test, TestCaseSource(typeof(CalibrationTests), "CalibrationTestCases")]
         public bool CalibrationTest(Behavior behavior)
         {
 
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 200, Update);
+            _wtxObj = new DSEJet(_jetTestConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
-           
+
             _wtxObj.AdjustNominalSignalWithCalibrationWeight(1.5);
-            
+
             if (
                 _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461CalibrationWeight) == 15000 &&       // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
                 _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommand) == 1852596579          // CALIBRATE_NOMINAL_WEIGHT = 1852596579 // SCALE_COMMAND = "6002/01"
@@ -86,20 +86,20 @@ namespace JetbusTest
             //throw new NotImplementedException();
         }
 
-        
+
         [Test, TestCaseSource(typeof(CalibrationTests), "MeasureZeroTestCases")]
         public bool MeasureZeroTest(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 200,Update);
+            _wtxObj = new DSEJet(_jetTestConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
             _wtxObj.AdjustZeroSignal();
-            
+
             if (
-                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommand) == 2053923171  &&
+                _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommand) == 2053923171 &&
                 _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461GrossValue) == 0 &&
                 _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461NetValue) == 0
                 )
@@ -108,7 +108,7 @@ namespace JetbusTest
             else
                 return false;
         }
-        
+
         [Test, TestCaseSource(typeof(CalibrationTests), "CalibrationPreloadCapacityTestCases")]
         public bool CalibrationPreloadCapacityTest(Behavior behavior)
         {
@@ -124,7 +124,7 @@ namespace JetbusTest
 
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection,200,Update);
+            _wtxObj = new DSEJet(_jetTestConnection, 200, Update);
 
             _wtxObj.Connect(this.OnConnect, 100);
 
@@ -146,11 +146,11 @@ namespace JetbusTest
             else
                 return false;
         }
-        
+
         private void OnConnect(bool obj)
         {
             //Callback, do something ... 
         }
-        
+
     }
 }

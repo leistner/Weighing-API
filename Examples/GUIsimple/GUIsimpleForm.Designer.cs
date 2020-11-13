@@ -218,12 +218,12 @@ namespace GUIsimple
             "Maximum capacity",
             "Weight stable",
             "Weight step (DSE)",
-            "Zero value"});
+            "Zero value",
+            "Filter mode"});
             this.comboBox1.Location = new System.Drawing.Point(12, 150);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(234, 21);
             this.comboBox1.TabIndex = 31;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // textBox1
             // 
@@ -259,10 +259,6 @@ namespace GUIsimple
             this.ResumeLayout(false);
             this.PerformLayout();
 
-        }
-
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
         }
 
         #endregion
