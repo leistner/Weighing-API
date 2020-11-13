@@ -6,24 +6,12 @@
  * 
  *  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-using Hbm.Weighing.Api.WTX.Modbus;
-using Hbm.Weighing.Api.WTX;
-using Hbm.Weighing.Api;
-
-namespace GUIsimple
+namespace Hbm.Ie.Api.Weighing.Examples.GUISimple
 {
+    using Hbm.Ie.Api.Weighing;
+    using System;
+    using System.Globalization;
+    using System.Windows.Forms;
     /// <summary>
     /// This class provides a window to perform a calibration without a calibration weight,
     /// based on known values for dead load and nominal load in mV/V

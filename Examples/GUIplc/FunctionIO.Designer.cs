@@ -1,4 +1,5 @@
-﻿namespace GUIplc
+﻿
+namespace Hbm.Ie.Api.Weighing.Examples.GUIplc
 {
     partial class FunctionIO
     {

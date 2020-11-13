@@ -1,0 +1,1871 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HelpKI>
+  <HelpKINode Title="AboveLevel enumeration member" Url="html/145c9893-de50-972c-d875-be5e3b75f4b6.htm" />
+  <HelpKINode Title="ActivateData method" Url="html/f71c770d-5b71-7aba-8352-a73633782554.htm" />
+  <HelpKINode Title="ActivationTimeAfterFilling property">
+    <HelpKINode Title="IDataFiller.ActivationTimeAfterFilling Property " Url="html/d30a0d18-66c3-cc94-39db-77fd50b7eef3.htm" />
+    <HelpKINode Title="JetDataFiller.ActivationTimeAfterFilling Property " Url="html/6789edee-38d7-0b59-01c9-1be8e945361c.htm" />
+    <HelpKINode Title="ModbusDataFiller.ActivationTimeAfterFilling Property " Url="html/9092bbc5-6062-3348-f4ab-c4ad9336b3ac.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AdcOverUnderload property">
+    <HelpKINode Title="IDataFiller.AdcOverUnderload Property " Url="html/8e35f751-8353-ff59-e1e2-df604c4676d5.htm" />
+    <HelpKINode Title="JetDataFiller.AdcOverUnderload Property " Url="html/a83e3450-cb0c-0945-0b7f-dd5bcf27477c.htm" />
+    <HelpKINode Title="ModbusDataFiller.AdcOverUnderload Property " Url="html/a060c2d2-8308-fd4a-e055-737b4ee50621.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AdjustNominalSignal method">
+    <HelpKINode Title="BaseWTDevice.AdjustNominalSignal Method " Url="html/9fb0da78-fd3b-1705-04ee-e05aa4dd4502.htm" />
+    <HelpKINode Title="DSEJet.AdjustNominalSignal Method " Url="html/e4b9c355-63e5-38e1-7078-c98c04688c54.htm" />
+    <HelpKINode Title="WTXJet.AdjustNominalSignal Method " Url="html/65dbdb19-ff78-4a4c-34cb-abe281824d63.htm" />
+    <HelpKINode Title="WTXModbus.AdjustNominalSignal Method " Url="html/510927cd-42d1-926d-bbd0-ab0fadcc08c4.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AdjustNominalSignalWithCalibrationWeight method">
+    <HelpKINode Title="BaseWTDevice.AdjustNominalSignalWithCalibrationWeight Method " Url="html/30246288-4123-6c39-759d-897e83592903.htm" />
+    <HelpKINode Title="DSEJet.AdjustNominalSignalWithCalibrationWeight Method " Url="html/b8670451-d8e9-05ae-2769-6bc3049477b6.htm" />
+    <HelpKINode Title="WTXJet.AdjustNominalSignalWithCalibrationWeight Method " Url="html/9ebda4b8-1ff6-bb5a-09e8-19c351791e4c.htm" />
+    <HelpKINode Title="WTXModbus.AdjustNominalSignalWithCalibrationWeight Method " Url="html/02e0aed4-5608-38b0-ff1c-7f14319deec0.htm" />
+  </HelpKINode>
+  <HelpKINode Title="AdjustZeroSignal method">
+    <HelpKINode Title="BaseWTDevice.AdjustZeroSignal Method " Url="html/b4e96822-d8e0-ecb9-6a74-3224082df559.htm" />
+    <HelpKINode Title="DSEJet.AdjustZeroSignal Method " Url="html/817c5b6b-75a1-eb97-e66c-52372ed815d9.htm" />
+    <HelpKINode Title="WTXJet.AdjustZeroSignal Method " Url="html/7961b42a-c923-8bbb-b6df-6c4d888a01b9.htm" />
+    <HelpKINode Title="WTXModbus.AdjustZeroSignal Method " Url="html/ba69e84a-54a9-1851-6867-ed92b08667ed.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Alarm property">
+    <HelpKINode Title="IDataFiller.Alarm Property " Url="html/858c648d-96e0-f849-4018-9a7b3d51aa96.htm" />
+    <HelpKINode Title="JetDataFiller.Alarm Property " Url="html/d9e64c83-8e71-a862-22b5-d99cf36649de.htm" />
+    <HelpKINode Title="ModbusDataFiller.Alarm Property " Url="html/d466e4d6-934b-e984-e252-10b28856cc21.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Alert enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="ApplicationMode enumeration" Url="html/13de62fb-e77b-7604-effd-c81a89402c6d.htm" />
+  <HelpKINode Title="ApplicationMode property">
+    <HelpKINode Title="BaseWTDevice.ApplicationMode Property " Url="html/fb62be74-723a-2fe8-ca02-00f34ae73154.htm" />
+    <HelpKINode Title="DSEJet.ApplicationMode Property " Url="html/097ac351-596c-35ee-860d-0c183283525e.htm" />
+    <HelpKINode Title="IProcessData.ApplicationMode Property " Url="html/3bffe33e-e1c2-4879-4073-da8ab8c402ef.htm" />
+    <HelpKINode Title="JetProcessData.ApplicationMode Property " Url="html/799c58dd-a936-a1d1-23b1-84a7e91510d1.htm" />
+    <HelpKINode Title="ModbusDataProcess.ApplicationMode Property " Url="html/fb89a011-83c6-024a-f859-7fded1504cca.htm" />
+    <HelpKINode Title="WTXJet.ApplicationMode Property " Url="html/9f1e7808-59c4-0666-fbaa-8a4f169005da.htm" />
+    <HelpKINode Title="WTXModbus.ApplicationMode Property " Url="html/2714338e-d9dc-7c1e-8e68-0a4403d7687f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Args property" Url="html/a71b74e6-f1cd-0e75-b5dd-5e9b60527a6e.htm" />
+  <HelpKINode Title="ASCII enumeration member" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="BaseWTDevice class">
+    <HelpKINode Title="BaseWTDevice Class" Url="html/e08aed01-5f35-4eed-03c3-43f041b3ac2a.htm" />
+    <HelpKINode Title="constructor" Url="html/e1d4cfd9-343b-6dee-00a5-48aa2f730b4b.htm" />
+    <HelpKINode Title="events" Url="html/539eec15-5516-c9ae-938d-9789d624e0aa.htm" />
+    <HelpKINode Title="methods" Url="html/fd96c1b4-7bac-3baf-9f7e-7d68dadccf70.htm" />
+    <HelpKINode Title="properties" Url="html/164e2eb4-cdb2-8a15-c71b-cd304bec8fdf.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BaseWTDevice.AdjustNominalSignal method" Url="html/9fb0da78-fd3b-1705-04ee-e05aa4dd4502.htm" />
+  <HelpKINode Title="BaseWTDevice.AdjustNominalSignalWithCalibrationWeight method" Url="html/30246288-4123-6c39-759d-897e83592903.htm" />
+  <HelpKINode Title="BaseWTDevice.AdjustZeroSignal method" Url="html/b4e96822-d8e0-ecb9-6a74-3224082df559.htm" />
+  <HelpKINode Title="BaseWTDevice.ApplicationMode property" Url="html/fb62be74-723a-2fe8-ca02-00f34ae73154.htm" />
+  <HelpKINode Title="BaseWTDevice.BaseWTDevice constructor" Url="html/e1d4cfd9-343b-6dee-00a5-48aa2f730b4b.htm" />
+  <HelpKINode Title="BaseWTDevice.CalculateAdjustment method" Url="html/b92243db-d534-2b53-cd9d-c53903ec60e1.htm" />
+  <HelpKINode Title="BaseWTDevice.CalibrationWeight property" Url="html/f84f1690-30cb-44a5-b1a5-bd75e792ad9c.htm" />
+  <HelpKINode Title="BaseWTDevice.Connect method" Url="html/3ad563b5-2ea6-37f1-21d3-8de7db1a5fab.htm" />
+  <HelpKINode Title="BaseWTDevice.Connection property" Url="html/94d07cb8-b6a8-075f-5629-276d38105857.htm" />
+  <HelpKINode Title="BaseWTDevice.ConnectionType property" Url="html/35fcbd7b-b49b-9df7-a52b-5a92daf8818e.htm" />
+  <HelpKINode Title="BaseWTDevice.Disconnect method" Url="html/2f62b060-855e-4f10-c727-b221ff03c707.htm" />
+  <HelpKINode Title="BaseWTDevice.FirmwareVersion property" Url="html/7ec26133-74ff-ec8b-26f0-1b7a410b7191.htm" />
+  <HelpKINode Title="BaseWTDevice.GeneralScaleError property" Url="html/58529cfe-ad89-4a77-d3d7-4a7d691d78c1.htm" />
+  <HelpKINode Title="BaseWTDevice.Identification property" Url="html/14991f56-890a-370b-fc92-1b2af9e50fa7.htm" />
+  <HelpKINode Title="BaseWTDevice.IsConnected property" Url="html/85db322f-6250-d891-1d89-b9f9011b54c8.htm" />
+  <HelpKINode Title="BaseWTDevice.ManualTareValue property" Url="html/12e694ed-b969-7963-4027-785421a24e53.htm" />
+  <HelpKINode Title="BaseWTDevice.MaximumCapacity property" Url="html/6012cc12-1afc-cf86-ec3d-fa5884a9ccfa.htm" />
+  <HelpKINode Title="BaseWTDevice.NominalSignal property" Url="html/d79613f7-7a5c-984d-b3cd-abb7d02de237.htm" />
+  <HelpKINode Title="BaseWTDevice.PrintableWeight property" Url="html/626f0216-dc0d-f462-f981-198683e4623e.htm" />
+  <HelpKINode Title="BaseWTDevice.ProcessData property" Url="html/0814a5aa-8880-077c-5fe9-fcaad754c67d.htm" />
+  <HelpKINode Title="BaseWTDevice.ProcessDataInterval property" Url="html/bc240cb0-7b68-061d-4cfe-6b97bf726463.htm" />
+  <HelpKINode Title="BaseWTDevice.ProcessDataReceived event" Url="html/10c25e44-a26e-b395-ae56-f3a92b26c8ee.htm" />
+  <HelpKINode Title="BaseWTDevice.RecordWeight method" Url="html/5f01a764-45d6-185e-ed13-b1f275faa0de.htm" />
+  <HelpKINode Title="BaseWTDevice.Restart method" Url="html/3c122d35-0d6c-0dcc-4b2e-0a8ca6c827a5.htm" />
+  <HelpKINode Title="BaseWTDevice.RestoreAllDefaultParameters method" Url="html/bcd37b17-f04a-a9db-5cc9-442a3404a62b.htm" />
+  <HelpKINode Title="BaseWTDevice.SaveAllParameters method" Url="html/32ebd986-039e-b400-895f-7aeb129a51e2.htm" />
+  <HelpKINode Title="BaseWTDevice.ScaleRange property" Url="html/9383890c-a1a1-6259-875f-a38f923d5e6f.htm" />
+  <HelpKINode Title="BaseWTDevice.SerialNumber property" Url="html/fbc244c7-3022-3ee7-7575-3ae5a2254686.htm" />
+  <HelpKINode Title="BaseWTDevice.SetGross method" Url="html/e1fb61ac-ec18-9671-98cd-e5104c87276a.htm" />
+  <HelpKINode Title="BaseWTDevice.Stop method" Url="html/ae26bb3c-1995-936d-953d-98d452e80fe7.htm" />
+  <HelpKINode Title="BaseWTDevice.Tare method" Url="html/2e4458a1-ba8f-ca07-f818-0559de71b1ee.htm" />
+  <HelpKINode Title="BaseWTDevice.TareManually method" Url="html/0880596b-f56c-0a58-bc19-89c826bff49d.htm" />
+  <HelpKINode Title="BaseWTDevice.TareMode property" Url="html/e01ee32c-40c5-39ea-a301-cde77bde2e56.htm" />
+  <HelpKINode Title="BaseWTDevice.Unit property" Url="html/eabe797d-5e05-223a-5751-6ab5509523d2.htm" />
+  <HelpKINode Title="BaseWTDevice.Weight property" Url="html/bfad55fa-a630-92f9-0c00-6cf693a2d4e0.htm" />
+  <HelpKINode Title="BaseWTDevice.WeightStable property" Url="html/85be84a2-0866-b980-ce2b-46081dca3996.htm" />
+  <HelpKINode Title="BaseWTDevice.Zero method" Url="html/fbc9ea66-4def-b95f-cc4f-2db15ab82545.htm" />
+  <HelpKINode Title="BaseWTDevice.ZeroSignal property" Url="html/d530a6f0-93cf-cc2a-c26e-5e617f5d84bb.htm" />
+  <HelpKINode Title="BaseWTXDevice class">
+    <HelpKINode Title="BaseWTXDevice Class" Url="html/4f176717-e24a-8ef8-b1a3-1b5bc7928188.htm" />
+    <HelpKINode Title="constructor" Url="html/bb263d00-01b2-13ee-3c96-5110f34d2727.htm" />
+    <HelpKINode Title="events" Url="html/8f7c4621-87e0-cb7e-1f06-8b156b66214a.htm" />
+    <HelpKINode Title="methods" Url="html/54511867-ff81-91cb-c6c5-5ef7149c8ef9.htm" />
+    <HelpKINode Title="properties" Url="html/ec3a6ee4-28f8-9823-11f3-e838a784e018.htm" />
+  </HelpKINode>
+  <HelpKINode Title="BaseWTXDevice.BaseWTXDevice constructor" Url="html/bb263d00-01b2-13ee-3c96-5110f34d2727.htm" />
+  <HelpKINode Title="BaseWTXDevice.DigitalIO property" Url="html/0ac33709-7d3d-9a1e-b0c2-1f764530b7e2.htm" />
+  <HelpKINode Title="BaseWTXDevice.LimitSwitch property" Url="html/e26e0a5a-18c0-fbb2-8a50-41797ce5fab5.htm" />
+  <HelpKINode Title="BelowLevel enumeration member" Url="html/145c9893-de50-972c-d875-be5e3b75f4b6.htm" />
+  <HelpKINode Title="BIT enumeration member" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="BreakFilling enumeration member" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+  <HelpKINode Title="BreakFilling method">
+    <HelpKINode Title="IDataFiller.BreakFilling Method " Url="html/72503a32-4378-9429-4896-5ccd279dfd64.htm" />
+    <HelpKINode Title="JetDataFiller.BreakFilling Method " Url="html/601b5846-21cb-b4ed-2697-f89dcc4278b6.htm" />
+    <HelpKINode Title="ModbusDataFiller.BreakFilling Method " Url="html/93b15a7b-95cf-2516-3297-1515a23c8995.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CalculateAdjustment method">
+    <HelpKINode Title="BaseWTDevice.CalculateAdjustment Method " Url="html/b92243db-d534-2b53-cd9d-c53903ec60e1.htm" />
+    <HelpKINode Title="DSEJet.CalculateAdjustment Method " Url="html/a0090302-5b4d-d308-d385-ea9b77fdeb98.htm" />
+    <HelpKINode Title="WTXJet.CalculateAdjustment Method " Url="html/5c256deb-2b00-8d11-9357-24ab4bae2173.htm" />
+    <HelpKINode Title="WTXModbus.CalculateAdjustment Method " Url="html/9031c1f0-f16b-340a-e0e7-162d78bcf91b.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CalibrationWeight property">
+    <HelpKINode Title="BaseWTDevice.CalibrationWeight Property " Url="html/f84f1690-30cb-44a5-b1a5-bd75e792ad9c.htm" />
+    <HelpKINode Title="DSEJet.CalibrationWeight Property " Url="html/64971642-04ec-1823-bd0c-5576efff6134.htm" />
+    <HelpKINode Title="WTXJet.CalibrationWeight Property " Url="html/62bc7879-5a6a-b50f-5182-597c172b658a.htm" />
+    <HelpKINode Title="WTXModbus.CalibrationWeight Property " Url="html/cdf60bed-a156-9230-12b1-f662a2a71ce2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CenterOfZero property">
+    <HelpKINode Title="IProcessData.CenterOfZero Property " Url="html/1add8cd6-f8f2-c49f-87dc-abbc74dad440.htm" />
+    <HelpKINode Title="JetProcessData.CenterOfZero Property " Url="html/e047a955-7cb0-bc3a-637e-c94a49a66114.htm" />
+    <HelpKINode Title="ModbusDataProcess.CenterOfZero Property " Url="html/74177abc-f210-6bc2-440a-c089c61b8ad9.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Checkweigher enumeration member" Url="html/13de62fb-e77b-7604-effd-c81a89402c6d.htm" />
+  <HelpKINode Title="ClearFillingResult method">
+    <HelpKINode Title="IDataFiller.ClearFillingResult Method " Url="html/f56b2e26-4108-0ad6-587c-c24a09e406cb.htm" />
+    <HelpKINode Title="JetDataFiller.ClearFillingResult Method " Url="html/b4801103-162f-6bfe-2b57-c792bcb0cdfc.htm" />
+    <HelpKINode Title="ModbusDataFiller.ClearFillingResult Method " Url="html/5d192871-b9be-3823-e267-fed0ff8245f9.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CoarseFlow enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="CoarseFlow property">
+    <HelpKINode Title="IDataFiller.CoarseFlow Property " Url="html/fd39c829-bd30-3a29-3d3a-4fb6fd74cf57.htm" />
+    <HelpKINode Title="JetDataFiller.CoarseFlow Property " Url="html/102b05f9-8d53-3883-ff43-2bcd34f43d26.htm" />
+    <HelpKINode Title="ModbusDataFiller.CoarseFlow Property " Url="html/6bb51e4b-df93-befc-9c42-629596e85ca6.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CoarseFlowCutOffLevel property">
+    <HelpKINode Title="IDataFiller.CoarseFlowCutOffLevel Property " Url="html/e3235d13-66cf-a8e4-2f2f-a22c77ecc1d7.htm" />
+    <HelpKINode Title="JetDataFiller.CoarseFlowCutOffLevel Property " Url="html/fce9c6fd-42d9-e8d8-3988-4e72cc9b2782.htm" />
+    <HelpKINode Title="ModbusDataFiller.CoarseFlowCutOffLevel Property " Url="html/bc712962-5e9a-6059-0379-2a834571d665.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CoarseFlowCutOffPoint property">
+    <HelpKINode Title="JetDataFiller.CoarseFlowCutOffPoint Property " Url="html/8371eef6-21be-c025-7c49-74b2f5e2ceeb.htm" />
+    <HelpKINode Title="ModbusDataFiller.CoarseFlowCutOffPoint Property " Url="html/44b3015c-3a39-2192-0675-25ce87c8251c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CoarseFlowMonitoring property">
+    <HelpKINode Title="IDataFiller.CoarseFlowMonitoring Property " Url="html/084c79ef-d49b-cbd2-a068-243f470335df.htm" />
+    <HelpKINode Title="JetDataFiller.CoarseFlowMonitoring Property " Url="html/a236710f-4d70-ddc6-8d27-0a248edf29ab.htm" />
+    <HelpKINode Title="ModbusDataFiller.CoarseFlowMonitoring Property " Url="html/c80cf282-7695-af65-ff5b-6c50108e1d47.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CoarseFlowMonitoringTime property">
+    <HelpKINode Title="IDataFiller.CoarseFlowMonitoringTime Property " Url="html/41be0af2-aea9-7698-e7fb-e1771971bf40.htm" />
+    <HelpKINode Title="JetDataFiller.CoarseFlowMonitoringTime Property " Url="html/7032f9ff-a239-67d1-4dd6-5bc1fd56ba3f.htm" />
+    <HelpKINode Title="ModbusDataFiller.CoarseFlowMonitoringTime Property " Url="html/66490b3b-2b30-8ad9-4c02-1db5057fe5c7.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CoarseLockoutTime property">
+    <HelpKINode Title="IDataFiller.CoarseLockoutTime Property " Url="html/d0afaf28-0da7-b792-4a98-6acc80a3592a.htm" />
+    <HelpKINode Title="JetDataFiller.CoarseLockoutTime Property " Url="html/c4764535-1821-a993-7a21-ae8308603ce9.htm" />
+    <HelpKINode Title="ModbusDataFiller.CoarseLockoutTime Property " Url="html/0bca4512-6c34-d376-fed5-6d65215fe772.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CommunicationLog event">
+    <HelpKINode Title="DSEJetConnection.CommunicationLog Event" Url="html/56af853d-8b03-2c7d-4be3-1080e865bfab.htm" />
+    <HelpKINode Title="INetConnection.CommunicationLog Event" Url="html/6b17b9e6-4b9d-e3d7-38db-0d7fbf0caa2b.htm" />
+    <HelpKINode Title="JetBusConnection.CommunicationLog Event" Url="html/09cc3015-fe91-d61a-aa78-f72da3b10d90.htm" />
+    <HelpKINode Title="ModbusTCPConnection.CommunicationLog Event" Url="html/09d089dc-f6bb-ba09-bd66-36ce9c21795e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Connect method">
+    <HelpKINode Title="BaseWTDevice.Connect Method " Url="html/3ad563b5-2ea6-37f1-21d3-8de7db1a5fab.htm" />
+    <HelpKINode Title="DSEJet.Connect Method " Url="html/e1249339-f63f-1e6f-02e4-da6b75987693.htm" />
+    <HelpKINode Title="DSEJetConnection.Connect Method " Url="html/0cab4385-bb2f-df4c-8687-e258968e3f8e.htm" />
+    <HelpKINode Title="INetConnection.Connect Method " Url="html/5d4305b9-a110-c779-6a7e-8e57dec91c24.htm" />
+    <HelpKINode Title="JetBusConnection.Connect Method " Url="html/b6b8076f-dc52-4cc1-b3c0-4b8d5d943056.htm" />
+    <HelpKINode Title="ModbusTCPConnection.Connect Method " Url="html/642c87c7-580f-6f07-3581-ce8486135f1c.htm" />
+    <HelpKINode Title="WTXJet.Connect Method " Url="html/a7162e64-293d-8574-12c1-57242fdb0593.htm" />
+    <HelpKINode Title="WTXModbus.Connect Method " Url="html/640b9c5e-3468-17c7-6a35-26d1e9164b89.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Connection property" Url="html/94d07cb8-b6a8-075f-5629-276d38105857.htm" />
+  <HelpKINode Title="ConnectionType enumeration" Url="html/ddca1f9a-e45a-a78d-a373-63ce1fd51d5b.htm" />
+  <HelpKINode Title="ConnectionType property">
+    <HelpKINode Title="BaseWTDevice.ConnectionType Property " Url="html/35fcbd7b-b49b-9df7-a52b-5a92daf8818e.htm" />
+    <HelpKINode Title="DSEJet.ConnectionType Property " Url="html/417f3f55-0583-b533-edbe-4fd8d90acd40.htm" />
+    <HelpKINode Title="DSEJetConnection.ConnectionType Property " Url="html/6a543204-cd93-163d-4c9f-cde80e48e02b.htm" />
+    <HelpKINode Title="INetConnection.ConnectionType Property " Url="html/52eace73-44af-45d1-643b-9e7c77f406ee.htm" />
+    <HelpKINode Title="JetBusConnection.ConnectionType Property " Url="html/f08f4a0f-5557-6f8d-bfc8-dc685aa3cec7.htm" />
+    <HelpKINode Title="ModbusTCPConnection.ConnectionType Property " Url="html/4f794c22-f297-926a-701c-5dbc18946ad5.htm" />
+    <HelpKINode Title="WTXJet.ConnectionType Property " Url="html/873302eb-4c36-bae0-00b3-ac8ed684edda.htm" />
+    <HelpKINode Title="WTXModbus.ConnectionType Property " Url="html/da84ff9b-788f-119f-6bae-7dc0abebadf7.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CurrentCoarseFlowTime property">
+    <HelpKINode Title="IDataFiller.CurrentCoarseFlowTime Property " Url="html/537d648d-39f2-664a-9b00-4b2d94ed70c2.htm" />
+    <HelpKINode Title="JetDataFiller.CurrentCoarseFlowTime Property " Url="html/0aca2a91-fda9-ddf3-5286-62b349ac52ce.htm" />
+    <HelpKINode Title="ModbusDataFiller.CurrentCoarseFlowTime Property " Url="html/f1639551-c5d4-57e2-fc65-8b5b04aa9c1b.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CurrentDosingTime property">
+    <HelpKINode Title="IDataFiller.CurrentDosingTime Property " Url="html/3ea883f2-51f4-aff7-0656-eb002df7d2d9.htm" />
+    <HelpKINode Title="JetDataFiller.CurrentDosingTime Property " Url="html/f54019dc-83d4-5074-4f23-957d9814b75b.htm" />
+    <HelpKINode Title="ModbusDataFiller.CurrentDosingTime Property " Url="html/7611b033-4737-7a1f-a1fb-6e25863c07a7.htm" />
+  </HelpKINode>
+  <HelpKINode Title="CurrentFineFlowTime property">
+    <HelpKINode Title="IDataFiller.CurrentFineFlowTime Property " Url="html/7d9dacf6-39bb-f2b4-ae2d-099cc7d3688e.htm" />
+    <HelpKINode Title="JetDataFiller.CurrentFineFlowTime Property " Url="html/990fb93b-5475-67a4-da2b-631c5e42ee09.htm" />
+    <HelpKINode Title="ModbusDataFiller.CurrentFineFlowTime Property " Url="html/95942d19-bc37-5542-9a4b-5b587311f1b5.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DataRate property">
+    <HelpKINode Title="DSEJet.DataRate Property " Url="html/5a054aab-e146-5a15-0bfe-3d338062e6ba.htm" />
+    <HelpKINode Title="IDataDigitalFilter.DataRate Property " Url="html/1de093ae-7b69-1e0e-507b-5c908a692e9f.htm" />
+    <HelpKINode Title="WTXJet.DataRate Property " Url="html/beca6246-d368-0bdd-ef8a-7f7c94701bf3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DataType enumeration" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="Date property" Url="html/3f2917c9-68cf-aeac-8f7f-645b2169976e.htm" />
+  <HelpKINode Title="DateTime property">
+    <HelpKINode Title="DSEJet.DateTime Property " Url="html/a605c454-8b36-7ea5-4f95-690b9fc20198.htm" />
+    <HelpKINode Title="WTXJet.DateTime Property " Url="html/b09b7277-f609-e5da-4611-494e4a205e39.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Decimals property">
+    <HelpKINode Title="IProcessData.Decimals Property " Url="html/13068a85-008a-4b7a-685d-af296e694202.htm" />
+    <HelpKINode Title="JetProcessData.Decimals Property " Url="html/9b4c145f-5da9-3105-32db-08e151941a1d.htm" />
+    <HelpKINode Title="ModbusDataProcess.Decimals Property " Url="html/f463e767-de61-b2a2-d2eb-5f55a95953c3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Delay1Dosing property">
+    <HelpKINode Title="IDataFillerExtended.Delay1Dosing Property " Url="html/43a2a67a-250a-2d3b-9972-01b5ca85ca1c.htm" />
+    <HelpKINode Title="JetDataFillerExtended.Delay1Dosing Property " Url="html/cf5fda6b-b386-a5b2-9046-b4fb3be9cb7f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Delay2Dosing property">
+    <HelpKINode Title="IDataFillerExtended.Delay2Dosing Property " Url="html/e0e1fd9e-2453-ba62-a65d-b4882163a1f6.htm" />
+    <HelpKINode Title="JetDataFillerExtended.Delay2Dosing Property " Url="html/8525eac7-c3c4-73f3-8b3b-48d1bb0d6179.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DelayTimeAfterFilling property">
+    <HelpKINode Title="IDataFiller.DelayTimeAfterFilling Property " Url="html/a9b64f28-5a13-d320-262f-1f516d0633bb.htm" />
+    <HelpKINode Title="JetDataFiller.DelayTimeAfterFilling Property " Url="html/e334a931-94b7-ebb0-27f7-399887abe948.htm" />
+    <HelpKINode Title="ModbusDataFiller.DelayTimeAfterFilling Property " Url="html/0e1b1d34-9399-4a6c-4c8b-c32f9e3c1669.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DeviceStatus enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="DigitalIO property">
+    <HelpKINode Title="BaseWTXDevice.DigitalIO Property " Url="html/0ac33709-7d3d-9a1e-b0c2-1f764530b7e2.htm" />
+    <HelpKINode Title="WTXJet.DigitalIO Property " Url="html/f1329613-e8f1-1ac9-a64d-9facad447d6f.htm" />
+    <HelpKINode Title="WTXModbus.DigitalIO Property " Url="html/8d791cf6-76a6-5dd7-d20e-9a1b1ca90db3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DigitToDouble method" Url="html/60e1b163-b319-e503-af12-9680b72183f1.htm" />
+  <HelpKINode Title="DischargeTime property">
+    <HelpKINode Title="IDataFillerExtended.DischargeTime Property " Url="html/0429ea93-ab65-1a44-7831-5bb9522df90d.htm" />
+    <HelpKINode Title="JetDataFillerExtended.DischargeTime Property " Url="html/1c59615a-910b-c470-af3a-86526c9200de.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Disconnect method">
+    <HelpKINode Title="BaseWTDevice.Disconnect Method " Url="html/2f62b060-855e-4f10-c727-b221ff03c707.htm" />
+    <HelpKINode Title="DSEJet.Disconnect Method " Url="html/1b076394-bc74-9b4f-a8ef-a98903e1a675.htm" />
+    <HelpKINode Title="DSEJetConnection.Disconnect Method " Url="html/d7903e6e-9d0d-d81d-69c4-48d6b85b4d25.htm" />
+    <HelpKINode Title="INetConnection.Disconnect Method " Url="html/71010ed2-30c7-b6a3-5de7-1961ef130512.htm" />
+    <HelpKINode Title="JetBusConnection.Disconnect Method " Url="html/f0db066d-f4cf-f567-0ed7-8c9ec272e18a.htm" />
+    <HelpKINode Title="WTXJet.Disconnect Method " Url="html/2a60c1f5-222d-b604-60e4-eb96d472ee7e.htm" />
+    <HelpKINode Title="WTXModbus.Disconnect Method " Url="html/1ed7ead3-3033-9454-9190-2ac8149e2df4.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DL1DL2 enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="DoubleToDigit method" Url="html/c2445090-72c6-7e6a-9129-4246afc445bc.htm" />
+  <HelpKINode Title="DSEJet class">
+    <HelpKINode Title="DSEJet Class" Url="html/79ee3c86-aae5-df04-f198-7776ef748ebb.htm" />
+    <HelpKINode Title="constructor" Url="html/7d306a18-6d10-9235-2ba5-fe0a7d6c5b67.htm" />
+    <HelpKINode Title="events" Url="html/bf149c11-4386-8345-fcba-d284d9162b2f.htm" />
+    <HelpKINode Title="methods" Url="html/6c343052-95e8-1701-b4cd-96868f978f6b.htm" />
+    <HelpKINode Title="properties" Url="html/db5343f6-5882-38c5-86f6-70cb50c7173f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DSEJet enumeration member" Url="html/ddca1f9a-e45a-a78d-a373-63ce1fd51d5b.htm" />
+  <HelpKINode Title="DSEJet.AdjustNominalSignal method" Url="html/e4b9c355-63e5-38e1-7078-c98c04688c54.htm" />
+  <HelpKINode Title="DSEJet.AdjustNominalSignalWithCalibrationWeight method" Url="html/b8670451-d8e9-05ae-2769-6bc3049477b6.htm" />
+  <HelpKINode Title="DSEJet.AdjustZeroSignal method" Url="html/817c5b6b-75a1-eb97-e66c-52372ed815d9.htm" />
+  <HelpKINode Title="DSEJet.ApplicationMode property" Url="html/097ac351-596c-35ee-860d-0c183283525e.htm" />
+  <HelpKINode Title="DSEJet.CalculateAdjustment method" Url="html/a0090302-5b4d-d308-d385-ea9b77fdeb98.htm" />
+  <HelpKINode Title="DSEJet.CalibrationWeight property" Url="html/64971642-04ec-1823-bd0c-5576efff6134.htm" />
+  <HelpKINode Title="DSEJet.Connect method" Url="html/e1249339-f63f-1e6f-02e4-da6b75987693.htm" />
+  <HelpKINode Title="DSEJet.ConnectionType property" Url="html/417f3f55-0583-b533-edbe-4fd8d90acd40.htm" />
+  <HelpKINode Title="DSEJet.DataRate property" Url="html/5a054aab-e146-5a15-0bfe-3d338062e6ba.htm" />
+  <HelpKINode Title="DSEJet.DateTime property" Url="html/a605c454-8b36-7ea5-4f95-690b9fc20198.htm" />
+  <HelpKINode Title="DSEJet.Disconnect method" Url="html/1b076394-bc74-9b4f-a8ef-a98903e1a675.htm" />
+  <HelpKINode Title="DSEJet.DSEJet constructor" Url="html/7d306a18-6d10-9235-2ba5-fe0a7d6c5b67.htm" />
+  <HelpKINode Title="DSEJet.FirmwareVersion property" Url="html/4121789e-24c0-8f3a-3930-2c4514e2ad27.htm" />
+  <HelpKINode Title="DSEJet.GeneralScaleError property" Url="html/f555acf9-3254-4246-1753-7d5b0054180e.htm" />
+  <HelpKINode Title="DSEJet.Identification property" Url="html/f45778d9-3f4e-be47-bf03-34fc783dafd3.htm" />
+  <HelpKINode Title="DSEJet.IsConnected property" Url="html/b15b7ff1-7621-e04c-f048-44e13aba35f1.htm" />
+  <HelpKINode Title="DSEJet.LowPasCutOffFrequency property" Url="html/04c54bbb-9bab-f424-7801-53bee299a681.htm" />
+  <HelpKINode Title="DSEJet.LowPassFilterMode property" Url="html/caed62b7-7f82-47c5-0471-8125f46bf93a.htm" />
+  <HelpKINode Title="DSEJet.LowPassFilterOrder property" Url="html/9a70640d-c8b5-511f-f8da-a38385c3c24b.htm" />
+  <HelpKINode Title="DSEJet.ManualTareValue property" Url="html/6dd90511-b1d2-e690-6708-6b4185a38000.htm" />
+  <HelpKINode Title="DSEJet.MaximumCapacity property" Url="html/14ac50d3-f36d-6c31-d1af-4c92b820b3dd.htm" />
+  <HelpKINode Title="DSEJet.MaximumZeroingTime property" Url="html/e146cf7a-f067-98a7-98c4-756c9ed37add.htm" />
+  <HelpKINode Title="DSEJet.MultiScaleLimit1 property" Url="html/72ac8ad8-61db-c45f-f172-0076296ebe8f.htm" />
+  <HelpKINode Title="DSEJet.MultiScaleLimit2 property" Url="html/5228da8b-979b-7881-faf1-fc91b2cb03cd.htm" />
+  <HelpKINode Title="DSEJet.NominalSignal property" Url="html/a53f4e33-8b79-4ba8-9392-a0c62e6b2389.htm" />
+  <HelpKINode Title="DSEJet.PrintableWeight property" Url="html/6f1f77ed-0bf4-59a8-30a9-276053368367.htm" />
+  <HelpKINode Title="DSEJet.ProcessDataReceived event" Url="html/e4e73f23-1cd6-372e-ae11-4e20dffd11dd.htm" />
+  <HelpKINode Title="DSEJet.RecordWeight method" Url="html/edeb02d9-12a8-a45c-c263-737a80081f4d.htm" />
+  <HelpKINode Title="DSEJet.RestoreAllDefaultParameters method" Url="html/3493dd03-6ebb-c7e3-53b7-5da1f39eab88.htm" />
+  <HelpKINode Title="DSEJet.SaveAllParameters method" Url="html/02cb17e8-5aa0-b159-3fd6-414b5afc0b90.htm" />
+  <HelpKINode Title="DSEJet.ScaleRange property" Url="html/3578a272-35ff-19fc-1b0c-9fb64bfcf1dc.htm" />
+  <HelpKINode Title="DSEJet.ScaleRangeMode property" Url="html/cd10ca5e-6221-5dfd-76f7-aeb0cc53229b.htm" />
+  <HelpKINode Title="DSEJet.SerialNumber property" Url="html/e602a004-b3ef-4318-5a8b-7a67cb806a51.htm" />
+  <HelpKINode Title="DSEJet.SetGross method" Url="html/eb8757ad-20cf-513a-6aa6-3d03042e60ca.htm" />
+  <HelpKINode Title="DSEJet.Tare method" Url="html/cc689c57-8dc7-5c3a-3874-523f91f8db19.htm" />
+  <HelpKINode Title="DSEJet.TareManually method" Url="html/dbd63e18-6c6c-23ea-06fe-1470b9e5cfa7.htm" />
+  <HelpKINode Title="DSEJet.TareMode property" Url="html/a6716c1f-f6c7-6d3b-3389-9ce8b219a37a.htm" />
+  <HelpKINode Title="DSEJet.Unit property" Url="html/16798bc3-9482-283f-ca29-d3af74e33495.htm" />
+  <HelpKINode Title="DSEJet.Weight property" Url="html/529350a0-f4ae-2dc1-1bb0-75a93cfc4a92.htm" />
+  <HelpKINode Title="DSEJet.WeightMovementDetection property" Url="html/b4d98e3c-9f30-704a-f73a-cb0a275cb8b2.htm" />
+  <HelpKINode Title="DSEJet.WeightStable property" Url="html/3ea74766-3043-11d2-03a9-25a9e95c5c39.htm" />
+  <HelpKINode Title="DSEJet.WeightStep property" Url="html/1d902b6e-5988-c1d3-624e-9229b018be28.htm" />
+  <HelpKINode Title="DSEJet.Zero method" Url="html/3d7e5cdc-071a-8e0d-891b-235d1e1aacab.htm" />
+  <HelpKINode Title="DSEJet.ZeroSignal property" Url="html/96a433df-c960-5070-b99c-cab9b89e5d06.htm" />
+  <HelpKINode Title="DSEJetConnection class">
+    <HelpKINode Title="DSEJetConnection Class" Url="html/3bf4d4f4-0a83-1d80-23e8-703d9de292fc.htm" />
+    <HelpKINode Title="constructor" Url="html/7bd4dfaf-1ef1-a6a4-4ee9-9ce43910f9f5.htm" />
+    <HelpKINode Title="events" Url="html/61f08390-69d5-728c-96b9-f889abd44892.htm" />
+    <HelpKINode Title="methods" Url="html/09d6b2cc-1e5c-fba1-69f8-8c1db42c3b35.htm" />
+    <HelpKINode Title="properties" Url="html/9743415c-9a63-3c59-49f8-f3756dece1b5.htm" />
+  </HelpKINode>
+  <HelpKINode Title="DSEJetConnection.CommunicationLog event" Url="html/56af853d-8b03-2c7d-4be3-1080e865bfab.htm" />
+  <HelpKINode Title="DSEJetConnection.Connect method" Url="html/0cab4385-bb2f-df4c-8687-e258968e3f8e.htm" />
+  <HelpKINode Title="DSEJetConnection.ConnectionType property" Url="html/6a543204-cd93-163d-4c9f-cde80e48e02b.htm" />
+  <HelpKINode Title="DSEJetConnection.Disconnect method" Url="html/d7903e6e-9d0d-d81d-69c4-48d6b85b4d25.htm" />
+  <HelpKINode Title="DSEJetConnection.DSEJetConnection constructor" Url="html/7bd4dfaf-1ef1-a6a4-4ee9-9ce43910f9f5.htm" />
+  <HelpKINode Title="DSEJetConnection.IpAddress property" Url="html/246bcf01-2009-6e48-3e1a-4f4dcb3fa10f.htm" />
+  <HelpKINode Title="DSEJetConnection.IsConnected property" Url="html/4ce0da9b-3a75-7a49-0ce0-1b578ff993db.htm" />
+  <HelpKINode Title="DSEJetConnection.UpdateData event" Url="html/6b032158-e9f8-d9f8-23c5-0f383e22de61.htm" />
+  <HelpKINode Title="Empty enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="Emptying property">
+    <HelpKINode Title="IDataFiller.Emptying Property " Url="html/d9f800e8-cd90-282d-9658-376007059a82.htm" />
+    <HelpKINode Title="JetDataFiller.Emptying Property " Url="html/15f8c415-ab04-ae1d-3076-937f4bba2e91.htm" />
+    <HelpKINode Title="ModbusDataFiller.Emptying Property " Url="html/8ba52c28-fd06-7fd8-8261-e0c2756c4222.htm" />
+  </HelpKINode>
+  <HelpKINode Title="EmptyingMode property">
+    <HelpKINode Title="IDataFiller.EmptyingMode Property " Url="html/1ad8d626-b47a-3feb-7490-5f225b6ecc59.htm" />
+    <HelpKINode Title="JetDataFiller.EmptyingMode Property " Url="html/5b8d6ef4-c3da-df4c-174b-dc8ddd436675.htm" />
+    <HelpKINode Title="ModbusDataFiller.EmptyingMode Property " Url="html/7a5c6af4-6c28-62a8-8953-7818ea2ee1d8.htm" />
+  </HelpKINode>
+  <HelpKINode Title="EmptyWeight property">
+    <HelpKINode Title="IDataFiller.EmptyWeight Property " Url="html/28e79fe4-bbf9-8ffb-20a1-82fc9c4fa326.htm" />
+    <HelpKINode Title="JetDataFiller.EmptyWeight Property " Url="html/6c4dc4ed-8a0c-e1fe-b96f-d9b772e80117.htm" />
+    <HelpKINode Title="ModbusDataFiller.EmptyWeight Property " Url="html/11e0e7f2-37a7-0746-f346-16863bd86625.htm" />
+  </HelpKINode>
+  <HelpKINode Title="EmptyWeightBreak property">
+    <HelpKINode Title="IDataFillerExtended.EmptyWeightBreak Property " Url="html/d9ecbfb0-4f0d-50b0-fd14-7162284696cc.htm" />
+    <HelpKINode Title="JetDataFillerExtended.EmptyWeightBreak Property " Url="html/22ca8f61-51ff-e647-0019-71bb63b3b5dc.htm" />
+  </HelpKINode>
+  <HelpKINode Title="EmptyWeightTolerance property">
+    <HelpKINode Title="IDataFillerExtended.EmptyWeightTolerance Property " Url="html/dca587db-ed28-8949-ef23-adc0f11a1946.htm" />
+    <HelpKINode Title="JetDataFillerExtended.EmptyWeightTolerance Property " Url="html/b3a24022-2e18-6b4a-d03f-dea4ca142202.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ErrorCode property">
+    <HelpKINode Title="JetBusException.ErrorCode Property " Url="html/5849ddf8-cf96-271e-bc48-bc058b1d9e77.htm" />
+    <HelpKINode Title="WTXJet.ErrorCode Property " Url="html/3805902e-4754-5d74-ea94-573fc197a74a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Filler enumeration member" Url="html/13de62fb-e77b-7604-effd-c81a89402c6d.htm" />
+  <HelpKINode Title="Filler property">
+    <HelpKINode Title="WTXJet.Filler Property " Url="html/00fabade-f30f-18e6-b553-837087d015e2.htm" />
+    <HelpKINode Title="WTXModbus.Filler Property " Url="html/19d2b617-3575-70b8-5200-82ac625f9060.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FillingMode property">
+    <HelpKINode Title="IDataFiller.FillingMode Property " Url="html/95b13522-47f6-0ea7-d4c2-30295caf3f6f.htm" />
+    <HelpKINode Title="JetDataFiller.FillingMode Property " Url="html/1e157f9e-e0ca-0135-f88b-01c2a7fff001.htm" />
+    <HelpKINode Title="ModbusDataFiller.FillingMode Property " Url="html/37bf4d06-38a0-9c97-f1e5-8265337d50de.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FillingProcessStatus property">
+    <HelpKINode Title="IDataFiller.FillingProcessStatus Property " Url="html/0d1febd8-ea52-d4d2-c85d-123c3c75c39d.htm" />
+    <HelpKINode Title="JetDataFiller.FillingProcessStatus Property " Url="html/375b838b-f7c4-037e-6efa-69dd929d95b0.htm" />
+    <HelpKINode Title="ModbusDataFiller.FillingProcessStatus Property " Url="html/74dc837b-2613-f4f0-99c7-22178cdba29e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FillingResult property">
+    <HelpKINode Title="IDataFiller.FillingResult Property " Url="html/47450f42-31c9-1e73-aba6-c2ec13a3d21b.htm" />
+    <HelpKINode Title="JetDataFiller.FillingResult Property " Url="html/30cb7dec-0e6a-60fc-161e-42448fb3330f.htm" />
+    <HelpKINode Title="ModbusDataFiller.FillingResult Property " Url="html/591c5088-2c19-e3ff-e16c-99849d2fa985.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FillingResultCount property">
+    <HelpKINode Title="IDataFiller.FillingResultCount Property " Url="html/71d5f6d2-d197-abfd-a961-36e66b26fd51.htm" />
+    <HelpKINode Title="JetDataFiller.FillingResultCount Property " Url="html/d4fe7640-391b-bf15-e0a4-39ef587ff8a3.htm" />
+    <HelpKINode Title="ModbusDataFiller.FillingResultCount Property " Url="html/57cd3b4c-45ba-827f-4f4c-b31464a1fdc2.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FillingResultMeanValue property">
+    <HelpKINode Title="IDataFiller.FillingResultMeanValue Property " Url="html/9fecacf5-4abf-6df4-2c29-a5a59ed32ddc.htm" />
+    <HelpKINode Title="JetDataFiller.FillingResultMeanValue Property " Url="html/9d4cf5d9-ac3c-bf2f-be1f-8e1d3d222e54.htm" />
+    <HelpKINode Title="ModbusDataFiller.FillingResultMeanValue Property " Url="html/76f7a386-c6f3-8135-a708-6b0c0c93ad1f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FillingResultStandardDeviation property">
+    <HelpKINode Title="IDataFiller.FillingResultStandardDeviation Property " Url="html/a934a598-db21-c320-e6ce-b72afc33cc69.htm" />
+    <HelpKINode Title="JetDataFiller.FillingResultStandardDeviation Property " Url="html/72deb470-da1c-d87e-165c-8a8ad4507b90.htm" />
+    <HelpKINode Title="ModbusDataFiller.FillingResultStandardDeviation Property " Url="html/e76fb660-62e2-0b45-002a-8966c62a7aad.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FillingResultTotalSum property">
+    <HelpKINode Title="IDataFiller.FillingResultTotalSum Property " Url="html/36b76964-9ec7-455e-8b16-9ad90bd7d255.htm" />
+    <HelpKINode Title="JetDataFiller.FillingResultTotalSum Property " Url="html/12920c96-2d9d-04fe-5131-f4a6eeb49ac7.htm" />
+    <HelpKINode Title="ModbusDataFiller.FillingResultTotalSum Property " Url="html/5704e198-9a74-46af-173d-9e97430aa88c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FineFlow enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="FineFlow property">
+    <HelpKINode Title="IDataFiller.FineFlow Property " Url="html/d672a6f8-a0ce-b265-984b-115d7f5bc4f4.htm" />
+    <HelpKINode Title="JetDataFiller.FineFlow Property " Url="html/36f7609c-dacb-ad19-e53d-b0cc95dc1c53.htm" />
+    <HelpKINode Title="ModbusDataFiller.FineFlow Property " Url="html/5f5f8a61-cc6f-69ca-866c-91b08512891a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FineFlowCutOffLevel property">
+    <HelpKINode Title="IDataFiller.FineFlowCutOffLevel Property " Url="html/64293095-dc71-e5e6-d2f5-1d2fbf5e2174.htm" />
+    <HelpKINode Title="JetDataFiller.FineFlowCutOffLevel Property " Url="html/053c95b7-5916-96eb-c89b-55e67753e9f8.htm" />
+    <HelpKINode Title="ModbusDataFiller.FineFlowCutOffLevel Property " Url="html/321052d4-9161-2d50-0b17-5a519896167a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FineFlowCutOffPoint property">
+    <HelpKINode Title="JetDataFiller.FineFlowCutOffPoint Property " Url="html/539aedab-b4c4-4c84-b779-7317b106ae5c.htm" />
+    <HelpKINode Title="ModbusDataFiller.FineFlowCutOffPoint Property " Url="html/7869fa3a-8e8c-4729-81fa-f56c6a75f1c6.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FineFlowMonitoring property">
+    <HelpKINode Title="IDataFiller.FineFlowMonitoring Property " Url="html/98e97d5b-2be3-c03b-bde2-527a62cfdd1c.htm" />
+    <HelpKINode Title="JetDataFiller.FineFlowMonitoring Property " Url="html/9effdb31-7bd2-14d8-9664-cb61eb4787a8.htm" />
+    <HelpKINode Title="ModbusDataFiller.FineFlowMonitoring Property " Url="html/617eb76b-bdb6-4757-40ac-55540f4e9f0a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FineFlowMonitoringTime property">
+    <HelpKINode Title="IDataFiller.FineFlowMonitoringTime Property " Url="html/57a9b380-8628-abb0-8e7b-61c84a1a11e8.htm" />
+    <HelpKINode Title="JetDataFiller.FineFlowMonitoringTime Property " Url="html/92aeefe5-7b3c-c45b-948b-820d3c99cac1.htm" />
+    <HelpKINode Title="ModbusDataFiller.FineFlowMonitoringTime Property " Url="html/877f8c66-14ac-6c54-fc8e-6887829e8d5b.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FineLockoutTime property">
+    <HelpKINode Title="IDataFiller.FineLockoutTime Property " Url="html/ac16ee6f-5c51-f4ca-f75d-d0017bf19c77.htm" />
+    <HelpKINode Title="JetDataFiller.FineLockoutTime Property " Url="html/aa12d2f7-ec63-abac-2e1e-9287b0f0d1bf.htm" />
+    <HelpKINode Title="ModbusDataFiller.FineLockoutTime Property " Url="html/56de4b54-5e94-1e03-3334-a3d4a4b67d3e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FirmwareDate property" Url="html/d61d68e7-0cfa-2c6a-1d24-c7f6c244f574.htm" />
+  <HelpKINode Title="FirmwareVersion property">
+    <HelpKINode Title="BaseWTDevice.FirmwareVersion Property " Url="html/7ec26133-74ff-ec8b-26f0-1b7a410b7191.htm" />
+    <HelpKINode Title="DSEJet.FirmwareVersion Property " Url="html/4121789e-24c0-8f3a-3930-2c4514e2ad27.htm" />
+    <HelpKINode Title="WTXJet.FirmwareVersion Property " Url="html/3f18fa41-b718-fe70-5876-5e5209ee4017.htm" />
+    <HelpKINode Title="WTXModbus.FirmwareVersion Property " Url="html/ec18779a-5f5b-16b9-5bda-385cf7c210e5.htm" />
+  </HelpKINode>
+  <HelpKINode Title="FlowError property">
+    <HelpKINode Title="IDataFiller.FlowError Property " Url="html/3af8b1bf-a4ca-64c2-ac4b-31c2bd6fb1bc.htm" />
+    <HelpKINode Title="JetDataFiller.FlowError Property " Url="html/5a9bac11-b9b3-85b0-2e0b-74af5c4aac73.htm" />
+    <HelpKINode Title="ModbusDataFiller.FlowError Property " Url="html/3b295131-a116-8085-9f57-f59d8aa54c17.htm" />
+  </HelpKINode>
+  <HelpKINode Title="GeneralScaleError property">
+    <HelpKINode Title="BaseWTDevice.GeneralScaleError Property " Url="html/58529cfe-ad89-4a77-d3d7-4a7d691d78c1.htm" />
+    <HelpKINode Title="DSEJet.GeneralScaleError Property " Url="html/f555acf9-3254-4246-1753-7d5b0054180e.htm" />
+    <HelpKINode Title="IProcessData.GeneralScaleError Property " Url="html/d7006adc-ec10-0a41-8caa-971843a5867d.htm" />
+    <HelpKINode Title="JetDataFiller.GeneralScaleError Property " Url="html/ccdb06ba-811d-5f42-cfe4-894f2abf5855.htm" />
+    <HelpKINode Title="JetProcessData.GeneralScaleError Property " Url="html/3fcbd7d1-6b6c-a9ed-a0a3-cd04ae6b9dcf.htm" />
+    <HelpKINode Title="ModbusDataFiller.GeneralScaleError Property " Url="html/79d904f5-39c9-1b93-59ab-7017eae6b9f7.htm" />
+    <HelpKINode Title="ModbusDataProcess.GeneralScaleError Property " Url="html/e6e08117-ec5f-2abe-7523-f4d619d66d48.htm" />
+    <HelpKINode Title="WTXJet.GeneralScaleError Property " Url="html/44a0a5e7-6da4-9aa0-dc8c-9ff2fbf7a025.htm" />
+    <HelpKINode Title="WTXModbus.GeneralScaleError Property " Url="html/88a103aa-c36c-a6af-67eb-ba789bae2b60.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Gross enumeration member" Url="html/fe3d0706-2f04-b1d7-79c5-b9afc6e0c554.htm" />
+  <HelpKINode Title="Gross property">
+    <HelpKINode Title="PrintableWeightType.Gross Property " Url="html/73461ecc-7dd7-bbc9-a80e-f92573f5588f.htm" />
+    <HelpKINode Title="WeightMemory.Gross Property " Url="html/e6b7a486-e12e-bae3-9051-5bac3a2eccc1.htm" />
+    <HelpKINode Title="WeightType.Gross Property " Url="html/9e94db82-f774-f71c-f860-a412c770a202.htm" />
+  </HelpKINode>
+  <HelpKINode Title="HardwareVersion property" Url="html/e8a877e8-37cc-896a-1076-d2adcc37b474.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api namespace" Url="html/9ae4def8-8499-acb0-f864-68fc57e1131c.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.ApplicationMode enumeration" Url="html/13de62fb-e77b-7604-effd-c81a89402c6d.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.BaseWTDevice class" Url="html/e08aed01-5f35-4eed-03c3-43f041b3ac2a.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.ConnectionType enumeration" Url="html/ddca1f9a-e45a-a78d-a373-63ce1fd51d5b.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data namespace" Url="html/2cd48fdf-3501-c038-46cc-f6a7ce5029fc.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.IDataDigitalFilter interface" Url="html/2f0c606f-5770-f852-4fae-85dbb20e7b24.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.IDataDigitalIO interface" Url="html/4aacbb4e-57e5-90d1-db5a-2cc65cd5ee83.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.IDataFiller interface" Url="html/1b728754-7992-7c8d-55bf-312e463cb42e.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.IDataFillerExtended interface" Url="html/206293fa-1398-9f28-1c0f-56aabec8f757.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.IDataLimitSwitch interface" Url="html/2c7105f2-0c9b-50a6-8b1d-fdc1d1352d1a.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.IDataScale interface" Url="html/883e2161-59fb-33a2-d643-a7671f706ec8.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.IProcessData interface" Url="html/bea6fafd-bd7c-7bf9-b411-775f192c1817.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.JetDataDigitalIO class" Url="html/921fe819-b259-2bb3-43f3-8355e14e4c2a.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.JetDataFiller class" Url="html/d5b750af-3c89-c261-fbfc-f12c1c6bd413.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.JetDataFillerExtended class" Url="html/dd783c98-7634-dc64-d9e3-b876973534f9.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.JetDataLimitSwitch class" Url="html/621ca48e-b529-c699-47b8-eabf591a6e79.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.JetProcessData class" Url="html/dde8287c-63f9-2f23-fd7b-1b2cdd874d15.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.ModbusDataDigitalIO class" Url="html/73b7fccd-c088-a9e8-50d1-8e3c7210b738.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.ModbusDataFiller class" Url="html/5f88172f-5241-4d05-73f9-ff6ddf6bdc32.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.ModbusDataLimitSwitch class" Url="html/3ca72b04-93bd-2bf4-397f-9c21861873df.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.ModbusDataProcess class" Url="html/fb738ff1-4271-2843-2e45-9ad40786221c.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.PrintableWeightType class" Url="html/8ab99c5c-2224-3648-05ab-be77111706c5.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.ProcessDataReceivedEventArgs class" Url="html/449f5de3-c550-37e8-7b87-f807209683c1.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.WeightMemory class" Url="html/15e888ea-c3f5-a7be-2887-0629a79843d2.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Data.WeightType class" Url="html/17b25a19-1379-c870-9e2a-edbc99ab8b87.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.DataType enumeration" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.DSE namespace" Url="html/17ba53eb-91e7-4fc7-168e-df06f4b67125.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.DSE.DSEJet class" Url="html/79ee3c86-aae5-df04-f198-7776ef748ebb.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.DSE.Jet namespace" Url="html/b4f31116-5532-f2c0-a66c-3b03705c90a9.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.DSE.Jet.DSEJetConnection class" Url="html/3bf4d4f4-0a83-1d80-23e8-703d9de292fc.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.INetConnection interface" Url="html/bc12d4de-a9ab-041b-934b-9582489def06.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.InputFunction enumeration" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.IOType enumeration" Url="html/fa5f0965-bbe3-8ecd-0328-64cbb9975411.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.LimitSwitchMode enumeration" Url="html/145c9893-de50-972c-d875-be5e3b75f4b6.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.LimitSwitchSource enumeration" Url="html/fe3d0706-2f04-b1d7-79c5-b9afc6e0c554.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.LogEventArgs class" Url="html/6d995764-2fa9-a042-e221-503d049b1644.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.OutputFunction enumeration" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.ScaleRangeMode enumeration" Url="html/def14e46-08af-3be5-a111-e03cb69b5ac4.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.TareMode enumeration" Url="html/6caf2bc5-3547-9d3c-9d2f-d2a3b0d90a69.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Utils namespace" Url="html/821f4d54-eafb-b4f0-a371-f776f9b1e038.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.Utils.MeasurementUtils class" Url="html/c0af9df9-ad03-5283-2c44-4b37a4fad546.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.WTX namespace" Url="html/285bdf12-781f-2aba-400c-2f2053eb5ce0.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.WTX.BaseWTXDevice class" Url="html/4f176717-e24a-8ef8-b1a3-1b5bc7928188.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.WTX.Jet namespace" Url="html/f20e9bb1-4bb7-4db5-a2dd-d01215e90af8.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.WTX.Jet.JetBusConnection class" Url="html/b080ec78-7e5f-cea3-5169-a2a3ff9ee8e3.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.WTX.Jet.JetBusException class" Url="html/5f503940-80b4-1808-cbed-a379288c347c.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.WTX.Modbus namespace" Url="html/744cf063-39d0-cd51-8577-22f230826702.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.WTX.Modbus.ModbusTCPConnection class" Url="html/25963e1b-b89c-94aa-1abe-a54a610986a2.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.WTX.WTXJet class" Url="html/0fa1ab12-da95-0aa6-61d7-07c2ba1fba08.htm" />
+  <HelpKINode Title="Hbm.Weighing.Api.WTX.WTXModbus class" Url="html/fc9b05b7-5077-8bd1-82a9-8fc9f60b9ed0.htm" />
+  <HelpKINode Title="HigherSafeLoadLimit property">
+    <HelpKINode Title="IProcessData.HigherSafeLoadLimit Property " Url="html/84ec9753-838e-c221-e7c6-31f3d2670108.htm" />
+    <HelpKINode Title="JetProcessData.HigherSafeLoadLimit Property " Url="html/90226c44-3209-cfef-b7ad-5a703c2a65ec.htm" />
+    <HelpKINode Title="ModbusDataProcess.HigherSafeLoadLimit Property " Url="html/0adc6417-6116-ab44-5538-6cee52dd38da.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IDataDigitalFilter interface">
+    <HelpKINode Title="IDataDigitalFilter Interface" Url="html/2f0c606f-5770-f852-4fae-85dbb20e7b24.htm" />
+    <HelpKINode Title="properties" Url="html/26fc6f32-5bf4-f0fb-0d27-2f3aa92e1f2a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IDataDigitalFilter.DataRate property" Url="html/1de093ae-7b69-1e0e-507b-5c908a692e9f.htm" />
+  <HelpKINode Title="IDataDigitalFilter.LowPasCutOffFrequency property" Url="html/e08729b6-8e4e-262e-b0fc-331d014880d6.htm" />
+  <HelpKINode Title="IDataDigitalFilter.LowPassFilterMode property" Url="html/6be33334-91af-0e2b-60d5-5ca46c3a56a1.htm" />
+  <HelpKINode Title="IDataDigitalFilter.LowPassFilterOrder property" Url="html/4e3add15-b608-4cf2-3e0b-64720cf5e538.htm" />
+  <HelpKINode Title="IDataDigitalIO interface">
+    <HelpKINode Title="IDataDigitalIO Interface" Url="html/4aacbb4e-57e5-90d1-db5a-2cc65cd5ee83.htm" />
+    <HelpKINode Title="methods" Url="html/12fea4c7-650b-8af2-6a45-f1a5a5c83ecf.htm" />
+    <HelpKINode Title="properties" Url="html/cf8ef2f9-285b-1161-3c98-ff6bdbb1c3f9.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IDataDigitalIO.Input1 property" Url="html/39beef44-1dce-6128-36b2-bd95badfbf59.htm" />
+  <HelpKINode Title="IDataDigitalIO.Input2 property" Url="html/bc49adc0-dfd0-a5e4-b231-a94c03a81aad.htm" />
+  <HelpKINode Title="IDataDigitalIO.Input3 property" Url="html/87b6e426-e7b0-1df7-8187-bbeeeb91676b.htm" />
+  <HelpKINode Title="IDataDigitalIO.Input4 property" Url="html/15425a63-b695-cdaf-c44f-a0eedca92dd6.htm" />
+  <HelpKINode Title="IDataDigitalIO.Output1 property" Url="html/56d57e3d-0423-00e1-c7d9-2fac4d35b8ed.htm" />
+  <HelpKINode Title="IDataDigitalIO.Output2 property" Url="html/c803635e-0f10-b8db-f9ac-1e76c1bcb07e.htm" />
+  <HelpKINode Title="IDataDigitalIO.Output3 property" Url="html/ca73e7fe-8d87-12a1-378c-4757f53d81fd.htm" />
+  <HelpKINode Title="IDataDigitalIO.Output4 property" Url="html/33e44972-444d-4c3a-b8ce-20723393062c.htm" />
+  <HelpKINode Title="IDataDigitalIO.UpdateDataIO method" Url="html/ca59f8dd-e1a5-198e-784c-4f470fcad7fe.htm" />
+  <HelpKINode Title="IDataFiller interface">
+    <HelpKINode Title="IDataFiller Interface" Url="html/1b728754-7992-7c8d-55bf-312e463cb42e.htm" />
+    <HelpKINode Title="methods" Url="html/9ba422d4-0ab0-560c-fc68-21ee630cf6b9.htm" />
+    <HelpKINode Title="properties" Url="html/7789cf74-0676-b683-6adb-6aded14aa5fa.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IDataFiller.ActivationTimeAfterFilling property" Url="html/d30a0d18-66c3-cc94-39db-77fd50b7eef3.htm" />
+  <HelpKINode Title="IDataFiller.AdcOverUnderload property" Url="html/8e35f751-8353-ff59-e1e2-df604c4676d5.htm" />
+  <HelpKINode Title="IDataFiller.Alarm property" Url="html/858c648d-96e0-f849-4018-9a7b3d51aa96.htm" />
+  <HelpKINode Title="IDataFiller.BreakFilling method" Url="html/72503a32-4378-9429-4896-5ccd279dfd64.htm" />
+  <HelpKINode Title="IDataFiller.ClearFillingResult method" Url="html/f56b2e26-4108-0ad6-587c-c24a09e406cb.htm" />
+  <HelpKINode Title="IDataFiller.CoarseFlow property" Url="html/fd39c829-bd30-3a29-3d3a-4fb6fd74cf57.htm" />
+  <HelpKINode Title="IDataFiller.CoarseFlowCutOffLevel property" Url="html/e3235d13-66cf-a8e4-2f2f-a22c77ecc1d7.htm" />
+  <HelpKINode Title="IDataFiller.CoarseFlowMonitoring property" Url="html/084c79ef-d49b-cbd2-a068-243f470335df.htm" />
+  <HelpKINode Title="IDataFiller.CoarseFlowMonitoringTime property" Url="html/41be0af2-aea9-7698-e7fb-e1771971bf40.htm" />
+  <HelpKINode Title="IDataFiller.CoarseLockoutTime property" Url="html/d0afaf28-0da7-b792-4a98-6acc80a3592a.htm" />
+  <HelpKINode Title="IDataFiller.CurrentCoarseFlowTime property" Url="html/537d648d-39f2-664a-9b00-4b2d94ed70c2.htm" />
+  <HelpKINode Title="IDataFiller.CurrentDosingTime property" Url="html/3ea883f2-51f4-aff7-0656-eb002df7d2d9.htm" />
+  <HelpKINode Title="IDataFiller.CurrentFineFlowTime property" Url="html/7d9dacf6-39bb-f2b4-ae2d-099cc7d3688e.htm" />
+  <HelpKINode Title="IDataFiller.DelayTimeAfterFilling property" Url="html/a9b64f28-5a13-d320-262f-1f516d0633bb.htm" />
+  <HelpKINode Title="IDataFiller.Emptying property" Url="html/d9f800e8-cd90-282d-9658-376007059a82.htm" />
+  <HelpKINode Title="IDataFiller.EmptyingMode property" Url="html/1ad8d626-b47a-3feb-7490-5f225b6ecc59.htm" />
+  <HelpKINode Title="IDataFiller.EmptyWeight property" Url="html/28e79fe4-bbf9-8ffb-20a1-82fc9c4fa326.htm" />
+  <HelpKINode Title="IDataFiller.FillingMode property" Url="html/95b13522-47f6-0ea7-d4c2-30295caf3f6f.htm" />
+  <HelpKINode Title="IDataFiller.FillingProcessStatus property" Url="html/0d1febd8-ea52-d4d2-c85d-123c3c75c39d.htm" />
+  <HelpKINode Title="IDataFiller.FillingResult property" Url="html/47450f42-31c9-1e73-aba6-c2ec13a3d21b.htm" />
+  <HelpKINode Title="IDataFiller.FillingResultCount property" Url="html/71d5f6d2-d197-abfd-a961-36e66b26fd51.htm" />
+  <HelpKINode Title="IDataFiller.FillingResultMeanValue property" Url="html/9fecacf5-4abf-6df4-2c29-a5a59ed32ddc.htm" />
+  <HelpKINode Title="IDataFiller.FillingResultStandardDeviation property" Url="html/a934a598-db21-c320-e6ce-b72afc33cc69.htm" />
+  <HelpKINode Title="IDataFiller.FillingResultTotalSum property" Url="html/36b76964-9ec7-455e-8b16-9ad90bd7d255.htm" />
+  <HelpKINode Title="IDataFiller.FineFlow property" Url="html/d672a6f8-a0ce-b265-984b-115d7f5bc4f4.htm" />
+  <HelpKINode Title="IDataFiller.FineFlowCutOffLevel property" Url="html/64293095-dc71-e5e6-d2f5-1d2fbf5e2174.htm" />
+  <HelpKINode Title="IDataFiller.FineFlowMonitoring property" Url="html/98e97d5b-2be3-c03b-bde2-527a62cfdd1c.htm" />
+  <HelpKINode Title="IDataFiller.FineFlowMonitoringTime property" Url="html/57a9b380-8628-abb0-8e7b-61c84a1a11e8.htm" />
+  <HelpKINode Title="IDataFiller.FineLockoutTime property" Url="html/ac16ee6f-5c51-f4ca-f75d-d0017bf19c77.htm" />
+  <HelpKINode Title="IDataFiller.FlowError property" Url="html/3af8b1bf-a4ca-64c2-ac4b-31c2bd6fb1bc.htm" />
+  <HelpKINode Title="IDataFiller.LowerToleranceLimit property" Url="html/b01fb243-384e-8ed3-b913-1b61a24364ea.htm" />
+  <HelpKINode Title="IDataFiller.MaxFillingTime property" Url="html/0915a771-996c-2243-ae4b-beb9bbc168ee.htm" />
+  <HelpKINode Title="IDataFiller.MinimumFineFlow property" Url="html/67eadf72-f4fa-8daf-7cfb-aeb0639b2dbd.htm" />
+  <HelpKINode Title="IDataFiller.MinimumStartWeight property" Url="html/cbcf5b87-1e6e-a93e-ee08-de3dfd9fb675.htm" />
+  <HelpKINode Title="IDataFiller.OptimizationMode property" Url="html/bb8a5810-6207-6585-a4b4-53e267e05b93.htm" />
+  <HelpKINode Title="IDataFiller.ParameterSetProduct property" Url="html/2f5bafc3-55ba-d657-241f-71f1343f9fb1.htm" />
+  <HelpKINode Title="IDataFiller.Ready property" Url="html/df550d2d-63a6-5165-1db3-ace99ed99af5.htm" />
+  <HelpKINode Title="IDataFiller.ReDosing property" Url="html/eb9aae85-b4a5-ddc5-f8b4-50c98be8aef9.htm" />
+  <HelpKINode Title="IDataFiller.ResidualFlowTime property" Url="html/edd5ae48-07a5-6d15-5497-35b0fe21f030.htm" />
+  <HelpKINode Title="IDataFiller.StartFilling method" Url="html/afced133-25fb-e9c9-51e8-72cba8548918.htm" />
+  <HelpKINode Title="IDataFiller.StartWithFineFlow property" Url="html/1b6d424c-86ab-b1a2-3bf6-1b2ee0ab4720.htm" />
+  <HelpKINode Title="IDataFiller.SystematicDifference property" Url="html/67c7da53-336d-0e16-f4f8-6ddabc45fce5.htm" />
+  <HelpKINode Title="IDataFiller.TareDelay property" Url="html/63060f8a-3b28-5062-0d44-06c79598a3f7.htm" />
+  <HelpKINode Title="IDataFiller.TareMode property" Url="html/95157774-e8f2-96a8-732c-055a33db4b4b.htm" />
+  <HelpKINode Title="IDataFiller.TargetFillingWeight property" Url="html/0cbd74d6-74a8-e268-8404-657b51c757cf.htm" />
+  <HelpKINode Title="IDataFiller.ToleranceErrorMinus property" Url="html/2b3ff0e5-48f2-9edd-e90b-4c3a1c6e7b24.htm" />
+  <HelpKINode Title="IDataFiller.ToleranceErrorPlus property" Url="html/a6e0d4b3-3388-7be6-6819-ed12f8842e83.htm" />
+  <HelpKINode Title="IDataFiller.UpdateFillerData method" Url="html/1d0d4706-d19d-8bb7-020d-1c96fa114e13.htm" />
+  <HelpKINode Title="IDataFiller.UpperToleranceLimit property" Url="html/4901a8e7-3625-9767-0aca-98a1657c1224.htm" />
+  <HelpKINode Title="IDataFiller.ValveControl property" Url="html/145f7000-eb59-2a4c-89eb-e48e53bad1bb.htm" />
+  <HelpKINode Title="IDataFillerExtended interface">
+    <HelpKINode Title="IDataFillerExtended Interface" Url="html/206293fa-1398-9f28-1c0f-56aabec8f757.htm" />
+    <HelpKINode Title="methods" Url="html/677c891c-54b8-03c3-5f50-5fc9ec637e7e.htm" />
+    <HelpKINode Title="properties" Url="html/de2de09c-55eb-9b41-8b46-12d3b78d4789.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IDataFillerExtended.Delay1Dosing property" Url="html/43a2a67a-250a-2d3b-9972-01b5ca85ca1c.htm" />
+  <HelpKINode Title="IDataFillerExtended.Delay2Dosing property" Url="html/e0e1fd9e-2453-ba62-a65d-b4882163a1f6.htm" />
+  <HelpKINode Title="IDataFillerExtended.DischargeTime property" Url="html/0429ea93-ab65-1a44-7831-5bb9522df90d.htm" />
+  <HelpKINode Title="IDataFillerExtended.EmptyWeightBreak property" Url="html/d9ecbfb0-4f0d-50b0-fd14-7162284696cc.htm" />
+  <HelpKINode Title="IDataFillerExtended.EmptyWeightTolerance property" Url="html/dca587db-ed28-8949-ef23-adc0f11a1946.htm" />
+  <HelpKINode Title="IDataFillerExtended.MaterialStreamLastFilling property" Url="html/c6f335ce-49f4-776b-0f8e-4c757afd1993.htm" />
+  <HelpKINode Title="IDataFillerExtended.ParameterSetProduct property" Url="html/f0e54c09-530c-e4e6-7ee8-6ed59b7307c4.htm" />
+  <HelpKINode Title="IDataFillerExtended.ResidualFlowDosingCycle property" Url="html/c273921c-849c-ad76-f879-71649196f3a0.htm" />
+  <HelpKINode Title="IDataFillerExtended.SpecialFillingFunctions property" Url="html/57d20967-6230-709a-91ea-baca3422d3f5.htm" />
+  <HelpKINode Title="IDataLimitSwitch interface">
+    <HelpKINode Title="IDataLimitSwitch Interface" Url="html/2c7105f2-0c9b-50a6-8b1d-fdc1d1352d1a.htm" />
+    <HelpKINode Title="methods" Url="html/4645b839-f4f4-1cc1-cbfd-e6a2c1fbe893.htm" />
+    <HelpKINode Title="properties" Url="html/b8422787-3f5d-76ff-f8a3-4a2519ae1073.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IDataLimitSwitch.LimitStatus1 property" Url="html/957f0c42-3d74-fc41-4010-95cc8e589293.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitStatus2 property" Url="html/9d2dc05e-7b3c-bac4-6a0f-8d300ef8da5a.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitStatus3 property" Url="html/70b683e4-2be5-eabe-d6cc-235e166790ac.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitStatus4 property" Url="html/3590313c-bd9b-bda7-11e2-b2af3d8e0bae.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch1BandHeight property" Url="html/7fb5f68b-30aa-ff49-1932-bf11528dcab8.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch1Hysteresis property" Url="html/b8578981-beba-159e-d827-183ef1dbc127.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch1Level property" Url="html/d4a68886-bbf8-0734-fb2a-685a3bfc896a.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch1LowerBandValue property" Url="html/3dd56692-7de8-5a65-83a2-14f0712b3572.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch1Mode property" Url="html/5410a395-7650-055b-ac24-8291248a034a.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch1Source property" Url="html/f6e03cc8-85c6-9dd1-9b65-be33348f6dcf.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch2BandHeight property" Url="html/28cc52d4-1b3b-1c6b-90ad-8ab00354502d.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch2Hysteresis property" Url="html/d38232d6-7e92-5324-460c-bad8cd17632b.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch2Level property" Url="html/736d031f-ae4d-f3cd-e8c5-015f1c8943ff.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch2LowerBandValue property" Url="html/218015c1-bd6f-544c-4776-4be62bc83bc0.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch2Mode property" Url="html/3e347261-732d-70b1-6495-b86b473a6841.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch2Source property" Url="html/bd94ae23-32f5-bb61-323f-b439650bbe2a.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch3BandHeight property" Url="html/04a44e58-5f19-0854-f3a3-eb6aafaae834.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch3Hysteresis property" Url="html/94f93ad7-41e7-4384-92d5-c90b23b4ba59.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch3Level property" Url="html/1d7eaf0f-2e7c-7633-2c8a-b0df07125584.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch3LowerBandValue property" Url="html/aaba28a9-77e1-8929-8f2c-f91de5bb469e.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch3Mode property" Url="html/c9733731-7173-b99d-4478-e1f73eba284b.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch3Source property" Url="html/dc6a7f8c-86d1-2e05-5aa1-ac8e2e3f6359.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch4BandHeight property" Url="html/4864baf8-1311-5e69-68a9-b1918d3b6be7.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch4Hysteresis property" Url="html/0d8192d0-f2e0-a401-dabd-85380c4f766f.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch4Level property" Url="html/56b3f226-4ed3-be19-531e-bc330e976874.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch4LowerBandValue property" Url="html/fe899d3a-00be-f71b-f3a5-1d360d878aea.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch4Mode property" Url="html/17ae3e26-b9cc-30f6-c4b3-5e4586bd4036.htm" />
+  <HelpKINode Title="IDataLimitSwitch.LimitSwitch4Source property" Url="html/cc53d10f-29f9-a6b3-6a54-c505ff6398fe.htm" />
+  <HelpKINode Title="IDataLimitSwitch.UpdateDataLimitSwitch method" Url="html/57dce900-d84a-70b9-772e-adc2a1be41e6.htm" />
+  <HelpKINode Title="IDataScale interface">
+    <HelpKINode Title="IDataScale Interface" Url="html/883e2161-59fb-33a2-d643-a7671f706ec8.htm" />
+    <HelpKINode Title="properties" Url="html/f12cd3a3-6fd7-1b27-1a6a-badde09cbf5a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IDataScale.MultiScaleLimit1 property" Url="html/9486cec8-afc5-54da-ef21-30e84b62c929.htm" />
+  <HelpKINode Title="IDataScale.MultiScaleLimit2 property" Url="html/5896525a-a6ba-dc19-96c5-48367e970c43.htm" />
+  <HelpKINode Title="IDataScale.ScaleRangeMode property" Url="html/b0f10d9a-5cb8-8bb8-32e5-a1613bbdc39d.htm" />
+  <HelpKINode Title="IDataScale.WeightMovementDetection property" Url="html/6d4e1e6d-8cc3-fabe-95eb-45367566b9e8.htm" />
+  <HelpKINode Title="IDataScale.WeightStep property" Url="html/fd4904c9-9346-1af1-46af-e54db46f5ca3.htm" />
+  <HelpKINode Title="Identification property">
+    <HelpKINode Title="BaseWTDevice.Identification Property " Url="html/14991f56-890a-370b-fc92-1b2af9e50fa7.htm" />
+    <HelpKINode Title="DSEJet.Identification Property " Url="html/f45778d9-3f4e-be47-bf03-34fc783dafd3.htm" />
+    <HelpKINode Title="WTXJet.Identification Property " Url="html/5679b53b-dd3b-e7ca-c434-72e4c1b46e45.htm" />
+    <HelpKINode Title="WTXModbus.Identification Property " Url="html/b3d22d8f-f45c-e507-0d87-6b50b6c3ca37.htm" />
+  </HelpKINode>
+  <HelpKINode Title="INetConnection interface">
+    <HelpKINode Title="INetConnection Interface" Url="html/bc12d4de-a9ab-041b-934b-9582489def06.htm" />
+    <HelpKINode Title="events" Url="html/f89f64c6-d720-3eae-bb25-2bcb8af7ab30.htm" />
+    <HelpKINode Title="methods" Url="html/c473bc80-87ba-a33e-844c-4cebbbd4207e.htm" />
+    <HelpKINode Title="properties" Url="html/cd4ed86c-5dc3-6131-8d40-f4df6b63afbd.htm" />
+  </HelpKINode>
+  <HelpKINode Title="INetConnection.CommunicationLog event" Url="html/6b17b9e6-4b9d-e3d7-38db-0d7fbf0caa2b.htm" />
+  <HelpKINode Title="INetConnection.Connect method" Url="html/5d4305b9-a110-c779-6a7e-8e57dec91c24.htm" />
+  <HelpKINode Title="INetConnection.ConnectionType property" Url="html/52eace73-44af-45d1-643b-9e7c77f406ee.htm" />
+  <HelpKINode Title="INetConnection.Disconnect method" Url="html/71010ed2-30c7-b6a3-5de7-1961ef130512.htm" />
+  <HelpKINode Title="INetConnection.IpAddress property" Url="html/6a7b45cd-4f8d-6129-4228-0ea6994a9b79.htm" />
+  <HelpKINode Title="INetConnection.IsConnected property" Url="html/9f948671-9502-7b5c-737f-5a3c0eb0f541.htm" />
+  <HelpKINode Title="INetConnection.UpdateData event" Url="html/fa712a50-eda8-54d3-7168-cccd59e0300a.htm" />
+  <HelpKINode Title="Input enumeration member" Url="html/fa5f0965-bbe3-8ecd-0328-64cbb9975411.htm" />
+  <HelpKINode Title="Input1 property">
+    <HelpKINode Title="IDataDigitalIO.Input1 Property " Url="html/39beef44-1dce-6128-36b2-bd95badfbf59.htm" />
+    <HelpKINode Title="JetDataDigitalIO.Input1 Property " Url="html/476b065b-0d59-df08-3867-f0805d421b8f.htm" />
+    <HelpKINode Title="ModbusDataDigitalIO.Input1 Property " Url="html/b9450379-d122-ec32-fa90-eac63a0c064f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Input1Function property" Url="html/6fc02917-6d90-be6a-6b58-021d596d9c65.htm" />
+  <HelpKINode Title="Input2 property">
+    <HelpKINode Title="IDataDigitalIO.Input2 Property " Url="html/bc49adc0-dfd0-a5e4-b231-a94c03a81aad.htm" />
+    <HelpKINode Title="JetDataDigitalIO.Input2 Property " Url="html/9b74665a-2a08-440d-ca04-9032e4980730.htm" />
+    <HelpKINode Title="ModbusDataDigitalIO.Input2 Property " Url="html/eddcd2af-7eb1-f84f-1822-abc1860d31e6.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Input2Function property" Url="html/999ab6ac-9da3-5bf6-fd67-9902fa953105.htm" />
+  <HelpKINode Title="Input3 property">
+    <HelpKINode Title="IDataDigitalIO.Input3 Property " Url="html/87b6e426-e7b0-1df7-8187-bbeeeb91676b.htm" />
+    <HelpKINode Title="JetDataDigitalIO.Input3 Property " Url="html/540816e6-9086-339b-a275-5a23d502a611.htm" />
+    <HelpKINode Title="ModbusDataDigitalIO.Input3 Property " Url="html/29f200f9-8418-9f52-8e16-4a5fbfccc5a1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Input3Function property" Url="html/c781b9c6-e62b-a9c6-5d60-2e92ae612549.htm" />
+  <HelpKINode Title="Input4 property">
+    <HelpKINode Title="IDataDigitalIO.Input4 Property " Url="html/15425a63-b695-cdaf-c44f-a0eedca92dd6.htm" />
+    <HelpKINode Title="JetDataDigitalIO.Input4 Property " Url="html/cb356c70-c298-66b7-eca7-dc0cbdfdb172.htm" />
+    <HelpKINode Title="ModbusDataDigitalIO.Input4 Property " Url="html/24268068-cb6f-1acd-df2e-bb1925deda8f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Input4Function property" Url="html/60e7e003-022f-345d-b800-741bf39403ab.htm" />
+  <HelpKINode Title="InputFunction enumeration" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+  <HelpKINode Title="InsideBand enumeration member" Url="html/145c9893-de50-972c-d875-be5e3b75f4b6.htm" />
+  <HelpKINode Title="InsideZero property">
+    <HelpKINode Title="IProcessData.InsideZero Property " Url="html/21c877c4-5e46-79a0-1c47-a15ed967a7f7.htm" />
+    <HelpKINode Title="JetProcessData.InsideZero Property " Url="html/fbfd5758-1656-ddc9-308c-e56043cea801.htm" />
+    <HelpKINode Title="ModbusDataProcess.InsideZero Property " Url="html/26a15e99-9f2c-5640-fb78-ce2422f8f87b.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IOType enumeration" Url="html/fa5f0965-bbe3-8ecd-0328-64cbb9975411.htm" />
+  <HelpKINode Title="IpAddress property">
+    <HelpKINode Title="DSEJetConnection.IpAddress Property " Url="html/246bcf01-2009-6e48-3e1a-4f4dcb3fa10f.htm" />
+    <HelpKINode Title="INetConnection.IpAddress Property " Url="html/6a7b45cd-4f8d-6129-4228-0ea6994a9b79.htm" />
+    <HelpKINode Title="JetBusConnection.IpAddress Property " Url="html/0dd891ca-818f-a822-4c09-2dd50abdc4a7.htm" />
+    <HelpKINode Title="ModbusTCPConnection.IpAddress Property " Url="html/3533b638-978f-c07b-434c-ed504922a0bd.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IProcessData interface">
+    <HelpKINode Title="IProcessData Interface" Url="html/bea6fafd-bd7c-7bf9-b411-775f192c1817.htm" />
+    <HelpKINode Title="methods" Url="html/6482d5ff-4637-1f9e-02fc-3bfb5e2286bb.htm" />
+    <HelpKINode Title="properties" Url="html/f370d92c-c4d2-2a69-a307-485ab74c5f71.htm" />
+  </HelpKINode>
+  <HelpKINode Title="IProcessData.ApplicationMode property" Url="html/3bffe33e-e1c2-4879-4073-da8ab8c402ef.htm" />
+  <HelpKINode Title="IProcessData.CenterOfZero property" Url="html/1add8cd6-f8f2-c49f-87dc-abbc74dad440.htm" />
+  <HelpKINode Title="IProcessData.Decimals property" Url="html/13068a85-008a-4b7a-685d-af296e694202.htm" />
+  <HelpKINode Title="IProcessData.GeneralScaleError property" Url="html/d7006adc-ec10-0a41-8caa-971843a5867d.htm" />
+  <HelpKINode Title="IProcessData.HigherSafeLoadLimit property" Url="html/84ec9753-838e-c221-e7c6-31f3d2670108.htm" />
+  <HelpKINode Title="IProcessData.InsideZero property" Url="html/21c877c4-5e46-79a0-1c47-a15ed967a7f7.htm" />
+  <HelpKINode Title="IProcessData.LegalForTrade property" Url="html/d042ea5b-63ba-3d85-7f22-46f00925961e.htm" />
+  <HelpKINode Title="IProcessData.Overload property" Url="html/11faf541-b7b5-e006-e6a1-249485105b43.htm" />
+  <HelpKINode Title="IProcessData.PrintableWeight property" Url="html/dbda9994-b78f-062e-330e-18f352b0b413.htm" />
+  <HelpKINode Title="IProcessData.ScaleAlarm property" Url="html/2c90fcca-6b97-66ca-b53b-d17873fa1841.htm" />
+  <HelpKINode Title="IProcessData.ScaleRange property" Url="html/468c19f2-cef6-c8ec-379a-bc1068c6f37c.htm" />
+  <HelpKINode Title="IProcessData.TareMode property" Url="html/d7c138f3-4ceb-42a1-a308-a566ba9fbe53.htm" />
+  <HelpKINode Title="IProcessData.Underload property" Url="html/e30e5aa9-3341-b0f4-fef0-1ce7b9211726.htm" />
+  <HelpKINode Title="IProcessData.Unit property" Url="html/4d7e77fc-bd3e-c134-796e-71e4cb66c075.htm" />
+  <HelpKINode Title="IProcessData.UpdateData method" Url="html/0c070aaf-3ea0-8a61-38a5-38c15322f957.htm" />
+  <HelpKINode Title="IProcessData.Weight property" Url="html/6efc65bc-4881-383b-1b26-b856629f451f.htm" />
+  <HelpKINode Title="IProcessData.WeightStable property" Url="html/be7d0165-aa68-d70e-1513-001c7179ce52.htm" />
+  <HelpKINode Title="IProcessData.ZeroRequired property" Url="html/88574842-063a-6d8e-651e-68d428acf330.htm" />
+  <HelpKINode Title="IsConnected property">
+    <HelpKINode Title="BaseWTDevice.IsConnected Property " Url="html/85db322f-6250-d891-1d89-b9f9011b54c8.htm" />
+    <HelpKINode Title="DSEJet.IsConnected Property " Url="html/b15b7ff1-7621-e04c-f048-44e13aba35f1.htm" />
+    <HelpKINode Title="DSEJetConnection.IsConnected Property " Url="html/4ce0da9b-3a75-7a49-0ce0-1b578ff993db.htm" />
+    <HelpKINode Title="INetConnection.IsConnected Property " Url="html/9f948671-9502-7b5c-737f-5a3c0eb0f541.htm" />
+    <HelpKINode Title="JetBusConnection.IsConnected Property " Url="html/0124de7c-bcd7-c0f3-15d6-a3066e881b8a.htm" />
+    <HelpKINode Title="ModbusTCPConnection.IsConnected Property " Url="html/e4cf4cee-c6eb-4ad6-fd3f-e9779639b4ce.htm" />
+    <HelpKINode Title="WTXJet.IsConnected Property " Url="html/ee6f9aff-931f-05e7-80d3-f20244827a85.htm" />
+    <HelpKINode Title="WTXModbus.IsConnected Property " Url="html/cdcda345-2159-065d-d54d-23eea05173ef.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Jetbus enumeration member" Url="html/ddca1f9a-e45a-a78d-a373-63ce1fd51d5b.htm" />
+  <HelpKINode Title="JetBusConnection class">
+    <HelpKINode Title="JetBusConnection Class" Url="html/b080ec78-7e5f-cea3-5169-a2a3ff9ee8e3.htm" />
+    <HelpKINode Title="constructor" Url="html/b9f7b7b1-8457-ae58-d4f1-93b2a2841133.htm" />
+    <HelpKINode Title="events" Url="html/52271ce9-f799-1a88-b92d-2a8819442c9a.htm" />
+    <HelpKINode Title="methods" Url="html/cb201731-ba73-bec3-630a-7d69a10e9b95.htm" />
+    <HelpKINode Title="properties" Url="html/791058ff-f359-311b-23a2-dca29275b075.htm" />
+  </HelpKINode>
+  <HelpKINode Title="JetBusConnection.CommunicationLog event" Url="html/09cc3015-fe91-d61a-aa78-f72da3b10d90.htm" />
+  <HelpKINode Title="JetBusConnection.Connect method" Url="html/b6b8076f-dc52-4cc1-b3c0-4b8d5d943056.htm" />
+  <HelpKINode Title="JetBusConnection.ConnectionType property" Url="html/f08f4a0f-5557-6f8d-bfc8-dc685aa3cec7.htm" />
+  <HelpKINode Title="JetBusConnection.Disconnect method" Url="html/f0db066d-f4cf-f567-0ed7-8c9ec272e18a.htm" />
+  <HelpKINode Title="JetBusConnection.IpAddress property" Url="html/0dd891ca-818f-a822-4c09-2dd50abdc4a7.htm" />
+  <HelpKINode Title="JetBusConnection.IsConnected property" Url="html/0124de7c-bcd7-c0f3-15d6-a3066e881b8a.htm" />
+  <HelpKINode Title="JetBusConnection.JetBusConnection constructor" Url="html/b9f7b7b1-8457-ae58-d4f1-93b2a2841133.htm" />
+  <HelpKINode Title="JetBusConnection.UpdateData event" Url="html/658b4632-4f02-2917-a60d-f519dcb5aa1a.htm" />
+  <HelpKINode Title="JetBusException class">
+    <HelpKINode Title="JetBusException Class" Url="html/5f503940-80b4-1808-cbed-a379288c347c.htm" />
+    <HelpKINode Title="constructor" Url="html/688cad56-d40b-b770-3b76-c3eb84271901.htm" />
+    <HelpKINode Title="properties" Url="html/29062136-5e99-9151-d589-bd5a2a229485.htm" />
+  </HelpKINode>
+  <HelpKINode Title="JetBusException.ErrorCode property" Url="html/5849ddf8-cf96-271e-bc48-bc058b1d9e77.htm" />
+  <HelpKINode Title="JetBusException.JetBusException constructor" Url="html/688cad56-d40b-b770-3b76-c3eb84271901.htm" />
+  <HelpKINode Title="JetBusException.Message property" Url="html/f524f514-3ddc-9528-11d7-60ffb9446e9f.htm" />
+  <HelpKINode Title="JetDataDigitalIO class">
+    <HelpKINode Title="JetDataDigitalIO Class" Url="html/921fe819-b259-2bb3-43f3-8355e14e4c2a.htm" />
+    <HelpKINode Title="constructor" Url="html/f1b64e1c-5dff-5928-7d0e-705ed4510fad.htm" />
+    <HelpKINode Title="methods" Url="html/7d945033-1023-2cef-40b0-7699721187a3.htm" />
+    <HelpKINode Title="properties" Url="html/f218fc72-8f95-f367-f318-f7ee7130ee12.htm" />
+  </HelpKINode>
+  <HelpKINode Title="JetDataDigitalIO.Input1 property" Url="html/476b065b-0d59-df08-3867-f0805d421b8f.htm" />
+  <HelpKINode Title="JetDataDigitalIO.Input2 property" Url="html/9b74665a-2a08-440d-ca04-9032e4980730.htm" />
+  <HelpKINode Title="JetDataDigitalIO.Input3 property" Url="html/540816e6-9086-339b-a275-5a23d502a611.htm" />
+  <HelpKINode Title="JetDataDigitalIO.Input4 property" Url="html/cb356c70-c298-66b7-eca7-dc0cbdfdb172.htm" />
+  <HelpKINode Title="JetDataDigitalIO.JetDataDigitalIO constructor" Url="html/f1b64e1c-5dff-5928-7d0e-705ed4510fad.htm" />
+  <HelpKINode Title="JetDataDigitalIO.Output1 property" Url="html/3241bca2-838e-0af1-ab21-f6eb2bbd1625.htm" />
+  <HelpKINode Title="JetDataDigitalIO.Output2 property" Url="html/b0db7542-e80c-73ab-e402-8b42bb47f75f.htm" />
+  <HelpKINode Title="JetDataDigitalIO.Output3 property" Url="html/64429128-0fc6-cbac-279a-92a8801dc3f0.htm" />
+  <HelpKINode Title="JetDataDigitalIO.Output4 property" Url="html/664eaa80-245f-668d-5f62-dfa9aa0445c5.htm" />
+  <HelpKINode Title="JetDataDigitalIO.UpdateDataIO method" Url="html/f50c87b2-bf65-3e1c-315d-7ec7a1e9928b.htm" />
+  <HelpKINode Title="JetDataFiller class">
+    <HelpKINode Title="JetDataFiller Class" Url="html/d5b750af-3c89-c261-fbfc-f12c1c6bd413.htm" />
+    <HelpKINode Title="constructor" Url="html/0bde0a19-e3fa-ad07-f467-57ff4d2d0e84.htm" />
+    <HelpKINode Title="methods" Url="html/ed40982f-5c59-3ec2-9d98-b0e739dac4b8.htm" />
+    <HelpKINode Title="properties" Url="html/ff5a51fa-34d5-961f-b6e5-59341e60bffa.htm" />
+  </HelpKINode>
+  <HelpKINode Title="JetDataFiller.ActivationTimeAfterFilling property" Url="html/6789edee-38d7-0b59-01c9-1be8e945361c.htm" />
+  <HelpKINode Title="JetDataFiller.AdcOverUnderload property" Url="html/a83e3450-cb0c-0945-0b7f-dd5bcf27477c.htm" />
+  <HelpKINode Title="JetDataFiller.Alarm property" Url="html/d9e64c83-8e71-a862-22b5-d99cf36649de.htm" />
+  <HelpKINode Title="JetDataFiller.BreakFilling method" Url="html/601b5846-21cb-b4ed-2697-f89dcc4278b6.htm" />
+  <HelpKINode Title="JetDataFiller.ClearFillingResult method" Url="html/b4801103-162f-6bfe-2b57-c792bcb0cdfc.htm" />
+  <HelpKINode Title="JetDataFiller.CoarseFlow property" Url="html/102b05f9-8d53-3883-ff43-2bcd34f43d26.htm" />
+  <HelpKINode Title="JetDataFiller.CoarseFlowCutOffLevel property" Url="html/fce9c6fd-42d9-e8d8-3988-4e72cc9b2782.htm" />
+  <HelpKINode Title="JetDataFiller.CoarseFlowCutOffPoint property" Url="html/8371eef6-21be-c025-7c49-74b2f5e2ceeb.htm" />
+  <HelpKINode Title="JetDataFiller.CoarseFlowMonitoring property" Url="html/a236710f-4d70-ddc6-8d27-0a248edf29ab.htm" />
+  <HelpKINode Title="JetDataFiller.CoarseFlowMonitoringTime property" Url="html/7032f9ff-a239-67d1-4dd6-5bc1fd56ba3f.htm" />
+  <HelpKINode Title="JetDataFiller.CoarseLockoutTime property" Url="html/c4764535-1821-a993-7a21-ae8308603ce9.htm" />
+  <HelpKINode Title="JetDataFiller.CurrentCoarseFlowTime property" Url="html/0aca2a91-fda9-ddf3-5286-62b349ac52ce.htm" />
+  <HelpKINode Title="JetDataFiller.CurrentDosingTime property" Url="html/f54019dc-83d4-5074-4f23-957d9814b75b.htm" />
+  <HelpKINode Title="JetDataFiller.CurrentFineFlowTime property" Url="html/990fb93b-5475-67a4-da2b-631c5e42ee09.htm" />
+  <HelpKINode Title="JetDataFiller.DelayTimeAfterFilling property" Url="html/e334a931-94b7-ebb0-27f7-399887abe948.htm" />
+  <HelpKINode Title="JetDataFiller.Emptying property" Url="html/15f8c415-ab04-ae1d-3076-937f4bba2e91.htm" />
+  <HelpKINode Title="JetDataFiller.EmptyingMode property" Url="html/5b8d6ef4-c3da-df4c-174b-dc8ddd436675.htm" />
+  <HelpKINode Title="JetDataFiller.EmptyWeight property" Url="html/6c4dc4ed-8a0c-e1fe-b96f-d9b772e80117.htm" />
+  <HelpKINode Title="JetDataFiller.FillingMode property" Url="html/1e157f9e-e0ca-0135-f88b-01c2a7fff001.htm" />
+  <HelpKINode Title="JetDataFiller.FillingProcessStatus property" Url="html/375b838b-f7c4-037e-6efa-69dd929d95b0.htm" />
+  <HelpKINode Title="JetDataFiller.FillingResult property" Url="html/30cb7dec-0e6a-60fc-161e-42448fb3330f.htm" />
+  <HelpKINode Title="JetDataFiller.FillingResultCount property" Url="html/d4fe7640-391b-bf15-e0a4-39ef587ff8a3.htm" />
+  <HelpKINode Title="JetDataFiller.FillingResultMeanValue property" Url="html/9d4cf5d9-ac3c-bf2f-be1f-8e1d3d222e54.htm" />
+  <HelpKINode Title="JetDataFiller.FillingResultStandardDeviation property" Url="html/72deb470-da1c-d87e-165c-8a8ad4507b90.htm" />
+  <HelpKINode Title="JetDataFiller.FillingResultTotalSum property" Url="html/12920c96-2d9d-04fe-5131-f4a6eeb49ac7.htm" />
+  <HelpKINode Title="JetDataFiller.FineFlow property" Url="html/36f7609c-dacb-ad19-e53d-b0cc95dc1c53.htm" />
+  <HelpKINode Title="JetDataFiller.FineFlowCutOffLevel property" Url="html/053c95b7-5916-96eb-c89b-55e67753e9f8.htm" />
+  <HelpKINode Title="JetDataFiller.FineFlowCutOffPoint property" Url="html/539aedab-b4c4-4c84-b779-7317b106ae5c.htm" />
+  <HelpKINode Title="JetDataFiller.FineFlowMonitoring property" Url="html/9effdb31-7bd2-14d8-9664-cb61eb4787a8.htm" />
+  <HelpKINode Title="JetDataFiller.FineFlowMonitoringTime property" Url="html/92aeefe5-7b3c-c45b-948b-820d3c99cac1.htm" />
+  <HelpKINode Title="JetDataFiller.FineLockoutTime property" Url="html/aa12d2f7-ec63-abac-2e1e-9287b0f0d1bf.htm" />
+  <HelpKINode Title="JetDataFiller.FlowError property" Url="html/5a9bac11-b9b3-85b0-2e0b-74af5c4aac73.htm" />
+  <HelpKINode Title="JetDataFiller.GeneralScaleError property" Url="html/ccdb06ba-811d-5f42-cfe4-894f2abf5855.htm" />
+  <HelpKINode Title="JetDataFiller.JetDataFiller constructor" Url="html/0bde0a19-e3fa-ad07-f467-57ff4d2d0e84.htm" />
+  <HelpKINode Title="JetDataFiller.LowerToleranceLimit property" Url="html/2b52408e-44b3-625b-e0af-e2a02723cfa3.htm" />
+  <HelpKINode Title="JetDataFiller.MaxDosingTime property" Url="html/2e0896b0-0434-6a9b-a560-5924b1b3c2a6.htm" />
+  <HelpKINode Title="JetDataFiller.MaxFillingTime property" Url="html/2172738d-9bde-fca4-3e49-32e9ee14b891.htm" />
+  <HelpKINode Title="JetDataFiller.MinimumFineFlow property" Url="html/5f942dfd-06c5-c3f5-b14a-6fe3df1ec442.htm" />
+  <HelpKINode Title="JetDataFiller.MinimumStartWeight property" Url="html/1f57cb8e-3715-f9d5-63d8-e4b50fedc98b.htm" />
+  <HelpKINode Title="JetDataFiller.OptimizationMode property" Url="html/228edb3b-c3d3-feb1-b469-660bf1ac0c1d.htm" />
+  <HelpKINode Title="JetDataFiller.ParameterSetProduct property" Url="html/70050315-c0b8-da34-1c2c-13f64eb009f6.htm" />
+  <HelpKINode Title="JetDataFiller.Ready property" Url="html/e17bcdca-7b35-d5b1-784e-66fba472f549.htm" />
+  <HelpKINode Title="JetDataFiller.ReDosing property" Url="html/af2a0a16-df25-8048-b61a-e3b817e2ae0e.htm" />
+  <HelpKINode Title="JetDataFiller.ResidualFlowTime property" Url="html/51bd96bd-2689-5b4d-c0a5-49a4c82c2c2e.htm" />
+  <HelpKINode Title="JetDataFiller.StartFilling method" Url="html/c04ce8f5-e14d-9381-daf7-a5fe80cdd0ef.htm" />
+  <HelpKINode Title="JetDataFiller.StartWithFineFlow property" Url="html/9d78fb1a-7f23-5a14-dc4d-efe717f76d66.htm" />
+  <HelpKINode Title="JetDataFiller.StatusInput1 property" Url="html/34c39d6c-49e8-d8d8-9184-246a72ac8a02.htm" />
+  <HelpKINode Title="JetDataFiller.SystematicDifference property" Url="html/ac935805-dda0-095f-651c-756d32a397bd.htm" />
+  <HelpKINode Title="JetDataFiller.TareDelay property" Url="html/46e3bcba-caa6-5bac-3f62-485eb4567830.htm" />
+  <HelpKINode Title="JetDataFiller.TareMode property" Url="html/21a10da0-9698-68d2-ecef-145f72967d51.htm" />
+  <HelpKINode Title="JetDataFiller.TargetFillingWeight property" Url="html/43ff8d40-4be7-7d63-13e6-dedc80ec2f5f.htm" />
+  <HelpKINode Title="JetDataFiller.ToleranceErrorMinus property" Url="html/ce7bd1b9-bbff-62d6-5657-3345285b36c8.htm" />
+  <HelpKINode Title="JetDataFiller.ToleranceErrorPlus property" Url="html/83f16bfe-41e4-8999-c791-d8b6cccf4806.htm" />
+  <HelpKINode Title="JetDataFiller.UpdateFillerData method" Url="html/d2c80f15-f0a7-cc90-c957-f7ed3e458f22.htm" />
+  <HelpKINode Title="JetDataFiller.UpperToleranceLimit property" Url="html/eb96dcc7-9c35-84af-110e-84e63feb192d.htm" />
+  <HelpKINode Title="JetDataFiller.ValveControl property" Url="html/46aa0897-6b82-3dba-ea4d-eeab47495088.htm" />
+  <HelpKINode Title="JetDataFiller.WeightMemDay property" Url="html/06fe2d3e-5b06-1b1b-764e-da6a402f0504.htm" />
+  <HelpKINode Title="JetDataFiller.WeightMemGross property" Url="html/3f737d4e-41c8-a88a-7405-1ca48c421b20.htm" />
+  <HelpKINode Title="JetDataFiller.WeightMemMonth property" Url="html/eb15e1b2-2ee0-e75a-a84b-ec8e5105eb6a.htm" />
+  <HelpKINode Title="JetDataFiller.WeightMemNet property" Url="html/eacd013e-e852-eef2-87ed-ede9a3f193bc.htm" />
+  <HelpKINode Title="JetDataFiller.WeightMemSeqNumber property" Url="html/19e8dae8-2b5c-a9b2-cd88-82e7e726f329.htm" />
+  <HelpKINode Title="JetDataFiller.WeightMemYear property" Url="html/df64a342-072e-69ae-5034-380a993df90d.htm" />
+  <HelpKINode Title="JetDataFillerExtended class">
+    <HelpKINode Title="JetDataFillerExtended Class" Url="html/dd783c98-7634-dc64-d9e3-b876973534f9.htm" />
+    <HelpKINode Title="constructor" Url="html/3048c1d8-e85f-47cc-9e98-56c62f7a84c0.htm" />
+    <HelpKINode Title="methods" Url="html/0f070f98-7125-f5f2-84b3-e7622d14df4c.htm" />
+    <HelpKINode Title="properties" Url="html/7dc4663e-c555-54aa-42f8-64cc25f1ea2a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="JetDataFillerExtended.Delay1Dosing property" Url="html/cf5fda6b-b386-a5b2-9046-b4fb3be9cb7f.htm" />
+  <HelpKINode Title="JetDataFillerExtended.Delay2Dosing property" Url="html/8525eac7-c3c4-73f3-8b3b-48d1bb0d6179.htm" />
+  <HelpKINode Title="JetDataFillerExtended.DischargeTime property" Url="html/1c59615a-910b-c470-af3a-86526c9200de.htm" />
+  <HelpKINode Title="JetDataFillerExtended.EmptyWeightBreak property" Url="html/22ca8f61-51ff-e647-0019-71bb63b3b5dc.htm" />
+  <HelpKINode Title="JetDataFillerExtended.EmptyWeightTolerance property" Url="html/b3a24022-2e18-6b4a-d03f-dea4ca142202.htm" />
+  <HelpKINode Title="JetDataFillerExtended.JetDataFillerExtended constructor" Url="html/3048c1d8-e85f-47cc-9e98-56c62f7a84c0.htm" />
+  <HelpKINode Title="JetDataFillerExtended.MaterialStreamLastFilling property" Url="html/6b1d307c-8a35-464a-a43f-99193df85a88.htm" />
+  <HelpKINode Title="JetDataFillerExtended.ParameterSetProduct property" Url="html/b621aa41-0546-4f7a-a95f-2ede1693f476.htm" />
+  <HelpKINode Title="JetDataFillerExtended.ResidualFlowDosingCycle property" Url="html/2725d278-8048-2a4c-091a-ca762cfd8054.htm" />
+  <HelpKINode Title="JetDataFillerExtended.SpecialFillingFunctions property" Url="html/409ee9d6-f225-fd2e-a0f5-b5d84e0d7c1f.htm" />
+  <HelpKINode Title="JetDataFillerExtended.WeightStorageMode property" Url="html/48bfcb81-540a-72f5-0707-9f807f92a578.htm" />
+  <HelpKINode Title="JetDataLimitSwitch class">
+    <HelpKINode Title="JetDataLimitSwitch Class" Url="html/621ca48e-b529-c699-47b8-eabf591a6e79.htm" />
+    <HelpKINode Title="constructor" Url="html/c33f99a7-86c8-a246-55b9-4033faf3b0f9.htm" />
+    <HelpKINode Title="methods" Url="html/b0f86d55-94ee-73c4-6869-a204d1d69045.htm" />
+    <HelpKINode Title="properties" Url="html/9c421821-8147-37da-14de-18a354d01f75.htm" />
+  </HelpKINode>
+  <HelpKINode Title="JetDataLimitSwitch.JetDataLimitSwitch constructor" Url="html/c33f99a7-86c8-a246-55b9-4033faf3b0f9.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitStatus1 property" Url="html/d5ffc248-85de-e00e-75f2-9bce78228eeb.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitStatus2 property" Url="html/1ccb7590-c063-bfea-be2c-02662581568b.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitStatus3 property" Url="html/e908d9d1-ffcf-be37-a7fe-637263f41412.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitStatus4 property" Url="html/ad61b708-7f93-221f-95e6-71e164e637eb.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1BandHeight property" Url="html/fe1c4908-8c62-7037-7d26-88bed14b1e81.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1Hysteresis property" Url="html/2d0901f0-1932-8e4a-6f4a-b1a4615adca2.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1Level property" Url="html/ed55a156-8e07-5fd0-362b-7d2ee20a63c1.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1LowerBandValue property" Url="html/172b1fe9-5d47-724a-49ea-8a3030d9763c.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1Mode property" Url="html/961e6fd3-1043-d593-aced-a4e6da5c857f.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1Source property" Url="html/514f8408-d0c2-2ee6-dede-c9cd1e2ecade.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2BandHeight property" Url="html/3bb73206-68aa-74b2-7d41-cf709fcf8828.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2Hysteresis property" Url="html/865190ee-10ef-0c50-de93-3b0f4ee61d89.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2Level property" Url="html/2b815028-800f-3552-b3d3-277403637810.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2LowerBandValue property" Url="html/a5327f86-7984-6aa9-0e51-3a2926461fc1.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2Mode property" Url="html/2c71f3f8-ab90-8d36-f118-5181231f7337.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2Source property" Url="html/be6e3325-07f0-b08c-6c06-e164af1e415b.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3BandHeight property" Url="html/3892d0e3-0858-c407-b485-98a31d4540b8.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3Hysteresis property" Url="html/6e6c4b9d-556a-63f4-32d7-c0c5801967d7.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3Level property" Url="html/9546f776-637c-f95f-266c-8cdcd4c03c3e.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3LowerBandValue property" Url="html/6abf026d-015e-41a3-9589-cfe632a46b66.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3Mode property" Url="html/6dc676af-a9ac-33f8-f966-580f203d6405.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3Source property" Url="html/dae5acfc-d5d8-e520-adf7-d99b38cb1680.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4BandHeight property" Url="html/99170239-d40a-8644-0814-ec5df11f4057.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4Hysteresis property" Url="html/5c34ca35-33c3-5fe3-e4cd-e7075cc618ba.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4Level property" Url="html/85c62f02-7716-2ff5-97ba-dd92bc7166a2.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4LowerBandValue property" Url="html/2826f28f-5b3b-5e49-5a6c-68e54a16c867.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4Mode property" Url="html/f91a4368-6e50-c6db-a58d-29b79f6108ea.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4Source property" Url="html/776e57c3-9c8d-8df8-abb7-fc7eb5fa7aca.htm" />
+  <HelpKINode Title="JetDataLimitSwitch.UpdateDataLimitSwitch method" Url="html/3bf64500-20d6-659a-6dcb-be4e11098f63.htm" />
+  <HelpKINode Title="JetProcessData class">
+    <HelpKINode Title="JetProcessData Class" Url="html/dde8287c-63f9-2f23-fd7b-1b2cdd874d15.htm" />
+    <HelpKINode Title="constructor" Url="html/1f6a4c53-21fe-b7b7-df51-481a09c501af.htm" />
+    <HelpKINode Title="methods" Url="html/5fa7dfe4-e88f-c2c0-fe2a-3b8842dd2290.htm" />
+    <HelpKINode Title="properties" Url="html/d20b32bf-2d7e-30d0-9c06-7782dd862c6a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="JetProcessData.ApplicationMode property" Url="html/799c58dd-a936-a1d1-23b1-84a7e91510d1.htm" />
+  <HelpKINode Title="JetProcessData.CenterOfZero property" Url="html/e047a955-7cb0-bc3a-637e-c94a49a66114.htm" />
+  <HelpKINode Title="JetProcessData.Decimals property" Url="html/9b4c145f-5da9-3105-32db-08e151941a1d.htm" />
+  <HelpKINode Title="JetProcessData.GeneralScaleError property" Url="html/3fcbd7d1-6b6c-a9ed-a0a3-cd04ae6b9dcf.htm" />
+  <HelpKINode Title="JetProcessData.HigherSafeLoadLimit property" Url="html/90226c44-3209-cfef-b7ad-5a703c2a65ec.htm" />
+  <HelpKINode Title="JetProcessData.InsideZero property" Url="html/fbfd5758-1656-ddc9-308c-e56043cea801.htm" />
+  <HelpKINode Title="JetProcessData.JetProcessData constructor" Url="html/1f6a4c53-21fe-b7b7-df51-481a09c501af.htm" />
+  <HelpKINode Title="JetProcessData.LegalForTrade property" Url="html/3c0a6a79-9517-90ee-ebce-cc1b692baeb2.htm" />
+  <HelpKINode Title="JetProcessData.Overload property" Url="html/ac49b05c-00e1-71b2-90f4-fca9f9e01e89.htm" />
+  <HelpKINode Title="JetProcessData.PrintableWeight property" Url="html/5bf321c6-095b-e2bc-919b-dae78f8d0666.htm" />
+  <HelpKINode Title="JetProcessData.ScaleAlarm property" Url="html/4a4deb5a-dcc2-2a03-8a65-ad14c22cdca6.htm" />
+  <HelpKINode Title="JetProcessData.ScaleRange property" Url="html/602efa6b-8618-4cbe-52b3-1e795916231c.htm" />
+  <HelpKINode Title="JetProcessData.TareMode property" Url="html/3ec569b5-787e-ffef-f052-a6f97eb57b76.htm" />
+  <HelpKINode Title="JetProcessData.Underload property" Url="html/8b8a3475-372d-1f09-1ec3-285067f2de75.htm" />
+  <HelpKINode Title="JetProcessData.Unit property" Url="html/0b01a9b1-5737-88c8-ca83-cc2d09ef911b.htm" />
+  <HelpKINode Title="JetProcessData.UpdateData method" Url="html/20491377-247f-44f3-73be-b170a592c99f.htm" />
+  <HelpKINode Title="JetProcessData.Weight property" Url="html/b7b6f0a8-b534-48c0-54b9-04a39c4b82fc.htm" />
+  <HelpKINode Title="JetProcessData.WeightStable property" Url="html/d2fd56ea-91fd-a405-d834-f910231ee6c0.htm" />
+  <HelpKINode Title="JetProcessData.ZeroRequired property" Url="html/47358b14-274e-6ea6-a4dc-e514d47e56e4.htm" />
+  <HelpKINode Title="LegalForTrade property">
+    <HelpKINode Title="IProcessData.LegalForTrade Property " Url="html/d042ea5b-63ba-3d85-7f22-46f00925961e.htm" />
+    <HelpKINode Title="JetProcessData.LegalForTrade Property " Url="html/3c0a6a79-9517-90ee-ebce-cc1b692baeb2.htm" />
+    <HelpKINode Title="ModbusDataProcess.LegalForTrade Property " Url="html/c518bb8c-29f9-ea2f-27b7-c9b79337769e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LegalForTradeOperation property" Url="html/116d8558-9e00-e535-8446-62f8bbd78d7c.htm" />
+  <HelpKINode Title="LimitStatus1 property">
+    <HelpKINode Title="IDataLimitSwitch.LimitStatus1 Property " Url="html/957f0c42-3d74-fc41-4010-95cc8e589293.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitStatus1 Property " Url="html/d5ffc248-85de-e00e-75f2-9bce78228eeb.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitStatus1 Property " Url="html/14394758-e873-6633-40fa-e87f077a08d0.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitStatus2 property">
+    <HelpKINode Title="IDataLimitSwitch.LimitStatus2 Property " Url="html/9d2dc05e-7b3c-bac4-6a0f-8d300ef8da5a.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitStatus2 Property " Url="html/1ccb7590-c063-bfea-be2c-02662581568b.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitStatus2 Property " Url="html/34587f06-d68c-5e72-85b0-24e2ef6d132a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitStatus3 property">
+    <HelpKINode Title="IDataLimitSwitch.LimitStatus3 Property " Url="html/70b683e4-2be5-eabe-d6cc-235e166790ac.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitStatus3 Property " Url="html/e908d9d1-ffcf-be37-a7fe-637263f41412.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitStatus3 Property " Url="html/97939f35-dcd3-4cd0-6df8-1ec8ad3c7085.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitStatus4 property">
+    <HelpKINode Title="IDataLimitSwitch.LimitStatus4 Property " Url="html/3590313c-bd9b-bda7-11e2-b2af3d8e0bae.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitStatus4 Property " Url="html/ad61b708-7f93-221f-95e6-71e164e637eb.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitStatus4 Property " Url="html/a4cd8975-aaba-092f-99b6-ad744141e1b8.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch property">
+    <HelpKINode Title="BaseWTXDevice.LimitSwitch Property " Url="html/e26e0a5a-18c0-fbb2-8a50-41797ce5fab5.htm" />
+    <HelpKINode Title="WTXJet.LimitSwitch Property " Url="html/4e4fb1c8-611d-faaa-7acb-8950ae7b441c.htm" />
+    <HelpKINode Title="WTXModbus.LimitSwitch Property " Url="html/0adfb82d-37c7-e61a-0753-8982c81e7125.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch1 enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="LimitSwitch1BandHeight property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch1BandHeight Property " Url="html/7fb5f68b-30aa-ff49-1932-bf11528dcab8.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1BandHeight Property " Url="html/fe1c4908-8c62-7037-7d26-88bed14b1e81.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1BandHeight Property " Url="html/fc5415b8-5d50-8c2b-1a57-43441b0119e7.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch1Hysteresis property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch1Hysteresis Property " Url="html/b8578981-beba-159e-d827-183ef1dbc127.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1Hysteresis Property " Url="html/2d0901f0-1932-8e4a-6f4a-b1a4615adca2.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1Hysteresis Property " Url="html/feecba0c-8c4d-836d-ff0d-754d2d5b841d.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch1Level property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch1Level Property " Url="html/d4a68886-bbf8-0734-fb2a-685a3bfc896a.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1Level Property " Url="html/ed55a156-8e07-5fd0-362b-7d2ee20a63c1.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1Level Property " Url="html/43322769-0095-1d93-8ebe-fb207b2e6695.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch1LowerBandValue property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch1LowerBandValue Property " Url="html/3dd56692-7de8-5a65-83a2-14f0712b3572.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1LowerBandValue Property " Url="html/172b1fe9-5d47-724a-49ea-8a3030d9763c.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1LowerBandValue Property " Url="html/51799df3-940a-f0cd-2167-543dcd64b966.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch1Mode property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch1Mode Property " Url="html/5410a395-7650-055b-ac24-8291248a034a.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1Mode Property " Url="html/961e6fd3-1043-d593-aced-a4e6da5c857f.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1Mode Property " Url="html/cb630d31-599a-67ff-eb47-f57b76ecb20e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch1Source property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch1Source Property " Url="html/f6e03cc8-85c6-9dd1-9b65-be33348f6dcf.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch1Source Property " Url="html/514f8408-d0c2-2ee6-dede-c9cd1e2ecade.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1Source Property " Url="html/aa2ccb0e-61a0-8d60-dd58-ef87466f1d0c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch2 enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="LimitSwitch2BandHeight property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch2BandHeight Property " Url="html/28cc52d4-1b3b-1c6b-90ad-8ab00354502d.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2BandHeight Property " Url="html/3bb73206-68aa-74b2-7d41-cf709fcf8828.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2BandHeight Property " Url="html/7bf00fcb-399d-7cab-66c6-6d521ef1979f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch2Hysteresis property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch2Hysteresis Property " Url="html/d38232d6-7e92-5324-460c-bad8cd17632b.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2Hysteresis Property " Url="html/865190ee-10ef-0c50-de93-3b0f4ee61d89.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2Hysteresis Property " Url="html/206b8e92-70e5-eea2-9777-6b1132c3c396.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch2Level property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch2Level Property " Url="html/736d031f-ae4d-f3cd-e8c5-015f1c8943ff.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2Level Property " Url="html/2b815028-800f-3552-b3d3-277403637810.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2Level Property " Url="html/03b4c0c6-d219-0469-0306-7a701af4d853.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch2LowerBandValue property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch2LowerBandValue Property " Url="html/218015c1-bd6f-544c-4776-4be62bc83bc0.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2LowerBandValue Property " Url="html/a5327f86-7984-6aa9-0e51-3a2926461fc1.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2LowerBandValue Property " Url="html/a40b057c-dfda-273c-afbb-3cc1723e46e5.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch2Mode property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch2Mode Property " Url="html/3e347261-732d-70b1-6495-b86b473a6841.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2Mode Property " Url="html/2c71f3f8-ab90-8d36-f118-5181231f7337.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2Mode Property " Url="html/4dd906ea-3958-c46e-a443-d1d675723727.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch2Source property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch2Source Property " Url="html/bd94ae23-32f5-bb61-323f-b439650bbe2a.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch2Source Property " Url="html/be6e3325-07f0-b08c-6c06-e164af1e415b.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2Source Property " Url="html/8094b842-b05b-ac0e-e1d2-ea2aba63704f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch3 enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="LimitSwitch3BandHeight property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch3BandHeight Property " Url="html/04a44e58-5f19-0854-f3a3-eb6aafaae834.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3BandHeight Property " Url="html/3892d0e3-0858-c407-b485-98a31d4540b8.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3BandHeight Property " Url="html/7b2f8501-ba34-a11c-7ab6-9d8f41f7cfeb.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch3Hysteresis property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch3Hysteresis Property " Url="html/94f93ad7-41e7-4384-92d5-c90b23b4ba59.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3Hysteresis Property " Url="html/6e6c4b9d-556a-63f4-32d7-c0c5801967d7.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3Hysteresis Property " Url="html/5c67e251-7e62-fa25-61a2-3c583b351793.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch3Level property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch3Level Property " Url="html/1d7eaf0f-2e7c-7633-2c8a-b0df07125584.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3Level Property " Url="html/9546f776-637c-f95f-266c-8cdcd4c03c3e.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3Level Property " Url="html/b696f895-c250-4068-3999-b2c67501f182.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch3LowerBandValue property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch3LowerBandValue Property " Url="html/aaba28a9-77e1-8929-8f2c-f91de5bb469e.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3LowerBandValue Property " Url="html/6abf026d-015e-41a3-9589-cfe632a46b66.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3LowerBandValue Property " Url="html/98b73d68-1774-e24b-6ea9-69644d91bcbe.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch3Mode property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch3Mode Property " Url="html/c9733731-7173-b99d-4478-e1f73eba284b.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3Mode Property " Url="html/6dc676af-a9ac-33f8-f966-580f203d6405.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3Mode Property " Url="html/95d0becd-a887-dc42-9e8f-96966d36f58c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch3Source property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch3Source Property " Url="html/dc6a7f8c-86d1-2e05-5aa1-ac8e2e3f6359.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch3Source Property " Url="html/dae5acfc-d5d8-e520-adf7-d99b38cb1680.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3Source Property " Url="html/5c7dce22-7ccc-6e12-0eec-5cbc24eaf58f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch4 enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="LimitSwitch4BandHeight property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch4BandHeight Property " Url="html/4864baf8-1311-5e69-68a9-b1918d3b6be7.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4BandHeight Property " Url="html/99170239-d40a-8644-0814-ec5df11f4057.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4BandHeight Property " Url="html/dc11afe9-efc4-7b4a-5153-4290803c990e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch4Hysteresis property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch4Hysteresis Property " Url="html/0d8192d0-f2e0-a401-dabd-85380c4f766f.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4Hysteresis Property " Url="html/5c34ca35-33c3-5fe3-e4cd-e7075cc618ba.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4Hysteresis Property " Url="html/1d6b3592-0664-ab74-a481-2db3a53a33ea.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch4Level property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch4Level Property " Url="html/56b3f226-4ed3-be19-531e-bc330e976874.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4Level Property " Url="html/85c62f02-7716-2ff5-97ba-dd92bc7166a2.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4Level Property " Url="html/9e452da2-6988-ed69-c984-271e3aaaba3a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch4LowerBandValue property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch4LowerBandValue Property " Url="html/fe899d3a-00be-f71b-f3a5-1d360d878aea.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4LowerBandValue Property " Url="html/2826f28f-5b3b-5e49-5a6c-68e54a16c867.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4LowerBandValue Property " Url="html/9fd63e88-f53d-f21a-6e5a-65a7644d8675.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch4Mode property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch4Mode Property " Url="html/17ae3e26-b9cc-30f6-c4b3-5e4586bd4036.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4Mode Property " Url="html/f91a4368-6e50-c6db-a58d-29b79f6108ea.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4Mode Property " Url="html/5e5d51ff-2af7-90c6-2310-5f9c8d7399d4.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitch4Source property">
+    <HelpKINode Title="IDataLimitSwitch.LimitSwitch4Source Property " Url="html/cc53d10f-29f9-a6b3-6a54-c505ff6398fe.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.LimitSwitch4Source Property " Url="html/776e57c3-9c8d-8df8-abb7-fc7eb5fa7aca.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4Source Property " Url="html/1d7a8ece-eae0-eeb2-e6c5-e92906e6f944.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LimitSwitchMode enumeration" Url="html/145c9893-de50-972c-d875-be5e3b75f4b6.htm" />
+  <HelpKINode Title="LimitSwitchSource enumeration" Url="html/fe3d0706-2f04-b1d7-79c5-b9afc6e0c554.htm" />
+  <HelpKINode Title="LocalGravityFactor property" Url="html/58389727-19ce-313a-520e-454c653627d5.htm" />
+  <HelpKINode Title="LogEventArgs class">
+    <HelpKINode Title="LogEventArgs Class" Url="html/6d995764-2fa9-a042-e221-503d049b1644.htm" />
+    <HelpKINode Title="constructor" Url="html/331ac847-1fe1-ba12-7d1b-c57ee30314ae.htm" />
+    <HelpKINode Title="properties" Url="html/cbe78964-3cf3-7eee-8eac-23c3c127ca1f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LogEventArgs.Args property" Url="html/a71b74e6-f1cd-0e75-b5dd-5e9b60527a6e.htm" />
+  <HelpKINode Title="LogEventArgs.LogEventArgs constructor" Url="html/331ac847-1fe1-ba12-7d1b-c57ee30314ae.htm" />
+  <HelpKINode Title="LowerToleranceLimit property">
+    <HelpKINode Title="IDataFiller.LowerToleranceLimit Property " Url="html/b01fb243-384e-8ed3-b913-1b61a24364ea.htm" />
+    <HelpKINode Title="JetDataFiller.LowerToleranceLimit Property " Url="html/2b52408e-44b3-625b-e0af-e2a02723cfa3.htm" />
+    <HelpKINode Title="ModbusDataFiller.LowerToleranceLimit Property " Url="html/f61c4767-5fc1-9757-e0db-7e672700c929.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LowPasCutOffFrequency property">
+    <HelpKINode Title="DSEJet.LowPasCutOffFrequency Property " Url="html/04c54bbb-9bab-f424-7801-53bee299a681.htm" />
+    <HelpKINode Title="IDataDigitalFilter.LowPasCutOffFrequency Property " Url="html/e08729b6-8e4e-262e-b0fc-331d014880d6.htm" />
+    <HelpKINode Title="WTXJet.LowPasCutOffFrequency Property " Url="html/5d905f25-5875-946c-5396-d9c952dd385f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LowPassFilterMode property">
+    <HelpKINode Title="DSEJet.LowPassFilterMode Property " Url="html/caed62b7-7f82-47c5-0471-8125f46bf93a.htm" />
+    <HelpKINode Title="IDataDigitalFilter.LowPassFilterMode Property " Url="html/6be33334-91af-0e2b-60d5-5ca46c3a56a1.htm" />
+    <HelpKINode Title="WTXJet.LowPassFilterMode Property " Url="html/7dd0232c-ee73-f296-1863-d8ad1eef6690.htm" />
+  </HelpKINode>
+  <HelpKINode Title="LowPassFilterOrder property">
+    <HelpKINode Title="DSEJet.LowPassFilterOrder Property " Url="html/9a70640d-c8b5-511f-f8da-a38385c3c24b.htm" />
+    <HelpKINode Title="IDataDigitalFilter.LowPassFilterOrder Property " Url="html/4e3add15-b608-4cf2-3e0b-64720cf5e538.htm" />
+    <HelpKINode Title="WTXJet.LowPassFilterOrder Property " Url="html/93bc92d5-7796-011b-ed7c-b3710d15191e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Manually enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="ManualTareValue property">
+    <HelpKINode Title="BaseWTDevice.ManualTareValue Property " Url="html/12e694ed-b969-7963-4027-785421a24e53.htm" />
+    <HelpKINode Title="DSEJet.ManualTareValue Property " Url="html/6dd90511-b1d2-e690-6708-6b4185a38000.htm" />
+    <HelpKINode Title="WTXJet.ManualTareValue Property " Url="html/7be26e90-c9a9-d823-16c9-cf6bc34081fe.htm" />
+    <HelpKINode Title="WTXModbus.ManualTareValue Property " Url="html/2bc7db98-9dfd-a6d9-dd12-5dde19c68cac.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MaterialStreamLastFilling property">
+    <HelpKINode Title="IDataFillerExtended.MaterialStreamLastFilling Property " Url="html/c6f335ce-49f4-776b-0f8e-4c757afd1993.htm" />
+    <HelpKINode Title="JetDataFillerExtended.MaterialStreamLastFilling Property " Url="html/6b1d307c-8a35-464a-a43f-99193df85a88.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MaxDosingTime property">
+    <HelpKINode Title="JetDataFiller.MaxDosingTime Property " Url="html/2e0896b0-0434-6a9b-a560-5924b1b3c2a6.htm" />
+    <HelpKINode Title="ModbusDataFiller.MaxDosingTime Property " Url="html/823d944d-6110-485c-3b58-63068666fdae.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MaxFillingTime property">
+    <HelpKINode Title="IDataFiller.MaxFillingTime Property " Url="html/0915a771-996c-2243-ae4b-beb9bbc168ee.htm" />
+    <HelpKINode Title="JetDataFiller.MaxFillingTime Property " Url="html/2172738d-9bde-fca4-3e49-32e9ee14b891.htm" />
+    <HelpKINode Title="ModbusDataFiller.MaxFillingTime Property " Url="html/32e741f2-3a23-ad1b-a768-65e980d8f21e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MaximumCapacity property">
+    <HelpKINode Title="BaseWTDevice.MaximumCapacity Property " Url="html/6012cc12-1afc-cf86-ec3d-fa5884a9ccfa.htm" />
+    <HelpKINode Title="DSEJet.MaximumCapacity Property " Url="html/14ac50d3-f36d-6c31-d1af-4c92b820b3dd.htm" />
+    <HelpKINode Title="WTXJet.MaximumCapacity Property " Url="html/5a9a6b39-418b-9e0e-ebc1-c90e56490aff.htm" />
+    <HelpKINode Title="WTXModbus.MaximumCapacity Property " Url="html/1ca6c839-ffcf-a7f5-2b5c-f1833001da6f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MaximumPeakValue property" Url="html/a19d79ff-0cc6-8eec-b054-b1ade0570be9.htm" />
+  <HelpKINode Title="MaximumPeakValueGross property" Url="html/3182668f-5926-e712-ab9e-e71ec28488e2.htm" />
+  <HelpKINode Title="MaximumZeroingTime property">
+    <HelpKINode Title="DSEJet.MaximumZeroingTime Property " Url="html/e146cf7a-f067-98a7-98c4-756c9ed37add.htm" />
+    <HelpKINode Title="WTXJet.MaximumZeroingTime Property " Url="html/ee958c79-a3bc-6176-377d-aaea16fe2a80.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MeasurementUtils class">
+    <HelpKINode Title="MeasurementUtils Class" Url="html/c0af9df9-ad03-5283-2c44-4b37a4fad546.htm" />
+    <HelpKINode Title="methods" Url="html/cbb39f30-140f-b6d8-4ea8-6483a493bafe.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MeasurementUtils.DigitToDouble method" Url="html/60e1b163-b319-e503-af12-9680b72183f1.htm" />
+  <HelpKINode Title="MeasurementUtils.DoubleToDigit method" Url="html/c2445090-72c6-7e6a-9129-4246afc445bc.htm" />
+  <HelpKINode Title="MeasurementUtils.StringToBool method" Url="html/2c7b8339-7cc4-7dc0-decd-9c4de444f0b1.htm" />
+  <HelpKINode Title="Message property" Url="html/f524f514-3ddc-9528-11d7-60ffb9446e9f.htm" />
+  <HelpKINode Title="MinimumFineFlow property">
+    <HelpKINode Title="IDataFiller.MinimumFineFlow Property " Url="html/67eadf72-f4fa-8daf-7cfb-aeb0639b2dbd.htm" />
+    <HelpKINode Title="JetDataFiller.MinimumFineFlow Property " Url="html/5f942dfd-06c5-c3f5-b14a-6fe3df1ec442.htm" />
+    <HelpKINode Title="ModbusDataFiller.MinimumFineFlow Property " Url="html/b38406bd-4949-4f1c-031e-8d6e6a0c95fe.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MinimumPeakValue property" Url="html/c41aff5a-ac90-9286-7f67-66cc80b5f126.htm" />
+  <HelpKINode Title="MinimumPeakValueGross property" Url="html/81775222-94b7-c493-9618-2d8f49dc1eba.htm" />
+  <HelpKINode Title="MinimumStartWeight property">
+    <HelpKINode Title="IDataFiller.MinimumStartWeight Property " Url="html/cbcf5b87-1e6e-a93e-ee08-de3dfd9fb675.htm" />
+    <HelpKINode Title="JetDataFiller.MinimumStartWeight Property " Url="html/1f57cb8e-3715-f9d5-63d8-e4b50fedc98b.htm" />
+    <HelpKINode Title="ModbusDataFiller.MinimumStartWeight Property " Url="html/d2b991f8-fa37-3db3-7f0f-766b3ccde69a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Modbus enumeration member" Url="html/ddca1f9a-e45a-a78d-a373-63ce1fd51d5b.htm" />
+  <HelpKINode Title="ModbusDataDigitalIO class">
+    <HelpKINode Title="ModbusDataDigitalIO Class" Url="html/73b7fccd-c088-a9e8-50d1-8e3c7210b738.htm" />
+    <HelpKINode Title="constructor" Url="html/a1e33b2a-379a-ff60-9a64-e3a959a23b5b.htm" />
+    <HelpKINode Title="methods" Url="html/2d55e274-bd6d-8236-862a-fb677d980c7f.htm" />
+    <HelpKINode Title="properties" Url="html/cb9db350-bb22-1a67-a66a-4ee6cfe00042.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ModbusDataDigitalIO.Input1 property" Url="html/b9450379-d122-ec32-fa90-eac63a0c064f.htm" />
+  <HelpKINode Title="ModbusDataDigitalIO.Input2 property" Url="html/eddcd2af-7eb1-f84f-1822-abc1860d31e6.htm" />
+  <HelpKINode Title="ModbusDataDigitalIO.Input3 property" Url="html/29f200f9-8418-9f52-8e16-4a5fbfccc5a1.htm" />
+  <HelpKINode Title="ModbusDataDigitalIO.Input4 property" Url="html/24268068-cb6f-1acd-df2e-bb1925deda8f.htm" />
+  <HelpKINode Title="ModbusDataDigitalIO.ModbusDataDigitalIO constructor" Url="html/a1e33b2a-379a-ff60-9a64-e3a959a23b5b.htm" />
+  <HelpKINode Title="ModbusDataDigitalIO.Output1 property" Url="html/b357a136-745b-f2ba-62ef-6c36eaa2128b.htm" />
+  <HelpKINode Title="ModbusDataDigitalIO.Output2 property" Url="html/497fb3e1-4ad0-cc26-3df7-4a87033c6b6e.htm" />
+  <HelpKINode Title="ModbusDataDigitalIO.Output3 property" Url="html/e6a88052-720c-393c-8d0a-b3db7c48aeb6.htm" />
+  <HelpKINode Title="ModbusDataDigitalIO.Output4 property" Url="html/63790d42-b681-1280-266d-e86d96f39458.htm" />
+  <HelpKINode Title="ModbusDataDigitalIO.UpdateDataIO method" Url="html/52006fe4-be2b-7ae6-7d72-4c79cfd845bf.htm" />
+  <HelpKINode Title="ModbusDataFiller class">
+    <HelpKINode Title="ModbusDataFiller Class" Url="html/5f88172f-5241-4d05-73f9-ff6ddf6bdc32.htm" />
+    <HelpKINode Title="constructor" Url="html/bab8131c-8953-a982-b890-77588470bc17.htm" />
+    <HelpKINode Title="methods" Url="html/bbef2b0b-3c11-b15a-4704-1aef17a8222f.htm" />
+    <HelpKINode Title="properties" Url="html/242c3e8d-b68d-24a5-a791-ff88d8ccf0e3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ModbusDataFiller.ActivationTimeAfterFilling property" Url="html/9092bbc5-6062-3348-f4ab-c4ad9336b3ac.htm" />
+  <HelpKINode Title="ModbusDataFiller.AdcOverUnderload property" Url="html/a060c2d2-8308-fd4a-e055-737b4ee50621.htm" />
+  <HelpKINode Title="ModbusDataFiller.Alarm property" Url="html/d466e4d6-934b-e984-e252-10b28856cc21.htm" />
+  <HelpKINode Title="ModbusDataFiller.BreakFilling method" Url="html/93b15a7b-95cf-2516-3297-1515a23c8995.htm" />
+  <HelpKINode Title="ModbusDataFiller.ClearFillingResult method" Url="html/5d192871-b9be-3823-e267-fed0ff8245f9.htm" />
+  <HelpKINode Title="ModbusDataFiller.CoarseFlow property" Url="html/6bb51e4b-df93-befc-9c42-629596e85ca6.htm" />
+  <HelpKINode Title="ModbusDataFiller.CoarseFlowCutOffLevel property" Url="html/bc712962-5e9a-6059-0379-2a834571d665.htm" />
+  <HelpKINode Title="ModbusDataFiller.CoarseFlowCutOffPoint property" Url="html/44b3015c-3a39-2192-0675-25ce87c8251c.htm" />
+  <HelpKINode Title="ModbusDataFiller.CoarseFlowMonitoring property" Url="html/c80cf282-7695-af65-ff5b-6c50108e1d47.htm" />
+  <HelpKINode Title="ModbusDataFiller.CoarseFlowMonitoringTime property" Url="html/66490b3b-2b30-8ad9-4c02-1db5057fe5c7.htm" />
+  <HelpKINode Title="ModbusDataFiller.CoarseLockoutTime property" Url="html/0bca4512-6c34-d376-fed5-6d65215fe772.htm" />
+  <HelpKINode Title="ModbusDataFiller.CurrentCoarseFlowTime property" Url="html/f1639551-c5d4-57e2-fc65-8b5b04aa9c1b.htm" />
+  <HelpKINode Title="ModbusDataFiller.CurrentDosingTime property" Url="html/7611b033-4737-7a1f-a1fb-6e25863c07a7.htm" />
+  <HelpKINode Title="ModbusDataFiller.CurrentFineFlowTime property" Url="html/95942d19-bc37-5542-9a4b-5b587311f1b5.htm" />
+  <HelpKINode Title="ModbusDataFiller.DelayTimeAfterFilling property" Url="html/0e1b1d34-9399-4a6c-4c8b-c32f9e3c1669.htm" />
+  <HelpKINode Title="ModbusDataFiller.Emptying property" Url="html/8ba52c28-fd06-7fd8-8261-e0c2756c4222.htm" />
+  <HelpKINode Title="ModbusDataFiller.EmptyingMode property" Url="html/7a5c6af4-6c28-62a8-8953-7818ea2ee1d8.htm" />
+  <HelpKINode Title="ModbusDataFiller.EmptyWeight property" Url="html/11e0e7f2-37a7-0746-f346-16863bd86625.htm" />
+  <HelpKINode Title="ModbusDataFiller.FillingMode property" Url="html/37bf4d06-38a0-9c97-f1e5-8265337d50de.htm" />
+  <HelpKINode Title="ModbusDataFiller.FillingProcessStatus property" Url="html/74dc837b-2613-f4f0-99c7-22178cdba29e.htm" />
+  <HelpKINode Title="ModbusDataFiller.FillingResult property" Url="html/591c5088-2c19-e3ff-e16c-99849d2fa985.htm" />
+  <HelpKINode Title="ModbusDataFiller.FillingResultCount property" Url="html/57cd3b4c-45ba-827f-4f4c-b31464a1fdc2.htm" />
+  <HelpKINode Title="ModbusDataFiller.FillingResultMeanValue property" Url="html/76f7a386-c6f3-8135-a708-6b0c0c93ad1f.htm" />
+  <HelpKINode Title="ModbusDataFiller.FillingResultStandardDeviation property" Url="html/e76fb660-62e2-0b45-002a-8966c62a7aad.htm" />
+  <HelpKINode Title="ModbusDataFiller.FillingResultTotalSum property" Url="html/5704e198-9a74-46af-173d-9e97430aa88c.htm" />
+  <HelpKINode Title="ModbusDataFiller.FineFlow property" Url="html/5f5f8a61-cc6f-69ca-866c-91b08512891a.htm" />
+  <HelpKINode Title="ModbusDataFiller.FineFlowCutOffLevel property" Url="html/321052d4-9161-2d50-0b17-5a519896167a.htm" />
+  <HelpKINode Title="ModbusDataFiller.FineFlowCutOffPoint property" Url="html/7869fa3a-8e8c-4729-81fa-f56c6a75f1c6.htm" />
+  <HelpKINode Title="ModbusDataFiller.FineFlowMonitoring property" Url="html/617eb76b-bdb6-4757-40ac-55540f4e9f0a.htm" />
+  <HelpKINode Title="ModbusDataFiller.FineFlowMonitoringTime property" Url="html/877f8c66-14ac-6c54-fc8e-6887829e8d5b.htm" />
+  <HelpKINode Title="ModbusDataFiller.FineLockoutTime property" Url="html/56de4b54-5e94-1e03-3334-a3d4a4b67d3e.htm" />
+  <HelpKINode Title="ModbusDataFiller.FlowError property" Url="html/3b295131-a116-8085-9f57-f59d8aa54c17.htm" />
+  <HelpKINode Title="ModbusDataFiller.GeneralScaleError property" Url="html/79d904f5-39c9-1b93-59ab-7017eae6b9f7.htm" />
+  <HelpKINode Title="ModbusDataFiller.LegalForTradeOperation property" Url="html/116d8558-9e00-e535-8446-62f8bbd78d7c.htm" />
+  <HelpKINode Title="ModbusDataFiller.LowerToleranceLimit property" Url="html/f61c4767-5fc1-9757-e0db-7e672700c929.htm" />
+  <HelpKINode Title="ModbusDataFiller.MaxDosingTime property" Url="html/823d944d-6110-485c-3b58-63068666fdae.htm" />
+  <HelpKINode Title="ModbusDataFiller.MaxFillingTime property" Url="html/32e741f2-3a23-ad1b-a768-65e980d8f21e.htm" />
+  <HelpKINode Title="ModbusDataFiller.MinimumFineFlow property" Url="html/b38406bd-4949-4f1c-031e-8d6e6a0c95fe.htm" />
+  <HelpKINode Title="ModbusDataFiller.MinimumStartWeight property" Url="html/d2b991f8-fa37-3db3-7f0f-766b3ccde69a.htm" />
+  <HelpKINode Title="ModbusDataFiller.ModbusDataFiller constructor" Url="html/bab8131c-8953-a982-b890-77588470bc17.htm" />
+  <HelpKINode Title="ModbusDataFiller.OptimizationMode property" Url="html/3b6366f4-50f6-7082-f36f-0371bd33599d.htm" />
+  <HelpKINode Title="ModbusDataFiller.ParameterSetProduct property" Url="html/a8052d5c-1f56-0b7f-1a63-f2e5db58dca9.htm" />
+  <HelpKINode Title="ModbusDataFiller.Ready property" Url="html/3fff367e-4119-73a9-2ce8-cc45087e38a7.htm" />
+  <HelpKINode Title="ModbusDataFiller.ReDosing property" Url="html/527e2213-2569-1e6a-0424-1fe4df00a5ce.htm" />
+  <HelpKINode Title="ModbusDataFiller.ResidualFlowTime property" Url="html/7ef396ac-dac6-8390-8165-aa649b762e6c.htm" />
+  <HelpKINode Title="ModbusDataFiller.StartFilling method" Url="html/c02c9d3c-cbd1-1b45-328b-6e7317064fda.htm" />
+  <HelpKINode Title="ModbusDataFiller.StartWithFineFlow property" Url="html/3870fc71-1895-b484-e5fd-6378d60a51bd.htm" />
+  <HelpKINode Title="ModbusDataFiller.StatusInput1 property" Url="html/9f1292af-a2b1-6bb4-2f93-ff3fb8cf74c0.htm" />
+  <HelpKINode Title="ModbusDataFiller.SystematicDifference property" Url="html/6b5ea0c8-adae-43ff-ea02-5840b7bbd977.htm" />
+  <HelpKINode Title="ModbusDataFiller.TareDelay property" Url="html/8380fa19-9c3a-4168-580e-1b9662fc34bc.htm" />
+  <HelpKINode Title="ModbusDataFiller.TareMode property" Url="html/d0cbe1f6-1b9e-6432-c7c8-da0d0ec66f06.htm" />
+  <HelpKINode Title="ModbusDataFiller.TargetFillingWeight property" Url="html/c8fad243-9e4a-fba8-6eac-53ea5420d276.htm" />
+  <HelpKINode Title="ModbusDataFiller.ToleranceErrorMinus property" Url="html/85540633-10ed-ef01-64ab-61f37fa879b6.htm" />
+  <HelpKINode Title="ModbusDataFiller.ToleranceErrorPlus property" Url="html/6bf77cec-0489-15c2-854c-56430826bc1c.htm" />
+  <HelpKINode Title="ModbusDataFiller.UpdateFillerData method" Url="html/aa0ea91b-f2c5-d8b7-7f19-7e66ca4bebce.htm" />
+  <HelpKINode Title="ModbusDataFiller.UpperToleranceLimit property" Url="html/25405531-099a-52bd-4165-9f216699a21a.htm" />
+  <HelpKINode Title="ModbusDataFiller.ValveControl property" Url="html/d3a268f0-4d87-a008-726e-5690f5c52e5b.htm" />
+  <HelpKINode Title="ModbusDataFiller.WeightMemDay property" Url="html/0fe36524-0af3-5f33-afc8-6d3f580149f6.htm" />
+  <HelpKINode Title="ModbusDataFiller.WeightMemGross property" Url="html/9ebbb3c2-da7d-2a61-fcac-0f313c1399dc.htm" />
+  <HelpKINode Title="ModbusDataFiller.WeightMemMonth property" Url="html/5cf5a318-423b-4265-7e1a-a952e9a6a91a.htm" />
+  <HelpKINode Title="ModbusDataFiller.WeightMemNet property" Url="html/b03a0101-83ba-550c-4ebf-e7ce5ae95464.htm" />
+  <HelpKINode Title="ModbusDataFiller.WeightMemSeqNumber property" Url="html/a43b1514-0bde-fb62-552b-e8794e0c62a1.htm" />
+  <HelpKINode Title="ModbusDataFiller.WeightMemYear property" Url="html/9e4a8ce3-0417-5290-0064-6f687f108662.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch class">
+    <HelpKINode Title="ModbusDataLimitSwitch Class" Url="html/3ca72b04-93bd-2bf4-397f-9c21861873df.htm" />
+    <HelpKINode Title="constructor" Url="html/2f077187-4cd3-0a49-b794-096ba4e0c0bd.htm" />
+    <HelpKINode Title="methods" Url="html/1071955f-6ed8-755e-1b5f-5397bbf210fd.htm" />
+    <HelpKINode Title="properties" Url="html/28a1935b-27b4-fbeb-5c17-0432af768d47.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitStatus1 property" Url="html/14394758-e873-6633-40fa-e87f077a08d0.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitStatus2 property" Url="html/34587f06-d68c-5e72-85b0-24e2ef6d132a.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitStatus3 property" Url="html/97939f35-dcd3-4cd0-6df8-1ec8ad3c7085.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitStatus4 property" Url="html/a4cd8975-aaba-092f-99b6-ad744141e1b8.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1BandHeight property" Url="html/fc5415b8-5d50-8c2b-1a57-43441b0119e7.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1Hysteresis property" Url="html/feecba0c-8c4d-836d-ff0d-754d2d5b841d.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1Level property" Url="html/43322769-0095-1d93-8ebe-fb207b2e6695.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1LowerBandValue property" Url="html/51799df3-940a-f0cd-2167-543dcd64b966.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1Mode property" Url="html/cb630d31-599a-67ff-eb47-f57b76ecb20e.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch1Source property" Url="html/aa2ccb0e-61a0-8d60-dd58-ef87466f1d0c.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2BandHeight property" Url="html/7bf00fcb-399d-7cab-66c6-6d521ef1979f.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2Hysteresis property" Url="html/206b8e92-70e5-eea2-9777-6b1132c3c396.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2Level property" Url="html/03b4c0c6-d219-0469-0306-7a701af4d853.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2LowerBandValue property" Url="html/a40b057c-dfda-273c-afbb-3cc1723e46e5.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2Mode property" Url="html/4dd906ea-3958-c46e-a443-d1d675723727.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch2Source property" Url="html/8094b842-b05b-ac0e-e1d2-ea2aba63704f.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3BandHeight property" Url="html/7b2f8501-ba34-a11c-7ab6-9d8f41f7cfeb.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3Hysteresis property" Url="html/5c67e251-7e62-fa25-61a2-3c583b351793.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3Level property" Url="html/b696f895-c250-4068-3999-b2c67501f182.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3LowerBandValue property" Url="html/98b73d68-1774-e24b-6ea9-69644d91bcbe.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3Mode property" Url="html/95d0becd-a887-dc42-9e8f-96966d36f58c.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch3Source property" Url="html/5c7dce22-7ccc-6e12-0eec-5cbc24eaf58f.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4BandHeight property" Url="html/dc11afe9-efc4-7b4a-5153-4290803c990e.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4Hysteresis property" Url="html/1d6b3592-0664-ab74-a481-2db3a53a33ea.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4Level property" Url="html/9e452da2-6988-ed69-c984-271e3aaaba3a.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4LowerBandValue property" Url="html/9fd63e88-f53d-f21a-6e5a-65a7644d8675.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4Mode property" Url="html/5e5d51ff-2af7-90c6-2310-5f9c8d7399d4.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.LimitSwitch4Source property" Url="html/1d7a8ece-eae0-eeb2-e6c5-e92906e6f944.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.ModbusDataLimitSwitch constructor" Url="html/2f077187-4cd3-0a49-b794-096ba4e0c0bd.htm" />
+  <HelpKINode Title="ModbusDataLimitSwitch.UpdateDataLimitSwitch method" Url="html/3ea9d8ab-000a-9025-2580-95b23638fc5e.htm" />
+  <HelpKINode Title="ModbusDataProcess class">
+    <HelpKINode Title="ModbusDataProcess Class" Url="html/fb738ff1-4271-2843-2e45-9ad40786221c.htm" />
+    <HelpKINode Title="constructor" Url="html/a745c859-8ab4-bbcf-8aac-c9ec173820a3.htm" />
+    <HelpKINode Title="methods" Url="html/f067b72a-7f4f-01ee-0c59-b1a61ecdb6b6.htm" />
+    <HelpKINode Title="properties" Url="html/05d8357e-e499-660e-b55d-9abf8490c470.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ModbusDataProcess.ApplicationMode property" Url="html/fb89a011-83c6-024a-f859-7fded1504cca.htm" />
+  <HelpKINode Title="ModbusDataProcess.CenterOfZero property" Url="html/74177abc-f210-6bc2-440a-c089c61b8ad9.htm" />
+  <HelpKINode Title="ModbusDataProcess.Decimals property" Url="html/f463e767-de61-b2a2-d2eb-5f55a95953c3.htm" />
+  <HelpKINode Title="ModbusDataProcess.GeneralScaleError property" Url="html/e6e08117-ec5f-2abe-7523-f4d619d66d48.htm" />
+  <HelpKINode Title="ModbusDataProcess.HigherSafeLoadLimit property" Url="html/0adc6417-6116-ab44-5538-6cee52dd38da.htm" />
+  <HelpKINode Title="ModbusDataProcess.InsideZero property" Url="html/26a15e99-9f2c-5640-fb78-ce2422f8f87b.htm" />
+  <HelpKINode Title="ModbusDataProcess.LegalForTrade property" Url="html/c518bb8c-29f9-ea2f-27b7-c9b79337769e.htm" />
+  <HelpKINode Title="ModbusDataProcess.ModbusDataProcess constructor" Url="html/a745c859-8ab4-bbcf-8aac-c9ec173820a3.htm" />
+  <HelpKINode Title="ModbusDataProcess.Overload property" Url="html/06e459be-80ab-2701-bf5e-8256eae47f48.htm" />
+  <HelpKINode Title="ModbusDataProcess.PrintableWeight property" Url="html/0a409646-c3c4-2dd4-69aa-d208cc831a17.htm" />
+  <HelpKINode Title="ModbusDataProcess.ScaleAlarm property" Url="html/8c250c9a-651f-93b6-be0c-47a650cefbfb.htm" />
+  <HelpKINode Title="ModbusDataProcess.ScaleRange property" Url="html/1c642fa1-477e-ada7-6b99-cfb6d2ee5147.htm" />
+  <HelpKINode Title="ModbusDataProcess.TareMode property" Url="html/9165b0d9-767d-6253-9180-47adb89df3ac.htm" />
+  <HelpKINode Title="ModbusDataProcess.Underload property" Url="html/c2156b5b-1a12-edc5-ffba-5bf9fc7cfb4d.htm" />
+  <HelpKINode Title="ModbusDataProcess.Unit property" Url="html/fd4ac02d-0926-5400-5134-8ab3510d086b.htm" />
+  <HelpKINode Title="ModbusDataProcess.UpdateData method" Url="html/a8b85fef-d424-3f3f-df8d-e0c3c82e29c5.htm" />
+  <HelpKINode Title="ModbusDataProcess.Weight property" Url="html/6d8dda29-17cc-e1eb-698e-861e57d43142.htm" />
+  <HelpKINode Title="ModbusDataProcess.WeightStable property" Url="html/95817dd0-3212-b80f-1476-4dc506f66f15.htm" />
+  <HelpKINode Title="ModbusDataProcess.ZeroRequired property" Url="html/28f21837-6573-c4cc-925e-5fada8c27a9c.htm" />
+  <HelpKINode Title="ModbusTCPConnection class">
+    <HelpKINode Title="ModbusTCPConnection Class" Url="html/25963e1b-b89c-94aa-1abe-a54a610986a2.htm" />
+    <HelpKINode Title="constructor" Url="html/1733585d-ec0b-9517-8a80-0719892f4eb9.htm" />
+    <HelpKINode Title="events" Url="html/eafe97a3-ac3f-6539-9bf9-766753f7dc47.htm" />
+    <HelpKINode Title="methods" Url="html/95c34f58-64bb-d3fc-4531-d6ef9f476849.htm" />
+    <HelpKINode Title="properties" Url="html/3bf8ac9c-0e45-b4d6-4693-b7f02732733d.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ModbusTCPConnection.CommunicationLog event" Url="html/09d089dc-f6bb-ba09-bd66-36ce9c21795e.htm" />
+  <HelpKINode Title="ModbusTCPConnection.Connect method" Url="html/642c87c7-580f-6f07-3581-ce8486135f1c.htm" />
+  <HelpKINode Title="ModbusTCPConnection.ConnectionType property" Url="html/4f794c22-f297-926a-701c-5dbc18946ad5.htm" />
+  <HelpKINode Title="ModbusTCPConnection.IpAddress property" Url="html/3533b638-978f-c07b-434c-ed504922a0bd.htm" />
+  <HelpKINode Title="ModbusTCPConnection.IsConnected property" Url="html/e4cf4cee-c6eb-4ad6-fd3f-e9779639b4ce.htm" />
+  <HelpKINode Title="ModbusTCPConnection.ModbusTCPConnection constructor" Url="html/1733585d-ec0b-9517-8a80-0719892f4eb9.htm" />
+  <HelpKINode Title="ModbusTCPConnection.UpdateData event" Url="html/96ca8761-263c-a4af-8040-b639d7c17694.htm" />
+  <HelpKINode Title="MultiInterval enumeration member" Url="html/def14e46-08af-3be5-a111-e03cb69b5ac4.htm" />
+  <HelpKINode Title="MultiRange enumeration member" Url="html/def14e46-08af-3be5-a111-e03cb69b5ac4.htm" />
+  <HelpKINode Title="MultiScaleLimit1 property">
+    <HelpKINode Title="DSEJet.MultiScaleLimit1 Property " Url="html/72ac8ad8-61db-c45f-f172-0076296ebe8f.htm" />
+    <HelpKINode Title="IDataScale.MultiScaleLimit1 Property " Url="html/9486cec8-afc5-54da-ef21-30e84b62c929.htm" />
+    <HelpKINode Title="WTXJet.MultiScaleLimit1 Property " Url="html/8f6649e1-209f-4471-8154-f055e546b014.htm" />
+  </HelpKINode>
+  <HelpKINode Title="MultiScaleLimit2 property">
+    <HelpKINode Title="DSEJet.MultiScaleLimit2 Property " Url="html/5228da8b-979b-7881-faf1-fc91b2cb03cd.htm" />
+    <HelpKINode Title="IDataScale.MultiScaleLimit2 Property " Url="html/5896525a-a6ba-dc19-96c5-48367e970c43.htm" />
+    <HelpKINode Title="WTXJet.MultiScaleLimit2 Property " Url="html/ae33ceef-836e-1008-c44a-01f96cdf8502.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Net enumeration member" Url="html/fe3d0706-2f04-b1d7-79c5-b9afc6e0c554.htm" />
+  <HelpKINode Title="Net property">
+    <HelpKINode Title="PrintableWeightType.Net Property " Url="html/55fae6c7-39db-95a3-ecee-e160a41ad556.htm" />
+    <HelpKINode Title="WeightMemory.Net Property " Url="html/2355c52d-5f4e-aa2b-cd5a-86d88dc2413c.htm" />
+    <HelpKINode Title="WeightType.Net Property " Url="html/c3de0fc6-29e5-efac-c12b-444364421abc.htm" />
+  </HelpKINode>
+  <HelpKINode Title="NIL enumeration member" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="NominalSignal property">
+    <HelpKINode Title="BaseWTDevice.NominalSignal Property " Url="html/d79613f7-7a5c-984d-b3cd-abb7d02de237.htm" />
+    <HelpKINode Title="DSEJet.NominalSignal Property " Url="html/a53f4e33-8b79-4ba8-9392-a0c62e6b2389.htm" />
+    <HelpKINode Title="WTXJet.NominalSignal Property " Url="html/9d714c38-6f56-28aa-618c-ebf6d6ab85be.htm" />
+    <HelpKINode Title="WTXModbus.NominalSignal Property " Url="html/457b1ce1-64bd-ee3c-5dff-85f47910c6f4.htm" />
+  </HelpKINode>
+  <HelpKINode Title="None enumeration member">
+    <HelpKINode Title="ScaleRangeMode Enumeration" Url="html/def14e46-08af-3be5-a111-e03cb69b5ac4.htm" />
+    <HelpKINode Title="TareMode Enumeration" Url="html/6caf2bc5-3547-9d3c-9d2f-d2a3b0d90a69.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Off enumeration member">
+    <HelpKINode Title="InputFunction Enumeration" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+    <HelpKINode Title="OutputFunction Enumeration" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="OptimizationMode property">
+    <HelpKINode Title="IDataFiller.OptimizationMode Property " Url="html/bb8a5810-6207-6585-a4b4-53e267e05b93.htm" />
+    <HelpKINode Title="JetDataFiller.OptimizationMode Property " Url="html/228edb3b-c3d3-feb1-b469-660bf1ac0c1d.htm" />
+    <HelpKINode Title="ModbusDataFiller.OptimizationMode Property " Url="html/3b6366f4-50f6-7082-f36f-0371bd33599d.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Output enumeration member" Url="html/fa5f0965-bbe3-8ecd-0328-64cbb9975411.htm" />
+  <HelpKINode Title="Output1 property">
+    <HelpKINode Title="IDataDigitalIO.Output1 Property " Url="html/56d57e3d-0423-00e1-c7d9-2fac4d35b8ed.htm" />
+    <HelpKINode Title="JetDataDigitalIO.Output1 Property " Url="html/3241bca2-838e-0af1-ab21-f6eb2bbd1625.htm" />
+    <HelpKINode Title="ModbusDataDigitalIO.Output1 Property " Url="html/b357a136-745b-f2ba-62ef-6c36eaa2128b.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Output1Function property" Url="html/1f8cc6ad-c62a-531d-c56e-2b9adb96d57e.htm" />
+  <HelpKINode Title="Output2 property">
+    <HelpKINode Title="IDataDigitalIO.Output2 Property " Url="html/c803635e-0f10-b8db-f9ac-1e76c1bcb07e.htm" />
+    <HelpKINode Title="JetDataDigitalIO.Output2 Property " Url="html/b0db7542-e80c-73ab-e402-8b42bb47f75f.htm" />
+    <HelpKINode Title="ModbusDataDigitalIO.Output2 Property " Url="html/497fb3e1-4ad0-cc26-3df7-4a87033c6b6e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Output2Function property" Url="html/22e26d65-9023-78bf-6bbf-a999757b74fa.htm" />
+  <HelpKINode Title="Output3 property">
+    <HelpKINode Title="IDataDigitalIO.Output3 Property " Url="html/ca73e7fe-8d87-12a1-378c-4757f53d81fd.htm" />
+    <HelpKINode Title="JetDataDigitalIO.Output3 Property " Url="html/64429128-0fc6-cbac-279a-92a8801dc3f0.htm" />
+    <HelpKINode Title="ModbusDataDigitalIO.Output3 Property " Url="html/e6a88052-720c-393c-8d0a-b3db7c48aeb6.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Output3Function property" Url="html/b139e9dd-6594-75e8-0d41-cbc9c86382d5.htm" />
+  <HelpKINode Title="Output4 property">
+    <HelpKINode Title="IDataDigitalIO.Output4 Property " Url="html/33e44972-444d-4c3a-b8ce-20723393062c.htm" />
+    <HelpKINode Title="JetDataDigitalIO.Output4 Property " Url="html/664eaa80-245f-668d-5f62-dfa9aa0445c5.htm" />
+    <HelpKINode Title="ModbusDataDigitalIO.Output4 Property " Url="html/63790d42-b681-1280-266d-e86d96f39458.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Output4Function property" Url="html/25239f59-bf9b-1646-8f70-5806f0f35965.htm" />
+  <HelpKINode Title="OutputFunction enumeration" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="OutsideBand enumeration member" Url="html/145c9893-de50-972c-d875-be5e3b75f4b6.htm" />
+  <HelpKINode Title="Overload property">
+    <HelpKINode Title="IProcessData.Overload Property " Url="html/11faf541-b7b5-e006-e6a1-249485105b43.htm" />
+    <HelpKINode Title="JetProcessData.Overload Property " Url="html/ac49b05c-00e1-71b2-90f4-fca9f9e01e89.htm" />
+    <HelpKINode Title="ModbusDataProcess.Overload Property " Url="html/06e459be-80ab-2701-bf5e-8256eae47f48.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ParameterSetProduct property">
+    <HelpKINode Title="IDataFiller.ParameterSetProduct Property " Url="html/2f5bafc3-55ba-d657-241f-71f1343f9fb1.htm" />
+    <HelpKINode Title="IDataFillerExtended.ParameterSetProduct Property " Url="html/f0e54c09-530c-e4e6-7ee8-6ed59b7307c4.htm" />
+    <HelpKINode Title="JetDataFiller.ParameterSetProduct Property " Url="html/70050315-c0b8-da34-1c2c-13f64eb009f6.htm" />
+    <HelpKINode Title="JetDataFillerExtended.ParameterSetProduct Property " Url="html/b621aa41-0546-4f7a-a95f-2ede1693f476.htm" />
+    <HelpKINode Title="ModbusDataFiller.ParameterSetProduct Property " Url="html/a8052d5c-1f56-0b7f-1a63-f2e5db58dca9.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PresetTare enumeration member" Url="html/6caf2bc5-3547-9d3c-9d2f-d2a3b0d90a69.htm" />
+  <HelpKINode Title="PrintableWeight property">
+    <HelpKINode Title="BaseWTDevice.PrintableWeight Property " Url="html/626f0216-dc0d-f462-f981-198683e4623e.htm" />
+    <HelpKINode Title="DSEJet.PrintableWeight Property " Url="html/6f1f77ed-0bf4-59a8-30a9-276053368367.htm" />
+    <HelpKINode Title="IProcessData.PrintableWeight Property " Url="html/dbda9994-b78f-062e-330e-18f352b0b413.htm" />
+    <HelpKINode Title="JetProcessData.PrintableWeight Property " Url="html/5bf321c6-095b-e2bc-919b-dae78f8d0666.htm" />
+    <HelpKINode Title="ModbusDataProcess.PrintableWeight Property " Url="html/0a409646-c3c4-2dd4-69aa-d208cc831a17.htm" />
+    <HelpKINode Title="WTXJet.PrintableWeight Property " Url="html/07732638-3049-dde0-6c68-49f1a5bcb5f0.htm" />
+    <HelpKINode Title="WTXModbus.PrintableWeight Property " Url="html/b55a98fe-dfe8-c530-3ded-68b1a0fc1b82.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PrintableWeightType class">
+    <HelpKINode Title="PrintableWeightType Class" Url="html/8ab99c5c-2224-3648-05ab-be77111706c5.htm" />
+    <HelpKINode Title="constructor" Url="html/b768ef95-c41b-42ed-d047-55ae16ab848b.htm" />
+    <HelpKINode Title="methods" Url="html/072db4cb-4660-32c5-b537-dab6fb5c1be7.htm" />
+    <HelpKINode Title="properties" Url="html/b45e84b4-6d37-d0f9-2a81-09ae6cfbb86c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="PrintableWeightType.Gross property" Url="html/73461ecc-7dd7-bbc9-a80e-f92573f5588f.htm" />
+  <HelpKINode Title="PrintableWeightType.Net property" Url="html/55fae6c7-39db-95a3-ecee-e160a41ad556.htm" />
+  <HelpKINode Title="PrintableWeightType.PrintableWeightType constructor" Url="html/b768ef95-c41b-42ed-d047-55ae16ab848b.htm" />
+  <HelpKINode Title="PrintableWeightType.Tare property" Url="html/fee3e5f9-8fb8-d5b5-984b-3b959dd05f65.htm" />
+  <HelpKINode Title="PrintableWeightType.Update method" Url="html/0c08804b-ee67-4129-139b-c727bf32e901.htm" />
+  <HelpKINode Title="ProcessData property">
+    <HelpKINode Title="BaseWTDevice.ProcessData Property " Url="html/0814a5aa-8880-077c-5fe9-fcaad754c67d.htm" />
+    <HelpKINode Title="ProcessDataReceivedEventArgs.ProcessData Property " Url="html/8339d88e-74fb-073c-f5a2-7004cb88a67d.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ProcessDataInterval property" Url="html/bc240cb0-7b68-061d-4cfe-6b97bf726463.htm" />
+  <HelpKINode Title="ProcessDataReceived event">
+    <HelpKINode Title="BaseWTDevice.ProcessDataReceived Event" Url="html/10c25e44-a26e-b395-ae56-f3a92b26c8ee.htm" />
+    <HelpKINode Title="DSEJet.ProcessDataReceived Event" Url="html/e4e73f23-1cd6-372e-ae11-4e20dffd11dd.htm" />
+    <HelpKINode Title="WTXJet.ProcessDataReceived Event" Url="html/0d88c0b9-64ad-ba89-e5fd-9a26abac3ea3.htm" />
+    <HelpKINode Title="WTXModbus.ProcessDataReceived Event" Url="html/9966ade3-9a10-54fc-796f-c8c98e13816f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ProcessDataReceivedEventArgs class">
+    <HelpKINode Title="ProcessDataReceivedEventArgs Class" Url="html/449f5de3-c550-37e8-7b87-f807209683c1.htm" />
+    <HelpKINode Title="constructor" Url="html/bd2093f5-6f01-fbb1-0345-de7a06dc8e0e.htm" />
+    <HelpKINode Title="properties" Url="html/928fd375-e377-d788-e219-70806bcc0844.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ProcessDataReceivedEventArgs.ProcessData property" Url="html/8339d88e-74fb-073c-f5a2-7004cb88a67d.htm" />
+  <HelpKINode Title="ProcessDataReceivedEventArgs.ProcessDataReceivedEventArgs constructor" Url="html/bd2093f5-6f01-fbb1-0345-de7a06dc8e0e.htm" />
+  <HelpKINode Title="ProductCode property" Url="html/bc976a30-8bc4-9b5d-5a2d-2e99c7810853.htm" />
+  <HelpKINode Title="Ready enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="Ready property">
+    <HelpKINode Title="IDataFiller.Ready Property " Url="html/df550d2d-63a6-5165-1db3-ace99ed99af5.htm" />
+    <HelpKINode Title="JetDataFiller.Ready Property " Url="html/e17bcdca-7b35-d5b1-784e-66fba472f549.htm" />
+    <HelpKINode Title="ModbusDataFiller.Ready Property " Url="html/3fff367e-4119-73a9-2ce8-cc45087e38a7.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RecordID property" Url="html/4674e3e7-e43f-4e2f-5386-8fb47ccba3ba.htm" />
+  <HelpKINode Title="RecordWeight enumeration member" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+  <HelpKINode Title="RecordWeight method">
+    <HelpKINode Title="BaseWTDevice.RecordWeight Method " Url="html/5f01a764-45d6-185e-ed13-b1f275faa0de.htm" />
+    <HelpKINode Title="DSEJet.RecordWeight Method " Url="html/edeb02d9-12a8-a45c-c263-737a80081f4d.htm" />
+    <HelpKINode Title="WTXJet.RecordWeight Method " Url="html/3bb20130-36a7-8f63-696b-277dc1d1bda8.htm" />
+    <HelpKINode Title="WTXModbus.RecordWeight Method " Url="html/b0f21f1d-02cb-7c9d-2d8d-22722a7ec298.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Redosing enumeration member" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+  <HelpKINode Title="ReDosing property">
+    <HelpKINode Title="IDataFiller.ReDosing Property " Url="html/eb9aae85-b4a5-ddc5-f8b4-50c98be8aef9.htm" />
+    <HelpKINode Title="JetDataFiller.ReDosing Property " Url="html/af2a0a16-df25-8048-b61a-e3b817e2ae0e.htm" />
+    <HelpKINode Title="ModbusDataFiller.ReDosing Property " Url="html/527e2213-2569-1e6a-0424-1fe4df00a5ce.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ResidualFlowDosingCycle property">
+    <HelpKINode Title="IDataFillerExtended.ResidualFlowDosingCycle Property " Url="html/c273921c-849c-ad76-f879-71649196f3a0.htm" />
+    <HelpKINode Title="JetDataFillerExtended.ResidualFlowDosingCycle Property " Url="html/2725d278-8048-2a4c-091a-ca762cfd8054.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ResidualFlowTime property">
+    <HelpKINode Title="IDataFiller.ResidualFlowTime Property " Url="html/edd5ae48-07a5-6d15-5497-35b0fe21f030.htm" />
+    <HelpKINode Title="JetDataFiller.ResidualFlowTime Property " Url="html/51bd96bd-2689-5b4d-c0a5-49a4c82c2c2e.htm" />
+    <HelpKINode Title="ModbusDataFiller.ResidualFlowTime Property " Url="html/7ef396ac-dac6-8390-8165-aa649b762e6c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Restart method" Url="html/3c122d35-0d6c-0dcc-4b2e-0a8ca6c827a5.htm" />
+  <HelpKINode Title="RestoreAllDefaultParameters method">
+    <HelpKINode Title="BaseWTDevice.RestoreAllDefaultParameters Method " Url="html/bcd37b17-f04a-a9db-5cc9-442a3404a62b.htm" />
+    <HelpKINode Title="DSEJet.RestoreAllDefaultParameters Method " Url="html/3493dd03-6ebb-c7e3-53b7-5da1f39eab88.htm" />
+    <HelpKINode Title="WTXJet.RestoreAllDefaultParameters Method " Url="html/26aa0a0f-1182-bcff-c860-f6765c4ab537.htm" />
+    <HelpKINode Title="WTXModbus.RestoreAllDefaultParameters Method " Url="html/5b1f6fe0-1a5b-fce7-e7a6-fc46aba83280.htm" />
+  </HelpKINode>
+  <HelpKINode Title="RunFilling enumeration member" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+  <HelpKINode Title="S08 enumeration member" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="S16 enumeration member" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="S32 enumeration member" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="SaveAllParameters method">
+    <HelpKINode Title="BaseWTDevice.SaveAllParameters Method " Url="html/32ebd986-039e-b400-895f-7aeb129a51e2.htm" />
+    <HelpKINode Title="DSEJet.SaveAllParameters Method " Url="html/02cb17e8-5aa0-b159-3fd6-414b5afc0b90.htm" />
+    <HelpKINode Title="WTXJet.SaveAllParameters Method " Url="html/ccc440f1-f069-c2b6-88d5-d754885fd9c3.htm" />
+    <HelpKINode Title="WTXModbus.SaveAllParameters Method " Url="html/214404cd-4d0e-6ea9-ef31-a9ac8b536542.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ScaleAlarm property">
+    <HelpKINode Title="IProcessData.ScaleAlarm Property " Url="html/2c90fcca-6b97-66ca-b53b-d17873fa1841.htm" />
+    <HelpKINode Title="JetProcessData.ScaleAlarm Property " Url="html/4a4deb5a-dcc2-2a03-8a65-ad14c22cdca6.htm" />
+    <HelpKINode Title="ModbusDataProcess.ScaleAlarm Property " Url="html/8c250c9a-651f-93b6-be0c-47a650cefbfb.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ScaleRange property">
+    <HelpKINode Title="BaseWTDevice.ScaleRange Property " Url="html/9383890c-a1a1-6259-875f-a38f923d5e6f.htm" />
+    <HelpKINode Title="DSEJet.ScaleRange Property " Url="html/3578a272-35ff-19fc-1b0c-9fb64bfcf1dc.htm" />
+    <HelpKINode Title="IProcessData.ScaleRange Property " Url="html/468c19f2-cef6-c8ec-379a-bc1068c6f37c.htm" />
+    <HelpKINode Title="JetProcessData.ScaleRange Property " Url="html/602efa6b-8618-4cbe-52b3-1e795916231c.htm" />
+    <HelpKINode Title="ModbusDataProcess.ScaleRange Property " Url="html/1c642fa1-477e-ada7-6b99-cfb6d2ee5147.htm" />
+    <HelpKINode Title="WTXJet.ScaleRange Property " Url="html/fbc478ef-49c1-68a7-a540-1edb2e6a354b.htm" />
+    <HelpKINode Title="WTXModbus.ScaleRange Property " Url="html/fbcb1011-1182-d80a-ec20-cfdd890775c3.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ScaleRangeMode enumeration" Url="html/def14e46-08af-3be5-a111-e03cb69b5ac4.htm" />
+  <HelpKINode Title="ScaleRangeMode property">
+    <HelpKINode Title="DSEJet.ScaleRangeMode Property " Url="html/cd10ca5e-6221-5dfd-76f7-aeb0cc53229b.htm" />
+    <HelpKINode Title="IDataScale.ScaleRangeMode Property " Url="html/b0f10d9a-5cb8-8bb8-32e5-a1613bbdc39d.htm" />
+    <HelpKINode Title="WTXJet.ScaleRangeMode Property " Url="html/cc863eed-bfe4-76ee-c92f-c11f0f957ed6.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SerialNumber property">
+    <HelpKINode Title="BaseWTDevice.SerialNumber Property " Url="html/fbc244c7-3022-3ee7-7575-3ae5a2254686.htm" />
+    <HelpKINode Title="DSEJet.SerialNumber Property " Url="html/e602a004-b3ef-4318-5a8b-7a67cb806a51.htm" />
+    <HelpKINode Title="WTXJet.SerialNumber Property " Url="html/d386f246-a4f6-74c3-3eb3-c4aed94081ad.htm" />
+    <HelpKINode Title="WTXModbus.SerialNumber Property " Url="html/191f9b56-9f2f-9f70-9f5e-0a265dd16738.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SetGross method">
+    <HelpKINode Title="BaseWTDevice.SetGross Method " Url="html/e1fb61ac-ec18-9671-98cd-e5104c87276a.htm" />
+    <HelpKINode Title="DSEJet.SetGross Method " Url="html/eb8757ad-20cf-513a-6aa6-3d03042e60ca.htm" />
+    <HelpKINode Title="WTXJet.SetGross Method " Url="html/93ff4a55-6cb5-a78f-0673-9da915c7b420.htm" />
+    <HelpKINode Title="WTXModbus.SetGross Method " Url="html/e51629fb-0d45-fb15-20c8-51e0a9fafd78.htm" />
+  </HelpKINode>
+  <HelpKINode Title="SoftwareIdentification property" Url="html/11079b3c-5f82-7300-7f14-908d4bd4585b.htm" />
+  <HelpKINode Title="SpecialFillingFunctions property">
+    <HelpKINode Title="IDataFillerExtended.SpecialFillingFunctions Property " Url="html/57d20967-6230-709a-91ea-baca3422d3f5.htm" />
+    <HelpKINode Title="JetDataFillerExtended.SpecialFillingFunctions Property " Url="html/409ee9d6-f225-fd2e-a0f5-b5d84e0d7c1f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Standard enumeration member" Url="html/13de62fb-e77b-7604-effd-c81a89402c6d.htm" />
+  <HelpKINode Title="StartFilling method">
+    <HelpKINode Title="IDataFiller.StartFilling Method " Url="html/afced133-25fb-e9c9-51e8-72cba8548918.htm" />
+    <HelpKINode Title="JetDataFiller.StartFilling Method " Url="html/c04ce8f5-e14d-9381-daf7-a5fe80cdd0ef.htm" />
+    <HelpKINode Title="ModbusDataFiller.StartFilling Method " Url="html/c02c9d3c-cbd1-1b45-328b-6e7317064fda.htm" />
+  </HelpKINode>
+  <HelpKINode Title="StartWithFineFlow property">
+    <HelpKINode Title="IDataFiller.StartWithFineFlow Property " Url="html/1b6d424c-86ab-b1a2-3bf6-1b2ee0ab4720.htm" />
+    <HelpKINode Title="JetDataFiller.StartWithFineFlow Property " Url="html/9d78fb1a-7f23-5a14-dc4d-efe717f76d66.htm" />
+    <HelpKINode Title="ModbusDataFiller.StartWithFineFlow Property " Url="html/3870fc71-1895-b484-e5fd-6378d60a51bd.htm" />
+  </HelpKINode>
+  <HelpKINode Title="StatusInput1 property">
+    <HelpKINode Title="JetDataFiller.StatusInput1 Property " Url="html/34c39d6c-49e8-d8d8-9184-246a72ac8a02.htm" />
+    <HelpKINode Title="ModbusDataFiller.StatusInput1 Property " Url="html/9f1292af-a2b1-6bb4-2f93-ff3fb8cf74c0.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Stop method" Url="html/ae26bb3c-1995-936d-953d-98d452e80fe7.htm" />
+  <HelpKINode Title="StopMaterial enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="StringToBool method" Url="html/2c7b8339-7cc4-7dc0-decd-9c4de444f0b1.htm" />
+  <HelpKINode Title="Sum enumeration member" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+  <HelpKINode Title="SystematicDifference property">
+    <HelpKINode Title="IDataFiller.SystematicDifference Property " Url="html/67c7da53-336d-0e16-f4f8-6ddabc45fce5.htm" />
+    <HelpKINode Title="JetDataFiller.SystematicDifference Property " Url="html/ac935805-dda0-095f-651c-756d32a397bd.htm" />
+    <HelpKINode Title="ModbusDataFiller.SystematicDifference Property " Url="html/6b5ea0c8-adae-43ff-ea02-5840b7bbd977.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Tare enumeration member">
+    <HelpKINode Title="InputFunction Enumeration" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+    <HelpKINode Title="TareMode Enumeration" Url="html/6caf2bc5-3547-9d3c-9d2f-d2a3b0d90a69.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Tare method">
+    <HelpKINode Title="BaseWTDevice.Tare Method " Url="html/2e4458a1-ba8f-ca07-f818-0559de71b1ee.htm" />
+    <HelpKINode Title="DSEJet.Tare Method " Url="html/cc689c57-8dc7-5c3a-3874-523f91f8db19.htm" />
+    <HelpKINode Title="WTXJet.Tare Method " Url="html/3d3041e8-48d0-1aa2-eefa-8f7697efae25.htm" />
+    <HelpKINode Title="WTXModbus.Tare Method " Url="html/b98acc44-68db-e966-3a5d-5e8f4a255df6.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Tare property">
+    <HelpKINode Title="PrintableWeightType.Tare Property " Url="html/fee3e5f9-8fb8-d5b5-984b-3b959dd05f65.htm" />
+    <HelpKINode Title="WeightType.Tare Property " Url="html/1cb67bb7-de60-7746-b30d-82fe20aa247f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="TareDelay property">
+    <HelpKINode Title="IDataFiller.TareDelay Property " Url="html/63060f8a-3b28-5062-0d44-06c79598a3f7.htm" />
+    <HelpKINode Title="JetDataFiller.TareDelay Property " Url="html/46e3bcba-caa6-5bac-3f62-485eb4567830.htm" />
+    <HelpKINode Title="ModbusDataFiller.TareDelay Property " Url="html/8380fa19-9c3a-4168-580e-1b9662fc34bc.htm" />
+  </HelpKINode>
+  <HelpKINode Title="TareManually method">
+    <HelpKINode Title="BaseWTDevice.TareManually Method " Url="html/0880596b-f56c-0a58-bc19-89c826bff49d.htm" />
+    <HelpKINode Title="DSEJet.TareManually Method " Url="html/dbd63e18-6c6c-23ea-06fe-1470b9e5cfa7.htm" />
+    <HelpKINode Title="WTXJet.TareManually Method " Url="html/bdd9bdaf-085a-7ef2-96b9-45dec4dbb733.htm" />
+    <HelpKINode Title="WTXModbus.TareManually Method " Url="html/7d1197da-c52f-fe32-e47b-f186b6918a7b.htm" />
+  </HelpKINode>
+  <HelpKINode Title="TareMode enumeration" Url="html/6caf2bc5-3547-9d3c-9d2f-d2a3b0d90a69.htm" />
+  <HelpKINode Title="TareMode property">
+    <HelpKINode Title="BaseWTDevice.TareMode Property " Url="html/e01ee32c-40c5-39ea-a301-cde77bde2e56.htm" />
+    <HelpKINode Title="DSEJet.TareMode Property " Url="html/a6716c1f-f6c7-6d3b-3389-9ce8b219a37a.htm" />
+    <HelpKINode Title="IDataFiller.TareMode Property " Url="html/95157774-e8f2-96a8-732c-055a33db4b4b.htm" />
+    <HelpKINode Title="IProcessData.TareMode Property " Url="html/d7c138f3-4ceb-42a1-a308-a566ba9fbe53.htm" />
+    <HelpKINode Title="JetDataFiller.TareMode Property " Url="html/21a10da0-9698-68d2-ecef-145f72967d51.htm" />
+    <HelpKINode Title="JetProcessData.TareMode Property " Url="html/3ec569b5-787e-ffef-f052-a6f97eb57b76.htm" />
+    <HelpKINode Title="ModbusDataFiller.TareMode Property " Url="html/d0cbe1f6-1b9e-6432-c7c8-da0d0ec66f06.htm" />
+    <HelpKINode Title="ModbusDataProcess.TareMode Property " Url="html/9165b0d9-767d-6253-9180-47adb89df3ac.htm" />
+    <HelpKINode Title="WTXJet.TareMode Property " Url="html/a3af341d-3a35-e1cf-fc6f-e2738c3c9b5b.htm" />
+    <HelpKINode Title="WTXModbus.TareMode Property " Url="html/96ab155a-3394-1be8-27cd-f9e6b92a9c1e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="TargetFillingWeight property">
+    <HelpKINode Title="IDataFiller.TargetFillingWeight Property " Url="html/0cbd74d6-74a8-e268-8404-657b51c757cf.htm" />
+    <HelpKINode Title="JetDataFiller.TargetFillingWeight Property " Url="html/43ff8d40-4be7-7d63-13e6-dedc80ec2f5f.htm" />
+    <HelpKINode Title="ModbusDataFiller.TargetFillingWeight Property " Url="html/c8fad243-9e4a-fba8-6eac-53ea5420d276.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ToleranceErrorMinus property">
+    <HelpKINode Title="IDataFiller.ToleranceErrorMinus Property " Url="html/2b3ff0e5-48f2-9edd-e90b-4c3a1c6e7b24.htm" />
+    <HelpKINode Title="JetDataFiller.ToleranceErrorMinus Property " Url="html/ce7bd1b9-bbff-62d6-5657-3345285b36c8.htm" />
+    <HelpKINode Title="ModbusDataFiller.ToleranceErrorMinus Property " Url="html/85540633-10ed-ef01-64ab-61f37fa879b6.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ToleranceErrorPlus property">
+    <HelpKINode Title="IDataFiller.ToleranceErrorPlus Property " Url="html/a6e0d4b3-3388-7be6-6819-ed12f8842e83.htm" />
+    <HelpKINode Title="JetDataFiller.ToleranceErrorPlus Property " Url="html/83f16bfe-41e4-8999-c791-d8b6cccf4806.htm" />
+    <HelpKINode Title="ModbusDataFiller.ToleranceErrorPlus Property " Url="html/6bf77cec-0489-15c2-854c-56430826bc1c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ToleranceExceeded enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="ToleranceExceededUnderrun enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="ToleranceUnderrun enumeration member" Url="html/1c3187fe-efcc-71ae-7388-590bb309055c.htm" />
+  <HelpKINode Title="Trigger enumeration member" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+  <HelpKINode Title="U08 enumeration member" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="U16 enumeration member" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="U32 enumeration member" Url="html/570953dd-562a-ca0e-4066-f7baa7a9addd.htm" />
+  <HelpKINode Title="Underload property">
+    <HelpKINode Title="IProcessData.Underload Property " Url="html/e30e5aa9-3341-b0f4-fef0-1ce7b9211726.htm" />
+    <HelpKINode Title="JetProcessData.Underload Property " Url="html/8b8a3475-372d-1f09-1ec3-285067f2de75.htm" />
+    <HelpKINode Title="ModbusDataProcess.Underload Property " Url="html/c2156b5b-1a12-edc5-ffba-5bf9fc7cfb4d.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Unit property">
+    <HelpKINode Title="BaseWTDevice.Unit Property " Url="html/eabe797d-5e05-223a-5751-6ab5509523d2.htm" />
+    <HelpKINode Title="DSEJet.Unit Property " Url="html/16798bc3-9482-283f-ca29-d3af74e33495.htm" />
+    <HelpKINode Title="IProcessData.Unit Property " Url="html/4d7e77fc-bd3e-c134-796e-71e4cb66c075.htm" />
+    <HelpKINode Title="JetProcessData.Unit Property " Url="html/0b01a9b1-5737-88c8-ca83-cc2d09ef911b.htm" />
+    <HelpKINode Title="ModbusDataProcess.Unit Property " Url="html/fd4ac02d-0926-5400-5134-8ab3510d086b.htm" />
+    <HelpKINode Title="WTXJet.Unit Property " Url="html/5453bced-632f-c92c-153c-1974035b2391.htm" />
+    <HelpKINode Title="WTXModbus.Unit Property " Url="html/650c7767-c55e-0162-0445-b8d780ec039a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="Update method">
+    <HelpKINode Title="PrintableWeightType.Update Method " Url="html/0c08804b-ee67-4129-139b-c727bf32e901.htm" />
+    <HelpKINode Title="WeightMemory.Update Method " Url="html/f7aebba8-9f02-b703-2cb0-bc1189849b27.htm" />
+    <HelpKINode Title="WeightType.Update Method " Url="html/bf83d971-9751-63ed-8672-7752b8a178ba.htm" />
+  </HelpKINode>
+  <HelpKINode Title="UpdateData event">
+    <HelpKINode Title="DSEJetConnection.UpdateData Event" Url="html/6b032158-e9f8-d9f8-23c5-0f383e22de61.htm" />
+    <HelpKINode Title="INetConnection.UpdateData Event" Url="html/fa712a50-eda8-54d3-7168-cccd59e0300a.htm" />
+    <HelpKINode Title="JetBusConnection.UpdateData Event" Url="html/658b4632-4f02-2917-a60d-f519dcb5aa1a.htm" />
+    <HelpKINode Title="ModbusTCPConnection.UpdateData Event" Url="html/96ca8761-263c-a4af-8040-b639d7c17694.htm" />
+  </HelpKINode>
+  <HelpKINode Title="UpdateData method">
+    <HelpKINode Title="IProcessData.UpdateData Method " Url="html/0c070aaf-3ea0-8a61-38a5-38c15322f957.htm" />
+    <HelpKINode Title="JetProcessData.UpdateData Method " Url="html/20491377-247f-44f3-73be-b170a592c99f.htm" />
+    <HelpKINode Title="ModbusDataProcess.UpdateData Method " Url="html/a8b85fef-d424-3f3f-df8d-e0c3c82e29c5.htm" />
+  </HelpKINode>
+  <HelpKINode Title="UpdateDataIO method">
+    <HelpKINode Title="IDataDigitalIO.UpdateDataIO Method " Url="html/ca59f8dd-e1a5-198e-784c-4f470fcad7fe.htm" />
+    <HelpKINode Title="JetDataDigitalIO.UpdateDataIO Method " Url="html/f50c87b2-bf65-3e1c-315d-7ec7a1e9928b.htm" />
+    <HelpKINode Title="ModbusDataDigitalIO.UpdateDataIO Method " Url="html/52006fe4-be2b-7ae6-7d72-4c79cfd845bf.htm" />
+  </HelpKINode>
+  <HelpKINode Title="UpdateDataLimitSwitch method">
+    <HelpKINode Title="IDataLimitSwitch.UpdateDataLimitSwitch Method " Url="html/57dce900-d84a-70b9-772e-adc2a1be41e6.htm" />
+    <HelpKINode Title="JetDataLimitSwitch.UpdateDataLimitSwitch Method " Url="html/3bf64500-20d6-659a-6dcb-be4e11098f63.htm" />
+    <HelpKINode Title="ModbusDataLimitSwitch.UpdateDataLimitSwitch Method " Url="html/3ea9d8ab-000a-9025-2580-95b23638fc5e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="UpdateFillerData method">
+    <HelpKINode Title="IDataFiller.UpdateFillerData Method " Url="html/1d0d4706-d19d-8bb7-020d-1c96fa114e13.htm" />
+    <HelpKINode Title="JetDataFiller.UpdateFillerData Method " Url="html/d2c80f15-f0a7-cc90-c957-f7ed3e458f22.htm" />
+    <HelpKINode Title="ModbusDataFiller.UpdateFillerData Method " Url="html/aa0ea91b-f2c5-d8b7-7f19-7e66ca4bebce.htm" />
+  </HelpKINode>
+  <HelpKINode Title="UpperToleranceLimit property">
+    <HelpKINode Title="IDataFiller.UpperToleranceLimit Property " Url="html/4901a8e7-3625-9767-0aca-98a1657c1224.htm" />
+    <HelpKINode Title="JetDataFiller.UpperToleranceLimit Property " Url="html/eb96dcc7-9c35-84af-110e-84e63feb192d.htm" />
+    <HelpKINode Title="ModbusDataFiller.UpperToleranceLimit Property " Url="html/25405531-099a-52bd-4165-9f216699a21a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ValveControl property">
+    <HelpKINode Title="IDataFiller.ValveControl Property " Url="html/145f7000-eb59-2a4c-89eb-e48e53bad1bb.htm" />
+    <HelpKINode Title="JetDataFiller.ValveControl Property " Url="html/46aa0897-6b82-3dba-ea4d-eeab47495088.htm" />
+    <HelpKINode Title="ModbusDataFiller.ValveControl Property " Url="html/d3a268f0-4d87-a008-726e-5690f5c52e5b.htm" />
+  </HelpKINode>
+  <HelpKINode Title="VendorID property" Url="html/c09680f2-002a-d830-1793-70c258add298.htm" />
+  <HelpKINode Title="Weight property">
+    <HelpKINode Title="BaseWTDevice.Weight Property " Url="html/bfad55fa-a630-92f9-0c00-6cf693a2d4e0.htm" />
+    <HelpKINode Title="DSEJet.Weight Property " Url="html/529350a0-f4ae-2dc1-1bb0-75a93cfc4a92.htm" />
+    <HelpKINode Title="IProcessData.Weight Property " Url="html/6efc65bc-4881-383b-1b26-b856629f451f.htm" />
+    <HelpKINode Title="JetProcessData.Weight Property " Url="html/b7b6f0a8-b534-48c0-54b9-04a39c4b82fc.htm" />
+    <HelpKINode Title="ModbusDataProcess.Weight Property " Url="html/6d8dda29-17cc-e1eb-698e-861e57d43142.htm" />
+    <HelpKINode Title="WTXJet.Weight Property " Url="html/416edf27-8fbe-94f0-cd48-58edd3606688.htm" />
+    <HelpKINode Title="WTXModbus.Weight Property " Url="html/67cb8a43-8e1c-5d33-0d33-e8cf312280ae.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightMemDay property">
+    <HelpKINode Title="JetDataFiller.WeightMemDay Property " Url="html/06fe2d3e-5b06-1b1b-764e-da6a402f0504.htm" />
+    <HelpKINode Title="ModbusDataFiller.WeightMemDay Property " Url="html/0fe36524-0af3-5f33-afc8-6d3f580149f6.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightMemGross property">
+    <HelpKINode Title="JetDataFiller.WeightMemGross Property " Url="html/3f737d4e-41c8-a88a-7405-1ca48c421b20.htm" />
+    <HelpKINode Title="ModbusDataFiller.WeightMemGross Property " Url="html/9ebbb3c2-da7d-2a61-fcac-0f313c1399dc.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightMemMonth property">
+    <HelpKINode Title="JetDataFiller.WeightMemMonth Property " Url="html/eb15e1b2-2ee0-e75a-a84b-ec8e5105eb6a.htm" />
+    <HelpKINode Title="ModbusDataFiller.WeightMemMonth Property " Url="html/5cf5a318-423b-4265-7e1a-a952e9a6a91a.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightMemNet property">
+    <HelpKINode Title="JetDataFiller.WeightMemNet Property " Url="html/eacd013e-e852-eef2-87ed-ede9a3f193bc.htm" />
+    <HelpKINode Title="ModbusDataFiller.WeightMemNet Property " Url="html/b03a0101-83ba-550c-4ebf-e7ce5ae95464.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightMemory class">
+    <HelpKINode Title="WeightMemory Class" Url="html/15e888ea-c3f5-a7be-2887-0629a79843d2.htm" />
+    <HelpKINode Title="constructor" Url="html/8d8e1363-3668-84ea-4bc1-77829e78daeb.htm" />
+    <HelpKINode Title="methods" Url="html/281bcf3e-645b-c2a6-b1b8-bfbe7568d3df.htm" />
+    <HelpKINode Title="properties" Url="html/d913e42a-feef-a78c-cbc8-1cac98ba567e.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightMemory.Date property" Url="html/3f2917c9-68cf-aeac-8f7f-645b2169976e.htm" />
+  <HelpKINode Title="WeightMemory.Gross property" Url="html/e6b7a486-e12e-bae3-9051-5bac3a2eccc1.htm" />
+  <HelpKINode Title="WeightMemory.Net property" Url="html/2355c52d-5f4e-aa2b-cd5a-86d88dc2413c.htm" />
+  <HelpKINode Title="WeightMemory.RecordID property" Url="html/4674e3e7-e43f-4e2f-5386-8fb47ccba3ba.htm" />
+  <HelpKINode Title="WeightMemory.Update method" Url="html/f7aebba8-9f02-b703-2cb0-bc1189849b27.htm" />
+  <HelpKINode Title="WeightMemory.WeightMemory constructor" Url="html/8d8e1363-3668-84ea-4bc1-77829e78daeb.htm" />
+  <HelpKINode Title="WeightMemSeqNumber property">
+    <HelpKINode Title="JetDataFiller.WeightMemSeqNumber Property " Url="html/19e8dae8-2b5c-a9b2-cd88-82e7e726f329.htm" />
+    <HelpKINode Title="ModbusDataFiller.WeightMemSeqNumber Property " Url="html/a43b1514-0bde-fb62-552b-e8794e0c62a1.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightMemYear property">
+    <HelpKINode Title="JetDataFiller.WeightMemYear Property " Url="html/df64a342-072e-69ae-5034-380a993df90d.htm" />
+    <HelpKINode Title="ModbusDataFiller.WeightMemYear Property " Url="html/9e4a8ce3-0417-5290-0064-6f687f108662.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightMovementDetection property">
+    <HelpKINode Title="DSEJet.WeightMovementDetection Property " Url="html/b4d98e3c-9f30-704a-f73a-cb0a275cb8b2.htm" />
+    <HelpKINode Title="IDataScale.WeightMovementDetection Property " Url="html/6d4e1e6d-8cc3-fabe-95eb-45367566b9e8.htm" />
+    <HelpKINode Title="WTXJet.WeightMovementDetection Property " Url="html/5fd24cc0-63e7-55ce-6fb3-a53867a2e154.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightStable property">
+    <HelpKINode Title="BaseWTDevice.WeightStable Property " Url="html/85be84a2-0866-b980-ce2b-46081dca3996.htm" />
+    <HelpKINode Title="DSEJet.WeightStable Property " Url="html/3ea74766-3043-11d2-03a9-25a9e95c5c39.htm" />
+    <HelpKINode Title="IProcessData.WeightStable Property " Url="html/be7d0165-aa68-d70e-1513-001c7179ce52.htm" />
+    <HelpKINode Title="JetProcessData.WeightStable Property " Url="html/d2fd56ea-91fd-a405-d834-f910231ee6c0.htm" />
+    <HelpKINode Title="ModbusDataProcess.WeightStable Property " Url="html/95817dd0-3212-b80f-1476-4dc506f66f15.htm" />
+    <HelpKINode Title="WTXJet.WeightStable Property " Url="html/41fddef0-d459-acd1-c0fd-e76d9f2af187.htm" />
+    <HelpKINode Title="WTXModbus.WeightStable Property " Url="html/30fd5ece-d84a-533f-e1f4-73b286e1c341.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightStep property">
+    <HelpKINode Title="DSEJet.WeightStep Property " Url="html/1d902b6e-5988-c1d3-624e-9229b018be28.htm" />
+    <HelpKINode Title="IDataScale.WeightStep Property " Url="html/fd4904c9-9346-1af1-46af-e54db46f5ca3.htm" />
+    <HelpKINode Title="WTXJet.WeightStep Property " Url="html/b6224c3e-5ba9-a837-5bc9-391928051f72.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightStorageMode property" Url="html/48bfcb81-540a-72f5-0707-9f807f92a578.htm" />
+  <HelpKINode Title="WeightType class">
+    <HelpKINode Title="WeightType Class" Url="html/17b25a19-1379-c870-9e2a-edbc99ab8b87.htm" />
+    <HelpKINode Title="constructor" Url="html/02c11f83-cc7d-0b74-0318-f53c867c0ece.htm" />
+    <HelpKINode Title="methods" Url="html/7d9ae810-0dde-bdcd-503a-9d390e55d858.htm" />
+    <HelpKINode Title="properties" Url="html/cb761249-48a0-6469-2310-20afb3a45e9f.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WeightType.Gross property" Url="html/9e94db82-f774-f71c-f860-a412c770a202.htm" />
+  <HelpKINode Title="WeightType.Net property" Url="html/c3de0fc6-29e5-efac-c12b-444364421abc.htm" />
+  <HelpKINode Title="WeightType.Tare property" Url="html/1cb67bb7-de60-7746-b30d-82fe20aa247f.htm" />
+  <HelpKINode Title="WeightType.Update method" Url="html/bf83d971-9751-63ed-8672-7752b8a178ba.htm" />
+  <HelpKINode Title="WeightType.WeightType constructor" Url="html/02c11f83-cc7d-0b74-0318-f53c867c0ece.htm" />
+  <HelpKINode Title="WTXJet class">
+    <HelpKINode Title="WTXJet Class" Url="html/0fa1ab12-da95-0aa6-61d7-07c2ba1fba08.htm" />
+    <HelpKINode Title="constructor" Url="html/999bd8f5-6035-38df-e33f-1f2b7bb98e85.htm" />
+    <HelpKINode Title="events" Url="html/7ac100df-ff77-c505-f495-a78d0e6252bb.htm" />
+    <HelpKINode Title="methods" Url="html/d6d5f4b1-ef55-c258-0b09-5c60359a6f62.htm" />
+    <HelpKINode Title="properties" Url="html/4c36defd-af90-abd5-ed42-b2aa34bf83e7.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WTXJet.AdjustNominalSignal method" Url="html/65dbdb19-ff78-4a4c-34cb-abe281824d63.htm" />
+  <HelpKINode Title="WTXJet.AdjustNominalSignalWithCalibrationWeight method" Url="html/9ebda4b8-1ff6-bb5a-09e8-19c351791e4c.htm" />
+  <HelpKINode Title="WTXJet.AdjustZeroSignal method" Url="html/7961b42a-c923-8bbb-b6df-6c4d888a01b9.htm" />
+  <HelpKINode Title="WTXJet.ApplicationMode property" Url="html/9f1e7808-59c4-0666-fbaa-8a4f169005da.htm" />
+  <HelpKINode Title="WTXJet.CalculateAdjustment method" Url="html/5c256deb-2b00-8d11-9357-24ab4bae2173.htm" />
+  <HelpKINode Title="WTXJet.CalibrationWeight property" Url="html/62bc7879-5a6a-b50f-5182-597c172b658a.htm" />
+  <HelpKINode Title="WTXJet.Connect method" Url="html/a7162e64-293d-8574-12c1-57242fdb0593.htm" />
+  <HelpKINode Title="WTXJet.ConnectionType property" Url="html/873302eb-4c36-bae0-00b3-ac8ed684edda.htm" />
+  <HelpKINode Title="WTXJet.DataRate property" Url="html/beca6246-d368-0bdd-ef8a-7f7c94701bf3.htm" />
+  <HelpKINode Title="WTXJet.DateTime property" Url="html/b09b7277-f609-e5da-4611-494e4a205e39.htm" />
+  <HelpKINode Title="WTXJet.DigitalIO property" Url="html/f1329613-e8f1-1ac9-a64d-9facad447d6f.htm" />
+  <HelpKINode Title="WTXJet.Disconnect method" Url="html/2a60c1f5-222d-b604-60e4-eb96d472ee7e.htm" />
+  <HelpKINode Title="WTXJet.ErrorCode property" Url="html/3805902e-4754-5d74-ea94-573fc197a74a.htm" />
+  <HelpKINode Title="WTXJet.Filler property" Url="html/00fabade-f30f-18e6-b553-837087d015e2.htm" />
+  <HelpKINode Title="WTXJet.FirmwareDate property" Url="html/d61d68e7-0cfa-2c6a-1d24-c7f6c244f574.htm" />
+  <HelpKINode Title="WTXJet.FirmwareVersion property" Url="html/3f18fa41-b718-fe70-5876-5e5209ee4017.htm" />
+  <HelpKINode Title="WTXJet.GeneralScaleError property" Url="html/44a0a5e7-6da4-9aa0-dc8c-9ff2fbf7a025.htm" />
+  <HelpKINode Title="WTXJet.HardwareVersion property" Url="html/e8a877e8-37cc-896a-1076-d2adcc37b474.htm" />
+  <HelpKINode Title="WTXJet.Identification property" Url="html/5679b53b-dd3b-e7ca-c434-72e4c1b46e45.htm" />
+  <HelpKINode Title="WTXJet.Input1Function property" Url="html/6fc02917-6d90-be6a-6b58-021d596d9c65.htm" />
+  <HelpKINode Title="WTXJet.Input2Function property" Url="html/999ab6ac-9da3-5bf6-fd67-9902fa953105.htm" />
+  <HelpKINode Title="WTXJet.Input3Function property" Url="html/c781b9c6-e62b-a9c6-5d60-2e92ae612549.htm" />
+  <HelpKINode Title="WTXJet.Input4Function property" Url="html/60e7e003-022f-345d-b800-741bf39403ab.htm" />
+  <HelpKINode Title="WTXJet.IsConnected property" Url="html/ee6f9aff-931f-05e7-80d3-f20244827a85.htm" />
+  <HelpKINode Title="WTXJet.LimitSwitch property" Url="html/4e4fb1c8-611d-faaa-7acb-8950ae7b441c.htm" />
+  <HelpKINode Title="WTXJet.LocalGravityFactor property" Url="html/58389727-19ce-313a-520e-454c653627d5.htm" />
+  <HelpKINode Title="WTXJet.LowPasCutOffFrequency property" Url="html/5d905f25-5875-946c-5396-d9c952dd385f.htm" />
+  <HelpKINode Title="WTXJet.LowPassFilterMode property" Url="html/7dd0232c-ee73-f296-1863-d8ad1eef6690.htm" />
+  <HelpKINode Title="WTXJet.LowPassFilterOrder property" Url="html/93bc92d5-7796-011b-ed7c-b3710d15191e.htm" />
+  <HelpKINode Title="WTXJet.ManualTareValue property" Url="html/7be26e90-c9a9-d823-16c9-cf6bc34081fe.htm" />
+  <HelpKINode Title="WTXJet.MaximumCapacity property" Url="html/5a9a6b39-418b-9e0e-ebc1-c90e56490aff.htm" />
+  <HelpKINode Title="WTXJet.MaximumPeakValue property" Url="html/a19d79ff-0cc6-8eec-b054-b1ade0570be9.htm" />
+  <HelpKINode Title="WTXJet.MaximumPeakValueGross property" Url="html/3182668f-5926-e712-ab9e-e71ec28488e2.htm" />
+  <HelpKINode Title="WTXJet.MaximumZeroingTime property" Url="html/ee958c79-a3bc-6176-377d-aaea16fe2a80.htm" />
+  <HelpKINode Title="WTXJet.MinimumPeakValue property" Url="html/c41aff5a-ac90-9286-7f67-66cc80b5f126.htm" />
+  <HelpKINode Title="WTXJet.MinimumPeakValueGross property" Url="html/81775222-94b7-c493-9618-2d8f49dc1eba.htm" />
+  <HelpKINode Title="WTXJet.MultiScaleLimit1 property" Url="html/8f6649e1-209f-4471-8154-f055e546b014.htm" />
+  <HelpKINode Title="WTXJet.MultiScaleLimit2 property" Url="html/ae33ceef-836e-1008-c44a-01f96cdf8502.htm" />
+  <HelpKINode Title="WTXJet.NominalSignal property" Url="html/9d714c38-6f56-28aa-618c-ebf6d6ab85be.htm" />
+  <HelpKINode Title="WTXJet.Output1Function property" Url="html/1f8cc6ad-c62a-531d-c56e-2b9adb96d57e.htm" />
+  <HelpKINode Title="WTXJet.Output2Function property" Url="html/22e26d65-9023-78bf-6bbf-a999757b74fa.htm" />
+  <HelpKINode Title="WTXJet.Output3Function property" Url="html/b139e9dd-6594-75e8-0d41-cbc9c86382d5.htm" />
+  <HelpKINode Title="WTXJet.Output4Function property" Url="html/25239f59-bf9b-1646-8f70-5806f0f35965.htm" />
+  <HelpKINode Title="WTXJet.PrintableWeight property" Url="html/07732638-3049-dde0-6c68-49f1a5bcb5f0.htm" />
+  <HelpKINode Title="WTXJet.ProcessDataReceived event" Url="html/0d88c0b9-64ad-ba89-e5fd-9a26abac3ea3.htm" />
+  <HelpKINode Title="WTXJet.ProductCode property" Url="html/bc976a30-8bc4-9b5d-5a2d-2e99c7810853.htm" />
+  <HelpKINode Title="WTXJet.RecordWeight method" Url="html/3bb20130-36a7-8f63-696b-277dc1d1bda8.htm" />
+  <HelpKINode Title="WTXJet.RestoreAllDefaultParameters method" Url="html/26aa0a0f-1182-bcff-c860-f6765c4ab537.htm" />
+  <HelpKINode Title="WTXJet.SaveAllParameters method" Url="html/ccc440f1-f069-c2b6-88d5-d754885fd9c3.htm" />
+  <HelpKINode Title="WTXJet.ScaleRange property" Url="html/fbc478ef-49c1-68a7-a540-1edb2e6a354b.htm" />
+  <HelpKINode Title="WTXJet.ScaleRangeMode property" Url="html/cc863eed-bfe4-76ee-c92f-c11f0f957ed6.htm" />
+  <HelpKINode Title="WTXJet.SerialNumber property" Url="html/d386f246-a4f6-74c3-3eb3-c4aed94081ad.htm" />
+  <HelpKINode Title="WTXJet.SetGross method" Url="html/93ff4a55-6cb5-a78f-0673-9da915c7b420.htm" />
+  <HelpKINode Title="WTXJet.SoftwareIdentification property" Url="html/11079b3c-5f82-7300-7f14-908d4bd4585b.htm" />
+  <HelpKINode Title="WTXJet.Tare method" Url="html/3d3041e8-48d0-1aa2-eefa-8f7697efae25.htm" />
+  <HelpKINode Title="WTXJet.TareManually method" Url="html/bdd9bdaf-085a-7ef2-96b9-45dec4dbb733.htm" />
+  <HelpKINode Title="WTXJet.TareMode property" Url="html/a3af341d-3a35-e1cf-fc6f-e2738c3c9b5b.htm" />
+  <HelpKINode Title="WTXJet.Unit property" Url="html/5453bced-632f-c92c-153c-1974035b2391.htm" />
+  <HelpKINode Title="WTXJet.VendorID property" Url="html/c09680f2-002a-d830-1793-70c258add298.htm" />
+  <HelpKINode Title="WTXJet.Weight property" Url="html/416edf27-8fbe-94f0-cd48-58edd3606688.htm" />
+  <HelpKINode Title="WTXJet.WeightMovementDetection property" Url="html/5fd24cc0-63e7-55ce-6fb3-a53867a2e154.htm" />
+  <HelpKINode Title="WTXJet.WeightStable property" Url="html/41fddef0-d459-acd1-c0fd-e76d9f2af187.htm" />
+  <HelpKINode Title="WTXJet.WeightStep property" Url="html/b6224c3e-5ba9-a837-5bc9-391928051f72.htm" />
+  <HelpKINode Title="WTXJet.WTXJet constructor" Url="html/999bd8f5-6035-38df-e33f-1f2b7bb98e85.htm" />
+  <HelpKINode Title="WTXJet.Zero method" Url="html/dfcf7ede-9a77-1195-f70c-cd9e2179c567.htm" />
+  <HelpKINode Title="WTXJet.ZeroSignal property" Url="html/297564c6-5b8d-21e5-dfe9-58fa47a39fda.htm" />
+  <HelpKINode Title="WTXModbus class">
+    <HelpKINode Title="WTXModbus Class" Url="html/fc9b05b7-5077-8bd1-82a9-8fc9f60b9ed0.htm" />
+    <HelpKINode Title="constructor" Url="html/5917840e-8505-833b-de5d-ec61877eb535.htm" />
+    <HelpKINode Title="events" Url="html/856a77e6-b6fb-221d-0056-123c9e27e079.htm" />
+    <HelpKINode Title="methods" Url="html/93fa9af2-fe30-4123-ad33-4b1af01adf1f.htm" />
+    <HelpKINode Title="properties" Url="html/4652da82-292a-46ae-a072-568a2c3924d4.htm" />
+  </HelpKINode>
+  <HelpKINode Title="WTXModbus.ActivateData method" Url="html/f71c770d-5b71-7aba-8352-a73633782554.htm" />
+  <HelpKINode Title="WTXModbus.AdjustNominalSignal method" Url="html/510927cd-42d1-926d-bbd0-ab0fadcc08c4.htm" />
+  <HelpKINode Title="WTXModbus.AdjustNominalSignalWithCalibrationWeight method" Url="html/02e0aed4-5608-38b0-ff1c-7f14319deec0.htm" />
+  <HelpKINode Title="WTXModbus.AdjustZeroSignal method" Url="html/ba69e84a-54a9-1851-6867-ed92b08667ed.htm" />
+  <HelpKINode Title="WTXModbus.ApplicationMode property" Url="html/2714338e-d9dc-7c1e-8e68-0a4403d7687f.htm" />
+  <HelpKINode Title="WTXModbus.CalculateAdjustment method" Url="html/9031c1f0-f16b-340a-e0e7-162d78bcf91b.htm" />
+  <HelpKINode Title="WTXModbus.CalibrationWeight property" Url="html/cdf60bed-a156-9230-12b1-f662a2a71ce2.htm" />
+  <HelpKINode Title="WTXModbus.Connect method" Url="html/640b9c5e-3468-17c7-6a35-26d1e9164b89.htm" />
+  <HelpKINode Title="WTXModbus.ConnectionType property" Url="html/da84ff9b-788f-119f-6bae-7dc0abebadf7.htm" />
+  <HelpKINode Title="WTXModbus.DigitalIO property" Url="html/8d791cf6-76a6-5dd7-d20e-9a1b1ca90db3.htm" />
+  <HelpKINode Title="WTXModbus.Disconnect method" Url="html/1ed7ead3-3033-9454-9190-2ac8149e2df4.htm" />
+  <HelpKINode Title="WTXModbus.Filler property" Url="html/19d2b617-3575-70b8-5200-82ac625f9060.htm" />
+  <HelpKINode Title="WTXModbus.FirmwareVersion property" Url="html/ec18779a-5f5b-16b9-5bda-385cf7c210e5.htm" />
+  <HelpKINode Title="WTXModbus.GeneralScaleError property" Url="html/88a103aa-c36c-a6af-67eb-ba789bae2b60.htm" />
+  <HelpKINode Title="WTXModbus.Identification property" Url="html/b3d22d8f-f45c-e507-0d87-6b50b6c3ca37.htm" />
+  <HelpKINode Title="WTXModbus.IsConnected property" Url="html/cdcda345-2159-065d-d54d-23eea05173ef.htm" />
+  <HelpKINode Title="WTXModbus.LimitSwitch property" Url="html/0adfb82d-37c7-e61a-0753-8982c81e7125.htm" />
+  <HelpKINode Title="WTXModbus.ManualTareValue property" Url="html/2bc7db98-9dfd-a6d9-dd12-5dde19c68cac.htm" />
+  <HelpKINode Title="WTXModbus.MaximumCapacity property" Url="html/1ca6c839-ffcf-a7f5-2b5c-f1833001da6f.htm" />
+  <HelpKINode Title="WTXModbus.NominalSignal property" Url="html/457b1ce1-64bd-ee3c-5dff-85f47910c6f4.htm" />
+  <HelpKINode Title="WTXModbus.PrintableWeight property" Url="html/b55a98fe-dfe8-c530-3ded-68b1a0fc1b82.htm" />
+  <HelpKINode Title="WTXModbus.ProcessDataReceived event" Url="html/9966ade3-9a10-54fc-796f-c8c98e13816f.htm" />
+  <HelpKINode Title="WTXModbus.RecordWeight method" Url="html/b0f21f1d-02cb-7c9d-2d8d-22722a7ec298.htm" />
+  <HelpKINode Title="WTXModbus.RestoreAllDefaultParameters method" Url="html/5b1f6fe0-1a5b-fce7-e7a6-fc46aba83280.htm" />
+  <HelpKINode Title="WTXModbus.SaveAllParameters method" Url="html/214404cd-4d0e-6ea9-ef31-a9ac8b536542.htm" />
+  <HelpKINode Title="WTXModbus.ScaleRange property" Url="html/fbcb1011-1182-d80a-ec20-cfdd890775c3.htm" />
+  <HelpKINode Title="WTXModbus.SerialNumber property" Url="html/191f9b56-9f2f-9f70-9f5e-0a265dd16738.htm" />
+  <HelpKINode Title="WTXModbus.SetGross method" Url="html/e51629fb-0d45-fb15-20c8-51e0a9fafd78.htm" />
+  <HelpKINode Title="WTXModbus.Tare method" Url="html/b98acc44-68db-e966-3a5d-5e8f4a255df6.htm" />
+  <HelpKINode Title="WTXModbus.TareManually method" Url="html/7d1197da-c52f-fe32-e47b-f186b6918a7b.htm" />
+  <HelpKINode Title="WTXModbus.TareMode property" Url="html/96ab155a-3394-1be8-27cd-f9e6b92a9c1e.htm" />
+  <HelpKINode Title="WTXModbus.Unit property" Url="html/650c7767-c55e-0162-0445-b8d780ec039a.htm" />
+  <HelpKINode Title="WTXModbus.Weight property" Url="html/67cb8a43-8e1c-5d33-0d33-e8cf312280ae.htm" />
+  <HelpKINode Title="WTXModbus.WeightStable property" Url="html/30fd5ece-d84a-533f-e1f4-73b286e1c341.htm" />
+  <HelpKINode Title="WTXModbus.WTXModbus constructor" Url="html/5917840e-8505-833b-de5d-ec61877eb535.htm" />
+  <HelpKINode Title="WTXModbus.Zero method" Url="html/06720258-1812-25e4-d541-2655256780ca.htm" />
+  <HelpKINode Title="WTXModbus.ZeroSignal property" Url="html/9f2dc4d1-b4ef-0ef6-6e25-5495103da9e5.htm" />
+  <HelpKINode Title="Zero enumeration member" Url="html/c6c4a34b-d8d6-f991-5543-e64cef71fd12.htm" />
+  <HelpKINode Title="Zero method">
+    <HelpKINode Title="BaseWTDevice.Zero Method " Url="html/fbc9ea66-4def-b95f-cc4f-2db15ab82545.htm" />
+    <HelpKINode Title="DSEJet.Zero Method " Url="html/3d7e5cdc-071a-8e0d-891b-235d1e1aacab.htm" />
+    <HelpKINode Title="WTXJet.Zero Method " Url="html/dfcf7ede-9a77-1195-f70c-cd9e2179c567.htm" />
+    <HelpKINode Title="WTXModbus.Zero Method " Url="html/06720258-1812-25e4-d541-2655256780ca.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ZeroRequired property">
+    <HelpKINode Title="IProcessData.ZeroRequired Property " Url="html/88574842-063a-6d8e-651e-68d428acf330.htm" />
+    <HelpKINode Title="JetProcessData.ZeroRequired Property " Url="html/47358b14-274e-6ea6-a4dc-e514d47e56e4.htm" />
+    <HelpKINode Title="ModbusDataProcess.ZeroRequired Property " Url="html/28f21837-6573-c4cc-925e-5fada8c27a9c.htm" />
+  </HelpKINode>
+  <HelpKINode Title="ZeroSignal property">
+    <HelpKINode Title="BaseWTDevice.ZeroSignal Property " Url="html/d530a6f0-93cf-cc2a-c26e-5e617f5d84bb.htm" />
+    <HelpKINode Title="DSEJet.ZeroSignal Property " Url="html/96a433df-c960-5070-b99c-cab9b89e5d06.htm" />
+    <HelpKINode Title="WTXJet.ZeroSignal Property " Url="html/297564c6-5b8d-21e5-dfe9-58fa47a39fda.htm" />
+    <HelpKINode Title="WTXModbus.ZeroSignal Property " Url="html/9f2dc4d1-b4ef-0ef6-6e25-5495103da9e5.htm" />
+  </HelpKINode>
+</HelpKI>

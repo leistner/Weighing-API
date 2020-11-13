@@ -1,4 +1,4 @@
-﻿namespace GUIsimple
+﻿namespace Hbm.Ie.Api.Weighing.Examples.GUISimple
 {
     partial class AdjustmentWeigher
     {

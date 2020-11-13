@@ -1,6 +1,6 @@
 ﻿// <copyright file="Program.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// Example application for Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
+// Example application for Hbm.Ie.Api, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -33,11 +33,12 @@ namespace WTXModbus
     using System;
     using System.Threading;
     using System.Globalization;
-    using Hbm.Weighing.Api;
-    using Hbm.Weighing.Api.Data;
-    using Hbm.Weighing.Api.WTX;
-    using Hbm.Weighing.Api.WTX.Jet;
-    using Hbm.Weighing.Api.WTX.Modbus;
+    using Hbm.Ie.Api;
+    using Hbm.Ie.Api.Data;
+    using Hbm.Ie.Api.Weighing.WTX;
+    using Hbm.Ie.Api.Weighing.WTX.Jet;
+    using Hbm.Ie.Api.Weighing.WTX.Modbus;
+    using Hbm.Ie.Api.Weighing;
 
     /// <summary>
     /// This class implements a console application. An Object of the class 'ModbusTcpConnection' or 'JetBusConnection' and 'BaseWTDevice'('WTXJet' or WTXModbus') or 'ExtendedBaseWtDevice'-
@@ -146,7 +147,7 @@ namespace WTXModbus
                 // Creating objects of ModbusTcpConnection and WTXModbus: 
                 ModbusTCPConnection _modbusConnection = new ModbusTCPConnection(_ipAddress);
 
-                _wtxDevice = new Hbm.Weighing.Api.WTX.WTXModbus(_modbusConnection, _timerInterval, Update);
+                _wtxDevice = new WTXModbus(_modbusConnection, _timerInterval, Update);
             }
             else
             {

@@ -1,6 +1,6 @@
 ﻿// <copyright file="GUIplcForm.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// Example application for Hbm.Weighing.Api, a library to communicate with HBM weighing technology devices  
+// Example application for Hbm.Ie.Api, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -28,17 +28,18 @@
 //
 // </copyright>
 
-namespace GUIplc
+namespace Hbm.Ie.Api.Weighing.Examples.GUIplc
 {
+    using Hbm.Ie.Api.Weighing.Examples.GUISimple;
+    using Hbm.Ie.Api;
+    using Hbm.Ie.Api.Data;
+    using Hbm.Ie.Api.Weighing;
+    using Hbm.Ie.Api.Weighing.WTX;
+    using Hbm.Ie.Api.Weighing.WTX.Jet;
+    using Hbm.Ie.Api.Weighing.WTX.Modbus;
     using System;
-    using System.Windows.Forms;
     using System.IO;
-    using GUIsimple;
-    using Hbm.Weighing.Api;
-    using Hbm.Weighing.Api.Data;
-    using Hbm.Weighing.Api.WTX;
-    using Hbm.Weighing.Api.WTX.Modbus;
-    using Hbm.Weighing.Api.WTX.Jet;
+    using System.Windows.Forms;
     /// <summary>
     /// First, objects of class 'ModbusTcpConnection' and 'WTXModbus'(implements BaseWtDevice) are created to establish a connection and data transfer to the device. 
     /// Class 'ModbusTcpConnection' has the purpose to establish a connection, to read from the device (its register)
@@ -859,7 +860,7 @@ namespace GUIplc
             _wtxDevice.Disconnect();
 
             ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-            _wtxDevice = new Hbm.Weighing.Api.WTX.WTXModbus(_connection, this._timerInterval, this.update);
+            _wtxDevice = new WTXModbus(_connection, this._timerInterval, this.update);
         }
         public void WriteDigitalIOFunctions(object sender, IOFunctionEventArgs e)
         {
@@ -882,7 +883,7 @@ namespace GUIplc
             _wtxDevice.Disconnect();
 
             ModbusTCPConnection _connection = new ModbusTCPConnection(_ipAddress);
-            _wtxDevice = new Hbm.Weighing.Api.WTX.WTXModbus(_connection, this._timerInterval, this.update);
+            _wtxDevice = new WTXModbus(_connection, this._timerInterval, this.update);
         }
 
         /// <summary>

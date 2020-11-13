@@ -28,14 +28,12 @@
 //
 // </copyright>
 
-using Hbm.Weighing.Api;
-using System;
-using System.Threading;
-using System.Windows.Forms;
-
-
-namespace GUIsimple
+namespace Hbm.Ie.Api.Weighing.Examples.GUISimple
 {
+    using Hbm.Ie.Api.Weighing;
+    using System;
+    using System.Windows.Forms;
+
     /// <summary>
     /// This class provides a window to calibrate the WTX with a calibration weight.
     /// First the dead load is set and second the calibration weight is set by the application.

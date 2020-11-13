@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BD4E877B-0A77-4976-8FE6-53D9450B9CA0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>GUIsimple</RootNamespace>
+    <RootNamespace>Hbm.Ie.Api.Weighing.Examples.GUISimple</RootNamespace>
     <AssemblyName>GUIsimple</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -107,12 +107,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Hbm.Weighing.Api\Hbm.Weighing.Api.csproj">
-      <Project>{50ACED6F-3CC8-4D0A-B902-F4543DAAD58D}</Project>
-      <Name>Hbm.Weighing.Api</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Resources\jet_symbol.png" />
     <Content Include="Resources\modbus_symbol.png" />
     <None Include="Resources\NE107_OutOfSpecification.png" />
@@ -125,6 +119,12 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Hbm.Ie.Api\Hbm.Ie.Api.csproj">
+      <Project>{f8fb1d85-0fba-4905-a559-a1c654675662}</Project>
+      <Name>Hbm.Ie.Api</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

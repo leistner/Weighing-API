@@ -27,11 +27,12 @@
 // SOFTWARE.
 //
 // </copyright>
-using System;
-using System.Windows.Forms;
 
-namespace GUIsimple
+namespace Hbm.Ie.Api.Weighing.Examples.GUIsimple
 {
+    using System;
+    using System.Windows.Forms;
+
     /// <summary>
     /// Main entry point for the application
     /// </summary>

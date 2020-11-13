@@ -7,7 +7,7 @@
     <ProjectGuid>{1B8BDE86-5015-40A3-B364-5716EC95B932}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WTXModbus</RootNamespace>
+    <RootNamespace>Hbm.Ie.Api.Weighing.Examples.GUIplc</RootNamespace>
     <AssemblyName>WTXModbusGUI</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -115,9 +115,9 @@
     <None Include="Resources\toolStripDropDownButton1.Image.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Hbm.Weighing.Api\Hbm.Weighing.Api.csproj">
-      <Project>{50ACED6F-3CC8-4D0A-B902-F4543DAAD58D}</Project>
-      <Name>Hbm.Weighing.Api</Name>
+    <ProjectReference Include="..\..\Hbm.Ie.Api\Hbm.Ie.Api.csproj">
+      <Project>{f8fb1d85-0fba-4905-a559-a1c654675662}</Project>
+      <Name>Hbm.Ie.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

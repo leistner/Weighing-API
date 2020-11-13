@@ -28,17 +28,18 @@
 //
 // </copyright>
 
-namespace GUIsimple
+namespace Hbm.Ie.Api.Weighing.Examples.GUIsimple
 {
+    using Hbm.Ie.Api.Data;
+    using Hbm.Ie.Api.Weighing;
+    using Hbm.Ie.Api.Weighing.DSE;
+    using Hbm.Ie.Api.Weighing.DSE.Jet;
+    using Hbm.Ie.Api.Weighing.Examples.GUISimple;
+    using Hbm.Ie.Api.Weighing.WTX;
+    using Hbm.Ie.Api.Weighing.WTX.Jet;
+    using Hbm.Ie.Api.Weighing.WTX.Modbus;
     using System;
     using System.Windows.Forms;
-    using Hbm.Weighing.Api;
-    using Hbm.Weighing.Api.Data;
-    using Hbm.Weighing.Api.DSE;
-    using Hbm.Weighing.Api.DSE.Jet;
-    using Hbm.Weighing.Api.WTX;
-    using Hbm.Weighing.Api.WTX.Jet;
-    using Hbm.Weighing.Api.WTX.Modbus;
 
     /// <summary>
     /// This application example demonstrates the usage of HBM Weighing-API.
@@ -73,7 +74,7 @@ namespace GUIsimple
             DisplayText("Check IP address, select 'Jet' or 'Modbus/TCP' and press 'Connect'.");
             EvaluateCommandLine(args);
             txtIPAddress.Text = _ipAddress;
-            picNE107.Image = Properties.Resources.NE107_DiagnosisPassive;
+            picNE107.Image = GUISimple.Properties.Resources.NE107_DiagnosisPassive;
         }
         #endregion
 
@@ -118,14 +119,14 @@ namespace GUIsimple
 
             if (_wtxDevice.IsConnected)
             {
-                picNE107.Image = Properties.Resources.NE107_DiagnosisActive;
-                Properties.Settings.Default.IPAddress = this._ipAddress;
-                Properties.Settings.Default.DeviceType = cboDeviceType.SelectedIndex;
-                Properties.Settings.Default.Save();
+                picNE107.Image = GUISimple.Properties.Resources.NE107_DiagnosisActive;
+                GUISimple.Properties.Settings.Default.IPAddress = this._ipAddress;
+                GUISimple.Properties.Settings.Default.DeviceType = cboDeviceType.SelectedIndex;
+                GUISimple.Properties.Settings.Default.Save();
             }
             else
             {
-                picNE107.Image = Properties.Resources.NE107_DiagnosisPassive;
+                picNE107.Image = GUISimple.Properties.Resources.NE107_DiagnosisPassive;
                 DisplayText(MESSAGE_CONNECTION_FAILED);
             }
 
@@ -147,22 +148,22 @@ namespace GUIsimple
                 if (e.ProcessData.Underload == true)
                 {
                     DisplayText("Underload : Lower than minimum" + Environment.NewLine);
-                    picNE107.Image = Properties.Resources.NE107_OutOfSpecification;
+                    picNE107.Image = GUISimple.Properties.Resources.NE107_OutOfSpecification;
 
                 }
                 else if (e.ProcessData.Overload == true)
                 {
                     DisplayText("Overload : Higher than maximum capacity" + Environment.NewLine);
-                    picNE107.Image = Properties.Resources.NE107_OutOfSpecification;
+                    picNE107.Image = GUISimple.Properties.Resources.NE107_OutOfSpecification;
 
                 }
                 else if (e.ProcessData.HigherSafeLoadLimit == true)
                 {
                     DisplayText("Higher than safe load limit" + Environment.NewLine);
-                    picNE107.Image = Properties.Resources.NE107_OutOfSpecification;
+                    picNE107.Image = GUISimple.Properties.Resources.NE107_OutOfSpecification;
                 }
                 else
-                    picNE107.Image = Properties.Resources.NE107_DiagnosisActive;
+                    picNE107.Image = GUISimple.Properties.Resources.NE107_DiagnosisActive;
             }));
         }
 
@@ -189,13 +190,13 @@ namespace GUIsimple
             }
             else
             {
-                cboDeviceType.SelectedIndex = Properties.Settings.Default.DeviceType;
+                cboDeviceType.SelectedIndex = GUISimple.Properties.Settings.Default.DeviceType;
             }
 
             if (args.Length > 1)
                 _ipAddress = args[1];
             else
-                _ipAddress = Properties.Settings.Default.IPAddress;
+                _ipAddress = GUISimple.Properties.Settings.Default.IPAddress;
 
             if (args.Length > 2)
                 this._timerInterval = Convert.ToInt32(args[2]);
