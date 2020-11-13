@@ -44,7 +44,7 @@ namespace Hbm.Weighing.Api.DSE
     public class DSEJet : BaseWTDevice, IDataScale, IDataDigitalFilter
     {
         #region ==================== constants & fields ====================
-        private const int CONVERISION_FACTOR_MVV_TO_D = 500000;  
+        private const int CONVERISION_FACTOR_MVV_TO_D = 1000000;  
         private const int SCALE_COMMAND_CALIBRATE_ZERO = 2053923171;
         private const int SCALE_COMMAND_CALIBRATE_NOMINAL = 1852596579;
         private const int SCALE_COMMAND_EXIT_CALIBRATE = 1953069157;
@@ -57,6 +57,7 @@ namespace Hbm.Weighing.Api.DSE
         private const int SCALE_COMMAND_STATUS_ERROR_E1 = 826629983;
         private const int SCALE_COMMAND_STATUS_ERROR_E2 = 843407199;
         private const int SCALE_COMMAND_STATUS_ERROR_E3 = 860184415;
+        private const int COMMAND_FACTORY_DEFAULTS = 1684107116;
         private INetConnection _connection;
         #endregion
         
@@ -411,7 +412,7 @@ namespace Hbm.Weighing.Api.DSE
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleFilter);
+                return _connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterSetup);
             }
 
             set
@@ -516,7 +517,7 @@ namespace Hbm.Weighing.Api.DSE
         ///<inheritdoc/>
         public override void RestoreAllDefaultParameters()
         {
-            Connection.Write(JetBusCommands.CIA461RestoreAllDefaultParameters, "6c6f6164");       //command missing int.Parse("6c6f6164", System.Globalization.NumberStyles.HexNumber)
+            Connection.WriteInteger(JetBusCommands.DSERestoreAllDefaultParameters, COMMAND_FACTORY_DEFAULTS);       //command missing int.Parse("6c6f6164", System.Globalization.NumberStyles.HexNumber)
         }
 
         ///<inheritdoc/>

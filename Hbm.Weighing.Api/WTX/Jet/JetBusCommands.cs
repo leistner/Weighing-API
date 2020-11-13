@@ -64,6 +64,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
             CIA461PeakValuMin = new JetBusCommand(DataType.S32, "6149/04", 0, 0);
             CIA461ProductCode = new JetBusCommand(DataType.U32, "1018/02", 0, 0);
             CIA461RestoreAllDefaultParameters = new JetBusCommand(DataType.U32, "1011/01", 0, 0);
+            DSERestoreAllDefaultParameters = new JetBusCommand(DataType.U32, "1011/03", 0, 0);
             CIA461SampleRate = new JetBusCommand(DataType.U32, "6050/01", 0, 0);
             CIA461SaveAllParameters = new JetBusCommand(DataType.U32, "1010/01", 0, 0);
             CIA461ScaleAccuracyClass = new JetBusCommand(DataType.U08, "6111/01", 0, 0);
@@ -137,6 +138,7 @@ namespace Hbm.Weighing.Api.WTX.Jet
             DSEIDNDeviceIdentification = new JetBusCommand(DataType.ASCII, "1008/00", 0, 0);
             DSESerialNumber = new JetBusCommand(DataType.U32, "4280/04", 0, 0);
             DSEFirmwareVersion = new JetBusCommand(DataType.ASCII, "100A/00", 0, 0);
+            DSEFilterSetup = new JetBusCommand(DataType.U32, "6040/00", 0, 0);
             SDLScaleZeroSignal = new JetBusCommand(DataType.S32, "6150/00", 0, 0);
             SNLScaleNominalSignal = new JetBusCommand(DataType.S32, "6151/00", 0, 0);
             DSEZeroValue = new JetBusCommand(DataType.S32, "6142/00", 0, 0);
@@ -271,6 +273,8 @@ namespace Hbm.Weighing.Api.WTX.Jet
         public static JetBusCommand CIA461ProductCode { get; private set; }
 
         public static JetBusCommand CIA461RestoreAllDefaultParameters { get; private set; }
+
+        public static JetBusCommand DSERestoreAllDefaultParameters { get; private set; }
 
         public static JetBusCommand CIA461SampleRate { get; private set; }
 
@@ -417,6 +421,8 @@ namespace Hbm.Weighing.Api.WTX.Jet
         public static JetBusCommand DSESerialNumber { get; private set; }
 
         public static JetBusCommand DSEFirmwareVersion { get; private set; }
+
+        public static JetBusCommand DSEFilterSetup { get; private set; }
 
         public static JetBusCommand SDLScaleZeroSignal { get; private set; }
 
