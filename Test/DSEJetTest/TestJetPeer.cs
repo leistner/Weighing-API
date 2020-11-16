@@ -28,7 +28,7 @@
 //
 // </copyright>
 
-namespace Hbm.Ie.Api.Test
+namespace Hbm.Automation.Api.Test.DSEJetTest
 {
     using Hbm.Devices.Jet;
     using Newtonsoft.Json.Linq;

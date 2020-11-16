@@ -50,9 +50,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Hbm.Ie.Api\Hbm.Ie.Api.csproj">
+    <ProjectReference Include="..\..\Hbm.Automation.Api\Hbm.Automation.Api.csproj">
       <Project>{f8fb1d85-0fba-4905-a559-a1c654675662}</Project>
-      <Name>Hbm.Ie.Api</Name>
+      <Name>Hbm.Automation.Api</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

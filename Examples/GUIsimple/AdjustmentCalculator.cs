@@ -6,9 +6,9 @@
  * 
  *  */
 
-namespace Hbm.Ie.Api.Weighing.Examples.GUISimple
+namespace Hbm.Automation.Api.Weighing.Examples.GUISimple
 {
-    using Hbm.Ie.Api.Weighing;
+    using Hbm.Automation.Api.Weighing;
     using System;
     using System.Globalization;
     using System.Windows.Forms;

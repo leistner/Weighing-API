@@ -1,4 +1,4 @@
-﻿namespace Hbm.Ie.Api.Weighing.Examples.GUIsimple
+﻿namespace Hbm.Automation.Api.Weighing.Examples.GUIsimple
 {
     partial class GUIsimpleForm
     {
@@ -180,7 +180,7 @@
             // 
             // picNE107
             // 
-            this.picNE107.Image = global::Hbm.Ie.Api.Weighing.Examples.GUISimple.Properties.Resources.NE107_OutOfSpecification;
+            this.picNE107.Image = global::Hbm.Automation.Api.Weighing.Examples.GUISimple.Properties.Resources.NE107_OutOfSpecification;
             this.picNE107.Location = new System.Drawing.Point(314, 118);
             this.picNE107.Name = "picNE107";
             this.picNE107.Size = new System.Drawing.Size(84, 72);

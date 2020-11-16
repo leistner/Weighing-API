@@ -28,7 +28,7 @@
 //
 // </copyright>
 
-namespace Hbm.Ie.Api.Weighing.Examples.GUIsimple
+namespace Hbm.Automation.Api.Weighing.Examples.GUIsimple
 {
     using System;
     using System.Windows.Forms;

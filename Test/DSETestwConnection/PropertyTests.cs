@@ -28,10 +28,10 @@
 //
 // </copyright>
 
-namespace Hbm.Ie.Api.Test.DSETestwConnection
+namespace Hbm.Automation.Api.Test.DSETestwConnection
 {
-    using Hbm.Ie.Api.Weighing.DSE;
-    using Hbm.Ie.Api.Weighing.DSE.Jet;
+    using Hbm.Automation.Api.Weighing.DSE;
+    using Hbm.Automation.Api.Weighing.DSE.Jet;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]

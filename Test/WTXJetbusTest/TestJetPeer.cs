@@ -28,7 +28,7 @@
 //
 // </copyright>
 
-namespace Hbm.Ie.Api.Test.WTXJetBusTest
+namespace Hbm.Automation.Api.Test.WTXJetBusTest
 {
     using Hbm.Devices.Jet;
     using Newtonsoft.Json.Linq;

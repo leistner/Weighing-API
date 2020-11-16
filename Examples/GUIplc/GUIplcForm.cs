@@ -1,6 +1,6 @@
 ﻿// <copyright file="GUIplcForm.cs" company="Hottinger Baldwin Messtechnik GmbH">
 //
-// Example application for Hbm.Ie.Api, a library to communicate with HBM weighing technology devices  
+// Example application for Hbm.Automation.Api, a library to communicate with HBM weighing technology devices  
 //
 // The MIT License (MIT)
 //
@@ -28,15 +28,15 @@
 //
 // </copyright>
 
-namespace Hbm.Ie.Api.Weighing.Examples.GUIplc
+namespace Hbm.Automation.Api.Weighing.Examples.GUIplc
 {
-    using Hbm.Ie.Api.Weighing.Examples.GUISimple;
-    using Hbm.Ie.Api;
-    using Hbm.Ie.Api.Data;
-    using Hbm.Ie.Api.Weighing;
-    using Hbm.Ie.Api.Weighing.WTX;
-    using Hbm.Ie.Api.Weighing.WTX.Jet;
-    using Hbm.Ie.Api.Weighing.WTX.Modbus;
+    using Hbm.Automation.Api.Weighing.Examples.GUISimple;
+    using Hbm.Automation.Api;
+    using Hbm.Automation.Api.Data;
+    using Hbm.Automation.Api.Weighing;
+    using Hbm.Automation.Api.Weighing.WTX;
+    using Hbm.Automation.Api.Weighing.WTX.Jet;
+    using Hbm.Automation.Api.Weighing.WTX.Modbus;
     using System;
     using System.IO;
     using System.Windows.Forms;

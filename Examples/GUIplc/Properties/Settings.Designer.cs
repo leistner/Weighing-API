@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Hbm.Ie.Api.Weighing.Examples.GUIplc.Properties {
+namespace Hbm.Automation.Api.Weighing.Examples.GUIplc.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
