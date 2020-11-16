@@ -39,7 +39,7 @@ namespace Hbm.Ie.Api.Test.DSETestwConnection
     {
         private DSEJet _dse;
         private DSEJetConnection _connection;
-        private string ipaddress = "172.19.104.11";
+        private string ipaddress = "192.168.178.46";
 
         [TestMethod]
         public void TestConnecting()

@@ -29,7 +29,7 @@
 // </copyright>
 
 
-namespace Hbm.Ie.Api.Test
+namespace Hbm.Ie.Api.Test.DSEJetTest
 {
     using Hbm.Ie.Api;
     using Hbm.Ie.Api.Data;
@@ -43,7 +43,7 @@ namespace Hbm.Ie.Api.Test
     public class CalibrationTests
     {
         private INetConnection _jetTestConnection;
-        private DSEJet _wtxObj;
+        private DSEJet _dseObj;
         private string ipaddress = "wss://172.20.41.120:443/jet/canopen";
 
         // Test case source for writing values to the WTX120 device: Taring 
@@ -89,11 +89,11 @@ namespace Hbm.Ie.Api.Test
 
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new DSEJet(_jetTestConnection, 200, Update);
+            _dseObj = new DSEJet(_jetTestConnection, 200, Update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.AdjustNominalSignalWithCalibrationWeight(1.5);
+            _dseObj.AdjustNominalSignalWithCalibrationWeight(1.5);
 
             if (
                 _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461CalibrationWeight) == 15000 &&       // LFT_SCALE_CALIBRATION_WEIGHT = "6152/00" 
@@ -118,11 +118,11 @@ namespace Hbm.Ie.Api.Test
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new DSEJet(_jetTestConnection, 200, Update);
+            _dseObj = new DSEJet(_jetTestConnection, 200, Update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.AdjustZeroSignal();
+            _dseObj.AdjustZeroSignal();
 
             if (
                 _jetTestConnection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleCommand) == 2053923171 &&
@@ -150,11 +150,11 @@ namespace Hbm.Ie.Api.Test
 
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new DSEJet(_jetTestConnection, 200, Update);
+            _dseObj = new DSEJet(_jetTestConnection, 200, Update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.CalculateAdjustment(preload, capacity);
+            _dseObj.CalculateAdjustment(preload, capacity);
 
             testdPreload = preload * multiplierMv2D;
             testdNominalLoad = testdPreload + (capacity * multiplierMv2D);
