@@ -28,11 +28,11 @@
 //
 // </copyright>
 
-namespace Hbm.Ie.Api.Test.WTXJetBusTest
+namespace Hbm.Automation.Api.Test.WTXJetBusTest
 {
-    using Hbm.Ie.Api.Data;
-    using Hbm.Ie.Api.Weighing.WTX;
-    using Hbm.Ie.Api.Weighing.WTX.Jet;
+    using Hbm.Automation.Api.Data;
+    using Hbm.Automation.Api.Weighing.WTX;
+    using Hbm.Automation.Api.Weighing.WTX.Jet;
     using NUnit.Framework;
     using System;
     using System.Collections;

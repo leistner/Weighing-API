@@ -28,13 +28,12 @@
 //
 // </copyright>
 
-
-namespace Hbm.Ie.Api.Test.DSEJetTest
+namespace Hbm.Automation.Api.Test.DSEJetTest
 {
-    using Hbm.Ie.Api;
-    using Hbm.Ie.Api.Data;
-    using Hbm.Ie.Api.Weighing.DSE;
-    using Hbm.Ie.Api.Weighing.WTX.Jet;
+    using Hbm.Automation.Api;
+    using Hbm.Automation.Api.Data;
+    using Hbm.Automation.Api.Weighing.DSE;
+    using Hbm.Automation.Api.Weighing.WTX.Jet;
     using NUnit.Framework;
     using System;
     using System.Collections;

@@ -28,10 +28,10 @@
 //
 // </copyright>
 
-namespace Hbm.Ie.Api.Test.WTXModbusTest
+namespace Hbm.Automation.Api.Test.WTXModbusTest
 {
-    using Hbm.Ie.Api;
-    using Hbm.Ie.Api.Weighing.WTX.Modbus;
+    using Hbm.Automation.Api;
+    using Hbm.Automation.Api.Weighing.WTX.Modbus;
     using System;
     using System.Collections.Generic;
     using System.Reflection;

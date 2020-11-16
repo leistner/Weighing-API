@@ -9,8 +9,8 @@ TestResults/
 .vs/
 
 /Examples/NETStandard2TestLib
-Weighing-API-Doc/Help/
 Doc/log.log
-Weighing-API-Doc/debug.log
+Automation-API-Doc/debug.log
+Automation-API-Doc/Help/
 Examples/CommandLine/StyleCop.Cache
 StyleCop.Cache

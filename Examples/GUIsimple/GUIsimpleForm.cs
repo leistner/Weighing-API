@@ -28,16 +28,16 @@
 //
 // </copyright>
 
-namespace Hbm.Ie.Api.Weighing.Examples.GUIsimple
+namespace Hbm.Automation.Api.Weighing.Examples.GUIsimple
 {
-    using Hbm.Ie.Api.Data;
-    using Hbm.Ie.Api.Weighing;
-    using Hbm.Ie.Api.Weighing.DSE;
-    using Hbm.Ie.Api.Weighing.DSE.Jet;
-    using Hbm.Ie.Api.Weighing.Examples.GUISimple;
-    using Hbm.Ie.Api.Weighing.WTX;
-    using Hbm.Ie.Api.Weighing.WTX.Jet;
-    using Hbm.Ie.Api.Weighing.WTX.Modbus;
+    using Hbm.Automation.Api.Data;
+    using Hbm.Automation.Api.Weighing;
+    using Hbm.Automation.Api.Weighing.DSE;
+    using Hbm.Automation.Api.Weighing.DSE.Jet;
+    using Hbm.Automation.Api.Weighing.Examples.GUISimple;
+    using Hbm.Automation.Api.Weighing.WTX;
+    using Hbm.Automation.Api.Weighing.WTX.Jet;
+    using Hbm.Automation.Api.Weighing.WTX.Modbus;
     using System;
     using System.Windows.Forms;
 
