@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
-  <Class Name="Hbm.Ie.Api.Weighing.BaseWTDevice">
+  <Class Name="Hbm.Automation.Api.Weighing.BaseWTDevice">
     <Position X="4.5" Y="2" Width="5.25" />
     <Members>
       <Field Name="_processDataInterval" Hidden="true" />
@@ -48,7 +48,7 @@
       <FileName>Weighing\BaseWTDevice.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Hbm.Ie.Api.Weighing.WTX.WTXJet" Collapsed="true">
+  <Class Name="Hbm.Automation.Api.Weighing.WTX.WTXJet" Collapsed="true">
     <Position X="4.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AJwAKRCBiCDAICFEqAAxCYqoA6mQQkSSAB+qBaQAJBA=</HashCode>
@@ -56,21 +56,21 @@
     </TypeIdentifier>
     <Lollipop Orientation="Left" Position="0.285" />
   </Class>
-  <Class Name="Hbm.Ie.Api.Weighing.BaseWTXDevice" Collapsed="true">
+  <Class Name="Hbm.Automation.Api.Weighing.BaseWTXDevice" Collapsed="true">
     <Position X="5.5" Y="4.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAgAAAAACAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Weighing\WTX\BaseWTXDevice.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Hbm.Ie.Api.Weighing.WTX.WTXModbus" Collapsed="true">
+  <Class Name="Hbm.Automation.Api.Weighing.WTX.WTXModbus" Collapsed="true">
     <Position X="6.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABQAKACBKCCAACBCoAARAIqIAaGQAACAAFmIBAQAABA=</HashCode>
       <FileName>Weighing\WTX\WTXModbus.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Hbm.Ie.Api.Weighing.DSE.DSEJet" Collapsed="true">
+  <Class Name="Hbm.Automation.Api.Weighing.DSE.DSEJet" Collapsed="true">
     <Position X="8.25" Y="5.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AJwAKRCBiCCAICBAKAARAYqoA6GAAESSAB+oBKQABBA=</HashCode>
@@ -78,7 +78,7 @@
     </TypeIdentifier>
     <Lollipop Orientation="Right" Position="0.316" />
   </Class>
-  <Interface Name="Hbm.Weighing.Api.Data.IProcessData">
+  <Interface Name="Hbm.Automation.Api.Data.IProcessData">
     <Position X="11.25" Y="1.5" Width="3.25" />
     <TypeIdentifier>
       <HashCode>ABAAAABAGAgIAAgAIAgQAEIAASAAAACAAAAIAAUAAAA=</HashCode>
