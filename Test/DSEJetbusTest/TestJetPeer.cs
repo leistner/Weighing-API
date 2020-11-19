@@ -28,7 +28,7 @@
 //
 // </copyright>
 
-namespace Hbm.Automation.Api.Test.WTXJetBusTest
+namespace Hbm.Automation.Api.Test.DSEJetTest
 {
     using Hbm.Devices.Jet;
     using Newtonsoft.Json.Linq;
@@ -71,7 +71,6 @@ namespace Hbm.Automation.Api.Test.WTXJetBusTest
                 _connection._dataBuffer.Add("601A/01", simulateJTokenInstance("601A/01", "add", 0)["value"]);   // Read 'net value'
                 _connection._dataBuffer.Add("6153/00", simulateJTokenInstance("6153/00", "add", 1)["value"]);   // Read 'weight moving detection'        
                 _connection._dataBuffer.Add("6012/01", simulateJTokenInstance("6012/01", "add", 1)["value"]);   // Read 'Weighing device 1 (scale) weight status'
-                _connection._dataBuffer.Add("6143/00", simulateJTokenInstance("6143/00", "add", 0)["value"]);   // Read 'tare value'
 
                 _connection._dataBuffer.Add("SDO", simulateJTokenInstance("SDO", "add", 1)["value"]);
                 _connection._dataBuffer.Add("FRS1", simulateJTokenInstance("FRS1", "add", 1)["value"]);

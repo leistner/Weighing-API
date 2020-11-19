@@ -16,12 +16,12 @@
     <RootNamespace>Documentation</RootNamespace>
     <Name>Documentation</Name>
     <!-- SHFB properties -->
-    <FrameworkVersion>.NET Framework 4.7.2</FrameworkVersion>
+    <FrameworkVersion>.NET Portable Library 4.5</FrameworkVersion>
     <OutputPath>.\Help\</OutputPath>
-    <HtmlHelpName>HbmWeighingApi-Doc</HtmlHelpName>
+    <HtmlHelpName>HbmAutomationApi-Doc</HtmlHelpName>
     <Language>en-US</Language>
     <DocumentationSources>
-      <DocumentationSource sourceFile="Weighing-API-Doc.csproj" xmlns="" />
+      <DocumentationSource sourceFile="Automation-API-Doc.csproj" />
     </DocumentationSources>
     <VisibleItems>InheritedMembers, ProtectedInternalAsProtected, NonBrowsable</VisibleItems>
     <HelpFileFormat>HtmlHelp1, MSHelpViewer, Website</HelpFileFormat>
@@ -34,16 +34,18 @@
     <BuildAssemblerVerbosity>OnlyWarningsAndErrors</BuildAssemblerVerbosity>
     <SaveComponentCacheCapacity>100</SaveComponentCacheCapacity>
     <NamespaceSummaries>
-      <NamespaceSummaryItem name="(global)" isDocumented="True">An API for connecting HBM weighing devices (e.g. WTX or DSE) via ethernet</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Hbm.Weighing.Api" isDocumented="True">An API for connecting HBM weighing devices (e.g. WTX or DSE) via ethernet</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Hbm.Weighing.Api.Data" isDocumented="True">Interfaces and their implemetation with settings for special application (e.g. filler, limit switches or dogotal filters)</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Hbm.Weighing.Api.DSE" isDocumented="True">Namespace with DSE relevant classes</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Hbm.Weighing.Api.DSE.Jet" isDocumented="True">Jetbus connection for DSE devices</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Hbm.Weighing.Api.Utils" isDocumented="True">Common utilities</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Hbm.Weighing.Api.WTX" isDocumented="True">Namespace with WTX relevant classes</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Hbm.Weighing.Api.WTX.Jet" isDocumented="True">Jetbus connection for WTX devices</NamespaceSummaryItem>
-<NamespaceSummaryItem name="Hbm.Weighing.Api.WTX.Modbus" isDocumented="True">Modbus connection for WTX devices</NamespaceSummaryItem></NamespaceSummaries>
-    <HelpTitle>Hbm.Weighing.Api documentation</HelpTitle>
+      <NamespaceSummaryItem name="(global)" isDocumented="True">An API for connecting HBM Automation devices (e.g. WTX or DSE) via ethernet</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Hbm.Automation.Api" isDocumented="True">An API for connecting HBM Automation devices (e.g. WTX or DSE) via ethernet</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Hbm.Automation.Api.Data" isDocumented="True">Interfaces and their implemetation with settings for special application (e.g. filler, limit switches or dogotal filters)</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Hbm.Automation.Api.Weighing.DSE" isDocumented="True">Namespace with DSE relevant classes</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Hbm.Automation.Api.Weighing.DSE.Jet" isDocumented="True">Jetbus connection for DSE devices</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Hbm.Automation.Api.Utils" isDocumented="True">Common utilities</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Hbm.Automation.Api.WTX" isDocumented="True">Namespace with WTX relevant classes</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Hbm.Automation.Api.Weighing.WTX.Jet" isDocumented="True">Jetbus connection for WTX devices</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Hbm.Automation.Api.Weighing.WTX.Modbus" isDocumented="True">Modbus connection for WTX devices</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Hbm.Automation.Api.Weighing" isDocumented="True">Namespace for weighing devices</NamespaceSummaryItem>
+<NamespaceSummaryItem name="Hbm.Automation.Api.Weighing.WTX" isDocumented="True">Namespace with WTX relevant classes</NamespaceSummaryItem></NamespaceSummaries>
+    <HelpTitle>Hbm.Automation.Api documentation</HelpTitle>
     <HelpFileVersion>1.0.0.0</HelpFileVersion>
     <NamingMethod>Guid</NamingMethod>
     <ContentPlacement>AboveNamespaces</ContentPlacement>
@@ -66,51 +68,51 @@
       </ComponentConfig>
     </ComponentConfigurations>
     <ApiFilter>
-      <Filter entryType="Namespace" fullName="Hbm.Weighing.Api" isExposed="True">
-        <Filter entryType="Interface" fullName="Hbm.Weighing.Api.INetConnection" filterName="INetConnection" isExposed="False">
-          <Filter entryType="Method" fullName="Hbm.Weighing.Api.INetConnection.Connect" filterName="Connect" isExposed="True" />
-          <Filter entryType="Method" fullName="Hbm.Weighing.Api.INetConnection.Disconnect" filterName="Disconnect" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.INetConnection.ConnectionType" filterName="ConnectionType" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.INetConnection.IpAddress" filterName="IpAddress" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.INetConnection.IsConnected" filterName="IsConnected" isExposed="True" />
-          <Filter entryType="Event" fullName="Hbm.Weighing.Api.INetConnection.CommunicationLog" filterName="CommunicationLog" isExposed="True" />
-          <Filter entryType="Event" fullName="Hbm.Weighing.Api.INetConnection.UpdateData" filterName="UpdateData" isExposed="True" />
+      <Filter entryType="Namespace" fullName="Hbm.Automation.Api" isExposed="True">
+        <Filter entryType="Interface" fullName="Hbm.Automation.Api.INetConnection" filterName="INetConnection" isExposed="False">
+          <Filter entryType="Method" fullName="Hbm.Automation.Api.INetConnection.Connect" filterName="Connect" isExposed="True" />
+          <Filter entryType="Method" fullName="Hbm.Automation.Api.INetConnection.Disconnect" filterName="Disconnect" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.INetConnection.ConnectionType" filterName="ConnectionType" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.INetConnection.IpAddress" filterName="IpAddress" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.INetConnection.IsConnected" filterName="IsConnected" isExposed="True" />
+          <Filter entryType="Event" fullName="Hbm.Automation.Api.INetConnection.CommunicationLog" filterName="CommunicationLog" isExposed="True" />
+          <Filter entryType="Event" fullName="Hbm.Automation.Api.INetConnection.UpdateData" filterName="UpdateData" isExposed="True" />
         </Filter>
       </Filter>
-      <Filter entryType="Namespace" fullName="Hbm.Weighing.Api.DSE.Jet" isExposed="False">
-        <Filter entryType="Class" fullName="Hbm.Weighing.Api.DSE.Jet.DSEJetConnection" filterName="DSEJetConnection" isExposed="False">
-          <Filter entryType="Constructor" fullName="Hbm.Weighing.Api.DSE.Jet.DSEJetConnection.#ctor" filterName=".ctor" isExposed="True" />
-          <Filter entryType="Method" fullName="Hbm.Weighing.Api.DSE.Jet.DSEJetConnection.Connect" filterName="Connect" isExposed="True" />
-          <Filter entryType="Method" fullName="Hbm.Weighing.Api.DSE.Jet.DSEJetConnection.Disconnect" filterName="Disconnect" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.DSE.Jet.DSEJetConnection.ConnectionType" filterName="ConnectionType" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.DSE.Jet.DSEJetConnection.IpAddress" filterName="IpAddress" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.DSE.Jet.DSEJetConnection.IsConnected" filterName="IsConnected" isExposed="True" />
-          <Filter entryType="Event" fullName="Hbm.Weighing.Api.DSE.Jet.DSEJetConnection.CommunicationLog" filterName="CommunicationLog" isExposed="True" />
-          <Filter entryType="Event" fullName="Hbm.Weighing.Api.DSE.Jet.DSEJetConnection.UpdateData" filterName="UpdateData" isExposed="True" />
+      <Filter entryType="Namespace" fullName="Hbm.Automation.Api.Weighing.DSE.Jet" isExposed="False">
+        <Filter entryType="Class" fullName="Hbm.Automation.Api.Weighing.DSE.Jet.DSEJetConnection" filterName="DSEJetConnection" isExposed="False">
+          <Filter entryType="Constructor" fullName="Hbm.Automation.Api.Weighing.DSE.Jet.DSEJetConnection.#ctor" filterName=".ctor" isExposed="True" />
+          <Filter entryType="Method" fullName="Hbm.Automation.Api.Weighing.DSE.Jet.DSEJetConnection.Connect" filterName="Connect" isExposed="True" />
+          <Filter entryType="Method" fullName="Hbm.Automation.Api.Weighing.DSE.Jet.DSEJetConnection.Disconnect" filterName="Disconnect" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.Weighing.DSE.Jet.DSEJetConnection.ConnectionType" filterName="ConnectionType" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.Weighing.DSE.Jet.DSEJetConnection.IpAddress" filterName="IpAddress" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.Weighing.DSE.Jet.DSEJetConnection.IsConnected" filterName="IsConnected" isExposed="True" />
+          <Filter entryType="Event" fullName="Hbm.Automation.Api.Weighinh.DSE.Jet.DSEJetConnection.CommunicationLog" filterName="CommunicationLog" isExposed="True" />
+          <Filter entryType="Event" fullName="Hbm.Automation.Api.Weighinh.DSE.Jet.DSEJetConnection.UpdateData" filterName="UpdateData" isExposed="True" />
         </Filter>
       </Filter>
-      <Filter entryType="Namespace" fullName="Hbm.Weighing.Api.WTX.Jet" isExposed="False">
-        <Filter entryType="Class" fullName="Hbm.Weighing.Api.WTX.Jet.JetBusConnection" filterName="JetBusConnection" isExposed="False">
-          <Filter entryType="Constructor" fullName="Hbm.Weighing.Api.WTX.Jet.JetBusConnection.#ctor" filterName=".ctor" isExposed="True" />
-          <Filter entryType="Method" fullName="Hbm.Weighing.Api.WTX.Jet.JetBusConnection.Connect" filterName="Connect" isExposed="True" />
-          <Filter entryType="Method" fullName="Hbm.Weighing.Api.WTX.Jet.JetBusConnection.Disconnect" filterName="Disconnect" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.WTX.Jet.JetBusConnection.ConnectionType" filterName="ConnectionType" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.WTX.Jet.JetBusConnection.IpAddress" filterName="IpAddress" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.WTX.Jet.JetBusConnection.IsConnected" filterName="IsConnected" isExposed="True" />
-          <Filter entryType="Event" fullName="Hbm.Weighing.Api.WTX.Jet.JetBusConnection.CommunicationLog" filterName="CommunicationLog" isExposed="True" />
-          <Filter entryType="Event" fullName="Hbm.Weighing.Api.WTX.Jet.JetBusConnection.UpdateData" filterName="UpdateData" isExposed="True" />
+      <Filter entryType="Namespace" fullName="Hbm.Automation.Api.Weighing.WTX.Jet" isExposed="False">
+        <Filter entryType="Class" fullName="Hbm.Automation.Api.Weighing.WTX.Jet.JetBusConnection" filterName="JetBusConnection" isExposed="False">
+          <Filter entryType="Constructor" fullName="Hbm.Automation.Api.Weighing.WTX.Jet.JetBusConnection.#ctor" filterName=".ctor" isExposed="True" />
+          <Filter entryType="Method" fullName="Hbm.Automation.Api.Weighing.WTX.Jet.JetBusConnection.Connect" filterName="Connect" isExposed="True" />
+          <Filter entryType="Method" fullName="Hbm.Automation.Api.Weighing.WTX.Jet.JetBusConnection.Disconnect" filterName="Disconnect" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.Weighing.WTX.Jet.JetBusConnection.ConnectionType" filterName="ConnectionType" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.Weighing.WTX.Jet.JetBusConnection.IpAddress" filterName="IpAddress" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.Weighing.WTX.Jet.JetBusConnection.IsConnected" filterName="IsConnected" isExposed="True" />
+          <Filter entryType="Event" fullName="Hbm.Automation.Api.Weighing.WTX.Jet.JetBusConnection.CommunicationLog" filterName="CommunicationLog" isExposed="True" />
+          <Filter entryType="Event" fullName="Hbm.Automation.Api.Weighing.WTX.Jet.JetBusConnection.UpdateData" filterName="UpdateData" isExposed="True" />
         </Filter>
-        <Filter entryType="Class" fullName="Hbm.Weighing.Api.WTX.Jet.JetBusException" filterName="JetBusException" isExposed="True" />
+        <Filter entryType="Class" fullName="Hbm.Automation.Api.Weighing.WTX.Jet.JetBusException" filterName="JetBusException" isExposed="True" />
       </Filter>
-      <Filter entryType="Namespace" fullName="Hbm.Weighing.Api.WTX.Modbus" isExposed="False">
-        <Filter entryType="Class" fullName="Hbm.Weighing.Api.WTX.Modbus.ModbusTCPConnection" filterName="ModbusTCPConnection" isExposed="False">
-          <Filter entryType="Constructor" fullName="Hbm.Weighing.Api.WTX.Modbus.ModbusTCPConnection.#ctor" filterName=".ctor" isExposed="True" />
-          <Filter entryType="Method" fullName="Hbm.Weighing.Api.WTX.Modbus.ModbusTCPConnection.Connect" filterName="Connect" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.WTX.Modbus.ModbusTCPConnection.ConnectionType" filterName="ConnectionType" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.WTX.Modbus.ModbusTCPConnection.IpAddress" filterName="IpAddress" isExposed="True" />
-          <Filter entryType="Property" fullName="Hbm.Weighing.Api.WTX.Modbus.ModbusTCPConnection.IsConnected" filterName="IsConnected" isExposed="True" />
-          <Filter entryType="Event" fullName="Hbm.Weighing.Api.WTX.Modbus.ModbusTCPConnection.CommunicationLog" filterName="CommunicationLog" isExposed="True" />
-          <Filter entryType="Event" fullName="Hbm.Weighing.Api.WTX.Modbus.ModbusTCPConnection.UpdateData" filterName="UpdateData" isExposed="True" />
+      <Filter entryType="Namespace" fullName="Hbm.Automation.Api.Weighing.WTX.Modbus" isExposed="False">
+        <Filter entryType="Class" fullName="Hbm.Automation.Api.Weighing.WTX.Modbus.ModbusTCPConnection" filterName="ModbusTCPConnection" isExposed="False">
+          <Filter entryType="Constructor" fullName="Hbm.Automation.Api.Weighing.WTX.Modbus.ModbusTCPConnection.#ctor" filterName=".ctor" isExposed="True" />
+          <Filter entryType="Method" fullName="Hbm.Automation.Api.Weighing.WTX.Modbus.ModbusTCPConnection.Connect" filterName="Connect" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.Weighing.WTX.Modbus.ModbusTCPConnection.ConnectionType" filterName="ConnectionType" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.Weighing.WTX.Modbus.ModbusTCPConnection.IpAddress" filterName="IpAddress" isExposed="True" />
+          <Filter entryType="Property" fullName="Hbm.Automation.Api.Weighing.WTX.Modbus.ModbusTCPConnection.IsConnected" filterName="IsConnected" isExposed="True" />
+          <Filter entryType="Event" fullName="Hbm.Automation.Api.Weighing.WTX.Modbus.ModbusTCPConnection.CommunicationLog" filterName="CommunicationLog" isExposed="True" />
+          <Filter entryType="Event" fullName="Hbm.Automation.Api.Weighing.WTX.Modbus.ModbusTCPConnection.UpdateData" filterName="UpdateData" isExposed="True" />
         </Filter>
       </Filter>
     </ApiFilter>

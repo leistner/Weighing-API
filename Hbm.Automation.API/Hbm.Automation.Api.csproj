@@ -6,7 +6,7 @@
     <TargetFrameworks>netstandard2.0;net45</TargetFrameworks>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AssemblyName>Hbm.Automation.Api</AssemblyName>
-    <PackageId>Hbm.Ie.Api</PackageId>
+    <PackageId>Hbm.Automation.Api</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,14 +15,13 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="GitInfo" Version="2.0.20">
+    <PackageReference Include="GitInfo" Version="2.1.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="NUnit" Version="3.11.0" />
     <PackageReference Include="SharpJet" Version="2.0.0" />
-    <PackageReference Include="NModbus" Version="3.0.58" />
+    <PackageReference Include="NModbus" Version="3.0.62" />
   </ItemGroup>
   
   <ItemGroup>

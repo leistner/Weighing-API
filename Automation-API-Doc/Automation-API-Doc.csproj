@@ -7,8 +7,8 @@
     <ProjectGuid>{AA97796C-5C31-400B-96E2-DCA098659D79}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Hbm.Weighing.Api</RootNamespace>
-    <AssemblyName>Hbm.Weighing.Api</AssemblyName>
+    <RootNamespace>Hbm.Automation.Api</RootNamespace>
+    <AssemblyName>Hbm.Automation.Api</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Hbm.Weighing.Api.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Hbm.Automation.Api.xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
