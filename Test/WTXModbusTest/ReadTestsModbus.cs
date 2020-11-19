@@ -122,7 +122,7 @@ namespace Hbm.Automation.Api.Test.WTXModbusTest
         public async Task<ushort> ReadTestModbus(Behavior behavior)
         {
             testConnection = new TestModbusTCPConnection(behavior, ipaddress);
-            _wtxDevice = new WTXModbus(testConnection, 200, UpdateReadTest);
+            _wtxDevice = new WTXModbus(testConnection);
 
             _wtxDevice.Connect(this.OnConnect, 100);
           
