@@ -9,8 +9,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Hbm.Ie.Api")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
+[assembly: AssemblyProduct("Hbm.Automation.Api")]
+[assembly: AssemblyCopyright("Copyright ©  2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,13 +32,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion(ThisAssembly.Git.BaseVersion.Major + "." + ThisAssembly.Git.BaseVersion.Minor + "." + ThisAssembly.Git.BaseVersion.Patch)]
-[assembly: AssemblyFileVersion(ThisAssembly.Git.BaseVersion.Major + "." + ThisAssembly.Git.BaseVersion.Minor + "." + ThisAssembly.Git.BaseVersion.Patch)]
+[assembly: AssemblyVersion("0.9.6")]
+[assembly: AssemblyFileVersion("0.9.6")]
 [assembly: AssemblyInformationalVersion(
-    ThisAssembly.Git.BaseVersion.Major + "." +
-    ThisAssembly.Git.BaseVersion.Minor + "." +
-    ThisAssembly.Git.BaseVersion.Patch + "." +
-    ThisAssembly.Git.Commits + "+" +
-    ThisAssembly.Git.Commit +
-    (ThisAssembly.Git.IsDirty ? ".dirty" : ""))]
+    "0.9.6.38+cb89539")]
 //e.g.: 1.0.2-master+c218617
