@@ -5,7 +5,7 @@
     <version>0.9.6</version>
     <title>HBM Automation-API</title>
     <authors>Roland Siepmann, Felix Hüttl, Dirk Leistner</authors>
-    <owners>Hottinger Brüel & Kjaer</owners>
+    <owners>Hottinger Bruel & Kjaer</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectUrl>https://github.com/HBM/automation-api/</projectUrl>
     <licenseUrl>https://raw.githubusercontent.com/HBM/automation-api/master/LICENSE</licenseUrl>
