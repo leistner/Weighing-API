@@ -31,7 +31,7 @@
 namespace Hbm.Automation.Api.Test.DSEJetTest
 {
     using Hbm.Automation.Api.Data;
-    using Hbm.Automation.Api.Weighing.WTX;
+    using Hbm.Automation.Api.Weighing.DSE;
     using NUnit.Framework;
     using System;
     using System.Collections;
@@ -43,7 +43,7 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
     public class ReadTests
     {
         private TestJetbusConnection _jetTestConnection;
-        private WTXJet _wtxObj;
+        private DSEJet _dseObj;
         private int _testInteger;
         private double _testDouble;
         private bool _testBoolean;
@@ -163,13 +163,13 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
             
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _wtxObj.ProcessData.UpdateData(this, new EventArgs());
+            _dseObj.ProcessData.UpdateData(this, new EventArgs());
 
-            if (_wtxObj.ProcessData.Weight.Net == 0.0011 && _wtxObj.ProcessData.Weight.Tare == 0.0011 && _wtxObj.ProcessData.Weight.Gross == 0)
+            if (_dseObj.ProcessData.Weight.Net == 0.0011 && _dseObj.ProcessData.Weight.Tare == 0.0011 && _dseObj.ProcessData.Weight.Gross == 0)
                 return true;
             else
                 return false;
@@ -180,11 +180,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.WeightStable;
+            _testBoolean = _dseObj.ProcessData.WeightStable;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -199,11 +199,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.GeneralScaleError;
+            _testBoolean = _dseObj.ProcessData.GeneralScaleError;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -213,11 +213,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.ScaleAlarm;
+            _testBoolean = _dseObj.ProcessData.ScaleAlarm;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -227,11 +227,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.Overload;
+            _testBoolean = _dseObj.ProcessData.Overload;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -241,11 +241,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.LegalForTrade;
+            _testBoolean = _dseObj.ProcessData.LegalForTrade;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -255,11 +255,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.TareMode!=TareMode.None;
+            _testBoolean = _dseObj.ProcessData.TareMode!=TareMode.None;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -269,11 +269,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100,  update);
+            _dseObj = new DSEJet(_jetTestConnection, 100,  update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.ProcessData.ScaleRange;
+            _testInteger = _dseObj.ProcessData.ScaleRange;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -283,11 +283,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.ZeroRequired;
+            _testBoolean = _dseObj.ProcessData.ZeroRequired;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -297,11 +297,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.CenterOfZero;
+            _testBoolean = _dseObj.ProcessData.CenterOfZero;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -311,11 +311,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.ProcessData.InsideZero;
+            _testBoolean = _dseObj.ProcessData.InsideZero;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6012/01"));
         }
@@ -327,25 +327,26 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = _wtxObj.ProcessData.Decimals;
+            _testInteger = _dseObj.ProcessData.Decimals;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6013/01"));
         }
 
+        /*
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_FillingProcessSatus")]
         public void testFillingProcessStatus(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).FillingProcessStatus;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).FillingProcessStatus;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SDO"));
         }
@@ -354,11 +355,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).FillingResult;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).FillingResult;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FRS1"));
         }
@@ -369,16 +370,16 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).FillingResultCount;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).FillingResultCount;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("NDS"));
         }
 
-        /*
+        
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Unit")]
         public void testUnit(Behavior behavior)
         {
@@ -392,18 +393,18 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("6014/01"));
         }
-        */
+        
 
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
         public void testInput1(Behavior behavior)
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.DigitalIO.Input1;
+            _testBoolean = _dseObj.DigitalIO.Input1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM1"));
         }
@@ -413,11 +414,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.DigitalIO.Input2;
+            _testBoolean = _dseObj.DigitalIO.Input2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM2"));
         }
@@ -427,11 +428,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.DigitalIO.Input3;
+            _testBoolean = _dseObj.DigitalIO.Input3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM3"));
         }
@@ -441,11 +442,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.DigitalIO.Input4;
+            _testBoolean = _dseObj.DigitalIO.Input4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("IM4"));
         }
@@ -455,11 +456,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.DigitalIO.Output1;
+            _testBoolean = _dseObj.DigitalIO.Output1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM1"));
         }
@@ -469,11 +470,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.DigitalIO.Output2;
+            _testBoolean = _dseObj.DigitalIO.Output2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM2"));
         }
@@ -483,11 +484,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.DigitalIO.Output3;
+            _testBoolean = _dseObj.DigitalIO.Output3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM3"));
         }
@@ -497,11 +498,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.DigitalIO.Output4;
+            _testBoolean = _dseObj.DigitalIO.Output4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OM4"));
         }
@@ -511,11 +512,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.LimitSwitch.LimitStatus1;
+            _testBoolean = _dseObj.LimitSwitch.LimitStatus1;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS1"));
         }
@@ -525,11 +526,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.LimitSwitch.LimitStatus2;
+            _testBoolean = _dseObj.LimitSwitch.LimitStatus2;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS2"));
         }
@@ -539,11 +540,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.LimitSwitch.LimitStatus3;
+            _testBoolean = _dseObj.LimitSwitch.LimitStatus3;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS3"));
         }
@@ -554,11 +555,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testBoolean = _wtxObj.LimitSwitch.LimitStatus4;
+            _testBoolean = _dseObj.LimitSwitch.LimitStatus4;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OS4"));
         }
@@ -568,11 +569,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).MaxFillingTime;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).MaxFillingTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("MDT"));
         }
@@ -582,11 +583,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).FillingResultMeanValue;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).FillingResultMeanValue;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SDM"));
         }
@@ -596,11 +597,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).FillingResultStandardDeviation;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).FillingResultStandardDeviation;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SDS"));
         }
@@ -610,11 +611,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).FineFlowCutOffLevel;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).FineFlowCutOffLevel;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFD"));
         }
@@ -624,11 +625,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).CoarseFlowCutOffLevel;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).CoarseFlowCutOffLevel;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CFD"));
         }
@@ -638,11 +639,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).ResidualFlowTime;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).ResidualFlowTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("RFT"));
         }
@@ -652,11 +653,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).MinimumFineFlow;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).MinimumFineFlow;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFM"));
         }
@@ -666,11 +667,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).OptimizationMode;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).OptimizationMode;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("OSN"));
         }
@@ -680,11 +681,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).MaxFillingTime;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).MaxFillingTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("MDT"));
         }
@@ -694,11 +695,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).CoarseLockoutTime;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).CoarseLockoutTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CFT"));
         }
@@ -708,11 +709,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).FineLockoutTime;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).FineLockoutTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFT"));
         }
@@ -722,11 +723,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).TareMode;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).TareMode;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("TMD"));
         }
@@ -736,11 +737,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).UpperToleranceLimit;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).UpperToleranceLimit;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("UTL"));
         }
@@ -750,11 +751,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).LowerToleranceLimit;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).LowerToleranceLimit;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("LTL"));
         }
@@ -764,11 +765,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).MinimumStartWeight;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).MinimumStartWeight;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("MSW"));
         }
@@ -778,11 +779,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).EmptyWeight;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).EmptyWeight;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("EWT"));
         }
@@ -792,11 +793,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).TareDelay;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).TareDelay;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("TAD"));
         }
@@ -806,11 +807,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).CoarseFlowMonitoringTime;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).CoarseFlowMonitoringTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CBT"));
         }
@@ -820,11 +821,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).CoarseFlowMonitoring;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).CoarseFlowMonitoring;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("CBK"));
         }
@@ -834,11 +835,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).FineFlowMonitoring;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).FineFlowMonitoring;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FBK"));
         }
@@ -848,11 +849,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).FineFlowMonitoringTime;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).FineFlowMonitoringTime;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FBT"));
         }
@@ -862,11 +863,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testDouble = ((IDataFillerExtended)_wtxObj.Filler).SystematicDifference;
+            _testDouble = ((IDataFillerExtended)_dseObj.Filler).SystematicDifference;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("SYD"));
         }
@@ -876,11 +877,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).ValveControl;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).ValveControl;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("VCT"));
         }
@@ -890,11 +891,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).EmptyingMode;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).EmptyingMode;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("EMD"));
         }
@@ -904,11 +905,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).DelayTimeAfterFilling;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).DelayTimeAfterFilling;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("DL1"));
         }
@@ -918,11 +919,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         {
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            _testInteger = ((IDataFillerExtended)_wtxObj.Filler).ActivationTimeAfterFilling;
+            _testInteger = ((IDataFillerExtended)_dseObj.Filler).ActivationTimeAfterFilling;
 
             Assert.IsTrue(_jetTestConnection.getDataBuffer.ContainsKey("FFL"));
         }
@@ -934,11 +935,11 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
 
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
 
-            _wtxObj.Connect(this.OnConnect, 100);
+            _dseObj.Connect(this.OnConnect, 100);
 
-            bool LimitSwitch1 = _wtxObj.LimitSwitch.LimitStatus1;
+            bool LimitSwitch1 = _dseObj.LimitSwitch.LimitStatus1;
 
             if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && !LimitSwitch1)
                 testVar = true;
@@ -946,72 +947,9 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
                 testVar = false;
 
             Assert.IsTrue(testVar);
-        }
+        }*/
 
-        /*
-        [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
-        public void testLimitSwitchStatusLVS2(Behavior behavior)
-        {
-            bool testVar = false;
 
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-        
-            int LimitSwitch2 = _wtxObj.LimitSwitch.LimitSwitch2Source;
-
-            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && LimitSwitch2 == 1)
-                testVar = true;
-            else
-                testVar = false;
-
-            Assert.IsTrue(testVar);
-        }
-
-        [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
-        public void testLimitSwitchStatusLVS3(Behavior behavior)
-        {
-            bool testVar = false;
-
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            int LimitSwitch3 = _wtxObj.LimitSwitch.LimitSwitch3Source;
-
-            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && LimitSwitch3 == 0)
-                testVar = true;
-            else
-                testVar = false;
-
-            Assert.IsTrue(testVar);
-        }
-
-        [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_Attributes")]
-        public void testLimitSwitchStatusLVS4(Behavior behavior)
-        {
-            bool testVar = false;
-
-            _jetTestConnection = new TestJetbusConnection(behavior, "wss://172.19.103.8:443/jet/canopen", "Administrator", "wtx", delegate { return true; });
-
-            _wtxObj = new WTXJet(_jetTestConnection, 100, update);
-
-            _wtxObj.Connect(this.OnConnect, 100);
-
-            int LimitSwitch4 = _wtxObj.LimitSwitch.LimitSwitch4Source;
-
-            if (_jetTestConnection.getDataBuffer.ContainsKey("2020/25") == true && LimitSwitch4 == 1)
-                testVar = true;
-            else
-                testVar = false;
-
-            Assert.IsTrue(testVar);
-        }
-        */
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
         }
