@@ -180,7 +180,6 @@
             // 
             // picNE107
             // 
-            this.picNE107.Image = global::Hbm.Automation.Api.Weighing.Examples.GUISimple.Properties.Resources.NE107_OutOfSpecification;
             this.picNE107.Location = new System.Drawing.Point(314, 118);
             this.picNE107.Name = "picNE107";
             this.picNE107.Size = new System.Drawing.Size(84, 72);
@@ -216,8 +215,7 @@
             "Maximum capacity",
             "Weight stable",
             "Weight step (DSE)",
-            "Zero value",
-            "Filter mode"});
+            "Zero value"});
             this.comboBox1.Location = new System.Drawing.Point(12, 150);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(234, 21);

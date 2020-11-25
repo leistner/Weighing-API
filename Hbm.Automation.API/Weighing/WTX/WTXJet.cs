@@ -541,16 +541,44 @@ namespace Hbm.Automation.Api.Weighing.WTX
         }
 
         ///<inheritdoc/>
-        public int LowPassFilterMode
+        public LowPassFilter LowPassFilterMode
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleFilter);
+                int currentFilter = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleFilter);
+                switch (currentFilter)
+                {
+                    case 24737:
+                        return LowPassFilter.Critically_damped;
+                    case 24738:
+                        return LowPassFilter.Bessel;
+                    case 60261:
+                        return LowPassFilter.Butterworth;
+                    default:
+                        return LowPassFilter.Standard;
+                }
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461ScaleFilter, value);
+                int toWrite = 0;
+                switch (value)
+                {
+                    case LowPassFilter.Standard:
+                        break;
+                    case LowPassFilter.Critically_damped:
+                        toWrite = 24737;
+                        break;
+                    case LowPassFilter.Bessel:
+                        toWrite = 24738;
+                        break;
+                    case LowPassFilter.Butterworth:
+                        toWrite = 60261;
+                        break;
+                    default:
+                        return;
+                }
+                Connection.WriteInteger(JetBusCommands.CIA461ScaleFilter, toWrite);
             }
         }
 
@@ -562,19 +590,22 @@ namespace Hbm.Automation.Api.Weighing.WTX
                 int __value;
                 switch (LowPassFilterMode)
                 {
-                    case 0x60A1: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterCriticallyDampedCutOffFrequency); break;
-                    case 0x60A2: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterBesselCutOffFrequency); break;
+                    case LowPassFilter.Critically_damped: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterCriticallyDampedCutOffFrequency); break;
+                    case LowPassFilter.Bessel: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterBesselCutOffFrequency); break;
                     default:
-                    case 0x60B1: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterButterworthCutOffFrequency); break;
+                    case LowPassFilter.Butterworth: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterButterworthCutOffFrequency); break;
                 }
                 return __value;
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461FilterCriticallyDampedCutOffFrequency, value);
-                Connection.WriteInteger(JetBusCommands.CIA461FilterBesselCutOffFrequency, value);
-                Connection.WriteInteger(JetBusCommands.CIA461FilterButterworthCutOffFrequency, value);
+                switch (LowPassFilterMode)
+                {
+                    case LowPassFilter.Critically_damped: Connection.WriteInteger(JetBusCommands.CIA461FilterCriticallyDampedCutOffFrequency, value); break;
+                    case LowPassFilter.Bessel: Connection.WriteInteger(JetBusCommands.CIA461FilterBesselCutOffFrequency, value); break;
+                    case LowPassFilter.Butterworth: Connection.WriteInteger(JetBusCommands.CIA461FilterButterworthCutOffFrequency, value); break;
+                }
             }
         }
 
@@ -586,10 +617,10 @@ namespace Hbm.Automation.Api.Weighing.WTX
                 int __value;
                 switch (LowPassFilterMode)
                 {
-                    case 0x60A1: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterCriticallyDampedFilterOrder); break;
-                    case 0x60A2: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterBesselFilterOrder); break;
+                    case LowPassFilter.Critically_damped: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterCriticallyDampedFilterOrder); break;
+                    case LowPassFilter.Bessel: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterBesselFilterOrder); break;
                     default:
-                    case 0x60B1: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterButterworthFilterOrder); break;
+                    case LowPassFilter.Butterworth: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterButterworthFilterOrder); break;
                 }
                 return __value;
             }

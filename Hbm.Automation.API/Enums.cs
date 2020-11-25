@@ -155,6 +155,22 @@ namespace Hbm.Automation.Api
         MultiInterval
     }
 
+    public enum LowPassFilter
+    {
+        No_Filter,
+        IIR_Filter,
+        FIR_Filter,     
+        Standard,
+        Critically_damped,
+        Bessel,
+        Butterworth
+    }
 
-    
+    public enum FilterTypes
+    {
+        No_Filter = 0,
+        FIR_Comb_Filter = 13089,
+        FIR_Moving_Average = 13105
+    }
+
 }

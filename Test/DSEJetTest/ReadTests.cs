@@ -60,6 +60,15 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
             }
         }
 
+        public static IEnumerable DataRate
+        {
+            get
+            {
+                //yield return new TestCaseData(Behavior.NetGrossTareValues_Fail).Returns(false);
+                yield return new TestCaseData(Behavior.NetGrossTareValues_Success).Returns(true);
+            }
+        }
+
         // Test case source for reading values from the WTX120 device. 
         public static IEnumerable ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS
         {
@@ -174,7 +183,22 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
             else
                 return false;
         }
-              
+
+        [Test, TestCaseSource(typeof(ReadTests), "DataRate")]
+        public bool testDataRate(Behavior behavior)
+        {
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
+
+            _dseObj = new DSEJet(_jetTestConnection, 100, update);
+
+            _dseObj.Connect(this.OnConnect, 100);
+
+            if (_dseObj.DataRate == 2000)
+                return true;
+            else
+                return false;
+        }
+
         [Test, TestCaseSource(typeof(ReadTests), "ReadTestCases_WEIGHING_DEVICE_1_WEIGHT_STATUS")]
         public void testWeightMovingValue(Behavior behavior)
         {
