@@ -92,6 +92,8 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
 
             _dseObj.Connect(this.OnConnect, 100);
 
+            _dseObj.AdjustNominalSignal();
+
             _dseObj.AdjustNominalSignalWithCalibrationWeight(1.5);
 
             if (
@@ -145,7 +147,7 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
             int testIntPreload = 0;
             int testIntNominalLoad = 0;
 
-            double multiplierMv2D = 500000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)
+            double multiplierMv2D = 1000000; //   2 / 1000000; // 2mV/V correspond 1 million digits (d)
 
             _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
 

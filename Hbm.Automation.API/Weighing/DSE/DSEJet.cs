@@ -922,7 +922,7 @@ namespace Hbm.Automation.Api.Weighing.DSE
             }
         }
 
-        private FilterTypes FilterType(int i)
+        public FilterTypes FilterType(int i)
         {
             //Convert ascending integer into filter type
             if ((i > 13104)) i = 13105;

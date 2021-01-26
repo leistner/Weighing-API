@@ -150,9 +150,9 @@ namespace Hbm.Automation.Api.Weighing.WTX.Jet
             DSECombFilterFrequencyStage4 = new JetBusCommand(DataType.U32, "3323/00", 0, 0);
             DSECombFilterFrequencyStage5 = new JetBusCommand(DataType.U32, "3324/00", 0, 0);
             DSEMovAvFilterFrequencyStage2 = new JetBusCommand(DataType.U32, "3331/00", 0, 0);
-            DSEMovAvFilterFrequencyStage2 = new JetBusCommand(DataType.U32, "3332/00", 0, 0);
-            DSEMovAvFilterFrequencyStage2 = new JetBusCommand(DataType.U32, "3333/00", 0, 0);
-            DSEMovAvFilterFrequencyStage2 = new JetBusCommand(DataType.U32, "3334/00", 0, 0);
+            DSEMovAvFilterFrequencyStage3 = new JetBusCommand(DataType.U32, "3332/00", 0, 0);
+            DSEMovAvFilterFrequencyStage4 = new JetBusCommand(DataType.U32, "3333/00", 0, 0);
+            DSEMovAvFilterFrequencyStage5 = new JetBusCommand(DataType.U32, "3334/00", 0, 0);
             SDLScaleZeroSignal = new JetBusCommand(DataType.S32, "6150/00", 0, 0);
             SNLScaleNominalSignal = new JetBusCommand(DataType.S32, "6151/00", 0, 0);
             DSEZeroValue = new JetBusCommand(DataType.S32, "6142/00", 0, 0);

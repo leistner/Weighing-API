@@ -129,6 +129,62 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         setTestsFail,
         setTestsSuccess,
 
+        lowPassFilterNoFilter,
+        lowPassFilterIIRFilter,
+        lowPassFilterFIRFilter,
+
+        lowPassFilterNoFFreq,
+        lowPassFilterIIRFreq,
+        lowPassFilterFIRFreq,
+
+        weightStepCase,
+
+        fwVersion,
+
+        ident,
+
+        serialNumber,
+
+        blankTestCase,
+
+        additionalFilterTest,
+
+        additionalFilterFrequencyTestSuccess,
+        additionalFilterFrequencyTestFail,
+
+        zeroValueTest,
+
+        tareModeNoneTest,
+        tareModePreTest,
+        tareModeTareTest,
+
+        weightStableTrueTest,
+        weightStableFalseTest,
+
+        scaleRangeTest,
+
+        generalScaleErrorTrueTest,
+        generalScaleErrorFalseTest,
+
+        writeUnitTest,
+
+        readWeightTest,
+
+        readWriteManualTareTestSuccess,
+        readWriteManualTareTestFail,
+
+        readWriteMaxCapTestSuccess,
+        readWriteMaxCapTestFail,
+
+        readWriteCalWeightSuccess,
+        readWriteCalWeightFail,
+
+        readWriteWeightMoveDetecSuccess,
+        readWriteWeightMoveDetecFail,
+
+        readWriteScaleRangeModeSuccess,
+        readWriteScaleRangeModeFail,
+
     }
 
     public class TestJetbusConnection : INetConnection, IDisposable
@@ -485,20 +541,25 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
 
             JetBusCommand _command = (JetBusCommand)command;
             
-            if(this.behavior == Behavior.WriteZeroSuccess   || this.behavior == Behavior.WriteGrossSuccess || this.behavior == Behavior.WriteTareSuccess   ||
-               this.behavior == Behavior.CalibrationSuccess || this.behavior == Behavior.CalibrationFail   || this.behavior == Behavior.MeasureZeroSuccess ||
-               this.behavior == Behavior.MeasureZeroFail    || this.behavior == Behavior.CalibratePreloadCapacitySuccess)
-               {
+
+            
+
+            
+            if(!(this.behavior == Behavior.WriteZeroFail   || this.behavior == Behavior.WriteGrossFail || this.behavior == Behavior.WriteTareFail
+                || this.behavior == Behavior.CalibratePreloadCapacityFail || this.behavior == Behavior.MeasureZeroFail
+                || this.behavior == Behavior.CalibrationFail))
+            {
                 JValue valueObj = new JValue(data);
                 this.SetData(_command.Path, valueObj);
-               }
-
+                if(!(this.behavior == Behavior.CalibrationSuccess)) _dataBuffer[_command.Path] = data;
+            }
+            /**
 
             if(this.behavior == Behavior.setTestsSuccess || this.behavior == Behavior.setTestsFail)
             {
                 JValue valueObj = new JValue(data);
                 this.SetData(_command.Path, valueObj);
-            }
+            }**/
 
             return true;
         }
@@ -562,6 +623,7 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
         public string ReadFromBuffer(object command)
         {
             this.DoHandshake();
+            JetBusCommand jetcommand = (JetBusCommand)command;
 
             switch (this.behavior)
             {
@@ -597,27 +659,192 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
                     _dataBuffer["601A/01"] = Convert.ToString(11);
                     _dataBuffer["6143/00"] = Convert.ToString(11);
                     break;
-
+                case Behavior.tareModeNoneTest:
+                    switch (jetcommand.BitIndex) {
+                        case 6:
+                            _dataBuffer[jetcommand.Path] = 0;
+                            break;
+                        case 7:
+                            _dataBuffer[jetcommand.Path] = 0;
+                            break;
+                     }
+                    break;
+                case Behavior.tareModePreTest:
+                    switch (jetcommand.BitIndex)
+                    {
+                        case 6:
+                            return "1";
+                        case 7:
+                            return "1";
+                    }
+                    break;
+                case Behavior.tareModeTareTest:
+                    switch (jetcommand.BitIndex)
+                    {
+                        case 6:
+                            return "1";
+                        case 7:
+                            return "0";
+                    }
+                    break;
+                case Behavior.weightStableFalseTest:
+                    return "1";
+                case Behavior.weightStableTrueTest:
+                    return "0";
+                case Behavior.scaleRangeTest:
+                    return "4";
+                case Behavior.writeUnitTest:
+                    break;
+                case Behavior.readWeightTest:
+                    switch (jetcommand.Path)
+                    {
+                        case "6013/01":
+                            return "2";
+                        case "6144/00":
+                            return "41396";
+                        case "601A/01":
+                            return "46396";
+                        case "6143/00":
+                            return "5000";
+                    }
+                    break;
+                case Behavior.readWriteManualTareTestSuccess:
+                    switch (jetcommand.Path)
+                    {
+                        case "6013/01":
+                            return "2";
+                    }
+                    break;
+                case Behavior.readWriteManualTareTestFail:
+                    switch (jetcommand.Path)
+                    {
+                        case "6013/01":
+                            return "2";
+                        case "6143/00":
+                            return "8000";
+                    }
+                    break;
+                case Behavior.readWriteCalWeightFail:
+                    return "2";
+                case Behavior.readWriteCalWeightSuccess:
+                    return "2";
                 default:
                     _dataBuffer["6015/01"] = Convert.ToString(0x00);  // Unit, prefix or fixed parameters - for default value 
                     _dataBuffer["601A/01"] = Convert.ToString(0);
                     break;
             }
 
-            JetBusCommand jetcommand = (JetBusCommand)command;
                  
             return jetcommand.ToString(AllData[jetcommand.Path]);
         }
 
         public string ReadFromDevice(object command)
         {
-            return null; //tbd
+            string ret = "";
+            JetBusCommand jetcommand = (JetBusCommand)command;
+
+            switch (behavior)
+            {
+                case Behavior.fwVersion:
+                    ret = "testFW";
+                    break;
+                case Behavior.ident:
+                    ret = "testIdent";
+                    break;
+                case Behavior.serialNumber:
+                    ret = "DSEtest123";
+                    break;
+            }            
+            
+            return ret; //tbd
         }
 
         ///<inheritdoc/>
         public int ReadIntegerFromBuffer(object command)
         {       
             JetBusCommand jetcommand = (JetBusCommand)command;
+            
+            switch (this.behavior)
+            {
+                case Behavior.lowPassFilterNoFilter:
+                    _dataBuffer["6040/01"] = 0;
+                    break;
+                case Behavior.lowPassFilterIIRFilter:
+                    _dataBuffer["6040/01"] = 24737;
+                    break;
+                case Behavior.lowPassFilterFIRFilter:
+                    _dataBuffer["6040/01"] = 13073;
+                    break;
+                case Behavior.lowPassFilterNoFFreq:
+                    _dataBuffer["6040/01"] = 0;
+                    break;
+                case Behavior.lowPassFilterFIRFreq:
+                    switch (jetcommand.Path)
+                    {
+                        case "6040/01":
+                            _dataBuffer["6040/01"] = 13073;
+                            break;
+                        case "3311/02":
+                            _dataBuffer["3311/02"] = 200;
+                            break;
+                        default:
+                            break;
+                    }                    
+                    break;
+                case Behavior.lowPassFilterIIRFreq:
+                    switch (jetcommand.Path)
+                    {
+                        case "6040/01":
+                            _dataBuffer["6040/01"] = 24737;
+                            break;
+                        case "60A1/02":
+                            if(!_dataBuffer.ContainsKey(jetcommand.Path)) _dataBuffer["60A1/02"] = 400;
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case Behavior.weightStepCase:
+                    _dataBuffer["6013/01"] = 3;
+                    _dataBuffer["6016/01"] = 10;
+                    break;
+                case Behavior.additionalFilterTest:
+                    if (!_dataBuffer.ContainsKey(jetcommand.Path)) _dataBuffer[jetcommand.Path] = 0;
+                    break;
+                case Behavior.additionalFilterFrequencyTestFail:
+                    if (!_dataBuffer.ContainsKey(jetcommand.Path)) _dataBuffer[jetcommand.Path] = 0;
+                    break;
+                case Behavior.additionalFilterFrequencyTestSuccess:
+                    if (!_dataBuffer.ContainsKey(jetcommand.Path)) _dataBuffer[jetcommand.Path] = 0;
+                    break;
+                case Behavior.zeroValueTest:
+                    switch (jetcommand.Path)
+                    {
+                        case "6013/01":
+                            _dataBuffer[jetcommand.Path] = 3;
+                            break;
+                        case "6142/00":
+                            _dataBuffer[jetcommand.Path] = 3000;
+                            break;
+                    }
+                    break;
+                case Behavior.generalScaleErrorTrueTest:
+                    _dataBuffer["6012/01"] = 1;
+                    break;
+                case Behavior.generalScaleErrorFalseTest:
+                    _dataBuffer["6012/01"] = 0;
+                    break;
+                case Behavior.readWriteManualTareTestFail:
+                    return 8000;
+                case Behavior.readWriteMaxCapTestFail:
+                    return 8000;
+                case Behavior.readWriteCalWeightFail:
+                    return 8000;
+                case Behavior.readWriteWeightMoveDetecFail:
+                    return 0;
+                case Behavior.readWriteScaleRangeModeFail:
+                    return 2;
+            }
 
             return jetcommand.ToSValue(AllData[jetcommand.Path]);
         }
