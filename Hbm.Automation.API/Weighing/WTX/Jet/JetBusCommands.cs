@@ -139,6 +139,20 @@ namespace Hbm.Automation.Api.Weighing.WTX.Jet
             DSESerialNumber = new JetBusCommand(DataType.U32, "4280/04", 0, 0);
             DSEFirmwareVersion = new JetBusCommand(DataType.ASCII, "100A/00", 0, 0);
             DSEFilterSetup = new JetBusCommand(DataType.U32, "6040/00", 0, 0);
+            DSELowPassCutOffFrequencyFIR = new JetBusCommand(DataType.U32, "3311/02", 0, 0);
+            DSELowPassCutOffFrequencyIIR = new JetBusCommand(DataType.U32, "60A1/02", 0, 0);
+            DSEFilterModeStage2 = new JetBusCommand(DataType.U32, "6040/02", 0, 0);
+            DSEFilterModeStage3 = new JetBusCommand(DataType.U32, "6040/03", 0, 0);
+            DSEFilterModeStage4 = new JetBusCommand(DataType.U32, "6040/04", 0, 0);
+            DSEFilterModeStage5 = new JetBusCommand(DataType.U32, "6040/05", 0, 0);
+            DSECombFilterFrequencyStage2 = new JetBusCommand(DataType.U32, "3321/00", 0, 0);
+            DSECombFilterFrequencyStage3 = new JetBusCommand(DataType.U32, "3322/00", 0, 0);
+            DSECombFilterFrequencyStage4 = new JetBusCommand(DataType.U32, "3323/00", 0, 0);
+            DSECombFilterFrequencyStage5 = new JetBusCommand(DataType.U32, "3324/00", 0, 0);
+            DSEMovAvFilterFrequencyStage2 = new JetBusCommand(DataType.U32, "3331/00", 0, 0);
+            DSEMovAvFilterFrequencyStage3 = new JetBusCommand(DataType.U32, "3332/00", 0, 0);
+            DSEMovAvFilterFrequencyStage4 = new JetBusCommand(DataType.U32, "3333/00", 0, 0);
+            DSEMovAvFilterFrequencyStage5 = new JetBusCommand(DataType.U32, "3334/00", 0, 0);
             SDLScaleZeroSignal = new JetBusCommand(DataType.S32, "6150/00", 0, 0);
             SNLScaleNominalSignal = new JetBusCommand(DataType.S32, "6151/00", 0, 0);
             DSEZeroValue = new JetBusCommand(DataType.S32, "6142/00", 0, 0);
@@ -423,6 +437,34 @@ namespace Hbm.Automation.Api.Weighing.WTX.Jet
         public static JetBusCommand DSEFirmwareVersion { get; private set; }
 
         public static JetBusCommand DSEFilterSetup { get; private set; }
+
+        public static JetBusCommand DSELowPassCutOffFrequencyFIR { get; private set; }
+
+        public static JetBusCommand DSELowPassCutOffFrequencyIIR { get; private set; }
+
+        public static JetBusCommand DSEFilterModeStage2 { get; private set; }
+ 
+        public static JetBusCommand DSEFilterModeStage3 { get; private set; }
+ 
+        public static JetBusCommand DSEFilterModeStage4 { get; private set; }
+
+        public static JetBusCommand DSEFilterModeStage5 { get; private set; }
+
+        public static JetBusCommand DSECombFilterFrequencyStage2 { get; private set; }
+
+        public static JetBusCommand DSECombFilterFrequencyStage3 { get; private set; }
+
+        public static JetBusCommand DSECombFilterFrequencyStage4 { get; private set; }
+
+        public static JetBusCommand DSECombFilterFrequencyStage5 { get; private set; }
+
+        public static JetBusCommand DSEMovAvFilterFrequencyStage2 { get; private set; }
+
+        public static JetBusCommand DSEMovAvFilterFrequencyStage3 { get; private set; }
+
+        public static JetBusCommand DSEMovAvFilterFrequencyStage4 { get; private set; }
+
+        public static JetBusCommand DSEMovAvFilterFrequencyStage5 { get; private set; }
 
         public static JetBusCommand SDLScaleZeroSignal { get; private set; }
 

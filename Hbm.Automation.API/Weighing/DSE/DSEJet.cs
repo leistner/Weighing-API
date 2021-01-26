@@ -32,6 +32,7 @@ namespace Hbm.Automation.Api.Weighing.DSE
 {
     using System;
     using System.Threading;
+    using System.Linq;
     using Hbm.Automation.Api.Data;
     using Hbm.Automation.Api.Utils;
     using Hbm.Automation.Api.Weighing.WTX.Jet;
@@ -406,18 +407,41 @@ namespace Hbm.Automation.Api.Weighing.DSE
                 
             }
         }
-
+  
         ///<inheritdoc/>
-        public int LowPassFilterMode
+        public LowPassFilter LowPassFilterMode
         {
             get
             {
-                return _connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterSetup);
+                int currentFilter = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461ScaleFilter);
+                switch (currentFilter)
+                {
+                    case 24737:
+                        return LowPassFilter.IIR_Filter;
+                    case 13073:
+                        return LowPassFilter.FIR_Filter;
+                    default:
+                        return LowPassFilter.No_Filter;
+                } 
             }
 
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461ScaleFilter, value);
+                int toWrite = 0;
+                switch (value)
+                {
+                    case LowPassFilter.No_Filter:
+                        break;
+                    case LowPassFilter.IIR_Filter:
+                        toWrite = 24737;
+                        break;
+                    case LowPassFilter.FIR_Filter:
+                        toWrite = 13073;
+                        break;
+                    default:
+                        return;
+                }
+                Connection.WriteInteger(JetBusCommands.CIA461ScaleFilter, toWrite);
             }
         }
 
@@ -426,22 +450,274 @@ namespace Hbm.Automation.Api.Weighing.DSE
         {
             get
             {
-                int __value;
+                int __value = 0;
                 switch (LowPassFilterMode)
                 {
-                    case 0x60A1: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterCriticallyDampedCutOffFrequency); break;
-                    case 0x60A2: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterBesselCutOffFrequency); break;
-                    default:
-                    case 0x60B1: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterButterworthCutOffFrequency); break;
+                    case LowPassFilter.FIR_Filter: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.DSELowPassCutOffFrequencyFIR); break;
+                    case LowPassFilter.IIR_Filter: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.DSELowPassCutOffFrequencyIIR); break;
+                    default: break;
                 }
                 return __value;
             }
-
             set
             {
-                Connection.WriteInteger(JetBusCommands.CIA461FilterCriticallyDampedCutOffFrequency, value);
-                Connection.WriteInteger(JetBusCommands.CIA461FilterBesselCutOffFrequency, value);
-                Connection.WriteInteger(JetBusCommands.CIA461FilterButterworthCutOffFrequency, value);
+                switch (LowPassFilterMode)
+                {
+                    case LowPassFilter.FIR_Filter:
+                        _connection.WriteInteger(JetBusCommands.DSELowPassCutOffFrequencyFIR, value);
+                        break;
+                    case LowPassFilter.IIR_Filter:
+                        _connection.WriteInteger(JetBusCommands.DSELowPassCutOffFrequencyIIR, value);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        //Gets or sets the filter type of the filter in stage 2
+        public FilterTypes FilterStage2Mode
+        {
+            get
+            {
+                return FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage2));
+            }
+            set
+            {
+                int currentFilter = _connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage2);
+                if (FilterType(currentFilter) == value) return;
+                else
+                {
+                    int filter = GetLowestFilterIndex(value, 2);
+                    _connection.WriteInteger(JetBusCommands.DSEFilterModeStage2, filter);
+                }
+            }
+        }
+
+        //Gets or sets the filter type of the filter in stage 3
+        public FilterTypes FilterStage3Mode
+        {
+            get
+            {
+                return FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage3));
+            }
+            set
+            {
+                int currentFilter = _connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage3);
+                if (FilterType(currentFilter) == value) return;
+                else
+                {
+                    int filter = GetLowestFilterIndex(value, 3);
+                    _connection.WriteInteger(JetBusCommands.DSEFilterModeStage3, filter);
+                }
+            }
+        }
+
+        //Gets or sets the filter type of the filter in stage 4
+        public FilterTypes FilterStage4Mode
+        {
+            get
+            {
+                return FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage4));
+            }
+            set
+            {
+                int currentFilter = _connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage4);
+                if (FilterType(currentFilter) == value) return;
+                else
+                {
+                    int filter = GetLowestFilterIndex(value, 4);
+                    _connection.WriteInteger(JetBusCommands.DSEFilterModeStage4, filter);
+                }
+            }
+        }
+
+        //Gets or sets the filter type of the filter in stage 5
+        public FilterTypes FilterStage5Mode
+        {
+            get
+            {
+                return FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage5));
+            }
+            set
+            {
+                int currentFilter = _connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage5);
+                if (FilterType(currentFilter) == value) return;
+                else
+                {
+                    int filter = GetLowestFilterIndex(value, 3);
+                    _connection.WriteInteger(JetBusCommands.DSEFilterModeStage5, filter);
+                }
+            }
+        }
+
+        //Returns the filter to be set depending on the filters that are already set
+        //From filter [2,5]
+        public int GetLowestFilterIndex(FilterTypes desired, int filter)
+        {
+            string[] filterArr = new string[4];
+            int[] filtIndex = { 0, 0, 0, 0 };
+            if (desired == FilterTypes.FIR_Comb_Filter) filtIndex = new int[] { 13089, 13090, 13091, 13092 };
+            else if (desired == FilterTypes.FIR_Moving_Average) filtIndex = new int[] { 13105, 13106, 13107, 13108 };
+            else if (desired == FilterTypes.No_Filter) return 0;
+
+            int returnIndex = 0;
+            
+            filterArr[0] = _connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage2).ToString();
+            filterArr[1] = _connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage3).ToString();
+            filterArr[2] = _connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage4).ToString();
+            filterArr[3] = _connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage5).ToString();
+
+            for(int i = 0; i < 4; i++)
+            {
+                if (!filterArr.Contains(filtIndex[i].ToString()))
+                {
+                    returnIndex = filtIndex[i];
+                    break;
+                }
+            }     
+            
+            return returnIndex;
+        }
+
+        //Gets or sets the cut off frequency of the currently used filter type in stage 2 in mHz
+        public int FilterCutOffFrequencyStage2
+        {
+            get
+            {
+                FilterTypes currentFilter = FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage2));
+                switch (currentFilter)
+                {
+                    case FilterTypes.No_Filter:
+                        return 0;
+                    case FilterTypes.FIR_Comb_Filter:
+                        return _connection.ReadIntegerFromBuffer(JetBusCommands.DSECombFilterFrequencyStage2);
+                    case FilterTypes.FIR_Moving_Average:
+                        return _connection.ReadIntegerFromBuffer(JetBusCommands.DSEMovAvFilterFrequencyStage2);
+                    default:
+                        return 0;
+                }
+            }
+            set
+            {
+                FilterTypes currentFilter = FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage2));
+                switch (currentFilter)
+                {
+                    case FilterTypes.FIR_Comb_Filter:
+                        _connection.WriteInteger(JetBusCommands.DSECombFilterFrequencyStage2, value);
+                        break;
+                    case FilterTypes.FIR_Moving_Average:
+                        _connection.WriteInteger(JetBusCommands.DSEMovAvFilterFrequencyStage2, value);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        //Gets or sets the cut off frequency of the currently used filter type in stage 3 in mHz
+        public int FilterCutOffFrequencyStage3
+        {
+            get
+            {
+                FilterTypes currentFilter = FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage3));
+                switch (currentFilter)
+                {
+                    case FilterTypes.No_Filter:
+                        return 0;
+                    case FilterTypes.FIR_Comb_Filter:
+                        return _connection.ReadIntegerFromBuffer(JetBusCommands.DSECombFilterFrequencyStage3);
+                    case FilterTypes.FIR_Moving_Average:
+                        return _connection.ReadIntegerFromBuffer(JetBusCommands.DSEMovAvFilterFrequencyStage3);
+                    default:
+                        return 0;
+                }
+            }
+            set
+            {
+                FilterTypes currentFilter = FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage3));
+                switch (currentFilter)
+                {
+                    case FilterTypes.FIR_Comb_Filter:
+                        _connection.WriteInteger(JetBusCommands.DSECombFilterFrequencyStage3, value);
+                        break;
+                    case FilterTypes.FIR_Moving_Average:
+                        _connection.WriteInteger(JetBusCommands.DSEMovAvFilterFrequencyStage3, value);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        //Gets or sets the cut off frequency of the currently used filter type in stage 4 in mHz
+        public int FilterCutOffFrequencyStage4
+        {
+            get
+            {
+                FilterTypes currentFilter = FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage4));
+                switch (currentFilter)
+                {
+                    case FilterTypes.No_Filter:
+                        return 0;
+                    case FilterTypes.FIR_Comb_Filter:
+                        return _connection.ReadIntegerFromBuffer(JetBusCommands.DSECombFilterFrequencyStage4);
+                    case FilterTypes.FIR_Moving_Average:
+                        return _connection.ReadIntegerFromBuffer(JetBusCommands.DSEMovAvFilterFrequencyStage4);
+                    default:
+                        return 0;
+                }
+            }
+            set
+            {
+                FilterTypes currentFilter = FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage4));
+                switch (currentFilter)
+                {
+                    case FilterTypes.FIR_Comb_Filter:
+                        _connection.WriteInteger(JetBusCommands.DSECombFilterFrequencyStage4, value);
+                        break;
+                    case FilterTypes.FIR_Moving_Average:
+                        _connection.WriteInteger(JetBusCommands.DSEMovAvFilterFrequencyStage4, value);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+
+        //Gets or sets the cut off frequency of the currently used filter type in stage 5 in mHz
+        public int FilterCutOffFrequencyStage5
+        {
+            get
+            {
+                FilterTypes currentFilter = FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage5));
+                switch (currentFilter)
+                {
+                    case FilterTypes.No_Filter:
+                        return 0;
+                    case FilterTypes.FIR_Comb_Filter:
+                        return _connection.ReadIntegerFromBuffer(JetBusCommands.DSECombFilterFrequencyStage5);
+                    case FilterTypes.FIR_Moving_Average:
+                        return _connection.ReadIntegerFromBuffer(JetBusCommands.DSEMovAvFilterFrequencyStage5);
+                    default:
+                        return 0;
+                }
+            }
+            set
+            {
+                FilterTypes currentFilter = FilterType(_connection.ReadIntegerFromBuffer(JetBusCommands.DSEFilterModeStage5));
+                switch (currentFilter)
+                {
+                    case FilterTypes.FIR_Comb_Filter:
+                        _connection.WriteInteger(JetBusCommands.DSECombFilterFrequencyStage5, value);
+                        break;
+                    case FilterTypes.FIR_Moving_Average:
+                        _connection.WriteInteger(JetBusCommands.DSEMovAvFilterFrequencyStage5, value);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -450,7 +726,7 @@ namespace Hbm.Automation.Api.Weighing.DSE
         {
             get
             {
-                int __value;
+                /**int __value;
                 switch (LowPassFilterMode)
                 {
                     case 0x60A1: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterCriticallyDampedFilterOrder); break;
@@ -458,14 +734,16 @@ namespace Hbm.Automation.Api.Weighing.DSE
                     default:
                     case 0x60B1: __value = _connection.ReadIntegerFromBuffer(JetBusCommands.CIA461FilterButterworthFilterOrder); break;
                 }
-                return __value;
+                return __value;**/
+                return 0;
             }
 
             set
             {
+                /**
                 Connection.WriteInteger(JetBusCommands.CIA461FilterCriticallyDampedFilterOrder, value);
                 Connection.WriteInteger(JetBusCommands.CIA461FilterBesselFilterOrder, value);
-                Connection.WriteInteger(JetBusCommands.CIA461FilterButterworthFilterOrder, value);
+                Connection.WriteInteger(JetBusCommands.CIA461FilterButterworthFilterOrder, value);**/
             }
         }
 
@@ -642,6 +920,14 @@ namespace Hbm.Automation.Api.Weighing.DSE
             {
                 ProcessDataReceived?.Invoke(this, new ProcessDataReceivedEventArgs(ProcessData));
             }
+        }
+
+        public FilterTypes FilterType(int i)
+        {
+            //Convert ascending integer into filter type
+            if ((i > 13104)) i = 13105;
+            else if ((i > 13088) && (i < 13094)) i = 13089;
+            return (FilterTypes)i;
         }
 
         #endregion

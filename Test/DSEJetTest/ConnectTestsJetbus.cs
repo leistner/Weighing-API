@@ -101,7 +101,16 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
 
             DSEJetObj.Disconnect(this.OnDisconnect);
 
-            return DSEJetObj.IsConnected;
+            bool con1 = DSEJetObj.IsConnected;
+
+            DSEJetObj.Connect(this.OnConnect, 100);
+
+            DSEJetObj.Disconnect();
+
+            bool con2 = DSEJetObj.IsConnected;
+
+            if (con1 == false && con2 == false) return false;
+            else return true;
         }
 
         private void Update(object sender, ProcessDataReceivedEventArgs e)

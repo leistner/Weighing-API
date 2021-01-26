@@ -50,7 +50,7 @@ namespace Hbm.Automation.Api.Data
         /// <summary>
         /// Gets or sets the mode of the low-pass filter
         /// </summary>
-        int LowPassFilterMode { get; set; }
+        LowPassFilter LowPassFilterMode { get; set; }
 
         /// <summary>
         /// Gets or sets the order of the low-pass filter

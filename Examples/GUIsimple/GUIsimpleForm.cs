@@ -361,9 +361,6 @@ namespace Hbm.Automation.Api.Weighing.Examples.GUIsimple
                 case "Zero value":
                     display = _wtxDevice.ZeroValue.ToString() + " " + _wtxDevice.Unit;
                     break;
-                case "Filter mode":
-                    display = ((DSEJet)_wtxDevice).LowPassFilterMode.ToString();
-                    break;
             }
             textBox1.Text = display;
         }

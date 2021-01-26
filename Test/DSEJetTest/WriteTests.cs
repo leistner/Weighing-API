@@ -77,6 +77,14 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
             }
         }
 
+        public static IEnumerable WriteUnitTest
+        {
+            get
+            {
+                yield return new TestCaseData(Behavior.writeUnitTest);
+            }
+        }
+
         [SetUp]
         public void Setup()
         {
@@ -102,6 +110,26 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
 
             else
                 return false;
+
+        }
+
+        [Test, TestCaseSource(typeof(WriteTests), "WriteUnitTest")]
+        public void writeUnitTest(Behavior behavior)
+        {
+            _jetTestConnection = new TestJetbusConnection(behavior, ipaddress, "Administrator", "wtx", delegate { return true; });
+
+            _dseJet = new DSEJet(_jetTestConnection, 200, update);
+
+            _dseJet.Connect(this.OnConnect, 100);
+
+            string[] units = { "kg", "g", "lb", "t", "N"};
+
+            foreach(string unit in units)
+            {
+                _dseJet.Unit = unit;
+                _dseJet.ProcessData.UpdateData(this, new EventArgs());
+                Assert.AreEqual(unit, _dseJet.Unit);
+            }
 
         }
 
@@ -145,7 +173,6 @@ namespace Hbm.Automation.Api.Test.DSEJetTest
 
         private void update(object sender, ProcessDataReceivedEventArgs e)
         {
-            throw new NotImplementedException();
         }
 
         private void OnConnect(bool obj)
