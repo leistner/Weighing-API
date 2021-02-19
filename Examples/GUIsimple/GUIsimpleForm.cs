@@ -30,7 +30,14 @@
 
 namespace Hbm.Automation.Api.Weighing.Examples.GUIsimple
 {
+    using Hbm.Automation.Api.Data;
+    using Hbm.Automation.Api.Weighing;
+    using Hbm.Automation.Api.Weighing.DSE;
+    using Hbm.Automation.Api.Weighing.DSE.Jet;
     using Hbm.Automation.Api.Weighing.Examples.GUISimple;
+    using Hbm.Automation.Api.Weighing.WTX;
+    using Hbm.Automation.Api.Weighing.WTX.Jet;
+    using Hbm.Automation.Api.Weighing.WTX.Modbus;
     using System;
     using System.Windows.Forms;
 
