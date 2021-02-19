@@ -471,7 +471,7 @@ namespace Hbm.Automation.Api.Weighing.WTX
             get
             {
                 ScaleRangeMode srm = ScaleRangeMode.None;
-                switch (_connection.ReadIntegerFromBuffer(JetBusCommands.CIA461MultiLimit1) )
+                switch (_connection.ReadIntegerFromBuffer(JetBusCommands.CIA461MultiIntervalRangeControl) )
                 {
                     case 0: srm = ScaleRangeMode.None; break;
                     case 1: srm = ScaleRangeMode.MultiInterval; break;
@@ -489,7 +489,7 @@ namespace Hbm.Automation.Api.Weighing.WTX
                     case ScaleRangeMode.MultiInterval: setValue = 1; break;
                     case ScaleRangeMode.MultiRange: setValue =  2; break;
                 }
-                Connection.WriteInteger(JetBusCommands.CIA461MultiLimit1, setValue);
+                Connection.WriteInteger(JetBusCommands.CIA461MultiIntervalRangeControl, setValue);
             }
         }
 
