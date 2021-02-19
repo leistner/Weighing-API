@@ -33,10 +33,10 @@ namespace Hbm.Automation.Api.Weighing.DSE
     using System;
     using System.Threading;
     using System.Linq;
+    using Hbm.Automation.Api;
     using Hbm.Automation.Api.Data;
     using Hbm.Automation.Api.Utils;
     using Hbm.Automation.Api.Weighing.WTX.Jet;
-    using Hbm.Automation.Api;
 
     /// <summary>
     /// This class represents a DSE device with the Jet ethernet interface.
