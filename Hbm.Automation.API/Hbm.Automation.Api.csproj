@@ -20,6 +20,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="NUnit" Version="3.13.1" />
     <PackageReference Include="SharpJet" Version="2.0.0" />
     <PackageReference Include="NModbus" Version="3.0.62" />
   </ItemGroup>

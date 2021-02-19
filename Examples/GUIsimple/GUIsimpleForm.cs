@@ -39,6 +39,7 @@ namespace Hbm.Automation.Api.Weighing.Examples.GUIsimple
     using Hbm.Automation.Api.Weighing.WTX.Jet;
     using Hbm.Automation.Api.Weighing.WTX.Modbus;
     using System;
+    using System.Threading;
     using System.Windows.Forms;
 
     /// <summary>
@@ -364,6 +365,5 @@ namespace Hbm.Automation.Api.Weighing.Examples.GUIsimple
             }
             textBox1.Text = display;
         }
-
     }
 }
